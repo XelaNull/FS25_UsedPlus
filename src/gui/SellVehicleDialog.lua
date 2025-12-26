@@ -503,10 +503,7 @@ function SellVehicleDialog:onClickConfirm()
 
     UsedPlus.logDebug(string.format("Confirmed %s + %s (Agent %d, Price %d)",
         agentOption.name, priceOption.name, agentOption.tier, priceOption.tier))
-
-    -- CRITICAL: Use g_gui:closeDialog() to properly decrement dialog count
-    -- self:close() doesn't remove from g_gui's tracking!
-    g_gui:closeDialog()
+    self:close()
 end
 
 --[[
@@ -519,9 +516,15 @@ function SellVehicleDialog:onClickCancel()
     end
 
     UsedPlus.logDebug("Sell dialog cancelled")
+    self:close()
+end
 
-    -- CRITICAL: Use g_gui:closeDialog() to properly decrement dialog count
-    -- self:close() doesn't remove from g_gui's tracking!
+--[[
+     Override close() to use g_gui:closeDialog()
+     This ensures ESC key and all close paths properly decrement dialog count
+]]
+function SellVehicleDialog:close()
+    UsedPlus.logDebug(">>> SellVehicleDialog:close() - using g_gui:closeDialog() <<<")
     g_gui:closeDialog()
 end
 
