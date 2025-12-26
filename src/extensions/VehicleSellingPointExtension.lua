@@ -30,6 +30,7 @@ VehicleSellingPointExtension.bypassInterception = false
 -- Debug flags
 VehicleSellingPointExtension.DEBUG_PASSTHROUGH_ALL = false  -- Set to true to disable all interception
 VehicleSellingPointExtension.DEBUG_VERBOSE = true  -- Enable verbose logging
+VehicleSellingPointExtension.DISABLE_SELL_INTERCEPT = true  -- TEMP: Disable sell dialog interception to test if it fixes shop
 
 --[[
     Debug helper to log GUI state
@@ -425,6 +426,12 @@ function VehicleSellingPointExtension.hookAllDialogs()
             -- Intercept SellItemDialog (ESC -> Vehicles -> Sell)
             -- This is the vanilla vehicle sell dialog - we replace it with our agent-based system
             if name == "SellItemDialog" then
+                -- TEMP: Skip interception to test if it fixes shop
+                if VehicleSellingPointExtension.DISABLE_SELL_INTERCEPT then
+                    UsedPlus.logDebug(">>> SellItemDialog interception DISABLED - passing through <<<")
+                    return VehicleSellingPointExtension.originalShowDialog(guiSelf, name, ...)
+                end
+
                 UsedPlus.logDebug(">>> INTERCEPTING SellItemDialog <<<")
                 VehicleSellingPointExtension.logGuiState("BEFORE_SELLITEM_INTERCEPT")
 
