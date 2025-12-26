@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Loan Approved Confirmation Dialog
+    Styled dialog showing loan terms after approval
+    Matches styling of other UsedPlus dialogs
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="600px 480px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title with checkmark -->
+            <Text profile="laApprovedTitle" position="0px -25px" text="$l10n_usedplus_la_title"/>
+
+            <!-- ========== SECTION 1: Loan Amount ========== -->
+            <GuiElement profile="laSectionContainer" position="0px -70px">
+                <Bitmap profile="laSectionBgGreen" position="0px 0px"/>
+
+                <Text profile="laAmountLabel" position="0px -12px" text="$l10n_usedplus_la_amountDeposited"/>
+                <Text profile="laAmountValue" id="amountText" position="0px -38px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Loan Terms ========== -->
+            <GuiElement profile="laTermsSection" position="0px -145px">
+                <Bitmap profile="laSectionBg" position="0px 0px"/>
+                <Text profile="laSectionHeader" position="0px -5px" text="$l10n_usedplus_la_sectionTerms"/>
+
+                <!-- Two columns -->
+                <Text profile="laLabel" position="-120px -30px" text="$l10n_usedplus_la_term"/>
+                <Text profile="laValue" id="termText" position="-120px -48px" text=""/>
+
+                <Text profile="laLabel" position="120px -30px" text="$l10n_usedplus_la_rate"/>
+                <Text profile="laValueOrange" id="rateText" position="120px -48px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Payment Schedule ========== -->
+            <GuiElement profile="laPaymentSection" position="0px -220px">
+                <Bitmap profile="laSectionBg" position="0px 0px"/>
+                <Text profile="laSectionHeader" position="0px -5px" text="$l10n_usedplus_la_sectionPayment"/>
+
+                <!-- Three columns -->
+                <Text profile="laLabel" position="-160px -30px" text="$l10n_usedplus_la_monthly"/>
+                <Text profile="laValueGold" id="monthlyText" position="-160px -48px" text=""/>
+
+                <Text profile="laLabel" position="0px -30px" text="$l10n_usedplus_la_yearly"/>
+                <Text profile="laValue" id="yearlyText" position="0px -48px" text=""/>
+
+                <Text profile="laLabel" position="160px -30px" text="$l10n_usedplus_la_totalInterest"/>
+                <Text profile="laValueRed" id="interestText" position="160px -48px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 4: Credit Impact ========== -->
+            <GuiElement profile="laCreditSection" position="0px -300px">
+                <Bitmap profile="laSectionBgCredit" position="0px 0px"/>
+                <Text profile="laSectionHeader" position="0px -5px" text="$l10n_usedplus_la_sectionCredit"/>
+
+                <Text profile="laLabel" position="-120px -30px" text="$l10n_usedplus_la_previous"/>
+                <Text profile="laValue" id="prevScoreText" position="-120px -48px" text=""/>
+
+                <Text profile="laLabel" position="120px -30px" text="$l10n_usedplus_la_newScore"/>
+                <Text profile="laValueScore" id="newScoreText" position="120px -48px" text=""/>
+            </GuiElement>
+
+            <!-- ========== Collateral Warning (if applicable) ========== -->
+            <Text profile="laCollateralText" id="collateralText" position="0px -380px" text=""/>
+
+            <!-- Info text -->
+            <Text profile="laInfoText" position="0px -405px" text="$l10n_usedplus_la_info"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="okButton" text="$l10n_button_ok" onClick="onClickOk"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== TITLE ========== -->
+        <Profile name="laApprovedTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 30px"/>
+            <textSize value="22px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="laSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="540px 65px"/>
+        </Profile>
+
+        <Profile name="laTermsSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="540px 65px"/>
+        </Profile>
+
+        <Profile name="laPaymentSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="540px 70px"/>
+        </Profile>
+
+        <Profile name="laCreditSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="540px 70px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="laSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="540px 65px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="laSectionBgGreen" extends="baseReference" with="anchorTopCenter">
+            <size value="540px 65px"/>
+            <imageColor value="0.08 0.15 0.08 0.9"/>
+        </Profile>
+
+        <Profile name="laSectionBgCredit" extends="baseReference" with="anchorTopCenter">
+            <size value="540px 70px"/>
+            <imageColor value="0.1 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="laSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="520px 20px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== AMOUNT DISPLAY ========== -->
+        <Profile name="laAmountLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 22px"/>
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="laAmountValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 28px"/>
+            <textSize value="24px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== LABELS ========== -->
+        <Profile name="laLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VALUES ========== -->
+        <Profile name="laValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="laValueGold" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="laValueOrange" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="laValueRed" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="laValueScore" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.8 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== COLLATERAL TEXT ========== -->
+        <Profile name="laCollateralText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 20px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="laInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="520px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

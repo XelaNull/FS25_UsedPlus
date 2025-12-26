@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Repair/Repaint Dialog (Redesigned)
+
+    Matches the visual style of TakeLoanDialog, UnifiedPurchaseDialog, etc.
+    Features styled section backgrounds with gold headers.
+    Updated: Larger vehicle preview, better layout alignment.
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="780px 620px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_rp_title"/>
+
+            <!-- ========== SECTION 1: Vehicle Status ========== -->
+            <GuiElement profile="rpStatusSection" position="0px -60px">
+                <Bitmap profile="rpStatusSectionBg" position="0px 0px"/>
+                <Text profile="rpSectionHeader" position="0px -5px" text="$l10n_usedplus_rp_sectionStatus"/>
+
+                <!-- Flat layout: image left, text right (matching UsedSearchDialog pattern) -->
+                <GuiElement profile="rpVehicleRow" position="0px -28px">
+                    <!-- IMAGE: Centered in left half, Y=42px moves up for proper display -->
+                    <Bitmap profile="rpVehicleImage" id="vehicleImageElement" position="-185px 42px"/>
+
+                    <!-- TEXT: Right half -->
+                    <Text profile="rpVehicleName" id="vehicleNameText" position="120px -10px" text=""/>
+
+                    <!-- Repair Status (shown in repair mode) -->
+                    <GuiElement id="repairStatusSection" position="120px -40px">
+                        <Text profile="rpStatusLabel" position="0px 0px" text="$l10n_usedplus_rp_mechanical"/>
+                        <Slider profile="rpProgressBar" id="currentConditionBar" position="100px 0px" disabled="true"/>
+                        <Text profile="rpConditionValue" id="currentConditionText" position="215px 0px" text=""/>
+                    </GuiElement>
+
+                    <!-- Repaint Status (shown in repaint mode) -->
+                    <GuiElement id="repaintStatusSection" position="120px -40px">
+                        <Text profile="rpStatusLabel" position="0px 0px" text="$l10n_usedplus_rp_paint"/>
+                        <Text profile="rpPaintValue" id="currentPaintText" position="80px 0px" text=""/>
+                    </GuiElement>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Service Options ========== -->
+            <!-- After Status (145px) + 10px gap = -60 - 145 - 15 = -220 -->
+            <GuiElement profile="rpWorkSection" id="workSection" position="0px -220px">
+                <Bitmap profile="rpWorkSectionBg" position="0px 0px"/>
+                <Text profile="rpSectionHeader" id="workSectionTitle" position="0px -5px" text="$l10n_usedplus_rp_sectionRepair"/>
+                <Text profile="rpHelpText" id="workSliderLabel" position="0px -28px" text="$l10n_usedplus_rp_selectAmount"/>
+
+                <!-- Quick Percentage Buttons - Styled like FinanceManagerFrame -->
+                <GuiElement profile="rpButtonRow" position="0px -58px">
+                    <!-- 25% Button -->
+                    <Bitmap profile="rpQuickBtnBg" id="btn25Bg" position="-185px 0px"/>
+                    <Button profile="rpQuickBtnHit" id="quickButton25" onClick="onQuickButton25" position="-185px 0px"/>
+                    <Text profile="rpQuickBtnText" id="btn25Text" position="-185px -5px" text="25%"/>
+
+                    <!-- 50% Button -->
+                    <Bitmap profile="rpQuickBtnBg" id="btn50Bg" position="-60px 0px"/>
+                    <Button profile="rpQuickBtnHit" id="quickButton50" onClick="onQuickButton50" position="-60px 0px"/>
+                    <Text profile="rpQuickBtnText" id="btn50Text" position="-60px -5px" text="50%"/>
+
+                    <!-- 75% Button -->
+                    <Bitmap profile="rpQuickBtnBg" id="btn75Bg" position="65px 0px"/>
+                    <Button profile="rpQuickBtnHit" id="quickButton75" onClick="onQuickButton75" position="65px 0px"/>
+                    <Text profile="rpQuickBtnText" id="btn75Text" position="65px -5px" text="75%"/>
+
+                    <!-- 100% Button (highlighted as recommended) -->
+                    <Bitmap profile="rpQuickBtnBgFull" id="btn100Bg" position="190px 0px"/>
+                    <Button profile="rpQuickBtnHit" id="quickButton100" onClick="onQuickButton100" position="190px 0px"/>
+                    <Text profile="rpQuickBtnText" id="btn100Text" position="190px -5px" text="100%"/>
+                </GuiElement>
+
+                <!-- Selection Display - 3 columns -->
+                <Text profile="rpLabel" position="-220px -105px" text="$l10n_usedplus_rp_selected"/>
+                <Text profile="rpPercentValue" id="workPercentText" position="-220px -125px" text=""/>
+
+                <Text profile="rpLabel" position="0px -105px" text="$l10n_usedplus_rp_cost"/>
+                <Text profile="rpCostValue" id="workCostText" position="0px -125px" text=""/>
+
+                <Text profile="rpLabel" position="220px -105px" text="$l10n_usedplus_rp_after"/>
+                <Text profile="rpAfterValue" id="workAfterText" position="220px -125px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Payment Summary ========== -->
+            <!-- After Work (155px) + 15px gap = -220 - 155 - 15 = -390 -->
+            <GuiElement profile="rpPaymentSection" position="0px -390px">
+                <Bitmap profile="rpPaymentSectionBg" position="0px 0px"/>
+                <Text profile="rpSectionHeader" id="paymentTitle" position="0px -5px" text="$l10n_usedplus_rp_sectionPayment"/>
+
+                <!-- Three-column layout: Cost | Result | Your Money -->
+                <Text profile="rpTotalLabel" position="-220px -35px" text="$l10n_usedplus_rp_totalCost"/>
+                <Text profile="rpTotalValue" id="totalCostText" position="-220px -60px" text=""/>
+
+                <Text profile="rpResultLabel" position="0px -35px" text="$l10n_usedplus_rp_result"/>
+                <Text profile="rpResultValue" id="paymentResultText" position="0px -60px" text=""/>
+
+                <Text profile="rpLabel" position="220px -35px" text="$l10n_usedplus_rp_yourMoney"/>
+                <Text profile="rpMoneyValue" id="playerMoneyText" position="220px -60px" text=""/>
+            </GuiElement>
+
+            <!-- ========== INFO TEXT ========== -->
+            <!-- After Payment (110px) + 15px gap = -390 - 110 - 15 = -515 -->
+            <Text profile="rpInfoText" position="0px -515px" text="$l10n_usedplus_rp_infoText"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="payCashButton" text="$l10n_usedplus_button_payCash" onClick="onPayCash"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonActivate" id="financeButton" text="$l10n_usedplus_rp_buttonFinance" onClick="onFinanceRepair"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="cancelButton" text="$l10n_button_cancel" onClick="onCancel"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="rpStatusSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 145px"/>
+        </Profile>
+
+        <Profile name="rpWorkSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 155px"/>
+        </Profile>
+
+        <Profile name="rpPaymentSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 110px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <!-- Status: Standard dark blue - taller for image -->
+        <Profile name="rpStatusSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="720px 145px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- Work: Slightly lighter with blue tint (service/action) -->
+        <Profile name="rpWorkSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="720px 155px"/>
+            <imageColor value="0.06 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- Payment: Brownish/gold tint (money-related) -->
+        <Profile name="rpPaymentSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="720px 110px"/>
+            <imageColor value="0.12 0.1 0.06 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="rpSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="700px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== HELP TEXT ========== -->
+        <Profile name="rpHelpText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="680px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.55 0.55 0.55 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE TWO-COLUMN LAYOUT ========== -->
+        <Profile name="rpVehicleRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 110px"/>
+        </Profile>
+
+        <Profile name="rpVehicleImageCol" extends="emptyPanel" with="anchorTopCenter">
+            <size value="280px 110px"/>
+        </Profile>
+
+        <Profile name="rpVehicleTextCol" extends="emptyPanel" with="anchorTopLeft">
+            <size value="380px 110px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE IMAGE (centered in left column) ========== -->
+        <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
+        <Profile name="rpVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE NAME (left-aligned in right column) ========== -->
+        <Profile name="rpVehicleNameLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="360px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== STATUS LABEL (left-aligned) ========== -->
+        <Profile name="rpStatusLabelLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== LEGACY VEHICLE NAME (keep for compatibility) ========== -->
+        <Profile name="rpVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="350px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <!-- ========== STATUS LABELS (in status section) ========== -->
+        <Profile name="rpStatusLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- Paint label and value for repaint mode (inline display) -->
+        <Profile name="rpPaintLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="60px 20px"/>
+            <textSize value="14px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="rpPaintValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 0.85 1 1"/>
+        </Profile>
+
+        <!-- ========== LABELS ========== -->
+        <Profile name="rpLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 18px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- ========== CONDITION VALUES ========== -->
+        <Profile name="rpConditionValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <!-- ========== WORK VALUES ========== -->
+        <Profile name="rpPercentValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 22px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.5 1"/>
+        </Profile>
+
+        <Profile name="rpCostValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.3 1"/>
+        </Profile>
+
+        <Profile name="rpAfterValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 22px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.5 1"/>
+        </Profile>
+
+        <!-- ========== PAYMENT VALUES ========== -->
+        <Profile name="rpTotalLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <Profile name="rpTotalValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 26px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.3 1"/>
+        </Profile>
+
+        <Profile name="rpResultLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <Profile name="rpResultValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 26px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.5 1"/>
+        </Profile>
+
+        <Profile name="rpMoneyValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="rpInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="700px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== PROGRESS BAR ========== -->
+        <Profile name="rpProgressBar" extends="fs25_slider" with="anchorTopCenter">
+            <size value="180px 18px"/>
+        </Profile>
+
+        <!-- ========== STYLED QUICK BUTTONS ========== -->
+        <Profile name="rpButtonRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="500px 36px"/>
+        </Profile>
+
+        <!-- Standard button background -->
+        <Profile name="rpQuickBtnBg" extends="baseReference" with="anchorTopCenter">
+            <size value="100px 32px"/>
+            <imageColor value="0.15 0.15 0.18 1"/>
+        </Profile>
+
+        <!-- Highlighted 100% button background (green tint) -->
+        <Profile name="rpQuickBtnBgFull" extends="baseReference" with="anchorTopCenter">
+            <size value="100px 32px"/>
+            <imageColor value="0.15 0.25 0.15 1"/>
+        </Profile>
+
+        <!-- Invisible hit target for buttons -->
+        <Profile name="rpQuickBtnHit" extends="emptyPanel" with="anchorTopCenter">
+            <size value="100px 32px"/>
+            <isFocusable value="true"/>
+        </Profile>
+
+        <!-- Button text label -->
+        <Profile name="rpQuickBtnText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

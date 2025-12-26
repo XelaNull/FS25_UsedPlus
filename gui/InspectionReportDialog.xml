@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    InspectionReportDialog.xml
+    Shows inspection report for used vehicles with reliability ratings
+    Redesigned to match DealDetailsDialog/MaintenanceReportDialog styling
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 620px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+            <!-- Title -->
+            <Text profile="irpTitle" id="titleText" position="0px -25px" text="$l10n_usedplus_irp_title"/>
+
+            <!-- ========== SECTION 1: Vehicle Info ========== -->
+            <GuiElement profile="irpSectionContainer" position="0px -60px">
+                <Bitmap profile="irpSectionBg" position="0px 0px"/>
+                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionVehicle"/>
+
+                <!-- Two-column layout: Image left, Info right -->
+                <GuiElement position="0px -28px">
+                    <!-- Vehicle Image (left) - Y=42px matches UsedSearchDialog -->
+                    <Bitmap profile="irpVehicleImage" id="vehicleImage" position="-185px 42px"/>
+
+                    <!-- Vehicle Info (right) -->
+                    <Text profile="irpVehicleName" id="vehicleNameText" position="120px -5px" text=""/>
+                    <Text profile="irpVehicleDetails" id="vehicleDetailsText" position="120px -28px" text=""/>
+
+                    <!-- Price info - clarified -->
+                    <Text profile="irpLabel" position="120px -52px" text="$l10n_usedplus_irp_listedPrice"/>
+                    <Text profile="irpPriceValue" id="priceText" position="230px -52px" text="$0"/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Mechanical Assessment ========== -->
+            <GuiElement profile="irpSectionContainerTall" position="0px -220px">
+                <Bitmap profile="irpSectionBgTall" position="0px 0px"/>
+                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionMechanical"/>
+
+                <!-- Left column: Component ratings -->
+                <Text profile="irpComponentLabel" position="-250px -32px" text="$l10n_usedplus_irp_engine"/>
+                <Text profile="irpComponentValue" id="engineRatingText" position="-150px -32px" text=""/>
+                <Text profile="irpComponentStatus" id="engineStatusText" position="-70px -32px" text=""/>
+
+                <Text profile="irpComponentLabel" position="-250px -55px" text="$l10n_usedplus_irp_hydraulics"/>
+                <Text profile="irpComponentValue" id="hydraulicRatingText" position="-150px -55px" text=""/>
+                <Text profile="irpComponentStatus" id="hydraulicStatusText" position="-70px -55px" text=""/>
+
+                <Text profile="irpComponentLabel" position="-250px -78px" text="$l10n_usedplus_irp_electrical"/>
+                <Text profile="irpComponentValue" id="electricalRatingText" position="-150px -78px" text=""/>
+                <Text profile="irpComponentStatus" id="electricalStatusText" position="-70px -78px" text=""/>
+
+                <!-- Right column: Overall & Repair Cost -->
+                <Text profile="irpLabel" position="100px -32px" text="$l10n_usedplus_irp_overallCondition"/>
+                <Text profile="irpOverallValue" id="overallRatingText" position="250px -32px" text=""/>
+
+                <Text profile="irpLabel" position="100px -55px" text="$l10n_usedplus_irp_estRepairCost"/>
+                <Text profile="irpRepairCost" id="repairCostText" position="250px -55px" text="$0"/>
+
+                <Text profile="irpLabel" position="100px -78px" text="$l10n_usedplus_irp_postRepairValue"/>
+                <Text profile="irpPostRepairValue" id="postRepairValueText" position="250px -78px" text="$0"/>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Inspector Notes ========== -->
+            <!-- After Vehicle (145px) + Mechanical (115px) + gaps = -60-145-15-115-15 = -350 -->
+            <GuiElement profile="irpNotesSection" position="0px -350px">
+                <Bitmap profile="irpNotesBg" position="0px 0px"/>
+                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionNotes"/>
+
+                <Text profile="irpNotesText" id="notesText" position="0px -32px"
+                      text=""/>
+                <Text profile="irpNotesText" id="notesText2" position="0px -52px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 4: Recommendation ========== -->
+            <!-- After Notes (85px) + gap = -350-85-15 = -450 -->
+            <GuiElement profile="irpRecommendSection" position="0px -450px">
+                <Bitmap profile="irpRecommendBg" position="0px 0px"/>
+                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionRecommend"/>
+
+                <Text profile="irpRecommendValue" id="recommendationText" position="0px -35px"
+                      text=""/>
+            </GuiElement>
+
+            <!-- Price Clarification Note -->
+            <!-- After Recommend (60px) + gap = -450-60-15 = -525 -->
+            <Text profile="irpInfoText" position="0px -525px"
+                  text="$l10n_usedplus_irp_priceNote"/>
+
+        </GuiElement>
+
+        <!-- Button Box - Three options -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button id="buyButton" profile="buttonOK" text="$l10n_usedplus_button_purchase" onClick="onClickBuy"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button id="declineButton" profile="buttonCancel" text="$l10n_usedplus_button_decline" onClick="onClickDecline"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button id="goBackButton" profile="buttonBack" text="$l10n_usedplus_button_goBack" onClick="onClickGoBack"/>
+        </BoxLayout>
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== TITLE ========== -->
+        <Profile name="irpTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 30px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.8 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="irpSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 145px"/>
+        </Profile>
+
+        <Profile name="irpSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 115px"/>
+        </Profile>
+
+        <Profile name="irpNotesSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 85px"/>
+        </Profile>
+
+        <Profile name="irpRecommendSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 60px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="irpSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 145px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="irpSectionBgTall" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 115px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="irpNotesBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 85px"/>
+            <imageColor value="0.06 0.08 0.10 0.9"/>
+        </Profile>
+
+        <Profile name="irpRecommendBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 60px"/>
+            <imageColor value="0.10 0.12 0.08 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="irpSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO ========== -->
+        <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
+        <Profile name="irpVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <Profile name="irpVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="irpVehicleDetails" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== LABELS & VALUES ========== -->
+        <Profile name="irpLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="irpPriceValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== COMPONENT RATINGS ========== -->
+        <Profile name="irpComponentLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="irpComponentValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="60px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="irpComponentStatus" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="irpOverallValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="irpRepairCost" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="irpPostRepairValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== NOTES & RECOMMENDATION ========== -->
+        <Profile name="irpNotesText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="620px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="irpRecommendValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="620px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 1 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="irpInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

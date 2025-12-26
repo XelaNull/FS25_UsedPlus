@@ -1,0 +1,1229 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+     Russian localization for FS25_UsedPlus
+     Pattern from: Game's l10n system
+     All GUI text must be defined here for display
+
+    Organization:
+    - Finance Dialog strings
+    - Lease Dialog strings
+    - Used Search Dialog strings
+    - Finance Manager Frame strings
+    - Finance Detail Frame strings
+    - Land Finance Dialog strings
+    - Notifications
+    - Errors
+    - Common strings
+-->
+<l10n>
+    <!--  Finance Dialog -->
+    <elements>
+        <e k="usedplus_finance_title" v="Финансирование транспорта" />
+        <e k="usedplus_finance_itemDetails" v="Информация о транспорте" />
+        <e k="usedplus_finance_configuration" v="Параметры финансирования" />
+        <e k="usedplus_finance_term" v="Срок кредита" />
+        <e k="usedplus_finance_loanTerm" v="Срок кредита (лет)" />
+        <e k="usedplus_finance_downPayment" v="Первоначальный взнос" />
+        <e k="usedplus_finance_cashBack" v="Возврат наличными" />
+        <e k="usedplus_finance_paymentPreview" v="Предпросмотр платежей" />
+        <e k="usedplus_finance_monthlyPayment" v="Ежемесячный платёж" />
+        <e k="usedplus_finance_yearlyPayment" v="Годовой платёж" />
+        <e k="usedplus_finance_totalInterest" v="Общая сумма процентов" />
+        <e k="usedplus_finance_totalCost" v="Общая стоимость" />
+        <e k="usedplus_finance_interestRate" v="Процентная ставка" />
+        <e k="usedplus_finance_creditScore" v="Кредитный рейтинг" />
+        <e k="usedplus_finance_creditRating" v="Кредитная оценка" />
+        <e k="usedplus_finance_important" v="Важная информация" />
+        <e k="usedplus_finance_ownershipTransfers" v="Право собственности переходит сразу после подтверждения." />
+        <e k="usedplus_finance_sellAnytime" v="Вы можете продать финансируемое имущество в любое время. Остаток долга будет погашен из выручки от продажи." />
+
+        <!--  Lease Dialog -->
+        <e k="usedplus_lease_title" v="Аренда транспорта" />
+        <e k="usedplus_lease_vehicleDetails" v="Информация о транспорте" />
+        <e k="usedplus_lease_configuration" v="Параметры аренды" />
+        <e k="usedplus_lease_term" v="Срок аренды (лет)" />
+        <e k="usedplus_lease_downPayment" v="Первоначальный взнос" />
+        <e k="usedplus_lease_residualValue" v="Остаточная стоимость (выкупной платёж)" />
+        <e k="usedplus_lease_paymentPreview" v="Предпросмотр платежей" />
+        <e k="usedplus_lease_monthlyPayment" v="Ежемесячный платёж" />
+        <e k="usedplus_lease_yearlyPayment" v="Годовой платёж" />
+        <e k="usedplus_lease_totalCost" v="Общая стоимость аренды" />
+        <e k="usedplus_lease_interestRate" v="Процентная ставка" />
+        <e k="usedplus_lease_creditScore" v="Кредитный рейтинг" />
+        <e k="usedplus_lease_important" v="Важная информация об аренде" />
+        <!-- REMOVED: usedplus_lease_warningReturn, warningDamage, returnWarning, damageWarning - unused duplicates -->
+        <e k="usedplus_lease_endOfTerm" v="Окончание аренды" />
+        <e k="usedplus_lease_buyoutPrice" v="Цена выкупа" />
+        <e k="usedplus_lease_totalInterest" v="Общая сумма процентов" />
+
+        <!--  Used Search Dialog -->
+        <e k="usedplus_search_title" v="Поиск б/у техники" />
+        <e k="usedplus_search_itemDetails" v="Информация о товаре" />
+        <e k="usedplus_search_searching" v="Поиск" />
+        <e k="usedplus_search_newPrice" v="Цена новой:" />
+        <e k="usedplus_search_selectTier" v="Выберите уровень поиска" />
+        <e k="usedplus_search_tierDescription" v="Выберите область поиска. Более высокие уровни стоят дороже и занимают больше времени, но имеют лучшие шансы на успех и качество результатов." />
+        <e k="usedplus_search_tierSelection" v="Выбор уровня поиска" />
+        <!-- Consolidated: removed usedplus_search_local/regional/national - use _tier* versions -->
+        <e k="usedplus_search_tierLocal" v="Местный поиск" />
+        <e k="usedplus_search_tierRegional" v="Региональный поиск" />
+        <e k="usedplus_search_tierNational" v="Национальный поиск" />
+        <e k="usedplus_search_cost" v="Стоимость поиска" />
+        <e k="usedplus_search_duration" v="Длительность" />
+        <e k="usedplus_search_success" v="Шанс успеха" />
+        <e k="usedplus_search_successChance" v="Вероятность успеха" />
+        <e k="usedplus_search_match" v="Качество результата" />
+        <!-- REMOVED: usedplus_search_matchChance - duplicate of usedplus_search_match -->
+        <e k="usedplus_search_description" v="Описание" />
+        <e k="usedplus_search_descLocal" v="Поиск у ближайших дилеров. Гарантированный ответ за 1 месяц, 2% стоимости, 40% успеха." />
+        <e k="usedplus_search_descRegional" v="Поиск по региональной сети. 1-3 месяца, 6% стоимости, 70% успеха." />
+        <e k="usedplus_search_descNational" v="Поиск по всей стране. 2-6 месяцев, 12% стоимости, 85% успеха." />
+        <e k="usedplus_search_qualitySelection" v="Желаемое качество" />
+        <e k="usedplus_search_qualityDescription" v="Ниже качество = дешевле цена, но больше ремонта" />
+        <e k="usedplus_search_confirmTitle" v="Поиск запущен" />
+
+        <!-- Confirmation Dialog -->
+        <e k="usedplus_confirmation_title" v="Подтверждение" />
+
+        <!--  Finance Manager Frame (InGameMenu page) -->
+        <e k="usedplus_inGameMenuTitle" v="UsedPlus - Финансы и поиск" />
+        <e k="usedplus_activeFinanceDeals" v="Активные сделки:" />
+        <e k="usedplus_activeSearches" v="Активные поиски:" />
+        <e k="usedplus_creditScore" v="Кредитный рейтинг:" />
+        <e k="usedplus_manager_title" v="Финансовый менеджер" />
+        <e k="usedplus_manager_totalFinanced" v="Всего профинансировано" />
+        <e k="usedplus_manager_monthlyObligations" v="Ежемесячные обязательства" />
+        <e k="usedplus_manager_creditScore" v="Кредитный рейтинг" />
+        <e k="usedplus_manager_assetValue" v="Стоимость активов" />
+        <e k="usedplus_manager_debtRatio" v="Коэффициент долга" />
+        <e k="usedplus_manager_activeDeals" v="Активные сделки" />
+        <e k="usedplus_manager_type" v="Тип" />
+        <e k="usedplus_manager_item" v="Объект" />
+        <e k="usedplus_manager_balance" v="Остаток" />
+        <e k="usedplus_manager_monthly" v="Ежемесячный платёж" />
+        <e k="usedplus_manager_progress" v="Прогресс" />
+        <e k="usedplus_manager_actions" v="Действия" />
+        <e k="usedplus_manager_noDeals" v="Нет активных сделок финансирования или аренды." />
+        <e k="usedplus_manager_helpText" v="Финансирование техники в магазине (клавиша F). Поиск б/у техники (клавиша V). Платежи списываются автоматически ежемесячно." />
+
+        <!--  Finance Detail Frame -->
+        <e k="usedplus_detail_dealInfo" v="Информация о сделке" />
+        <e k="usedplus_detail_itemName" v="Объект" />
+        <e k="usedplus_detail_dealType" v="Тип" />
+        <e k="usedplus_detail_originalPrice" v="Первоначальная цена" />
+        <e k="usedplus_detail_downPayment" v="Первоначальный взнос" />
+        <e k="usedplus_detail_amountFinanced" v="Сумма финансирования" />
+        <e k="usedplus_detail_interestRate" v="Процентная ставка" />
+        <e k="usedplus_detail_term" v="Срок" />
+        <e k="usedplus_detail_startDate" v="Дата начала" />
+        <e k="usedplus_detail_paymentStatus" v="Статус платежей" />
+        <e k="usedplus_detail_currentBalance" v="Текущий остаток" />
+        <e k="usedplus_detail_principalPaid" v="Выплачено основного долга" />
+        <e k="usedplus_detail_interestPaid" v="Выплачено процентов" />
+        <e k="usedplus_detail_remainingPrincipal" v="Остаток основного долга" />
+        <e k="usedplus_detail_projectedInterest" v="Прогноз процентов (без досрочного погашения)" />
+        <e k="usedplus_detail_makePayment" v="Внести дополнительный платёж" />
+        <e k="usedplus_detail_paymentAmount" v="Сумма платежа" />
+        <e k="usedplus_detail_paymentSummary" v="Сводка платежа" />
+        <e k="usedplus_detail_paymentTotal" v="Общий платёж" />
+        <e k="usedplus_detail_toPrincipal" v="На основной долг" />
+        <e k="usedplus_detail_toInterest" v="На проценты" />
+        <e k="usedplus_detail_newBalance" v="Новый остаток" />
+        <e k="usedplus_detail_prepaymentPenalty" v="Штраф за досрочное погашение" />
+
+        <!--  Land Finance Dialog -->
+        <e k="usedplus_landFinance_title" v="Финансирование земли" />
+        <e k="usedplus_landFinance_fieldDetails" v="Информация о поле" />
+        <e k="usedplus_landFinance_configuration" v="Параметры финансирования" />
+        <e k="usedplus_landFinance_term" v="Срок кредита (лет)" />
+        <e k="usedplus_landFinance_downPayment" v="Первоначальный взнос" />
+        <e k="usedplus_landFinance_paymentPreview" v="Предпросмотр платежей" />
+        <e k="usedplus_landFinance_monthlyPayment" v="Ежемесячный платёж" />
+        <e k="usedplus_landFinance_yearlyPayment" v="Годовой платёж" />
+        <e k="usedplus_landFinance_totalInterest" v="Общая сумма процентов" />
+        <e k="usedplus_landFinance_totalCost" v="Общая стоимость" />
+        <e k="usedplus_landFinance_interestRate" v="Процентная ставка" />
+        <e k="usedplus_landFinance_lowerRates" v="Финансирование земли обычно предлагает более низкие процентные ставки." />
+        <e k="usedplus_landFinance_creditScore" v="Кредитный рейтинг" />
+        <e k="usedplus_landFinance_important" v="Важная информация" />
+        <e k="usedplus_landFinance_ownershipTransfers" v="Право собственности на землю переходит немедленно. Вы можете использовать поле сразу." />
+        <e k="usedplus_landFinance_seizureWarning" v="Внимание: неуплата ежемесячных платежей может привести к изъятию земли." />
+
+        <!--  Buttons -->
+        <e k="usedplus_button_acceptFinance" v="Принять финансирование" />
+        <e k="usedplus_button_acceptLease" v="Принять аренду" />
+        <e k="usedplus_button_startSearch" v="Начать поиск" />
+        <e k="usedplus_button_viewDetail" v="Подробнее" />
+        <e k="usedplus_button_makePayment" v="Внести платёж" />
+        <e k="usedplus_button_endLeaseEarly" v="Досрочно завершить аренду" />
+        <e k="usedplus_button_purchaseUsed" v="Купить б/у" />
+        <e k="usedplus_button_finance" v="Финансирование" />
+        <e k="usedplus_button_financeLand" v="Финансировать землю" />
+        <e k="usedplus_button_leaseLand" v="Арендовать землю" />
+        <e k="usedplus_button_lease" v="Аренда" />
+        <e k="usedplus_button_searchUsed" v="Искать б/у" />
+
+        <!--  Notifications (use %s for money - pass g_i18n:formatMoney() values) -->
+        <e k="usedplus_notification_dealComplete" v="%s полностью оплачен!" />
+        <e k="usedplus_notification_searchSuccess" v="Найден б/у %s!" />
+        <e k="usedplus_notification_searchFailed" v="Поиск %s не дал результатов." />
+        <e k="usedplus_searchFailed_title" v="Поиск завершён" />
+        <e k="usedplus_searchFailed_message" v="Вашему агенту не удалось найти %s, соответствующий Вашим критериям. Плата за поиск не возвращается. Вы можете начать новый поиск при желании." />
+        <e k="usedplus_notification_searchStarted" v="Поиск %s начат. Ожидаемое завершение: %d дней." />
+        <e k="usedplus_notification_searchCancelled" v="Поиск %s отменён. Без возврата средств." />
+        <e k="usedplus_notification_vehicleFound" v="Найден б/у %s (%s) за %s!" />
+        <e k="usedplus_notification_dealPaidOff" v="%s полностью оплачен!" />
+        <e k="usedplus_notification_paymentProcessed" v="Платёж %s обработан за %s" />
+        <e k="usedplus_notification_leaseTerminated" v="Аренда %s расторгнута. Штраф: %s" />
+        <e k="usedplus_notification_leaseTerminatedNoPenalty" v="Аренда %s расторгнута. Без штрафа." />
+        <e k="usedplus_notification_missedLeasePayment" v="ПРОПУЩЕН ПЛАТЁЖ ПО АРЕНДЕ: Не удалось оплатить %s за %s" />
+        <e k="usedplus_notification_leaseDamagePenalty" v="Штраф за повреждение арендованного %s: %s" />
+        <e k="usedplus_notification_leaseComplete" v="Аренда завершена! %s возвращён." />
+        <e k="usedplus_notification_dealPaidFromSale" v="%s продан. Остаток долга %s погашен из выручки." />
+
+        <!--  Errors (use %s for money - pass g_i18n:formatMoney() values) -->
+        <e k="usedplus_error_insufficientFunds" v="Недостаточно средств. Требуется: %s" />
+        <e k="usedplus_error_searchFailed" v="Не удалось начать поиск. Попробуйте ещё раз." />
+        <e k="usedplus_error_insufficientFundsTermination" v="Недостаточно средств для расторжения аренды. Требуется: %s" />
+        <e k="usedplus_error_invalidDeal" v="Недействительная сделка. Обратитесь в поддержку." />
+        <e k="usedplus_error_cannotSellLeasedVehicle" v="Невозможно продать арендованный транспорт. Сначала завершите аренду или дождитесь её окончания." />
+        <e k="usedplus_error_insufficientSalePrice" v="Невозможно продать. Остаток долга (%s) превышает цену продажи (%s)." />
+
+        <!--  Credit Score Ratings -->
+        <e k="usedplus_credit_excellent" v="Отличный" />
+        <e k="usedplus_credit_good" v="Хороший" />
+        <e k="usedplus_credit_fair" v="Средний" />
+        <e k="usedplus_credit_poor" v="Плохой" />
+
+        <!--  Equipment Condition Tiers -->
+        <e k="usedplus_condition_poor" v="Плохое" />
+        <e k="usedplus_condition_any" v="Любое" />
+        <e k="usedplus_condition_fair" v="Среднее" />
+        <e k="usedplus_condition_good" v="Хорошее" />
+        <e k="usedplus_condition_excellent" v="Отличное" />
+        <e k="usedplus_condition_poor_desc" v="Распродажа - может быть неисправно или требовать капитального ремонта" />
+        <e k="usedplus_condition_any_desc" v="Самое дешёвое рабочее - может потребовать значительного ремонта" />
+
+        <!--  Deal Types -->
+        <e k="usedplus_dealType_finance" v="Финансирование" />
+        <e k="usedplus_dealType_lease" v="Аренда" />
+
+        <!--  Item Types -->
+        <e k="usedplus_itemType_vehicle" v="Транспорт" />
+        <e k="usedplus_itemType_land" v="Земля" />
+        <e k="usedplus_itemType_placeable" v="Постройка" />
+
+        <!--  Used Vehicle Generations -->
+        <e k="usedplus_generation_recent" v="Недавний" />
+        <e k="usedplus_generation_midage" v="Средний возраст" />
+        <e k="usedplus_generation_old" v="Старый" />
+
+        <!--  Help Text -->
+        <e k="usedplus_help_creditScore" v="Кредитный рейтинг влияет на процентную ставку. Улучшайте его, поддерживая низкое соотношение долга к активам." />
+        <e k="usedplus_help_downPayment" v="Больший первоначальный взнос уменьшает ежемесячные платежи и может снизить процентную ставку." />
+        <e k="usedplus_help_cashBack" v="Возврат наличными вычитается из первоначального взноса. Увеличивает сумму финансирования." />
+        <e k="usedplus_help_prepayment" v="Вы можете погасить кредит досрочно, чтобы сэкономить на процентах. Могут применяться штрафы за досрочное погашение." />
+        <e k="usedplus_help_leaseDamage" v="Поддерживайте арендованный транспорт в хорошем состоянии, чтобы избежать штрафов при возврате." />
+
+        <!--  Menu Integration -->
+        <e k="usedplus_menu_financeManager" v="Финансовый менеджер" />
+        <e k="usedplus_action_openFinanceManager" v="Открыть финансовый менеджер" />
+        <e k="usedplus_action_searchUsed" v="Поиск б/у техники" />
+        <e k="input_USEDPLUS_OPEN_FINANCE_MANAGER" v="Открыть финансовый менеджер" />
+        <e k="input_USEDPLUS_SEARCH_USED" v="Поиск б/у техники" />
+        <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Осмотреть транспорт" />
+
+        <!--  Tooltips for Finance Dialog -->
+        <e k="usedplus_finance_loanTerm_tooltip" v="Распределите платежи на 1-20 лет. Дольше срок = меньше ежемесячные платежи, но больше общая сумма процентов." />
+        <e k="usedplus_finance_downPayment_tooltip" v="Заплатите авансом, чтобы уменьшить сумму кредита. Больший взнос = ниже процентная ставка и ежемесячный платёж. Диапазон: 0-50%." />
+        <e k="usedplus_finance_cashBack_tooltip" v="Получите наличные немедленно (добавляются к кредиту). Полезно для операционных расходов, но увеличивает ежемесячные платежи и общую стоимость." />
+        <e k="usedplus_finance_monthlyPayment_tooltip" v="Автоматически списывается с Вашего счёта фермы каждый игровой месяц. Убедитесь, что у Вас достаточно денег!" />
+        <e k="usedplus_finance_totalInterest_tooltip" v="Дополнительная стоимость финансирования по сравнению с оплатой наличными. Это то, что Вы платите за рассрочку." />
+        <e k="usedplus_finance_totalCost_tooltip" v="Цена покупки + общая сумма процентов = сколько Вы заплатите за весь срок кредита." />
+        <e k="usedplus_finance_interestRate_tooltip" v="Годовой процент по Вашему кредиту. Зависит от кредитного рейтинга и первоначального взноса. Чем ниже, тем лучше!" />
+        <e k="usedplus_finance_creditScore_tooltip" v="Финансовый рейтинг Вашей фермы (300-850). Выше рейтинг = ниже ставки. Улучшайте, поддерживая низкий долг и платя вовремя." />
+
+        <!--  Tooltips for Lease Dialog -->
+        <e k="usedplus_lease_term_tooltip" v="Аренда на 1-5 лет, затем возврат транспорта или оплата остаточной стоимости для выкупа. Короче срок = выше ежемесячные платежи." />
+        <e k="usedplus_lease_downPayment_tooltip" v="Авансовый платёж. Максимум ниже (20%), чем при финансировании, так как транспорт ещё не Ваш." />
+        <e k="usedplus_lease_residualValue_tooltip" v="Сумма к оплате в конце аренды, если хотите оставить транспорт. Основана на расчётной амортизации. Верните транспорт, чтобы не платить (при хорошем состоянии)." />
+        <e k="usedplus_lease_monthlyPayment_tooltip" v="Автоматически списывается каждый месяц в течение срока аренды. Ниже, чем платежи по финансированию, так как Вы не платите полную стоимость." />
+        <e k="usedplus_lease_totalCost_tooltip" v="Первоначальный взнос + все ежемесячные платежи. НЕ включает остаточную стоимость при выкупе." />
+        <e k="usedplus_lease_interestRate_tooltip" v="Годовой процент по аренде. Выше, чем по финансированию (5.5% против 4.5%) из-за большего риска для кредитора." />
+        <e k="usedplus_lease_damage_tooltip" v="В конце аренды: повреждения >10% или износ >15% = штрафы до 30% от цены транспорта. Поддерживайте транспорт!" />
+
+        <!--  Tooltips for Used Search Dialog -->
+        <e k="usedplus_search_local_tooltip" v="Поиск у ближайших дилеров. Гарантированный ответ за 1 месяц, 2% стоимости, 40% успеха. Быстро и дёшево." />
+        <e k="usedplus_search_regional_tooltip" v="Поиск по региональной сети. 1-3 месяца, 6% стоимости, 70% успеха. Хороший баланс для большинства поисков." />
+        <e k="usedplus_search_national_tooltip" v="Поиск по всей стране. 2-6 месяцев, 12% стоимости, 85% успеха. Лучше всего для редкой техники." />
+        <e k="usedplus_search_cost_tooltip" v="Авансовая плата, списываемая немедленно. Не возвращается даже при неудачном поиске." />
+        <e k="usedplus_search_duration_tooltip" v="Игровых месяцев до результатов. Вы получите уведомление о завершении поиска." />
+        <e k="usedplus_search_successChance_tooltip" v="Вероятность найти данный тип техники в б/у состоянии." />
+
+        <!--  Tooltips for Finance Manager -->
+        <e k="usedplus_manager_totalFinanced_tooltip" v="Общая сумма задолженности по всем кредитам и аренде. Держите ниже стоимости активов!" />
+        <e k="usedplus_manager_monthlyObligations_tooltip" v="Общая сумма, списываемая с Вашего счёта каждый месяц. Обеспечьте достаточный денежный поток!" />
+        <e k="usedplus_manager_creditScore_tooltip" v="Рейтинг 300-850. 750+ = Отличный, 650-749 = Хороший, 550-649 = Средний, &lt;550 = Плохой. Влияет на все будущие процентные ставки!" />
+        <e k="usedplus_manager_assetValue_tooltip" v="Совокупная стоимость транспорта, оборудования, полей и построек, которыми Вы владеете. Должна быть выше Вашего долга!" />
+        <e k="usedplus_manager_debtRatio_tooltip" v="Общий долг / Стоимость активов. Держите ниже 30% для отличного кредита. Выше 50% значительно снижает рейтинг!" />
+
+        <!--  Tooltips for Finance Detail Frame -->
+        <e k="usedplus_detail_principalPaid_tooltip" v="Часть первоначального кредита, которую Вы погасили. Это уменьшает Ваш остаток." />
+        <e k="usedplus_detail_interestPaid_tooltip" v="Дополнительные затраты, уплаченные за заём денег. Это НЕ уменьшает Ваш остаток." />
+        <e k="usedplus_detail_projectedInterest_tooltip" v="Общая сумма процентов при продолжении минимальных ежемесячных платежей. Платите больше сейчас, чтобы уменьшить!" />
+        <e k="usedplus_detail_prepaymentPenalty_tooltip" v="Единовременная плата за досрочное погашение (обычно 1-3% от остатка). Взимается, так как кредитор теряет будущий процентный доход." />
+        <e k="usedplus_detail_currentBalance_tooltip" v="Сумма, которую Вы всё ещё должны (только основной долг). Дополнительные платежи уменьшают её быстрее!" />
+        <e k="usedplus_detail_paymentSplit_tooltip" v="Показывает распределение платежа: Основной долг (погашает баланс) против Процентов (стоимость займа)." />
+
+        <!--  Take Loan Dialog -->
+        <e k="usedplus_loan_title" v="Взять кредит" />
+        <e k="usedplus_loan_configuration" v="ПАРАМЕТРЫ КРЕДИТА" />
+        <e k="usedplus_loan_paymentPreview" v="ПРЕДПРОСМОТР ПЛАТЕЖЕЙ" />
+        <e k="usedplus_loan_accept" v="Принять кредит" />
+        <e k="usedplus_loan_creditInfo" v="Ваш кредитный рейтинг определяет максимальную сумму займа и процентную ставку." />
+        <e k="usedplus_loan_collateralInfo" v="Залог рассчитывается как 50% стоимости транспорта и 60% стоимости земли." />
+        <e k="usedplus_loan_success" v="Кредит одобрен! %s зачислено на Ваш счёт." />
+        <e k="usedplus_loan_denied" v="Кредит отклонён. Недостаточно залога или плохой кредитный рейтинг." />
+        <e k="usedplus_loan_monthlyPayment" v="Ежемесячный платёж" />
+        <e k="usedplus_loan_totalInterest" v="Общая сумма процентов" />
+        <e k="usedplus_loan_totalRepayment" v="Общая сумма погашения" />
+        <!-- MOVED: usedplus_button_takeLoan to Common Button Labels section -->
+
+        <!--  Repair Dialog -->
+        <e k="usedplus_repair_title" v="Обслуживание транспорта" />
+        <e k="usedplus_repair_title_mechanical" v="Механический ремонт" />
+        <e k="usedplus_repair_title_repaint" v="Покраска транспорта" />
+        <e k="usedplus_repair_mechanical" v="МЕХАНИЧЕСКИЙ РЕМОНТ" />
+        <e k="usedplus_repair_cosmetic" v="ПОКРАСКА И КОСМЕТИКА" />
+        <e k="usedplus_repair_slider" v="Объём ремонта" />
+        <e k="usedplus_repair_cost" v="Стоимость ремонта" />
+        <e k="usedplus_repair_after" v="Состояние после" />
+        <e k="usedplus_repair_payCash" v="Оплатить наличными" />
+        <e k="usedplus_repair_finance" v="Финансировать ремонт" />
+        <e k="usedplus_repair_success" v="Ремонт завершён! %s отремонтирован." />
+        <e k="usedplus_repaint_slider" v="Объём покраски" />
+        <e k="usedplus_repaint_cost" v="Стоимость покраски" />
+        <e k="usedplus_button_repairVehicle" v="Отремонтировать" />
+        <e k="usedplus_button_tradeIn" v="Обмен" />
+        <e k="usedplus_repair_financeSuccess" v="Ремонт профинансирован! %s на %d месяцев по %s/месяц" />
+        <e k="usedplus_repair_noRepairsNeeded" v="Этот транспорт не нуждается в ремонте." />
+
+        <!-- ESC Menu Tabs -->
+        <e k="usedplus_tab_finances" v="Финансы" />
+        <e k="usedplus_tab_searches" v="Поиски" />
+        <e k="usedplus_tab_stats" v="Статистика" />
+
+        <!-- Searches Tab -->
+        <e k="usedplus_searches_active" v="Активные поиски" />
+        <e k="usedplus_searches_totalCost" v="Общая стоимость поисков" />
+
+        <!-- Stats Tab -->
+        <e k="usedplus_stats_creditInfo" v="На основе соотношения активов и долга" />
+        <e k="usedplus_stats_lifetime" v="Статистика за всё время" />
+        <e k="usedplus_stats_totalFinanced" v="Всего профинансировано (за всё время)" />
+        <e k="usedplus_stats_totalInterest" v="Всего выплачено процентов" />
+        <e k="usedplus_stats_searchesCompleted" v="Поисков завершено" />
+        <e k="usedplus_stats_searchesSuccessful" v="Успешных поисков" />
+
+        <!--  Credit History -->
+        <e k="usedplus_creditHistory_title" v="Кредитная история" />
+        <e k="usedplus_creditHistory_paymentOnTime" v="Платёж вовремя" />
+        <e k="usedplus_creditHistory_paymentMissed" v="Пропущенный платёж" />
+        <e k="usedplus_creditHistory_dealPaidOff" v="Кредит погашен" />
+        <e k="usedplus_creditHistory_newDebt" v="Новое финансирование" />
+        <e k="usedplus_creditHistory_loanTaken" v="Взят денежный кредит" />
+        <e k="usedplus_creditHistory_excellent" v="Достигнут отличный кредит" />
+        <e k="usedplus_creditHistory_trend" v="Тенденция рейтинга" />
+        <e k="usedplus_creditHistory_trendUp" v="Рост" />
+        <e k="usedplus_creditHistory_trendDown" v="Снижение" />
+        <e k="usedplus_creditHistory_stable" v="Стабильно" />
+
+        <!--  Trade-In System -->
+        <e k="usedplus_tradeIn_title" v="Обмен транспорта" />
+        <e k="usedplus_tradeIn_select" v="Выберите транспорт для обмена:" />
+        <e k="usedplus_tradeIn_value" v="Стоимость обмена" />
+        <e k="usedplus_tradeIn_brandBonus" v="Бонус за тот же бренд (+10%)" />
+        <e k="usedplus_tradeIn_noVehicles" v="Нет транспорта, подходящего для обмена" />
+        <e k="usedplus_tradeIn_confirm" v="Применить обмен" />
+        <e k="usedplus_tradeIn_skip" v="Без обмена" />
+        <e k="usedplus_tradeIn_help" v="Стоимость обмена составляет 85% от цены продажи. При покупке той же марки бонус 10%." />
+        <e k="usedplus_tradeIn_applied" v="Обмен применён: кредит %s" />
+        <e k="usedplus_tradeIn_financed" v="Финансируемый транспорт нельзя обменять" />
+
+        <!--  Financial Dashboard -->
+        <e k="usedplus_dashboard_title" v="Финансовая панель" />
+        <e k="usedplus_dashboard_creditScore" v="Кредитный рейтинг" />
+        <e k="usedplus_dashboard_obligations" v="Ежемесячные обязательства" />
+        <e k="usedplus_dashboard_debtRatio" v="Соотношение долга к активам" />
+        <e k="usedplus_dashboard_upcoming" v="Предстоящие платежи" />
+        <e k="usedplus_dashboard_history" v="Последняя кредитная активность" />
+        <e k="usedplus_dashboard_statistics" v="Статистика за всё время" />
+        <e k="usedplus_dashboard_equipment" v="Оборудование" />
+        <e k="usedplus_dashboard_land" v="Земля" />
+        <e k="usedplus_dashboard_loans" v="Кредиты" />
+        <e k="usedplus_dashboard_total" v="Итого" />
+        <e k="usedplus_dashboard_assets" v="Всего активов" />
+        <e k="usedplus_dashboard_debt" v="Всего долга" />
+        <e k="usedplus_dashboard_ratio" v="Соотношение" />
+        <e k="usedplus_dashboard_excellent" v="Отлично" />
+        <e k="usedplus_dashboard_good" v="Хорошо" />
+        <e k="usedplus_dashboard_fair" v="Средне" />
+        <e k="usedplus_dashboard_high" v="Высоко" />
+        <e k="usedplus_dashboard_critical" v="Критично" />
+        <e k="usedplus_dashboard_noPayments" v="Нет предстоящих платежей" />
+        <e k="usedplus_dashboard_noHistory" v="Кредитной истории пока нет" />
+        <e k="usedplus_dashboard_onTime" v="Платежей вовремя" />
+        <e k="usedplus_dashboard_missed" v="Пропущенных платежей" />
+        <e k="usedplus_dashboard_tip" v="Совет: Платите вовремя, чтобы улучшить кредитный рейтинг. Погашайте кредиты досрочно, чтобы сэкономить на процентах." />
+
+        <!--  Land Purchase Dialog -->
+        <e k="usedplus_land_title" v="Покупка земли" />
+        <e k="usedplus_land_purchaseMethod" v="СПОСОБ ПОКУПКИ" />
+        <e k="usedplus_land_paymentSummary" v="СВОДКА ПЛАТЕЖЕЙ" />
+        <e k="usedplus_land_financeTerms" v="УСЛОВИЯ ФИНАНСИРОВАНИЯ" />
+        <e k="usedplus_land_leaseTerms" v="УСЛОВИЯ АРЕНДЫ" />
+        <e k="usedplus_land_landPrice" v="Цена земли:" />
+        <e k="usedplus_land_taxes" v="Налог на передачу:" />
+        <e k="usedplus_land_totalDue" v="ИТОГО К ОПЛАТЕ:" />
+        <e k="usedplus_land_loanTerm" v="Срок кредита:" />
+        <e k="usedplus_land_leaseTerm" v="Срок аренды:" />
+        <e k="usedplus_land_downPayment" v="Первоначальный взнос:" />
+        <e k="usedplus_land_amountFinanced" v="Сумма финансирования:" />
+        <e k="usedplus_land_interestRate" v="Процентная ставка:" />
+        <e k="usedplus_land_monthlyPayment" v="Ежемесячный платёж:" />
+        <e k="usedplus_land_totalInterest" v="Общая сумма процентов:" />
+        <e k="usedplus_land_dueToday" v="К ОПЛАТЕ СЕГОДНЯ:" />
+        <e k="usedplus_land_totalLeaseCost" v="Общая стоимость аренды:" />
+        <e k="usedplus_land_buyoutPrice" v="Цена выкупа:" />
+        <e k="usedplus_land_confirm" v="Подтвердить покупку" />
+
+        <!--  Used Vehicle Marketplace - Agent-Based Sales -->
+        <e k="usedplus_sell_title" v="Продажа транспорта" />
+        <e k="usedplus_sell_selectAgent" v="Выберите агента по продажам" />
+        <e k="usedplus_sell_vehicleDetails" v="Информация о транспорте" />
+        <e k="usedplus_sell_vanillaValue" v="Мгновенная продажа" />
+        <e k="usedplus_sell_localAgent" v="Местный агент" />
+        <e k="usedplus_sell_regionalAgent" v="Региональный агент" />
+        <e k="usedplus_sell_nationalAgent" v="Национальный агент" />
+        <e k="usedplus_sell_expectedReturn" v="Ожидаемый доход" />
+        <e k="usedplus_sell_timeFrame" v="Сроки" />
+        <e k="usedplus_sell_agentFee" v="Комиссия агента" />
+        <e k="usedplus_sell_successRate" v="Вероятность успеха" />
+        <e k="usedplus_sell_confirm" v="Выставить на продажу" />
+        <e k="usedplus_sell_tradeInOnly" v="Только обмен" />
+        <e k="usedplus_sell_tradeInDescription" v="50-65% мгновенной стоимости при покупке нового транспорта" />
+        <e k="usedplus_sell_localDescription" v="Быстрая местная продажа. 1-2 месяца, 85% успеха." />
+        <e k="usedplus_sell_regionalDescription" v="Региональная сеть. 2-4 месяца, 90% успеха." />
+        <e k="usedplus_sell_nationalDescription" v="Общенациональный охват. 3-6 месяцев, 95% успеха." />
+        <e k="usedplus_sell_listed" v="Транспорт выставлен через %s. Ожидается: %s - %s" />
+        <e k="usedplus_sell_alreadyListed" v="Этот транспорт уже выставлен на продажу" />
+        <e k="usedplus_sell_cantSellFinanced" v="Невозможно продать финансируемый транспорт. Сначала погасите долг." />
+
+        <!--  Sale Offer Dialog -->
+        <e k="usedplus_saleOffer_title" v="Получено предложение о покупке" />
+        <e k="usedplus_saleOffer_message" v="Найден покупатель для Вашего транспорта!" />
+        <e k="usedplus_saleOffer_offerAmount" v="Сумма предложения" />
+        <e k="usedplus_saleOffer_expiresIn" v="Предложение истекает через" />
+        <e k="usedplus_saleOffer_accept" v="Принять предложение" />
+        <e k="usedplus_saleOffer_decline" v="Отклонить предложение" />
+        <e k="usedplus_saleOffer_hours" v="%d часов" />
+        <e k="usedplus_saleOffer_accepted" v="Транспорт продан за %s!" />
+        <e k="usedplus_saleOffer_declined" v="Предложение отклонено. Агент продолжает поиск..." />
+        <e k="usedplus_saleOffer_expired" v="Предложение истекло для %s. Агент продолжает поиск..." />
+
+        <!--  Sale Listing Status -->
+        <e k="usedplus_sale_statusActive" v="Поиск покупателя..." />
+        <e k="usedplus_sale_statusPending" v="ПРЕДЛОЖЕНИЕ: %s" />
+        <e k="usedplus_sale_statusSold" v="ПРОДАНО за %s" />
+        <e k="usedplus_sale_statusExpired" v="Истекло - покупатель не найден" />
+        <e k="usedplus_sale_statusCancelled" v="Отменено" />
+        <e k="usedplus_sale_listingExpired" v="Покупатель для %s не найден. Комиссия агента (%s) не возвращается." />
+        <e k="usedplus_sale_cancel" v="Отменить объявление" />
+        <e k="usedplus_sale_cancelConfirm" v="Отменить продажу %s? Комиссия агента НЕ будет возвращена." />
+        <e k="usedplus_sale_cancelled" v="Объявление о продаже %s отменено." />
+
+        <!--  Finance Manager - Sale Listings Section -->
+        <e k="usedplus_manager_saleListings" v="ТРАНСПОРТ НА ПРОДАЖЕ" />
+        <e k="usedplus_manager_noSales" v="Нет активных объявлений о продаже" />
+
+        <!--  Menu Navigation Buttons -->
+        <e k="usedplus_button_nextPage" v="Следующее меню" />
+        <e k="usedplus_button_prevPage" v="Предыдущее меню" />
+
+        <!-- === MAINTENANCE SYSTEM (Phase 4) === -->
+
+        <!--  Engine/Failure Warnings -->
+        <e k="usedPlus_engineStalled" v="Двигатель заглох!" />
+        <e k="usedPlus_engineWontStart" v="Двигатель не заводится - попробуйте снова" />
+        <e k="usedPlus_hydraulicDrift" v="Потеря давления гидравлики!" />
+        <e k="usedPlus_implementCutout" v="Навесное оборудование остановлено!" />
+        <e k="usedPlus_electricalCutout" v="Электрическая неисправность - оборудование отключено!" />
+
+        <!--  Inspection System -->
+        <e k="usedPlus_inspectButton" v="Осмотр (%s)" />
+        <e k="usedPlus_inspectionTitle" v="Отчёт об осмотре" />
+        <e k="usedPlus_inspectionCost" v="Стоимость осмотра" />
+        <e k="usedPlus_mechanicalAssessment" v="МЕХАНИЧЕСКАЯ ОЦЕНКА" />
+        <e k="usedPlus_inspectorNotes" v="Заметки инспектора" />
+        <e k="usedPlus_recommendation" v="Рекомендация" />
+        <e k="usedPlus_hiddenConditionWarning" v="Скрытое механическое состояние неизвестно" />
+        <e k="usedPlus_payForInspection" v="Оплатить профессиональный осмотр" />
+
+        <!--  Reliability Ratings -->
+        <e k="usedPlus_conditionGood" v="Хорошее" />
+        <e k="usedPlus_conditionAcceptable" v="Приемлемое" />
+        <e k="usedPlus_conditionBelowAverage" v="Ниже среднего" />
+        <e k="usedPlus_conditionPoor" v="Плохое" />
+        <e k="usedPlus_conditionCritical" v="Критическое" />
+
+        <!--  Vehicle Name Indicators (Phase 5) -->
+        <e k="usedPlus_indicatorCritical" v="[КРИТИЧНО]" />
+        <e k="usedPlus_indicatorNeedsService" v="[ТРЕБУЕТСЯ ОБСЛУЖИВАНИЕ]" />
+        <e k="usedPlus_indicatorWorn" v="[ИЗНОШЕН]" />
+        <e k="usedPlus_maintenanceHistory" v="История обслуживания" />
+
+        <!--  Component Labels -->
+        <e k="usedPlus_engineReliability" v="Двигатель" />
+        <e k="usedPlus_hydraulicReliability" v="Гидравлика" />
+        <e k="usedPlus_electricalReliability" v="Электрика" />
+
+        <!--  Vehicle Info Display -->
+        <e k="usedPlus_purchasedUsed" v="Куплен б/у" />
+        <e k="usedPlus_repairHistory" v="Ремонты: %d (%s всего)" />
+        <e k="usedPlus_breakdownHistory" v="Поломки: %d" />
+        <e k="usedPlus_mechanicalCondition" v="Механическое: %s" />
+
+        <!--  Inspection Notes -->
+        <e k="usedPlus_noteEngineWorn" v="Двигатель имеет признаки интенсивной эксплуатации. Возможны периодические остановки под нагрузкой." />
+        <e k="usedPlus_noteHydraulicWorn" v="Гидравлическая система изношена. Навесное оборудование может опускаться в поднятом состоянии." />
+        <e k="usedPlus_noteElectricalIssues" v="Обнаружены проблемы с электрикой. Оборудование может неожиданно отключаться." />
+        <e k="usedPlus_noteVehicleOk" v="Транспорт в приемлемом механическом состоянии." />
+        <e k="usedPlus_recommendNegotiate" v="Торгуйтесь или заложите средства на ремонт" />
+        <e k="usedPlus_recommendProceed" v="Хорошее механическое состояние - покупайте смело" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1: Notification Messages (i18n cleanup) -->
+        <!-- ============================================== -->
+
+        <!-- Error Notifications - Selection/Finding -->
+        <e k="usedplus_error_selectDealFirst" v="Сначала выберите финансовую сделку" />
+        <e k="usedplus_error_noSearchInRow" v="Нет поиска в этой строке" />
+        <e k="usedplus_error_noSaleListingInRow" v="Нет объявления о продаже в этой строке" />
+        <e k="usedplus_error_noDealInRow" v="Нет финансовой сделки в этой строке" />
+        <e k="usedplus_error_farmNotFound" v="Ошибка: Не удалось найти ферму" />
+        <e k="usedplus_error_noVehicleSelected" v="Транспорт не выбран" />
+
+        <!-- Error Notifications - State/Action Conflicts -->
+        <e k="usedplus_error_cannotCancelReady" v="Невозможно отменить - объявление готово к покупке" />
+        <e k="usedplus_error_searchNotActive" v="Этот поиск больше не активен" />
+        <e k="usedplus_error_noOfferPending" v="Нет ожидающего предложения по этому объявлению" />
+        <e k="usedplus_error_noOfferToDecline" v="Нет ожидающего предложения для отклонения" />
+        <e k="usedplus_error_cannotCancelPendingOffer" v="Невозможно отменить при ожидающем предложении. Сначала примите или отклоните." />
+        <e k="usedplus_error_cannotModifyPendingOffer" v="Невозможно изменить цену при ожидающем предложении." />
+
+        <!-- Error Notifications - Invalid Input -->
+        <e k="usedplus_error_invalidPrice" v="Недействительная цена. Введите положительное число." />
+        <e k="usedplus_error_invalidAmount" v="Недействительная сумма. Введите положительное число." />
+
+        <!-- Error Notifications - Insufficient Funds -->
+        <e k="usedplus_error_insufficientFundsPayment" v="Недостаточно средств. Требуется %s для ежемесячного платежа." />
+        <e k="usedplus_error_insufficientFundsPayoff" v="Недостаточно средств для погашения" />
+        <e k="usedplus_error_insufficientFundsNeedHave" v="Недостаточно средств. Требуется %s, есть %s" />
+        <e k="usedplus_error_insufficientFundsDownPayment" v="Недостаточно средств для первоначального взноса! Требуется %s" />
+        <e k="usedplus_error_insufficientFundsGeneric" v="Недостаточно средств! Требуется %s" />
+        <e k="usedplus_error_insufficientFundsForPayment" v="Недостаточно средств для платежа" />
+
+        <!-- Error Notifications - No Items/Options -->
+        <e k="usedplus_error_noPaymentOptions" v="Нет доступных вариантов оплаты" />
+        <e k="usedplus_error_noActiveDeals" v="Нет активных финансовых сделок для платежей" />
+        <e k="usedplus_error_noDealsToPayAll" v="Нет активных финансовых сделок для оплаты" />
+        <e k="usedplus_error_noPaymentsDue" v="Нет платежей к оплате в этом периоде" />
+
+        <!-- Error Notifications - Operation Failures -->
+        <e k="usedplus_error_payoffFailed" v="Погашение не удалось" />
+        <e k="usedplus_error_paymentFailed" v="Платёж не удался" />
+        <e k="usedplus_error_eventNotAvailable" v="Ошибка: %s недоступен" />
+
+        <!-- Success Notifications - Sales -->
+        <e k="usedplus_notify_vehicleSold" v="Продан %s за %s!" />
+        <e k="usedplus_notify_offerDeclined" v="Предложение отклонено - агент продолжит поиск" />
+        <e k="usedplus_notify_listingCancelled" v="Объявление о продаже %s отменено" />
+
+        <!-- Success Notifications - Purchases -->
+        <e k="usedplus_notify_vehiclePurchased" v="Куплен %s за %s" />
+        <e k="usedplus_notify_vehiclePurchasedShop" v="Куплен %s - заберите транспорт в магазине" />
+        <e k="usedplus_notify_vehicleFinanced" v="Профинансирован %s - %s к оплате сегодня" />
+        <e k="usedplus_notify_vehicleFinancedShop" v="Профинансирован %s - заберите транспорт в магазине" />
+        <e k="usedplus_notify_landPurchased" v="Куплено %s за %s" />
+        <e k="usedplus_notify_landFinanced" v="Профинансировано %s - %s к оплате сегодня" />
+        <e k="usedplus_notify_vehicleNowYours" v="Поздравляем! %s теперь Ваш!" />
+
+        <!-- Success Notifications - Payments/Loans -->
+        <e k="usedplus_notify_loanPaidOff" v="Кредит погашен! Всего: %s" />
+        <e k="usedplus_notify_paymentProcessed" v="Платёж %s обработан!" />
+        <e k="usedplus_notify_paidDealsTotal" v="Оплачено %d сделок! Всего: %s" />
+        <e k="usedplus_notify_paidDealsSomeFailed" v="Оплачено %d сделок, %d не удалось" />
+        <e k="usedplus_notify_paymentConfigSaved" v="Конфигурация платежей сохранена!" />
+
+        <!-- Success Notifications - Leases -->
+        <e k="usedplus_notify_landLeaseTerminated" v="Аренда земли %s расторгнута" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1: UI Labels (setText hardcoded strings) -->
+        <!-- ============================================== -->
+
+        <!-- Credit Report Dialog -->
+        <e k="usedplus_creditreport_reportDate" v="Дата отчёта: %s" />
+        <e k="usedplus_creditreport_scoreRange" v="Диапазон рейтинга: 300-850" />
+        <e k="usedplus_creditreport_standardRates" v="Применяются стандартные процентные ставки" />
+        <e k="usedplus_creditreport_noHistory" v="Нет истории" />
+        <e k="usedplus_creditreport_noActiveAccounts" v="Нет активных счетов" />
+        <e k="usedplus_creditreport_noPaymentHistory" v="История платежей пока отсутствует" />
+        <e k="usedplus_creditreport_makePaymentsHint" v="Начните делать платежи, чтобы создать историю" />
+        <e k="usedplus_creditreport_trend_excellent" v="Отлично - сильный восходящий тренд" />
+        <e k="usedplus_creditreport_trend_good" v="Хорошо - положительная динамика" />
+        <e k="usedplus_creditreport_trend_stable" v="Стабильно - поддержание уровня" />
+        <e k="usedplus_creditreport_trend_declining" v="Снижение - требует внимания" />
+        <e k="usedplus_creditreport_trend_poor" v="Плохо - требуются немедленные действия" />
+
+        <!-- Deal Details Dialog -->
+        <e k="usedplus_dealdetails_payoffInfo" v="Погасите досрочно, чтобы сэкономить на процентах." />
+        <e k="usedplus_dealdetails_buyoutLease" v="ВЫКУП АРЕНДЫ" />
+        <e k="usedplus_dealdetails_earlyPayoff" v="ДОСРОЧНОЕ ПОГАШЕНИЕ" />
+        <e k="usedplus_dealdetails_paidOff" v="Погашено!" />
+
+        <!-- Inspection Report Dialog -->
+        <e k="usedplus_inspection_noData" v="Данные осмотра недоступны." />
+        <e k="usedplus_inspection_rec_excellent" v="Отличное состояние - покупайте уверенно" />
+        <e k="usedplus_inspection_rec_good" v="Хорошее состояние - справедливая цена" />
+        <e k="usedplus_inspection_rec_fair" v="Среднее состояние - торгуйтесь или заложите на ремонт" />
+        <e k="usedplus_inspection_rec_poor" v="Плохое состояние - требуется значительный ремонт" />
+
+        <!-- Maintenance Report Dialog -->
+        <e k="usedplus_common_yes" v="Да" />
+        <e k="usedplus_common_no" v="Нет" />
+        <e k="usedplus_common_na" v="Н/Д" />
+        <e k="usedplus_maintenance_purchasedUsed" v="Куплен б/у" />
+        <e k="usedplus_maintenance_purchasedNew" v="Куплен новым" />
+        <e k="usedplus_maintenance_excellentCondition" v="Этот транспорт в отличном состоянии без проблем с обслуживанием." />
+
+        <!-- Payment Config Dialog -->
+        <e k="usedplus_paymentconfig_selectLoan" v="Выберите кредит выше, чтобы изменить режим оплаты" />
+        <e k="usedplus_paymentconfig_warningSkip" v="ВНИМАНИЕ: Пропуск платежей увеличит остаток!" />
+        <e k="usedplus_paymentconfig_noteNegAmort" v="Примечание: Некоторые платежи ниже только процентов" />
+
+        <!-- Repair Finance Dialog -->
+        <e k="usedplus_repairfinance_title_repaint" v="Финансирование покраски" />
+        <e k="usedplus_repairfinance_title_repair" v="Финансирование ремонта" />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_preview_title" v="Найден б/у транспорт" />
+        <e k="usedplus_preview_viewReport" v="Просмотреть отчёт" />
+
+        <!-- Finance Manager Frame -->
+        <e k="usedplus_manager_clickToSelect" v="Нажмите на строку для выбора" />
+        <e k="usedplus_manager_assetsLabel" v="Активы: %s" />
+        <e k="usedplus_manager_debtLabel" v="Долг: %s" />
+
+        <!-- Deal Details Dialog - additional -->
+        <e k="usedplus_dealdetails_earlyPayoffSaves" v="Досрочное погашение сэкономит Вам %s на процентах!" />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_preview_ageYears" v="%d лет" />
+        <e k="usedplus_preview_payForInspection" v="Оплатить %s за профессиональный осмотр" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1c: Land Purchase Dialog Notifications   -->
+        <!-- ============================================== -->
+
+        <!-- Land Purchase - Mode Selector -->
+        <e k="usedplus_land_modeCash" v="Купить за наличные" />
+        <e k="usedplus_land_modeFinance" v="Финансирование" />
+        <e k="usedplus_land_modeLease" v="Аренда" />
+
+        <!-- Land Purchase - Term Sliders -->
+        <e k="usedplus_land_termYears" v="%d лет" />
+        <e k="usedplus_land_termYear" v="1 год" />
+        <e k="usedplus_land_termMonths" v="%d месяцев" />
+        <e k="usedplus_land_termMonth" v="1 месяц" />
+
+        <!-- Land Purchase - Credit Adjustment -->
+        <e k="usedplus_land_noAdjustment" v="Без корректировки (средний кредит)" />
+
+        <!-- Land Purchase - Security Deposit -->
+        <e k="usedplus_land_noDeposit" v="Без залога (%s кредит)" />
+        <e k="usedplus_land_depositInfo" v="%s (%d мес, %s кредит)" />
+
+        <!-- Land Purchase - Lease Info -->
+        <e k="usedplus_land_buyoutAnytime" v="Выкуп в любое время: %s" />
+        <e k="usedplus_land_signingBonus" v="Бонус при подписании: включает урожай %s стоимостью %s" />
+        <e k="usedplus_land_securityDeposit" v="%s залоговый депозит" />
+        <e k="usedplus_land_noDepositRequired" v="залог не требуется" />
+
+        <!-- Land Purchase - Error Notifications -->
+        <e k="usedplus_error_insufficientFundsLand" v="Недостаточно средств! Требуется ещё %s. Попробуйте финансирование или аренду." />
+        <e k="usedplus_error_insufficientFundsDeposit" v="Недостаточно средств для залогового депозита! Требуется ещё %s." />
+        <e k="usedplus_error_couldNotCompletePurchase" v="Ошибка: Не удалось завершить покупку" />
+
+        <!-- Land Purchase - Success Notifications -->
+        <e k="usedplus_notify_landLeased" v="Арендовано %s! %s/месяц, %s" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1d: XML Dialog Labels and Buttons        -->
+        <!-- ============================================== -->
+
+        <!-- Common Button Labels -->
+        <e k="usedplus_button_purchase" v="Купить" />
+        <e k="usedplus_button_decline" v="Отклонить" />
+        <e k="usedplus_button_goBack" v="Назад" />
+        <e k="usedplus_button_close" v="Закрыть" />
+        <e k="usedplus_button_confirm" v="Подтвердить" />
+        <e k="usedplus_button_cancel" v="Отмена" />
+        <e k="usedplus_button_takeLoan" v="Взять кредит" />
+        <e k="usedplus_button_payOff" v="Погасить" />
+
+        <!-- Inspection Report Dialog -->
+        <e k="usedplus_irp_title" v="ОТЧЁТ ОБ ОСМОТРЕ" />
+        <e k="usedplus_irp_sectionVehicle" v="ТРАНСПОРТ" />
+        <e k="usedplus_irp_sectionMechanical" v="МЕХАНИЧЕСКАЯ ОЦЕНКА" />
+        <e k="usedplus_irp_sectionNotes" v="ЗАМЕТКИ ИНСПЕКТОРА" />
+        <e k="usedplus_irp_sectionRecommend" v="РЕКОМЕНДАЦИЯ" />
+        <e k="usedplus_irp_listedPrice" v="Заявленная цена:" />
+        <e k="usedplus_irp_engine" v="Двигатель:" />
+        <e k="usedplus_irp_hydraulics" v="Гидравлика:" />
+        <e k="usedplus_irp_electrical" v="Электрика:" />
+        <e k="usedplus_irp_overallCondition" v="Общее состояние:" />
+        <e k="usedplus_irp_estRepairCost" v="Расч. стоим. ремонта:" />
+        <e k="usedplus_irp_postRepairValue" v="Стоимость после ремонта:" />
+        <e k="usedplus_irp_priceNote" v="Цены отражают запрашиваемую продавцом сумму. Торгуйтесь на основе результатов осмотра." />
+
+        <!-- Maintenance Report Dialog -->
+        <e k="usedplus_mrp_title" v="ОТЧЁТ ОБ ОБСЛУЖИВАНИИ" />
+        <e k="usedplus_mrp_sectionReliability" v="РЕЙТИНГИ НАДЁЖНОСТИ" />
+        <e k="usedplus_mrp_sectionHistory" v="ИСТОРИЯ ОБСЛУЖИВАНИЯ" />
+        <e k="usedplus_mrp_sectionNotes" v="ПРИМЕЧАНИЯ О СТАТУСЕ" />
+        <e k="usedplus_mrp_breakdowns" v="Поломки:" />
+        <e k="usedplus_mrp_repairs" v="Ремонты:" />
+        <e k="usedplus_mrp_inspected" v="Осмотрен:" />
+        <e k="usedplus_mrp_resaleImpact" v="Влияние на перепродажу:" />
+        <e k="usedplus_mrp_origin" v="Происхождение:" />
+        <e k="usedplus_mrp_overallCondition" v="ОБЩЕЕ СОСТОЯНИЕ" />
+
+        <!-- Financial Dashboard -->
+        <e k="usedplus_dash_creditScore" v="КРЕДИТНЫЙ РЕЙТИНГ" />
+        <e k="usedplus_dash_debtRatio" v="КОЭФФИЦИЕНТ ДОЛГА" />
+        <e k="usedplus_dash_assets" v="Активы:" />
+        <e k="usedplus_dash_debt" v="Долг:" />
+        <e k="usedplus_dash_ratio" v="Соотношение:" />
+        <e k="usedplus_dash_trend" v="Тенденция:" />
+        <e k="usedplus_dash_monthlyObligations" v="ЕЖЕМЕСЯЧНЫЕ ОБЯЗАТЕЛЬСТВА" />
+        <e k="usedplus_dash_equipment" v="Оборудование:" />
+        <e k="usedplus_dash_land" v="Земля:" />
+        <e k="usedplus_dash_loans" v="Кредиты:" />
+        <e k="usedplus_dash_total" v="ИТОГО:" />
+        <e k="usedplus_dash_upcomingPayments" v="ПРЕДСТОЯЩИЕ ПЛАТЕЖИ" />
+        <e k="usedplus_dash_noPayments" v="Нет предстоящих платежей" />
+        <e k="usedplus_dash_lifetimeStats" v="СТАТИСТИКА ЗА ВСЁ ВРЕМЯ" />
+        <e k="usedplus_dash_totalFinanced" v="Всего профинансировано:" />
+        <e k="usedplus_dash_interestPaid" v="Выплачено процентов:" />
+        <e k="usedplus_dash_dealsCompleted" v="Сделок завершено:" />
+        <e k="usedplus_dash_onTime" v="Вовремя:" />
+        <e k="usedplus_dash_missed" v="Пропущено:" />
+        <e k="usedplus_dash_tip" v="Совет: Платите вовремя для улучшения кредита. Погашайте досрочно для экономии на процентах." />
+
+        <!-- Maintenance Report Dialog - Additional -->
+        <e k="usedplus_mrp_sectionMechanical" v="МЕХАНИЧЕСКИЙ СТАТУС" />
+        <e k="usedplus_mrp_sectionService" v="ИСТОРИЯ ОБСЛУЖИВАНИЯ" />
+        <e k="usedplus_mrp_sectionStatus" v="СТАТУС" />
+        <e k="usedplus_mrp_shopRepairs" v="Ремонты в мастерской:" />
+        <e k="usedplus_mrp_overall" v="Общее:" />
+        <e k="usedplus_mrp_condition" v="Состояние:" />
+
+        <!-- Deal Details Dialog -->
+        <e k="usedplus_dd_title" v="ДЕТАЛИ СДЕЛКИ" />
+        <e k="usedplus_dd_sectionItem" v="ИНФОРМАЦИЯ ОБ ОБЪЕКТЕ" />
+        <e k="usedplus_dd_sectionTerms" v="ФИНАНСОВЫЕ УСЛОВИЯ" />
+        <e k="usedplus_dd_sectionProgress" v="ПРОГРЕСС ПЛАТЕЖЕЙ" />
+        <e k="usedplus_dd_sectionSummary" v="СВОДКА ПЛАТЕЖЕЙ" />
+        <e k="usedplus_dd_sectionMultiplier" v="МНОЖИТЕЛЬ ПЛАТЕЖА" />
+        <e k="usedplus_dd_sectionPayoff" v="ДОСРОЧНОЕ ПОГАШЕНИЕ" />
+        <e k="usedplus_dd_sectionRepossessed" v="ИЗЪЯТЫЙ ЗАЛОГ" />
+        <e k="usedplus_dd_name" v="Название:" />
+        <e k="usedplus_dd_type" v="Тип:" />
+        <e k="usedplus_dd_status" v="Статус:" />
+        <e k="usedplus_dd_missed" v="Пропущено:" />
+        <e k="usedplus_dd_original" v="Исходная:" />
+        <e k="usedplus_dd_down" v="Взнос:" />
+        <e k="usedplus_dd_financed" v="Финансировано:" />
+        <e k="usedplus_dd_term" v="Срок:" />
+        <e k="usedplus_dd_rate" v="Ставка:" />
+        <e k="usedplus_dd_monthly" v="Ежемесячно:" />
+        <e k="usedplus_dd_payments" v="Платежи:" />
+        <e k="usedplus_dd_balance" v="Остаток:" />
+        <e k="usedplus_dd_remaining" v="Осталось:" />
+        <e k="usedplus_dd_equity" v="Капитал:" />
+        <e k="usedplus_dd_principal" v="Основной долг:" />
+        <e k="usedplus_dd_interest" v="Проценты:" />
+        <e k="usedplus_dd_total" v="Итого:" />
+        <e k="usedplus_dd_multiplier" v="Множитель:" />
+        <e k="usedplus_dd_adjusted" v="Скорректировано:" />
+        <e k="usedplus_dd_payoffIn" v="Погашение через:" />
+        <e k="usedplus_dd_youSave" v="Вы экономите:" />
+        <e k="usedplus_dd_payoff" v="Погашение:" />
+        <e k="usedplus_dd_accruedNote" v="(включая начисленные проценты)" />
+        <e k="usedplus_dd_payoffInfo" v="Досрочное погашение экономит на процентах!" />
+        <e k="usedplus_dd_repossessedInfo" v="Следующие объекты были изъяты из-за пропущенных платежей:" />
+        <e k="usedplus_dd_repossessedTotal" v="Общая стоимость изъятого:" />
+        <e k="usedplus_button_viewHistory" v="Просмотр истории" />
+        <e k="usedplus_button_earlyPayoff" v="Досрочное погашение" />
+
+        <!-- Take Loan Dialog -->
+        <e k="usedplus_tl_title" v="ВЗЯТЬ КРЕДИТ" />
+        <e k="usedplus_tl_sectionCredit" v="ВАШ КРЕДИТ" />
+        <e k="usedplus_tl_score" v="Рейтинг:" />
+        <e k="usedplus_tl_yourRate" v="Ваша процентная ставка:" />
+        <e k="usedplus_tl_sectionCollateral" v="ВЫБОР ЗАЛОГА" />
+        <e k="usedplus_tl_collateralHelp" v="Нажмите для переключения активов в качестве залога (показаны только свободные от обременений)" />
+        <e k="usedplus_tl_prev" v="◄ Пред" />
+        <e k="usedplus_tl_next" v="След ►" />
+        <e k="usedplus_tl_selected" v="Выбрано:" />
+        <e k="usedplus_tl_existingDebt" v="Существующий долг:" />
+        <e k="usedplus_tl_maxLoan" v="МАКСИМАЛЬНЫЙ КРЕДИТ:" />
+        <e k="usedplus_tl_sectionConfig" v="ПАРАМЕТРЫ КРЕДИТА" />
+        <e k="usedplus_tl_amount" v="Сумма:" />
+        <e k="usedplus_tl_term" v="Срок:" />
+        <e k="usedplus_tl_sectionPayment" v="ПРЕДПРОСМОТР ПЛАТЕЖЕЙ" />
+        <e k="usedplus_tl_monthly" v="Ежемесячно:" />
+        <e k="usedplus_tl_total" v="Итого:" />
+        <e k="usedplus_tl_interest" v="Проценты:" />
+        <e k="usedplus_tl_yearly" v="Ежегодно:" />
+        <e k="usedplus_tl_info" v="Средства кредита зачисляются немедленно. Платежи списываются автоматически ежемесячно." />
+        <e k="usedplus_button_acceptLoan" v="Принять кредит" />
+
+        <!-- Loan Approved Dialog -->
+        <e k="usedplus_la_title" v="КРЕДИТ ОДОБРЕН" />
+        <e k="usedplus_la_amountDeposited" v="Зачисленная сумма" />
+        <e k="usedplus_la_sectionTerms" v="УСЛОВИЯ КРЕДИТА" />
+        <e k="usedplus_la_term" v="Срок:" />
+        <e k="usedplus_la_rate" v="Процентная ставка:" />
+        <e k="usedplus_la_sectionPayment" v="ГРАФИК ПЛАТЕЖЕЙ" />
+        <e k="usedplus_la_monthly" v="Ежемесячно:" />
+        <e k="usedplus_la_yearly" v="Ежегодно:" />
+        <e k="usedplus_la_totalInterest" v="Общая сумма процентов:" />
+        <e k="usedplus_la_sectionCredit" v="ВЛИЯНИЕ НА КРЕДИТ" />
+        <e k="usedplus_la_previous" v="Предыдущий:" />
+        <e k="usedplus_la_newScore" v="Новый рейтинг:" />
+        <e k="usedplus_la_info" v="Платежи списываются автоматически ежемесячно. Своевременные платежи улучшают кредит!" />
+
+        <!-- Unified Purchase Dialog -->
+        <e k="usedplus_up_title" v="Покупка транспорта" />
+        <e k="usedplus_up_sectionVehicle" v="ТРАНСПОРТ" />
+        <e k="usedplus_up_sectionMethod" v="СПОСОБ ПОКУПКИ" />
+        <e k="usedplus_up_methodHelp" v="Выберите способ оплаты: наличными, в рассрочку или аренда с меньшими платежами." />
+        <e k="usedplus_up_sectionTradeIn" v="ОБМЕН (Опционально)" />
+        <e k="usedplus_up_tradeInHelp" v="Выберите транспорт для обмена и уменьшите сумму к оплате." />
+        <e k="usedplus_up_tradeInVehicle" v="Транспорт для обмена:" />
+        <e k="usedplus_up_tradeInValue" v="Стоимость обмена:" />
+        <e k="usedplus_up_sectionCash" v="СВОДКА ПЛАТЕЖЕЙ" />
+        <e k="usedplus_up_cashHelp" v="Оплатите полную сумму сейчас. Стоимость обмена вычитается из итога." />
+        <e k="usedplus_up_vehiclePrice" v="Цена транспорта:" />
+        <e k="usedplus_up_tradeInCredit" v="Кредит за обмен:" />
+        <e k="usedplus_up_totalDue" v="ИТОГО К ОПЛАТЕ:" />
+        <e k="usedplus_up_sectionFinance" v="УСЛОВИЯ ФИНАНСИРОВАНИЯ" />
+        <e k="usedplus_up_financeHelp" v="Распределите платежи во времени. Настройте срок, первоначальный взнос и возврат для идеального ежемесячного платежа." />
+        <e k="usedplus_up_loanTerm" v="Срок кредита:" />
+        <e k="usedplus_up_downPayment" v="Первоначальный взнос:" />
+        <e k="usedplus_up_cashBack" v="Возврат наличными:" />
+        <e k="usedplus_up_amountFinanced" v="Сумма финансирования:" />
+        <e k="usedplus_up_interestRate" v="Процентная ставка:" />
+        <e k="usedplus_up_monthlyPayment" v="Ежемесячный платёж:" />
+        <e k="usedplus_up_totalInterest" v="Общая сумма процентов:" />
+        <e k="usedplus_up_dueToday" v="К ОПЛАТЕ СЕГОДНЯ:" />
+        <e k="usedplus_up_sectionPayment" v="ГРАФИК ПЛАТЕЖЕЙ" />
+        <e k="usedplus_up_sectionDueToday" v="СУММА К ОПЛАТЕ СЕГОДНЯ" />
+        <e k="usedplus_up_youPayNow" v="Вы платите сейчас:" />
+        <e k="usedplus_up_sectionLease" v="УСЛОВИЯ АРЕНДЫ" />
+        <e k="usedplus_up_leaseHelp" v="Дольше срок = меньше ежемесячный И меньше выкуп. Первоначальный взнос уменьшает сумму к оплате сегодня." />
+        <e k="usedplus_up_leaseTerm" v="Срок аренды:" />
+        <e k="usedplus_up_securityDeposit" v="Залоговый депозит:" />
+        <e k="usedplus_up_totalLeaseCost" v="Общая стоимость аренды:" />
+        <e k="usedplus_up_buyoutAtEnd" v="Выкуп в конце:" />
+        <e k="usedplus_button_confirmPurchase" v="Подтвердить покупку" />
+
+        <!-- Unified Land Purchase Dialog - Additional Labels -->
+        <e k="usedplus_lp_sectionDetails" v="ИНФОРМАЦИЯ О ЗЕМЛЕ" />
+        <e k="usedplus_lp_field" v="Поле:" />
+        <e k="usedplus_lp_size" v="Размер:" />
+        <e k="usedplus_lp_perHa" v="За га:" />
+        <e k="usedplus_lp_basePrice" v="Базовая цена:" />
+        <e k="usedplus_lp_creditAdjust" v="Кредитная корректировка:" />
+        <e k="usedplus_lp_yourPrice" v="Ваша цена:" />
+        <e k="usedplus_lp_methodHelp" v="Выберите способ оплаты: наличными, в рассрочку или аренда земли." />
+        <e k="usedplus_lp_cashHelp" v="Оплатите полную сумму сейчас, чтобы владеть землёй напрямую." />
+        <e k="usedplus_lp_financeHelp" v="Финансируйте покупку земли с ежемесячными платежами. Настройте срок и первоначальный взнос ниже." />
+        <e k="usedplus_lp_leaseHelp" v="Арендуйте землю с ежемесячными платежами. Ставка зависит от площади и качества почвы." />
+        <e k="usedplus_lp_leaseTerm" v="Срок аренды:" />
+        <e k="usedplus_lp_monthlyPayment" v="Ежемесячный платёж:" />
+        <e k="usedplus_lp_annualCost" v="Годовая стоимость:" />
+        <e k="usedplus_lp_rateCalc" v="Расчёт ставки:" />
+        <e k="usedplus_lp_securityDeposit" v="Залоговый депозит:" />
+        <e k="usedplus_lp_dueToday" v="К оплате сегодня:" />
+        <e k="usedplus_lp_totalLeaseCost" v="Общая стоимость аренды:" />
+
+        <!-- Used Search Dialog -->
+        <e k="usedplus_us_sectionVehicle" v="ТРАНСПОРТ" />
+        <e k="usedplus_us_sectionTier" v="УРОВЕНЬ ПОИСКА" />
+        <e k="usedplus_us_sectionQuality" v="ЖЕЛАЕМОЕ КАЧЕСТВО" />
+        <e k="usedplus_us_qualityAny" v="Любое" />
+        <e k="usedplus_us_qualityPoor" v="Плохое" />
+        <e k="usedplus_us_qualityFair" v="Среднее" />
+        <e k="usedplus_us_qualityGood" v="Хорошее" />
+        <e k="usedplus_us_qualityExcellent" v="Отличное" />
+        <e k="usedplus_us_infoText" v="Более высокие уровни стоят дороже, но имеют лучшие шансы на успех и находят более качественные варианты." />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_uvp_title" v="Найден б/у транспорт" />
+        <e k="usedplus_uvp_sectionCondition" v="ВИДИМОЕ СОСТОЯНИЕ" />
+        <e k="usedplus_uvp_age" v="Возраст:" />
+        <e k="usedplus_uvp_hours" v="Часы:" />
+        <e k="usedplus_uvp_damage" v="Повреждения:" />
+        <e k="usedplus_uvp_wear" v="Износ:" />
+        <e k="usedplus_uvp_warningTitle" v="Скрытое механическое состояние неизвестно" />
+        <e k="usedplus_uvp_inspectPrompt" v="Оплатить профессиональный осмотр" />
+        <e k="usedplus_uvp_inspectedText" v="Транспорт осмотрен - просмотреть отчёт" />
+        <e k="usedplus_button_buyAsIs" v="Купить как есть" />
+        <e k="usedplus_button_inspect" v="Осмотреть" />
+
+        <!-- Repair Dialog -->
+        <e k="usedplus_rp_title" v="Обслуживание транспорта" />
+        <e k="usedplus_rp_sectionStatus" v="СОСТОЯНИЕ ТРАНСПОРТА" />
+        <e k="usedplus_rp_mechanical" v="Механика:" />
+        <e k="usedplus_rp_paint" v="Краска:" />
+        <e k="usedplus_rp_sectionRepair" v="МЕХАНИЧЕСКИЙ РЕМОНТ" />
+        <e k="usedplus_rp_sectionRepaint" v="ПОКРАСКА" />
+        <e k="usedplus_rp_selectAmount" v="Выберите объём ремонта:" />
+        <e k="usedplus_rp_selectPaint" v="Выберите объём покраски:" />
+        <e k="usedplus_rp_selected" v="Выбрано:" />
+        <e k="usedplus_rp_cost" v="Стоимость:" />
+        <e k="usedplus_rp_after" v="После:" />
+        <e k="usedplus_rp_sectionPayment" v="ОПЛАТА" />
+        <e k="usedplus_rp_totalCost" v="ОБЩАЯ СТОИМОСТЬ:" />
+        <e k="usedplus_rp_result" v="РЕЗУЛЬТАТ:" />
+        <e k="usedplus_rp_yourMoney" v="Ваши средства:" />
+        <e k="usedplus_rp_infoText" v="Оплатите сейчас или финансируйте с ежемесячными платежами." />
+        <e k="usedplus_button_payCash" v="ОПЛАТИТЬ НАЛИЧНЫМИ" />
+        <e k="usedplus_rp_buttonFinance" v="ФИНАНСИРОВАНИЕ" />
+
+        <!-- Sell Vehicle Dialog -->
+        <e k="usedplus_sv_title" v="Продажа транспорта" />
+        <e k="usedplus_sv_sectionVehicle" v="ТРАНСПОРТ НА ПРОДАЖУ" />
+        <e k="usedplus_sv_sectionOptions" v="ВАРИАНТЫ ПРОДАЖИ" />
+        <e k="usedplus_sv_optionsHelp" v="Наймите агента для поиска покупателей. Агенты высокого уровня охватывают больше покупателей, но берут больше." />
+        <e k="usedplus_sv_agent" v="Агент:" />
+        <e k="usedplus_sv_askingPrice" v="Запрашиваемая цена:" />
+        <e k="usedplus_sv_sectionOutcome" v="ОЖИДАЕМЫЙ РЕЗУЛЬТАТ" />
+        <e k="usedplus_sv_expectedReturn" v="Ожидаемый доход:" />
+        <e k="usedplus_sv_returnPercent" v="Процент дохода:" />
+        <e k="usedplus_sv_agentFee" v="Комиссия агента:" />
+        <e k="usedplus_sv_netAfterFee" v="Чистыми после комиссии:" />
+        <e k="usedplus_sv_expectedTime" v="Ожидаемое время:" />
+        <e k="usedplus_sv_successRate" v="Вероятность успеха:" />
+        <e k="usedplus_sv_selected" v="Выбрано:" />
+        <e k="usedplus_sv_sectionCompare" v="АЛЬТЕРНАТИВНЫЕ ВАРИАНТЫ" />
+        <e k="usedplus_sv_tradeInCompare" v="Обмен (при покупке):" />
+        <e k="usedplus_sv_infoText" v="Агент ищет покупателей. Вы получаете предложения для принятия или отклонения." />
+        <e k="usedplus_sv_warningText" v="Комиссия агента не возвращается. Транспорт остаётся Вашим до продажи." />
+        <e k="usedplus_button_hireAgent" v="Нанять агента" />
+
+        <!-- Sale Offer Dialog -->
+        <e k="usedplus_so_title" v="ПОЛУЧЕНО ПРЕДЛОЖЕНИЕ!" />
+        <e k="usedplus_so_sectionVehicle" v="ТРАНСПОРТ" />
+        <e k="usedplus_so_sectionOffer" v="ДЕТАЛИ ПРЕДЛОЖЕНИЯ" />
+        <e k="usedplus_so_offerAmount" v="Сумма предложения:" />
+        <e k="usedplus_so_percentVanilla" v="% от обычной продажи:" />
+        <e k="usedplus_so_expiresIn" v="Предложение истекает через:" />
+        <e k="usedplus_so_sectionCompare" v="СРАВНЕНИЕ" />
+        <e k="usedplus_so_vanillaPrice" v="Обычная цена продажи:" />
+        <e k="usedplus_so_thisOffer" v="Это предложение:" />
+        <e k="usedplus_so_acceptInfo" v="Принятие продаст транспорт и зачислит сумму на Ваш счёт." />
+        <e k="usedplus_so_declineInfo" v="Отклонение может привести к новым предложениям, если осталось время, или истечению срока." />
+        <e k="usedplus_button_acceptOffer" v="Принять предложение" />
+        <!-- REMOVED: usedplus_button_decline - duplicate, use Common Button Labels -->
+
+        <!-- Payment Config Dialog -->
+        <e k="usedplus_pc_title" v="Настройка платежей по кредитам" />
+        <e k="usedplus_pc_headerLoan" v="Кредит" />
+        <e k="usedplus_pc_headerBalance" v="Остаток" />
+        <e k="usedplus_pc_headerMode" v="Режим" />
+        <e k="usedplus_pc_headerPayment" v="Платёж" />
+        <e k="usedplus_pc_selectLoan" v="Выберите кредит выше для изменения режима оплаты" />
+        <e k="usedplus_pc_totalPayment" v="ОБЩИЙ ПЛАТЁЖ" />
+        <e k="usedplus_button_resetAll" v="Сбросить всё" />
+        <e k="usedplus_button_apply" v="Применить" />
+
+        <!-- Lease End Dialog -->
+        <e k="usedplus_le_chooseOption" v="Выберите вариант:" />
+        <e k="usedplus_le_returnTitle" v="ВЕРНУТЬ ТРАНСПОРТ" />
+        <e k="usedplus_le_returnDesc" v="Вернуть дилеру, оплатить штрафы за повреждения" />
+        <e k="usedplus_le_buyoutTitle" v="ВЫКУПИТЬ ТРАНСПОРТ" />
+        <e k="usedplus_le_buyoutDesc" v="Оплатить остаточную стоимость, оставить транспорт навсегда" />
+        <e k="usedplus_button_returnVehicle" v="Вернуть транспорт" />
+        <e k="usedplus_button_buyoutVehicle" v="Выкупить транспорт" />
+
+        <!-- Lease Renewal Dialog -->
+        <e k="usedplus_lr_title" v="Срок аренды завершён" />
+        <e k="usedplus_lr_sectionSummary" v="СВОДКА АРЕНДЫ" />
+        <e k="usedplus_lr_term" v="Срок:" />
+        <e k="usedplus_lr_paymentsMade" v="Сделано платежей:" />
+        <e k="usedplus_lr_totalPaid" v="Всего оплачено:" />
+        <e k="usedplus_lr_equityBuilt" v="Накоплено капитала:" />
+        <e k="usedplus_lr_sectionDeposit" v="СТАТУС ДЕПОЗИТА" />
+        <e k="usedplus_lr_securityDeposit" v="Залоговый депозит:" />
+        <e k="usedplus_lr_deductions" v="Вычеты:" />
+        <e k="usedplus_lr_refundAmount" v="Сумма возврата:" />
+        <e k="usedplus_lr_vehicleCondition" v="Состояние транспорта:" />
+        <e k="usedplus_lr_sectionOptions" v="ВАШИ ВАРИАНТЫ" />
+        <e k="usedplus_lr_optionReturn" v="ВОЗВРАТ" />
+        <e k="usedplus_lr_optionReturnDesc" v="Вернуть актив" />
+        <e k="usedplus_lr_youReceive" v="Вы получите:" />
+        <e k="usedplus_lr_optionBuyout" v="ВЫКУП" />
+        <e k="usedplus_lr_optionBuyoutDesc" v="Купить во владение" />
+        <e k="usedplus_lr_youPay" v="Вы платите:" />
+        <e k="usedplus_lr_optionRenew" v="ПРОДЛЕНИЕ" />
+        <e k="usedplus_lr_optionRenewDesc" v="Продлить срок аренды" />
+        <e k="usedplus_lr_equityCarries" v="Капитал переносится:" />
+        <e k="usedplus_button_return" v="Вернуть" />
+        <e k="usedplus_button_buyout" v="Выкупить" />
+        <e k="usedplus_button_renew" v="Продлить" />
+        <e k="usedplus_lr_helpText" v="Вы должны выбрать вариант. Возврат вернёт Вам депозит. Выкуп использует Ваш капитал для покупки. Продление расширяет аренду с переносом капитала на будущий выкуп." />
+
+        <!-- Confirmation Dialog -->
+        <e k="usedplus_conf_title" v="Подтверждение" />
+
+        <!-- Credit Report Dialog -->
+        <e k="usedplus_cr_title" v="КРЕДИТНЫЙ ОТЧЁТ" />
+        <e k="usedplus_cr_reportDate" v="Дата отчёта:" />
+        <e k="usedplus_cr_sectionScore" v="КРЕДИТНЫЙ РЕЙТИНГ" />
+        <e k="usedplus_cr_scoreRange" v="Диапазон рейтинга: 300-850" />
+        <e k="usedplus_cr_sectionTrend" v="ТЕНДЕНЦИЯ РЕЙТИНГА" />
+        <e k="usedplus_cr_noHistory" v="Нет истории" />
+        <e k="usedplus_cr_sectionFactors" v="ФАКТОРЫ, ВЛИЯЮЩИЕ НА РЕЙТИНГ" />
+        <e k="usedplus_cr_factorPayment" v="История платежей (35%):" />
+        <e k="usedplus_cr_factorUtilization" v="Использование кредита (30%):" />
+        <e k="usedplus_cr_factorAge" v="Возраст счетов (15%):" />
+        <e k="usedplus_cr_factorMix" v="Разнообразие счетов (10%):" />
+        <e k="usedplus_cr_factorInquiries" v="Недавние запросы (10%):" />
+        <e k="usedplus_cr_sectionAccount" v="СВОДКА ПО СЧЕТАМ" />
+        <e k="usedplus_cr_openAccounts" v="Открытые счета:" />
+        <e k="usedplus_cr_closedAccounts" v="Закрытые счета:" />
+        <e k="usedplus_cr_outstandingBalance" v="Непогашенный остаток:" />
+        <e k="usedplus_cr_sectionActive" v="АКТИВНЫЕ СЧЕТА" />
+        <e k="usedplus_cr_noActiveAccounts" v="Нет активных счетов" />
+        <e k="usedplus_cr_sectionPayment" v="ИСТОРИЯ ПЛАТЕЖЕЙ" />
+        <e k="usedplus_cr_onTimePayments" v="Платежей вовремя:" />
+        <e k="usedplus_cr_missedPayments" v="Пропущенных платежей:" />
+        <e k="usedplus_cr_currentStreak" v="Текущая серия:" />
+        <e k="usedplus_cr_longestStreak" v="Лучшая серия:" />
+        <e k="usedplus_cr_section12Month" v="ИСТОРИЯ ЗА 12 МЕСЯЦЕВ" />
+        <e k="usedplus_cr_sectionTips" v="СОВЕТЫ ПО УЛУЧШЕНИЮ" />
+        <e k="usedplus_cr_tip1" v="Платите вовремя для формирования кредита" />
+        <e k="usedplus_cr_tip2" v="Держите долг ниже 50% от активов" />
+        <e k="usedplus_cr_tip3" v="Формируйте историю небольшими кредитами" />
+        <!-- REMOVED: usedplus_button_close - duplicate, use Common Button Labels -->
+
+        <!-- Search Details Dialog -->
+        <e k="usedplus_sd_title" v="ДЕТАЛИ ПОИСКА" />
+        <e k="usedplus_sd_sectionSearching" v="ПОИСК" />
+        <e k="usedplus_sd_sectionConfig" v="КОНФИГУРАЦИЯ ПОИСКА" />
+        <e k="usedplus_sd_searchTier" v="Уровень поиска:" />
+        <e k="usedplus_sd_agentFee" v="Комиссия агента:" />
+        <e k="usedplus_sd_baseSuccess" v="Базовый успех:" />
+        <e k="usedplus_sd_qualitySought" v="Искомое качество:" />
+        <e k="usedplus_sd_successModifier" v="Модификатор успеха:" />
+        <e k="usedplus_sd_combinedChance" v="Общий шанс:" />
+        <e k="usedplus_sd_sectionPricing" v="ОЖИДАЕМЫЕ ЦЕНЫ" />
+        <e k="usedplus_sd_newPrice" v="Цена новой:" />
+        <e k="usedplus_sd_expectedUsed" v="Ожидаемая б/у:" />
+        <e k="usedplus_sd_savings" v="Экономия:" />
+        <e k="usedplus_sd_qualityRange" v="Диапазон качества:" />
+        <e k="usedplus_sd_priceRange" v="Диапазон цен:" />
+        <e k="usedplus_sd_sectionStatus" v="СТАТУС ПОИСКА" />
+        <e k="usedplus_sd_status" v="Статус:" />
+        <e k="usedplus_sd_timeRemaining" v="Осталось времени:" />
+        <e k="usedplus_sd_started" v="Начат:" />
+        <e k="usedplus_sd_elapsed" v="Прошло:" />
+        <e k="usedplus_sd_infoText" v="Региональный поиск предлагает лучшее соотношение цены и успеха." />
+
+        <!-- Sale Listing Details Dialog -->
+        <e k="usedplus_sld_title" v="ДЕТАЛИ ОБЪЯВЛЕНИЯ О ПРОДАЖЕ" />
+        <e k="usedplus_sld_sectionVehicle" v="ТРАНСПОРТ" />
+        <e k="usedplus_sld_sectionStatus" v="СТАТУС" />
+        <e k="usedplus_sld_condition" v="Состояние:" />
+        <e k="usedplus_sld_hours" v="Часы:" />
+        <e k="usedplus_sld_timeLeft" v="Осталось времени:" />
+        <e k="usedplus_sld_sectionConfig" v="КОНФИГУРАЦИЯ ПРОДАЖИ" />
+        <e k="usedplus_sld_agentTier" v="Уровень агента:" />
+        <e k="usedplus_sld_agentFee" v="Комиссия агента:" />
+        <e k="usedplus_sld_baseSuccess" v="Базовый успех:" />
+        <e k="usedplus_sld_priceTier" v="Ценовой уровень:" />
+        <e k="usedplus_sld_priceRange" v="Диапазон цен:" />
+        <e k="usedplus_sld_successMod" v="Мод. успеха:" />
+        <e k="usedplus_sld_sectionValue" v="СРАВНЕНИЕ СТОИМОСТИ" />
+        <e k="usedplus_sld_vanillaSell" v="Обычная продажа:" />
+        <e k="usedplus_sld_tradeInValue" v="Стоимость обмена:" />
+        <e k="usedplus_sld_tradeInNote" v="(Обмен: 50-65% мгновенно)" />
+        <e k="usedplus_sld_expected" v="Ожидается:" />
+        <e k="usedplus_sld_vsVanilla" v="против обычной:" />
+        <e k="usedplus_sld_netAfterFee" v="Чистыми (после комиссии):" />
+        <e k="usedplus_sld_sectionOffers" v="ИСТОРИЯ ПРЕДЛОЖЕНИЙ" />
+        <e k="usedplus_sld_offersReceived" v="Получено предложений:" />
+        <e k="usedplus_sld_offersDeclined" v="Отклонено предложений:" />
+        <e k="usedplus_sld_listedFor" v="На продаже:" />
+        <e k="usedplus_sld_infoText" v="Агенты высокого уровня имеют больший охват, но дольше ждать." />
+
+        <!-- Payment History Dialog -->
+        <e k="usedplus_ph_title" v="ИСТОРИЯ ПЛАТЕЖЕЙ" />
+        <e k="usedplus_ph_sectionSummary" v="СВОДКА СДЕЛКИ" />
+        <e k="usedplus_ph_item" v="Объект:" />
+        <e k="usedplus_ph_original" v="Исходная:" />
+        <e k="usedplus_ph_rate" v="Ставка:" />
+        <e k="usedplus_ph_monthly" v="Ежемесячно:" />
+        <e k="usedplus_ph_progress" v="Прогресс:" />
+        <e k="usedplus_ph_balance" v="Остаток:" />
+        <e k="usedplus_ph_headerNum" v="#" />
+        <e k="usedplus_ph_headerPayment" v="ПЛАТЁЖ" />
+        <e k="usedplus_ph_headerPrincipal" v="ОСНОВНОЙ" />
+        <e k="usedplus_ph_headerInterest" v="ПРОЦЕНТЫ" />
+        <e k="usedplus_ph_headerBalance" v="ОСТАТОК" />
+        <e k="usedplus_ph_headerStatus" v="СТАТУС" />
+        <e k="usedplus_button_prev" v="ПРЕД" />
+        <e k="usedplus_button_next" v="СЛЕД" />
+        <e k="usedplus_ph_pageInfo" v="Показаны платежи %d-%d из %d" />
+
+        <!-- Finance Manager Frame -->
+        <e k="usedplus_fmf_sectionFinances" v="ФИНАНСЫ" />
+        <e k="usedplus_fmf_sectionMarketplace" v="РЫНОК Б/У" />
+        <e k="usedplus_fmf_sectionCredit" v="КРЕДИТ И СТАТИСТИКА" />
+        <e k="usedplus_fmf_noActiveDeals" v="Нет активных финансовых сделок" />
+        <e k="usedplus_fmf_headerType" v="ТИП" />
+        <e k="usedplus_fmf_headerItem" v="ОБЪЕКТ" />
+        <e k="usedplus_fmf_headerBalance" v="ОСТАТОК" />
+        <e k="usedplus_fmf_headerMonthly" v="ЕЖЕМЕС." />
+        <e k="usedplus_fmf_headerProgress" v="ПРОГРЕСС" />
+        <e k="usedplus_fmf_headerLeft" v="ОСТАЛ." />
+        <e k="usedplus_fmf_totalOwed" v="Всего долга:" />
+        <e k="usedplus_fmf_monthlyLabel" v="Ежемесячно:" />
+        <e k="usedplus_fmf_interestLabel" v="Проценты:" />
+        <e k="usedplus_fmf_dealsLabel" v="Сделки:" />
+        <e k="usedplus_fmf_payEarly" v="ДОСРОЧНО" />
+        <e k="usedplus_fmf_info" v="ИНФО" />
+        <e k="usedplus_fmf_searchTierInfo" v="Информация об уровнях поиска" />
+        <e k="usedplus_fmf_localSearch" v="Местный поиск" />
+        <e k="usedplus_fmf_localStats" v="2% | 40% успех | 1 месяц" />
+        <e k="usedplus_fmf_regionalSearch" v="Региональный поиск" />
+        <e k="usedplus_fmf_regionalStats" v="6% | 70% успех | 1-3 месяца" />
+        <e k="usedplus_fmf_nationalSearch" v="Национальный поиск" />
+        <e k="usedplus_fmf_nationalStats" v="12% | 85% | 2-6 мес" />
+        <e k="usedplus_fmf_startFromShop" v="Начинайте поиски из магазина" />
+        <e k="usedplus_fmf_viaSearchUsed" v="через 'Искать б/у'" />
+        <e k="usedplus_fmf_usedVehicleSearches" v="Поиски б/у транспорта" />
+        <e k="usedplus_fmf_noActiveSearches" v="Нет активных поисков. Начните из магазина." />
+        <e k="usedplus_fmf_headerPrice" v="ЦЕНА" />
+        <e k="usedplus_fmf_headerTier" v="УРОВ." />
+        <e k="usedplus_fmf_headerChance" v="%" />
+        <e k="usedplus_fmf_headerTime" v="ВРЕМЯ" />
+        <e k="usedplus_fmf_vehiclesForSale" v="Транспорт на продаже" />
+        <e k="usedplus_fmf_noListings" v="Нет объявлений. Продавайте из меню Гаража." />
+        <e k="usedplus_fmf_lifetimeStats" v="Статистика за всё время" />
+        <e k="usedplus_fmf_financeHistory" v="-- История финансов --" />
+        <e k="usedplus_fmf_dealsCompleted" v="Сделок завершено:" />
+        <e k="usedplus_fmf_totalFinanced" v="Всего профинансировано:" />
+        <e k="usedplus_fmf_interestPaid" v="Выплачено процентов:" />
+        <e k="usedplus_fmf_paymentsMade" v="Сделано платежей:" />
+        <e k="usedplus_fmf_searchHistory" v="-- История поисков --" />
+        <e k="usedplus_fmf_searchesStarted" v="Поисков начато:" />
+        <e k="usedplus_fmf_vehiclesFound" v="Найдено транспорта:" />
+        <e k="usedplus_fmf_feesSpent" v="Потрачено на комиссии:" />
+        <e k="usedplus_fmf_successRate" v="Процент успеха:" />
+        <e k="usedplus_fmf_totalSaved" v="Всего сэкономлено (б/у vs новое):" />
+        <e k="usedplus_fmf_yourCreditScore" v="Ваш кредитный рейтинг" />
+        <e k="usedplus_fmf_creditRanges" v="Диапазоны кредита:" />
+        <e k="usedplus_fmf_tierExcellent" v="750-850 Отличный -1.5%" />
+        <e k="usedplus_fmf_tierGood" v="700-749 Хороший -0.5%" />
+        <e k="usedplus_fmf_tierFair" v="650-699 Средний +0.5%" />
+        <e k="usedplus_fmf_tierPoor" v="600-649 Плохой +1.5%" />
+        <e k="usedplus_fmf_tierVeryPoor" v="300-599 Очень плохой +3.0%" />
+        <e k="usedplus_fmf_listings" v="%d объявлений" />
+
+        <!-- Overview Panel -->
+        <e k="usedplus_fmf_overview" v="ОБЗОР" />
+        <e k="usedplus_fmf_overviewLine1" v="UsedPlus расширяет ванильную экономику реалистичным финансированием, рынком б/у и кредитной системой." />
+        <e k="usedplus_fmf_overviewLine2" v="Финансируйте или арендуйте в магазине. Обменивайте старую технику. Продавайте через агентов с лучшей прибылью." />
+        <e k="usedplus_fmf_buyingUsed" v="ПОКУПКА Б/У" />
+        <e k="usedplus_fmf_buyingLine1" v="Магазин → 'Искать б/у' для найма агентов. МЕСТНЫЙ: 2%, 40%. РЕГИОНАЛЬНЫЙ: 6%, 70%. НАЦИОНАЛЬНЫЙ: 12%, 85%." />
+        <e k="usedplus_fmf_buyingLine2" v="Выше уровень = шире поиск, лучше шансы. Б/у транспорт имеет разное состояние и наработку." />
+        <e k="usedplus_fmf_sellingEquip" v="ПРОДАЖА ТЕХНИКИ" />
+        <e k="usedplus_fmf_sellingLine1" v="Гараж → Выставить на продажу. Обмен: 50-65%. Местный: 60-75%. Региональный: 75-90%. Национальный: 90-100%." />
+        <e k="usedplus_fmf_sellingLine2" v="Состояние и наработка влияют на стоимость. Принимайте/отклоняйте предложения с этого экрана." />
+        <e k="usedplus_fmf_creditScore" v="КРЕДИТНЫЙ РЕЙТИНГ (300-850)" />
+        <e k="usedplus_fmf_creditLine1" v="Определяет процентные ставки и стоимость обмена. Улучшается: своевременные платежи, завершение сделок. Падает: пропущенные платежи, дефолты." />
+        <e k="usedplus_fmf_creditLine2" v="Активы - это залог, но не доказательство кредитоспособности. История платежей важнее - унаследованная земля не означает хороший кредит!" />
+        <e k="usedplus_fmf_quickRef" v="КРАТКАЯ СПРАВКА" />
+        <e k="usedplus_fmf_quickRefLine1" v="Магазин → Финансирование/Аренда/Поиск б/у | Гараж → Выставить на продажу" />
+        <e k="usedplus_fmf_quickRefLine2" v="Ежемесячные платежи списываются автоматически. Досрочное погашение экономит проценты." />
+
+        <!-- Land Lease Dialog -->
+        <e k="usedplus_ll_title" v="Аренда земли" />
+        <e k="usedplus_ll_sectionDetails" v="ИНФОРМАЦИЯ О ПОЛЕ" />
+        <e k="usedplus_ll_field" v="Поле:" />
+        <e k="usedplus_ll_size" v="Размер:" />
+        <e k="usedplus_ll_value" v="Стоимость:" />
+        <e k="usedplus_ll_sectionTerm" v="СРОК АРЕНДЫ" />
+        <e k="usedplus_ll_selectDuration" v="Выберите длительность аренды:" />
+        <e k="usedplus_ll_sectionCosts" v="СТОИМОСТЬ АРЕНДЫ" />
+        <e k="usedplus_ll_monthlyPayment" v="Ежемесячный платёж:" />
+        <e k="usedplus_ll_yearlyPayment" v="Годовой платёж:" />
+        <e k="usedplus_ll_totalCost" v="Общая стоимость аренды:" />
+        <e k="usedplus_ll_markup" v="Наценка:" />
+        <e k="usedplus_ll_buyoutPrice" v="Цена выкупа:" />
+        <e k="usedplus_ll_note1" v="Аренда позволяет использовать землю без полной покупки." />
+        <e k="usedplus_ll_note2" v="Земля возвращается на рынок по окончании аренды, если не выкуплена." />
+        <e k="usedplus_button_acceptLease" v="Принять аренду" />
+
+        <!-- Land Finance Dialog - Additional -->
+        <e k="usedplus_lf_field" v="Поле:" />
+        <e k="usedplus_lf_size" v="Размер:" />
+        <e k="usedplus_lf_price" v="Цена:" />
+        <e k="usedplus_lf_sectionDueToday" v="К ОПЛАТЕ СЕГОДНЯ ПРИ ПОДПИСАНИИ" />
+        <e k="usedplus_lf_downPayment" v="Первоначальный взнос:" />
+        <e k="usedplus_lf_youPayToday" v="ВЫ ПЛАТИТЕ СЕГОДНЯ:" />
+        <e k="usedplus_lf_lowerRatesNote" v="Финансирование земли имеет более низкие ставки, чем кредиты на транспорт." />
+
+        <!-- Finance Detail Frame -->
+        <e k="usedplus_fd_title" v="Детали финансовой сделки" />
+        <e k="usedplus_fd_quick1Month" v="1 месяц" />
+        <e k="usedplus_fd_quick6Months" v="6 месяцев" />
+        <e k="usedplus_fd_quick1Year" v="1 год" />
+        <e k="usedplus_fd_quickPayOff" v="Погасить" />
+
+        <!-- Repair Finance Dialog -->
+        <e k="usedplus_rf_title" v="Финансирование ремонта" />
+        <e k="usedplus_rf_repairCost" v="Стоимость ремонта:" />
+        <e k="usedplus_rf_loanTerm" v="Срок кредита:" />
+        <e k="usedplus_rf_downPayment" v="Первоначальный взнос:" />
+        <e k="usedplus_rf_monthlyPayment" v="Ежемесячный платёж:" />
+        <e k="usedplus_rf_totalInterest" v="Общая сумма процентов:" />
+        <e k="usedplus_rf_interestRate" v="Процентная ставка:" />
+        <e k="usedplus_rf_totalPayments" v="Всего платежей:" />
+        <e k="usedplus_rf_creditScore" v="Кредитный рейтинг:" />
+        <e k="usedplus_rf_infoText" v="Ежемесячные платежи списываются автоматически. Погасите досрочно для экономии на процентах." />
+        <e k="usedplus_button_acceptFinance" v="Принять финансирование" />
+
+        <!-- TakeLoan Dialog - Credit Tiers -->
+        <e k="usedplus_tl_excellent" v="Отличный 750+: 6.5%" />
+        <e k="usedplus_tl_good" v="Хороший 700-749: 7.5%" />
+        <e k="usedplus_tl_fair" v="Средний 650-699: 8.5%" />
+        <e k="usedplus_tl_poor" v="Плохой 600-649: 9.5%" />
+        <e k="usedplus_tl_veryPoor" v="Очень плохой &lt;600: 11%" />
+    </elements>
+</l10n>

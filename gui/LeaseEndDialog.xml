@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+     LeaseEndDialog.xml - End of lease options dialog
+     Pattern from: MessageDialog (simple choice dialog)
+
+    Shows at lease end with Return vs Buyout options
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="700px 550px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_leaseEnd_title"/>
+
+            <!-- Vehicle Name -->
+            <Text profile="leaseEndVehicleName" id="vehicleNameText" position="0px -80px" text=""/>
+
+            <!-- Lease Summary -->
+            <Text profile="leaseEndSummary" id="leaseSummaryText" position="0px -110px" text=""/>
+
+            <!-- Vehicle Condition -->
+            <Text profile="leaseEndCondition" id="conditionText" position="0px -145px" text=""/>
+
+            <!-- Damage Penalty -->
+            <Text profile="leaseEndPenalty" id="penaltyText" position="0px -180px" text=""/>
+
+            <!-- Separator -->
+            <Bitmap profile="fs25_dialogSeparator" position="0px -220px"/>
+
+            <!-- Options Section -->
+            <Text profile="leaseEndSectionTitle" position="0px -250px" text="$l10n_usedplus_le_chooseOption"/>
+
+            <!-- Return Option -->
+            <GuiElement position="0px -290px">
+                <Text profile="leaseEndOptionTitle" position="-150px 0px" text="$l10n_usedplus_le_returnTitle"/>
+                <Text profile="leaseEndOptionDesc" position="-150px -25px" text="$l10n_usedplus_le_returnDesc"/>
+                <Text profile="leaseEndOptionCost" id="returnCostText" position="-150px -50px" text=""/>
+            </GuiElement>
+
+            <!-- Buyout Option -->
+            <GuiElement position="0px -370px">
+                <Text profile="leaseEndOptionTitle" position="-150px 0px" text="$l10n_usedplus_le_buyoutTitle"/>
+                <Text profile="leaseEndOptionDesc" position="-150px -25px" text="$l10n_usedplus_le_buyoutDesc"/>
+                <Text profile="leaseEndOptionCost" id="buyoutPriceText" position="-150px -50px" text=""/>
+            </GuiElement>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="returnButton" text="$l10n_usedplus_button_returnVehicle" onClick="onReturnVehicle"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonAccept" id="buyoutButton" text="$l10n_usedplus_button_buyoutVehicle" onClick="onBuyoutVehicle"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <Profile name="leaseEndVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="28px"/>
+            <textSize value="22px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="leaseEndSummary" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="leaseEndCondition" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+        </Profile>
+
+        <Profile name="leaseEndPenalty" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.3 1"/>
+        </Profile>
+
+        <Profile name="leaseEndSectionTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 0.8 1 1"/>
+        </Profile>
+
+        <Profile name="leaseEndOptionTitle" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="leaseEndOptionDesc" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="leaseEndOptionCost" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Financial Dashboard XML
+     Comprehensive financial overview dialog
+     Uses MessageDialog pattern for reliable display
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="1100px 900px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_dashboard_title"/>
+
+            <!-- TOP ROW: Credit Score | Debt Ratio -->
+            <GuiElement position="0px -80px">
+                <!-- Credit Score Section (Left) -->
+                <GuiElement position="-280px 0px">
+                    <Text profile="dashboardSectionTitle" position="0px 0px" text="$l10n_usedplus_dash_creditScore"/>
+                    <Text profile="dashboardScoreValue" id="creditScoreValue" position="0px -40px" text="650"/>
+                    <Text profile="dashboardScoreRating" id="creditScoreRating" position="0px -80px" text=""/>
+                    <Text profile="dashboardLabel" position="0px -110px" text="$l10n_usedplus_dash_trend"/>
+                    <Text profile="dashboardValue" id="creditScoreTrend" position="80px -110px" text=""/>
+                    <Text profile="dashboardSmallText" id="historyAdjustment" position="0px -135px" text=""/>
+                </GuiElement>
+
+                <!-- Debt Ratio Section (Right) -->
+                <GuiElement position="280px 0px">
+                    <Text profile="dashboardSectionTitle" position="0px 0px" text="$l10n_usedplus_dash_debtRatio"/>
+                    <Text profile="dashboardLabel" position="0px -35px" text="$l10n_usedplus_dash_assets"/>
+                    <Text profile="dashboardValue" id="totalAssets" position="120px -35px" text="$0"/>
+                    <Text profile="dashboardLabel" position="0px -60px" text="$l10n_usedplus_dash_debt"/>
+                    <Text profile="dashboardDebtValue" id="totalDebt" position="120px -60px" text="$0"/>
+                    <Text profile="dashboardLabel" position="0px -90px" text="$l10n_usedplus_dash_ratio"/>
+                    <Text profile="dashboardRatioValue" id="debtRatioValue" position="80px -90px" text="0%"/>
+                    <Text profile="dashboardValue" id="debtRatioStatus" position="160px -90px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- MIDDLE ROW: Monthly Obligations -->
+            <Text profile="dashboardSectionTitle" position="0px -240px" text="$l10n_usedplus_dash_monthlyObligations"/>
+
+            <GuiElement position="0px -280px">
+                <GuiElement position="-300px 0px">
+                    <Text profile="dashboardLabel" position="0px 0px" text="$l10n_usedplus_dash_equipment"/>
+                    <Text profile="dashboardValue" id="equipmentObligations" position="130px 0px" text="$0/mo"/>
+                </GuiElement>
+                <GuiElement position="0px 0px">
+                    <Text profile="dashboardLabel" position="0px 0px" text="$l10n_usedplus_dash_land"/>
+                    <Text profile="dashboardValue" id="landObligations" position="80px 0px" text="$0/mo"/>
+                </GuiElement>
+                <GuiElement position="300px 0px">
+                    <Text profile="dashboardLabel" position="0px 0px" text="$l10n_usedplus_dash_loans"/>
+                    <Text profile="dashboardValue" id="loanObligations" position="80px 0px" text="$0/mo"/>
+                </GuiElement>
+            </GuiElement>
+
+            <GuiElement position="0px -320px">
+                <Text profile="dashboardTotalLabel" position="-100px 0px" text="$l10n_usedplus_dash_total"/>
+                <Text profile="dashboardTotalValue" id="totalObligations" position="50px 0px" text="$0/mo"/>
+            </GuiElement>
+
+            <!-- UPCOMING PAYMENTS Section -->
+            <Text profile="dashboardSectionTitle" position="0px -370px" text="$l10n_usedplus_dash_upcomingPayments"/>
+
+            <!-- Payment rows (simplified - no SmoothList) -->
+            <Text profile="dashboardInfoText" id="noPaymentsText" position="0px -400px" text="$l10n_usedplus_dash_noPayments"/>
+
+            <GuiElement id="payment0" position="0px -400px">
+                <Text profile="dashboardLabel" id="paymentName0" position="-400px 0px" text=""/>
+                <Text profile="dashboardValue" id="paymentAmount0" position="200px 0px" text=""/>
+            </GuiElement>
+            <GuiElement id="payment1" position="0px -425px">
+                <Text profile="dashboardLabel" id="paymentName1" position="-400px 0px" text=""/>
+                <Text profile="dashboardValue" id="paymentAmount1" position="200px 0px" text=""/>
+            </GuiElement>
+            <GuiElement id="payment2" position="0px -450px">
+                <Text profile="dashboardLabel" id="paymentName2" position="-400px 0px" text=""/>
+                <Text profile="dashboardValue" id="paymentAmount2" position="200px 0px" text=""/>
+            </GuiElement>
+            <GuiElement id="payment3" position="0px -475px">
+                <Text profile="dashboardLabel" id="paymentName3" position="-400px 0px" text=""/>
+                <Text profile="dashboardValue" id="paymentAmount3" position="200px 0px" text=""/>
+            </GuiElement>
+            <GuiElement id="payment4" position="0px -500px">
+                <Text profile="dashboardLabel" id="paymentName4" position="-400px 0px" text=""/>
+                <Text profile="dashboardValue" id="paymentAmount4" position="200px 0px" text=""/>
+            </GuiElement>
+
+            <!-- LIFETIME STATISTICS Section -->
+            <Text profile="dashboardSectionTitle" position="0px -550px" text="$l10n_usedplus_dash_lifetimeStats"/>
+
+            <GuiElement position="0px -590px">
+                <GuiElement position="-350px 0px">
+                    <Text profile="dashboardLabel" position="0px 0px" text="$l10n_usedplus_dash_totalFinanced"/>
+                    <Text profile="dashboardValue" id="lifetimeFinanced" position="0px -25px" text="$0"/>
+                </GuiElement>
+                <GuiElement position="-100px 0px">
+                    <Text profile="dashboardLabel" position="0px 0px" text="$l10n_usedplus_dash_interestPaid"/>
+                    <Text profile="dashboardValue" id="lifetimeInterest" position="0px -25px" text="$0"/>
+                </GuiElement>
+                <GuiElement position="150px 0px">
+                    <Text profile="dashboardLabel" position="0px 0px" text="$l10n_usedplus_dash_dealsCompleted"/>
+                    <Text profile="dashboardValue" id="dealsCompleted" position="0px -25px" text="0"/>
+                </GuiElement>
+                <GuiElement position="350px 0px">
+                    <Text profile="dashboardLabel" position="0px 0px" text="$l10n_usedplus_dash_onTime"/>
+                    <Text profile="dashboardGoodValue" id="onTimePayments" position="0px -25px" text="0"/>
+                    <Text profile="dashboardLabel" position="0px -50px" text="$l10n_usedplus_dash_missed"/>
+                    <Text profile="dashboardBadValue" id="missedPayments" position="0px -75px" text="0"/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- INFO Section -->
+            <Text profile="dashboardInfoText" position="0px -710px" text="$l10n_usedplus_dash_tip"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="takeLoanButton" text="$l10n_usedplus_button_takeLoan" onClick="onTakeLoanClick"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="closeButton" text="$l10n_usedplus_button_close" onClick="onCloseButtonClick"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!--  All profiles MUST use anchorTopCenter for dialog content per CLAUDE.md -->
+        <Profile name="dashboardSectionTitle" extends="fs25_dialogText" with="anchorTopCenter">
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0 1"/>
+        </Profile>
+
+        <Profile name="dashboardLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="dashboardValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="dashboardScoreValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="40px"/>
+            <textSize value="36px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="dashboardScoreRating" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="dashboardDebtValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="dashboardRatioValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="dashboardTotalLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="28px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.3 1"/>
+        </Profile>
+
+        <Profile name="dashboardTotalValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="28px"/>
+            <textSize value="22px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.3 1"/>
+        </Profile>
+
+        <Profile name="dashboardGoodValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="dashboardBadValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.4 1"/>
+        </Profile>
+
+        <Profile name="dashboardSmallText" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="dashboardInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <height value="20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

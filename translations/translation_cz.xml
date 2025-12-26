@@ -1,0 +1,1229 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+     Czech localization for FS25_UsedPlus
+     Pattern from: Game's l10n system
+     All GUI text must be defined here for display
+
+    Organization:
+    - Finance Dialog strings
+    - Lease Dialog strings
+    - Used Search Dialog strings
+    - Finance Manager Frame strings
+    - Finance Detail Frame strings
+    - Land Finance Dialog strings
+    - Notifications
+    - Errors
+    - Common strings
+-->
+<l10n>
+    <!--  Finance Dialog -->
+    <elements>
+        <e k="usedplus_finance_title" v="Financovat vozidlo" />
+        <e k="usedplus_finance_itemDetails" v="Detaily vozidla" />
+        <e k="usedplus_finance_configuration" v="Konfigurace financovani" />
+        <e k="usedplus_finance_term" v="Doba uveru" />
+        <e k="usedplus_finance_loanTerm" v="Doba uveru (roky)" />
+        <e k="usedplus_finance_downPayment" v="Akontace" />
+        <e k="usedplus_finance_cashBack" v="Hotovost zpet" />
+        <e k="usedplus_finance_paymentPreview" v="Nahled plateb" />
+        <e k="usedplus_finance_monthlyPayment" v="Mesicni splatka" />
+        <e k="usedplus_finance_yearlyPayment" v="Rocni splatka" />
+        <e k="usedplus_finance_totalInterest" v="Celkovy urok" />
+        <e k="usedplus_finance_totalCost" v="Celkova cena" />
+        <e k="usedplus_finance_interestRate" v="Urokova sazba" />
+        <e k="usedplus_finance_creditScore" v="Kreditni skore" />
+        <e k="usedplus_finance_creditRating" v="Kreditni hodnoceni" />
+        <e k="usedplus_finance_important" v="Dulezite informace" />
+        <e k="usedplus_finance_ownershipTransfers" v="Vlastnictvi prechazi okamzite po prijeti." />
+        <e k="usedplus_finance_sellAnytime" v="Financovane polozky muzete prodat kdykoliv. Zbyvajici zustatek musi byt uhrazen z vynosu prodeje." />
+
+        <!--  Lease Dialog -->
+        <e k="usedplus_lease_title" v="Leasing vozidla" />
+        <e k="usedplus_lease_vehicleDetails" v="Detaily vozidla" />
+        <e k="usedplus_lease_configuration" v="Konfigurace leasingu" />
+        <e k="usedplus_lease_term" v="Doba leasingu (roky)" />
+        <e k="usedplus_lease_downPayment" v="Akontace" />
+        <e k="usedplus_lease_residualValue" v="Zbytkova hodnota (balonova platba)" />
+        <e k="usedplus_lease_paymentPreview" v="Nahled plateb" />
+        <e k="usedplus_lease_monthlyPayment" v="Mesicni splatka" />
+        <e k="usedplus_lease_yearlyPayment" v="Rocni splatka" />
+        <e k="usedplus_lease_totalCost" v="Celkove naklady leasingu" />
+        <e k="usedplus_lease_interestRate" v="Urokova sazba" />
+        <e k="usedplus_lease_creditScore" v="Kreditni skore" />
+        <e k="usedplus_lease_important" v="Dulezite informace o leasingu" />
+        <!-- REMOVED: usedplus_lease_warningReturn, warningDamage, returnWarning, damageWarning - unused duplicates -->
+        <e k="usedplus_lease_endOfTerm" v="Konec leasingu" />
+        <e k="usedplus_lease_buyoutPrice" v="Odkupni cena" />
+        <e k="usedplus_lease_totalInterest" v="Celkovy urok" />
+
+        <!--  Used Search Dialog -->
+        <e k="usedplus_search_title" v="Hledat pouzite vybaveni" />
+        <e k="usedplus_search_itemDetails" v="Detaily polozky" />
+        <e k="usedplus_search_searching" v="Hledani" />
+        <e k="usedplus_search_newPrice" v="Nova cena:" />
+        <e k="usedplus_search_selectTier" v="Vyberte uroven vyhledavani" />
+        <e k="usedplus_search_tierDescription" v="Vyberte rozsah vyhledavani. Vyssi urovne stoji vice a trvaji dele, ale maji lepsi uspesnost a kvalitu shody." />
+        <e k="usedplus_search_tierSelection" v="Vyber urovne vyhledavani" />
+        <!-- Consolidated: removed usedplus_search_local/regional/national - use _tier* versions -->
+        <e k="usedplus_search_tierLocal" v="Lokalni vyhledavani" />
+        <e k="usedplus_search_tierRegional" v="Regionalni vyhledavani" />
+        <e k="usedplus_search_tierNational" v="Celostátni vyhledavani" />
+        <e k="usedplus_search_cost" v="Cena vyhledavani" />
+        <e k="usedplus_search_duration" v="Doba trvani" />
+        <e k="usedplus_search_success" v="Uspesnost" />
+        <e k="usedplus_search_successChance" v="Sance na uspech" />
+        <e k="usedplus_search_match" v="Kvalita shody" />
+        <!-- REMOVED: usedplus_search_matchChance - duplicate of usedplus_search_match -->
+        <e k="usedplus_search_description" v="Popis" />
+        <e k="usedplus_search_descLocal" v="Hledani u mistnich prodejcu. Zarucenych odpoved do 1 mesice, 2% naklady, 40% uspesnost." />
+        <e k="usedplus_search_descRegional" v="Hledani v regionalni siti. 1-3 mesice, 6% naklady, 70% uspesnost." />
+        <e k="usedplus_search_descNational" v="Celostátni hledani. 2-6 mesicu, 12% naklady, 85% uspesnost." />
+        <e k="usedplus_search_qualitySelection" v="Pozadovana kvalita" />
+        <e k="usedplus_search_qualityDescription" v="Nizsi kvalita = nizsi cena, ale vice oprav" />
+        <e k="usedplus_search_confirmTitle" v="Vyhledavani zahajeno" />
+
+        <!-- Confirmation Dialog -->
+        <e k="usedplus_confirmation_title" v="Potvrzeni" />
+
+        <!--  Finance Manager Frame (InGameMenu page) -->
+        <e k="usedplus_inGameMenuTitle" v="Used Plus - Finance &amp; Vyhledavani" />
+        <e k="usedplus_activeFinanceDeals" v="Aktivni financni smlouvy:" />
+        <e k="usedplus_activeSearches" v="Aktivni vyhledavani:" />
+        <e k="usedplus_creditScore" v="Kreditni skore:" />
+        <e k="usedplus_manager_title" v="Spravce financi" />
+        <e k="usedplus_manager_totalFinanced" v="Celkem financovano" />
+        <e k="usedplus_manager_monthlyObligations" v="Mesicni zavazky" />
+        <e k="usedplus_manager_creditScore" v="Kreditni skore" />
+        <e k="usedplus_manager_assetValue" v="Hodnota aktiv" />
+        <e k="usedplus_manager_debtRatio" v="Pomer dluhu" />
+        <e k="usedplus_manager_activeDeals" v="Aktivni smlouvy" />
+        <e k="usedplus_manager_type" v="Typ" />
+        <e k="usedplus_manager_item" v="Polozka" />
+        <e k="usedplus_manager_balance" v="Zustatek" />
+        <e k="usedplus_manager_monthly" v="Mesicni splatka" />
+        <e k="usedplus_manager_progress" v="Prubeh" />
+        <e k="usedplus_manager_actions" v="Akce" />
+        <e k="usedplus_manager_noDeals" v="Zadne aktivni financni nebo leasingove smlouvy." />
+        <e k="usedplus_manager_helpText" v="Financujte vozidla z obchodu (klavesa F). Hledejte pouzite vybaveni (klavesa V). Platby jsou automaticky strhavany mesicne." />
+
+        <!--  Finance Detail Frame -->
+        <e k="usedplus_detail_dealInfo" v="Informace o smlouve" />
+        <e k="usedplus_detail_itemName" v="Polozka" />
+        <e k="usedplus_detail_dealType" v="Typ" />
+        <e k="usedplus_detail_originalPrice" v="Puvodni cena" />
+        <e k="usedplus_detail_downPayment" v="Akontace" />
+        <e k="usedplus_detail_amountFinanced" v="Financovana castka" />
+        <e k="usedplus_detail_interestRate" v="Urokova sazba" />
+        <e k="usedplus_detail_term" v="Doba" />
+        <e k="usedplus_detail_startDate" v="Datum zahajeni" />
+        <e k="usedplus_detail_paymentStatus" v="Stav plateb" />
+        <e k="usedplus_detail_currentBalance" v="Aktualni zustatek" />
+        <e k="usedplus_detail_principalPaid" v="Splacena jistina" />
+        <e k="usedplus_detail_interestPaid" v="Zaplaceny urok" />
+        <e k="usedplus_detail_remainingPrincipal" v="Zbyvajici jistina" />
+        <e k="usedplus_detail_projectedInterest" v="Predpokladany urok (bez predcasneho splaceni)" />
+        <e k="usedplus_detail_makePayment" v="Provest dodatecnou platbu" />
+        <e k="usedplus_detail_paymentAmount" v="Castka platby" />
+        <e k="usedplus_detail_paymentSummary" v="Prehled plateb" />
+        <e k="usedplus_detail_paymentTotal" v="Celkova platba" />
+        <e k="usedplus_detail_toPrincipal" v="Na jistinu" />
+        <e k="usedplus_detail_toInterest" v="Na urok" />
+        <e k="usedplus_detail_newBalance" v="Novy zustatek" />
+        <e k="usedplus_detail_prepaymentPenalty" v="Pokuta za predcasne splaceni" />
+
+        <!--  Land Finance Dialog -->
+        <e k="usedplus_landFinance_title" v="Financovat zemedelskou pudu" />
+        <e k="usedplus_landFinance_fieldDetails" v="Detaily pole" />
+        <e k="usedplus_landFinance_configuration" v="Konfigurace financovani" />
+        <e k="usedplus_landFinance_term" v="Doba uveru (roky)" />
+        <e k="usedplus_landFinance_downPayment" v="Akontace" />
+        <e k="usedplus_landFinance_paymentPreview" v="Nahled plateb" />
+        <e k="usedplus_landFinance_monthlyPayment" v="Mesicni splatka" />
+        <e k="usedplus_landFinance_yearlyPayment" v="Rocni splatka" />
+        <e k="usedplus_landFinance_totalInterest" v="Celkovy urok" />
+        <e k="usedplus_landFinance_totalCost" v="Celkova cena" />
+        <e k="usedplus_landFinance_interestRate" v="Urokova sazba" />
+        <e k="usedplus_landFinance_lowerRates" v="Financovani pudy obvykle nabizi nizsi uroky." />
+        <e k="usedplus_landFinance_creditScore" v="Kreditni skore" />
+        <e k="usedplus_landFinance_important" v="Dulezite informace" />
+        <e k="usedplus_landFinance_ownershipTransfers" v="Vlastnictvi pudy prechazi okamzite. Pole muzete pouzivat ihned." />
+        <e k="usedplus_landFinance_seizureWarning" v="Varovani: Neplaceni mesicnich splatek muze vest k zabaveni pudy." />
+
+        <!--  Buttons -->
+        <e k="usedplus_button_acceptFinance" v="Prijmout financovani" />
+        <e k="usedplus_button_acceptLease" v="Prijmout leasing" />
+        <e k="usedplus_button_startSearch" v="Zahajit vyhledavani" />
+        <e k="usedplus_button_viewDetail" v="Zobrazit detaily" />
+        <e k="usedplus_button_makePayment" v="Provest platbu" />
+        <e k="usedplus_button_endLeaseEarly" v="Ukoncit leasing predcasne" />
+        <e k="usedplus_button_purchaseUsed" v="Koupit pouzite" />
+        <e k="usedplus_button_finance" v="Financovat" />
+        <e k="usedplus_button_financeLand" v="Financovat pudu" />
+        <e k="usedplus_button_leaseLand" v="Leasing pudy" />
+        <e k="usedplus_button_lease" v="Leasing" />
+        <e k="usedplus_button_searchUsed" v="Hledat pouzite" />
+
+        <!--  Notifications (use %s for money - pass g_i18n:formatMoney() values) -->
+        <e k="usedplus_notification_dealComplete" v="%s bylo splaceno!" />
+        <e k="usedplus_notification_searchSuccess" v="Pouzite %s nalezeno!" />
+        <e k="usedplus_notification_searchFailed" v="Hledani %s selhalo. Nebyly nalezeny zadne shody." />
+        <e k="usedplus_searchFailed_title" v="Vyhledavani dokonceno" />
+        <e k="usedplus_searchFailed_message" v="Vas agent nedokazal najit %s odpovidajici Vasim kriteriim. Poplatek za vyhledavani se nevrati. Muzete zahajit nove vyhledavani." />
+        <e k="usedplus_notification_searchStarted" v="Hledani %s. Predpokladane dokonceni: %d dni." />
+        <e k="usedplus_notification_searchCancelled" v="Hledani %s zruseno. Bez vraceni penez." />
+        <e k="usedplus_notification_vehicleFound" v="Pouzite %s (%s) nalezeno za %s!" />
+        <e k="usedplus_notification_dealPaidOff" v="%s bylo zcela splaceno!" />
+        <e k="usedplus_notification_paymentProcessed" v="Platba %s zpracovana pro %s" />
+        <e k="usedplus_notification_leaseTerminated" v="Leasing %s ukoncen. Pokuta: %s" />
+        <e k="usedplus_notification_leaseTerminatedNoPenalty" v="Leasing %s ukoncen. Bez pokuty." />
+        <e k="usedplus_notification_missedLeasePayment" v="ZMEZKANA SPLATKA LEASINGU: Nelze zaplatit %s za %s" />
+        <e k="usedplus_notification_leaseDamagePenalty" v="Pokuta za poskozeni leasingu %s: %s" />
+        <e k="usedplus_notification_leaseComplete" v="Leasing dokoncen! %s bylo vraceno." />
+        <e k="usedplus_notification_dealPaidFromSale" v="%s prodano. Zustatek financovani %s uhrazen z vynosu." />
+
+        <!--  Errors (use %s for money - pass g_i18n:formatMoney() values) -->
+        <e k="usedplus_error_insufficientFunds" v="Nedostatek prostredku. Potreba: %s" />
+        <e k="usedplus_error_searchFailed" v="Spusteni vyhledavani selhalo. Zkuste to znovu." />
+        <e k="usedplus_error_insufficientFundsTermination" v="Nedostatek prostredku pro ukonceni leasingu. Potreba: %s" />
+        <e k="usedplus_error_invalidDeal" v="Neplatna smlouva. Kontaktujte podporu." />
+        <e k="usedplus_error_cannotSellLeasedVehicle" v="Nelze prodat vozidlo v leasingu. Nejprve ukoncete leasing nebo pockejte na jeho vyprseni." />
+        <e k="usedplus_error_insufficientSalePrice" v="Nelze prodat. Zbyvajici zustatek (%s) prevysuje prodejni cenu (%s)." />
+
+        <!--  Credit Score Ratings -->
+        <e k="usedplus_credit_excellent" v="Vyborny" />
+        <e k="usedplus_credit_good" v="Dobry" />
+        <e k="usedplus_credit_fair" v="Prumerny" />
+        <e k="usedplus_credit_poor" v="Spatny" />
+
+        <!--  Equipment Condition Tiers -->
+        <e k="usedplus_condition_poor" v="Spatny" />
+        <e k="usedplus_condition_any" v="Jakykoli" />
+        <e k="usedplus_condition_fair" v="Prumerny" />
+        <e k="usedplus_condition_good" v="Dobry" />
+        <e k="usedplus_condition_excellent" v="Vyborny" />
+        <e k="usedplus_condition_poor_desc" v="Levne zbozi - muze byt nefunkcni nebo vyzadovat rozsahle opravy" />
+        <e k="usedplus_condition_any_desc" v="Nejlevnejsi funkcni - muze vyzadovat vyrazne opravy" />
+
+        <!--  Deal Types -->
+        <e k="usedplus_dealType_finance" v="Financovani" />
+        <e k="usedplus_dealType_lease" v="Leasing" />
+
+        <!--  Item Types -->
+        <e k="usedplus_itemType_vehicle" v="Vozidlo" />
+        <e k="usedplus_itemType_land" v="Zemedelska puda" />
+        <e k="usedplus_itemType_placeable" v="Stavba" />
+
+        <!--  Used Vehicle Generations -->
+        <e k="usedplus_generation_recent" v="Nedavne" />
+        <e k="usedplus_generation_midage" v="Stredni stari" />
+        <e k="usedplus_generation_old" v="Stare" />
+
+        <!--  Help Text -->
+        <e k="usedplus_help_creditScore" v="Kreditni skore ovlivnuje Vasi urokovou sazbu. Zlepsete ho udrzovanim nizkeho pomeru dluhu k aktivum." />
+        <e k="usedplus_help_downPayment" v="Vyssi akontace snizuje mesicni splatky a muze snizit urokovou sazbu." />
+        <e k="usedplus_help_cashBack" v="Hotovost zpet se odecita od akontace. Zvysuje financovanou castku." />
+        <e k="usedplus_help_prepayment" v="Uver muzete splatit predcasne a usetrit na urocich. Mohou se uplatnit pokuty za predcasne splaceni." />
+        <e k="usedplus_help_leaseDamage" v="Udrzujte vozidla v leasingu v dobrem stavu, abyste se vyhnuli pokutam pri vraceni." />
+
+        <!--  Menu Integration -->
+        <e k="usedplus_menu_financeManager" v="Spravce financi" />
+        <e k="usedplus_action_openFinanceManager" v="Otevrit spravce financi" />
+        <e k="usedplus_action_searchUsed" v="Hledat pouzite vybaveni" />
+        <e k="input_USEDPLUS_OPEN_FINANCE_MANAGER" v="Otevrit spravce financi" />
+        <e k="input_USEDPLUS_SEARCH_USED" v="Hledat pouzite vybaveni" />
+        <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Prohlednout vozidlo" />
+
+        <!--  Tooltips for Finance Dialog -->
+        <e k="usedplus_finance_loanTerm_tooltip" v="Rozlozte platby na 1-20 let. Delsi doba = nizsi mesicni splatky, ale vice celkovych uroku." />
+        <e k="usedplus_finance_downPayment_tooltip" v="Zaplaťte predem pro snizeni castky uveru. Vyssi akontace = nizsi urok a mesicni splatka. Rozsah: 0-50%." />
+        <e k="usedplus_finance_cashBack_tooltip" v="Prijmete hotovost ihned (pridana k uveru). Uzitecne pro provozni naklady, ale zvysuje mesicni splatky a celkove naklady." />
+        <e k="usedplus_finance_monthlyPayment_tooltip" v="Automaticky strhavano z Vaseho uctu farmy kazdy mesic. Zajistete, abyste meli dostatek penez!" />
+        <e k="usedplus_finance_totalInterest_tooltip" v="Dodatecne naklady financovani oproti platbe v hotovosti. Toto platite za rozlozeni plateb v case." />
+        <e k="usedplus_finance_totalCost_tooltip" v="Kupni cena + celkovy urok = co skutecne zaplatite za celou dobu uveru." />
+        <e k="usedplus_finance_interestRate_tooltip" v="Rocni procento uctovane z uveru. Zalezene na kreditnim skore a akontaci. Nizsi je lepsi!" />
+        <e k="usedplus_finance_creditScore_tooltip" v="Financni hodnoceni Vasi farmy (300-850). Vyssi skore = nizsi uroky. Zlepsete udrzovanim nizkeho dluhu a vcasnym placenim." />
+
+        <!--  Tooltips for Lease Dialog -->
+        <e k="usedplus_lease_term_tooltip" v="Leasing na 1-5 let, pak vraťte vozidlo nebo zaplaťte zbytkovou hodnotu pro ponechani. Kratsi doba = vyssi mesicni splatky." />
+        <e k="usedplus_lease_downPayment_tooltip" v="Platba predem. Nizsi maximum (20%) nez u financovani, protoze vozidlo jeste nevlastnite." />
+        <e k="usedplus_lease_residualValue_tooltip" v="Castka k zaplaceni na konci leasingu, pokud chcete vozidlo ponechat. Zalozeno na odhadovanem odpisovani. Vraťte vozidlo, abyste neplatili nic navic (pokud je v dobrem stavu)." />
+        <e k="usedplus_lease_monthlyPayment_tooltip" v="Automaticky strhavano kazdy mesic behem leasingu. Nizsi nez splatky financovani, protoze neplatite plnou hodnotu vozidla." />
+        <e k="usedplus_lease_totalCost_tooltip" v="Akontace + vsechny mesicni splatky. NEZAHRNUJE zbytkovou hodnotu, pokud se rozhodnete koupit na konci." />
+        <e k="usedplus_lease_interestRate_tooltip" v="Rocni procento pro leasing. Vyssi nez u financovani (5,5% vs 4,5%) kvuli vyssimu riziku veritele." />
+        <e k="usedplus_lease_damage_tooltip" v="Na konci leasingu: poskozeni >10% nebo opotrebeni >15% = pokuty az 30% ceny vozidla. Udrzujte vozidlo!" />
+
+        <!--  Tooltips for Used Search Dialog -->
+        <e k="usedplus_search_local_tooltip" v="Hledani u mistnich prodejcu. Zarucenych odpoved do 1 mesice, 2% naklady, 40% uspesnost. Rychle a levne." />
+        <e k="usedplus_search_regional_tooltip" v="Hledani v regionalni siti. 1-3 mesice, 6% naklady, 70% uspesnost. Dobry pomer pro vetsinu hledani." />
+        <e k="usedplus_search_national_tooltip" v="Celostatni hledani. 2-6 mesicu, 12% naklady, 85% uspesnost. Nejlepsi pro vzacne vybaveni." />
+        <e k="usedplus_search_cost_tooltip" v="Poplatek predem strzeny okamzite. Nevratny, i kdyz hledani selze." />
+        <e k="usedplus_search_duration_tooltip" v="Herniho mesice do vysledku. Dostanete oznameni po dokonceni hledani." />
+        <e k="usedplus_search_successChance_tooltip" v="Pravdepodobnost nalezeni tohoto typu vybaveni v pouzilem stavu." />
+
+        <!--  Tooltips for Finance Manager -->
+        <e k="usedplus_manager_totalFinanced_tooltip" v="Celkova castka, kterou stale dluzite ze vsech uveru a leasingu. Udrzujte pod hodnotou Vasich aktiv!" />
+        <e k="usedplus_manager_monthlyObligations_tooltip" v="Celkem strhavano z Vaseho uctu kazdy mesic. Zajistete, abyste vzdy meli dostatecny tok hotovosti!" />
+        <e k="usedplus_manager_creditScore_tooltip" v="Hodnoceni 300-850. 750+ = Vyborny, 650-749 = Dobry, 550-649 = Prumerny, &lt;550 = Spatny. Ovlivnuje vsechny budouci uroky!" />
+        <e k="usedplus_manager_assetValue_tooltip" v="Kombinovana hodnota vozidel, vybaveni, poli a budov, ktere vlastnite. Mela by byt vyssi nez Vas dluh!" />
+        <e k="usedplus_manager_debtRatio_tooltip" v="Celkovy dluh / Hodnota aktiv. Udrzujte pod 30% pro vyborny kredit. Nad 50% vyrazne skodi Vasemu skore!" />
+
+        <!--  Tooltips for Finance Detail Frame -->
+        <e k="usedplus_detail_principalPaid_tooltip" v="Cast puvodniho uveru, kterou jste splatili. Toto snizuje Vas zustatek." />
+        <e k="usedplus_detail_interestPaid_tooltip" v="Dodatecne naklady, ktere jste dosud zaplatili za pujceni penez. Toto NESNIZUJE Vas zustatek." />
+        <e k="usedplus_detail_projectedInterest_tooltip" v="Celkovy urok, ktery zaplatite, pokud budete pokracovat v minimalnich mesicnich splatkach. Plaťte vice ted pro snizeni!" />
+        <e k="usedplus_detail_prepaymentPenalty_tooltip" v="Jednorazovy poplatek za predcasne splaceni (obvykle 1-3% zustatku). Uctovan, protoze veritel prichazi o budouci urokovy prijem." />
+        <e k="usedplus_detail_currentBalance_tooltip" v="Castka, kterou stale dluzite (pouze jistina). Platbou navic toto rychleji snizite!" />
+        <e k="usedplus_detail_paymentSplit_tooltip" v="Ukazuje, jak se Vase platba deli: Jistina (snizuje zustatek) vs Urok (naklady na pujceni)." />
+
+        <!--  Take Loan Dialog -->
+        <e k="usedplus_loan_title" v="Vzit si uver" />
+        <e k="usedplus_loan_configuration" v="KONFIGURACE UVERU" />
+        <e k="usedplus_loan_paymentPreview" v="NAHLED PLATEB" />
+        <e k="usedplus_loan_accept" v="Prijmout uver" />
+        <e k="usedplus_loan_creditInfo" v="Vase kreditni skore urcuje maximalni limit pujcky a urokovou sazbu." />
+        <e k="usedplus_loan_collateralInfo" v="Zajisteni je vypocteno z 50% hodnoty vozidel a 60% hodnoty pudy." />
+        <e k="usedplus_loan_success" v="Uver schvalen! %s vlozeno na Vas ucet." />
+        <e k="usedplus_loan_denied" v="Uver zamitnut. Nedostatecne zajisteni nebo spatny kredit." />
+        <e k="usedplus_loan_monthlyPayment" v="Mesicni splatka" />
+        <e k="usedplus_loan_totalInterest" v="Celkovy urok" />
+        <e k="usedplus_loan_totalRepayment" v="Celkova splatka" />
+        <!-- MOVED: usedplus_button_takeLoan to Common Button Labels section -->
+
+        <!--  Repair Dialog -->
+        <e k="usedplus_repair_title" v="Servis vozidla" />
+        <e k="usedplus_repair_title_mechanical" v="Mechanicka oprava" />
+        <e k="usedplus_repair_title_repaint" v="Prelakovat vozidlo" />
+        <e k="usedplus_repair_mechanical" v="MECHANICKA OPRAVA" />
+        <e k="usedplus_repair_cosmetic" v="LAK &amp; KOSMETIKA" />
+        <e k="usedplus_repair_slider" v="Rozsah opravy" />
+        <e k="usedplus_repair_cost" v="Cena opravy" />
+        <e k="usedplus_repair_after" v="Stav po oprave" />
+        <e k="usedplus_repair_payCash" v="Platit hotove" />
+        <e k="usedplus_repair_finance" v="Financovat opravu" />
+        <e k="usedplus_repair_success" v="Oprava dokoncena! %s opraveno." />
+        <e k="usedplus_repaint_slider" v="Rozsah prelakovani" />
+        <e k="usedplus_repaint_cost" v="Cena prelakovani" />
+        <e k="usedplus_button_repairVehicle" v="Opravit vozidlo" />
+        <e k="usedplus_button_tradeIn" v="Vymena" />
+        <e k="usedplus_repair_financeSuccess" v="Oprava financovana! %s na %d mesicu po %s/mesic" />
+        <e k="usedplus_repair_noRepairsNeeded" v="Toto vozidlo nepotrebuje opravy." />
+
+        <!-- ESC Menu Tabs -->
+        <e k="usedplus_tab_finances" v="Finance" />
+        <e k="usedplus_tab_searches" v="Vyhledavani" />
+        <e k="usedplus_tab_stats" v="Statistiky" />
+
+        <!-- Searches Tab -->
+        <e k="usedplus_searches_active" v="Aktivni vyhledavani" />
+        <e k="usedplus_searches_totalCost" v="Celkove naklady na vyhledavani" />
+
+        <!-- Stats Tab -->
+        <e k="usedplus_stats_creditInfo" v="Zalozeno na pomeru aktiv k dluhu" />
+        <e k="usedplus_stats_lifetime" v="Celozivotni statistiky" />
+        <e k="usedplus_stats_totalFinanced" v="Celkem financovano (vsechny casy)" />
+        <e k="usedplus_stats_totalInterest" v="Celkem zaplaceno na urocich" />
+        <e k="usedplus_stats_searchesCompleted" v="Dokoncena vyhledavani" />
+        <e k="usedplus_stats_searchesSuccessful" v="Uspesna vyhledavani" />
+
+        <!--  Credit History -->
+        <e k="usedplus_creditHistory_title" v="Kreditni historie" />
+        <e k="usedplus_creditHistory_paymentOnTime" v="Platba vcas" />
+        <e k="usedplus_creditHistory_paymentMissed" v="Zmezkana platba" />
+        <e k="usedplus_creditHistory_dealPaidOff" v="Uver splacen" />
+        <e k="usedplus_creditHistory_newDebt" v="Nove financovani" />
+        <e k="usedplus_creditHistory_loanTaken" v="Hotovostni uver prijat" />
+        <e k="usedplus_creditHistory_excellent" v="Dosazeno vyborneho kreditu" />
+        <e k="usedplus_creditHistory_trend" v="Trend skore" />
+        <e k="usedplus_creditHistory_trendUp" v="Stoupajici" />
+        <e k="usedplus_creditHistory_trendDown" v="Klesajici" />
+        <e k="usedplus_creditHistory_stable" v="Stabilni" />
+
+        <!--  Trade-In System -->
+        <e k="usedplus_tradeIn_title" v="Vymena vozidla" />
+        <e k="usedplus_tradeIn_select" v="Vyberte vozidlo k vymene:" />
+        <e k="usedplus_tradeIn_value" v="Hodnota vymeny" />
+        <e k="usedplus_tradeIn_brandBonus" v="Bonus stejne znacky (+10%)" />
+        <e k="usedplus_tradeIn_noVehicles" v="Zadna vozidla zpusobila pro vymenu" />
+        <e k="usedplus_tradeIn_confirm" v="Uplatnit vymenu" />
+        <e k="usedplus_tradeIn_skip" v="Bez vymeny" />
+        <e k="usedplus_tradeIn_help" v="Hodnota vymeny je 85% prodejni ceny. Nakupy stejne znacky ziskavaji 10% bonus." />
+        <e k="usedplus_tradeIn_applied" v="Vymena uplatnena: kredit %s" />
+        <e k="usedplus_tradeIn_financed" v="Financovana vozidla nelze vymenit" />
+
+        <!--  Financial Dashboard -->
+        <e k="usedplus_dashboard_title" v="Financni prehled" />
+        <e k="usedplus_dashboard_creditScore" v="Kreditni skore" />
+        <e k="usedplus_dashboard_obligations" v="Mesicni zavazky" />
+        <e k="usedplus_dashboard_debtRatio" v="Pomer dluhu k aktivum" />
+        <e k="usedplus_dashboard_upcoming" v="Nadchazejici platby" />
+        <e k="usedplus_dashboard_history" v="Nedavna kreditni aktivita" />
+        <e k="usedplus_dashboard_statistics" v="Celozivotni statistiky" />
+        <e k="usedplus_dashboard_equipment" v="Vybaveni" />
+        <e k="usedplus_dashboard_land" v="Puda" />
+        <e k="usedplus_dashboard_loans" v="Uvery" />
+        <e k="usedplus_dashboard_total" v="Celkem" />
+        <e k="usedplus_dashboard_assets" v="Celkova aktiva" />
+        <e k="usedplus_dashboard_debt" v="Celkovy dluh" />
+        <e k="usedplus_dashboard_ratio" v="Pomer" />
+        <e k="usedplus_dashboard_excellent" v="Vyborny" />
+        <e k="usedplus_dashboard_good" v="Dobry" />
+        <e k="usedplus_dashboard_fair" v="Prumerny" />
+        <e k="usedplus_dashboard_high" v="Vysoky" />
+        <e k="usedplus_dashboard_critical" v="Kriticky" />
+        <e k="usedplus_dashboard_noPayments" v="Zadne nadchazejici platby" />
+        <e k="usedplus_dashboard_noHistory" v="Zatim zadna kreditni historie" />
+        <e k="usedplus_dashboard_onTime" v="Platby vcas" />
+        <e k="usedplus_dashboard_missed" v="Zmezkane platby" />
+        <e k="usedplus_dashboard_tip" v="Tip: Plaťte vcas pro zlepseni kreditniho skore. Splaťte uvery predcasne pro usporu na urocich." />
+
+        <!--  Land Purchase Dialog -->
+        <e k="usedplus_land_title" v="Nakup zemedelske pudy" />
+        <e k="usedplus_land_purchaseMethod" v="ZPUSOB NAKUPU" />
+        <e k="usedplus_land_paymentSummary" v="PREHLED PLATEB" />
+        <e k="usedplus_land_financeTerms" v="PODMINKY FINANCOVANI" />
+        <e k="usedplus_land_leaseTerms" v="PODMINKY LEASINGU" />
+        <e k="usedplus_land_landPrice" v="Cena pudy:" />
+        <e k="usedplus_land_taxes" v="Dan z prevodu:" />
+        <e k="usedplus_land_totalDue" v="CELKEM K UHRADE:" />
+        <e k="usedplus_land_loanTerm" v="Doba uveru:" />
+        <e k="usedplus_land_leaseTerm" v="Doba leasingu:" />
+        <e k="usedplus_land_downPayment" v="Akontace:" />
+        <e k="usedplus_land_amountFinanced" v="Financovana castka:" />
+        <e k="usedplus_land_interestRate" v="Urokova sazba:" />
+        <e k="usedplus_land_monthlyPayment" v="Mesicni splatka:" />
+        <e k="usedplus_land_totalInterest" v="Celkovy urok:" />
+        <e k="usedplus_land_dueToday" v="K UHRADE DNES:" />
+        <e k="usedplus_land_totalLeaseCost" v="Celkove naklady leasingu:" />
+        <e k="usedplus_land_buyoutPrice" v="Odkupni cena:" />
+        <e k="usedplus_land_confirm" v="Potvrdit nakup" />
+
+        <!--  Used Vehicle Marketplace - Agent-Based Sales -->
+        <e k="usedplus_sell_title" v="Prodat vozidlo" />
+        <e k="usedplus_sell_selectAgent" v="Vyberte prodejniho agenta" />
+        <e k="usedplus_sell_vehicleDetails" v="Detaily vozidla" />
+        <e k="usedplus_sell_vanillaValue" v="Okamzita prodejni hodnota" />
+        <e k="usedplus_sell_localAgent" v="Lokalni agent" />
+        <e k="usedplus_sell_regionalAgent" v="Regionalni agent" />
+        <e k="usedplus_sell_nationalAgent" v="Celostatni agent" />
+        <e k="usedplus_sell_expectedReturn" v="Ocekavany vynos" />
+        <e k="usedplus_sell_timeFrame" v="Casovy ramec" />
+        <e k="usedplus_sell_agentFee" v="Poplatek agentovi" />
+        <e k="usedplus_sell_successRate" v="Uspesnost" />
+        <e k="usedplus_sell_confirm" v="Zaradit k prodeji" />
+        <e k="usedplus_sell_tradeInOnly" v="Pouze vymena" />
+        <e k="usedplus_sell_tradeInDescription" v="50-65% okamzita hodnota pri koupi noveho vozidla" />
+        <e k="usedplus_sell_localDescription" v="Rychly lokalni prodej. 1-2 mesice, 85% uspesnost." />
+        <e k="usedplus_sell_regionalDescription" v="Regionalni sit. 2-4 mesice, 90% uspesnost." />
+        <e k="usedplus_sell_nationalDescription" v="Celostatni dosah. 3-6 mesicu, 95% uspesnost." />
+        <e k="usedplus_sell_listed" v="Vozidlo zarazeno u %s. Ocekavano: %s - %s" />
+        <e k="usedplus_sell_alreadyListed" v="Toto vozidlo je jiz zarazeno k prodeji" />
+        <e k="usedplus_sell_cantSellFinanced" v="Nelze prodat financovana vozidla. Nejprve splaťte zustatek." />
+
+        <!--  Sale Offer Dialog -->
+        <e k="usedplus_saleOffer_title" v="Nabidka prijata" />
+        <e k="usedplus_saleOffer_message" v="Kupec pro Vase vozidlo byl nalezen!" />
+        <e k="usedplus_saleOffer_offerAmount" v="Castka nabidky" />
+        <e k="usedplus_saleOffer_expiresIn" v="Nabidka vyprsi za" />
+        <e k="usedplus_saleOffer_accept" v="Prijmout nabidku" />
+        <e k="usedplus_saleOffer_decline" v="Odmitnout nabidku" />
+        <e k="usedplus_saleOffer_hours" v="%d hodin" />
+        <e k="usedplus_saleOffer_accepted" v="Vozidlo prodano za %s!" />
+        <e k="usedplus_saleOffer_declined" v="Nabidka odmitnuta. Agent pokracuje v hledani..." />
+        <e k="usedplus_saleOffer_expired" v="Nabidka pro %s vyprsela. Agent pokracuje v hledani..." />
+
+        <!--  Sale Listing Status -->
+        <e k="usedplus_sale_statusActive" v="Hledani kupce..." />
+        <e k="usedplus_sale_statusPending" v="NABIDKA: %s" />
+        <e k="usedplus_sale_statusSold" v="PRODANO za %s" />
+        <e k="usedplus_sale_statusExpired" v="Vyprselo - Kupec nenalezen" />
+        <e k="usedplus_sale_statusCancelled" v="Zruseno" />
+        <e k="usedplus_sale_listingExpired" v="Kupec pro %s nenalezen. Poplatek agentovi (%s) se nevrati." />
+        <e k="usedplus_sale_cancel" v="Zrusit inzerat" />
+        <e k="usedplus_sale_cancelConfirm" v="Zrusit prodejni inzerat pro %s? Poplatek agentovi se NEVRATI." />
+        <e k="usedplus_sale_cancelled" v="Prodejni inzerat pro %s zrusen." />
+
+        <!--  Finance Manager - Sale Listings Section -->
+        <e k="usedplus_manager_saleListings" v="VOZIDLA NA PRODEJ" />
+        <e k="usedplus_manager_noSales" v="Zadne aktivni prodejni inzeraty" />
+
+        <!--  Menu Navigation Buttons -->
+        <e k="usedplus_button_nextPage" v="Dalsi nabidka" />
+        <e k="usedplus_button_prevPage" v="Predchozi nabidka" />
+
+        <!-- === MAINTENANCE SYSTEM (Phase 4) === -->
+
+        <!--  Engine/Failure Warnings -->
+        <e k="usedPlus_engineStalled" v="Motor se zastavil!" />
+        <e k="usedPlus_engineWontStart" v="Motor nenaskoci - zkuste znovu" />
+        <e k="usedPlus_hydraulicDrift" v="Ztrata hydraulickeho tlaku!" />
+        <e k="usedPlus_implementCutout" v="Nastavba se zastavila!" />
+        <e k="usedPlus_electricalCutout" v="Elektricka porucha - nastavby offline!" />
+
+        <!--  Inspection System -->
+        <e k="usedPlus_inspectButton" v="Prohlednout (%s)" />
+        <e k="usedPlus_inspectionTitle" v="Inspekční zprava" />
+        <e k="usedPlus_inspectionCost" v="Cena prohlidky" />
+        <e k="usedPlus_mechanicalAssessment" v="MECHANICKE HODNOCENI" />
+        <e k="usedPlus_inspectorNotes" v="Poznamky inspektora" />
+        <e k="usedPlus_recommendation" v="Doporuceni" />
+        <e k="usedPlus_hiddenConditionWarning" v="Skryty mechanicky stav neznamy" />
+        <e k="usedPlus_payForInspection" v="Zaplaťte za profesionalni prohlidku" />
+
+        <!--  Reliability Ratings -->
+        <e k="usedPlus_conditionGood" v="Dobry" />
+        <e k="usedPlus_conditionAcceptable" v="Prijatelny" />
+        <e k="usedPlus_conditionBelowAverage" v="Podprumerny" />
+        <e k="usedPlus_conditionPoor" v="Spatny" />
+        <e k="usedPlus_conditionCritical" v="Kriticky" />
+
+        <!--  Vehicle Name Indicators (Phase 5) -->
+        <e k="usedPlus_indicatorCritical" v="[KRITICKY]" />
+        <e k="usedPlus_indicatorNeedsService" v="[VYZADUJE SERVIS]" />
+        <e k="usedPlus_indicatorWorn" v="[OPOTREBENY]" />
+        <e k="usedPlus_maintenanceHistory" v="Historie udrzby" />
+
+        <!--  Component Labels -->
+        <e k="usedPlus_engineReliability" v="Motor" />
+        <e k="usedPlus_hydraulicReliability" v="Hydraulika" />
+        <e k="usedPlus_electricalReliability" v="Elektrika" />
+
+        <!--  Vehicle Info Display -->
+        <e k="usedPlus_purchasedUsed" v="Koupeno pouzite" />
+        <e k="usedPlus_repairHistory" v="Opravy: %d (%s celkem)" />
+        <e k="usedPlus_breakdownHistory" v="Poruchy: %d" />
+        <e k="usedPlus_mechanicalCondition" v="Mechanicky stav: %s" />
+
+        <!--  Inspection Notes -->
+        <e k="usedPlus_noteEngineWorn" v="Motor vykazuje znamky tvrdeho pouzivani. Ocekavejte obcasne zadrhavani pod zatezi." />
+        <e k="usedPlus_noteHydraulicWorn" v="Hydraulicky system opotrebeny. Nastavby mohou klesat ve zdvizene poloze." />
+        <e k="usedPlus_noteElectricalIssues" v="Zjisteny elektricke problemy. Nastavby se mohou neocekavane vypnout." />
+        <e k="usedPlus_noteVehicleOk" v="Vozidlo v prijatelnem mechanickem stavu." />
+        <e k="usedPlus_recommendNegotiate" v="Vyjednejte cenu nebo pocitejte s opravami" />
+        <e k="usedPlus_recommendProceed" v="Dobry mechanicky stav - pokracujte s duvěrou" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1: Notification Messages (i18n cleanup) -->
+        <!-- ============================================== -->
+
+        <!-- Error Notifications - Selection/Finding -->
+        <e k="usedplus_error_selectDealFirst" v="Nejprve vyberte financni smlouvu" />
+        <e k="usedplus_error_noSearchInRow" v="V tomto radku neni zadne vyhledavani" />
+        <e k="usedplus_error_noSaleListingInRow" v="V tomto radku neni zadny prodejni inzerat" />
+        <e k="usedplus_error_noDealInRow" v="V tomto radku neni zadna financni smlouva" />
+        <e k="usedplus_error_farmNotFound" v="Chyba: Farma nenalezena" />
+        <e k="usedplus_error_noVehicleSelected" v="Zadne vozidlo nevybrano" />
+
+        <!-- Error Notifications - State/Action Conflicts -->
+        <e k="usedplus_error_cannotCancelReady" v="Nelze zrusit - tento inzerat je pripraven ke koupi" />
+        <e k="usedplus_error_searchNotActive" v="Toto vyhledavani jiz neni aktivni" />
+        <e k="usedplus_error_noOfferPending" v="Na tomto inzeratu neni zadna cekajici nabidka" />
+        <e k="usedplus_error_noOfferToDecline" v="Zadna cekajici nabidka k odmitnuti" />
+        <e k="usedplus_error_cannotCancelPendingOffer" v="Nelze zrusit, dokud ceka nabidka. Nejprve prijmete nebo odmitnete." />
+        <e k="usedplus_error_cannotModifyPendingOffer" v="Nelze zmenit cenu, dokud ceka nabidka." />
+
+        <!-- Error Notifications - Invalid Input -->
+        <e k="usedplus_error_invalidPrice" v="Neplatna cena. Zadejte kladne cislo." />
+        <e k="usedplus_error_invalidAmount" v="Neplatna castka. Zadejte kladne cislo." />
+
+        <!-- Error Notifications - Insufficient Funds -->
+        <e k="usedplus_error_insufficientFundsPayment" v="Nedostatek prostredku. Potreba %s na mesicni splatku." />
+        <e k="usedplus_error_insufficientFundsPayoff" v="Nedostatek prostredku na splaceni" />
+        <e k="usedplus_error_insufficientFundsNeedHave" v="Nedostatek prostredku. Potreba %s, mate %s" />
+        <e k="usedplus_error_insufficientFundsDownPayment" v="Nedostatek prostredku na akontaci! Potreba %s" />
+        <e k="usedplus_error_insufficientFundsGeneric" v="Nedostatek prostredku! Potreba %s" />
+        <e k="usedplus_error_insufficientFundsForPayment" v="Nedostatek prostredku na platbu" />
+
+        <!-- Error Notifications - No Items/Options -->
+        <e k="usedplus_error_noPaymentOptions" v="Zadne moznosti platby nejsou k dispozici" />
+        <e k="usedplus_error_noActiveDeals" v="Zadne aktivni financni smlouvy k placeni" />
+        <e k="usedplus_error_noDealsToPayAll" v="Zadne aktivni financni smlouvy k zaplaceni" />
+        <e k="usedplus_error_noPaymentsDue" v="Zadne splatky v tomto obdobi" />
+
+        <!-- Error Notifications - Operation Failures -->
+        <e k="usedplus_error_payoffFailed" v="Splaceni selhalo" />
+        <e k="usedplus_error_paymentFailed" v="Platba selhala" />
+        <e k="usedplus_error_eventNotAvailable" v="Chyba: %s neni k dispozici" />
+
+        <!-- Success Notifications - Sales -->
+        <e k="usedplus_notify_vehicleSold" v="Prodano %s za %s!" />
+        <e k="usedplus_notify_offerDeclined" v="Nabidka odmitnuta - agent bude pokracovat v hledani" />
+        <e k="usedplus_notify_listingCancelled" v="Prodejni inzerat pro %s zrusen" />
+
+        <!-- Success Notifications - Purchases -->
+        <e k="usedplus_notify_vehiclePurchased" v="Koupeno %s za %s" />
+        <e k="usedplus_notify_vehiclePurchasedShop" v="Koupeno %s - Navstivte obchod pro vyzvednuti vozidla" />
+        <e k="usedplus_notify_vehicleFinanced" v="Financovano %s - %s splatne dnes" />
+        <e k="usedplus_notify_vehicleFinancedShop" v="Financovano %s - Navstivte obchod pro vyzvednuti vozidla" />
+        <e k="usedplus_notify_landPurchased" v="Koupeno %s za %s" />
+        <e k="usedplus_notify_landFinanced" v="Financovano %s - %s splatne dnes" />
+        <e k="usedplus_notify_vehicleNowYours" v="Gratulujeme! %s je nyni Vase!" />
+
+        <!-- Success Notifications - Payments/Loans -->
+        <e k="usedplus_notify_loanPaidOff" v="Uver splacen! Celkem: %s" />
+        <e k="usedplus_notify_paymentProcessed" v="Platba %s zpracovana!" />
+        <e k="usedplus_notify_paidDealsTotal" v="Zaplaceno %d smluv! Celkem: %s" />
+        <e k="usedplus_notify_paidDealsSomeFailed" v="Zaplaceno %d smluv, %d selhalo" />
+        <e k="usedplus_notify_paymentConfigSaved" v="Konfigurace plateb ulozena!" />
+
+        <!-- Success Notifications - Leases -->
+        <e k="usedplus_notify_landLeaseTerminated" v="Leasing pudy pro %s byl ukoncen" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1: UI Labels (setText hardcoded strings) -->
+        <!-- ============================================== -->
+
+        <!-- Credit Report Dialog -->
+        <e k="usedplus_creditreport_reportDate" v="Datum zpravy: %s" />
+        <e k="usedplus_creditreport_scoreRange" v="Rozsah skore: 300-850" />
+        <e k="usedplus_creditreport_standardRates" v="Plati standardni uroky" />
+        <e k="usedplus_creditreport_noHistory" v="Zadna historie" />
+        <e k="usedplus_creditreport_noActiveAccounts" v="Zadne aktivni ucty" />
+        <e k="usedplus_creditreport_noPaymentHistory" v="Zatim zadna historie plateb" />
+        <e k="usedplus_creditreport_makePaymentsHint" v="Zacnete platit pro budovani historie" />
+        <e k="usedplus_creditreport_trend_excellent" v="Vyborny - Silny stoupajici trend" />
+        <e k="usedplus_creditreport_trend_good" v="Dobry - Pozitivni dynamika" />
+        <e k="usedplus_creditreport_trend_stable" v="Stabilni - Udrzuje se" />
+        <e k="usedplus_creditreport_trend_declining" v="Klesajici - Vyzaduje pozornost" />
+        <e k="usedplus_creditreport_trend_poor" v="Spatny - Nutna okamzita akce" />
+
+        <!-- Deal Details Dialog -->
+        <e k="usedplus_dealdetails_payoffInfo" v="Splaťte predcasne a usetrete na urocich." />
+        <e k="usedplus_dealdetails_buyoutLease" v="ODKUP LEASINGU" />
+        <e k="usedplus_dealdetails_earlyPayoff" v="PREDCASNE SPLACENI" />
+        <e k="usedplus_dealdetails_paidOff" v="Splaceno!" />
+
+        <!-- Inspection Report Dialog -->
+        <e k="usedplus_inspection_noData" v="Inspekční data nejsou k dispozici." />
+        <e k="usedplus_inspection_rec_excellent" v="Vyborny stav - kupujte s duvěrou" />
+        <e k="usedplus_inspection_rec_good" v="Dobry stav - fer cena" />
+        <e k="usedplus_inspection_rec_fair" v="Prumerny stav - vyjednejte nebo pocitejte s opravami" />
+        <e k="usedplus_inspection_rec_poor" v="Spatny stav - potreba vyraznych oprav" />
+
+        <!-- Maintenance Report Dialog -->
+        <e k="usedplus_common_yes" v="Ano" />
+        <e k="usedplus_common_no" v="Ne" />
+        <e k="usedplus_common_na" v="N/A" />
+        <e k="usedplus_maintenance_purchasedUsed" v="Koupeno pouzite" />
+        <e k="usedplus_maintenance_purchasedNew" v="Koupeno nove" />
+        <e k="usedplus_maintenance_excellentCondition" v="Toto vozidlo je ve vybornem stavu bez udrzbarskych problemu." />
+
+        <!-- Payment Config Dialog -->
+        <e k="usedplus_paymentconfig_selectLoan" v="Vyberte uver vyse pro zmenu rezimu plateb" />
+        <e k="usedplus_paymentconfig_warningSkip" v="VAROVANI: Preskoceni plateb zvysi zustatek!" />
+        <e k="usedplus_paymentconfig_noteNegAmort" v="Poznamka: Nektere platby pod urovni pouze uroku" />
+
+        <!-- Repair Finance Dialog -->
+        <e k="usedplus_repairfinance_title_repaint" v="Financovat prelakovani" />
+        <e k="usedplus_repairfinance_title_repair" v="Financovat opravu" />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_preview_title" v="Pouzite vozidlo nalezeno" />
+        <e k="usedplus_preview_viewReport" v="Zobrazit zpravu" />
+
+        <!-- Finance Manager Frame -->
+        <e k="usedplus_manager_clickToSelect" v="Kliknete na radek pro vyber" />
+        <e k="usedplus_manager_assetsLabel" v="Aktiva: %s" />
+        <e k="usedplus_manager_debtLabel" v="Dluh: %s" />
+
+        <!-- Deal Details Dialog - additional -->
+        <e k="usedplus_dealdetails_earlyPayoffSaves" v="Predcasne splaceni Vam usetri %s na urocich!" />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_preview_ageYears" v="%d let" />
+        <e k="usedplus_preview_payForInspection" v="Zaplaťte %s za profesionalni prohlidku" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1c: Land Purchase Dialog Notifications   -->
+        <!-- ============================================== -->
+
+        <!-- Land Purchase - Mode Selector -->
+        <e k="usedplus_land_modeCash" v="Koupit za hotove" />
+        <e k="usedplus_land_modeFinance" v="Financovat" />
+        <e k="usedplus_land_modeLease" v="Leasing" />
+
+        <!-- Land Purchase - Term Sliders -->
+        <e k="usedplus_land_termYears" v="%d let" />
+        <e k="usedplus_land_termYear" v="1 rok" />
+        <e k="usedplus_land_termMonths" v="%d mesicu" />
+        <e k="usedplus_land_termMonth" v="1 mesic" />
+
+        <!-- Land Purchase - Credit Adjustment -->
+        <e k="usedplus_land_noAdjustment" v="Bez upravy (Prumerny kredit)" />
+
+        <!-- Land Purchase - Security Deposit -->
+        <e k="usedplus_land_noDeposit" v="Bez zalohy (%s kredit)" />
+        <e k="usedplus_land_depositInfo" v="%s (%d mes., %s kredit)" />
+
+        <!-- Land Purchase - Lease Info -->
+        <e k="usedplus_land_buyoutAnytime" v="Odkup kdykoliv: %s" />
+        <e k="usedplus_land_signingBonus" v="Podpisovy bonus: Zahrnuje stavajici %s v hodnote %s" />
+        <e k="usedplus_land_securityDeposit" v="%s jistina" />
+        <e k="usedplus_land_noDepositRequired" v="jistina neni vyzadovana" />
+
+        <!-- Land Purchase - Error Notifications -->
+        <e k="usedplus_error_insufficientFundsLand" v="Nedostatek prostredku! Potreba jeste %s. Zkuste financovani nebo leasing." />
+        <e k="usedplus_error_insufficientFundsDeposit" v="Nedostatek prostredku na jistinu! Potreba jeste %s." />
+        <e k="usedplus_error_couldNotCompletePurchase" v="Chyba: Nakup se nepodarilo dokoncit" />
+
+        <!-- Land Purchase - Success Notifications -->
+        <e k="usedplus_notify_landLeased" v="Leasing %s! %s/mesic, %s" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1d: XML Dialog Labels and Buttons        -->
+        <!-- ============================================== -->
+
+        <!-- Common Button Labels -->
+        <e k="usedplus_button_purchase" v="Koupit" />
+        <e k="usedplus_button_decline" v="Odmitnout" />
+        <e k="usedplus_button_goBack" v="Zpet" />
+        <e k="usedplus_button_close" v="Zavrit" />
+        <e k="usedplus_button_confirm" v="Potvrdit" />
+        <e k="usedplus_button_cancel" v="Zrusit" />
+        <e k="usedplus_button_takeLoan" v="Vzit uver" />
+        <e k="usedplus_button_payOff" v="Splatit" />
+
+        <!-- Inspection Report Dialog -->
+        <e k="usedplus_irp_title" v="INSPEKČNÍ ZPRAVA" />
+        <e k="usedplus_irp_sectionVehicle" v="VOZIDLO" />
+        <e k="usedplus_irp_sectionMechanical" v="MECHANICKE HODNOCENI" />
+        <e k="usedplus_irp_sectionNotes" v="POZNAMKY INSPEKTORA" />
+        <e k="usedplus_irp_sectionRecommend" v="DOPORUCENI" />
+        <e k="usedplus_irp_listedPrice" v="Uvedena cena:" />
+        <e k="usedplus_irp_engine" v="Motor:" />
+        <e k="usedplus_irp_hydraulics" v="Hydraulika:" />
+        <e k="usedplus_irp_electrical" v="Elektrika:" />
+        <e k="usedplus_irp_overallCondition" v="Celkovy stav:" />
+        <e k="usedplus_irp_estRepairCost" v="Odhadovane naklady opravy:" />
+        <e k="usedplus_irp_postRepairValue" v="Hodnota po oprave:" />
+        <e k="usedplus_irp_priceNote" v="Ceny odrazi pozadovanou cenu prodejce. Vyjednavejte na zaklade zjisteni inspekce." />
+
+        <!-- Maintenance Report Dialog -->
+        <e k="usedplus_mrp_title" v="ZPRAVA O UDRZBE" />
+        <e k="usedplus_mrp_sectionReliability" v="HODNOCENI SPOLEHLIVOSTI" />
+        <e k="usedplus_mrp_sectionHistory" v="HISTORIE UDRZBY" />
+        <e k="usedplus_mrp_sectionNotes" v="STAVOVE POZNAMKY" />
+        <e k="usedplus_mrp_breakdowns" v="Poruchy:" />
+        <e k="usedplus_mrp_repairs" v="Opravy:" />
+        <e k="usedplus_mrp_inspected" v="Prohlédnuto:" />
+        <e k="usedplus_mrp_resaleImpact" v="Dopad na dalsi prodej:" />
+        <e k="usedplus_mrp_origin" v="Puvod:" />
+        <e k="usedplus_mrp_overallCondition" v="CELKOVY STAV" />
+
+        <!-- Financial Dashboard -->
+        <e k="usedplus_dash_creditScore" v="KREDITNI SKORE" />
+        <e k="usedplus_dash_debtRatio" v="POMER DLUHU" />
+        <e k="usedplus_dash_assets" v="Aktiva:" />
+        <e k="usedplus_dash_debt" v="Dluh:" />
+        <e k="usedplus_dash_ratio" v="Pomer:" />
+        <e k="usedplus_dash_trend" v="Trend:" />
+        <e k="usedplus_dash_monthlyObligations" v="MESICNI ZAVAZKY" />
+        <e k="usedplus_dash_equipment" v="Vybaveni:" />
+        <e k="usedplus_dash_land" v="Puda:" />
+        <e k="usedplus_dash_loans" v="Uvery:" />
+        <e k="usedplus_dash_total" v="CELKEM:" />
+        <e k="usedplus_dash_upcomingPayments" v="NADCHAZEJICI PLATBY" />
+        <e k="usedplus_dash_noPayments" v="Zadne nadchazejici platby" />
+        <e k="usedplus_dash_lifetimeStats" v="CELOZIVOTNI STATISTIKY" />
+        <e k="usedplus_dash_totalFinanced" v="Celkem financovano:" />
+        <e k="usedplus_dash_interestPaid" v="Zaplacene uroky:" />
+        <e k="usedplus_dash_dealsCompleted" v="Dokoncene smlouvy:" />
+        <e k="usedplus_dash_onTime" v="Vcas:" />
+        <e k="usedplus_dash_missed" v="Zmezkane:" />
+        <e k="usedplus_dash_tip" v="Tip: Plaťte vcas pro zlepseni kreditu. Splaťte uvery predcasne pro usporu na urocich." />
+
+        <!-- Maintenance Report Dialog - Additional -->
+        <e k="usedplus_mrp_sectionMechanical" v="MECHANICKY STAV" />
+        <e k="usedplus_mrp_sectionService" v="SERVISNI HISTORIE" />
+        <e k="usedplus_mrp_sectionStatus" v="STAV" />
+        <e k="usedplus_mrp_shopRepairs" v="Opravy v servisu:" />
+        <e k="usedplus_mrp_overall" v="Celkem:" />
+        <e k="usedplus_mrp_condition" v="Stav:" />
+
+        <!-- Deal Details Dialog -->
+        <e k="usedplus_dd_title" v="DETAILY SMLOUVY" />
+        <e k="usedplus_dd_sectionItem" v="INFORMACE O POLOZCE" />
+        <e k="usedplus_dd_sectionTerms" v="FINANCNI PODMINKY" />
+        <e k="usedplus_dd_sectionProgress" v="PRUBEH PLATEB" />
+        <e k="usedplus_dd_sectionSummary" v="PREHLED PLATEB" />
+        <e k="usedplus_dd_sectionMultiplier" v="NASOBITEL PLATBY" />
+        <e k="usedplus_dd_sectionPayoff" v="PREDCASNE SPLACENI" />
+        <e k="usedplus_dd_sectionRepossessed" v="ZABAVENE ZAJISTENI" />
+        <e k="usedplus_dd_name" v="Nazev:" />
+        <e k="usedplus_dd_type" v="Typ:" />
+        <e k="usedplus_dd_status" v="Stav:" />
+        <e k="usedplus_dd_missed" v="Zmezkane:" />
+        <e k="usedplus_dd_original" v="Puvodni:" />
+        <e k="usedplus_dd_down" v="Akontace:" />
+        <e k="usedplus_dd_financed" v="Financovano:" />
+        <e k="usedplus_dd_term" v="Doba:" />
+        <e k="usedplus_dd_rate" v="Urok:" />
+        <e k="usedplus_dd_monthly" v="Mesicne:" />
+        <e k="usedplus_dd_payments" v="Platby:" />
+        <e k="usedplus_dd_balance" v="Zustatek:" />
+        <e k="usedplus_dd_remaining" v="Zbyvajici:" />
+        <e k="usedplus_dd_equity" v="Vlastni kapital:" />
+        <e k="usedplus_dd_principal" v="Jistina:" />
+        <e k="usedplus_dd_interest" v="Urok:" />
+        <e k="usedplus_dd_total" v="Celkem:" />
+        <e k="usedplus_dd_multiplier" v="Nasobitel:" />
+        <e k="usedplus_dd_adjusted" v="Upraveno:" />
+        <e k="usedplus_dd_payoffIn" v="Splaceni za:" />
+        <e k="usedplus_dd_youSave" v="Usetrite:" />
+        <e k="usedplus_dd_payoff" v="Splaceni:" />
+        <e k="usedplus_dd_accruedNote" v="(zahrnuje narostly urok)" />
+        <e k="usedplus_dd_payoffInfo" v="Predcasne splaceni Vam usetri na urocich!" />
+        <e k="usedplus_dd_repossessedInfo" v="Nasledujici polozky byly zabaveny kvuli zmezkanym platkam:" />
+        <e k="usedplus_dd_repossessedTotal" v="Celkova zabavena hodnota:" />
+        <e k="usedplus_button_viewHistory" v="Zobrazit historii" />
+        <e k="usedplus_button_earlyPayoff" v="Predcasne splaceni" />
+
+        <!-- Take Loan Dialog -->
+        <e k="usedplus_tl_title" v="VZIT SI UVER" />
+        <e k="usedplus_tl_sectionCredit" v="VAS KREDIT" />
+        <e k="usedplus_tl_score" v="Skore:" />
+        <e k="usedplus_tl_yourRate" v="Vase urokova sazba:" />
+        <e k="usedplus_tl_sectionCollateral" v="VYBERTE ZAJISTENI" />
+        <e k="usedplus_tl_collateralHelp" v="Kliknete pro prepnuti aktiv jako zajisteni (zobrazena pouze nezatizena aktiva)" />
+        <e k="usedplus_tl_prev" v="◄ Predch." />
+        <e k="usedplus_tl_next" v="Dalsi ►" />
+        <e k="usedplus_tl_selected" v="Vybrano:" />
+        <e k="usedplus_tl_existingDebt" v="Stavajici dluh:" />
+        <e k="usedplus_tl_maxLoan" v="MAXIMALNI UVER:" />
+        <e k="usedplus_tl_sectionConfig" v="KONFIGURACE UVERU" />
+        <e k="usedplus_tl_amount" v="Castka:" />
+        <e k="usedplus_tl_term" v="Doba:" />
+        <e k="usedplus_tl_sectionPayment" v="NAHLED PLATEB" />
+        <e k="usedplus_tl_monthly" v="Mesicne:" />
+        <e k="usedplus_tl_total" v="Celkem:" />
+        <e k="usedplus_tl_interest" v="Urok:" />
+        <e k="usedplus_tl_yearly" v="Rocne:" />
+        <e k="usedplus_tl_info" v="Prostredky uveru vlozeny okamzite. Platby automaticky strhavany mesicne." />
+        <e k="usedplus_button_acceptLoan" v="Prijmout uver" />
+
+        <!-- Loan Approved Dialog -->
+        <e k="usedplus_la_title" v="UVER SCHVALEN" />
+        <e k="usedplus_la_amountDeposited" v="Vlozena castka" />
+        <e k="usedplus_la_sectionTerms" v="PODMINKY UVERU" />
+        <e k="usedplus_la_term" v="Doba:" />
+        <e k="usedplus_la_rate" v="Urokova sazba:" />
+        <e k="usedplus_la_sectionPayment" v="PLATEBNI HARMONOGRAM" />
+        <e k="usedplus_la_monthly" v="Mesicne:" />
+        <e k="usedplus_la_yearly" v="Rocne:" />
+        <e k="usedplus_la_totalInterest" v="Celkovy urok:" />
+        <e k="usedplus_la_sectionCredit" v="DOPAD NA KREDIT" />
+        <e k="usedplus_la_previous" v="Predchozi:" />
+        <e k="usedplus_la_newScore" v="Nove skore:" />
+        <e k="usedplus_la_info" v="Platby automaticky strhavany mesicne. Vcasne platby zlepsují kredit!" />
+
+        <!-- Unified Purchase Dialog -->
+        <e k="usedplus_up_title" v="Koupit vozidlo" />
+        <e k="usedplus_up_sectionVehicle" v="VOZIDLO" />
+        <e k="usedplus_up_sectionMethod" v="ZPUSOB NAKUPU" />
+        <e k="usedplus_up_methodHelp" v="Vyberte, jak chcete platit: hotove, financovani v case, nebo leasing s nizsimi splatkami." />
+        <e k="usedplus_up_sectionTradeIn" v="VYMENA (Volitelne)" />
+        <e k="usedplus_up_tradeInHelp" v="Vyberte vozidlo k vymene a snizite castku k uhrade." />
+        <e k="usedplus_up_tradeInVehicle" v="Vozidlo k vymene:" />
+        <e k="usedplus_up_tradeInValue" v="Hodnota vymeny:" />
+        <e k="usedplus_up_sectionCash" v="PREHLED PLATEB" />
+        <e k="usedplus_up_cashHelp" v="Zaplaťte celou castku nyni. Hodnota vymeny je odectena od celku." />
+        <e k="usedplus_up_vehiclePrice" v="Cena vozidla:" />
+        <e k="usedplus_up_tradeInCredit" v="Kredit za vymenu:" />
+        <e k="usedplus_up_totalDue" v="CELKEM K UHRADE:" />
+        <e k="usedplus_up_sectionFinance" v="PODMINKY FINANCOVANI" />
+        <e k="usedplus_up_financeHelp" v="Rozlozte platby v case. Upravte dobu, akontaci a hotovost zpet pro idealni mesicni splatku." />
+        <e k="usedplus_up_loanTerm" v="Doba uveru:" />
+        <e k="usedplus_up_downPayment" v="Akontace:" />
+        <e k="usedplus_up_cashBack" v="Hotovost zpet:" />
+        <e k="usedplus_up_amountFinanced" v="Financovana castka:" />
+        <e k="usedplus_up_interestRate" v="Urokova sazba:" />
+        <e k="usedplus_up_monthlyPayment" v="Mesicni splatka:" />
+        <e k="usedplus_up_totalInterest" v="Celkovy urok:" />
+        <e k="usedplus_up_dueToday" v="K UHRADE DNES:" />
+        <e k="usedplus_up_sectionPayment" v="PLATEBNI HARMONOGRAM" />
+        <e k="usedplus_up_sectionDueToday" v="CASTKA K UHRADE DNES" />
+        <e k="usedplus_up_youPayNow" v="Platite nyni:" />
+        <e k="usedplus_up_sectionLease" v="PODMINKY LEASINGU" />
+        <e k="usedplus_up_leaseHelp" v="Delsi doba = nizsi mesicni splatky A nizsi odkup. Akontace snizuje castku splatnou dnes." />
+        <e k="usedplus_up_leaseTerm" v="Doba leasingu:" />
+        <e k="usedplus_up_securityDeposit" v="Jistina:" />
+        <e k="usedplus_up_totalLeaseCost" v="Celkove naklady leasingu:" />
+        <e k="usedplus_up_buyoutAtEnd" v="Odkup na konci:" />
+        <e k="usedplus_button_confirmPurchase" v="Potvrdit nakup" />
+
+        <!-- Unified Land Purchase Dialog - Additional Labels -->
+        <e k="usedplus_lp_sectionDetails" v="DETAILY ZEMEDELSKE PUDY" />
+        <e k="usedplus_lp_field" v="Pole:" />
+        <e k="usedplus_lp_size" v="Velikost:" />
+        <e k="usedplus_lp_perHa" v="Za ha:" />
+        <e k="usedplus_lp_basePrice" v="Zakladni cena:" />
+        <e k="usedplus_lp_creditAdjust" v="Kreditni uprava:" />
+        <e k="usedplus_lp_yourPrice" v="Vase cena:" />
+        <e k="usedplus_lp_methodHelp" v="Vyberte, jak chcete platit: hotove, financovani v case, nebo leasing pudy." />
+        <e k="usedplus_lp_cashHelp" v="Zaplaťte celou castku nyni pro uplne vlastnictvi pudy." />
+        <e k="usedplus_lp_financeHelp" v="Financujte koupi pudy s mesicnimi splatkami. Upravte dobu a akontaci nize." />
+        <e k="usedplus_lp_leaseHelp" v="Leasing pudy s mesicnimi splatkami. Sazba zalezi na rozloze a kvalite pudy." />
+        <e k="usedplus_lp_leaseTerm" v="Doba leasingu:" />
+        <e k="usedplus_lp_monthlyPayment" v="Mesicni splatka:" />
+        <e k="usedplus_lp_annualCost" v="Rocni naklady:" />
+        <e k="usedplus_lp_rateCalc" v="Vypocet sazby:" />
+        <e k="usedplus_lp_securityDeposit" v="Jistina:" />
+        <e k="usedplus_lp_dueToday" v="Splatne dnes:" />
+        <e k="usedplus_lp_totalLeaseCost" v="Celkove naklady leasingu:" />
+
+        <!-- Used Search Dialog -->
+        <e k="usedplus_us_sectionVehicle" v="VOZIDLO" />
+        <e k="usedplus_us_sectionTier" v="UROVEN VYHLEDAVANI" />
+        <e k="usedplus_us_sectionQuality" v="POZADOVANA KVALITA" />
+        <e k="usedplus_us_qualityAny" v="Jakakoli" />
+        <e k="usedplus_us_qualityPoor" v="Spatna" />
+        <e k="usedplus_us_qualityFair" v="Prumerna" />
+        <e k="usedplus_us_qualityGood" v="Dobra" />
+        <e k="usedplus_us_qualityExcellent" v="Vyborna" />
+        <e k="usedplus_us_infoText" v="Vyssi urovne stoji vice, ale maji lepsi uspesnost a nachazeji kvalitnejsi shody." />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_uvp_title" v="Pouzite vozidlo nalezeno" />
+        <e k="usedplus_uvp_sectionCondition" v="VIDITELNY STAV" />
+        <e k="usedplus_uvp_age" v="Stari:" />
+        <e k="usedplus_uvp_hours" v="Motohodiny:" />
+        <e k="usedplus_uvp_damage" v="Poskozeni:" />
+        <e k="usedplus_uvp_wear" v="Opotrebeni:" />
+        <e k="usedplus_uvp_warningTitle" v="Skryty mechanicky stav neznamy" />
+        <e k="usedplus_uvp_inspectPrompt" v="Zaplaťte za profesionalni prohlidku" />
+        <e k="usedplus_uvp_inspectedText" v="Vozidlo bylo prohlédnuto - zobrazte zpravu" />
+        <e k="usedplus_button_buyAsIs" v="Koupit jak je" />
+        <e k="usedplus_button_inspect" v="Prohlednout" />
+
+        <!-- Repair Dialog -->
+        <e k="usedplus_rp_title" v="Servis vozidla" />
+        <e k="usedplus_rp_sectionStatus" v="STAV VOZIDLA" />
+        <e k="usedplus_rp_mechanical" v="Mechanicky:" />
+        <e k="usedplus_rp_paint" v="Lak:" />
+        <e k="usedplus_rp_sectionRepair" v="MECHANICKA OPRAVA" />
+        <e k="usedplus_rp_sectionRepaint" v="PRELAKOVANI" />
+        <e k="usedplus_rp_selectAmount" v="Vyberte rozsah opravy:" />
+        <e k="usedplus_rp_selectPaint" v="Vyberte rozsah prelakovani:" />
+        <e k="usedplus_rp_selected" v="Vybrano:" />
+        <e k="usedplus_rp_cost" v="Cena:" />
+        <e k="usedplus_rp_after" v="Po:" />
+        <e k="usedplus_rp_sectionPayment" v="PLATBA" />
+        <e k="usedplus_rp_totalCost" v="CELKOVE NAKLADY:" />
+        <e k="usedplus_rp_result" v="VYSLEDEK:" />
+        <e k="usedplus_rp_yourMoney" v="Vase penize:" />
+        <e k="usedplus_rp_infoText" v="Zaplaťte nyni nebo financujte v case s mesicnimi splatkami." />
+        <e k="usedplus_button_payCash" v="PLATIT HOTOVE" />
+        <e k="usedplus_rp_buttonFinance" v="FINANCOVAT" />
+
+        <!-- Sell Vehicle Dialog -->
+        <e k="usedplus_sv_title" v="Prodat vozidlo" />
+        <e k="usedplus_sv_sectionVehicle" v="VOZIDLO NA PRODEJ" />
+        <e k="usedplus_sv_sectionOptions" v="MOZNOSTI PRODEJE" />
+        <e k="usedplus_sv_optionsHelp" v="Najměte agenta pro nalezeni kupcu. Vyssi urovne agentu oslovi vice kupcu, ale uctují vice." />
+        <e k="usedplus_sv_agent" v="Agent:" />
+        <e k="usedplus_sv_askingPrice" v="Pozadovana cena:" />
+        <e k="usedplus_sv_sectionOutcome" v="OCEKAVANY VYSLEDEK" />
+        <e k="usedplus_sv_expectedReturn" v="Ocekavany vynos:" />
+        <e k="usedplus_sv_returnPercent" v="Procento vynosu:" />
+        <e k="usedplus_sv_agentFee" v="Poplatek agentovi:" />
+        <e k="usedplus_sv_netAfterFee" v="Cista castka po poplatku:" />
+        <e k="usedplus_sv_expectedTime" v="Ocekavany cas:" />
+        <e k="usedplus_sv_successRate" v="Uspesnost:" />
+        <e k="usedplus_sv_selected" v="Vybrano:" />
+        <e k="usedplus_sv_sectionCompare" v="ALTERNATIVNI MOZNOSTI" />
+        <e k="usedplus_sv_tradeInCompare" v="Vymena (pri koupi):" />
+        <e k="usedplus_sv_infoText" v="Agent hleda kupce. Dostanete nabidky k prijeti nebo odmitnuti." />
+        <e k="usedplus_sv_warningText" v="Poplatek agentovi se nevrati. Vozidlo zustava Vase az do prodeje." />
+        <e k="usedplus_button_hireAgent" v="Najmout agenta" />
+
+        <!-- Sale Offer Dialog -->
+        <e k="usedplus_so_title" v="PRIJATA NABIDKA NA PRODEJ!" />
+        <e k="usedplus_so_sectionVehicle" v="VOZIDLO" />
+        <e k="usedplus_so_sectionOffer" v="DETAILY NABIDKY" />
+        <e k="usedplus_so_offerAmount" v="Castka nabidky:" />
+        <e k="usedplus_so_percentVanilla" v="% z vanilkoveho prodeje:" />
+        <e k="usedplus_so_expiresIn" v="Nabidka vyprsi za:" />
+        <e k="usedplus_so_sectionCompare" v="SROVNANI" />
+        <e k="usedplus_so_vanillaPrice" v="Vanilkova prodejni cena:" />
+        <e k="usedplus_so_thisOffer" v="Tato nabidka:" />
+        <e k="usedplus_so_acceptInfo" v="Prijeti proda vozidlo a castka bude pripsana na Vas ucet." />
+        <e k="usedplus_so_declineInfo" v="Odmitnuti muze vest k dalsim nabidkam, pokud zbyva cas, nebo k vyprseni inzeratu." />
+        <e k="usedplus_button_acceptOffer" v="Prijmout nabidku" />
+        <!-- REMOVED: usedplus_button_decline - duplicate, use Common Button Labels -->
+
+        <!-- Payment Config Dialog -->
+        <e k="usedplus_pc_title" v="Konfigurace plateb uveru" />
+        <e k="usedplus_pc_headerLoan" v="Uver" />
+        <e k="usedplus_pc_headerBalance" v="Zustatek" />
+        <e k="usedplus_pc_headerMode" v="Rezim" />
+        <e k="usedplus_pc_headerPayment" v="Platba" />
+        <e k="usedplus_pc_selectLoan" v="Vyberte uver vyse pro zmenu rezimu plateb" />
+        <e k="usedplus_pc_totalPayment" v="CELKOVA PLATBA" />
+        <e k="usedplus_button_resetAll" v="Resetovat vse" />
+        <e k="usedplus_button_apply" v="Pouzit" />
+
+        <!-- Lease End Dialog -->
+        <e k="usedplus_le_chooseOption" v="Vyberte moznost:" />
+        <e k="usedplus_le_returnTitle" v="VRATIT VOZIDLO" />
+        <e k="usedplus_le_returnDesc" v="Vraťte prodejci, zaplaťte pripadne pokuty za poskozeni" />
+        <e k="usedplus_le_buyoutTitle" v="ODKOUPIT VOZIDLO" />
+        <e k="usedplus_le_buyoutDesc" v="Zaplaťte zbytkovou hodnotu, ponechte si vozidlo natrvalo" />
+        <e k="usedplus_button_returnVehicle" v="Vratit vozidlo" />
+        <e k="usedplus_button_buyoutVehicle" v="Odkoupit vozidlo" />
+
+        <!-- Lease Renewal Dialog -->
+        <e k="usedplus_lr_title" v="Leasing dokonl" />
+        <e k="usedplus_lr_sectionSummary" v="SHRNUTÍ LEASINGU" />
+        <e k="usedplus_lr_term" v="Doba:" />
+        <e k="usedplus_lr_paymentsMade" v="Provedene platby:" />
+        <e k="usedplus_lr_totalPaid" v="Celkem zaplaceno:" />
+        <e k="usedplus_lr_equityBuilt" v="Vytvoreny vlastni kapital:" />
+        <e k="usedplus_lr_sectionDeposit" v="STAV JISTINY" />
+        <e k="usedplus_lr_securityDeposit" v="Jistina:" />
+        <e k="usedplus_lr_deductions" v="Srazky:" />
+        <e k="usedplus_lr_refundAmount" v="Castka k vraceni:" />
+        <e k="usedplus_lr_vehicleCondition" v="Stav vozidla:" />
+        <e k="usedplus_lr_sectionOptions" v="VASE MOZNOSTI" />
+        <e k="usedplus_lr_optionReturn" v="VRATIT" />
+        <e k="usedplus_lr_optionReturnDesc" v="Vraťte aktivum" />
+        <e k="usedplus_lr_youReceive" v="Obdrzite:" />
+        <e k="usedplus_lr_optionBuyout" v="ODKOUPIT" />
+        <e k="usedplus_lr_optionBuyoutDesc" v="Koupit do vlastnictvi" />
+        <e k="usedplus_lr_youPay" v="Zaplatite:" />
+        <e k="usedplus_lr_optionRenew" v="OBNOVIT" />
+        <e k="usedplus_lr_optionRenewDesc" v="Prodlouzit leasing" />
+        <e k="usedplus_lr_equityCarries" v="Kapital prenesen:" />
+        <e k="usedplus_button_return" v="Vratit" />
+        <e k="usedplus_button_buyout" v="Odkoupit" />
+        <e k="usedplus_button_renew" v="Obnovit" />
+        <e k="usedplus_lr_helpText" v="Musite vybrat moznost. Vraceni Vam vrati jistinu. Odkup pouzije Vas kapital k nakupu. Obnoveni prodlouzi leasing s kapitalem uplatnenym na budouci odkup." />
+
+        <!-- Confirmation Dialog -->
+        <e k="usedplus_conf_title" v="Potvrzeni" />
+
+        <!-- Credit Report Dialog -->
+        <e k="usedplus_cr_title" v="KREDITNI ZPRAVA" />
+        <e k="usedplus_cr_reportDate" v="Datum zpravy:" />
+        <e k="usedplus_cr_sectionScore" v="KREDITNI SKORE" />
+        <e k="usedplus_cr_scoreRange" v="Rozsah skore: 300-850" />
+        <e k="usedplus_cr_sectionTrend" v="TREND SKORE" />
+        <e k="usedplus_cr_noHistory" v="Zadna historie" />
+        <e k="usedplus_cr_sectionFactors" v="FAKTORY OVLIVNUJICI SKORE" />
+        <e k="usedplus_cr_factorPayment" v="Historie plateb (35%):" />
+        <e k="usedplus_cr_factorUtilization" v="Vyuziti kreditu (30%):" />
+        <e k="usedplus_cr_factorAge" v="Stari uctu (15%):" />
+        <e k="usedplus_cr_factorMix" v="Mix uctu (10%):" />
+        <e k="usedplus_cr_factorInquiries" v="Nedavne dotazy (10%):" />
+        <e k="usedplus_cr_sectionAccount" v="PREHLED UCTU" />
+        <e k="usedplus_cr_openAccounts" v="Otevrene ucty:" />
+        <e k="usedplus_cr_closedAccounts" v="Uzavrene ucty:" />
+        <e k="usedplus_cr_outstandingBalance" v="Nesplaceny zustatek:" />
+        <e k="usedplus_cr_sectionActive" v="AKTIVNI UCTY" />
+        <e k="usedplus_cr_noActiveAccounts" v="Zadne aktivni ucty" />
+        <e k="usedplus_cr_sectionPayment" v="HISTORIE PLATEB" />
+        <e k="usedplus_cr_onTimePayments" v="Platby vcas:" />
+        <e k="usedplus_cr_missedPayments" v="Zmezkane platby:" />
+        <e k="usedplus_cr_currentStreak" v="Aktualni serie:" />
+        <e k="usedplus_cr_longestStreak" v="Nejdelsi serie:" />
+        <e k="usedplus_cr_section12Month" v="12-MESICNI HISTORIE" />
+        <e k="usedplus_cr_sectionTips" v="TIPY PRO ZLEPSENI" />
+        <e k="usedplus_cr_tip1" v="Plaťte vcas pro budovani kreditu" />
+        <e k="usedplus_cr_tip2" v="Udrzujte dluh pod 50% aktiv" />
+        <e k="usedplus_cr_tip3" v="Budujte historii malymi uvery" />
+        <!-- REMOVED: usedplus_button_close - duplicate, use Common Button Labels -->
+
+        <!-- Search Details Dialog -->
+        <e k="usedplus_sd_title" v="DETAILY VYHLEDAVANI" />
+        <e k="usedplus_sd_sectionSearching" v="HLEDANI" />
+        <e k="usedplus_sd_sectionConfig" v="KONFIGURACE VYHLEDAVANI" />
+        <e k="usedplus_sd_searchTier" v="Uroven vyhledavani:" />
+        <e k="usedplus_sd_agentFee" v="Poplatek agentovi:" />
+        <e k="usedplus_sd_baseSuccess" v="Zakladni uspesnost:" />
+        <e k="usedplus_sd_qualitySought" v="Hledana kvalita:" />
+        <e k="usedplus_sd_successModifier" v="Modifikator uspesnosti:" />
+        <e k="usedplus_sd_combinedChance" v="Kombinovana sance:" />
+        <e k="usedplus_sd_sectionPricing" v="OCEKAVANA CENA" />
+        <e k="usedplus_sd_newPrice" v="Nova cena:" />
+        <e k="usedplus_sd_expectedUsed" v="Ocekavana pouzita:" />
+        <e k="usedplus_sd_savings" v="Uspora:" />
+        <e k="usedplus_sd_qualityRange" v="Rozsah kvality:" />
+        <e k="usedplus_sd_priceRange" v="Cenovy rozsah:" />
+        <e k="usedplus_sd_sectionStatus" v="STAV VYHLEDAVANI" />
+        <e k="usedplus_sd_status" v="Stav:" />
+        <e k="usedplus_sd_timeRemaining" v="Zbyvajici cas:" />
+        <e k="usedplus_sd_started" v="Zahajeno:" />
+        <e k="usedplus_sd_elapsed" v="Uplynulo:" />
+        <e k="usedplus_sd_infoText" v="Regionalni vyhledavani nabizi nejlepsi pomer uspesnosti." />
+
+        <!-- Sale Listing Details Dialog -->
+        <e k="usedplus_sld_title" v="DETAILY PRODEJNIHO INZERATU" />
+        <e k="usedplus_sld_sectionVehicle" v="VOZIDLO" />
+        <e k="usedplus_sld_sectionStatus" v="STAV" />
+        <e k="usedplus_sld_condition" v="Stav:" />
+        <e k="usedplus_sld_hours" v="Motohodiny:" />
+        <e k="usedplus_sld_timeLeft" v="Zbyvajici cas:" />
+        <e k="usedplus_sld_sectionConfig" v="KONFIGURACE PRODEJE" />
+        <e k="usedplus_sld_agentTier" v="Uroven agenta:" />
+        <e k="usedplus_sld_agentFee" v="Poplatek agentovi:" />
+        <e k="usedplus_sld_baseSuccess" v="Zakladni uspesnost:" />
+        <e k="usedplus_sld_priceTier" v="Cenova uroven:" />
+        <e k="usedplus_sld_priceRange" v="Cenovy rozsah:" />
+        <e k="usedplus_sld_successMod" v="Mod. uspesnosti:" />
+        <e k="usedplus_sld_sectionValue" v="SROVNANI HODNOT" />
+        <e k="usedplus_sld_vanillaSell" v="Vanilkovy prodej:" />
+        <e k="usedplus_sld_tradeInValue" v="Hodnota vymeny:" />
+        <e k="usedplus_sld_tradeInNote" v="(Vymena: 50-65% okamzite)" />
+        <e k="usedplus_sld_expected" v="Ocekavano:" />
+        <e k="usedplus_sld_vsVanilla" v="vs Vanilka:" />
+        <e k="usedplus_sld_netAfterFee" v="Cista (po poplatku):" />
+        <e k="usedplus_sld_sectionOffers" v="HISTORIE NABIDEK" />
+        <e k="usedplus_sld_offersReceived" v="Prijate nabidky:" />
+        <e k="usedplus_sld_offersDeclined" v="Odmitnute nabidky:" />
+        <e k="usedplus_sld_listedFor" v="Zarazeno na:" />
+        <e k="usedplus_sld_infoText" v="Vyssi urovne agentu maji sirsi dosah, ale delsi cekaci doby." />
+
+        <!-- Payment History Dialog -->
+        <e k="usedplus_ph_title" v="HISTORIE PLATEB" />
+        <e k="usedplus_ph_sectionSummary" v="SHRNUTÍ SMLOUVY" />
+        <e k="usedplus_ph_item" v="Polozka:" />
+        <e k="usedplus_ph_original" v="Puvodni:" />
+        <e k="usedplus_ph_rate" v="Sazba:" />
+        <e k="usedplus_ph_monthly" v="Mesicne:" />
+        <e k="usedplus_ph_progress" v="Prubeh:" />
+        <e k="usedplus_ph_balance" v="Zustatek:" />
+        <e k="usedplus_ph_headerNum" v="#" />
+        <e k="usedplus_ph_headerPayment" v="PLATBA" />
+        <e k="usedplus_ph_headerPrincipal" v="JISTINA" />
+        <e k="usedplus_ph_headerInterest" v="UROK" />
+        <e k="usedplus_ph_headerBalance" v="ZUSTATEK" />
+        <e k="usedplus_ph_headerStatus" v="STAV" />
+        <e k="usedplus_button_prev" v="PREDCH" />
+        <e k="usedplus_button_next" v="DALSI" />
+        <e k="usedplus_ph_pageInfo" v="Zobrazeni plateb %d-%d z %d" />
+
+        <!-- Finance Manager Frame -->
+        <e k="usedplus_fmf_sectionFinances" v="FINANCE" />
+        <e k="usedplus_fmf_sectionMarketplace" v="POUZITY TRH" />
+        <e k="usedplus_fmf_sectionCredit" v="KREDIT &amp; STATISTIKY" />
+        <e k="usedplus_fmf_noActiveDeals" v="Zadne aktivni financni smlouvy" />
+        <e k="usedplus_fmf_headerType" v="TYP" />
+        <e k="usedplus_fmf_headerItem" v="POLOZKA" />
+        <e k="usedplus_fmf_headerBalance" v="ZUSTATEK" />
+        <e k="usedplus_fmf_headerMonthly" v="MESICNE" />
+        <e k="usedplus_fmf_headerProgress" v="PRUBEH" />
+        <e k="usedplus_fmf_headerLeft" v="ZBYVA" />
+        <e k="usedplus_fmf_totalOwed" v="Celkem dluzno:" />
+        <e k="usedplus_fmf_monthlyLabel" v="Mesicne:" />
+        <e k="usedplus_fmf_interestLabel" v="Uroky:" />
+        <e k="usedplus_fmf_dealsLabel" v="Smlouvy:" />
+        <e k="usedplus_fmf_payEarly" v="SPLATIT PREDCASNE" />
+        <e k="usedplus_fmf_info" v="INFO" />
+        <e k="usedplus_fmf_searchTierInfo" v="Informace o urovnich vyhledavani" />
+        <e k="usedplus_fmf_localSearch" v="Lokalni vyhledavani" />
+        <e k="usedplus_fmf_localStats" v="2% poplatek | 40% uspesnost | 1 mesic" />
+        <e k="usedplus_fmf_regionalSearch" v="Regionalni vyhledavani" />
+        <e k="usedplus_fmf_regionalStats" v="6% poplatek | 70% uspesnost | 1-3 mesice" />
+        <e k="usedplus_fmf_nationalSearch" v="Celostatni vyhledavani" />
+        <e k="usedplus_fmf_nationalStats" v="12% | 85% | 2-6 mes." />
+        <e k="usedplus_fmf_startFromShop" v="Spusťte vyhledavani z obchodu" />
+        <e k="usedplus_fmf_viaSearchUsed" v="pres 'Hledat pouzite'" />
+        <e k="usedplus_fmf_usedVehicleSearches" v="Vyhledavani pouzitych vozidel" />
+        <e k="usedplus_fmf_noActiveSearches" v="Zadna aktivni vyhledavani. Zacnete z obchodu." />
+        <e k="usedplus_fmf_headerPrice" v="CENA" />
+        <e k="usedplus_fmf_headerTier" v="UROVEN" />
+        <e k="usedplus_fmf_headerChance" v="%" />
+        <e k="usedplus_fmf_headerTime" v="CAS" />
+        <e k="usedplus_fmf_vehiclesForSale" v="Vozidla na prodej" />
+        <e k="usedplus_fmf_noListings" v="Zadne inzeraty. Prodavejte z menu garaze." />
+        <e k="usedplus_fmf_lifetimeStats" v="Celozivotni statistiky" />
+        <e k="usedplus_fmf_financeHistory" v="-- Historie financovani --" />
+        <e k="usedplus_fmf_dealsCompleted" v="Dokoncene smlouvy:" />
+        <e k="usedplus_fmf_totalFinanced" v="Celkem financovano:" />
+        <e k="usedplus_fmf_interestPaid" v="Zaplacene uroky:" />
+        <e k="usedplus_fmf_paymentsMade" v="Provedene platby:" />
+        <e k="usedplus_fmf_searchHistory" v="-- Historie vyhledavani --" />
+        <e k="usedplus_fmf_searchesStarted" v="Zahajene vyhledavani:" />
+        <e k="usedplus_fmf_vehiclesFound" v="Nalezena vozidla:" />
+        <e k="usedplus_fmf_feesSpent" v="Utracene poplatky:" />
+        <e k="usedplus_fmf_successRate" v="Uspesnost:" />
+        <e k="usedplus_fmf_totalSaved" v="Celkem usporeno (pouzite vs nove):" />
+        <e k="usedplus_fmf_yourCreditScore" v="Vase kreditni skore" />
+        <e k="usedplus_fmf_creditRanges" v="Rozsahy kreditu:" />
+        <e k="usedplus_fmf_tierExcellent" v="750-850 Vyborny -1,5%" />
+        <e k="usedplus_fmf_tierGood" v="700-749 Dobry -0,5%" />
+        <e k="usedplus_fmf_tierFair" v="650-699 Prumerny +0,5%" />
+        <e k="usedplus_fmf_tierPoor" v="600-649 Spatny +1,5%" />
+        <e k="usedplus_fmf_tierVeryPoor" v="300-599 Velmi spatny +3,0%" />
+        <e k="usedplus_fmf_listings" v="%d inzeratu" />
+
+        <!-- Overview Panel -->
+        <e k="usedplus_fmf_overview" v="PREHLED" />
+        <e k="usedplus_fmf_overviewLine1" v="UsedPlus rozsiruje vanilkovou ekonomiku o realisticke financovani, pouzity trh a kreditni system." />
+        <e k="usedplus_fmf_overviewLine2" v="Financujte nebo leasujte z obchodu. Vymente stare vybaveni. Prodavejte pres agenty pro lepsi vynos nez vanilka." />
+        <e k="usedplus_fmf_buyingUsed" v="NAKUP POUZITEHO" />
+        <e k="usedplus_fmf_buyingLine1" v="Obchod → 'Hledat pouzite' pro najeti agentu. LOKALNI: 2%, 40%. REGIONALNI: 6%, 70%. CELOSTATNI: 12%, 85%." />
+        <e k="usedplus_fmf_buyingLine2" v="Vyssi urovne = sirsi hledani, lepsi sance. Pouzita vozidla maji ruzny stav a motohodiny." />
+        <e k="usedplus_fmf_sellingEquip" v="PRODEJ VYBAVENI" />
+        <e k="usedplus_fmf_sellingLine1" v="Garaz → Zaradit k prodeji. Vymena: 50-65%. Lokalni: 60-75%. Regionalni: 75-90%. Celostatni: 90-100%." />
+        <e k="usedplus_fmf_sellingLine2" v="Stav a motohodiny ovlivnuji hodnotu. Prijimejte/odmitejte nabidky z teto obrazovky." />
+        <e k="usedplus_fmf_creditScore" v="KREDITNI SKORE (300-850)" />
+        <e k="usedplus_fmf_creditLine1" v="Urcuje uroky a hodnoty vymeny. Zlepsuje se: vcasnymi platbami, dokoncenymi smlouvami. Klesa pri: zmezkanych platkach, selhanich." />
+        <e k="usedplus_fmf_creditLine2" v="Aktiva poskytuji zajisteni, ale nedokazuji uveruhodnost. Historie plateb je nejdulezitejsi - zděděna puda neznamena dobry kredit!" />
+        <e k="usedplus_fmf_quickRef" v="RYCHLY PREHLED" />
+        <e k="usedplus_fmf_quickRefLine1" v="Obchod → Financovat/Leasing/Hledat pouzite | Garaz → Zaradit k prodeji" />
+        <e k="usedplus_fmf_quickRefLine2" v="Mesicni platby automaticky strhavany. Predcasne splaceni setri na urocich." />
+
+        <!-- Land Lease Dialog -->
+        <e k="usedplus_ll_title" v="Leasing pudy" />
+        <e k="usedplus_ll_sectionDetails" v="DETAILY POLE" />
+        <e k="usedplus_ll_field" v="Pole:" />
+        <e k="usedplus_ll_size" v="Velikost:" />
+        <e k="usedplus_ll_value" v="Hodnota:" />
+        <e k="usedplus_ll_sectionTerm" v="DOBA LEASINGU" />
+        <e k="usedplus_ll_selectDuration" v="Vyberte dobu leasingu:" />
+        <e k="usedplus_ll_sectionCosts" v="NAKLADY LEASINGU" />
+        <e k="usedplus_ll_monthlyPayment" v="Mesicni splatka:" />
+        <e k="usedplus_ll_yearlyPayment" v="Rocni splatka:" />
+        <e k="usedplus_ll_totalCost" v="Celkove naklady leasingu:" />
+        <e k="usedplus_ll_markup" v="Prirazka:" />
+        <e k="usedplus_ll_buyoutPrice" v="Odkupni cena:" />
+        <e k="usedplus_ll_note1" v="Leasing umoznuje uzivani pudy bez plneho nakupu." />
+        <e k="usedplus_ll_note2" v="Puda se vraci na trh po skonceni leasingu, pokud neni odkoupena." />
+        <e k="usedplus_button_acceptLease" v="Prijmout leasing" />
+
+        <!-- Land Finance Dialog - Additional -->
+        <e k="usedplus_lf_field" v="Pole:" />
+        <e k="usedplus_lf_size" v="Velikost:" />
+        <e k="usedplus_lf_price" v="Cena:" />
+        <e k="usedplus_lf_sectionDueToday" v="K UHRADE DNES PRI PODPISU" />
+        <e k="usedplus_lf_downPayment" v="Akontace:" />
+        <e k="usedplus_lf_youPayToday" v="PLATITE DNES:" />
+        <e k="usedplus_lf_lowerRatesNote" v="Financovani pudy ma nizsi sazby nez uvery na vozidla." />
+
+        <!-- Finance Detail Frame -->
+        <e k="usedplus_fd_title" v="Detaily financni smlouvy" />
+        <e k="usedplus_fd_quick1Month" v="1 mesic" />
+        <e k="usedplus_fd_quick6Months" v="6 mesicu" />
+        <e k="usedplus_fd_quick1Year" v="1 rok" />
+        <e k="usedplus_fd_quickPayOff" v="Splatit" />
+
+        <!-- Repair Finance Dialog -->
+        <e k="usedplus_rf_title" v="Financovat opravu" />
+        <e k="usedplus_rf_repairCost" v="Cena opravy:" />
+        <e k="usedplus_rf_loanTerm" v="Doba uveru:" />
+        <e k="usedplus_rf_downPayment" v="Akontace:" />
+        <e k="usedplus_rf_monthlyPayment" v="Mesicni splatka:" />
+        <e k="usedplus_rf_totalInterest" v="Celkovy urok:" />
+        <e k="usedplus_rf_interestRate" v="Urokova sazba:" />
+        <e k="usedplus_rf_totalPayments" v="Celkove platby:" />
+        <e k="usedplus_rf_creditScore" v="Kreditni skore:" />
+        <e k="usedplus_rf_infoText" v="Mesicni platby automaticky strhavany. Splaťte predcasne pro usporu na urocich." />
+        <e k="usedplus_button_acceptFinance" v="Prijmout financovani" />
+
+        <!-- TakeLoan Dialog - Credit Tiers -->
+        <e k="usedplus_tl_excellent" v="Vyborny 750+: 6,5%" />
+        <e k="usedplus_tl_good" v="Dobry 700-749: 7,5%" />
+        <e k="usedplus_tl_fair" v="Prumerny 650-699: 8,5%" />
+        <e k="usedplus_tl_poor" v="Spatny 600-649: 9,5%" />
+        <e k="usedplus_tl_veryPoor" v="Velmi spatny &lt;600: 11%" />
+    </elements>
+</l10n>

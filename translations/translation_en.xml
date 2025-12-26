@@ -1,0 +1,1229 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+     English localization for FS25_UsedPlus
+     Pattern from: Game's l10n system
+     All GUI text must be defined here for display
+
+    Organization:
+    - Finance Dialog strings
+    - Lease Dialog strings
+    - Used Search Dialog strings
+    - Finance Manager Frame strings
+    - Finance Detail Frame strings
+    - Land Finance Dialog strings
+    - Notifications
+    - Errors
+    - Common strings
+-->
+<l10n>
+    <!--  Finance Dialog -->
+    <elements>
+        <e k="usedplus_finance_title" v="Finance Vehicle" />
+        <e k="usedplus_finance_itemDetails" v="Vehicle Details" />
+        <e k="usedplus_finance_configuration" v="Finance Configuration" />
+        <e k="usedplus_finance_term" v="Loan Term" />
+        <e k="usedplus_finance_loanTerm" v="Loan Term (Years)" />
+        <e k="usedplus_finance_downPayment" v="Down Payment" />
+        <e k="usedplus_finance_cashBack" v="Cash Back" />
+        <e k="usedplus_finance_paymentPreview" v="Payment Preview" />
+        <e k="usedplus_finance_monthlyPayment" v="Monthly Payment" />
+        <e k="usedplus_finance_yearlyPayment" v="Yearly Payment" />
+        <e k="usedplus_finance_totalInterest" v="Total Interest" />
+        <e k="usedplus_finance_totalCost" v="Total Cost" />
+        <e k="usedplus_finance_interestRate" v="Interest Rate" />
+        <e k="usedplus_finance_creditScore" v="Credit Score" />
+        <e k="usedplus_finance_creditRating" v="Credit Rating" />
+        <e k="usedplus_finance_important" v="Important Information" />
+        <e k="usedplus_finance_ownershipTransfers" v="Ownership transfers immediately upon acceptance." />
+        <e k="usedplus_finance_sellAnytime" v="You may sell financed items at any time. Remaining balance must be paid from sale proceeds." />
+
+        <!--  Lease Dialog -->
+        <e k="usedplus_lease_title" v="Lease Vehicle" />
+        <e k="usedplus_lease_vehicleDetails" v="Vehicle Details" />
+        <e k="usedplus_lease_configuration" v="Lease Configuration" />
+        <e k="usedplus_lease_term" v="Lease Term (Years)" />
+        <e k="usedplus_lease_downPayment" v="Down Payment" />
+        <e k="usedplus_lease_residualValue" v="Residual Value (Balloon Payment)" />
+        <e k="usedplus_lease_paymentPreview" v="Payment Preview" />
+        <e k="usedplus_lease_monthlyPayment" v="Monthly Payment" />
+        <e k="usedplus_lease_yearlyPayment" v="Yearly Payment" />
+        <e k="usedplus_lease_totalCost" v="Total Lease Cost" />
+        <e k="usedplus_lease_interestRate" v="Interest Rate" />
+        <e k="usedplus_lease_creditScore" v="Credit Score" />
+        <e k="usedplus_lease_important" v="Important Lease Information" />
+        <!-- REMOVED: usedplus_lease_warningReturn, warningDamage, returnWarning, damageWarning - unused duplicates -->
+        <e k="usedplus_lease_endOfTerm" v="End of Lease" />
+        <e k="usedplus_lease_buyoutPrice" v="Buyout Price" />
+        <e k="usedplus_lease_totalInterest" v="Total Interest" />
+
+        <!--  Used Search Dialog -->
+        <e k="usedplus_search_title" v="Search for Used Equipment" />
+        <e k="usedplus_search_itemDetails" v="Item Details" />
+        <e k="usedplus_search_searching" v="Searching For" />
+        <e k="usedplus_search_newPrice" v="New Price:" />
+        <e k="usedplus_search_selectTier" v="Select Search Tier" />
+        <e k="usedplus_search_tierDescription" v="Choose your search scope. Higher tiers cost more and take longer, but have better success rates and match quality." />
+        <e k="usedplus_search_tierSelection" v="Search Tier Selection" />
+        <!-- Consolidated: removed usedplus_search_local/regional/national - use _tier* versions -->
+        <e k="usedplus_search_tierLocal" v="Local Search" />
+        <e k="usedplus_search_tierRegional" v="Regional Search" />
+        <e k="usedplus_search_tierNational" v="National Search" />
+        <e k="usedplus_search_cost" v="Search Cost" />
+        <e k="usedplus_search_duration" v="Duration" />
+        <e k="usedplus_search_success" v="Success Rate" />
+        <e k="usedplus_search_successChance" v="Success Chance" />
+        <e k="usedplus_search_match" v="Match Quality" />
+        <!-- REMOVED: usedplus_search_matchChance - duplicate of usedplus_search_match -->
+        <e k="usedplus_search_description" v="Description" />
+        <e k="usedplus_search_descLocal" v="Search nearby dealers. Guaranteed 1 month response, 2% cost, 40% success rate." />
+        <e k="usedplus_search_descRegional" v="Search regional network. 1-3 months, 6% cost, 70% success rate." />
+        <e k="usedplus_search_descNational" v="Search nationwide. 2-6 months, 12% cost, 85% success rate." />
+        <e k="usedplus_search_qualitySelection" v="Desired Quality" />
+        <e k="usedplus_search_qualityDescription" v="Lower quality = cheaper price but more repairs needed" />
+        <e k="usedplus_search_confirmTitle" v="Search Initiated" />
+
+        <!-- Confirmation Dialog -->
+        <e k="usedplus_confirmation_title" v="Confirmation" />
+
+        <!--  Finance Manager Frame (InGameMenu page) -->
+        <e k="usedplus_inGameMenuTitle" v="Used Plus - Finance &amp; Searches" />
+        <e k="usedplus_activeFinanceDeals" v="Active Finance Deals:" />
+        <e k="usedplus_activeSearches" v="Active Searches:" />
+        <e k="usedplus_creditScore" v="Credit Score:" />
+        <e k="usedplus_manager_title" v="Finance Manager" />
+        <e k="usedplus_manager_totalFinanced" v="Total Financed" />
+        <e k="usedplus_manager_monthlyObligations" v="Monthly Obligations" />
+        <e k="usedplus_manager_creditScore" v="Credit Score" />
+        <e k="usedplus_manager_assetValue" v="Asset Value" />
+        <e k="usedplus_manager_debtRatio" v="Debt Ratio" />
+        <e k="usedplus_manager_activeDeals" v="Active Deals" />
+        <e k="usedplus_manager_type" v="Type" />
+        <e k="usedplus_manager_item" v="Item" />
+        <e k="usedplus_manager_balance" v="Balance" />
+        <e k="usedplus_manager_monthly" v="Monthly Payment" />
+        <e k="usedplus_manager_progress" v="Progress" />
+        <e k="usedplus_manager_actions" v="Actions" />
+        <e k="usedplus_manager_noDeals" v="No active finance or lease deals." />
+        <e k="usedplus_manager_helpText" v="Finance vehicles from the shop (F key). Search for used equipment (V key). Payments are automatically deducted monthly." />
+
+        <!--  Finance Detail Frame -->
+        <e k="usedplus_detail_dealInfo" v="Deal Information" />
+        <e k="usedplus_detail_itemName" v="Item" />
+        <e k="usedplus_detail_dealType" v="Type" />
+        <e k="usedplus_detail_originalPrice" v="Original Price" />
+        <e k="usedplus_detail_downPayment" v="Down Payment" />
+        <e k="usedplus_detail_amountFinanced" v="Amount Financed" />
+        <e k="usedplus_detail_interestRate" v="Interest Rate" />
+        <e k="usedplus_detail_term" v="Term" />
+        <e k="usedplus_detail_startDate" v="Start Date" />
+        <e k="usedplus_detail_paymentStatus" v="Payment Status" />
+        <e k="usedplus_detail_currentBalance" v="Current Balance" />
+        <e k="usedplus_detail_principalPaid" v="Principal Paid" />
+        <e k="usedplus_detail_interestPaid" v="Interest Paid" />
+        <e k="usedplus_detail_remainingPrincipal" v="Remaining Principal" />
+        <e k="usedplus_detail_projectedInterest" v="Projected Interest (if no prepayment)" />
+        <e k="usedplus_detail_makePayment" v="Make Additional Payment" />
+        <e k="usedplus_detail_paymentAmount" v="Payment Amount" />
+        <e k="usedplus_detail_paymentSummary" v="Payment Summary" />
+        <e k="usedplus_detail_paymentTotal" v="Total Payment" />
+        <e k="usedplus_detail_toPrincipal" v="To Principal" />
+        <e k="usedplus_detail_toInterest" v="To Interest" />
+        <e k="usedplus_detail_newBalance" v="New Balance" />
+        <e k="usedplus_detail_prepaymentPenalty" v="Prepayment Penalty" />
+
+        <!--  Land Finance Dialog -->
+        <e k="usedplus_landFinance_title" v="Finance Farmland" />
+        <e k="usedplus_landFinance_fieldDetails" v="Field Details" />
+        <e k="usedplus_landFinance_configuration" v="Finance Configuration" />
+        <e k="usedplus_landFinance_term" v="Loan Term (Years)" />
+        <e k="usedplus_landFinance_downPayment" v="Down Payment" />
+        <e k="usedplus_landFinance_paymentPreview" v="Payment Preview" />
+        <e k="usedplus_landFinance_monthlyPayment" v="Monthly Payment" />
+        <e k="usedplus_landFinance_yearlyPayment" v="Yearly Payment" />
+        <e k="usedplus_landFinance_totalInterest" v="Total Interest" />
+        <e k="usedplus_landFinance_totalCost" v="Total Cost" />
+        <e k="usedplus_landFinance_interestRate" v="Interest Rate" />
+        <e k="usedplus_landFinance_lowerRates" v="Land financing typically offers lower interest rates." />
+        <e k="usedplus_landFinance_creditScore" v="Credit Score" />
+        <e k="usedplus_landFinance_important" v="Important Information" />
+        <e k="usedplus_landFinance_ownershipTransfers" v="Land ownership transfers immediately. You can use the field right away." />
+        <e k="usedplus_landFinance_seizureWarning" v="Warning: Failure to make monthly payments may result in land seizure." />
+
+        <!--  Buttons -->
+        <e k="usedplus_button_acceptFinance" v="Accept Finance" />
+        <e k="usedplus_button_acceptLease" v="Accept Lease" />
+        <e k="usedplus_button_startSearch" v="Start Search" />
+        <e k="usedplus_button_viewDetail" v="View Details" />
+        <e k="usedplus_button_makePayment" v="Make Payment" />
+        <e k="usedplus_button_endLeaseEarly" v="End Lease Early" />
+        <e k="usedplus_button_purchaseUsed" v="Purchase Used" />
+        <e k="usedplus_button_finance" v="Finance" />
+        <e k="usedplus_button_financeLand" v="Finance Land" />
+        <e k="usedplus_button_leaseLand" v="Lease Land" />
+        <e k="usedplus_button_lease" v="Lease" />
+        <e k="usedplus_button_searchUsed" v="Search Used" />
+
+        <!--  Notifications (use %s for money - pass g_i18n:formatMoney() values) -->
+        <e k="usedplus_notification_dealComplete" v="%s has been paid off!" />
+        <e k="usedplus_notification_searchSuccess" v="Used %s found!" />
+        <e k="usedplus_notification_searchFailed" v="Search for %s failed. No matches found." />
+        <e k="usedplus_searchFailed_title" v="Search Complete" />
+        <e k="usedplus_searchFailed_message" v="Your agent was unable to find a %s matching your criteria. The search fee is non-refundable. You may start a new search if desired." />
+        <e k="usedplus_notification_searchStarted" v="Searching for %s. Expected completion: %d days." />
+        <e k="usedplus_notification_searchCancelled" v="Search for %s cancelled. No refund." />
+        <e k="usedplus_notification_vehicleFound" v="Used %s (%s) found for %s!" />
+        <e k="usedplus_notification_dealPaidOff" v="%s has been paid off in full!" />
+        <e k="usedplus_notification_paymentProcessed" v="Payment of %s processed for %s" />
+        <e k="usedplus_notification_leaseTerminated" v="Lease for %s terminated. Penalty: %s" />
+        <e k="usedplus_notification_leaseTerminatedNoPenalty" v="Lease for %s terminated. No penalty." />
+        <e k="usedplus_notification_missedLeasePayment" v="MISSED LEASE PAYMENT: Unable to pay %s for %s" />
+        <e k="usedplus_notification_leaseDamagePenalty" v="Lease damage penalty for %s: %s" />
+        <e k="usedplus_notification_leaseComplete" v="Lease complete! %s has been returned." />
+        <e k="usedplus_notification_dealPaidFromSale" v="%s sold. Finance balance of %s paid from proceeds." />
+
+        <!--  Errors (use %s for money - pass g_i18n:formatMoney() values) -->
+        <e k="usedplus_error_insufficientFunds" v="Insufficient funds. Required: %s" />
+        <e k="usedplus_error_searchFailed" v="Failed to start search. Please try again." />
+        <e k="usedplus_error_insufficientFundsTermination" v="Insufficient funds for lease termination. Required: %s" />
+        <e k="usedplus_error_invalidDeal" v="Invalid deal. Please contact support." />
+        <e k="usedplus_error_cannotSellLeasedVehicle" v="Cannot sell leased vehicle. End lease first or wait until lease expires." />
+        <e k="usedplus_error_insufficientSalePrice" v="Cannot sell. Remaining balance (%s) exceeds sale price (%s)." />
+
+        <!--  Credit Score Ratings -->
+        <e k="usedplus_credit_excellent" v="Excellent" />
+        <e k="usedplus_credit_good" v="Good" />
+        <e k="usedplus_credit_fair" v="Fair" />
+        <e k="usedplus_credit_poor" v="Poor" />
+
+        <!--  Equipment Condition Tiers -->
+        <e k="usedplus_condition_poor" v="Poor" />
+        <e k="usedplus_condition_any" v="Any" />
+        <e k="usedplus_condition_fair" v="Fair" />
+        <e k="usedplus_condition_good" v="Good" />
+        <e k="usedplus_condition_excellent" v="Excellent" />
+        <e k="usedplus_condition_poor_desc" v="Bargain bin - may be inoperable or need extensive repairs" />
+        <e k="usedplus_condition_any_desc" v="Cheapest working - may need significant repairs" />
+
+        <!--  Deal Types -->
+        <e k="usedplus_dealType_finance" v="Finance" />
+        <e k="usedplus_dealType_lease" v="Lease" />
+
+        <!--  Item Types -->
+        <e k="usedplus_itemType_vehicle" v="Vehicle" />
+        <e k="usedplus_itemType_land" v="Farmland" />
+        <e k="usedplus_itemType_placeable" v="Placeable" />
+
+        <!--  Used Vehicle Generations -->
+        <e k="usedplus_generation_recent" v="Recent" />
+        <e k="usedplus_generation_midage" v="Mid-age" />
+        <e k="usedplus_generation_old" v="Old" />
+
+        <!--  Help Text -->
+        <e k="usedplus_help_creditScore" v="Credit score affects your interest rate. Improve it by maintaining a low debt-to-asset ratio." />
+        <e k="usedplus_help_downPayment" v="Higher down payment reduces monthly payments and may lower interest rate." />
+        <e k="usedplus_help_cashBack" v="Cash back is deducted from down payment. Increases amount financed." />
+        <e k="usedplus_help_prepayment" v="You can pay off your loan early to save on interest. Prepayment penalties may apply." />
+        <e k="usedplus_help_leaseDamage" v="Keep leased vehicles in good condition to avoid return penalties." />
+
+        <!--  Menu Integration -->
+        <e k="usedplus_menu_financeManager" v="Finance Manager" />
+        <e k="usedplus_action_openFinanceManager" v="Open Finance Manager" />
+        <e k="usedplus_action_searchUsed" v="Search Used Equipment" />
+        <e k="input_USEDPLUS_OPEN_FINANCE_MANAGER" v="Open Finance Manager" />
+        <e k="input_USEDPLUS_SEARCH_USED" v="Search Used Equipment" />
+        <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Inspect Vehicle" />
+
+        <!--  Tooltips for Finance Dialog -->
+        <e k="usedplus_finance_loanTerm_tooltip" v="Spread payments over 1-20 years. Longer terms = smaller monthly payments but more total interest paid." />
+        <e k="usedplus_finance_downPayment_tooltip" v="Pay upfront to reduce loan amount. Higher down payment = lower interest rate and monthly payment. Range: 0-50%." />
+        <e k="usedplus_finance_cashBack_tooltip" v="Receive cash immediately (added to your loan). Useful for operating expenses, but increases monthly payments and total cost." />
+        <e k="usedplus_finance_monthlyPayment_tooltip" v="Deducted from your farm account automatically every in-game month. Ensure you have enough money!" />
+        <e k="usedplus_finance_totalInterest_tooltip" v="Extra cost of financing vs. paying cash. This is what you pay for spreading payments over time." />
+        <e k="usedplus_finance_totalCost_tooltip" v="Purchase price + total interest = what you'll actually pay over the entire loan term." />
+        <e k="usedplus_finance_interestRate_tooltip" v="Annual percentage charged on your loan. Based on credit score and down payment. Lower is better!" />
+        <e k="usedplus_finance_creditScore_tooltip" v="Your farm's financial rating (300-850). Higher score = lower rates. Improve by keeping debt low and paying on time." />
+
+        <!--  Tooltips for Lease Dialog -->
+        <e k="usedplus_lease_term_tooltip" v="Lease for 1-5 years, then return vehicle or pay residual value to keep it. Shorter terms = higher monthly payments." />
+        <e k="usedplus_lease_downPayment_tooltip" v="Upfront payment. Lower maximum (20%) than financing because you don't own the vehicle yet." />
+        <e k="usedplus_lease_residualValue_tooltip" v="Amount to pay at lease end if you want to keep the vehicle. Based on estimated depreciation. Return vehicle instead to pay nothing extra (if in good condition)." />
+        <e k="usedplus_lease_monthlyPayment_tooltip" v="Deducted automatically each month during lease term. Lower than finance payments because you don't pay full vehicle value." />
+        <e k="usedplus_lease_totalCost_tooltip" v="Down payment + all monthly payments. Does NOT include residual value if you choose to buy at end." />
+        <e k="usedplus_lease_interestRate_tooltip" v="Annual percentage for lease. Higher than finance rates (5.5% vs 4.5%) because of higher lender risk." />
+        <e k="usedplus_lease_damage_tooltip" v="At lease end: damage >10% or wear >15% = penalties up to 30% of vehicle price. Keep vehicle maintained!" />
+
+        <!--  Tooltips for Used Search Dialog -->
+        <e k="usedplus_search_local_tooltip" v="Search nearby dealers. Guaranteed 1 month response, 2% cost, 40% success. Fast and cheap." />
+        <e k="usedplus_search_regional_tooltip" v="Search regional network. 1-3 months, 6% cost, 70% success. Good balance for most searches." />
+        <e k="usedplus_search_national_tooltip" v="Search nationwide. 2-6 months, 12% cost, 85% success. Best for rare equipment." />
+        <e k="usedplus_search_cost_tooltip" v="Upfront fee deducted immediately. Non-refundable even if search fails." />
+        <e k="usedplus_search_duration_tooltip" v="In-game months until results. You'll get a notification when search completes." />
+        <e k="usedplus_search_successChance_tooltip" v="Probability of finding this type of equipment in used condition at all." />
+
+        <!--  Tooltips for Finance Manager -->
+        <e k="usedplus_manager_totalFinanced_tooltip" v="Total amount you still owe across all loans and leases. Keep below your asset value!" />
+        <e k="usedplus_manager_monthlyObligations_tooltip" v="Total deducted from your account each month. Ensure you always have enough cash flow!" />
+        <e k="usedplus_manager_creditScore_tooltip" v="300-850 rating. 750+ = Excellent, 650-749 = Good, 550-649 = Fair, &lt;550 = Poor. Affects all future interest rates!" />
+        <e k="usedplus_manager_assetValue_tooltip" v="Combined value of vehicles, equipment, fields, and buildings you own. Should be higher than your debt!" />
+        <e k="usedplus_manager_debtRatio_tooltip" v="Total Debt ÷ Asset Value. Keep below 30% for excellent credit. Above 50% hurts your score significantly!" />
+
+        <!--  Tooltips for Finance Detail Frame -->
+        <e k="usedplus_detail_principalPaid_tooltip" v="Portion of original loan you've paid back. This reduces your balance." />
+        <e k="usedplus_detail_interestPaid_tooltip" v="Extra cost you've paid so far for borrowing money. This does NOT reduce your balance." />
+        <e k="usedplus_detail_projectedInterest_tooltip" v="Total interest you'll pay if you continue minimum monthly payments. Pay extra now to reduce this!" />
+        <e k="usedplus_detail_prepaymentPenalty_tooltip" v="One-time fee for paying off early (usually 1-3% of balance). Charged because lender loses future interest income." />
+        <e k="usedplus_detail_currentBalance_tooltip" v="Amount you still owe (principal only). Paying extra reduces this faster!" />
+        <e k="usedplus_detail_paymentSplit_tooltip" v="Shows how your payment divides: Principal (pays down balance) vs Interest (borrowing cost)." />
+
+        <!--  Take Loan Dialog -->
+        <e k="usedplus_loan_title" v="Take Out a Loan" />
+        <e k="usedplus_loan_configuration" v="LOAN CONFIGURATION" />
+        <e k="usedplus_loan_paymentPreview" v="PAYMENT PREVIEW" />
+        <e k="usedplus_loan_accept" v="Accept Loan" />
+        <e k="usedplus_loan_creditInfo" v="Your credit score determines your maximum borrowing limit and interest rate." />
+        <e k="usedplus_loan_collateralInfo" v="Collateral is calculated from 50% of vehicle values and 60% of land values." />
+        <e k="usedplus_loan_success" v="Loan approved! %s deposited to your account." />
+        <e k="usedplus_loan_denied" v="Loan denied. Insufficient collateral or poor credit." />
+        <e k="usedplus_loan_monthlyPayment" v="Monthly Payment" />
+        <e k="usedplus_loan_totalInterest" v="Total Interest" />
+        <e k="usedplus_loan_totalRepayment" v="Total Repayment" />
+        <!-- MOVED: usedplus_button_takeLoan to Common Button Labels section -->
+
+        <!--  Repair Dialog -->
+        <e k="usedplus_repair_title" v="Vehicle Service" />
+        <e k="usedplus_repair_title_mechanical" v="Mechanical Repair" />
+        <e k="usedplus_repair_title_repaint" v="Repaint Vehicle" />
+        <e k="usedplus_repair_mechanical" v="MECHANICAL REPAIR" />
+        <e k="usedplus_repair_cosmetic" v="PAINT &amp; COSMETIC" />
+        <e k="usedplus_repair_slider" v="Repair Amount" />
+        <e k="usedplus_repair_cost" v="Repair Cost" />
+        <e k="usedplus_repair_after" v="Condition After" />
+        <e k="usedplus_repair_payCash" v="Pay Cash" />
+        <e k="usedplus_repair_finance" v="Finance Repair" />
+        <e k="usedplus_repair_success" v="Repair complete! %s repaired." />
+        <e k="usedplus_repaint_slider" v="Repaint Amount" />
+        <e k="usedplus_repaint_cost" v="Repaint Cost" />
+        <e k="usedplus_button_repairVehicle" v="Repair Vehicle" />
+        <e k="usedplus_button_tradeIn" v="Trade-In" />
+        <e k="usedplus_repair_financeSuccess" v="Repair financed! %s over %d months at %s/month" />
+        <e k="usedplus_repair_noRepairsNeeded" v="This vehicle does not need repairs." />
+
+        <!-- ESC Menu Tabs -->
+        <e k="usedplus_tab_finances" v="Finances" />
+        <e k="usedplus_tab_searches" v="Searches" />
+        <e k="usedplus_tab_stats" v="Statistics" />
+
+        <!-- Searches Tab -->
+        <e k="usedplus_searches_active" v="Active Searches" />
+        <e k="usedplus_searches_totalCost" v="Total Search Cost" />
+
+        <!-- Stats Tab -->
+        <e k="usedplus_stats_creditInfo" v="Based on assets vs debt ratio" />
+        <e k="usedplus_stats_lifetime" v="Lifetime Statistics" />
+        <e k="usedplus_stats_totalFinanced" v="Total Financed (All Time)" />
+        <e k="usedplus_stats_totalInterest" v="Total Interest Paid" />
+        <e k="usedplus_stats_searchesCompleted" v="Searches Completed" />
+        <e k="usedplus_stats_searchesSuccessful" v="Searches Successful" />
+
+        <!--  Credit History -->
+        <e k="usedplus_creditHistory_title" v="Credit History" />
+        <e k="usedplus_creditHistory_paymentOnTime" v="Payment On Time" />
+        <e k="usedplus_creditHistory_paymentMissed" v="Missed Payment" />
+        <e k="usedplus_creditHistory_dealPaidOff" v="Loan Paid Off" />
+        <e k="usedplus_creditHistory_newDebt" v="New Finance" />
+        <e k="usedplus_creditHistory_loanTaken" v="Cash Loan Taken" />
+        <e k="usedplus_creditHistory_excellent" v="Excellent Credit Achieved" />
+        <e k="usedplus_creditHistory_trend" v="Score Trend" />
+        <e k="usedplus_creditHistory_trendUp" v="Trending Up" />
+        <e k="usedplus_creditHistory_trendDown" v="Trending Down" />
+        <e k="usedplus_creditHistory_stable" v="Stable" />
+
+        <!--  Trade-In System -->
+        <e k="usedplus_tradeIn_title" v="Trade-In Vehicle" />
+        <e k="usedplus_tradeIn_select" v="Select a vehicle to trade in:" />
+        <e k="usedplus_tradeIn_value" v="Trade-In Value" />
+        <e k="usedplus_tradeIn_brandBonus" v="Same Brand Bonus (+10%)" />
+        <e k="usedplus_tradeIn_noVehicles" v="No vehicles eligible for trade-in" />
+        <e k="usedplus_tradeIn_confirm" v="Apply Trade-In" />
+        <e k="usedplus_tradeIn_skip" v="No Trade-In" />
+        <e k="usedplus_tradeIn_help" v="Trade-in value is 85% of sell price. Same-brand purchases get a 10% bonus." />
+        <e k="usedplus_tradeIn_applied" v="Trade-in applied: %s credit" />
+        <e k="usedplus_tradeIn_financed" v="Financed vehicles cannot be traded in" />
+
+        <!--  Financial Dashboard -->
+        <e k="usedplus_dashboard_title" v="Financial Dashboard" />
+        <e k="usedplus_dashboard_creditScore" v="Credit Score" />
+        <e k="usedplus_dashboard_obligations" v="Monthly Obligations" />
+        <e k="usedplus_dashboard_debtRatio" v="Debt-to-Asset Ratio" />
+        <e k="usedplus_dashboard_upcoming" v="Upcoming Payments" />
+        <e k="usedplus_dashboard_history" v="Recent Credit Activity" />
+        <e k="usedplus_dashboard_statistics" v="Lifetime Statistics" />
+        <e k="usedplus_dashboard_equipment" v="Equipment" />
+        <e k="usedplus_dashboard_land" v="Land" />
+        <e k="usedplus_dashboard_loans" v="Loans" />
+        <e k="usedplus_dashboard_total" v="Total" />
+        <e k="usedplus_dashboard_assets" v="Total Assets" />
+        <e k="usedplus_dashboard_debt" v="Total Debt" />
+        <e k="usedplus_dashboard_ratio" v="Ratio" />
+        <e k="usedplus_dashboard_excellent" v="Excellent" />
+        <e k="usedplus_dashboard_good" v="Good" />
+        <e k="usedplus_dashboard_fair" v="Fair" />
+        <e k="usedplus_dashboard_high" v="High" />
+        <e k="usedplus_dashboard_critical" v="Critical" />
+        <e k="usedplus_dashboard_noPayments" v="No upcoming payments" />
+        <e k="usedplus_dashboard_noHistory" v="No credit history yet" />
+        <e k="usedplus_dashboard_onTime" v="On-Time Payments" />
+        <e k="usedplus_dashboard_missed" v="Missed Payments" />
+        <e k="usedplus_dashboard_tip" v="Tip: Make payments on time to improve your credit score. Pay off loans early to save on interest." />
+
+        <!--  Land Purchase Dialog -->
+        <e k="usedplus_land_title" v="Purchase Farmland" />
+        <e k="usedplus_land_purchaseMethod" v="PURCHASE METHOD" />
+        <e k="usedplus_land_paymentSummary" v="PAYMENT SUMMARY" />
+        <e k="usedplus_land_financeTerms" v="FINANCE TERMS" />
+        <e k="usedplus_land_leaseTerms" v="LEASE TERMS" />
+        <e k="usedplus_land_landPrice" v="Land Price:" />
+        <e k="usedplus_land_taxes" v="Transfer Tax:" />
+        <e k="usedplus_land_totalDue" v="TOTAL DUE:" />
+        <e k="usedplus_land_loanTerm" v="Loan Term:" />
+        <e k="usedplus_land_leaseTerm" v="Lease Term:" />
+        <e k="usedplus_land_downPayment" v="Down Payment:" />
+        <e k="usedplus_land_amountFinanced" v="Amount Financed:" />
+        <e k="usedplus_land_interestRate" v="Interest Rate:" />
+        <e k="usedplus_land_monthlyPayment" v="Monthly Payment:" />
+        <e k="usedplus_land_totalInterest" v="Total Interest:" />
+        <e k="usedplus_land_dueToday" v="DUE TODAY:" />
+        <e k="usedplus_land_totalLeaseCost" v="Total Lease Cost:" />
+        <e k="usedplus_land_buyoutPrice" v="Buyout Price:" />
+        <e k="usedplus_land_confirm" v="Confirm Purchase" />
+
+        <!--  Used Vehicle Marketplace - Agent-Based Sales -->
+        <e k="usedplus_sell_title" v="Sell Vehicle" />
+        <e k="usedplus_sell_selectAgent" v="Select Sales Agent" />
+        <e k="usedplus_sell_vehicleDetails" v="Vehicle Details" />
+        <e k="usedplus_sell_vanillaValue" v="Instant Sell Value" />
+        <e k="usedplus_sell_localAgent" v="Local Agent" />
+        <e k="usedplus_sell_regionalAgent" v="Regional Agent" />
+        <e k="usedplus_sell_nationalAgent" v="National Agent" />
+        <e k="usedplus_sell_expectedReturn" v="Expected Return" />
+        <e k="usedplus_sell_timeFrame" v="Time Frame" />
+        <e k="usedplus_sell_agentFee" v="Agent Fee" />
+        <e k="usedplus_sell_successRate" v="Success Rate" />
+        <e k="usedplus_sell_confirm" v="List for Sale" />
+        <e k="usedplus_sell_tradeInOnly" v="Trade-In Only" />
+        <e k="usedplus_sell_tradeInDescription" v="50-65% instant value when purchasing a new vehicle" />
+        <e k="usedplus_sell_localDescription" v="Quick local sale. 1-2 months, 85% success rate." />
+        <e k="usedplus_sell_regionalDescription" v="Regional network. 2-4 months, 90% success rate." />
+        <e k="usedplus_sell_nationalDescription" v="Nationwide reach. 3-6 months, 95% success rate." />
+        <e k="usedplus_sell_listed" v="Vehicle listed with %s. Expected: %s - %s" />
+        <e k="usedplus_sell_alreadyListed" v="This vehicle is already listed for sale" />
+        <e k="usedplus_sell_cantSellFinanced" v="Cannot sell financed vehicles. Pay off balance first." />
+
+        <!--  Sale Offer Dialog -->
+        <e k="usedplus_saleOffer_title" v="Sale Offer Received" />
+        <e k="usedplus_saleOffer_message" v="A buyer has been found for your vehicle!" />
+        <e k="usedplus_saleOffer_offerAmount" v="Offer Amount" />
+        <e k="usedplus_saleOffer_expiresIn" v="Offer Expires In" />
+        <e k="usedplus_saleOffer_accept" v="Accept Offer" />
+        <e k="usedplus_saleOffer_decline" v="Decline Offer" />
+        <e k="usedplus_saleOffer_hours" v="%d hours" />
+        <e k="usedplus_saleOffer_accepted" v="Vehicle sold for %s!" />
+        <e k="usedplus_saleOffer_declined" v="Offer declined. Agent continues searching..." />
+        <e k="usedplus_saleOffer_expired" v="Offer expired for %s. Agent continues searching..." />
+
+        <!--  Sale Listing Status -->
+        <e k="usedplus_sale_statusActive" v="Searching for buyer..." />
+        <e k="usedplus_sale_statusPending" v="OFFER: %s" />
+        <e k="usedplus_sale_statusSold" v="SOLD for %s" />
+        <e k="usedplus_sale_statusExpired" v="Expired - No buyer found" />
+        <e k="usedplus_sale_statusCancelled" v="Cancelled" />
+        <e k="usedplus_sale_listingExpired" v="No buyer found for %s. Agent fee (%s) was non-refundable." />
+        <e k="usedplus_sale_cancel" v="Cancel Listing" />
+        <e k="usedplus_sale_cancelConfirm" v="Cancel sale listing for %s? Agent fee will NOT be refunded." />
+        <e k="usedplus_sale_cancelled" v="Sale listing cancelled for %s." />
+
+        <!--  Finance Manager - Sale Listings Section -->
+        <e k="usedplus_manager_saleListings" v="VEHICLES FOR SALE" />
+        <e k="usedplus_manager_noSales" v="No active sale listings" />
+
+        <!--  Menu Navigation Buttons -->
+        <e k="usedplus_button_nextPage" v="Next Menu" />
+        <e k="usedplus_button_prevPage" v="Previous Menu" />
+
+        <!-- === MAINTENANCE SYSTEM (Phase 4) === -->
+
+        <!--  Engine/Failure Warnings -->
+        <e k="usedPlus_engineStalled" v="Engine stalled!" />
+        <e k="usedPlus_engineWontStart" v="Engine won't start - try again" />
+        <e k="usedPlus_hydraulicDrift" v="Hydraulic pressure loss!" />
+        <e k="usedPlus_implementCutout" v="Implement stalled!" />
+        <e k="usedPlus_electricalCutout" v="Electrical fault - implements offline!" />
+
+        <!--  Inspection System -->
+        <e k="usedPlus_inspectButton" v="Inspect (%s)" />
+        <e k="usedPlus_inspectionTitle" v="Inspection Report" />
+        <e k="usedPlus_inspectionCost" v="Inspection Cost" />
+        <e k="usedPlus_mechanicalAssessment" v="MECHANICAL ASSESSMENT" />
+        <e k="usedPlus_inspectorNotes" v="Inspector Notes" />
+        <e k="usedPlus_recommendation" v="Recommendation" />
+        <e k="usedPlus_hiddenConditionWarning" v="Hidden mechanical condition unknown" />
+        <e k="usedPlus_payForInspection" v="Pay for professional inspection" />
+
+        <!--  Reliability Ratings -->
+        <e k="usedPlus_conditionGood" v="Good" />
+        <e k="usedPlus_conditionAcceptable" v="Acceptable" />
+        <e k="usedPlus_conditionBelowAverage" v="Below Average" />
+        <e k="usedPlus_conditionPoor" v="Poor" />
+        <e k="usedPlus_conditionCritical" v="Critical" />
+
+        <!--  Vehicle Name Indicators (Phase 5) -->
+        <e k="usedPlus_indicatorCritical" v="[CRITICAL]" />
+        <e k="usedPlus_indicatorNeedsService" v="[NEEDS SERVICE]" />
+        <e k="usedPlus_indicatorWorn" v="[WORN]" />
+        <e k="usedPlus_maintenanceHistory" v="Maintenance History" />
+
+        <!--  Component Labels -->
+        <e k="usedPlus_engineReliability" v="Engine" />
+        <e k="usedPlus_hydraulicReliability" v="Hydraulics" />
+        <e k="usedPlus_electricalReliability" v="Electrical" />
+
+        <!--  Vehicle Info Display -->
+        <e k="usedPlus_purchasedUsed" v="Purchased used" />
+        <e k="usedPlus_repairHistory" v="Repairs: %d (%s total)" />
+        <e k="usedPlus_breakdownHistory" v="Breakdowns: %d" />
+        <e k="usedPlus_mechanicalCondition" v="Mechanical: %s" />
+
+        <!--  Inspection Notes -->
+        <e k="usedPlus_noteEngineWorn" v="Engine shows signs of hard use. Expect occasional stalling under load." />
+        <e k="usedPlus_noteHydraulicWorn" v="Hydraulic system worn. Implements may drift when raised." />
+        <e k="usedPlus_noteElectricalIssues" v="Electrical issues detected. Implements may cut out unexpectedly." />
+        <e k="usedPlus_noteVehicleOk" v="Vehicle in acceptable mechanical condition." />
+        <e k="usedPlus_recommendNegotiate" v="Negotiate price or budget for repairs" />
+        <e k="usedPlus_recommendProceed" v="Good mechanical condition - proceed with confidence" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1: Notification Messages (i18n cleanup) -->
+        <!-- ============================================== -->
+
+        <!-- Error Notifications - Selection/Finding -->
+        <e k="usedplus_error_selectDealFirst" v="Select a finance deal first" />
+        <e k="usedplus_error_noSearchInRow" v="No search in this row" />
+        <e k="usedplus_error_noSaleListingInRow" v="No sale listing in this row" />
+        <e k="usedplus_error_noDealInRow" v="No finance deal in this row" />
+        <e k="usedplus_error_farmNotFound" v="Error: Could not find farm" />
+        <e k="usedplus_error_noVehicleSelected" v="No vehicle selected" />
+
+        <!-- Error Notifications - State/Action Conflicts -->
+        <e k="usedplus_error_cannotCancelReady" v="Cannot cancel - this listing is ready for purchase" />
+        <e k="usedplus_error_searchNotActive" v="This search is no longer active" />
+        <e k="usedplus_error_noOfferPending" v="No pending offer on this listing" />
+        <e k="usedplus_error_noOfferToDecline" v="No pending offer to decline" />
+        <e k="usedplus_error_cannotCancelPendingOffer" v="Cannot cancel while offer is pending. Accept or decline first." />
+        <e k="usedplus_error_cannotModifyPendingOffer" v="Cannot modify price while an offer is pending." />
+
+        <!-- Error Notifications - Invalid Input -->
+        <e k="usedplus_error_invalidPrice" v="Invalid price. Please enter a positive number." />
+        <e k="usedplus_error_invalidAmount" v="Invalid amount. Please enter a positive number." />
+
+        <!-- Error Notifications - Insufficient Funds -->
+        <e k="usedplus_error_insufficientFundsPayment" v="Insufficient funds. Need %s for monthly payment." />
+        <e k="usedplus_error_insufficientFundsPayoff" v="Insufficient funds for payoff" />
+        <e k="usedplus_error_insufficientFundsNeedHave" v="Insufficient funds. Need %s, have %s" />
+        <e k="usedplus_error_insufficientFundsDownPayment" v="Insufficient funds for down payment! Need %s" />
+        <e k="usedplus_error_insufficientFundsGeneric" v="Insufficient funds! Need %s" />
+        <e k="usedplus_error_insufficientFundsForPayment" v="Insufficient funds for payment" />
+
+        <!-- Error Notifications - No Items/Options -->
+        <e k="usedplus_error_noPaymentOptions" v="No payment options available" />
+        <e k="usedplus_error_noActiveDeals" v="No active finance deals to make payments on" />
+        <e k="usedplus_error_noDealsToPayAll" v="No active finance deals to pay" />
+        <e k="usedplus_error_noPaymentsDue" v="No payments due this period" />
+
+        <!-- Error Notifications - Operation Failures -->
+        <e k="usedplus_error_payoffFailed" v="Payoff failed" />
+        <e k="usedplus_error_paymentFailed" v="Payment failed" />
+        <e k="usedplus_error_eventNotAvailable" v="Error: %s not available" />
+
+        <!-- Success Notifications - Sales -->
+        <e k="usedplus_notify_vehicleSold" v="Sold %s for %s!" />
+        <e k="usedplus_notify_offerDeclined" v="Offer declined - agent will continue searching" />
+        <e k="usedplus_notify_listingCancelled" v="Sale listing for %s cancelled" />
+
+        <!-- Success Notifications - Purchases -->
+        <e k="usedplus_notify_vehiclePurchased" v="Purchased %s for %s" />
+        <e k="usedplus_notify_vehiclePurchasedShop" v="Purchased %s - Visit shop to collect vehicle" />
+        <e k="usedplus_notify_vehicleFinanced" v="Financed %s - %s due today" />
+        <e k="usedplus_notify_vehicleFinancedShop" v="Financed %s - Visit shop to collect vehicle" />
+        <e k="usedplus_notify_landPurchased" v="Purchased %s for %s" />
+        <e k="usedplus_notify_landFinanced" v="Financed %s - %s due today" />
+        <e k="usedplus_notify_vehicleNowYours" v="Congratulations! %s is now yours!" />
+
+        <!-- Success Notifications - Payments/Loans -->
+        <e k="usedplus_notify_loanPaidOff" v="Loan paid off! Total: %s" />
+        <e k="usedplus_notify_paymentProcessed" v="Payment of %s processed!" />
+        <e k="usedplus_notify_paidDealsTotal" v="Paid %d deals! Total: %s" />
+        <e k="usedplus_notify_paidDealsSomeFailed" v="Paid %d deals, %d failed" />
+        <e k="usedplus_notify_paymentConfigSaved" v="Payment configuration saved!" />
+
+        <!-- Success Notifications - Leases -->
+        <e k="usedplus_notify_landLeaseTerminated" v="Land lease for %s has been terminated" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1: UI Labels (setText hardcoded strings) -->
+        <!-- ============================================== -->
+
+        <!-- Credit Report Dialog -->
+        <e k="usedplus_creditreport_reportDate" v="Report Date: %s" />
+        <e k="usedplus_creditreport_scoreRange" v="Score Range: 300-850" />
+        <e k="usedplus_creditreport_standardRates" v="Standard interest rates apply" />
+        <e k="usedplus_creditreport_noHistory" v="No History" />
+        <e k="usedplus_creditreport_noActiveAccounts" v="No active accounts" />
+        <e k="usedplus_creditreport_noPaymentHistory" v="No payment history yet" />
+        <e k="usedplus_creditreport_makePaymentsHint" v="Start making payments to build your history" />
+        <e k="usedplus_creditreport_trend_excellent" v="Excellent - Strong upward trend" />
+        <e k="usedplus_creditreport_trend_good" v="Good - Positive momentum" />
+        <e k="usedplus_creditreport_trend_stable" v="Stable - Maintaining" />
+        <e k="usedplus_creditreport_trend_declining" v="Declining - Needs attention" />
+        <e k="usedplus_creditreport_trend_poor" v="Poor - Immediate action needed" />
+
+        <!-- Deal Details Dialog -->
+        <e k="usedplus_dealdetails_payoffInfo" v="Pay off early to save on interest." />
+        <e k="usedplus_dealdetails_buyoutLease" v="BUYOUT LEASE" />
+        <e k="usedplus_dealdetails_earlyPayoff" v="EARLY PAYOFF" />
+        <e k="usedplus_dealdetails_paidOff" v="Paid off!" />
+
+        <!-- Inspection Report Dialog -->
+        <e k="usedplus_inspection_noData" v="Inspection data not available." />
+        <e k="usedplus_inspection_rec_excellent" v="Excellent condition - buy with confidence" />
+        <e k="usedplus_inspection_rec_good" v="Good condition - fair deal at this price" />
+        <e k="usedplus_inspection_rec_fair" v="Fair condition - negotiate or budget for repairs" />
+        <e k="usedplus_inspection_rec_poor" v="Poor condition - significant repairs needed" />
+
+        <!-- Maintenance Report Dialog -->
+        <e k="usedplus_common_yes" v="Yes" />
+        <e k="usedplus_common_no" v="No" />
+        <e k="usedplus_common_na" v="N/A" />
+        <e k="usedplus_maintenance_purchasedUsed" v="Purchased Used" />
+        <e k="usedplus_maintenance_purchasedNew" v="Purchased New" />
+        <e k="usedplus_maintenance_excellentCondition" v="This vehicle is in excellent condition with no maintenance concerns." />
+
+        <!-- Payment Config Dialog -->
+        <e k="usedplus_paymentconfig_selectLoan" v="Select a loan above to change its payment mode" />
+        <e k="usedplus_paymentconfig_warningSkip" v="WARNING: Skipping payments will increase balance!" />
+        <e k="usedplus_paymentconfig_noteNegAmort" v="Note: Some payments below interest-only" />
+
+        <!-- Repair Finance Dialog -->
+        <e k="usedplus_repairfinance_title_repaint" v="Finance Repaint" />
+        <e k="usedplus_repairfinance_title_repair" v="Finance Repair" />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_preview_title" v="Used Vehicle Found" />
+        <e k="usedplus_preview_viewReport" v="View Report" />
+
+        <!-- Finance Manager Frame -->
+        <e k="usedplus_manager_clickToSelect" v="Click row to select" />
+        <e k="usedplus_manager_assetsLabel" v="Assets: %s" />
+        <e k="usedplus_manager_debtLabel" v="Debt: %s" />
+
+        <!-- Deal Details Dialog - additional -->
+        <e k="usedplus_dealdetails_earlyPayoffSaves" v="Early payoff saves you %s in interest!" />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_preview_ageYears" v="%d years" />
+        <e k="usedplus_preview_payForInspection" v="Pay %s for professional inspection" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1c: Land Purchase Dialog Notifications   -->
+        <!-- ============================================== -->
+
+        <!-- Land Purchase - Mode Selector -->
+        <e k="usedplus_land_modeCash" v="Buy with Cash" />
+        <e k="usedplus_land_modeFinance" v="Finance" />
+        <e k="usedplus_land_modeLease" v="Lease" />
+
+        <!-- Land Purchase - Term Sliders -->
+        <e k="usedplus_land_termYears" v="%d Years" />
+        <e k="usedplus_land_termYear" v="1 Year" />
+        <e k="usedplus_land_termMonths" v="%d Months" />
+        <e k="usedplus_land_termMonth" v="1 Month" />
+
+        <!-- Land Purchase - Credit Adjustment -->
+        <e k="usedplus_land_noAdjustment" v="No adjustment (Fair credit)" />
+
+        <!-- Land Purchase - Security Deposit -->
+        <e k="usedplus_land_noDeposit" v="No Deposit (%s credit)" />
+        <e k="usedplus_land_depositInfo" v="%s (%d mo, %s credit)" />
+
+        <!-- Land Purchase - Lease Info -->
+        <e k="usedplus_land_buyoutAnytime" v="Buyout anytime: %s" />
+        <e k="usedplus_land_signingBonus" v="Signing Bonus: Includes standing %s worth %s" />
+        <e k="usedplus_land_securityDeposit" v="%s security deposit" />
+        <e k="usedplus_land_noDepositRequired" v="no deposit required" />
+
+        <!-- Land Purchase - Error Notifications -->
+        <e k="usedplus_error_insufficientFundsLand" v="Insufficient funds! Need %s more. Try financing or leasing." />
+        <e k="usedplus_error_insufficientFundsDeposit" v="Insufficient funds for security deposit! Need %s more." />
+        <e k="usedplus_error_couldNotCompletePurchase" v="Error: Could not complete purchase" />
+
+        <!-- Land Purchase - Success Notifications -->
+        <e k="usedplus_notify_landLeased" v="Leased %s! %s/month, %s" />
+
+        <!-- ============================================== -->
+        <!-- PHASE 1d: XML Dialog Labels and Buttons        -->
+        <!-- ============================================== -->
+
+        <!-- Common Button Labels -->
+        <e k="usedplus_button_purchase" v="Purchase" />
+        <e k="usedplus_button_decline" v="Decline" />
+        <e k="usedplus_button_goBack" v="Go Back" />
+        <e k="usedplus_button_close" v="Close" />
+        <e k="usedplus_button_confirm" v="Confirm" />
+        <e k="usedplus_button_cancel" v="Cancel" />
+        <e k="usedplus_button_takeLoan" v="Take Loan" />
+        <e k="usedplus_button_payOff" v="Pay Off" />
+
+        <!-- Inspection Report Dialog -->
+        <e k="usedplus_irp_title" v="INSPECTION REPORT" />
+        <e k="usedplus_irp_sectionVehicle" v="VEHICLE" />
+        <e k="usedplus_irp_sectionMechanical" v="MECHANICAL ASSESSMENT" />
+        <e k="usedplus_irp_sectionNotes" v="INSPECTOR NOTES" />
+        <e k="usedplus_irp_sectionRecommend" v="RECOMMENDATION" />
+        <e k="usedplus_irp_listedPrice" v="Listed Price:" />
+        <e k="usedplus_irp_engine" v="Engine:" />
+        <e k="usedplus_irp_hydraulics" v="Hydraulics:" />
+        <e k="usedplus_irp_electrical" v="Electrical:" />
+        <e k="usedplus_irp_overallCondition" v="Overall Condition:" />
+        <e k="usedplus_irp_estRepairCost" v="Est. Repair Cost:" />
+        <e k="usedplus_irp_postRepairValue" v="Post-Repair Value:" />
+        <e k="usedplus_irp_priceNote" v="Prices reflect seller's asking price. Negotiate based on inspection findings." />
+
+        <!-- Maintenance Report Dialog -->
+        <e k="usedplus_mrp_title" v="MAINTENANCE REPORT" />
+        <e k="usedplus_mrp_sectionReliability" v="RELIABILITY RATINGS" />
+        <e k="usedplus_mrp_sectionHistory" v="MAINTENANCE HISTORY" />
+        <e k="usedplus_mrp_sectionNotes" v="STATUS NOTES" />
+        <e k="usedplus_mrp_breakdowns" v="Breakdowns:" />
+        <e k="usedplus_mrp_repairs" v="Repairs:" />
+        <e k="usedplus_mrp_inspected" v="Inspected:" />
+        <e k="usedplus_mrp_resaleImpact" v="Resale Impact:" />
+        <e k="usedplus_mrp_origin" v="Origin:" />
+        <e k="usedplus_mrp_overallCondition" v="OVERALL CONDITION" />
+
+        <!-- Financial Dashboard -->
+        <e k="usedplus_dash_creditScore" v="CREDIT SCORE" />
+        <e k="usedplus_dash_debtRatio" v="DEBT RATIO" />
+        <e k="usedplus_dash_assets" v="Assets:" />
+        <e k="usedplus_dash_debt" v="Debt:" />
+        <e k="usedplus_dash_ratio" v="Ratio:" />
+        <e k="usedplus_dash_trend" v="Trend:" />
+        <e k="usedplus_dash_monthlyObligations" v="MONTHLY OBLIGATIONS" />
+        <e k="usedplus_dash_equipment" v="Equipment:" />
+        <e k="usedplus_dash_land" v="Land:" />
+        <e k="usedplus_dash_loans" v="Loans:" />
+        <e k="usedplus_dash_total" v="TOTAL:" />
+        <e k="usedplus_dash_upcomingPayments" v="UPCOMING PAYMENTS" />
+        <e k="usedplus_dash_noPayments" v="No upcoming payments" />
+        <e k="usedplus_dash_lifetimeStats" v="LIFETIME STATISTICS" />
+        <e k="usedplus_dash_totalFinanced" v="Total Financed:" />
+        <e k="usedplus_dash_interestPaid" v="Interest Paid:" />
+        <e k="usedplus_dash_dealsCompleted" v="Deals Completed:" />
+        <e k="usedplus_dash_onTime" v="On-Time:" />
+        <e k="usedplus_dash_missed" v="Missed:" />
+        <e k="usedplus_dash_tip" v="Tip: Make payments on time to improve credit. Pay off loans early to save on interest." />
+
+        <!-- Maintenance Report Dialog - Additional -->
+        <e k="usedplus_mrp_sectionMechanical" v="MECHANICAL STATUS" />
+        <e k="usedplus_mrp_sectionService" v="SERVICE HISTORY" />
+        <e k="usedplus_mrp_sectionStatus" v="STATUS" />
+        <e k="usedplus_mrp_shopRepairs" v="Shop Repairs:" />
+        <e k="usedplus_mrp_overall" v="Overall:" />
+        <e k="usedplus_mrp_condition" v="Condition:" />
+
+        <!-- Deal Details Dialog -->
+        <e k="usedplus_dd_title" v="DEAL DETAILS" />
+        <e k="usedplus_dd_sectionItem" v="ITEM INFORMATION" />
+        <e k="usedplus_dd_sectionTerms" v="FINANCIAL TERMS" />
+        <e k="usedplus_dd_sectionProgress" v="PAYMENT PROGRESS" />
+        <e k="usedplus_dd_sectionSummary" v="PAYMENT SUMMARY" />
+        <e k="usedplus_dd_sectionMultiplier" v="PAYMENT MULTIPLIER" />
+        <e k="usedplus_dd_sectionPayoff" v="EARLY PAYOFF" />
+        <e k="usedplus_dd_sectionRepossessed" v="REPOSSESSED COLLATERAL" />
+        <e k="usedplus_dd_name" v="Name:" />
+        <e k="usedplus_dd_type" v="Type:" />
+        <e k="usedplus_dd_status" v="Status:" />
+        <e k="usedplus_dd_missed" v="Missed:" />
+        <e k="usedplus_dd_original" v="Original:" />
+        <e k="usedplus_dd_down" v="Down:" />
+        <e k="usedplus_dd_financed" v="Financed:" />
+        <e k="usedplus_dd_term" v="Term:" />
+        <e k="usedplus_dd_rate" v="Rate:" />
+        <e k="usedplus_dd_monthly" v="Monthly:" />
+        <e k="usedplus_dd_payments" v="Payments:" />
+        <e k="usedplus_dd_balance" v="Balance:" />
+        <e k="usedplus_dd_remaining" v="Remaining:" />
+        <e k="usedplus_dd_equity" v="Equity:" />
+        <e k="usedplus_dd_principal" v="Principal:" />
+        <e k="usedplus_dd_interest" v="Interest:" />
+        <e k="usedplus_dd_total" v="Total:" />
+        <e k="usedplus_dd_multiplier" v="Multiplier:" />
+        <e k="usedplus_dd_adjusted" v="Adjusted:" />
+        <e k="usedplus_dd_payoffIn" v="Payoff in:" />
+        <e k="usedplus_dd_youSave" v="You save:" />
+        <e k="usedplus_dd_payoff" v="Payoff:" />
+        <e k="usedplus_dd_accruedNote" v="(includes accrued interest)" />
+        <e k="usedplus_dd_payoffInfo" v="Early payoff saves you interest!" />
+        <e k="usedplus_dd_repossessedInfo" v="The following items were repossessed due to missed payments:" />
+        <e k="usedplus_dd_repossessedTotal" v="Total value repossessed:" />
+        <e k="usedplus_button_viewHistory" v="View History" />
+        <e k="usedplus_button_earlyPayoff" v="Early Payoff" />
+
+        <!-- Take Loan Dialog -->
+        <e k="usedplus_tl_title" v="TAKE OUT A LOAN" />
+        <e k="usedplus_tl_sectionCredit" v="YOUR CREDIT" />
+        <e k="usedplus_tl_score" v="Score:" />
+        <e k="usedplus_tl_yourRate" v="Your Interest Rate:" />
+        <e k="usedplus_tl_sectionCollateral" v="SELECT COLLATERAL" />
+        <e k="usedplus_tl_collateralHelp" v="Click to toggle assets as collateral (only unencumbered assets shown)" />
+        <e k="usedplus_tl_prev" v="◄ Prev" />
+        <e k="usedplus_tl_next" v="Next ►" />
+        <e k="usedplus_tl_selected" v="Selected:" />
+        <e k="usedplus_tl_existingDebt" v="Existing Debt:" />
+        <e k="usedplus_tl_maxLoan" v="MAXIMUM LOAN:" />
+        <e k="usedplus_tl_sectionConfig" v="LOAN CONFIGURATION" />
+        <e k="usedplus_tl_amount" v="Amount:" />
+        <e k="usedplus_tl_term" v="Term:" />
+        <e k="usedplus_tl_sectionPayment" v="PAYMENT PREVIEW" />
+        <e k="usedplus_tl_monthly" v="Monthly:" />
+        <e k="usedplus_tl_total" v="Total:" />
+        <e k="usedplus_tl_interest" v="Interest:" />
+        <e k="usedplus_tl_yearly" v="Yearly:" />
+        <e k="usedplus_tl_info" v="Loan funds deposited immediately. Payments auto-deducted monthly." />
+        <e k="usedplus_button_acceptLoan" v="Accept Loan" />
+
+        <!-- Loan Approved Dialog -->
+        <e k="usedplus_la_title" v="LOAN APPROVED" />
+        <e k="usedplus_la_amountDeposited" v="Amount Deposited" />
+        <e k="usedplus_la_sectionTerms" v="LOAN TERMS" />
+        <e k="usedplus_la_term" v="Term:" />
+        <e k="usedplus_la_rate" v="Interest Rate:" />
+        <e k="usedplus_la_sectionPayment" v="PAYMENT SCHEDULE" />
+        <e k="usedplus_la_monthly" v="Monthly:" />
+        <e k="usedplus_la_yearly" v="Yearly:" />
+        <e k="usedplus_la_totalInterest" v="Total Interest:" />
+        <e k="usedplus_la_sectionCredit" v="CREDIT IMPACT" />
+        <e k="usedplus_la_previous" v="Previous:" />
+        <e k="usedplus_la_newScore" v="New Score:" />
+        <e k="usedplus_la_info" v="Payments auto-deducted monthly. On-time payments improve credit!" />
+
+        <!-- Unified Purchase Dialog -->
+        <e k="usedplus_up_title" v="Purchase Vehicle" />
+        <e k="usedplus_up_sectionVehicle" v="VEHICLE" />
+        <e k="usedplus_up_sectionMethod" v="PURCHASE METHOD" />
+        <e k="usedplus_up_methodHelp" v="Choose how you want to pay: cash upfront, finance over time, or lease with lower payments." />
+        <e k="usedplus_up_sectionTradeIn" v="TRADE-IN (Optional)" />
+        <e k="usedplus_up_tradeInHelp" v="Select a vehicle to trade in and reduce your amount due." />
+        <e k="usedplus_up_tradeInVehicle" v="Trade-In Vehicle:" />
+        <e k="usedplus_up_tradeInValue" v="Trade-In Value:" />
+        <e k="usedplus_up_sectionCash" v="PAYMENT SUMMARY" />
+        <e k="usedplus_up_cashHelp" v="Pay the full amount now. Trade-in value is deducted from the total." />
+        <e k="usedplus_up_vehiclePrice" v="Vehicle Price:" />
+        <e k="usedplus_up_tradeInCredit" v="Trade-In Credit:" />
+        <e k="usedplus_up_totalDue" v="TOTAL DUE:" />
+        <e k="usedplus_up_sectionFinance" v="FINANCE TERMS" />
+        <e k="usedplus_up_financeHelp" v="Spread payments over time. Adjust term, down payment, and cash back to find your ideal monthly payment." />
+        <e k="usedplus_up_loanTerm" v="Loan Term:" />
+        <e k="usedplus_up_downPayment" v="Down Payment:" />
+        <e k="usedplus_up_cashBack" v="Cash Back:" />
+        <e k="usedplus_up_amountFinanced" v="Amount Financed:" />
+        <e k="usedplus_up_interestRate" v="Interest Rate:" />
+        <e k="usedplus_up_monthlyPayment" v="Monthly Payment:" />
+        <e k="usedplus_up_totalInterest" v="Total Interest:" />
+        <e k="usedplus_up_dueToday" v="DUE TODAY:" />
+        <e k="usedplus_up_sectionPayment" v="PAYMENT SCHEDULE" />
+        <e k="usedplus_up_sectionDueToday" v="AMOUNT DUE TODAY" />
+        <e k="usedplus_up_youPayNow" v="You Pay Now:" />
+        <e k="usedplus_up_sectionLease" v="LEASE TERMS" />
+        <e k="usedplus_up_leaseHelp" v="Longer terms = lower monthly AND lower buyout. Down payment reduces amount due today." />
+        <e k="usedplus_up_leaseTerm" v="Lease Term:" />
+        <e k="usedplus_up_securityDeposit" v="Security Deposit:" />
+        <e k="usedplus_up_totalLeaseCost" v="Total Lease Cost:" />
+        <e k="usedplus_up_buyoutAtEnd" v="Buyout at End:" />
+        <e k="usedplus_button_confirmPurchase" v="Confirm Purchase" />
+
+        <!-- Unified Land Purchase Dialog - Additional Labels -->
+        <e k="usedplus_lp_sectionDetails" v="FARMLAND DETAILS" />
+        <e k="usedplus_lp_field" v="Field:" />
+        <e k="usedplus_lp_size" v="Size:" />
+        <e k="usedplus_lp_perHa" v="Per Ha:" />
+        <e k="usedplus_lp_basePrice" v="Base Price:" />
+        <e k="usedplus_lp_creditAdjust" v="Credit Adjustment:" />
+        <e k="usedplus_lp_yourPrice" v="Your Price:" />
+        <e k="usedplus_lp_methodHelp" v="Choose how you want to pay: cash upfront, finance over time, or lease the land." />
+        <e k="usedplus_lp_cashHelp" v="Pay the full amount now to own the land outright." />
+        <e k="usedplus_lp_financeHelp" v="Finance the land purchase with monthly payments. Adjust term and down payment below." />
+        <e k="usedplus_lp_leaseHelp" v="Lease the land with monthly payments. Rate is based on acreage and soil quality." />
+        <e k="usedplus_lp_leaseTerm" v="Lease Term:" />
+        <e k="usedplus_lp_monthlyPayment" v="Monthly Payment:" />
+        <e k="usedplus_lp_annualCost" v="Annual Cost:" />
+        <e k="usedplus_lp_rateCalc" v="Rate Calculation:" />
+        <e k="usedplus_lp_securityDeposit" v="Security Deposit:" />
+        <e k="usedplus_lp_dueToday" v="Due Today:" />
+        <e k="usedplus_lp_totalLeaseCost" v="Total Lease Cost:" />
+
+        <!-- Used Search Dialog -->
+        <e k="usedplus_us_sectionVehicle" v="VEHICLE" />
+        <e k="usedplus_us_sectionTier" v="SEARCH TIER" />
+        <e k="usedplus_us_sectionQuality" v="DESIRED QUALITY" />
+        <e k="usedplus_us_qualityAny" v="Any" />
+        <e k="usedplus_us_qualityPoor" v="Poor" />
+        <e k="usedplus_us_qualityFair" v="Fair" />
+        <e k="usedplus_us_qualityGood" v="Good" />
+        <e k="usedplus_us_qualityExcellent" v="Excellent" />
+        <e k="usedplus_us_infoText" v="Higher tiers cost more but have better success rates and find higher quality matches." />
+
+        <!-- Used Vehicle Preview Dialog -->
+        <e k="usedplus_uvp_title" v="Used Vehicle Found" />
+        <e k="usedplus_uvp_sectionCondition" v="VISIBLE CONDITION" />
+        <e k="usedplus_uvp_age" v="Age:" />
+        <e k="usedplus_uvp_hours" v="Hours:" />
+        <e k="usedplus_uvp_damage" v="Damage:" />
+        <e k="usedplus_uvp_wear" v="Wear:" />
+        <e k="usedplus_uvp_warningTitle" v="Hidden mechanical condition unknown" />
+        <e k="usedplus_uvp_inspectPrompt" v="Pay for professional inspection" />
+        <e k="usedplus_uvp_inspectedText" v="Vehicle has been inspected - view report" />
+        <e k="usedplus_button_buyAsIs" v="Buy As-Is" />
+        <e k="usedplus_button_inspect" v="Inspect" />
+
+        <!-- Repair Dialog -->
+        <e k="usedplus_rp_title" v="Vehicle Service" />
+        <e k="usedplus_rp_sectionStatus" v="VEHICLE STATUS" />
+        <e k="usedplus_rp_mechanical" v="Mechanical:" />
+        <e k="usedplus_rp_paint" v="Paint:" />
+        <e k="usedplus_rp_sectionRepair" v="MECHANICAL REPAIR" />
+        <e k="usedplus_rp_sectionRepaint" v="REPAINT" />
+        <e k="usedplus_rp_selectAmount" v="Select how much to repair:" />
+        <e k="usedplus_rp_selectPaint" v="Select how much to repaint:" />
+        <e k="usedplus_rp_selected" v="Selected:" />
+        <e k="usedplus_rp_cost" v="Cost:" />
+        <e k="usedplus_rp_after" v="After:" />
+        <e k="usedplus_rp_sectionPayment" v="PAYMENT" />
+        <e k="usedplus_rp_totalCost" v="TOTAL COST:" />
+        <e k="usedplus_rp_result" v="RESULT:" />
+        <e k="usedplus_rp_yourMoney" v="Your Money:" />
+        <e k="usedplus_rp_infoText" v="Pay now or finance over time with monthly payments." />
+        <e k="usedplus_button_payCash" v="PAY CASH" />
+        <e k="usedplus_rp_buttonFinance" v="FINANCE" />
+
+        <!-- Sell Vehicle Dialog -->
+        <e k="usedplus_sv_title" v="Sell Vehicle" />
+        <e k="usedplus_sv_sectionVehicle" v="VEHICLE FOR SALE" />
+        <e k="usedplus_sv_sectionOptions" v="SALES OPTIONS" />
+        <e k="usedplus_sv_optionsHelp" v="Hire an agent to find buyers. Higher-tier agents reach more buyers but charge more." />
+        <e k="usedplus_sv_agent" v="Agent:" />
+        <e k="usedplus_sv_askingPrice" v="Asking Price:" />
+        <e k="usedplus_sv_sectionOutcome" v="EXPECTED OUTCOME" />
+        <e k="usedplus_sv_expectedReturn" v="Expected Return:" />
+        <e k="usedplus_sv_returnPercent" v="Return Percent:" />
+        <e k="usedplus_sv_agentFee" v="Agent Fee:" />
+        <e k="usedplus_sv_netAfterFee" v="Net After Fee:" />
+        <e k="usedplus_sv_expectedTime" v="Expected Time:" />
+        <e k="usedplus_sv_successRate" v="Success Rate:" />
+        <e k="usedplus_sv_selected" v="Selected:" />
+        <e k="usedplus_sv_sectionCompare" v="ALTERNATIVE OPTIONS" />
+        <e k="usedplus_sv_tradeInCompare" v="Trade-In (if buying):" />
+        <e k="usedplus_sv_infoText" v="Agent searches for buyers. You receive offers to accept or decline." />
+        <e k="usedplus_sv_warningText" v="Agent fee is non-refundable. Vehicle remains yours until sold." />
+        <e k="usedplus_button_hireAgent" v="Hire Agent" />
+
+        <!-- Sale Offer Dialog -->
+        <e k="usedplus_so_title" v="SALE OFFER RECEIVED!" />
+        <e k="usedplus_so_sectionVehicle" v="VEHICLE" />
+        <e k="usedplus_so_sectionOffer" v="OFFER DETAILS" />
+        <e k="usedplus_so_offerAmount" v="Offer Amount:" />
+        <e k="usedplus_so_percentVanilla" v="% of Vanilla Sell:" />
+        <e k="usedplus_so_expiresIn" v="Offer expires in:" />
+        <e k="usedplus_so_sectionCompare" v="COMPARISON" />
+        <e k="usedplus_so_vanillaPrice" v="Vanilla Sell Price:" />
+        <e k="usedplus_so_thisOffer" v="This Offer:" />
+        <e k="usedplus_so_acceptInfo" v="Accepting will sell the vehicle and credit the amount to your account." />
+        <e k="usedplus_so_declineInfo" v="Declining may result in more offers if time remains, or listing expiration." />
+        <e k="usedplus_button_acceptOffer" v="Accept Offer" />
+        <!-- REMOVED: usedplus_button_decline - duplicate, use Common Button Labels -->
+
+        <!-- Payment Config Dialog -->
+        <e k="usedplus_pc_title" v="Configure Loan Payments" />
+        <e k="usedplus_pc_headerLoan" v="Loan" />
+        <e k="usedplus_pc_headerBalance" v="Balance" />
+        <e k="usedplus_pc_headerMode" v="Mode" />
+        <e k="usedplus_pc_headerPayment" v="Payment" />
+        <e k="usedplus_pc_selectLoan" v="Select a loan above to change its payment mode" />
+        <e k="usedplus_pc_totalPayment" v="TOTAL PAYMENT" />
+        <e k="usedplus_button_resetAll" v="Reset All" />
+        <e k="usedplus_button_apply" v="Apply" />
+
+        <!-- Lease End Dialog -->
+        <e k="usedplus_le_chooseOption" v="Choose an Option:" />
+        <e k="usedplus_le_returnTitle" v="RETURN VEHICLE" />
+        <e k="usedplus_le_returnDesc" v="Return to dealer, pay any damage penalties" />
+        <e k="usedplus_le_buyoutTitle" v="BUYOUT VEHICLE" />
+        <e k="usedplus_le_buyoutDesc" v="Pay residual value, keep vehicle permanently" />
+        <e k="usedplus_button_returnVehicle" v="Return Vehicle" />
+        <e k="usedplus_button_buyoutVehicle" v="Buyout Vehicle" />
+
+        <!-- Lease Renewal Dialog -->
+        <e k="usedplus_lr_title" v="Lease Term Complete" />
+        <e k="usedplus_lr_sectionSummary" v="LEASE SUMMARY" />
+        <e k="usedplus_lr_term" v="Term:" />
+        <e k="usedplus_lr_paymentsMade" v="Payments Made:" />
+        <e k="usedplus_lr_totalPaid" v="Total Paid:" />
+        <e k="usedplus_lr_equityBuilt" v="Equity Built:" />
+        <e k="usedplus_lr_sectionDeposit" v="DEPOSIT STATUS" />
+        <e k="usedplus_lr_securityDeposit" v="Security Deposit:" />
+        <e k="usedplus_lr_deductions" v="Deductions:" />
+        <e k="usedplus_lr_refundAmount" v="Refund Amount:" />
+        <e k="usedplus_lr_vehicleCondition" v="Vehicle Condition:" />
+        <e k="usedplus_lr_sectionOptions" v="YOUR OPTIONS" />
+        <e k="usedplus_lr_optionReturn" v="RETURN" />
+        <e k="usedplus_lr_optionReturnDesc" v="Give back asset" />
+        <e k="usedplus_lr_youReceive" v="You receive:" />
+        <e k="usedplus_lr_optionBuyout" v="BUYOUT" />
+        <e k="usedplus_lr_optionBuyoutDesc" v="Purchase to own" />
+        <e k="usedplus_lr_youPay" v="You pay:" />
+        <e k="usedplus_lr_optionRenew" v="RENEW" />
+        <e k="usedplus_lr_optionRenewDesc" v="Extend lease term" />
+        <e k="usedplus_lr_equityCarries" v="Equity carries over:" />
+        <e k="usedplus_button_return" v="Return" />
+        <e k="usedplus_button_buyout" v="Buyout" />
+        <e k="usedplus_button_renew" v="Renew" />
+        <e k="usedplus_lr_helpText" v="You must choose an option. Returning gives you your deposit back. Buyout uses your equity toward purchase. Renewing extends the lease with equity applied to future buyout." />
+
+        <!-- Confirmation Dialog -->
+        <e k="usedplus_conf_title" v="Confirmation" />
+
+        <!-- Credit Report Dialog -->
+        <e k="usedplus_cr_title" v="CREDIT REPORT" />
+        <e k="usedplus_cr_reportDate" v="Report Date:" />
+        <e k="usedplus_cr_sectionScore" v="CREDIT SCORE" />
+        <e k="usedplus_cr_scoreRange" v="Score Range: 300-850" />
+        <e k="usedplus_cr_sectionTrend" v="SCORE TREND" />
+        <e k="usedplus_cr_noHistory" v="No History" />
+        <e k="usedplus_cr_sectionFactors" v="FACTORS AFFECTING SCORE" />
+        <e k="usedplus_cr_factorPayment" v="Payment History (35%):" />
+        <e k="usedplus_cr_factorUtilization" v="Credit Utilization (30%):" />
+        <e k="usedplus_cr_factorAge" v="Account Age (15%):" />
+        <e k="usedplus_cr_factorMix" v="Account Mix (10%):" />
+        <e k="usedplus_cr_factorInquiries" v="Recent Inquiries (10%):" />
+        <e k="usedplus_cr_sectionAccount" v="ACCOUNT SUMMARY" />
+        <e k="usedplus_cr_openAccounts" v="Open Accounts:" />
+        <e k="usedplus_cr_closedAccounts" v="Closed Accounts:" />
+        <e k="usedplus_cr_outstandingBalance" v="Outstanding Balance:" />
+        <e k="usedplus_cr_sectionActive" v="ACTIVE ACCOUNTS" />
+        <e k="usedplus_cr_noActiveAccounts" v="No active accounts" />
+        <e k="usedplus_cr_sectionPayment" v="PAYMENT HISTORY" />
+        <e k="usedplus_cr_onTimePayments" v="On-Time Payments:" />
+        <e k="usedplus_cr_missedPayments" v="Missed Payments:" />
+        <e k="usedplus_cr_currentStreak" v="Current Streak:" />
+        <e k="usedplus_cr_longestStreak" v="Longest Streak:" />
+        <e k="usedplus_cr_section12Month" v="12-MONTH HISTORY" />
+        <e k="usedplus_cr_sectionTips" v="TIPS TO IMPROVE" />
+        <e k="usedplus_cr_tip1" v="Pay on time to build credit" />
+        <e k="usedplus_cr_tip2" v="Keep debt below 50% of assets" />
+        <e k="usedplus_cr_tip3" v="Build history with small loans" />
+        <!-- REMOVED: usedplus_button_close - duplicate, use Common Button Labels -->
+
+        <!-- Search Details Dialog -->
+        <e k="usedplus_sd_title" v="SEARCH DETAILS" />
+        <e k="usedplus_sd_sectionSearching" v="SEARCHING FOR" />
+        <e k="usedplus_sd_sectionConfig" v="SEARCH CONFIGURATION" />
+        <e k="usedplus_sd_searchTier" v="Search Tier:" />
+        <e k="usedplus_sd_agentFee" v="Agent Fee:" />
+        <e k="usedplus_sd_baseSuccess" v="Base Success:" />
+        <e k="usedplus_sd_qualitySought" v="Quality Sought:" />
+        <e k="usedplus_sd_successModifier" v="Success Modifier:" />
+        <e k="usedplus_sd_combinedChance" v="Combined Chance:" />
+        <e k="usedplus_sd_sectionPricing" v="EXPECTED PRICING" />
+        <e k="usedplus_sd_newPrice" v="New Price:" />
+        <e k="usedplus_sd_expectedUsed" v="Expected Used:" />
+        <e k="usedplus_sd_savings" v="Savings:" />
+        <e k="usedplus_sd_qualityRange" v="Quality Range:" />
+        <e k="usedplus_sd_priceRange" v="Price Range:" />
+        <e k="usedplus_sd_sectionStatus" v="SEARCH STATUS" />
+        <e k="usedplus_sd_status" v="Status:" />
+        <e k="usedplus_sd_timeRemaining" v="Time Remaining:" />
+        <e k="usedplus_sd_started" v="Started:" />
+        <e k="usedplus_sd_elapsed" v="Elapsed:" />
+        <e k="usedplus_sd_infoText" v="Regional searches offer the best value for success rate." />
+
+        <!-- Sale Listing Details Dialog -->
+        <e k="usedplus_sld_title" v="SALE LISTING DETAILS" />
+        <e k="usedplus_sld_sectionVehicle" v="VEHICLE" />
+        <e k="usedplus_sld_sectionStatus" v="STATUS" />
+        <e k="usedplus_sld_condition" v="Condition:" />
+        <e k="usedplus_sld_hours" v="Hours:" />
+        <e k="usedplus_sld_timeLeft" v="Time Left:" />
+        <e k="usedplus_sld_sectionConfig" v="SALE CONFIGURATION" />
+        <e k="usedplus_sld_agentTier" v="Agent Tier:" />
+        <e k="usedplus_sld_agentFee" v="Agent Fee:" />
+        <e k="usedplus_sld_baseSuccess" v="Base Success:" />
+        <e k="usedplus_sld_priceTier" v="Price Tier:" />
+        <e k="usedplus_sld_priceRange" v="Price Range:" />
+        <e k="usedplus_sld_successMod" v="Success Mod:" />
+        <e k="usedplus_sld_sectionValue" v="VALUE COMPARISON" />
+        <e k="usedplus_sld_vanillaSell" v="Vanilla Sell:" />
+        <e k="usedplus_sld_tradeInValue" v="Trade-In Value:" />
+        <e k="usedplus_sld_tradeInNote" v="(Trade-In: 50-65% instant)" />
+        <e k="usedplus_sld_expected" v="Expected:" />
+        <e k="usedplus_sld_vsVanilla" v="vs Vanilla:" />
+        <e k="usedplus_sld_netAfterFee" v="Net (after fee):" />
+        <e k="usedplus_sld_sectionOffers" v="OFFER HISTORY" />
+        <e k="usedplus_sld_offersReceived" v="Offers Received:" />
+        <e k="usedplus_sld_offersDeclined" v="Offers Declined:" />
+        <e k="usedplus_sld_listedFor" v="Listed For:" />
+        <e k="usedplus_sld_infoText" v="Higher agent tiers have wider reach but longer wait times." />
+
+        <!-- Payment History Dialog -->
+        <e k="usedplus_ph_title" v="PAYMENT HISTORY" />
+        <e k="usedplus_ph_sectionSummary" v="DEAL SUMMARY" />
+        <e k="usedplus_ph_item" v="Item:" />
+        <e k="usedplus_ph_original" v="Original:" />
+        <e k="usedplus_ph_rate" v="Rate:" />
+        <e k="usedplus_ph_monthly" v="Monthly:" />
+        <e k="usedplus_ph_progress" v="Progress:" />
+        <e k="usedplus_ph_balance" v="Balance:" />
+        <e k="usedplus_ph_headerNum" v="#" />
+        <e k="usedplus_ph_headerPayment" v="PAYMENT" />
+        <e k="usedplus_ph_headerPrincipal" v="PRINCIPAL" />
+        <e k="usedplus_ph_headerInterest" v="INTEREST" />
+        <e k="usedplus_ph_headerBalance" v="BALANCE" />
+        <e k="usedplus_ph_headerStatus" v="STATUS" />
+        <e k="usedplus_button_prev" v="PREV" />
+        <e k="usedplus_button_next" v="NEXT" />
+        <e k="usedplus_ph_pageInfo" v="Showing payments %d-%d of %d" />
+
+        <!-- Finance Manager Frame -->
+        <e k="usedplus_fmf_sectionFinances" v="FINANCES" />
+        <e k="usedplus_fmf_sectionMarketplace" v="USED MARKETPLACE" />
+        <e k="usedplus_fmf_sectionCredit" v="CREDIT &amp; STATISTICS" />
+        <e k="usedplus_fmf_noActiveDeals" v="No active finance deals" />
+        <e k="usedplus_fmf_headerType" v="TYPE" />
+        <e k="usedplus_fmf_headerItem" v="ITEM" />
+        <e k="usedplus_fmf_headerBalance" v="BALANCE" />
+        <e k="usedplus_fmf_headerMonthly" v="MONTHLY" />
+        <e k="usedplus_fmf_headerProgress" v="PROGRESS" />
+        <e k="usedplus_fmf_headerLeft" v="LEFT" />
+        <e k="usedplus_fmf_totalOwed" v="Total Owed:" />
+        <e k="usedplus_fmf_monthlyLabel" v="Monthly:" />
+        <e k="usedplus_fmf_interestLabel" v="Interest:" />
+        <e k="usedplus_fmf_dealsLabel" v="Deals:" />
+        <e k="usedplus_fmf_payEarly" v="PAY EARLY" />
+        <e k="usedplus_fmf_info" v="INFO" />
+        <e k="usedplus_fmf_searchTierInfo" v="Search Tier Information" />
+        <e k="usedplus_fmf_localSearch" v="Local Search" />
+        <e k="usedplus_fmf_localStats" v="2% fee | 40% success | 1 month" />
+        <e k="usedplus_fmf_regionalSearch" v="Regional Search" />
+        <e k="usedplus_fmf_regionalStats" v="6% fee | 70% success | 1-3 months" />
+        <e k="usedplus_fmf_nationalSearch" v="National Search" />
+        <e k="usedplus_fmf_nationalStats" v="12% | 85% | 2-6 mo" />
+        <e k="usedplus_fmf_startFromShop" v="Start searches from shop" />
+        <e k="usedplus_fmf_viaSearchUsed" v="via 'Search Used'" />
+        <e k="usedplus_fmf_usedVehicleSearches" v="Used Vehicle Searches" />
+        <e k="usedplus_fmf_noActiveSearches" v="No active searches. Start from Shop." />
+        <e k="usedplus_fmf_headerPrice" v="PRICE" />
+        <e k="usedplus_fmf_headerTier" v="TIER" />
+        <e k="usedplus_fmf_headerChance" v="%" />
+        <e k="usedplus_fmf_headerTime" v="TIME" />
+        <e k="usedplus_fmf_vehiclesForSale" v="Vehicles For Sale" />
+        <e k="usedplus_fmf_noListings" v="No listings. Sell from Garage menu." />
+        <e k="usedplus_fmf_lifetimeStats" v="Lifetime Statistics" />
+        <e k="usedplus_fmf_financeHistory" v="-- Finance History --" />
+        <e k="usedplus_fmf_dealsCompleted" v="Deals Completed:" />
+        <e k="usedplus_fmf_totalFinanced" v="Total Financed:" />
+        <e k="usedplus_fmf_interestPaid" v="Interest Paid:" />
+        <e k="usedplus_fmf_paymentsMade" v="Payments Made:" />
+        <e k="usedplus_fmf_searchHistory" v="-- Search History --" />
+        <e k="usedplus_fmf_searchesStarted" v="Searches Started:" />
+        <e k="usedplus_fmf_vehiclesFound" v="Vehicles Found:" />
+        <e k="usedplus_fmf_feesSpent" v="Fees Spent:" />
+        <e k="usedplus_fmf_successRate" v="Success Rate:" />
+        <e k="usedplus_fmf_totalSaved" v="Total Saved (Used vs New):" />
+        <e k="usedplus_fmf_yourCreditScore" v="Your Credit Score" />
+        <e k="usedplus_fmf_creditRanges" v="Credit Ranges:" />
+        <e k="usedplus_fmf_tierExcellent" v="750-850 Excellent -1.5%" />
+        <e k="usedplus_fmf_tierGood" v="700-749 Good -0.5%" />
+        <e k="usedplus_fmf_tierFair" v="650-699 Fair +0.5%" />
+        <e k="usedplus_fmf_tierPoor" v="600-649 Poor +1.5%" />
+        <e k="usedplus_fmf_tierVeryPoor" v="300-599 Very Poor +3.0%" />
+        <e k="usedplus_fmf_listings" v="%d listings" />
+
+        <!-- Overview Panel -->
+        <e k="usedplus_fmf_overview" v="OVERVIEW" />
+        <e k="usedplus_fmf_overviewLine1" v="UsedPlus expands the vanilla economy with realistic financing, a used marketplace, and credit system." />
+        <e k="usedplus_fmf_overviewLine2" v="Finance or lease from Shop. Trade-In old equipment. Sell via agents for better returns than vanilla." />
+        <e k="usedplus_fmf_buyingUsed" v="BUYING USED" />
+        <e k="usedplus_fmf_buyingLine1" v="Shop → 'Search Used' to hire agents. LOCAL: 2%, 40%. REGIONAL: 6%, 70%. NATIONAL: 12%, 85%." />
+        <e k="usedplus_fmf_buyingLine2" v="Higher tiers = wider search, better odds. Used vehicles have varying condition and hours." />
+        <e k="usedplus_fmf_sellingEquip" v="SELLING EQUIPMENT" />
+        <e k="usedplus_fmf_sellingLine1" v="Garage → List for Sale. Trade-In: 50-65%. Local: 60-75%. Regional: 75-90%. National: 90-100%." />
+        <e k="usedplus_fmf_sellingLine2" v="Condition and hours affect value. Accept/decline offers from this screen." />
+        <e k="usedplus_fmf_creditScore" v="CREDIT SCORE (300-850)" />
+        <e k="usedplus_fmf_creditLine1" v="Determines interest rates and trade-in values. Improves through: on-time payments, completing deals. Drops from: missed payments, defaults." />
+        <e k="usedplus_fmf_creditLine2" v="Assets provide collateral but don't prove creditworthiness. Payment history matters most—inherited land doesn't mean good credit!" />
+        <e k="usedplus_fmf_quickRef" v="QUICK REFERENCE" />
+        <e k="usedplus_fmf_quickRefLine1" v="Shop → Finance/Lease/Search Used | Garage → List for Sale" />
+        <e k="usedplus_fmf_quickRefLine2" v="Monthly payments auto-deduct. Early payoff saves interest." />
+
+        <!-- Land Lease Dialog -->
+        <e k="usedplus_ll_title" v="Lease Land" />
+        <e k="usedplus_ll_sectionDetails" v="FIELD DETAILS" />
+        <e k="usedplus_ll_field" v="Field:" />
+        <e k="usedplus_ll_size" v="Size:" />
+        <e k="usedplus_ll_value" v="Value:" />
+        <e k="usedplus_ll_sectionTerm" v="LEASE TERM" />
+        <e k="usedplus_ll_selectDuration" v="Select lease duration:" />
+        <e k="usedplus_ll_sectionCosts" v="LEASE COSTS" />
+        <e k="usedplus_ll_monthlyPayment" v="Monthly Payment:" />
+        <e k="usedplus_ll_yearlyPayment" v="Yearly Payment:" />
+        <e k="usedplus_ll_totalCost" v="Total Lease Cost:" />
+        <e k="usedplus_ll_markup" v="Markup Amount:" />
+        <e k="usedplus_ll_buyoutPrice" v="Buyout Price:" />
+        <e k="usedplus_ll_note1" v="Lease allows land use without full purchase." />
+        <e k="usedplus_ll_note2" v="Land returns to market at lease end unless bought out." />
+        <!-- REMOVED: usedplus_button_acceptLease - duplicate, use Buttons section -->
+
+        <!-- Land Finance Dialog - Additional -->
+        <e k="usedplus_lf_field" v="Field:" />
+        <e k="usedplus_lf_size" v="Size:" />
+        <e k="usedplus_lf_price" v="Price:" />
+        <e k="usedplus_lf_sectionDueToday" v="DUE TODAY AT SIGNING" />
+        <e k="usedplus_lf_downPayment" v="Down Payment:" />
+        <e k="usedplus_lf_youPayToday" v="YOU PAY TODAY:" />
+        <e k="usedplus_lf_lowerRatesNote" v="Land financing has lower rates than vehicle loans." />
+
+        <!-- Finance Detail Frame -->
+        <e k="usedplus_fd_title" v="Finance Deal Details" />
+        <e k="usedplus_fd_quick1Month" v="1 Month" />
+        <e k="usedplus_fd_quick6Months" v="6 Months" />
+        <e k="usedplus_fd_quick1Year" v="1 Year" />
+        <e k="usedplus_fd_quickPayOff" v="Pay Off" />
+
+        <!-- Repair Finance Dialog -->
+        <e k="usedplus_rf_title" v="Finance Repair" />
+        <e k="usedplus_rf_repairCost" v="Repair Cost:" />
+        <e k="usedplus_rf_loanTerm" v="Loan Term:" />
+        <e k="usedplus_rf_downPayment" v="Down Payment:" />
+        <e k="usedplus_rf_monthlyPayment" v="Monthly Payment:" />
+        <e k="usedplus_rf_totalInterest" v="Total Interest:" />
+        <e k="usedplus_rf_interestRate" v="Interest Rate:" />
+        <e k="usedplus_rf_totalPayments" v="Total Payments:" />
+        <e k="usedplus_rf_creditScore" v="Credit Score:" />
+        <e k="usedplus_rf_infoText" v="Monthly payments auto-deduct. Pay off early to save on interest." />
+        <!-- REMOVED: usedplus_button_acceptFinance - duplicate, use Buttons section -->
+
+        <!-- TakeLoan Dialog - Credit Tiers -->
+        <e k="usedplus_tl_excellent" v="Excellent 750+: 6.5%" />
+        <e k="usedplus_tl_good" v="Good 700-749: 7.5%" />
+        <e k="usedplus_tl_fair" v="Fair 650-699: 8.5%" />
+        <e k="usedplus_tl_poor" v="Poor 600-649: 9.5%" />
+        <e k="usedplus_tl_veryPoor" v="Very Poor &lt;600: 11%" />
+    </elements>
+</l10n>

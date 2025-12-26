@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Search Details Dialog (Restyled)
+    Matches the visual style of DealDetailsDialog, UnifiedPurchaseDialog, etc.
+    Shows details about an active used vehicle search.
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 580px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_sd_title"/>
+
+            <!-- ===== VEHICLE INFO SECTION ===== -->
+            <GuiElement profile="sdSectionContainer" position="0px -65px">
+                <Bitmap profile="sdSectionBg" position="0px 0px"/>
+                <Text profile="sdSectionHeader" position="0px -5px" text="$l10n_usedplus_sd_sectionSearching"/>
+                <Text profile="sdVehicleName" id="vehicleNameText" position="0px -32px" text=""/>
+            </GuiElement>
+
+            <!-- ===== SEARCH CONFIGURATION SECTION (3-column) ===== -->
+            <!-- Grid: L1 -270px, V1 -170px | L2 -30px, V2 70px | L3 170px, V3 270px -->
+            <GuiElement profile="sdSectionContainerTall" position="0px -140px">
+                <Bitmap profile="sdSectionBgTall" position="0px 0px"/>
+                <Text profile="sdSectionHeader" position="0px -5px" text="$l10n_usedplus_sd_sectionConfig"/>
+
+                <!-- Row 1: Search Tier | Agent Fee | Base Success -->
+                <Text profile="sdLabelSmall" position="-270px -30px" text="$l10n_usedplus_sd_searchTier"/>
+                <Text profile="sdValueTier" id="searchTierText" position="-170px -30px" text=""/>
+                <Text profile="sdLabelSmall" position="-30px -30px" text="$l10n_usedplus_sd_agentFee"/>
+                <Text profile="sdValueFee" id="agentFeeText" position="70px -30px" text=""/>
+                <Text profile="sdLabelSmall" position="170px -30px" text="$l10n_usedplus_sd_baseSuccess"/>
+                <Text profile="sdValueSmall" id="baseSuccessText" position="270px -30px" text=""/>
+
+                <!-- Row 2: Quality | Success Modifier | Combined Chance -->
+                <Text profile="sdLabelSmall" position="-270px -52px" text="$l10n_usedplus_sd_qualitySought"/>
+                <Text profile="sdValueQuality" id="qualityTierText" position="-170px -52px" text=""/>
+                <Text profile="sdLabelSmall" position="-30px -52px" text="$l10n_usedplus_sd_successModifier"/>
+                <Text profile="sdValueMod" id="successModText" position="70px -52px" text=""/>
+                <Text profile="sdLabelSmall" position="170px -52px" text="$l10n_usedplus_sd_combinedChance"/>
+                <Text profile="sdValueChance" id="combinedChanceText" position="270px -52px" text=""/>
+            </GuiElement>
+
+            <!-- ===== PRICING SECTION (3-column) ===== -->
+            <GuiElement profile="sdSectionContainerTall" position="0px -235px">
+                <Bitmap profile="sdSectionBgGreen" position="0px 0px"/>
+                <Text profile="sdSectionHeader" position="0px -5px" text="$l10n_usedplus_sd_sectionPricing"/>
+
+                <!-- Row 1: New Price | Expected Used | Savings -->
+                <Text profile="sdLabelSmall" position="-270px -30px" text="$l10n_usedplus_sd_newPrice"/>
+                <Text profile="sdValueVanilla" id="newPriceText" position="-170px -30px" text=""/>
+                <Text profile="sdLabelSmall" position="-30px -30px" text="$l10n_usedplus_sd_expectedUsed"/>
+                <Text profile="sdValueGreen" id="expectedPriceText" position="70px -30px" text=""/>
+                <Text profile="sdLabelSmall" position="170px -30px" text="$l10n_usedplus_sd_savings"/>
+                <Text profile="sdValueSavings" id="savingsText" position="270px -30px" text=""/>
+
+                <!-- Row 2: Quality Range | Price Range | (empty) -->
+                <Text profile="sdLabelSmall" position="-270px -52px" text="$l10n_usedplus_sd_qualityRange"/>
+                <Text profile="sdValueSmall" id="conditionRangeText" position="-170px -52px" text=""/>
+                <Text profile="sdLabelSmall" position="-30px -52px" text="$l10n_usedplus_sd_priceRange"/>
+                <Text profile="sdValueSmall" id="priceRangeText" position="70px -52px" text=""/>
+            </GuiElement>
+
+            <!-- ===== STATUS SECTION (3-column) ===== -->
+            <GuiElement profile="sdSectionContainerTall" position="0px -330px">
+                <Bitmap profile="sdSectionBgStatus" position="0px 0px"/>
+                <Text profile="sdSectionHeader" position="0px -5px" text="$l10n_usedplus_sd_sectionStatus"/>
+
+                <!-- Row 1: Status | Time Remaining | (empty) -->
+                <Text profile="sdLabelSmall" position="-270px -30px" text="$l10n_usedplus_sd_status"/>
+                <Text profile="sdValueStatus" id="statusText" position="-170px -30px" text=""/>
+                <Text profile="sdLabelSmall" position="-30px -30px" text="$l10n_usedplus_sd_timeRemaining"/>
+                <Text profile="sdValueTime" id="timeRemainingText" position="70px -30px" text=""/>
+
+                <!-- Row 2: Started | Elapsed -->
+                <Text profile="sdLabelSmall" position="-270px -52px" text="$l10n_usedplus_sd_started"/>
+                <Text profile="sdValueSmall" id="startedText" position="-170px -52px" text=""/>
+                <Text profile="sdLabelSmall" position="-30px -52px" text="$l10n_usedplus_sd_elapsed"/>
+                <Text profile="sdValueSmall" id="elapsedText" position="70px -52px" text=""/>
+            </GuiElement>
+
+            <!-- ===== INFO TEXT ===== -->
+            <Text profile="sdInfoText" id="infoText" position="0px -430px" text="$l10n_usedplus_sd_infoText"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonBack" id="closeButton" text="$l10n_button_close" onClick="onCloseDialog"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="sdSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 60px"/>
+        </Profile>
+
+        <Profile name="sdSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 80px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="sdSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 60px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="sdSectionBgTall" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 80px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="sdSectionBgGreen" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 80px"/>
+            <imageColor value="0.06 0.1 0.08 0.9"/>
+        </Profile>
+
+        <Profile name="sdSectionBgStatus" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 80px"/>
+            <imageColor value="0.1 0.1 0.06 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="sdSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE NAME ========== -->
+        <Profile name="sdVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 0.8 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== 3-COLUMN LABELS (70px wide) ========== -->
+        <Profile name="sdLabelSmall" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="70px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- ========== 3-COLUMN VALUES (100px wide) ========== -->
+        <Profile name="sdValueSmall" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="sdValueTier" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.8 1 1"/>
+        </Profile>
+
+        <Profile name="sdValueQuality" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.9 0.4 1"/>
+        </Profile>
+
+        <Profile name="sdValueFee" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="sdValueMod" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="sdValueChance" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="sdValueVanilla" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="sdValueGreen" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="sdValueSavings" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.4 1"/>
+        </Profile>
+
+        <Profile name="sdValueStatus" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="sdValueTime" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.3 1"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="sdInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Credit Report Dialog (Redesigned)
+
+    Official credit report styled dialog with visual hierarchy:
+    - Hero credit score display with colored rating
+    - Colored section backgrounds matching TakeLoanDialog style
+    - Visual distinction between section types
+    - Proper padding and safe X positioning
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="880px 760px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- HEADER - Centered -->
+            <Text profile="fs25_dialogTitle" position="0px -20px" text="$l10n_usedplus_cr_title"/>
+            <Text profile="crFarmName" id="farmNameText" position="0px -50px" text=""/>
+            <Text profile="crReportDate" id="reportDateText" position="0px -72px" text=""/>
+
+            <!-- ========== TWO-COLUMN LAYOUT ========== -->
+            <!-- Container: 800px wide, positioned with anchorTopCenter -->
+
+            <!-- ===== LEFT COLUMN ===== -->
+
+            <!-- CREDIT SCORE SECTION (Hero Element) -->
+            <!-- Position: -200px centers a 380px element in left half of 800px container -->
+            <GuiElement profile="crScoreSection" position="-200px -95px">
+                <Bitmap profile="crScoreSectionBg" position="0px 0px"/>
+                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionScore"/>
+
+                <!-- Large Score Display -->
+                <Text profile="crScoreLarge" id="scoreValueText" position="0px -35px" text=""/>
+                <Text profile="crRatingText" id="ratingText" position="0px -90px" text=""/>
+                <Text profile="crScoreRange" id="scoreRangeText" position="0px -115px" text="$l10n_usedplus_cr_scoreRange"/>
+                <Text profile="crInterestImpact" id="interestImpactText" position="0px -135px" text=""/>
+            </GuiElement>
+
+            <!-- SCORE TREND SECTION -->
+            <!-- After Score (155px) + 8px gap = -95 - 155 - 8 = -258 -->
+            <GuiElement profile="crTrendSection" position="-200px -258px">
+                <Bitmap profile="crTrendSectionBg" position="0px 0px"/>
+                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionTrend"/>
+                <Text profile="crTrendValue" id="scoreTrendText" position="0px -30px" text="$l10n_usedplus_cr_noHistory"/>
+            </GuiElement>
+
+            <!-- FACTORS AFFECTING SCORE SECTION -->
+            <!-- After Trend (55px) + 8px gap = -258 - 55 - 8 = -321 -->
+            <GuiElement profile="crFactorsSection" position="-200px -321px">
+                <Bitmap profile="crFactorsSectionBg" position="0px 0px"/>
+                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionFactors"/>
+
+                <!-- Factor rows: Label on left (-80px), Value on right (+80px) -->
+                <!-- Centered within 380px section bounds (±190px) -->
+                <Text profile="crFactorLabel" position="-80px -30px" text="$l10n_usedplus_cr_factorPayment"/>
+                <Text profile="crFactorValue" id="factorPaymentText" position="80px -30px" text=""/>
+
+                <Text profile="crFactorLabel" position="-80px -52px" text="$l10n_usedplus_cr_factorUtilization"/>
+                <Text profile="crFactorValue" id="factorUtilizationText" position="80px -52px" text=""/>
+
+                <Text profile="crFactorLabel" position="-80px -74px" text="$l10n_usedplus_cr_factorAge"/>
+                <Text profile="crFactorValue" id="factorAgeText" position="80px -74px" text=""/>
+
+                <Text profile="crFactorLabel" position="-80px -96px" text="$l10n_usedplus_cr_factorMix"/>
+                <Text profile="crFactorValue" id="factorMixText" position="80px -96px" text=""/>
+
+                <Text profile="crFactorLabel" position="-80px -118px" text="$l10n_usedplus_cr_factorInquiries"/>
+                <Text profile="crFactorValue" id="factorInquiriesText" position="80px -118px" text=""/>
+            </GuiElement>
+
+            <!-- ===== RIGHT COLUMN ===== -->
+
+            <!-- ACCOUNT SUMMARY SECTION -->
+            <!-- Position: +190px centers a 385px element in right half of 800px container -->
+            <GuiElement profile="crAccountSection" position="190px -95px">
+                <Bitmap profile="crAccountSectionBg" position="0px 0px"/>
+                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionAccount"/>
+
+                <!-- Labels at -80px, Values at +80px - centered in 385px section -->
+                <Text profile="crLabel" position="-80px -32px" text="$l10n_usedplus_cr_openAccounts"/>
+                <Text profile="crValueWhite" id="openAccountsText" position="80px -32px" text=""/>
+
+                <Text profile="crLabel" position="-80px -54px" text="$l10n_usedplus_cr_closedAccounts"/>
+                <Text profile="crValueWhite" id="closedAccountsText" position="80px -54px" text=""/>
+
+                <Text profile="crLabel" position="-80px -76px" text="$l10n_usedplus_cr_outstandingBalance"/>
+                <Text profile="crValueDebt" id="totalBalanceText" position="80px -76px" text=""/>
+            </GuiElement>
+
+            <!-- ACTIVE ACCOUNTS SECTION -->
+            <!-- After Account Summary (105px) + 8px gap = -95 - 105 - 8 = -208 -->
+            <GuiElement profile="crActiveSection" position="190px -208px">
+                <Bitmap profile="crActiveSectionBg" position="0px 0px"/>
+                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionActive"/>
+
+                <Text profile="crDetailText" id="accountLine1Text" position="0px -30px" text="$l10n_usedplus_cr_noActiveAccounts"/>
+                <Text profile="crDetailText" id="accountLine2Text" position="0px -48px" text=""/>
+                <Text profile="crDetailText" id="accountLine3Text" position="0px -66px" text=""/>
+            </GuiElement>
+
+            <!-- PAYMENT HISTORY SECTION -->
+            <!-- After Active (90px) + 8px gap = -208 - 90 - 8 = -306 -->
+            <GuiElement profile="crPaymentSection" position="190px -306px">
+                <Bitmap profile="crPaymentSectionBg" position="0px 0px"/>
+                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionPayment"/>
+
+                <!-- Labels at -80px, Values at +80px - centered in 385px section -->
+                <Text profile="crLabel" position="-80px -32px" text="$l10n_usedplus_cr_onTimePayments"/>
+                <Text profile="crValueGood" id="onTimePaymentsText" position="80px -32px" text=""/>
+
+                <Text profile="crLabel" position="-80px -54px" text="$l10n_usedplus_cr_missedPayments"/>
+                <Text profile="crValueBad" id="missedPaymentsText" position="80px -54px" text=""/>
+
+                <Text profile="crLabel" position="-80px -76px" text="$l10n_usedplus_cr_currentStreak"/>
+                <Text profile="crValueWhite" id="currentStreakText" position="80px -76px" text=""/>
+
+                <Text profile="crLabel" position="-80px -98px" text="$l10n_usedplus_cr_longestStreak"/>
+                <Text profile="crValueWhite" id="longestStreakText" position="80px -98px" text=""/>
+            </GuiElement>
+
+            <!-- 12-MONTH HISTORY (Histogram) SECTION -->
+            <!-- After Payment (128px) + 8px gap = -306 - 128 - 8 = -442 -->
+            <GuiElement profile="crHistogramSection" position="190px -442px">
+                <Bitmap profile="crHistogramSectionBg" position="0px 0px"/>
+                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_section12Month"/>
+
+                <Text profile="crHistogram" id="histogramText" position="0px -32px" text=""/>
+                <Text profile="crLegend" id="histogramLegendText" position="0px -52px" text=""/>
+            </GuiElement>
+
+            <!-- TIPS TO IMPROVE SECTION -->
+            <!-- After Histogram (78px) + 8px gap = -442 - 78 - 8 = -528 -->
+            <GuiElement profile="crTipsSection" position="190px -528px">
+                <Bitmap profile="crTipsSectionBg" position="0px 0px"/>
+                <Text profile="crTipsSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionTips"/>
+
+                <Text profile="crTipText" id="tipText1" position="0px -28px" text="$l10n_usedplus_cr_tip1"/>
+                <Text profile="crTipText" id="tipText2" position="0px -46px" text="$l10n_usedplus_cr_tip2"/>
+                <Text profile="crTipText" id="tipText3" position="0px -64px" text="$l10n_usedplus_cr_tip3"/>
+            </GuiElement>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonBack" id="backButton" text="$l10n_usedplus_button_close" onClick="onClickBack"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <!-- Left Column Sections (380px wide) -->
+        <Profile name="crScoreSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="380px 155px"/>
+        </Profile>
+
+        <Profile name="crTrendSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="380px 55px"/>
+        </Profile>
+
+        <Profile name="crFactorsSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="380px 140px"/>
+        </Profile>
+
+        <!-- Right Column Sections (385px wide) - padding increased for better spacing -->
+        <Profile name="crAccountSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="385px 105px"/>
+        </Profile>
+
+        <Profile name="crActiveSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="385px 90px"/>
+        </Profile>
+
+        <Profile name="crPaymentSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="385px 128px"/>
+        </Profile>
+
+        <Profile name="crHistogramSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="385px 78px"/>
+        </Profile>
+
+        <Profile name="crTipsSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="385px 92px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <!-- Credit Score: Hero section - darker blue with slight purple -->
+        <Profile name="crScoreSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="380px 155px"/>
+            <imageColor value="0.05 0.06 0.12 0.95"/>
+        </Profile>
+
+        <!-- Score Trend: Standard dark blue -->
+        <Profile name="crTrendSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="380px 55px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- Factors: Standard dark blue -->
+        <Profile name="crFactorsSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="380px 140px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- Account Summary: Standard dark blue -->
+        <Profile name="crAccountSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="385px 105px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- Active Accounts: Slightly lighter -->
+        <Profile name="crActiveSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="385px 90px"/>
+            <imageColor value="0.1 0.1 0.14 0.9"/>
+        </Profile>
+
+        <!-- Payment History: Brownish/gold tint (money-related) -->
+        <Profile name="crPaymentSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="385px 128px"/>
+            <imageColor value="0.12 0.1 0.06 0.9"/>
+        </Profile>
+
+        <!-- Histogram: Standard dark -->
+        <Profile name="crHistogramSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="385px 78px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- Tips: Green tint (positive/helpful) -->
+        <Profile name="crTipsSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="385px 92px"/>
+            <imageColor value="0.06 0.1 0.06 0.9"/>
+        </Profile>
+
+        <!-- ========== HEADER ELEMENTS ========== -->
+        <Profile name="crFarmName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="crReportDate" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADERS ========== -->
+        <Profile name="crSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 22px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="crTipsSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 22px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 1 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== CREDIT SCORE HERO DISPLAY ========== -->
+        <Profile name="crScoreLarge" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 50px"/>
+            <textSize value="48px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="crRatingText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 24px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.9 0.9 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="crScoreRange" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="crInterestImpact" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 16px"/>
+            <textSize value="12px"/>
+            <textColor value="1 0.6 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== SCORE TREND ========== -->
+        <Profile name="crTrendValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== FACTOR LABELS & VALUES ========== -->
+        <Profile name="crFactorLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="180px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="crFactorValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="180px 18px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.9 0.9 1"/>
+        </Profile>
+
+        <!-- ========== STANDARD LABELS & VALUES ========== -->
+        <Profile name="crLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="160px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="crValueWhite" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="crValueGood" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+        </Profile>
+
+        <Profile name="crValueBad" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.3 1"/>
+        </Profile>
+
+        <Profile name="crValueDebt" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.4 1"/>
+        </Profile>
+
+        <!-- ========== ACTIVE ACCOUNTS DETAIL ========== -->
+        <Profile name="crDetailText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="365px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== HISTOGRAM ========== -->
+        <Profile name="crHistogram" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="365px 18px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 0.9 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="crLegend" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="365px 14px"/>
+            <textSize value="10px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== TIPS ========== -->
+        <Profile name="crTipText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="365px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.95 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

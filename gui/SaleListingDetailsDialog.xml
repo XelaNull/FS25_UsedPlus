@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 520px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_sld_title"/>
+
+            <!-- Vehicle Info Section -->
+            <GuiElement profile="sldRowBox" position="0px -60px" size="650px 75px">
+                <!-- Left: Vehicle Info -->
+                <GuiElement position="0px 0px" size="400px 75px">
+                    <Text profile="sldSectionTitle" position="10px -5px" text="$l10n_usedplus_sld_sectionVehicle"/>
+                    <Text profile="sldItemName" id="vehicleNameText" position="10px -28px" text=""/>
+                    <Text profile="sldLabel" position="10px -50px" text="$l10n_usedplus_sld_condition"/>
+                    <Text profile="sldValue" id="conditionText" position="90px -50px" text=""/>
+                    <Text profile="sldLabel" position="200px -50px" text="$l10n_usedplus_sld_hours"/>
+                    <Text profile="sldValue" id="hoursText" position="250px -50px" text=""/>
+                </GuiElement>
+
+                <!-- Right: Status -->
+                <GuiElement position="410px 0px" size="240px 75px">
+                    <Text profile="sldSectionTitle" position="10px -5px" text="$l10n_usedplus_sld_sectionStatus"/>
+                    <Text profile="sldStatusValue" id="statusText" position="10px -28px" text=""/>
+                    <Text profile="sldLabel" position="10px -50px" text="$l10n_usedplus_sld_timeLeft"/>
+                    <Text profile="sldTimeValue" id="timeRemainingText" position="90px -50px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- Agent & Price Tiers Section -->
+            <Text profile="sldSectionTitle" position="0px -145px" text="$l10n_usedplus_sld_sectionConfig"/>
+            <GuiElement profile="sldRowBox" position="0px -170px" size="650px 70px">
+                <!-- Left: Agent Tier -->
+                <GuiElement position="0px 0px" size="320px 70px">
+                    <Text profile="sldLabel" position="10px -5px" text="$l10n_usedplus_sld_agentTier"/>
+                    <Text profile="sldAgentValue" id="agentTierText" position="100px -5px" text=""/>
+                    <Text profile="sldLabel" position="10px -28px" text="$l10n_usedplus_sld_agentFee"/>
+                    <Text profile="sldFeeValue" id="agentFeeText" position="100px -28px" text=""/>
+                    <Text profile="sldLabel" position="10px -51px" text="$l10n_usedplus_sld_baseSuccess"/>
+                    <Text profile="sldValue" id="baseSuccessText" position="120px -51px" text=""/>
+                </GuiElement>
+
+                <!-- Right: Price Tier -->
+                <GuiElement position="330px 0px" size="320px 70px">
+                    <Text profile="sldLabel" position="10px -5px" text="$l10n_usedplus_sld_priceTier"/>
+                    <Text profile="sldPriceValue" id="priceTierText" position="100px -5px" text=""/>
+                    <Text profile="sldLabel" position="10px -28px" text="$l10n_usedplus_sld_priceRange"/>
+                    <Text profile="sldValue" id="priceRangeText" position="110px -28px" text=""/>
+                    <Text profile="sldLabel" position="10px -51px" text="$l10n_usedplus_sld_successMod"/>
+                    <Text profile="sldModValue" id="successModText" position="120px -51px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- Pricing Comparison Section -->
+            <Text profile="sldSectionTitle" position="0px -255px" text="$l10n_usedplus_sld_sectionValue"/>
+            <GuiElement profile="sldRowBox" position="0px -280px" size="650px 70px">
+                <!-- Left: Baseline Values -->
+                <GuiElement position="0px 0px" size="320px 70px">
+                    <Text profile="sldLabel" position="10px -5px" text="$l10n_usedplus_sld_vanillaSell"/>
+                    <Text profile="sldVanillaValue" id="vanillaSellText" position="110px -5px" text=""/>
+                    <Text profile="sldLabel" position="10px -28px" text="$l10n_usedplus_sld_tradeInValue"/>
+                    <Text profile="sldTradeInValue" id="tradeInValueText" position="130px -28px" text=""/>
+                    <Text profile="sldSmallNote" position="10px -51px" text="$l10n_usedplus_sld_tradeInNote"/>
+                </GuiElement>
+
+                <!-- Right: This Listing -->
+                <GuiElement position="330px 0px" size="320px 70px">
+                    <Text profile="sldLabel" position="10px -5px" text="$l10n_usedplus_sld_expected"/>
+                    <Text profile="sldExpectedValue" id="expectedValueText" position="100px -5px" text=""/>
+                    <Text profile="sldLabel" position="10px -28px" text="$l10n_usedplus_sld_vsVanilla"/>
+                    <Text profile="sldBonusValue" id="bonusVsVanillaText" position="100px -28px" text=""/>
+                    <Text profile="sldLabel" position="10px -51px" text="$l10n_usedplus_sld_netAfterFee"/>
+                    <Text profile="sldNetValue" id="netAmountText" position="120px -51px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- Offer History Section -->
+            <Text profile="sldSectionTitle" position="0px -365px" text="$l10n_usedplus_sld_sectionOffers"/>
+            <GuiElement profile="sldRowBox" position="0px -390px" size="650px 50px">
+                <Text profile="sldLabel" position="10px -5px" text="$l10n_usedplus_sld_offersReceived"/>
+                <Text profile="sldValue" id="offersReceivedText" position="140px -5px" text=""/>
+                <Text profile="sldLabel" position="200px -5px" text="$l10n_usedplus_sld_offersDeclined"/>
+                <Text profile="sldValue" id="offersDeclinedText" position="340px -5px" text=""/>
+                <Text profile="sldLabel" position="400px -5px" text="$l10n_usedplus_sld_listedFor"/>
+                <Text profile="sldValue" id="listedDurationText" position="490px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Info/Tips text -->
+            <Text profile="sldInfoText" id="infoText" position="0px -450px" text="$l10n_usedplus_sld_infoText"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonBack" id="closeButton" text="$l10n_button_close" onClick="onCloseDialog"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- Container for rows -->
+        <Profile name="sldRowBox" extends="emptyPanel" with="anchorTopCenter"/>
+
+        <Profile name="sldSectionTitle" extends="fs25_dialogText" with="anchorTopCenter">
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0 1"/>
+        </Profile>
+
+        <Profile name="sldLabel" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="sldValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="sldItemName" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 0.8 1 1"/>
+        </Profile>
+
+        <Profile name="sldStatusValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="sldTimeValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.3 1"/>
+        </Profile>
+
+        <Profile name="sldAgentValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.8 1 1"/>
+        </Profile>
+
+        <Profile name="sldPriceValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.7 0.4 1"/>
+        </Profile>
+
+        <Profile name="sldFeeValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="sldModValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="sldVanillaValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="sldTradeInValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="sldExpectedValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="sldBonusValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.4 1"/>
+        </Profile>
+
+        <Profile name="sldNetValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.3 1"/>
+        </Profile>
+
+        <Profile name="sldSmallNote" extends="fs25_textDefault" with="anchorTopLeft">
+            <height value="18px"/>
+            <textSize value="10px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="sldInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 20px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

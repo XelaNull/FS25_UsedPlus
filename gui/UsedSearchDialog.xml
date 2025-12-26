@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Search for Used Equipment Dialog (Redesigned)
+
+    Matches the visual style of DealDetailsDialog, UnifiedPurchaseDialog, etc.
+    Features styled section backgrounds with gold headers.
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="780px 755px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_search_title"/>
+
+            <!-- ========== SECTION 1: Vehicle Details ========== -->
+            <!--
+                REUSABLE PATTERN: Vehicle Preview with Image + Text
+                =====================================================
+                This pattern creates a two-column layout inside a section:
+                - Left column: Vehicle image (centered)
+                - Right column: Vehicle text info (left-aligned)
+
+                KEY MEASUREMENTS:
+                - Section: 720px wide × 130px tall
+                - Header row: ~25px (text at -5px from top)
+                - Content container: 100px tall, starts at -28px (below header)
+                - Left cell: 350px wide, centered at X=-185px (image area)
+                - Right cell: 370px wide, centered at X=+175px (text area)
+
+                COORDINATE SYSTEM (inside fs25_dialogContentContainer):
+                - X: Relative to CENTER (negative=left, positive=right)
+                - Y: NEGATIVE going DOWN from container top
+                - For Bitmaps inside content: POSITIVE Y moves UP from baseline
+
+                IMAGE POSITIONING:
+                - Position: -185px centers a 350px cell in left half
+                - Y=12px moves image up slightly for visual balance
+                - Size: 170x96px (~16:9 aspect ratio matches FS25 store images)
+
+                TEXT POSITIONING:
+                - Position: 175px centers a 370px cell in right half
+                - Y values: -15px, -42px, -67px for vertically centered text block
+                - Text uses textAlignment="left" with anchorTopCenter profile
+
+                TO DUPLICATE THIS PATTERN:
+                1. Copy the GuiElement with profile="usItemSection"
+                2. Copy the child container with profile="usVehiclePreviewContainer"
+                3. Copy the corresponding GUIProfiles (usItemSection, usItemSectionBg,
+                   usVehiclePreviewContainer, usItemImage, usItemNameLeft, etc.)
+                4. Adjust section Y position based on where it appears in your dialog
+            -->
+            <GuiElement profile="usItemSection" position="0px -60px">
+                <!-- Section background -->
+                <Bitmap profile="usItemSectionBg" position="0px 0px"/>
+
+                <!-- Section header -->
+                <Text profile="usSectionHeader" position="0px -5px" text="$l10n_usedplus_us_sectionVehicle"/>
+
+                <!-- Two-column container: image left, text right -->
+                <GuiElement profile="usVehiclePreviewContainer" position="0px -28px">
+                    <!-- IMAGE: Centered in left half of container, moved up 42px -->
+                    <Bitmap profile="usItemImage" id="itemImage" position="-185px 42px"/>
+
+                    <!-- TEXT: Left-aligned in right half of container -->
+                    <Text profile="usItemNameLeft" id="itemNameText" position="175px -15px" text=""/>
+                    <Text profile="usItemPriceLeft" id="itemPriceText" position="175px -42px" text=""/>
+                    <Text profile="usItemCategoryLeft" id="itemCategoryText" position="175px -67px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Search Tier Selection ========== -->
+            <!-- After Vehicle (145px) + 10px gap = -60 - 145 - 10 = -215 -->
+            <GuiElement profile="usTierSection" position="0px -215px">
+                <Bitmap profile="usTierSectionBg" position="0px 0px"/>
+                <Text profile="usSectionHeader" position="0px -5px" text="$l10n_usedplus_us_sectionTier"/>
+                <Text profile="usHelpText" position="0px -25px" text="$l10n_usedplus_search_tierDescription"/>
+
+                <!-- Three Tier Columns -->
+                <GuiElement profile="usTierRow" position="0px -50px">
+
+                    <!-- Left Column: Local Tier -->
+                    <GuiElement profile="usTierColumn" position="-240px 0px">
+                        <Bitmap profile="usTierBg" id="localBg" position="0px 0px"/>
+                        <Button profile="usTierBtn" id="localCheckbox" text="" onClick="onLocalSelected" position="0px 0px"/>
+                        <Text profile="usTierName" id="localName" text="$l10n_usedplus_search_tierLocal" position="0px -8px"/>
+                        <Text profile="usTierLabel" position="0px -35px" text="$l10n_usedplus_search_cost"/>
+                        <Text profile="usTierValue" id="localCostText" position="0px -52px" text="$0"/>
+                        <Text profile="usTierLabel" position="0px -75px" text="$l10n_usedplus_search_success"/>
+                        <Text profile="usTierValue" id="localSuccessText" position="0px -92px" text="40%"/>
+                        <Text profile="usTierLabel" position="0px -115px" text="$l10n_usedplus_search_duration"/>
+                        <Text profile="usTierValue" id="localDurationText" position="0px -132px" text="1 month"/>
+                        <Text profile="usTierLabel" position="0px -155px" text="$l10n_usedplus_search_match"/>
+                        <Text profile="usTierValue" id="localMatchText" position="0px -172px" text="30%"/>
+                    </GuiElement>
+
+                    <!-- Center Column: Regional Tier -->
+                    <GuiElement profile="usTierColumn" position="0px 0px">
+                        <Bitmap profile="usTierBg" id="regionalBg" position="0px 0px"/>
+                        <Button profile="usTierBtn" id="regionalCheckbox" text="" onClick="onRegionalSelected" position="0px 0px"/>
+                        <Text profile="usTierName" id="regionalName" text="$l10n_usedplus_search_tierRegional" position="0px -8px"/>
+                        <Text profile="usTierLabel" position="0px -35px" text="$l10n_usedplus_search_cost"/>
+                        <Text profile="usTierValue" id="regionalCostText" position="0px -52px" text="$0"/>
+                        <Text profile="usTierLabel" position="0px -75px" text="$l10n_usedplus_search_success"/>
+                        <Text profile="usTierValue" id="regionalSuccessText" position="0px -92px" text="70%"/>
+                        <Text profile="usTierLabel" position="0px -115px" text="$l10n_usedplus_search_duration"/>
+                        <Text profile="usTierValue" id="regionalDurationText" position="0px -132px" text="1-3 months"/>
+                        <Text profile="usTierLabel" position="0px -155px" text="$l10n_usedplus_search_match"/>
+                        <Text profile="usTierValue" id="regionalMatchText" position="0px -172px" text="65%"/>
+                    </GuiElement>
+
+                    <!-- Right Column: National Tier -->
+                    <GuiElement profile="usTierColumn" position="240px 0px">
+                        <Bitmap profile="usTierBg" id="nationalBg" position="0px 0px"/>
+                        <Button profile="usTierBtn" id="nationalCheckbox" text="" onClick="onNationalSelected" position="0px 0px"/>
+                        <Text profile="usTierName" id="nationalName" text="$l10n_usedplus_search_tierNational" position="0px -8px"/>
+                        <Text profile="usTierLabel" position="0px -35px" text="$l10n_usedplus_search_cost"/>
+                        <Text profile="usTierValue" id="nationalCostText" position="0px -52px" text="$0"/>
+                        <Text profile="usTierLabel" position="0px -75px" text="$l10n_usedplus_search_success"/>
+                        <Text profile="usTierValue" id="nationalSuccessText" position="0px -92px" text="85%"/>
+                        <Text profile="usTierLabel" position="0px -115px" text="$l10n_usedplus_search_duration"/>
+                        <Text profile="usTierValue" id="nationalDurationText" position="0px -132px" text="2-6 months"/>
+                        <Text profile="usTierLabel" position="0px -155px" text="$l10n_usedplus_search_match"/>
+                        <Text profile="usTierValue" id="nationalMatchText" position="0px -172px" text="80%"/>
+                    </GuiElement>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Quality Selection ========== -->
+            <!-- After Tier (260px) + 10px gap = -215 - 260 - 10 = -485 -->
+            <GuiElement profile="usQualitySection" position="0px -485px">
+                <Bitmap profile="usQualitySectionBg" position="0px 0px"/>
+                <Text profile="usSectionHeader" position="0px -5px" text="$l10n_usedplus_us_sectionQuality"/>
+                <Text profile="usHelpText" position="0px -25px" text="$l10n_usedplus_search_qualityDescription"/>
+
+                <!-- Five Quality Options -->
+                <GuiElement profile="usQualityRow" position="0px -50px">
+
+                    <!-- Any Condition -->
+                    <GuiElement profile="usQualityColumn" position="-280px 0px">
+                        <Bitmap profile="usQualityBg" id="anyBg" position="0px 0px"/>
+                        <Button profile="usQualityBtn" id="anyConditionCheckbox" text="" onClick="onAnyConditionSelected" position="0px 0px"/>
+                        <Text profile="usQualityName" id="anyName" text="$l10n_usedplus_us_qualityAny" position="0px -8px"/>
+                        <Text profile="usQualityDesc" id="anyConditionDescText" text="" position="0px -28px"/>
+                        <Text profile="usQualityPrice" id="anyConditionPriceText" text="" position="0px -46px"/>
+                    </GuiElement>
+
+                    <!-- Poor Condition -->
+                    <GuiElement profile="usQualityColumn" position="-140px 0px">
+                        <Bitmap profile="usQualityBg" id="poorBg" position="0px 0px"/>
+                        <Button profile="usQualityBtn" id="poorConditionCheckbox" text="" onClick="onPoorConditionSelected" position="0px 0px"/>
+                        <Text profile="usQualityName" id="poorName" text="$l10n_usedplus_us_qualityPoor" position="0px -8px"/>
+                        <Text profile="usQualityDesc" id="poorConditionDescText" text="" position="0px -28px"/>
+                        <Text profile="usQualityPrice" id="poorConditionPriceText" text="" position="0px -46px"/>
+                    </GuiElement>
+
+                    <!-- Fair Condition -->
+                    <GuiElement profile="usQualityColumn" position="0px 0px">
+                        <Bitmap profile="usQualityBg" id="fairBg" position="0px 0px"/>
+                        <Button profile="usQualityBtn" id="fairConditionCheckbox" text="" onClick="onFairConditionSelected" position="0px 0px"/>
+                        <Text profile="usQualityName" id="fairName" text="$l10n_usedplus_us_qualityFair" position="0px -8px"/>
+                        <Text profile="usQualityDesc" id="fairConditionDescText" text="" position="0px -28px"/>
+                        <Text profile="usQualityPrice" id="fairConditionPriceText" text="" position="0px -46px"/>
+                    </GuiElement>
+
+                    <!-- Good Condition -->
+                    <GuiElement profile="usQualityColumn" position="140px 0px">
+                        <Bitmap profile="usQualityBg" id="goodBg" position="0px 0px"/>
+                        <Button profile="usQualityBtn" id="goodConditionCheckbox" text="" onClick="onGoodConditionSelected" position="0px 0px"/>
+                        <Text profile="usQualityName" id="goodName" text="$l10n_usedplus_us_qualityGood" position="0px -8px"/>
+                        <Text profile="usQualityDesc" id="goodConditionDescText" text="" position="0px -28px"/>
+                        <Text profile="usQualityPrice" id="goodConditionPriceText" text="" position="0px -46px"/>
+                    </GuiElement>
+
+                    <!-- Excellent Condition -->
+                    <GuiElement profile="usQualityColumn" position="280px 0px">
+                        <Bitmap profile="usQualityBg" id="excellentBg" position="0px 0px"/>
+                        <Button profile="usQualityBtn" id="excellentConditionCheckbox" text="" onClick="onExcellentConditionSelected" position="0px 0px"/>
+                        <Text profile="usQualityName" id="excellentName" text="$l10n_usedplus_us_qualityExcellent" position="0px -8px"/>
+                        <Text profile="usQualityDesc" id="excellentConditionDescText" text="" position="0px -28px"/>
+                        <Text profile="usQualityPrice" id="excellentConditionPriceText" text="" position="0px -46px"/>
+                    </GuiElement>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== INFO TEXT ========== -->
+            <!-- After Quality (125px) + 10px gap = -485 - 125 - 10 = -620 -->
+            <Text profile="usInfoText" position="0px -620px" text="$l10n_usedplus_us_infoText"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="startSearchButton" text="$l10n_usedplus_button_startSearch" onClick="onStartSearch"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="cancelButton" text="$l10n_button_cancel" onClick="onCancel"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="usItemSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 145px"/>
+        </Profile>
+
+        <Profile name="usTierSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 260px"/>
+        </Profile>
+
+        <Profile name="usQualitySection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 125px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="usItemSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="720px 145px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="usTierSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="720px 260px"/>
+            <imageColor value="0.06 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="usQualitySectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="720px 125px"/>
+            <imageColor value="0.08 0.1 0.08 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="usSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="700px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== HELP TEXT ========== -->
+        <Profile name="usHelpText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="680px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.55 0.55 0.55 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="usInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="700px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE PREVIEW CONTAINER ========== -->
+        <!--
+            REUSABLE: Two-column container for image + text layout
+            - Full width of section (720px)
+            - 100px tall to fit 96px image with padding
+            - Children positioned relative to container center
+            - Left half (X=-185px): 350px wide image area
+            - Right half (X=+175px): 370px wide text area
+        -->
+        <Profile name="usVehiclePreviewContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 100px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE IMAGE ========== -->
+        <!--
+            REUSABLE: Vehicle preview image profile
+            - Extends fs25_vehiclesDetailsImage for proper image loading
+            - EMPIRICALLY TESTED: 210x140px displays store images without stretching
+              (Theoretical calculations were wrong - trust visual testing!)
+            - Position at X=-185px centers in 350px left cell
+            - Position at Y=42px (POSITIVE) moves up from container baseline
+        -->
+        <Profile name="usItemImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO TEXT ========== -->
+        <!--
+            REUSABLE: Vehicle info text profiles for right column
+            - Position at X=175px centers in 370px right cell
+            - Y positions: -15px (name), -42px (price), -67px (category)
+            - MUST use anchorTopCenter (anchorTopLeft shifts coordinate origin!)
+            - textAlignment="left" for left-aligned text within centered element
+        -->
+        <Profile name="usItemNameLeft" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="340px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="usItemPriceLeft" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="340px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="usItemCategoryLeft" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="340px 18px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== TIER SELECTION ========== -->
+        <Profile name="usTierRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 200px"/>
+        </Profile>
+
+        <Profile name="usTierColumn" extends="emptyPanel" with="anchorTopCenter">
+            <size value="210px 195px"/>
+        </Profile>
+
+        <Profile name="usTierBg" extends="baseReference" with="anchorTopCenter">
+            <size value="210px 195px"/>
+            <imageColor value="0.1 0.1 0.14 0.9"/>
+        </Profile>
+
+        <Profile name="usTierBtn" extends="emptyPanel" with="anchorTopCenter">
+            <size value="210px 195px"/>
+            <isFocusable value="true"/>
+        </Profile>
+
+        <Profile name="usTierName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="usTierLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="usTierValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== QUALITY SELECTION ========== -->
+        <Profile name="usQualityRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="720px 70px"/>
+        </Profile>
+
+        <Profile name="usQualityColumn" extends="emptyPanel" with="anchorTopCenter">
+            <size value="130px 70px"/>
+        </Profile>
+
+        <Profile name="usQualityBg" extends="baseReference" with="anchorTopCenter">
+            <size value="130px 70px"/>
+            <imageColor value="0.1 0.1 0.14 0.9"/>
+        </Profile>
+
+        <Profile name="usQualityBtn" extends="emptyPanel" with="anchorTopCenter">
+            <size value="130px 70px"/>
+            <isFocusable value="true"/>
+        </Profile>
+
+        <Profile name="usQualityName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="usQualityDesc" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 16px"/>
+            <textSize value="10px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="usQualityPrice" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 16px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

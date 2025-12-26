@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Unified Land Purchase Dialog
+
+     Single dialog for all farmland purchase modes (Cash, Finance, Lease)
+    No trade-in for land purchases.
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="680px 695px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_land_title"/>
+
+            <!-- ========== SECTION 1: Land Details with Credit Adjustment ========== -->
+            <Text profile="lpSectionTitle" position="0px -55px" text="$l10n_usedplus_lp_sectionDetails"/>
+
+            <GuiElement profile="lpRowBox" position="0px -85px" size="610px 115px">
+                <!-- Left: Field ID and Name -->
+                <GuiElement profile="lpDetailColumn" position="-120px 0px">
+                    <Text profile="lpDetailLabelCenter" position="0px 0px" text="$l10n_usedplus_lp_field"/>
+                    <Text profile="lpLandNameCenter" id="landNameText" position="0px -18px" text=""/>
+
+                    <Text profile="lpDetailLabelCenter" position="0px -42px" text="$l10n_usedplus_lp_size"/>
+                    <Text profile="lpLandSizeCenter" id="landSizeText" position="0px -60px" text=""/>
+
+                    <Text profile="lpDetailLabelCenter" position="0px -82px" text="$l10n_usedplus_lp_perHa"/>
+                    <Text profile="lpLandPricePerHaCenter" id="landPricePerHaText" position="0px -100px" text=""/>
+                </GuiElement>
+
+                <!-- Right: Price Info with Credit Adjustment Breakdown -->
+                <GuiElement profile="lpDetailColumn" position="120px 0px">
+                    <Text profile="lpDetailLabelCenter" position="0px 0px" text="$l10n_usedplus_lp_basePrice"/>
+                    <Text profile="lpBasePriceCenter" id="basePriceText" position="0px -18px" text=""/>
+
+                    <Text profile="lpDetailLabelCenter" position="0px -38px" text="$l10n_usedplus_lp_creditAdjust"/>
+                    <Text profile="lpCreditAdjustCenter" id="creditAdjustmentText" position="0px -56px" text=""/>
+
+                    <Text profile="lpDetailLabelCenter" position="0px -76px" text="$l10n_usedplus_lp_yourPrice"/>
+                    <Text profile="lpLandPriceCenter" id="landPriceText" position="0px -94px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Purchase Mode Selector ========== -->
+            <Text profile="lpSectionTitle" position="0px -215px" text="$l10n_usedplus_land_purchaseMethod"/>
+            <Text profile="lpHelpText" id="modeHelpText" position="0px -233px" text="$l10n_usedplus_lp_methodHelp"/>
+            <MultiTextOption profile="lpModeSelector" id="modeSelector" position="0px -260px" onClick="onModeChanged"/>
+
+            <!-- ========== SECTION 3A: Cash Mode ========== -->
+            <GuiElement id="cashSection" position="0px -320px" visible="true">
+                <Text profile="lpSectionTitle" position="0px 0px" text="$l10n_usedplus_land_paymentSummary"/>
+                <Text profile="lpHelpText" id="cashHelpText" position="0px -18px" text="$l10n_usedplus_lp_cashHelp"/>
+
+                <GuiElement profile="lpRowBox" position="0px -45px" size="610px 90px">
+                    <GuiElement position="0px 0px" size="610px 90px">
+                        <Text profile="lpColLabel" position="100px -5px" text="$l10n_usedplus_land_landPrice"/>
+                        <Text profile="lpColValue" id="cashPriceText" position="250px -5px" text="$250,000"/>
+
+                        <Text profile="lpColLabel" position="100px -30px" text="$l10n_usedplus_land_taxes"/>
+                        <Text profile="lpColValue" id="cashTaxText" position="250px -30px" text="$0"/>
+
+                        <Bitmap profile="lpDivider" position="100px -55px" size="260px 2px"/>
+
+                        <Text profile="lpTotalLabel" position="100px -65px" text="$l10n_usedplus_land_totalDue"/>
+                        <Text profile="lpTotalValue" id="cashTotalText" position="250px -65px" text="$250,000"/>
+                    </GuiElement>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 3B: Finance Mode ========== -->
+            <GuiElement id="financeSection" position="0px -320px" visible="false">
+                <Text profile="lpSectionTitle" position="0px 0px" text="$l10n_usedplus_land_financeTerms"/>
+                <Text profile="lpHelpText" id="financeHelpText" position="0px -18px" text="$l10n_usedplus_lp_financeHelp"/>
+
+                <!-- Two column: Term, Down Payment -->
+                <GuiElement profile="lpRowBox" position="0px -45px" size="610px 70px">
+                    <GuiElement position="0px 0px" size="305px 70px">
+                        <Text profile="lpColLabel" position="10px -5px" text="$l10n_usedplus_land_loanTerm"/>
+                        <MultiTextOption profile="lpFinanceOption" id="financeTermSlider" position="10px -28px" onClick="onFinanceTermChanged"/>
+                    </GuiElement>
+
+                    <GuiElement position="305px 0px" size="305px 70px">
+                        <Text profile="lpColLabel" position="10px -5px" text="$l10n_usedplus_land_downPayment"/>
+                        <MultiTextOption profile="lpFinanceOption" id="financeDownSlider" position="10px -28px" onClick="onFinanceDownChanged"/>
+                    </GuiElement>
+                </GuiElement>
+
+                <!-- Finance Details -->
+                <GuiElement profile="lpRowBox" position="0px -125px" size="610px 100px">
+                    <GuiElement position="0px 0px" size="200px 100px">
+                        <Text profile="lpColLabel" position="10px -5px" text="$l10n_usedplus_land_amountFinanced"/>
+                        <Text profile="lpColValue" id="financeAmountText" position="10px -25px" text="$0"/>
+
+                        <Text profile="lpColLabel" position="10px -50px" text="$l10n_usedplus_land_interestRate"/>
+                        <Text profile="lpColValue" id="financeRateText" position="10px -70px" text="0.00%"/>
+                    </GuiElement>
+
+                    <GuiElement position="200px 0px" size="205px 100px">
+                        <Text profile="lpColLabel" position="10px -5px" text="$l10n_usedplus_land_monthlyPayment"/>
+                        <Text profile="lpMonthlyValue" id="financeMonthlyText" position="10px -25px" text="$0"/>
+
+                        <Text profile="lpColLabel" position="10px -50px" text="$l10n_usedplus_land_totalInterest"/>
+                        <Text profile="lpInterestValue" id="financeTotalInterestText" position="10px -70px" text="$0"/>
+                    </GuiElement>
+
+                    <GuiElement position="405px 0px" size="205px 100px">
+                        <Text profile="lpTotalLabel" position="10px -5px" text="$l10n_usedplus_land_dueToday"/>
+                        <Text profile="lpTotalValue" id="financeDueTodayText" position="10px -30px" text="$0"/>
+
+                        <Text profile="lpCreditScore" id="financeCreditText" position="10px -60px" text=""/>
+                    </GuiElement>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 3C: Lease Mode ========== -->
+            <GuiElement id="leaseSection" position="0px -320px" visible="false">
+                <Text profile="lpSectionTitle" position="0px 0px" text="$l10n_usedplus_land_leaseTerms"/>
+                <Text profile="lpHelpText" id="leaseHelpText" position="0px -18px" text="$l10n_usedplus_lp_leaseHelp"/>
+
+                <!-- One column: Lease Term (Security Deposit is credit-based, shown below) -->
+                <GuiElement profile="lpRowBox" position="0px -45px" size="610px 70px">
+                    <GuiElement position="0px 0px" size="610px 70px">
+                        <Text profile="lpColLabel" position="10px -5px" text="$l10n_usedplus_lp_leaseTerm"/>
+                        <MultiTextOption profile="lpFinanceOption" id="leaseTermSlider" position="10px -28px" onClick="onLeaseTermChanged"/>
+                    </GuiElement>
+                </GuiElement>
+
+                <!-- Lease Details -->
+                <GuiElement profile="lpRowBox" position="0px -125px" size="610px 100px">
+                    <!-- Column 1: Monthly/Annual Payment -->
+                    <GuiElement position="0px 0px" size="200px 100px">
+                        <Text profile="lpColLabel" position="10px -5px" text="$l10n_usedplus_lp_monthlyPayment"/>
+                        <Text profile="lpMonthlyValue" id="leaseMonthlyText" position="10px -25px" text=""/>
+
+                        <Text profile="lpColLabel" position="10px -50px" text="$l10n_usedplus_lp_annualCost"/>
+                        <Text profile="lpColValue" id="leaseAnnualText" position="10px -70px" text=""/>
+                    </GuiElement>
+
+                    <!-- Column 2: Rate Calculation / Deposit -->
+                    <GuiElement position="200px 0px" size="205px 100px">
+                        <Text profile="lpColLabel" position="10px -5px" text="$l10n_usedplus_lp_rateCalc"/>
+                        <Text profile="lpRentBreakdown" id="leaseRateText" position="10px -25px" text=""/>
+
+                        <Text profile="lpColLabel" position="10px -50px" text="$l10n_usedplus_lp_securityDeposit"/>
+                        <Text profile="lpColValue" id="leaseDepositText" position="10px -70px" text=""/>
+                    </GuiElement>
+
+                    <!-- Column 3: Due Today / Totals -->
+                    <GuiElement position="405px 0px" size="205px 100px">
+                        <Text profile="lpTotalLabel" position="10px -5px" text="$l10n_usedplus_lp_dueToday"/>
+                        <Text profile="lpTotalValue" id="leaseDueTodayText" position="10px -30px" text=""/>
+
+                        <Text profile="lpCreditScore" id="leaseCreditText" position="10px -60px" text=""/>
+
+                        <Text profile="lpColLabel" position="10px -75px" text="$l10n_usedplus_lp_totalLeaseCost"/>
+                        <Text profile="lpColValue" id="leaseTotalText" position="130px -75px" text=""/>
+                    </GuiElement>
+                </GuiElement>
+
+                <!-- Buyout info -->
+                <Text profile="lpBuyoutInfo" id="leaseBuyoutText" position="0px -230px" text=""/>
+
+                <!-- Signing bonus (shown for 12+ month leases with standing crops) -->
+                <GuiElement id="signingBonusSection" position="0px -250px" visible="false">
+                    <Text profile="lpSigningBonus" id="signingBonusText" position="0px 0px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+        </GuiElement>
+
+        <!-- Buttons -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="confirmButton" text="$l10n_usedplus_land_confirm" onClick="onConfirmPurchase"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="cancelButton" text="$l10n_button_cancel" onClick="onCancel"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <!-- ========== PROFILES ========== -->
+    <GUIProfiles>
+        <!-- Row container -->
+        <Profile name="lpRowBox" extends="emptyPanel" with="anchorTopCenter"/>
+
+        <!-- Section titles -->
+        <Profile name="lpSectionTitle" extends="fs25_dialogText" with="anchorTopCenter">
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0 1"/>
+        </Profile>
+
+        <!-- Help text under section titles -->
+        <Profile name="lpHelpText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="580px 20px"/>
+            <textSize value="11px"/>
+            <textColor value="0.55 0.55 0.55 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- Land display -->
+        <Profile name="lpLandImage" extends="baseReference" with="anchorTopLeft">
+            <size value="220px 100px"/>
+            <imageColor value="1 1 1 1"/>
+            <imageKeepAspect value="true"/>
+        </Profile>
+
+        <Profile name="lpLandName" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="20px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="lpLandSize" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="16px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="lpLandPrice" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="lpLandPricePerHa" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="lpLandPricePerAcre" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="lpLandSoil" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="14px"/>
+            <textColor value="0.7 0.9 0.7 1"/>
+        </Profile>
+
+        <Profile name="lpDetailLabel" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="14px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- Centered detail column container -->
+        <Profile name="lpDetailColumn" extends="emptyPanel" with="anchorTopCenter">
+            <size value="210px 100px"/>
+        </Profile>
+
+        <!-- Centered text profiles for farmland details -->
+        <Profile name="lpDetailLabelCenter" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="14px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="lpLandNameCenter" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="20px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="lpLandSizeCenter" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="16px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="lpLandPriceCenter" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="lpLandPricePerHaCenter" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <!-- Base price (before credit adjustment) -->
+        <Profile name="lpBasePriceCenter" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="14px"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+        </Profile>
+
+        <!-- Credit adjustment text (color set via Lua) -->
+        <Profile name="lpCreditAdjustCenter" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="13px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <!-- Mode selector -->
+        <Profile name="lpModeSelector" extends="fs25_multiTextOption" with="anchorTopCenter">
+            <size value="400px 40px"/>
+        </Profile>
+
+        <!-- Column labels and values -->
+        <Profile name="lpColLabel" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="13px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="lpColValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="16px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <!-- Finance options -->
+        <Profile name="lpFinanceOption" extends="fs25_multiTextOption" with="anchorTopLeft">
+            <size value="280px 35px"/>
+        </Profile>
+
+        <!-- Totals -->
+        <Profile name="lpTotalLabel" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.3 1"/>
+        </Profile>
+
+        <Profile name="lpTotalValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="22px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="lpMonthlyValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.5 1"/>
+        </Profile>
+
+        <Profile name="lpInterestValue" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="lpCreditScore" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="12px"/>
+            <textColor value="0.5 0.8 0.5 1"/>
+        </Profile>
+
+        <!-- Lease rent breakdown (smaller, fits the formula) -->
+        <Profile name="lpRentBreakdown" extends="fs25_textDefault" with="anchorTopLeft">
+            <textSize value="11px"/>
+            <textColor value="0.8 0.8 0.6 1"/>
+        </Profile>
+
+        <!-- Buyout info at bottom of lease section -->
+        <Profile name="lpBuyoutInfo" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="13px"/>
+            <textColor value="0.6 0.8 0.6 1"/>
+        </Profile>
+
+        <!-- Signing bonus for lease with standing crops -->
+        <Profile name="lpSigningBonus" extends="fs25_textDefault" with="anchorTopCenter">
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.8 0.3 1"/>
+        </Profile>
+
+        <!-- Divider -->
+        <Profile name="lpDivider" extends="baseReference">
+            <imageColor value="0.3 0.3 0.3 1"/>
+        </Profile>
+
+        <!-- Info text -->
+        <Profile name="lpInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="580px 20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

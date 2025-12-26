@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Repair Finance Dialog (Redesigned)
+
+    Matches the visual style of TakeLoanDialog, UnifiedPurchaseDialog, etc.
+    Features styled section backgrounds with gold headers.
+    Updated: Larger vehicle preview, taller Due Today section.
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="800px 800px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_rf_title"/>
+
+            <!-- ========== SECTION 1: Repair Details ========== -->
+            <GuiElement profile="rfSection" position="0px -60px">
+                <Bitmap profile="rfSectionBg" position="0px 0px"/>
+                <Text profile="rfSectionHeader" position="0px -5px" text="$l10n_usedplus_rp_sectionRepair"/>
+
+                <!-- Vehicle Image (left side) - larger preview, Y=42px moves up for proper display -->
+                <Bitmap profile="rfVehicleImage" id="vehicleImageElement" position="-230px 42px"/>
+
+                <!-- Vehicle Name & Cost (right of image) -->
+                <Text profile="rfVehicleName" id="vehicleNameText" position="80px -35px" text=""/>
+
+                <GuiElement position="80px -65px">
+                    <Text profile="rfLabel" position="-100px 0px" text="$l10n_usedplus_rf_repairCost"/>
+                    <Text profile="rfCostValue" id="repairCostText" position="50px 0px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Finance Options ========== -->
+            <!-- After Repair Details (145px) + 15px gap = -60 - 145 - 15 = -220 -->
+            <GuiElement profile="rfOptionsSection" position="0px -220px">
+                <Bitmap profile="rfOptionsSectionBg" position="0px 0px"/>
+                <Text profile="rfSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionFinance"/>
+
+                <!-- Loan Term Row -->
+                <GuiElement position="0px -35px">
+                    <Text profile="rfLabel" position="-200px 0px" text="$l10n_usedplus_rf_loanTerm"/>
+                    <MultiTextOption profile="rfMultiTextOption" id="termSlider" position="80px 0px" onClick="onTermChanged" />
+                </GuiElement>
+
+                <!-- Down Payment Row -->
+                <GuiElement position="0px -75px">
+                    <Text profile="rfLabel" position="-200px 0px" text="$l10n_usedplus_rf_downPayment"/>
+                    <MultiTextOption profile="rfMultiTextOption" id="downPaymentSlider" position="80px 0px" onClick="onDownPaymentChanged" />
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Payment Summary ========== -->
+            <!-- After Options (125px) + 15px gap = -220 - 125 - 15 = -360 -->
+            <GuiElement profile="rfPaymentSection" position="0px -360px">
+                <Bitmap profile="rfPaymentSectionBg" position="0px 0px"/>
+                <Text profile="rfSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionPayment"/>
+
+                <!-- Three-column layout -->
+                <GuiElement position="0px -38px">
+                    <!-- Left Column: Monthly Payment -->
+                    <Text profile="rfLabel" position="-220px 0px" text="$l10n_usedplus_rf_monthlyPayment"/>
+                    <Text profile="rfMonthlyValue" id="monthlyPaymentText" position="-220px -22px" text=""/>
+
+                    <!-- Center Column: Total Interest -->
+                    <Text profile="rfLabel" position="0px 0px" text="$l10n_usedplus_rf_totalInterest"/>
+                    <Text profile="rfInterestValue" id="totalInterestText" position="0px -22px" text=""/>
+
+                    <!-- Right Column: Interest Rate -->
+                    <Text profile="rfLabel" position="220px 0px" text="$l10n_usedplus_rf_interestRate"/>
+                    <Text profile="rfRateValue" id="interestRateText" position="220px -22px" text=""/>
+                </GuiElement>
+
+                <!-- Total Payments Row -->
+                <GuiElement position="0px -95px">
+                    <Text profile="rfLabel" position="-220px 0px" text="$l10n_usedplus_rf_totalPayments"/>
+                    <Text profile="rfTotalValue" id="totalPaymentsText" position="-50px 0px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 4: Due Today ========== -->
+            <!-- After Payment (125px) + 15px gap = -360 - 125 - 15 = -500 -->
+            <GuiElement profile="rfDueTodaySection" position="0px -500px">
+                <Bitmap profile="rfDueTodaySectionBg" position="0px 0px"/>
+                <Text profile="rfSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionDueToday"/>
+
+                <!-- Two-column layout with better spacing -->
+                <GuiElement position="0px -35px">
+                    <Text profile="rfLabel" position="-150px 0px" text="$l10n_usedplus_rf_downPayment"/>
+                    <Text profile="rfDownValue" id="downPaymentDisplayText" position="-150px -24px" text=""/>
+
+                    <Text profile="rfDueTodayLabel" position="150px 0px" text="$l10n_usedplus_up_youPayNow"/>
+                    <Text profile="rfDueTodayValue" id="dueTodayText" position="150px -24px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== CREDIT INFO ========== -->
+            <!-- After Due Today (140px) + 15px gap = -500 - 140 - 15 = -655 -->
+            <GuiElement position="0px -655px">
+                <Text profile="rfLabel" position="-150px 0px" text="$l10n_usedplus_rf_creditScore"/>
+                <Text profile="rfScoreValue" id="creditScoreText" position="0px 0px" text=""/>
+                <Text profile="rfRatingText" id="creditRatingText" position="80px 0px" text=""/>
+            </GuiElement>
+
+            <!-- Help text -->
+            <Text profile="rfInfoText" position="0px -685px" text="$l10n_usedplus_rf_infoText"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="acceptButton" text="$l10n_usedplus_button_acceptFinance" onClick="onAcceptFinance"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="cancelButton" text="$l10n_usedplus_button_cancel" onClick="onCancel"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="rfSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="740px 145px"/>
+        </Profile>
+
+        <Profile name="rfOptionsSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="740px 125px"/>
+        </Profile>
+
+        <Profile name="rfPaymentSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="740px 125px"/>
+        </Profile>
+
+        <Profile name="rfDueTodaySection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="740px 140px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="rfSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="740px 145px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="rfOptionsSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="740px 125px"/>
+            <imageColor value="0.06 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="rfPaymentSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="740px 125px"/>
+            <imageColor value="0.08 0.1 0.08 0.9"/>
+        </Profile>
+
+        <Profile name="rfDueTodaySectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="740px 140px"/>
+            <imageColor value="0.12 0.1 0.06 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="rfSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="720px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE IMAGE - Larger ========== -->
+        <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
+        <Profile name="rfVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE NAME ========== -->
+        <Profile name="rfVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="350px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <!-- ========== LABELS ========== -->
+        <Profile name="rfLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- ========== VALUE DISPLAYS ========== -->
+        <Profile name="rfCostValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="rfMonthlyValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.5 1"/>
+        </Profile>
+
+        <Profile name="rfInterestValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="rfRateValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.7 0.4 1"/>
+        </Profile>
+
+        <Profile name="rfTotalValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+        </Profile>
+
+        <Profile name="rfDownValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 24px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="rfDueTodayLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.3 1"/>
+        </Profile>
+
+        <Profile name="rfDueTodayValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 28px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+        </Profile>
+
+        <Profile name="rfScoreValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="60px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.7 1"/>
+        </Profile>
+
+        <Profile name="rfRatingText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 22px"/>
+            <textSize value="14px"/>
+            <textColor value="0.5 0.8 1 1"/>
+        </Profile>
+
+        <Profile name="rfInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="700px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== MULTI TEXT OPTION ========== -->
+        <Profile name="rfMultiTextOption" extends="fs25_multiTextOption" with="anchorTopCenter" />
+    </GUIProfiles>
+</GUI>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Sale Offer Dialog XML
+     Dialog for accepting or declining sale offers
+     Shown when agent finds a buyer for your vehicle
+     Pattern from MessageDialog (working reference)
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="700px 500px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_so_title"/>
+
+            <!-- Vehicle Info -->
+            <Text profile="offerSectionTitle" position="0px -70px" text="$l10n_usedplus_so_sectionVehicle"/>
+            <!-- Vehicle Info container - image Y=42px for proper display -->
+            <GuiElement position="0px -95px">
+                <Bitmap profile="offerItemImage" id="vehicleImage" position="-200px 42px"/>
+                <GuiElement position="50px 0px">
+                    <Text profile="offerVehicleName" id="vehicleNameText" position="0px 0px" text=""/>
+                    <Text profile="offerAgentTier" id="agentTierText" position="0px -28px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- Offer Details -->
+            <Text profile="offerSectionTitle" position="0px -190px" text="$l10n_usedplus_so_sectionOffer"/>
+
+            <GuiElement position="0px -220px">
+                <GuiElement position="-150px 0px">
+                    <Text profile="offerLabel" position="0px 0px" text="$l10n_usedplus_so_offerAmount"/>
+                    <Text profile="offerAmountValue" id="offerAmountText" position="0px -25px" text=""/>
+                </GuiElement>
+
+                <GuiElement position="150px 0px">
+                    <Text profile="offerLabel" position="0px 0px" text="$l10n_usedplus_so_percentVanilla"/>
+                    <Text profile="offerPercentValue" id="offerPercentText" position="0px -25px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- Expiration Warning -->
+            <GuiElement position="0px -280px">
+                <Text profile="offerExpirationLabel" position="0px 0px" text="$l10n_usedplus_so_expiresIn"/>
+                <Text profile="offerExpirationValue" id="expirationText" position="0px -25px" text=""/>
+            </GuiElement>
+
+            <!-- Comparison -->
+            <Text profile="offerSectionTitle" position="0px -330px" text="$l10n_usedplus_so_sectionCompare"/>
+
+            <GuiElement position="0px -360px">
+                <GuiElement position="-150px 0px">
+                    <Text profile="offerCompareLabel" position="0px 0px" text="$l10n_usedplus_so_vanillaPrice"/>
+                    <Text profile="offerCompareValue" id="vanillaSellText" position="0px -20px" text=""/>
+                </GuiElement>
+
+                <GuiElement position="150px 0px">
+                    <Text profile="offerCompareLabel" position="0px 0px" text="$l10n_usedplus_so_thisOffer"/>
+                    <Text profile="offerCompareHighlight" id="thisOfferText" position="0px -20px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- Info Text -->
+            <Text profile="offerInfoText" position="0px -410px" text="$l10n_usedplus_so_acceptInfo"/>
+            <Text profile="offerInfoText" position="0px -430px" text="$l10n_usedplus_so_declineInfo"/>
+
+        </GuiElement>
+
+        <!-- Buttons -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="acceptButton" text="$l10n_usedplus_button_acceptOffer" onClick="onClickAccept"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="declineButton" text="$l10n_usedplus_button_decline" onClick="onClickDecline"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <Profile name="offerSectionTitle" extends="fs25_dialogText">
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0 1"/>
+        </Profile>
+
+        <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
+        <Profile name="offerItemImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <Profile name="offerVehicleName" extends="fs25_textDefault">
+            <height value="28px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+        </Profile>
+
+        <Profile name="offerAgentTier" extends="fs25_textDefault">
+            <height value="24px"/>
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="offerLabel" extends="fs25_textDefault">
+            <height value="24px"/>
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerAmountValue" extends="fs25_textDefault">
+            <height value="36px"/>
+            <textSize value="28px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerPercentValue" extends="fs25_textDefault">
+            <height value="28px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.9 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerExpirationLabel" extends="fs25_textDefault">
+            <textSize value="14px"/>
+            <textColor value="1 0.7 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerExpirationValue" extends="fs25_textDefault">
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerCompareLabel" extends="fs25_textDefault">
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerCompareValue" extends="fs25_textDefault">
+            <textSize value="14px"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerCompareHighlight" extends="fs25_textDefault">
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="offerInfoText" extends="fs25_textDefault">
+            <height value="18px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

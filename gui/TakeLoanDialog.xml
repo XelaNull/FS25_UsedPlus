@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 710px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_tl_title"/>
+
+            <!-- ===== YOUR CREDIT SECTION ===== -->
+            <!-- Redesigned: Score/Rate on top, rating table below with highlighting -->
+            <!-- Height: 105px (content ends at ~94px + 10px padding) -->
+            <GuiElement profile="tlCreditContainer" position="0px -70px">
+                <Bitmap profile="tlCreditBg" position="0px 0px"/>
+                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionCredit"/>
+
+                <!-- Score and Rate display (2 columns) -->
+                <Text profile="tlLabel" position="-200px -28px" text="$l10n_usedplus_tl_score"/>
+                <Text profile="tlScoreValue" id="creditScoreText" position="-120px -28px" text=""/>
+                <Text profile="tlLabelWide" position="80px -28px" text="$l10n_usedplus_tl_yourRate"/>
+                <Text profile="tlInterestValue" id="interestRateText" position="220px -28px" text=""/>
+
+                <!-- Credit Rating Table (matches actual calculation in CreditSystem.lua) -->
+                <!-- Two-column compact table layout -->
+                <Text profile="tlChartRow" id="ratingExcellent" position="-85px -58px" text="$l10n_usedplus_tl_excellent"/>
+                <Text profile="tlChartRow" id="ratingGood" position="-85px -73px" text="$l10n_usedplus_tl_good"/>
+                <Text profile="tlChartRow" id="ratingFair" position="-85px -88px" text="$l10n_usedplus_tl_fair"/>
+                <!-- Right column -->
+                <Text profile="tlChartRow" id="ratingPoor" position="85px -58px" text="$l10n_usedplus_tl_poor"/>
+                <Text profile="tlChartRow" id="ratingVeryPoor" position="85px -73px" text="$l10n_usedplus_tl_veryPoor"/>
+            </GuiElement>
+
+            <!-- ===== COLLATERAL SECTION ===== -->
+            <!-- 10px gap after Credit (115px) = -70 - 115 - 10 = -195 -->
+            <!-- Height: 235px (expanded for asset selection list + padding) -->
+            <GuiElement profile="tlCollateralContainer" position="0px -195px">
+                <Bitmap profile="tlCollateralBg" position="0px 0px"/>
+                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionCollateral"/>
+
+                <!-- Help text -->
+                <Text profile="tlCollateralHelp" position="0px -24px" text="$l10n_usedplus_tl_collateralHelp"/>
+
+                <!-- Scrollable asset list area -->
+                <GuiElement profile="tlAssetListContainer" position="0px -42px">
+                    <Bitmap profile="tlAssetListBg" position="0px 0px"/>
+
+                    <!-- Asset rows (dynamically shown/hidden by Lua) -->
+                    <!-- Row 1 -->
+                    <GuiElement profile="tlAssetRow" id="assetRow1" position="0px -5px">
+                        <Bitmap profile="tlAssetRowBg" id="assetRow1Bg" position="0px 0px"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow1Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetName" id="assetRow1Name" position="-140px -4px" text=""/>
+                        <Text profile="tlAssetCategory" id="assetRow1Category" position="100px -4px" text=""/>
+                        <Text profile="tlAssetValue" id="assetRow1Value" position="260px -4px" text=""/>
+                    </GuiElement>
+                    <!-- Row 2 -->
+                    <GuiElement profile="tlAssetRow" id="assetRow2" position="0px -27px">
+                        <Bitmap profile="tlAssetRowBg" id="assetRow2Bg" position="0px 0px"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow2Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetName" id="assetRow2Name" position="-140px -4px" text=""/>
+                        <Text profile="tlAssetCategory" id="assetRow2Category" position="100px -4px" text=""/>
+                        <Text profile="tlAssetValue" id="assetRow2Value" position="260px -4px" text=""/>
+                    </GuiElement>
+                    <!-- Row 3 -->
+                    <GuiElement profile="tlAssetRow" id="assetRow3" position="0px -49px">
+                        <Bitmap profile="tlAssetRowBg" id="assetRow3Bg" position="0px 0px"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow3Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetName" id="assetRow3Name" position="-140px -4px" text=""/>
+                        <Text profile="tlAssetCategory" id="assetRow3Category" position="100px -4px" text=""/>
+                        <Text profile="tlAssetValue" id="assetRow3Value" position="260px -4px" text=""/>
+                    </GuiElement>
+                    <!-- Row 4 -->
+                    <GuiElement profile="tlAssetRow" id="assetRow4" position="0px -71px">
+                        <Bitmap profile="tlAssetRowBg" id="assetRow4Bg" position="0px 0px"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow4Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetName" id="assetRow4Name" position="-140px -4px" text=""/>
+                        <Text profile="tlAssetCategory" id="assetRow4Category" position="100px -4px" text=""/>
+                        <Text profile="tlAssetValue" id="assetRow4Value" position="260px -4px" text=""/>
+                    </GuiElement>
+                    <!-- Row 5 -->
+                    <GuiElement profile="tlAssetRow" id="assetRow5" position="0px -93px">
+                        <Bitmap profile="tlAssetRowBg" id="assetRow5Bg" position="0px 0px"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow5Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetName" id="assetRow5Name" position="-140px -4px" text=""/>
+                        <Text profile="tlAssetCategory" id="assetRow5Category" position="100px -4px" text=""/>
+                        <Text profile="tlAssetValue" id="assetRow5Value" position="260px -4px" text=""/>
+                    </GuiElement>
+
+                    <!-- Click targets for each row (invisible buttons) -->
+                    <Button profile="tlAssetRowHit" id="assetBtn1" position="0px -5px" onClick="onAssetRow1Click"/>
+                    <Button profile="tlAssetRowHit" id="assetBtn2" position="0px -27px" onClick="onAssetRow2Click"/>
+                    <Button profile="tlAssetRowHit" id="assetBtn3" position="0px -49px" onClick="onAssetRow3Click"/>
+                    <Button profile="tlAssetRowHit" id="assetBtn4" position="0px -71px" onClick="onAssetRow4Click"/>
+                    <Button profile="tlAssetRowHit" id="assetBtn5" position="0px -93px" onClick="onAssetRow5Click"/>
+                </GuiElement>
+
+                <!-- Pagination controls (styled boxes with invisible button overlays) -->
+                <GuiElement profile="tlPaginationBox" position="-280px -160px">
+                    <Bitmap profile="tlPaginationBoxBg" position="0px 0px"/>
+                    <Text profile="tlPaginationText" position="0px -3px" text="$l10n_usedplus_tl_prev"/>
+                    <Button profile="tlPaginationHit" id="prevPageBtn" position="0px 0px" onClick="onPrevPage"/>
+                </GuiElement>
+                <Text profile="tlPageIndicator" id="pageIndicatorText" position="0px -160px" text=""/>
+                <GuiElement profile="tlPaginationBox" position="280px -160px">
+                    <Bitmap profile="tlPaginationBoxBg" position="0px 0px"/>
+                    <Text profile="tlPaginationText" position="0px -3px" text="$l10n_usedplus_tl_next"/>
+                    <Button profile="tlPaginationHit" id="nextPageBtn" position="0px 0px" onClick="onNextPage"/>
+                </GuiElement>
+
+                <!-- Summary row below pagination (extra 10px padding above) -->
+                <Text profile="tlLabel" position="-200px -195px" text="$l10n_usedplus_tl_selected"/>
+                <Text profile="tlValue" id="selectedCollateralText" position="-100px -195px" text=""/>
+                <Text profile="tlLabelWide" position="60px -195px" text="$l10n_usedplus_tl_existingDebt"/>
+                <Text profile="tlDebtValue" id="existingDebtText" position="180px -195px" text=""/>
+
+                <!-- Maximum Loan - centered for emphasis -->
+                <Text profile="tlMaxLabel" position="-80px -215px" text="$l10n_usedplus_tl_maxLoan"/>
+                <Text profile="tlMaxValue" id="maxLoanText" position="80px -215px" text=""/>
+            </GuiElement>
+
+            <!-- ===== LOAN CONFIGURATION SECTION ===== -->
+            <!-- 10px gap after Collateral (235px) = -195 - 235 - 10 = -440 -->
+            <!-- Height: 68px (dropdown ends at ~56px + 12px padding) -->
+            <GuiElement profile="tlConfigSection" position="0px -440px">
+                <Bitmap profile="tlConfigBg" position="0px 0px"/>
+                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionConfig"/>
+
+                <Text profile="tlLabel" position="-200px -30px" text="$l10n_usedplus_tl_amount"/>
+                <MultiTextOption profile="tlDropdown" id="loanAmountSlider" position="-50px -28px" onClick="onLoanAmountChanged"/>
+
+                <Text profile="tlLabel" position="120px -30px" text="$l10n_usedplus_tl_term"/>
+                <MultiTextOption profile="tlDropdownSmall" id="termSlider" position="230px -28px" onClick="onTermChanged"/>
+            </GuiElement>
+
+            <!-- ===== PAYMENT PREVIEW SECTION ===== -->
+            <!-- 10px gap after Config (68px) = -440 - 68 - 10 = -518 -->
+            <!-- Height: 80px (content ends at ~70px + 10px padding) -->
+            <GuiElement profile="tlPaymentSection" position="0px -518px">
+                <Bitmap profile="tlPaymentBg" position="0px 0px"/>
+                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionPayment"/>
+
+                <Text profile="tlLabel" position="-200px -30px" text="$l10n_usedplus_tl_monthly"/>
+                <Text profile="tlMonthlyValue" id="monthlyPaymentText" position="-120px -30px" text=""/>
+                <Text profile="tlLabel" position="0px -30px" text="$l10n_usedplus_tl_total"/>
+                <Text profile="tlValue" id="totalPaymentText" position="80px -30px" text=""/>
+                <Text profile="tlLabel" position="180px -30px" text="$l10n_usedplus_tl_interest"/>
+                <Text profile="tlInterestCost" id="totalInterestText" position="260px -30px" text=""/>
+
+                <Text profile="tlLabel" position="-200px -52px" text="$l10n_usedplus_tl_yearly"/>
+                <Text profile="tlValue" id="yearlyPaymentText" position="-120px -52px" text=""/>
+            </GuiElement>
+
+            <!-- Info text -->
+            <!-- 10px gap after Payment (80px) = -518 - 80 - 10 = -608 -->
+            <Text profile="tlInfoText" id="infoText" position="0px -608px" text="$l10n_usedplus_tl_info"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="acceptButton" text="$l10n_usedplus_button_acceptLoan" onClick="onAcceptLoan"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="cancelButton" text="$l10n_button_cancel" onClick="onCancel"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="tlSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 70px"/>
+        </Profile>
+
+        <Profile name="tlCreditContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 115px"/>
+        </Profile>
+
+        <Profile name="tlCollateralContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 235px"/>
+        </Profile>
+
+        <Profile name="tlConfigSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 68px"/>
+        </Profile>
+
+        <Profile name="tlPaymentSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 80px"/>
+        </Profile>
+
+        <!-- ========== BACKGROUNDS ========== -->
+        <Profile name="tlSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 70px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="tlCreditBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 115px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="tlCollateralBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 235px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="tlConfigBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 68px"/>
+            <imageColor value="0.1 0.1 0.15 0.9"/>
+        </Profile>
+
+        <Profile name="tlPaymentBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 80px"/>
+            <imageColor value="0.12 0.1 0.06 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="tlSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== LABELS (70px wide) ========== -->
+        <Profile name="tlLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="70px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="tlLabelWide" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="tlMaxLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <!-- ========== VALUES (100px wide) ========== -->
+        <Profile name="tlValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="tlScoreValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+        </Profile>
+
+        <Profile name="tlRatingValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="tlInterestValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.2 1"/>
+        </Profile>
+
+        <Profile name="tlDebtValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.4 1"/>
+        </Profile>
+
+        <Profile name="tlMaxValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+        </Profile>
+
+        <Profile name="tlMonthlyValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <Profile name="tlInterestCost" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.4 1"/>
+        </Profile>
+
+        <!-- ========== CREDIT CHART ROWS ========== -->
+        <!-- Each row has an ID so Lua can highlight the active rating -->
+        <Profile name="tlChartRow" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="160px 14px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="tlChartRowActive" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="160px 14px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <!-- ========== DROPDOWNS ========== -->
+        <Profile name="tlDropdown" extends="fs25_multiTextOption" with="anchorTopCenter">
+            <size value="180px 28px"/>
+        </Profile>
+
+        <Profile name="tlDropdownSmall" extends="fs25_multiTextOption" with="anchorTopCenter">
+            <size value="130px 28px"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="tlInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.8 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== COLLATERAL ASSET LIST ========== -->
+        <Profile name="tlCollateralHelp" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="tlAssetListContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="640px 115px"/>
+        </Profile>
+
+        <Profile name="tlAssetListBg" extends="baseReference" with="anchorTopCenter">
+            <size value="640px 115px"/>
+            <imageColor value="0.05 0.05 0.08 0.8"/>
+        </Profile>
+
+        <Profile name="tlAssetRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="620px 22px"/>
+        </Profile>
+
+        <Profile name="tlAssetRowBg" extends="baseReference" with="anchorTopCenter">
+            <size value="620px 20px"/>
+            <imageColor value="0.1 0.1 0.14 0.6"/>
+        </Profile>
+
+        <Profile name="tlAssetRowBgSelected" extends="baseReference" with="anchorTopCenter">
+            <size value="620px 20px"/>
+            <imageColor value="0.15 0.25 0.15 0.8"/>
+        </Profile>
+
+        <Profile name="tlAssetCheckbox" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="24px 18px"/>
+            <textSize value="14px"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+        </Profile>
+
+        <Profile name="tlAssetName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="280px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.9 0.9 0.9 1"/>
+        </Profile>
+
+        <Profile name="tlAssetCategory" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.7 0.8 1"/>
+        </Profile>
+
+        <Profile name="tlAssetValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+        </Profile>
+
+        <!-- Invisible click overlay for asset rows (no visuals, just clickable) -->
+        <Profile name="tlAssetRowHit" extends="emptyPanel" with="anchorTopCenter">
+            <size value="620px 22px"/>
+            <isFocusable value="true"/>
+        </Profile>
+
+        <!-- ========== PAGINATION (styled boxes) ========== -->
+        <Profile name="tlPaginationBox" extends="emptyPanel" with="anchorTopCenter">
+            <size value="90px 24px"/>
+        </Profile>
+
+        <Profile name="tlPaginationBoxBg" extends="baseReference" with="anchorTopCenter">
+            <size value="90px 24px"/>
+            <imageColor value="0.15 0.2 0.15 0.9"/>
+        </Profile>
+
+        <Profile name="tlPaginationText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="86px 18px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.9 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="tlPaginationHit" extends="emptyPanel" with="anchorTopCenter">
+            <size value="90px 24px"/>
+            <isFocusable value="true"/>
+        </Profile>
+
+        <Profile name="tlPageIndicator" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 700px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_dd_title"/>
+
+            <!-- ===== ITEM INFO SECTION (2-column using cols 1 & 3) ===== -->
+            <!-- Unified Grid: Col1 L-270 V-170 | Col2 L-30 V70 | Col3 L170 V270 -->
+            <GuiElement profile="ddSectionContainer" position="0px -70px">
+                <Bitmap profile="ddSectionBg" position="0px 0px"/>
+                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionItem"/>
+
+                <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_name"/>
+                <Text profile="ddValueSmall" id="itemNameText" position="-170px -28px" text=""/>
+                <Text profile="ddLabelSmall" position="170px -28px" text="$l10n_usedplus_dd_type"/>
+                <Text profile="ddValueSmall" id="itemTypeText" position="270px -28px" text=""/>
+
+                <Text profile="ddLabelSmall" position="-270px -48px" text="$l10n_usedplus_dd_status"/>
+                <Text profile="ddValueGreenSmall" id="dealStatusText" position="-170px -48px" text=""/>
+                <Text profile="ddLabelSmall" position="170px -48px" text="$l10n_usedplus_dd_missed"/>
+                <Text profile="ddValueSmall" id="missedPaymentsText" position="270px -48px" text=""/>
+            </GuiElement>
+
+            <!-- ===== FINANCIAL TERMS SECTION (3-column) ===== -->
+            <!-- Grid: L1 -270px, V1 -170px | L2 -30px, V2 70px | L3 170px, V3 270px -->
+            <GuiElement profile="ddSectionContainerTall" position="0px -160px">
+                <Bitmap profile="ddSectionBgTall" position="0px 0px"/>
+                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionTerms"/>
+
+                <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_original"/>
+                <Text profile="ddValueMoney" id="originalPriceText" position="-170px -28px" text=""/>
+                <Text profile="ddLabelSmall" position="-30px -28px" text="$l10n_usedplus_dd_down"/>
+                <Text profile="ddValueMoney" id="downPaymentText" position="70px -28px" text=""/>
+                <Text profile="ddLabelSmall" position="170px -28px" text="$l10n_usedplus_dd_financed"/>
+                <Text profile="ddValueCyan" id="amountFinancedText" position="270px -28px" text=""/>
+
+                <Text profile="ddLabelSmall" position="-270px -48px" text="$l10n_usedplus_dd_term"/>
+                <Text profile="ddValueTerm" id="termText" position="-170px -48px" text=""/>
+                <Text profile="ddLabelSmall" position="-30px -48px" text="$l10n_usedplus_dd_rate"/>
+                <Text profile="ddValueOrange" id="interestRateText" position="70px -48px" text=""/>
+                <Text profile="ddLabelSmall" position="170px -48px" text="$l10n_usedplus_dd_monthly"/>
+                <Text profile="ddValueGold" id="monthlyPaymentText" position="270px -48px" text=""/>
+            </GuiElement>
+
+            <!-- ===== PAYMENT PROGRESS SECTION (2-column using cols 1 & 3) ===== -->
+            <!-- Unified Grid: Col1 L-270 V-170 | Col3 L170 V270 -->
+            <GuiElement profile="ddSectionContainer" position="0px -250px">
+                <Bitmap profile="ddSectionBg" position="0px 0px"/>
+                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionProgress"/>
+
+                <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_payments"/>
+                <Text profile="ddValueSmall" id="paymentsMadeText" position="-170px -28px" text=""/>
+                <Text profile="ddLabelSmall" position="170px -28px" text="$l10n_usedplus_dd_balance"/>
+                <Text profile="ddValueRedSmall" id="currentBalanceText" position="270px -28px" text=""/>
+
+                <Text profile="ddLabelSmall" position="-270px -48px" text="$l10n_usedplus_dd_remaining"/>
+                <Text profile="ddValueSmall" id="monthsRemainingText" position="-170px -48px" text=""/>
+                <Text profile="ddLabelSmall" position="170px -48px" text="$l10n_usedplus_dd_equity"/>
+                <Text profile="ddValueGreenSmall" id="equityBuiltText" position="270px -48px" text=""/>
+            </GuiElement>
+
+            <!-- ===== PAYMENT SUMMARY SECTION (3-column) ===== -->
+            <!-- Same grid as Financial Terms for cross-section alignment -->
+            <GuiElement profile="ddSectionContainer" position="0px -340px">
+                <Bitmap profile="ddSectionBg" position="0px 0px"/>
+                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionSummary"/>
+
+                <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_principal"/>
+                <Text profile="ddValueMoney" id="principalPaidText" position="-170px -28px" text=""/>
+                <Text profile="ddLabelSmall" position="-30px -28px" text="$l10n_usedplus_dd_interest"/>
+                <Text profile="ddValueRedSmall" id="interestPaidText" position="70px -28px" text=""/>
+                <Text profile="ddLabelSmall" position="170px -28px" text="$l10n_usedplus_dd_total"/>
+                <Text profile="ddValueGreenSmall" id="totalPaidText" position="270px -28px" text=""/>
+            </GuiElement>
+
+            <!-- ===== PAYMENT MULTIPLIER SECTION (hidden when defaulted) ===== -->
+            <!-- Allows player to increase monthly payment to pay off faster -->
+            <GuiElement profile="ddMultiplierContainer" id="multiplierSection" position="0px -430px">
+                <Bitmap profile="ddMultiplierBg" position="0px 0px"/>
+                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionMultiplier"/>
+
+                <!-- Row 1: Multiplier selector and adjusted payment -->
+                <Text profile="ddLabelSmall" position="-270px -30px" text="$l10n_usedplus_dd_multiplier"/>
+                <MultiTextOption profile="ddMultiplierDropdown" id="multiplierSelector" position="-140px -28px" onClick="onMultiplierChanged"/>
+
+                <Text profile="ddLabelSmall" position="80px -30px" text="$l10n_usedplus_dd_adjusted"/>
+                <Text profile="ddValueGold" id="adjustedPaymentText" position="180px -30px" text=""/>
+
+                <!-- Row 2: Savings info (visible when multiplier > 1x) -->
+                <GuiElement id="savingsRow" position="0px -55px">
+                    <Text profile="ddLabelSmall" position="-270px 0px" text="$l10n_usedplus_dd_payoffIn"/>
+                    <Text profile="ddValueGreenSmall" id="projectedMonthsText" position="-170px 0px" text=""/>
+
+                    <Text profile="ddLabelSmall" position="80px 0px" text="$l10n_usedplus_dd_youSave"/>
+                    <Text profile="ddValueSavings" id="interestSavedText" position="180px 0px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ===== PAYOFF SECTION (hidden when defaulted) ===== -->
+            <!-- Unified Grid: Col1 L-270 V-170 | Col3 L170 V270 -->
+            <GuiElement profile="ddPayoffContainer" id="payoffSection" position="0px -525px">
+                <Bitmap profile="ddPayoffBg" position="0px 0px"/>
+                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionPayoff"/>
+
+                <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_payoff"/>
+                <Text profile="ddValuePayoff" id="payoffAmountText" position="-170px -28px" text=""/>
+                <Text profile="ddPayoffNote" position="170px -28px" text="$l10n_usedplus_dd_accruedNote"/>
+
+                <Text profile="ddInfoText" id="infoText" position="0px -55px" text="$l10n_usedplus_dd_payoffInfo"/>
+            </GuiElement>
+
+            <!-- ===== REPOSSESSED ITEMS SECTION (shown only when defaulted) ===== -->
+            <!-- Displays what items were repossessed due to loan default -->
+            <GuiElement profile="ddRepossessedContainer" id="repossessedSection" position="0px -430px">
+                <Bitmap profile="ddRepossessedBg" position="0px 0px"/>
+                <Text profile="ddSectionHeaderRed" position="0px -5px" text="$l10n_usedplus_dd_sectionRepossessed"/>
+
+                <Text profile="ddRepossessedInfo" id="repossessedInfoText" position="0px -28px"
+                      text="$l10n_usedplus_dd_repossessedInfo"/>
+
+                <!-- Up to 4 repossessed items can be displayed -->
+                <Text profile="ddRepossessedItem" id="repossessedItem1" position="0px -50px" text=""/>
+                <Text profile="ddRepossessedItem" id="repossessedItem2" position="0px -68px" text=""/>
+                <Text profile="ddRepossessedItem" id="repossessedItem3" position="0px -86px" text=""/>
+                <Text profile="ddRepossessedItem" id="repossessedItem4" position="0px -104px" text=""/>
+
+                <Text profile="ddRepossessedTotal" id="repossessedTotalText" position="0px -130px" text=""/>
+            </GuiElement>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonActivate" id="historyButton" text="$l10n_usedplus_button_viewHistory" onClick="onViewHistory"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonOK" id="payoffButton" text="$l10n_usedplus_button_earlyPayoff" onClick="onEarlyPayoff"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="closeButton" text="$l10n_button_close" onClick="onCloseDialog"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="ddSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 80px"/>
+        </Profile>
+
+        <Profile name="ddSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 80px"/>
+        </Profile>
+
+        <Profile name="ddMultiplierContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 85px"/>
+        </Profile>
+
+        <Profile name="ddPayoffContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 90px"/>
+        </Profile>
+
+        <Profile name="ddSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 80px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="ddSectionBgTall" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 80px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="ddMultiplierBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 85px"/>
+            <imageColor value="0.06 0.1 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="ddPayoffBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 90px"/>
+            <imageColor value="0.12 0.1 0.06 0.9"/>
+        </Profile>
+
+        <Profile name="ddMultiplierDropdown" extends="fs25_multiTextOption" with="anchorTopCenter">
+            <size value="120px 26px"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="ddSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== 2-COLUMN LABELS (100px wide) ========== -->
+        <Profile name="ddLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- ========== 2-COLUMN VALUES (130px wide - ALL SAME WIDTH!) ========== -->
+        <Profile name="ddValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="ddValueGreen" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+        </Profile>
+
+        <Profile name="ddValueRed" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.4 1"/>
+        </Profile>
+
+        <Profile name="ddValuePayoff" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.7 0.2 1"/>
+        </Profile>
+
+        <!-- ========== 3-COLUMN LABELS (70px wide) ========== -->
+        <Profile name="ddLabelSmall" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="70px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- ========== 3-COLUMN VALUES (100px wide - ALL SAME WIDTH!) ========== -->
+        <Profile name="ddValueSmall" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="ddValueTerm" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="ddValueMoney" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.9 1 1"/>
+        </Profile>
+
+        <Profile name="ddValueCyan" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 0.9 1 1"/>
+        </Profile>
+
+        <Profile name="ddValueOrange" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.2 1"/>
+        </Profile>
+
+        <Profile name="ddValueGold" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <Profile name="ddValueRedSmall" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.4 1"/>
+        </Profile>
+
+        <Profile name="ddValueGreenSmall" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
+        </Profile>
+
+        <!-- Interest savings display (bright green for positive savings) -->
+        <Profile name="ddValueSavings" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.2 1 0.4 1"/>
+        </Profile>
+
+        <!-- ========== MISC ========== -->
+        <Profile name="ddPayoffNote" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="ddInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.8 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== REPOSSESSED SECTION PROFILES ========== -->
+        <Profile name="ddRepossessedContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 160px"/>
+        </Profile>
+
+        <Profile name="ddRepossessedBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 160px"/>
+            <imageColor value="0.15 0.05 0.05 0.9"/>
+        </Profile>
+
+        <Profile name="ddSectionHeaderRed" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="ddRepossessedInfo" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="0.7 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="ddRepossessedItem" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 16px"/>
+            <textSize value="12px"/>
+            <textColor value="1 0.6 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="ddRepossessedTotal" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.3 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 560px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_ph_title"/>
+
+            <!-- ===== DEAL SUMMARY SECTION ===== -->
+            <GuiElement profile="phSectionContainer" position="0px -70px">
+                <Bitmap profile="phSectionBg" position="0px 0px"/>
+                <Text profile="phSectionHeader" position="0px -5px" text="$l10n_usedplus_ph_sectionSummary"/>
+                <!-- Row 1: Item (spans toward right, left edge aligns with Original below) -->
+                <Text profile="phLabel" position="-280px -28px" text="$l10n_usedplus_ph_item"/>
+                <Text profile="phItemValue" id="itemNameText" position="-30px -28px" text=""/>
+                <!-- Row 2: Original | Rate | Monthly (3 columns) -->
+                <Text profile="phLabel" position="-280px -48px" text="$l10n_usedplus_ph_original"/>
+                <Text profile="phMoney" id="originalAmountText" position="-180px -48px" text=""/>
+                <Text profile="phLabel" position="-10px -48px" text="$l10n_usedplus_ph_rate"/>
+                <Text profile="phRateValue" id="interestRateText" position="80px -48px" text=""/>
+                <Text profile="phLabel" position="170px -48px" text="$l10n_usedplus_ph_monthly"/>
+                <Text profile="phPaymentValue" id="monthlyPaymentText" position="250px -48px" text=""/>
+            </GuiElement>
+
+            <!-- ===== PROGRESS SECTION ===== -->
+            <GuiElement profile="phSectionContainerSmall" position="0px -145px">
+                <Bitmap profile="phSectionBgSmall" position="0px 0px"/>
+                <!-- Progress | Balance (2 columns aligned with row above) -->
+                <Text profile="phLabel" position="-280px -10px" text="$l10n_usedplus_ph_progress"/>
+                <Text profile="phProgressValue" id="progressText" position="-130px -10px" text=""/>
+                <Text profile="phLabel" position="80px -10px" text="$l10n_usedplus_ph_balance"/>
+                <Text profile="phBalanceValue" id="balanceText" position="170px -10px" text=""/>
+            </GuiElement>
+
+            <!-- ===== TABLE HEADER ===== -->
+            <GuiElement profile="phRowSection" position="0px -185px">
+                <Bitmap profile="phHeaderBg" position="0px 0px"/>
+                <Text profile="phHeaderText" position="-260px -5px" text="$l10n_usedplus_ph_headerNum"/>
+                <Text profile="phHeaderText" position="-190px -5px" text="$l10n_usedplus_ph_headerPayment"/>
+                <Text profile="phHeaderText" position="-70px -5px" text="$l10n_usedplus_ph_headerPrincipal"/>
+                <Text profile="phHeaderText" position="50px -5px" text="$l10n_usedplus_ph_headerInterest"/>
+                <Text profile="phHeaderText" position="160px -5px" text="$l10n_usedplus_ph_headerBalance"/>
+                <Text profile="phHeaderText" position="270px -5px" text="$l10n_usedplus_ph_headerStatus"/>
+            </GuiElement>
+
+            <!-- Row 0 -->
+            <GuiElement id="paymentRow0" profile="phRowSection" position="0px -209px" visible="false">
+                <Bitmap profile="phRowBg" id="paymentRow0Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow0Num" position="-260px -5px" text="1"/>
+                <Text profile="phRowText" id="paymentRow0Payment" position="-190px -5px" text="$8,111"/>
+                <Text profile="phRowText" id="paymentRow0Principal" position="-70px -5px" text="$5,444"/>
+                <Text profile="phRowTextOrange" id="paymentRow0Interest" position="50px -5px" text="$2,667"/>
+                <Text profile="phRowText" id="paymentRow0Balance" position="160px -5px" text="$394,556"/>
+                <Text profile="phRowStatusPaid" id="paymentRow0Status" position="270px -5px" text="--"/>
+            </GuiElement>
+
+            <!-- Row 1 -->
+            <GuiElement id="paymentRow1" profile="phRowSection" position="0px -233px" visible="false">
+                <Bitmap profile="phRowBgAlt" id="paymentRow1Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow1Num" position="-260px -5px" text="2"/>
+                <Text profile="phRowText" id="paymentRow1Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow1Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow1Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow1Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow1Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 2 -->
+            <GuiElement id="paymentRow2" profile="phRowSection" position="0px -257px" visible="false">
+                <Bitmap profile="phRowBg" id="paymentRow2Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow2Num" position="-260px -5px" text="3"/>
+                <Text profile="phRowText" id="paymentRow2Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow2Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow2Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow2Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow2Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 3 -->
+            <GuiElement id="paymentRow3" profile="phRowSection" position="0px -281px" visible="false">
+                <Bitmap profile="phRowBgAlt" id="paymentRow3Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow3Num" position="-260px -5px" text="4"/>
+                <Text profile="phRowText" id="paymentRow3Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow3Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow3Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow3Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow3Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 4 -->
+            <GuiElement id="paymentRow4" profile="phRowSection" position="0px -305px" visible="false">
+                <Bitmap profile="phRowBg" id="paymentRow4Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow4Num" position="-260px -5px" text="5"/>
+                <Text profile="phRowText" id="paymentRow4Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow4Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow4Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow4Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow4Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 5 -->
+            <GuiElement id="paymentRow5" profile="phRowSection" position="0px -329px" visible="false">
+                <Bitmap profile="phRowBgAlt" id="paymentRow5Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow5Num" position="-260px -5px" text="6"/>
+                <Text profile="phRowText" id="paymentRow5Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow5Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow5Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow5Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow5Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 6 -->
+            <GuiElement id="paymentRow6" profile="phRowSection" position="0px -353px" visible="false">
+                <Bitmap profile="phRowBg" id="paymentRow6Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow6Num" position="-260px -5px" text="7"/>
+                <Text profile="phRowText" id="paymentRow6Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow6Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow6Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow6Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow6Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 7 -->
+            <GuiElement id="paymentRow7" profile="phRowSection" position="0px -377px" visible="false">
+                <Bitmap profile="phRowBgAlt" id="paymentRow7Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow7Num" position="-260px -5px" text="8"/>
+                <Text profile="phRowText" id="paymentRow7Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow7Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow7Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow7Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow7Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 8 -->
+            <GuiElement id="paymentRow8" profile="phRowSection" position="0px -401px" visible="false">
+                <Bitmap profile="phRowBg" id="paymentRow8Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow8Num" position="-260px -5px" text="9"/>
+                <Text profile="phRowText" id="paymentRow8Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow8Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow8Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow8Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow8Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Row 9 -->
+            <GuiElement id="paymentRow9" profile="phRowSection" position="0px -425px" visible="false">
+                <Bitmap profile="phRowBgAlt" id="paymentRow9Bg" position="0px 0px"/>
+                <Text profile="phRowText" id="paymentRow9Num" position="-260px -5px" text="10"/>
+                <Text profile="phRowText" id="paymentRow9Payment" position="-190px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow9Principal" position="-70px -5px" text=""/>
+                <Text profile="phRowTextOrange" id="paymentRow9Interest" position="50px -5px" text=""/>
+                <Text profile="phRowText" id="paymentRow9Balance" position="160px -5px" text=""/>
+                <Text profile="phRowStatusPaid" id="paymentRow9Status" position="270px -5px" text=""/>
+            </GuiElement>
+
+            <!-- Pagination Info -->
+            <Text profile="phPageInfo" id="pageInfoText" position="0px -455px" text=""/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonActivate" id="prevButton" text="$l10n_usedplus_button_prev" onClick="onPrevPage"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonActivate" id="nextButton" text="$l10n_usedplus_button_next" onClick="onNextPage"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="closeButton" text="$l10n_button_close" onClick="onCloseDialog"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="phSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 70px"/>
+        </Profile>
+
+        <Profile name="phSectionContainerSmall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 30px"/>
+        </Profile>
+
+        <Profile name="phRowSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 24px"/>
+        </Profile>
+
+        <!-- ========== BACKGROUNDS ========== -->
+        <Profile name="phSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 70px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="phSectionBgSmall" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 30px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="phHeaderBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 24px"/>
+            <imageColor value="0.15 0.15 0.2 1"/>
+        </Profile>
+
+        <Profile name="phRowBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 24px"/>
+            <imageColor value="0.1 0.1 0.1 1"/>
+        </Profile>
+
+        <Profile name="phRowBgAlt" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 24px"/>
+            <imageColor value="0.12 0.12 0.14 1"/>
+        </Profile>
+
+        <!-- ========== TEXT PROFILES ========== -->
+        <Profile name="phSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="phLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="phMoney" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.9 1 1"/>
+        </Profile>
+
+        <Profile name="phItemValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 0.8 1 1"/>
+        </Profile>
+
+        <Profile name="phRateValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.3 1"/>
+        </Profile>
+
+        <Profile name="phPaymentValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.3 1"/>
+        </Profile>
+
+        <Profile name="phProgressValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="phBalanceValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.5 1"/>
+        </Profile>
+
+        <Profile name="phHeaderText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+        </Profile>
+
+        <Profile name="phRowText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="phRowTextOrange" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="1 0.6 0.3 1"/>
+        </Profile>
+
+        <Profile name="phRowStatusPaid" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 18px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.3 1"/>
+        </Profile>
+
+        <Profile name="phPageInfo" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

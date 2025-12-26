@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    MaintenanceReportDialog.xml
+    Shows maintenance status for OWNED vehicles
+    Redesigned to match DealDetailsDialog styling with dark section backgrounds and gold headers
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 700px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="titleText" position="0px -25px" text="$l10n_usedplus_mrp_title"/>
+
+            <!-- ===== VEHICLE INFO SECTION ===== -->
+            <GuiElement profile="mrSectionContainer" position="0px -60px">
+                <Bitmap profile="mrSectionBg" position="0px 0px"/>
+                <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionVehicle"/>
+
+                <!-- Flat layout: image left, text right (matching UsedSearchDialog pattern) -->
+                <GuiElement profile="mrVehicleRow" position="0px -28px">
+                    <!-- IMAGE: Centered in left half, Y=42px moves up for proper display -->
+                    <Bitmap profile="mrVehicleImage" id="vehicleImage" position="-185px 42px"/>
+
+                    <!-- TEXT: Left-aligned in right half -->
+                    <Text profile="mrVehicleName" id="vehicleNameText" position="120px -15px" text=""/>
+                    <Text profile="mrVehicleDetails" id="vehicleDetailsText" position="120px -40px" text=""/>
+                    <Text profile="mrVehicleOrigin" id="originText" position="120px -65px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ===== MECHANICAL STATUS SECTION ===== -->
+            <!-- After Vehicle (145px) + gap = -60-145-15 = -220 -->
+            <GuiElement profile="mrSectionContainerTall" position="0px -220px">
+                <Bitmap profile="mrSectionBgTall" position="0px 0px"/>
+                <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionMechanical"/>
+
+                <!-- Engine Row -->
+                <Text profile="mrComponentLabel" position="-270px -30px" text="$l10n_usedplus_irp_engine"/>
+                <Text profile="mrComponentValue" id="engineRatingText" position="-170px -30px" text="100%"/>
+                <Text profile="mrComponentStatus" id="engineStatusText" position="-100px -30px" text=""/>
+
+                <!-- Hydraulics Row -->
+                <Text profile="mrComponentLabel" position="-270px -52px" text="$l10n_usedplus_irp_hydraulics"/>
+                <Text profile="mrComponentValue" id="hydraulicRatingText" position="-170px -52px" text="100%"/>
+                <Text profile="mrComponentStatus" id="hydraulicStatusText" position="-100px -52px" text=""/>
+
+                <!-- Electrical Row -->
+                <Text profile="mrComponentLabel" position="-270px -74px" text="$l10n_usedplus_irp_electrical"/>
+                <Text profile="mrComponentValue" id="electricalRatingText" position="-170px -74px" text="100%"/>
+                <Text profile="mrComponentStatus" id="electricalStatusText" position="-100px -74px" text=""/>
+
+                <!-- Overall Average (right side) -->
+                <Text profile="mrComponentLabel" position="120px -30px" text="$l10n_usedplus_mrp_overall"/>
+                <Text profile="mrOverallValue" id="overallRatingText" position="220px -30px" text="100%"/>
+                <Text profile="mrComponentLabel" position="120px -52px" text="$l10n_usedplus_mrp_condition"/>
+                <Text profile="mrConditionValue" id="conditionText" position="220px -52px" text=""/>
+            </GuiElement>
+
+            <!-- ===== HISTORY SECTION ===== -->
+            <!-- After Mechanical (105px) + gap = -220-105-15 = -340 -->
+            <GuiElement profile="mrSectionContainer" position="0px -340px">
+                <Bitmap profile="mrSectionBg" position="0px 0px"/>
+                <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionService"/>
+
+                <!-- Left column -->
+                <Text profile="mrHistoryLabel" position="-270px -30px" text="$l10n_usedplus_mrp_breakdowns"/>
+                <Text profile="mrHistoryValue" id="breakdownsText" position="-170px -30px" text="0"/>
+                <Text profile="mrHistoryLabel" position="-270px -52px" text="$l10n_usedplus_mrp_shopRepairs"/>
+                <Text profile="mrHistoryValue" id="repairsText" position="-170px -52px" text="0"/>
+
+                <!-- Right column -->
+                <Text profile="mrHistoryLabel" position="120px -30px" text="$l10n_usedplus_mrp_inspected"/>
+                <Text profile="mrHistoryValue" id="inspectedText" position="220px -30px" text=""/>
+                <Text profile="mrHistoryLabel" position="120px -52px" text="$l10n_usedplus_mrp_resaleImpact"/>
+                <Text profile="mrHistoryValueColored" id="resaleImpactText" position="220px -52px" text="0%"/>
+            </GuiElement>
+
+            <!-- ===== STATUS NOTES SECTION ===== -->
+            <!-- After History (145px) + gap = -340-145-15 = -500 -->
+            <GuiElement profile="mrNotesSection" position="0px -500px">
+                <Bitmap profile="mrNotesBg" position="0px 0px"/>
+                <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionStatus"/>
+
+                <Text profile="mrNotesText" id="notesText" position="0px -35px" text=""/>
+                <Text profile="mrNotesText2" id="notesText2" position="0px -55px" text=""/>
+            </GuiElement>
+
+        </GuiElement>
+
+        <!-- Button Box -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button id="closeButton" profile="buttonBack" text="$l10n_button_close" onClick="onClickClose"/>
+        </BoxLayout>
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="mrSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 145px"/>
+        </Profile>
+
+        <Profile name="mrSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 105px"/>
+        </Profile>
+
+        <Profile name="mrNotesSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 85px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="mrSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 145px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="mrSectionBgTall" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 105px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="mrNotesBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 85px"/>
+            <imageColor value="0.06 0.08 0.10 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="mrSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="660px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE TWO-COLUMN LAYOUT ========== -->
+        <Profile name="mrVehicleRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 110px"/>
+        </Profile>
+
+        <Profile name="mrVehicleImageCol" extends="emptyPanel" with="anchorTopCenter">
+            <size value="280px 110px"/>
+        </Profile>
+
+        <Profile name="mrVehicleTextCol" extends="emptyPanel" with="anchorTopLeft">
+            <size value="320px 110px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE IMAGE (centered in left column) ========== -->
+        <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
+        <Profile name="mrVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO (left-aligned in right column) ========== -->
+        <Profile name="mrVehicleNameLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="310px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="mrVehicleDetailsLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="310px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="mrVehicleOriginLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="310px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.85 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== LEGACY VEHICLE INFO (keep for compatibility) ========== -->
+        <Profile name="mrVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="mrVehicleDetails" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="mrVehicleOrigin" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.85 1 1"/>
+        </Profile>
+
+        <!-- ========== COMPONENT LABELS & VALUES ========== -->
+        <Profile name="mrComponentLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="mrComponentValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="70px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="mrComponentStatus" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
+        </Profile>
+
+        <Profile name="mrOverallValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <Profile name="mrConditionValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
+        </Profile>
+
+        <!-- ========== HISTORY LABELS & VALUES ========== -->
+        <Profile name="mrHistoryLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <Profile name="mrHistoryValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.9 0.9 1"/>
+        </Profile>
+
+        <Profile name="mrHistoryValueColored" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
+        </Profile>
+
+        <!-- ========== NOTES ========== -->
+        <Profile name="mrNotesText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="680px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.8 0.8 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="mrNotesText2" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="680px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

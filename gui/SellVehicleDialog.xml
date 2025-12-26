@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Sell Vehicle Dialog XML (Redesigned)
+    DUAL-TIER SYSTEM: Player selects Agent tier AND Price tier separately
+    Agent tier = reach/timing (Local/Regional/National)
+    Price tier = asking price (Quick/Market/Premium)
+    Matches styling of RepairDialog, MaintenanceReportDialog, etc.
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="860px 720px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_sv_title"/>
+
+            <!-- ========== SECTION 1: Vehicle Info ========== -->
+            <GuiElement profile="svVehicleSection" position="0px -60px">
+                <Bitmap profile="svVehicleSectionBg" position="0px 0px"/>
+                <Text profile="svSectionHeader" position="0px -5px" text="$l10n_usedplus_sv_sectionVehicle"/>
+
+                <!-- Flat layout: image left, text right (matching UsedSearchDialog pattern) -->
+                <GuiElement profile="svVehicleRow" position="0px -28px">
+                    <!-- IMAGE: Centered in left half, Y=42px moves up for proper display -->
+                    <Bitmap profile="svVehicleImage" id="vehicleImage" position="-200px 42px"/>
+
+                    <!-- TEXT: Left-aligned in right half -->
+                    <Text profile="svVehicleName" id="vehicleNameText" position="100px -15px" text=""/>
+                    <Text profile="svVehicleDetails" id="vehicleDetailsText" position="100px -40px" text=""/>
+                    <Text profile="svFMVPrice" id="vanillaPriceText" position="100px -65px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Sales Options ========== -->
+            <!-- After Vehicle (145px) + 10px gap = -60 - 145 - 10 = -215 -->
+            <GuiElement profile="svOptionsSection" position="0px -215px">
+                <Bitmap profile="svOptionsSectionBg" position="0px 0px"/>
+                <Text profile="svSectionHeader" position="0px -5px" text="$l10n_usedplus_sv_sectionOptions"/>
+
+                <Text profile="svHelpText" position="0px -26px" text="$l10n_usedplus_sv_optionsHelp"/>
+
+                <!-- Agent Tier Dropdown (left) -->
+                <GuiElement position="-200px -55px">
+                    <Text profile="svDropdownLabel" position="0px 0px" text="$l10n_usedplus_sv_agent"/>
+                    <MultiTextOption profile="svMultiTextOption" id="agentTierSlider" position="0px -22px" onClick="onAgentTierChanged" />
+                </GuiElement>
+
+                <!-- Price Tier Dropdown (right) -->
+                <GuiElement position="200px -55px">
+                    <Text profile="svDropdownLabel" position="0px 0px" text="$l10n_usedplus_sv_askingPrice"/>
+                    <MultiTextOption profile="svMultiTextOption" id="priceTierSlider" position="0px -22px" onClick="onPriceTierChanged" />
+                </GuiElement>
+
+                <!-- Lock Warning -->
+                <Text profile="svLockWarning" id="lockWarningText" position="0px -105px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Expected Outcome ========== -->
+            <!-- After Options (120px) + 10px gap = -215 - 120 - 10 = -345 -->
+            <GuiElement profile="svOutcomeSection" position="0px -345px">
+                <Bitmap profile="svOutcomeSectionBg" position="0px 0px"/>
+                <Text profile="svSectionHeader" position="0px -5px" text="$l10n_usedplus_sv_sectionOutcome"/>
+
+                <!-- Three-column layout -->
+                <GuiElement position="0px -32px">
+                    <!-- Left Column: Price Info -->
+                    <GuiElement position="-260px 0px">
+                        <Text profile="svLabel" position="0px 0px" text="$l10n_usedplus_sv_expectedReturn"/>
+                        <Text profile="svValueGreen" id="expectedRangeText" position="0px -20px" text=""/>
+
+                        <Text profile="svLabel" position="0px -44px" text="$l10n_usedplus_sv_returnPercent"/>
+                        <Text profile="svValue" id="returnPercentText" position="0px -64px" text=""/>
+                    </GuiElement>
+
+                    <!-- Center Column: Fees and Net -->
+                    <GuiElement position="0px 0px">
+                        <Text profile="svLabel" position="0px 0px" text="$l10n_usedplus_sv_agentFee"/>
+                        <Text profile="svValueOrange" id="selectedFeeText" position="0px -20px" text=""/>
+
+                        <Text profile="svLabel" position="0px -44px" text="$l10n_usedplus_sv_netAfterFee"/>
+                        <Text profile="svValueGreen" id="netAfterFeeText" position="0px -64px" text=""/>
+                    </GuiElement>
+
+                    <!-- Right Column: Time and Success -->
+                    <GuiElement position="260px 0px">
+                        <Text profile="svLabel" position="0px 0px" text="$l10n_usedplus_sv_expectedTime"/>
+                        <Text profile="svValue" id="expectedTimeText" position="0px -20px" text=""/>
+
+                        <Text profile="svLabel" position="0px -44px" text="$l10n_usedplus_sv_successRate"/>
+                        <Text profile="svValueSuccess" id="successRateText" position="0px -64px" text=""/>
+                    </GuiElement>
+                </GuiElement>
+
+                <!-- Selected Combination (bottom of section) -->
+                <Text profile="svLabel" position="-100px -125px" text="$l10n_usedplus_sv_selected"/>
+                <Text profile="svSelectedCombo" id="selectedTierText" position="100px -125px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 4: Trade-In Comparison ========== -->
+            <!-- After Outcome (145px) + 10px gap = -345 - 145 - 10 = -500 -->
+            <GuiElement profile="svCompareSection" position="0px -500px">
+                <Bitmap profile="svCompareSectionBg" position="0px 0px"/>
+                <Text profile="svSectionHeader" position="0px -5px" text="$l10n_usedplus_sv_sectionCompare"/>
+
+                <GuiElement position="0px -35px">
+                    <Text profile="svLabel" position="-100px 0px" text="$l10n_usedplus_sv_tradeInCompare"/>
+                    <Text profile="svValue" id="tradeInCompareText" position="100px 0px" text=""/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- Info Text (below sections) -->
+            <!-- After Compare (110px) + 10px gap = -500 - 110 - 10 = -620 -->
+            <Text profile="svInfoText" position="0px -620px" text="$l10n_usedplus_sv_infoText"/>
+            <Text profile="svWarningText" position="0px -640px" text="$l10n_usedplus_sv_warningText"/>
+
+        </GuiElement>
+
+        <!-- Buttons -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="confirmButton" text="$l10n_usedplus_button_hireAgent" onClick="onClickConfirm"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="cancelButton" text="$l10n_button_cancel" onClick="onClickCancel"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="svVehicleSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="800px 145px"/>
+        </Profile>
+
+        <Profile name="svOptionsSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="800px 120px"/>
+        </Profile>
+
+        <Profile name="svOutcomeSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="800px 145px"/>
+        </Profile>
+
+        <Profile name="svCompareSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="800px 110px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="svVehicleSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="800px 145px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="svOptionsSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="800px 120px"/>
+            <imageColor value="0.06 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="svOutcomeSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="800px 145px"/>
+            <imageColor value="0.08 0.1 0.08 0.9"/>
+        </Profile>
+
+        <Profile name="svCompareSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="800px 110px"/>
+            <imageColor value="0.1 0.08 0.06 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="svSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="780px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE TWO-COLUMN LAYOUT ========== -->
+        <Profile name="svVehicleRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="800px 110px"/>
+        </Profile>
+
+        <Profile name="svVehicleImageCol" extends="emptyPanel" with="anchorTopCenter">
+            <size value="300px 110px"/>
+        </Profile>
+
+        <Profile name="svVehicleTextCol" extends="emptyPanel" with="anchorTopLeft">
+            <size value="400px 110px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE IMAGE (centered in left column) ========== -->
+        <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
+        <Profile name="svVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO (left-aligned in right column) ========== -->
+        <Profile name="svVehicleNameLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="380px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="svVehicleDetailsLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="380px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="svFMVPriceLeft" extends="fs25_textDefault" with="anchorTopLeft">
+            <size value="380px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.85 0.5 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== LEGACY VEHICLE INFO (keep for compatibility) ========== -->
+        <Profile name="svVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="350px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="svVehicleDetails" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="350px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+        </Profile>
+
+        <Profile name="svFMVPrice" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="350px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.85 0.5 1"/>
+        </Profile>
+
+        <!-- ========== HELP TEXT ========== -->
+        <Profile name="svHelpText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="760px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== DROPDOWN LABELS ========== -->
+        <Profile name="svDropdownLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="180px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.9 0.9 1"/>
+        </Profile>
+
+        <!-- ========== LABELS ========== -->
+        <Profile name="svLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- ========== VALUES ========== -->
+        <Profile name="svValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="svValueGreen" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.5 1"/>
+        </Profile>
+
+        <Profile name="svValueOrange" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.3 1"/>
+        </Profile>
+
+        <Profile name="svValueSuccess" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.5 1"/>
+        </Profile>
+
+        <Profile name="svSelectedCombo" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.5 1"/>
+        </Profile>
+
+        <Profile name="svLockWarning" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="700px 22px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="svInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="780px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="svWarningText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="780px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="1 0.8 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== MULTI TEXT OPTION ========== -->
+        <Profile name="svMultiTextOption" extends="fs25_multiTextOption" with="anchorTopCenter" />
+    </GUIProfiles>
+</GUI>

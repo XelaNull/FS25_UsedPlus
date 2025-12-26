@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+     FinanceDetailFrame.xml - Deal detail and payment screen
+     Pattern from: Dialog screens with detailed info
+     Shows full deal information and payment options
+
+    Layout:
+    - Left: Deal information (original terms, current status)
+    - Center: Payment status (balance, interest paid, progress)
+    - Right: Payment options (slider, quick select, summary)
+-->
+<Gui>
+    <GuiElement type="FinanceDetailFrame" profile="ingameMenuFrame">
+        <GuiElement type="BoxLayout" profile="frameMain">
+
+            <!--  Title bar -->
+            <GuiElement type="BoxLayout" profile="frameTitleBar">
+                <GuiElement type="Text" profile="frameTitle" id="dealTitle" text="$l10n_usedplus_fd_title" />
+                <GuiElement type="Button" profile="buttonClose" onClick="onClickBack" />
+            </GuiElement>
+
+            <!--  Content area with 3 columns -->
+            <GuiElement type="BoxLayout" profile="threeColumnLayout">
+
+                <!--  Left Column - Deal Information -->
+                <GuiElement type="BoxLayout" profile="columnContainer">
+                    <GuiElement type="Text" profile="columnHeader" text="$l10n_usedplus_detail_dealInfo" />
+
+                    <GuiElement type="BoxLayout" profile="infoBox">
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_itemName" />
+                            <GuiElement type="Text" profile="infoValue" id="itemName" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_dealType" />
+                            <GuiElement type="Text" profile="infoValue" id="dealType" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_originalPrice" />
+                            <GuiElement type="Text" profile="infoValue" id="originalPrice" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_downPayment" />
+                            <GuiElement type="Text" profile="infoValue" id="downPayment" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_amountFinanced" />
+                            <GuiElement type="Text" profile="infoValue" id="amountFinanced" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_interestRate" />
+                            <GuiElement type="Text" profile="infoValue" id="interestRate" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_term" />
+                            <GuiElement type="Text" profile="infoValue" id="term" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_startDate" />
+                            <GuiElement type="Text" profile="infoValue" id="startDate" text="" />
+                        </GuiElement>
+                    </GuiElement>
+                </GuiElement>
+
+                <!--  Center Column - Payment Status -->
+                <GuiElement type="BoxLayout" profile="columnContainer">
+                    <GuiElement type="Text" profile="columnHeader" text="$l10n_usedplus_detail_paymentStatus" />
+
+                    <GuiElement type="BoxLayout" profile="statusBox">
+                        <!--  Progress indicator -->
+                        <GuiElement type="BoxLayout" profile="progressContainer">
+                            <GuiElement type="Text" profile="progressText" id="progressText" text="" />
+                            <GuiElement type="ProgressBar" profile="progressBar" id="progressBar" value="0.20" />
+                        </GuiElement>
+
+                        <!--  Financial breakdown -->
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_currentBalance" />
+                            <GuiElement type="Text" profile="infoValue" id="currentBalance" text="" toolTipText="$l10n_usedplus_detail_currentBalance_tooltip" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_principalPaid" />
+                            <GuiElement type="Text" profile="infoValue" id="principalPaid" text="" toolTipText="$l10n_usedplus_detail_principalPaid_tooltip" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_interestPaid" />
+                            <GuiElement type="Text" profile="infoValue" id="interestPaid" text="" toolTipText="$l10n_usedplus_detail_interestPaid_tooltip" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_remainingPrincipal" />
+                            <GuiElement type="Text" profile="infoValue" id="remainingPrincipal" text="" />
+                        </GuiElement>
+
+                        <GuiElement type="BoxLayout" profile="infoRow">
+                            <GuiElement type="Text" profile="infoLabel" text="$l10n_usedplus_detail_projectedInterest" />
+                            <GuiElement type="Text" profile="infoValue" id="projectedInterest" text="" toolTipText="$l10n_usedplus_detail_projectedInterest_tooltip" />
+                        </GuiElement>
+                    </GuiElement>
+                </GuiElement>
+
+                <!--  Right Column - Payment Options -->
+                <GuiElement type="BoxLayout" profile="columnContainer">
+                    <GuiElement type="Text" profile="columnHeader" text="$l10n_usedplus_detail_makePayment" />
+
+                    <GuiElement type="BoxLayout" profile="paymentBox">
+                        <!--  Payment amount slider -->
+                        <GuiElement type="BoxLayout" profile="sliderContainer">
+                            <GuiElement type="Text" profile="sliderLabel" text="$l10n_usedplus_detail_paymentAmount" />
+                            <GuiElement type="SliderElement" profile="sliderHorizontal" id="paymentSlider"
+                                minValue="1" maxValue="100" stepSize="1" onChange="onPaymentAmountChanged" />
+                            <GuiElement type="Text" profile="sliderValue" id="paymentAmount" text="" />
+                        </GuiElement>
+
+                        <!--  Quick select buttons -->
+                        <GuiElement type="BoxLayout" profile="quickSelectRow">
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick1Month" onClick="onQuick1Month" />
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick6Months" onClick="onQuick6Months" />
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick1Year" onClick="onQuick1Year" />
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quickPayOff" onClick="onQuickPayOff" />
+                        </GuiElement>
+
+                        <!--  Payment summary -->
+                        <GuiElement type="BoxLayout" profile="summaryBox">
+                            <GuiElement type="Text" profile="summaryHeader" text="$l10n_usedplus_detail_paymentSummary" />
+
+                            <GuiElement type="BoxLayout" profile="summaryRow">
+                                <GuiElement type="Text" profile="summaryLabel" text="$l10n_usedplus_detail_paymentTotal" />
+                                <GuiElement type="Text" profile="summaryValue" id="summaryPayment" text="" />
+                            </GuiElement>
+
+                            <GuiElement type="BoxLayout" profile="summaryRow">
+                                <GuiElement type="Text" profile="summaryLabel" text="$l10n_usedplus_detail_toPrincipal" />
+                                <GuiElement type="Text" profile="summaryValue" id="summaryPrincipal" text="" toolTipText="$l10n_usedplus_detail_paymentSplit_tooltip" />
+                            </GuiElement>
+
+                            <GuiElement type="BoxLayout" profile="summaryRow">
+                                <GuiElement type="Text" profile="summaryLabel" text="$l10n_usedplus_detail_toInterest" />
+                                <GuiElement type="Text" profile="summaryValue" id="summaryInterest" text="" toolTipText="$l10n_usedplus_detail_paymentSplit_tooltip" />
+                            </GuiElement>
+
+                            <GuiElement type="BoxLayout" profile="summaryRow">
+                                <GuiElement type="Text" profile="summaryLabel" text="$l10n_usedplus_detail_newBalance" />
+                                <GuiElement type="Text" profile="summaryValue" id="summaryNewBalance" text="" />
+                            </GuiElement>
+
+                            <!--  Prepayment penalty (shown only if paying off) -->
+                            <GuiElement type="BoxLayout" profile="summaryRow" id="penaltyRow" visible="false">
+                                <GuiElement type="Text" profile="summaryLabel" text="$l10n_usedplus_detail_prepaymentPenalty" />
+                                <GuiElement type="Text" profile="summaryValue" id="summaryPenalty" text="" toolTipText="$l10n_usedplus_detail_prepaymentPenalty_tooltip" />
+                            </GuiElement>
+                        </GuiElement>
+                    </GuiElement>
+                </GuiElement>
+
+            </GuiElement>
+
+            <!--  Action buttons -->
+            <GuiElement type="BoxLayout" profile="frameButtons">
+                <GuiElement type="Button" profile="buttonOK" id="makePaymentButton"
+                    text="$l10n_usedplus_button_makePayment" onClick="onClickMakePayment" />
+
+                <!--  Lease-specific: End Lease Early button (hidden for finance deals) -->
+                <GuiElement type="Button" profile="buttonWarning" id="endLeaseButton" visible="false"
+                    text="$l10n_usedplus_button_endLeaseEarly" onClick="onClickEndLease" />
+
+                <GuiElement type="Button" profile="buttonCancel" id="backButton"
+                    text="$l10n_button_back" onClick="onClickBack" />
+            </GuiElement>
+
+        </GuiElement>
+    </GuiElement>
+</Gui>
