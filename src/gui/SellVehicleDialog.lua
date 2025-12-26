@@ -523,7 +523,7 @@ function SellVehicleDialog:onClickCancel()
 end
 
 --[[
-     Override close() to use g_gui:closeDialog()
+     Override close() to properly close through g_gui
      This ensures ESC key and all close paths properly decrement dialog count
 ]]
 function SellVehicleDialog:close()
@@ -534,18 +534,42 @@ function SellVehicleDialog:close()
     end
     self.isClosing = true
 
-    UsedPlus.logDebug(">>> SellVehicleDialog:close() - using g_gui:closeDialog() <<<")
+    UsedPlus.logDebug(">>> SellVehicleDialog:close() - trying multiple close methods <<<")
 
     -- Log GUI state before close
     if VehicleSellingPointExtension and VehicleSellingPointExtension.logGuiState then
-        VehicleSellingPointExtension.logGuiState("CLOSE_BEFORE_GUI_CLOSE")
+        VehicleSellingPointExtension.logGuiState("CLOSE_BEFORE")
     end
 
-    g_gui:closeDialog()
+    -- Try closeDialogByName with our actual dialog name
+    local closedByName = pcall(function()
+        g_gui:closeDialogByName("SellVehicleDialog")
+    end)
+    UsedPlus.logDebug(string.format(">>> closeDialogByName result: %s <<<", tostring(closedByName)))
 
-    -- Log GUI state after close
+    -- Log GUI state after closeDialogByName
     if VehicleSellingPointExtension and VehicleSellingPointExtension.logGuiState then
-        VehicleSellingPointExtension.logGuiState("CLOSE_AFTER_GUI_CLOSE")
+        VehicleSellingPointExtension.logGuiState("CLOSE_AFTER_BY_NAME")
+    end
+
+    -- Also try generic closeDialog as backup
+    local closedGeneric = pcall(function()
+        g_gui:closeDialog()
+    end)
+    UsedPlus.logDebug(string.format(">>> closeDialog result: %s <<<", tostring(closedGeneric)))
+
+    -- Log GUI state after closeDialog
+    if VehicleSellingPointExtension and VehicleSellingPointExtension.logGuiState then
+        VehicleSellingPointExtension.logGuiState("CLOSE_AFTER_GENERIC")
+    end
+
+    -- Final fallback: call superclass close directly
+    UsedPlus.logDebug(">>> Calling superclass close() <<<")
+    SellVehicleDialog:superClass().close(self)
+
+    -- Log final state
+    if VehicleSellingPointExtension and VehicleSellingPointExtension.logGuiState then
+        VehicleSellingPointExtension.logGuiState("CLOSE_AFTER_SUPER")
     end
 end
 
