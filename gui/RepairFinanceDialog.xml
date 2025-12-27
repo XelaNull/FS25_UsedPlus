@@ -21,19 +21,20 @@
             <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_rf_title"/>
 
             <!-- ========== SECTION 1: Repair Details ========== -->
+            <!-- Matches UnifiedPurchaseDialog vehicle preview pattern -->
             <GuiElement profile="rfSection" position="0px -60px">
                 <Bitmap profile="rfSectionBg" position="0px 0px"/>
-                <Text profile="rfSectionHeader" position="0px -5px" text="$l10n_usedplus_rp_sectionRepair"/>
+                <Text profile="rfSectionHeader" position="0px -5px" text="$l10n_usedplus_rf_sectionService"/>
 
-                <!-- Vehicle Image (left side) - larger preview, Y=42px moves up for proper display -->
-                <Bitmap profile="rfVehicleImage" id="vehicleImageElement" position="-230px 42px"/>
+                <!-- Two-column container: image left, text right -->
+                <GuiElement profile="rfVehiclePreviewContainer" position="0px -28px">
+                    <!-- IMAGE: Centered in left half, Y=42px moves up for proper display -->
+                    <Bitmap profile="rfVehicleImage" id="vehicleImageElement" position="-185px 42px"/>
 
-                <!-- Vehicle Name & Cost (right of image) -->
-                <Text profile="rfVehicleName" id="vehicleNameText" position="80px -35px" text=""/>
-
-                <GuiElement position="80px -65px">
-                    <Text profile="rfLabel" position="-100px 0px" text="$l10n_usedplus_rf_repairCost"/>
-                    <Text profile="rfCostValue" id="repairCostText" position="50px 0px" text=""/>
+                    <!-- TEXT: Left-aligned in right half -->
+                    <Text profile="rfVehicleName" id="vehicleNameText" position="175px -15px" text=""/>
+                    <Text profile="rfServiceType" id="serviceTypeText" position="175px -42px" text=""/>
+                    <Text profile="rfRepairCost" id="repairCostText" position="175px -67px" text=""/>
                 </GuiElement>
             </GuiElement>
 
@@ -169,18 +170,39 @@
             <textAlignment value="center"/>
         </Profile>
 
-        <!-- ========== VEHICLE IMAGE - Larger ========== -->
+        <!-- ========== VEHICLE PREVIEW CONTAINER ========== -->
+        <!-- Two-column layout matching UnifiedPurchaseDialog -->
+        <Profile name="rfVehiclePreviewContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="740px 100px"/>
+        </Profile>
+
+        <!-- ========== VEHICLE IMAGE ========== -->
         <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
         <Profile name="rfVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
             <size value="210px 140px"/>
         </Profile>
 
-        <!-- ========== VEHICLE NAME ========== -->
+        <!-- ========== VEHICLE INFO (right column) ========== -->
         <Profile name="rfVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
-            <size value="350px 24px"/>
+            <size value="340px 24px"/>
             <textSize value="18px"/>
             <textBold value="true"/>
-            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="rfServiceType" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="340px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="rfRepairCost" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="340px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.3 1"/>
+            <textAlignment value="left"/>
         </Profile>
 
         <!-- ========== LABELS ========== -->
@@ -190,40 +212,36 @@
             <textColor value="0.6 0.6 0.6 1"/>
         </Profile>
 
-        <!-- ========== VALUE DISPLAYS ========== -->
-        <Profile name="rfCostValue" extends="fs25_textDefault" with="anchorTopCenter">
-            <size value="120px 22px"/>
-            <textSize value="16px"/>
-            <textBold value="true"/>
-            <textColor value="1 0.5 0.5 1"/>
-        </Profile>
-
+        <!-- Monthly payment: Gold (matches UnifiedPurchaseDialog) -->
         <Profile name="rfMonthlyValue" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="120px 24px"/>
             <textSize value="18px"/>
             <textBold value="true"/>
-            <textColor value="0.3 1 0.5 1"/>
+            <textColor value="1 0.85 0.2 1"/>
         </Profile>
 
+        <!-- Total interest: Red-orange (cost indicator) -->
         <Profile name="rfInterestValue" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="100px 22px"/>
             <textSize value="14px"/>
             <textBold value="true"/>
-            <textColor value="1 0.6 0.6 1"/>
+            <textColor value="1 0.5 0.4 1"/>
         </Profile>
 
+        <!-- Interest rate: Orange (matches UnifiedPurchaseDialog) -->
         <Profile name="rfRateValue" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="100px 22px"/>
             <textSize value="14px"/>
             <textBold value="true"/>
-            <textColor value="1 0.7 0.4 1"/>
+            <textColor value="1 0.6 0.2 1"/>
         </Profile>
 
+        <!-- Total payments: Gold -->
         <Profile name="rfTotalValue" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="140px 22px"/>
             <textSize value="16px"/>
             <textBold value="true"/>
-            <textColor value="1 0.8 0.2 1"/>
+            <textColor value="1 0.85 0.2 1"/>
         </Profile>
 
         <Profile name="rfDownValue" extends="fs25_textDefault" with="anchorTopCenter">

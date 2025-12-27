@@ -261,6 +261,10 @@ function RepairDialog:updateDisplay()
     UIHelper.Element.setText(self.workSectionTitle, sectionTitle)
     UIHelper.Element.setText(self.workSliderLabel, isRepairMode and "Repair:" or "Repaint:")
 
+    -- Set explanatory text based on mode
+    local explainKey = isRepairMode and "usedplus_rp_percentExplain" or "usedplus_rp_percentExplainPaint"
+    UIHelper.Element.setText(self.percentExplainText, g_i18n:getText(explainKey))
+
     -- Current condition displays (using UIHelper.Vehicle pattern)
     UIHelper.Vehicle.displayCondition(
         self.currentConditionText,
@@ -302,16 +306,13 @@ function RepairDialog:updateDisplay()
     -- Result in payment section (shows what condition will be after work)
     UIHelper.Element.setText(self.paymentResultText, string.format("→ %d%%", workAfter))
 
-    -- Player money (green for available funds)
-    local playerMoney = 0
-    local farm = g_farmManager:getFarmById(self.farmId)
-    if farm then
-        playerMoney = farm.money or 0
-    end
-    UIHelper.Finance.displayAssetValue(self.playerMoneyText, playerMoney)
-
-    -- Enable/disable pay cash button based on funds
+    -- Enable/disable pay cash button based on funds (game UI shows player money)
     if self.payCashButton then
+        local playerMoney = 0
+        local farm = g_farmManager:getFarmById(self.farmId)
+        if farm then
+            playerMoney = farm.money or 0
+        end
         local canAfford = playerMoney >= self.totalCost and self.totalCost > 0
         self.payCashButton:setDisabled(not canAfford)
     end

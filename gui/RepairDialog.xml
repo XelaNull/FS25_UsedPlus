@@ -10,7 +10,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="780px 620px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="780px 640px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -78,37 +78,37 @@
                     <Text profile="rpQuickBtnText" id="btn100Text" position="190px -5px" text="100%"/>
                 </GuiElement>
 
+                <!-- Explanatory text below buttons -->
+                <Text profile="rpExplainText" id="percentExplainText" position="0px -95px" text="$l10n_usedplus_rp_percentExplain"/>
+
                 <!-- Selection Display - 3 columns -->
-                <Text profile="rpLabel" position="-220px -105px" text="$l10n_usedplus_rp_selected"/>
-                <Text profile="rpPercentValue" id="workPercentText" position="-220px -125px" text=""/>
+                <Text profile="rpLabel" position="-220px -118px" text="$l10n_usedplus_rp_selected"/>
+                <Text profile="rpPercentValue" id="workPercentText" position="-220px -138px" text=""/>
 
-                <Text profile="rpLabel" position="0px -105px" text="$l10n_usedplus_rp_cost"/>
-                <Text profile="rpCostValue" id="workCostText" position="0px -125px" text=""/>
+                <Text profile="rpLabel" position="0px -118px" text="$l10n_usedplus_rp_cost"/>
+                <Text profile="rpCostValue" id="workCostText" position="0px -138px" text=""/>
 
-                <Text profile="rpLabel" position="220px -105px" text="$l10n_usedplus_rp_after"/>
-                <Text profile="rpAfterValue" id="workAfterText" position="220px -125px" text=""/>
+                <Text profile="rpLabel" position="220px -118px" text="$l10n_usedplus_rp_after"/>
+                <Text profile="rpAfterValue" id="workAfterText" position="220px -138px" text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 3: Payment Summary ========== -->
-            <!-- After Work (155px) + 15px gap = -220 - 155 - 15 = -390 -->
-            <GuiElement profile="rpPaymentSection" position="0px -390px">
+            <!-- After Work (170px) + 15px gap = -220 - 170 - 15 = -405 -->
+            <GuiElement profile="rpPaymentSection" position="0px -405px">
                 <Bitmap profile="rpPaymentSectionBg" position="0px 0px"/>
                 <Text profile="rpSectionHeader" id="paymentTitle" position="0px -5px" text="$l10n_usedplus_rp_sectionPayment"/>
 
-                <!-- Three-column layout: Cost | Result | Your Money -->
-                <Text profile="rpTotalLabel" position="-220px -35px" text="$l10n_usedplus_rp_totalCost"/>
-                <Text profile="rpTotalValue" id="totalCostText" position="-220px -60px" text=""/>
+                <!-- Two-column layout: Cost | Result (game UI shows player money) -->
+                <Text profile="rpTotalLabel" position="-150px -35px" text="$l10n_usedplus_rp_totalCost"/>
+                <Text profile="rpTotalValue" id="totalCostText" position="-150px -60px" text=""/>
 
-                <Text profile="rpResultLabel" position="0px -35px" text="$l10n_usedplus_rp_result"/>
-                <Text profile="rpResultValue" id="paymentResultText" position="0px -60px" text=""/>
-
-                <Text profile="rpLabel" position="220px -35px" text="$l10n_usedplus_rp_yourMoney"/>
-                <Text profile="rpMoneyValue" id="playerMoneyText" position="220px -60px" text=""/>
+                <Text profile="rpResultLabel" position="150px -35px" text="$l10n_usedplus_rp_result"/>
+                <Text profile="rpResultValue" id="paymentResultText" position="150px -60px" text=""/>
             </GuiElement>
 
             <!-- ========== INFO TEXT ========== -->
-            <!-- After Payment (110px) + 15px gap = -390 - 110 - 15 = -515 -->
-            <Text profile="rpInfoText" position="0px -515px" text="$l10n_usedplus_rp_infoText"/>
+            <!-- After Payment (110px) + 15px gap = -405 - 110 - 15 = -530 -->
+            <Text profile="rpInfoText" position="0px -530px" text="$l10n_usedplus_rp_infoText"/>
 
         </GuiElement>
 
@@ -129,7 +129,7 @@
         </Profile>
 
         <Profile name="rpWorkSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="720px 155px"/>
+            <size value="720px 170px"/>
         </Profile>
 
         <Profile name="rpPaymentSection" extends="emptyPanel" with="anchorTopCenter">
@@ -145,7 +145,7 @@
 
         <!-- Work: Slightly lighter with blue tint (service/action) -->
         <Profile name="rpWorkSectionBg" extends="baseReference" with="anchorTopCenter">
-            <size value="720px 155px"/>
+            <size value="720px 170px"/>
             <imageColor value="0.06 0.08 0.12 0.9"/>
         </Profile>
 
@@ -169,6 +169,14 @@
             <size value="680px 18px"/>
             <textSize value="12px"/>
             <textColor value="0.55 0.55 0.55 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- Explanatory text below buttons -->
+        <Profile name="rpExplainText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="680px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="0.7 0.7 0.5 1"/>
             <textAlignment value="center"/>
         </Profile>
 

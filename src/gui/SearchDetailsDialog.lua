@@ -2,12 +2,16 @@
     SearchDetailsDialog.lua
     Dialog showing details about an active used vehicle search
 
+    v1.5.0: Multi-find agent model
     Displays:
     - Vehicle being searched for
-    - Search tier and quality tier
-    - Agent fee and success chances
+    - Monthly progress (Month X of Y)
+    - Retainer paid + commission rate
+    - Number of vehicles found in portfolio
     - Expected pricing and savings
-    - Time remaining
+    - Quality selection impact
+
+    TODO: Full portfolio browser with per-vehicle Inspect/Buy/Decline buttons
 ]]
 
 SearchDetailsDialog = {}
@@ -18,11 +22,36 @@ local SearchDetailsDialog_mt = Class(SearchDetailsDialog, ScreenElement)
 SearchDetailsDialog.instance = nil
 SearchDetailsDialog.xmlPath = nil
 
--- Search tier definitions (must match UsedVehicleSearch)
+-- v1.5.0: Search tier definitions (must match UsedVehicleSearch.SEARCH_TIERS)
 SearchDetailsDialog.SEARCH_TIERS = {
-    { name = "Local Search", feePercent = 0.04, baseSuccess = 0.25 },
-    { name = "Regional Search", feePercent = 0.06, baseSuccess = 0.55 },
-    { name = "National Search", feePercent = 0.10, baseSuccess = 0.80 }
+    {
+        name = "Local Search",
+        retainerFlat = 500,
+        retainerPercent = 0,
+        commissionPercent = 0.06,
+        monthlySuccessChance = 0.30,
+        maxMonths = 1,
+        maxListings = 3
+    },
+    {
+        name = "Regional Search",
+        retainerFlat = 1000,
+        retainerPercent = 0.005,
+        commissionPercent = 0.08,
+        monthlySuccessChance = 0.55,
+        maxMonths = 3,
+        maxListings = 6
+    },
+    {
+        name = "National Search",
+        retainerFlat = 2000,
+        retainerPercent = 0.008,
+        commissionPercent = 0.10,
+        monthlySuccessChance = 0.85,
+        maxMonths = 6,
+        maxListings = 10,
+        guaranteedMinimum = 1
+    }
 }
 
 --[[
@@ -81,6 +110,7 @@ end
 
 --[[
     Update all display fields with search data
+    v1.5.0: Updated for monthly model with portfolio display
 ]]
 function SearchDetailsDialog:updateDisplay()
     if self.search == nil then return end
@@ -98,15 +128,19 @@ function SearchDetailsDialog:updateDisplay()
         self.searchTierText:setText(searchTier.name)
     end
 
+    -- v1.5.0: Show retainer fee (already paid) + commission rate
     if self.agentFeeText then
-        local feePercent = searchTier.feePercent * 100
-        self.agentFeeText:setText(string.format("%s (%.0f%%)",
-            g_i18n:formatMoney(search.searchCost or 0, 0, true, true),
-            feePercent))
+        local retainerFee = search.retainerFee or 0
+        local commissionPercent = (search.commissionPercent or searchTier.commissionPercent or 0.08) * 100
+        self.agentFeeText:setText(string.format("%s + %d%% comm.",
+            g_i18n:formatMoney(retainerFee, 0, true, true),
+            commissionPercent))
     end
 
+    -- v1.5.0: Show monthly success chance
     if self.baseSuccessText then
-        self.baseSuccessText:setText(string.format("%.0f%%", searchTier.baseSuccess * 100))
+        local monthlyChance = (search.monthlySuccessChance or searchTier.monthlySuccessChance or 0.5) * 100
+        self.baseSuccessText:setText(string.format("%.0f%%/mo", monthlyChance))
     end
 
     -- Quality Tier
@@ -129,11 +163,12 @@ function SearchDetailsDialog:updateDisplay()
         end
     end
 
-    -- Combined success chance
+    -- v1.5.0: Combined success chance (with quality modifier applied)
     if self.combinedChanceText then
-        local combinedChance = searchTier.baseSuccess + (qualityTier.successModifier or 0)
+        local baseChance = search.monthlySuccessChance or searchTier.monthlySuccessChance or 0.5
+        local combinedChance = baseChance + (qualityTier.successModifier or 0)
         combinedChance = math.max(0.05, math.min(0.95, combinedChance))
-        self.combinedChanceText:setText(string.format("%.0f%%", combinedChance * 100))
+        self.combinedChanceText:setText(string.format("%.0f%%/mo", combinedChance * 100))
 
         -- Color based on chance
         if combinedChance >= 0.70 then
@@ -151,51 +186,66 @@ function SearchDetailsDialog:updateDisplay()
         self.newPriceText:setText(g_i18n:formatMoney(basePrice, 0, true, true))
     end
 
-    -- Expected price (based on quality tier)
-    local expectedPrice = math.floor(basePrice * (qualityTier.priceMultiplier or 0.5))
+    -- Expected price (based on quality tier range)
+    local priceRangeMin = qualityTier.priceRangeMin or 0.30
+    local priceRangeMax = qualityTier.priceRangeMax or 0.50
+    local avgPriceMultiplier = (priceRangeMin + priceRangeMax) / 2
+    local expectedBasePrice = math.floor(basePrice * avgPriceMultiplier)
+    -- v1.5.0: Add commission to expected price
+    local commissionPercent = search.commissionPercent or searchTier.commissionPercent or 0.08
+    local expectedCommission = math.floor(expectedBasePrice * commissionPercent)
+    local expectedAskingPrice = expectedBasePrice + expectedCommission
+
     if self.expectedPriceText then
-        self.expectedPriceText:setText(g_i18n:formatMoney(expectedPrice, 0, true, true))
+        self.expectedPriceText:setText(g_i18n:formatMoney(expectedAskingPrice, 0, true, true))
     end
 
-    -- Savings percentage
+    -- Savings percentage (range)
     if self.savingsText then
-        local savingsPercent = 0
-        if basePrice > 0 then
-            savingsPercent = math.floor((1 - (expectedPrice / basePrice)) * 100)
-        end
-        self.savingsText:setText(string.format("%d%% off", savingsPercent))
+        local maxDiscount = math.floor((1 - priceRangeMin) * 100)
+        local minDiscount = math.floor((1 - priceRangeMax) * 100)
+        self.savingsText:setText(string.format("%d-%d%% off", minDiscount, maxDiscount))
     end
 
-    -- Condition range
+    -- Condition range (show as condition percent)
     if self.conditionRangeText then
-        local minCondition = math.floor((qualityTier.minCondition or 0) * 100)
-        local maxCondition = math.floor((qualityTier.maxCondition or 1) * 100)
+        local damageRange = qualityTier.damageRange or { 0.30, 0.60 }
+        -- Condition = 100% - damage%
+        local maxCondition = math.floor((1 - damageRange[1]) * 100)
+        local minCondition = math.floor((1 - damageRange[2]) * 100)
         self.conditionRangeText:setText(string.format("%d%% - %d%%", minCondition, maxCondition))
     end
 
-    -- Price range (based on condition range)
+    -- Price range (v1.5.0: includes commission)
     if self.priceRangeText then
-        local minPrice = math.floor(basePrice * (qualityTier.priceMultiplier or 0.5) * 0.9)
-        local maxPrice = math.floor(basePrice * (qualityTier.priceMultiplier or 0.5) * 1.1)
+        local minBasePrice = math.floor(basePrice * priceRangeMin)
+        local maxBasePrice = math.floor(basePrice * priceRangeMax)
+        local minAsking = minBasePrice + math.floor(minBasePrice * commissionPercent)
+        local maxAsking = maxBasePrice + math.floor(maxBasePrice * commissionPercent)
         self.priceRangeText:setText(string.format("%s - %s",
-            g_i18n:formatMoney(minPrice, 0, true, true),
-            g_i18n:formatMoney(maxPrice, 0, true, true)))
+            g_i18n:formatMoney(minAsking, 0, true, true),
+            g_i18n:formatMoney(maxAsking, 0, true, true)))
     end
 
-    -- Status
+    -- v1.5.0: Status with portfolio count
     if self.statusText then
         local statusText = "Searching..."
         local statusColor = {0.7, 0.7, 0.7, 1}
 
+        local foundCount = #(search.foundListings or {})
+        local maxListings = search.maxListings or searchTier.maxListings or 10
+
         if search.status == "active" then
-            statusText = "Searching..."
-            statusColor = {0.8, 0.8, 0.3, 1}  -- Yellow
-        elseif search.status == "success" then
-            statusText = "FOUND!"
-            statusColor = {0.3, 1, 0.3, 1}  -- Green
-        elseif search.status == "failed" then
-            statusText = "No vehicle found"
-            statusColor = {1, 0.4, 0.4, 1}  -- Red
+            if foundCount > 0 then
+                statusText = string.format("%d vehicle(s) found!", foundCount)
+                statusColor = {0.3, 1, 0.3, 1}  -- Green
+            else
+                statusText = "Searching..."
+                statusColor = {0.8, 0.8, 0.3, 1}  -- Yellow
+            end
+        elseif search.status == "completed" then
+            statusText = string.format("Complete: %d found", foundCount)
+            statusColor = foundCount > 0 and {0.3, 1, 0.3, 1} or {0.6, 0.6, 0.6, 1}
         elseif search.status == "cancelled" then
             statusText = "Cancelled"
             statusColor = {0.6, 0.6, 0.6, 1}  -- Gray
@@ -205,54 +255,48 @@ function SearchDetailsDialog:updateDisplay()
         self.statusText:setTextColor(unpack(statusColor))
     end
 
-    -- Time remaining
+    -- v1.5.0: Monthly progress instead of time remaining
     if self.timeRemainingText then
-        self.timeRemainingText:setText(search:getRemainingTime())
+        local monthsElapsed = search.monthsElapsed or 0
+        local maxMonths = search.maxMonths or searchTier.maxMonths or 1
+        local monthsRemaining = maxMonths - monthsElapsed
+
+        if monthsRemaining > 0 then
+            self.timeRemainingText:setText(string.format("%d month(s) left", monthsRemaining))
+        else
+            self.timeRemainingText:setText("Final month")
+        end
     end
 
-    -- Started / Elapsed
-    local createdAt = search.createdAt or 0
-    local currentHour = 0
-    if g_currentMission and g_currentMission.environment then
-        currentHour = g_currentMission.environment.currentHour or 0
-    end
-    local elapsed = currentHour - createdAt
-    if elapsed < 0 then elapsed = 0 end
-
+    -- v1.5.0: Show month progress
     if self.startedText then
-        -- Calculate days ago
-        local daysAgo = math.floor(elapsed / 24)
-        if daysAgo > 0 then
-            self.startedText:setText(string.format("%d day%s ago", daysAgo, daysAgo > 1 and "s" or ""))
-        else
-            self.startedText:setText(string.format("%d hours ago", elapsed))
-        end
+        local monthsElapsed = search.monthsElapsed or 0
+        local maxMonths = search.maxMonths or searchTier.maxMonths or 1
+        self.startedText:setText(string.format("Month %d of %d", monthsElapsed + 1, maxMonths))
     end
 
+    -- v1.5.0: Show portfolio count
     if self.elapsedText then
-        local days = math.floor(elapsed / 24)
-        local hours = elapsed % 24
-        if days > 0 then
-            self.elapsedText:setText(string.format("%d days, %d hrs", days, hours))
-        else
-            self.elapsedText:setText(string.format("%d hours", hours))
-        end
+        local foundCount = #(search.foundListings or {})
+        local maxListings = search.maxListings or searchTier.maxListings or 10
+        self.elapsedText:setText(string.format("%d/%d found", foundCount, maxListings))
     end
 
-    -- Info text - tips based on search tier
+    -- Info text - tips based on search tier and portfolio
     if self.infoText then
-        local tipText = "Regional searches offer the best value for success rate."
+        local foundCount = #(search.foundListings or {})
+        local tipText = "Regional searches offer the best balance of cost and success."
 
-        if search.searchLevel == 1 then
-            tipText = "Local searches are fast but have low success rates."
+        if foundCount > 0 then
+            tipText = "Vehicles found! View portfolio to inspect, buy, or decline."
+        elseif search.searchLevel == 1 then
+            tipText = "Local searches are quick but have lower monthly success rates."
         elseif search.searchLevel == 3 then
-            tipText = "National searches have the highest success rate but take longer."
+            tipText = "National searches have the highest success rate and guaranteed finds."
         end
 
-        if search.qualityLevel >= 4 then
+        if search.qualityLevel >= 4 and foundCount == 0 then
             tipText = "Good/Excellent quality is harder to find but saves on repairs."
-        elseif search.qualityLevel == 1 then
-            tipText = "Poor condition vehicles may need significant repairs."
         end
 
         self.infoText:setText(tipText)
@@ -269,11 +313,79 @@ function SearchDetailsDialog:onCloseDialog()
 end
 
 --[[
+    Handle View Portfolio button click
+    Opens VehiclePortfolioDialog to browse found vehicles
+]]
+function SearchDetailsDialog:onViewPortfolio()
+    if self.search == nil then
+        UsedPlus.logError("No search to view portfolio for")
+        return
+    end
+
+    local foundCount = #(self.search.foundListings or {})
+    if foundCount == 0 then
+        g_currentMission:addIngameNotification(
+            FSBaseMission.INGAME_NOTIFICATION_INFO,
+            "No vehicles found yet. Check back next month!"
+        )
+        return
+    end
+
+    -- IMPORTANT: Save search reference BEFORE closing dialog
+    -- onClose() sets self.search = nil, so we need to capture it first
+    local searchToView = self.search
+
+    -- Close this dialog first
+    g_gui:changeScreen(nil)
+
+    -- Open the portfolio dialog with saved reference
+    local portfolioDialog = VehiclePortfolioDialog.getInstance()
+    if portfolioDialog then
+        portfolioDialog:show(searchToView)
+    else
+        UsedPlus.logError("Failed to get VehiclePortfolioDialog instance")
+    end
+end
+
+--[[
+    Update View Portfolio button visibility
+    Called after updateDisplay() or when search changes
+]]
+function SearchDetailsDialog:updatePortfolioButton()
+    if self.viewPortfolioButton == nil then
+        return
+    end
+
+    local foundCount = 0
+    if self.search and self.search.foundListings then
+        foundCount = #self.search.foundListings
+    end
+
+    -- Show/hide button based on whether there are found vehicles
+    if foundCount > 0 then
+        self.viewPortfolioButton:setVisible(true)
+        self.viewPortfolioButton:setText(string.format("View %d Found Vehicle%s",
+            foundCount, foundCount > 1 and "s" or ""))
+    else
+        self.viewPortfolioButton:setVisible(false)
+    end
+end
+
+--[[
     Handle ESC key / back button
 ]]
 function SearchDetailsDialog:onClickBack()
     g_gui:changeScreen(nil)
     return true  -- Handled
+end
+
+--[[
+    Called when dialog opens
+]]
+function SearchDetailsDialog:onOpen()
+    SearchDetailsDialog:superClass().onOpen(self)
+    -- Update portfolio button visibility when dialog opens
+    self:updatePortfolioButton()
 end
 
 --[[

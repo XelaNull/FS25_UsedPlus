@@ -87,6 +87,21 @@
         <e k="usedplus_search_qualityDescription" v="Qualite inferieure = prix moins cher mais plus de reparations necessaires" />
         <e k="usedplus_search_confirmTitle" v="Recherche Lancee" />
 
+        <!-- v1.5.0: Multi-find Agent Model -->
+        <e k="usedplus_search_retainer" v="Honoraires de l'Agent" />
+        <e k="usedplus_search_commission" v="Commission de Recherche" />
+        <e k="usedplus_search_commissionInfo" v="%d%% ajoute au prix du vehicule" />
+        <e k="usedplus_search_monthProgress" v="Mois %d sur %d" />
+        <e k="usedplus_search_vehiclesFound" v="%d vehicule(s) trouve(s)" />
+        <e k="usedplus_search_monthlyChance" v="%d%% par mois" />
+        <e k="usedplus_search_foundVehicles" v="VEHICULES TROUVES" />
+        <e k="usedplus_search_noVehiclesYet" v="Aucun vehicule trouve pour l'instant" />
+        <e k="usedplus_search_inspectVehicle" v="Inspecter" />
+        <e k="usedplus_search_buyVehicle" v="Acheter" />
+        <e k="usedplus_search_declineVehicle" v="Refuser" />
+        <e k="usedplus_notify_vehicleFound" v="Votre agent a trouve un %s!" />
+        <e k="usedplus_notify_searchComplete" v="Recherche terminee: %d vehicule(s) trouve(s)" />
+
         <!-- Confirmation Dialog -->
         <e k="usedplus_confirmation_title" v="Confirmation" />
 
@@ -463,6 +478,14 @@
         <e k="usedPlus_hydraulicDrift" v="Perte de pression hydraulique !" />
         <e k="usedPlus_implementCutout" v="L'outil s'est arrete !" />
         <e k="usedPlus_electricalCutout" v="Panne electrique - outils hors service !" />
+
+        <!--  Avertissements de degradation de vitesse (v1.4.0) -->
+        <e k="usedPlus_speedDegraded" v="Moteur en difficulte - vitesse max reduite a %d%% !" />
+        <e k="usedPlus_speedDegradedReminder" v="Vehicule lent - reparations recommandees" />
+
+        <!--  Avertissements de derive hydraulique (v1.4.0) -->
+        <e k="usedPlus_hydraulicWeak" v="Hydraulique faible (%d%%) - les outils peuvent deriver !" />
+        <e k="usedPlus_hydraulicDrifted" v="Outil abaisse en raison d'une panne hydraulique" />
 
         <!--  Inspection System -->
         <e k="usedPlus_inspectButton" v="Inspecter (%s)" />
@@ -884,10 +907,13 @@
         <e k="usedplus_us_qualityFair" v="Correcte" />
         <e k="usedplus_us_qualityGood" v="Bonne" />
         <e k="usedplus_us_qualityExcellent" v="Excellente" />
+        <e k="usedplus_us_discountFormat" v="~%d%% de remise" />
         <e k="usedplus_us_infoText" v="Les niveaux superieurs coutent plus cher mais ont de meilleurs taux de succes et trouvent des correspondances de meilleure qualite." />
 
         <!-- Used Vehicle Preview Dialog -->
         <e k="usedplus_uvp_title" v="Vehicule d'Occasion Trouve" />
+        <e k="usedplus_uvp_sectionVehicle" v="INFORMATIONS VEHICULE" />
+        <e k="usedplus_uvp_askingPrice" v="Prix demande :" />
         <e k="usedplus_uvp_sectionCondition" v="ETAT VISIBLE" />
         <e k="usedplus_uvp_age" v="Age :" />
         <e k="usedplus_uvp_hours" v="Heures :" />

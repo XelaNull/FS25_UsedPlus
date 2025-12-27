@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Vehicle Portfolio Dialog
+    Carousel-style browser for vehicles found by agent search
+    Shows one vehicle at a time with Prev/Next navigation
+
+    v1.5.0: Part of multi-find agent model
+    v1.5.1: Moved Prev/Next to BoxLayout to match other dialogs
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 520px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+            <!-- Title with counter -->
+            <Text profile="vpfTitle" id="titleText" position="0px -25px" text="Found Vehicles"/>
+            <Text profile="vpfNavCounter" id="navCounterText" position="0px -50px" text="1 of 3"/>
+
+            <!-- ========== VEHICLE INFO SECTION ========== -->
+            <GuiElement profile="vpfSectionContainer" position="0px -75px">
+                <Bitmap profile="vpfSectionBg" position="0px 0px"/>
+                <Text profile="vpfSectionHeader" position="0px -5px" text="VEHICLE"/>
+
+                <!-- Two-column layout: Image left, Info right -->
+                <GuiElement position="0px -28px">
+                    <!-- Vehicle Image (left) - Y=52px moves UP for proper display -->
+                    <Bitmap profile="vpfVehicleImage" id="vehicleImage" position="-185px 52px"/>
+
+                    <!-- Vehicle Info (right) -->
+                    <Text profile="vpfVehicleName" id="vehicleNameText" position="120px -5px" text=""/>
+
+                    <!-- Quality tier -->
+                    <Text profile="vpfLabel" position="120px -30px" text="Quality:"/>
+                    <Text profile="vpfQualityValue" id="qualityText" position="210px -30px" text=""/>
+
+                    <!-- Condition -->
+                    <Text profile="vpfLabel" position="120px -55px" text="Condition:"/>
+                    <Text profile="vpfConditionValue" id="conditionText" position="210px -55px" text=""/>
+
+                    <!-- Inspected status -->
+                    <Text profile="vpfLabel" position="120px -80px" text="Inspected:"/>
+                    <Text profile="vpfInspectedValue" id="inspectedText" position="210px -80px" text="No"/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== PRICING SECTION ========== -->
+            <GuiElement profile="vpfSectionContainerMed" position="0px -220px">
+                <Bitmap profile="vpfSectionBgGreen" position="0px 0px"/>
+                <Text profile="vpfSectionHeader" position="0px -5px" text="PRICING"/>
+
+                <!-- Price breakdown -->
+                <Text profile="vpfLabel" position="-250px -32px" text="Base Price:"/>
+                <Text profile="vpfPriceValue" id="basePriceText" position="-120px -32px" text=""/>
+
+                <Text profile="vpfLabel" position="30px -32px" text="Commission:"/>
+                <Text profile="vpfCommissionValue" id="commissionText" position="160px -32px" text=""/>
+
+                <Text profile="vpfLabelBold" position="-250px -60px" text="Asking Price:"/>
+                <Text profile="vpfAskingPrice" id="askingPriceText" position="-120px -60px" text=""/>
+            </GuiElement>
+
+            <!-- ========== EXPIRATION WARNING ========== -->
+            <GuiElement profile="vpfWarningSection" id="expirationSection" position="0px -325px">
+                <Bitmap profile="vpfWarningBg" position="0px 0px"/>
+                <Text profile="vpfWarningIcon" position="-280px -22px" text="!"/>
+                <Text profile="vpfWarningText" id="expirationText" position="0px -22px" text="Offer expires in 2 months"/>
+            </GuiElement>
+
+            <!-- ========== INFO TEXT ========== -->
+            <Text profile="vpfInfoText" id="infoText" position="0px -390px" text="View details to inspect. Decline to remove from portfolio."/>
+
+        </GuiElement>
+
+        <!-- Button Box - Prev/Next moved here to match other dialogs -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button id="prevButton" profile="buttonActivate" text="$l10n_usedplus_button_prev" onClick="onClickPrev"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button id="viewDetailsButton" profile="buttonOK" text="View Details" onClick="onClickViewDetails"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button id="declineButton" profile="buttonActivate" text="Decline Offer" onClick="onClickDecline"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button id="nextButton" profile="buttonActivate" text="$l10n_usedplus_button_next" onClick="onClickNext"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button id="closeButton" profile="buttonBack" text="$l10n_button_close" onClick="onClickClose"/>
+        </BoxLayout>
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== TITLE ========== -->
+        <Profile name="vpfTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 30px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.8 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== NAVIGATION COUNTER (below title) ========== -->
+        <Profile name="vpfNavCounter" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.9 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="vpfSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 135px"/>
+        </Profile>
+
+        <Profile name="vpfSectionContainerMed" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 95px"/>
+        </Profile>
+
+        <Profile name="vpfWarningSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 50px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="vpfSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 135px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="vpfSectionBgGreen" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 95px"/>
+            <imageColor value="0.06 0.10 0.08 0.9"/>
+        </Profile>
+
+        <Profile name="vpfWarningBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 50px"/>
+            <imageColor value="0.18 0.14 0.06 0.95"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="vpfSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO ========== -->
+        <!-- EMPIRICALLY TESTED: 210x140px displays store images correctly -->
+        <Profile name="vpfVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
+            <size value="210px 140px"/>
+        </Profile>
+
+        <Profile name="vpfVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="vpfLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="90px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="vpfLabelBold" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="90px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="vpfQualityValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.8 0.9 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="vpfConditionValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="vpfInspectedValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="80px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== PRICING ========== -->
+        <Profile name="vpfPriceValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="vpfCommissionValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="vpfAskingPrice" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== WARNING/EXPIRATION ========== -->
+        <Profile name="vpfWarningIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="40px 30px"/>
+            <textSize value="22px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.7 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="vpfWarningText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 30px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="vpfInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.5 0.6 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

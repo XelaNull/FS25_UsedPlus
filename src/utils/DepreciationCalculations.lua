@@ -63,36 +63,56 @@ DepreciationCalculations.GENERATIONS = {
     to keep used competitive but not game-breaking. Combined with reliability
     consequences, used vehicles are now a meaningful tradeoff.
 ]]
+--[[
+    Quality tier definitions with RANGES (v1.4.0 - ECONOMICS.md compliance)
+    Each tier uses min/max ranges for price, damage, and wear to ensure:
+    1. No overlap between tiers (worst Excellent < best Poor after repairs)
+    2. Realistic variance within each tier
+    3. Clear price/condition tradeoffs for player decision-making
+
+    Order: 1=Any, 2=Poor, 3=Fair, 4=Good, 5=Excellent
+    Must match UsedSearchDialog.QUALITY_TIERS order!
+]]
 DepreciationCalculations.QUALITY_TIERS = {
-    {  -- Any Condition: High damage/wear range (broadest search)
+    {  -- Any Condition: Catch-all with widest variance
         name = "Any Condition",
-        damageRange = { 0.30, 0.70 },   -- 30-70% damage
-        wearRange = { 0.35, 0.75 },      -- 35-75% wear
-        priceMultiplier = 0.55           -- 45% off (was 70%)
+        priceRangeMin = 0.30,            -- 30% of new (70% off)
+        priceRangeMax = 0.50,            -- 50% of new (50% off)
+        damageRange = { 0.35, 0.60 },    -- 35-60% damage
+        wearRange = { 0.40, 0.65 },      -- 40-65% wear
+        description = "Wildcard - high variance in quality and price"
     },
-    {  -- Poor Condition: High damage/wear - needs significant repairs
+    {  -- Poor Condition: Fixer-upper - highest repair costs
         name = "Poor Condition",
-        damageRange = { 0.50, 0.80 },   -- 50-80% damage (needs work)
-        wearRange = { 0.55, 0.85 },      -- 55-85% wear
-        priceMultiplier = 0.50           -- 50% off (was 75%) - fixer-upper but not free
+        priceRangeMin = 0.22,            -- 22% of new (78% off)
+        priceRangeMax = 0.38,            -- 38% of new (62% off)
+        damageRange = { 0.55, 0.80 },    -- 55-80% damage
+        wearRange = { 0.60, 0.85 },      -- 60-85% wear
+        description = "Bargain bin - extensive repairs needed"
     },
-    {  -- Fair Condition
+    {  -- Fair Condition: Middle ground
         name = "Fair Condition",
-        damageRange = { 0.15, 0.40 },   -- 15-40% damage
-        wearRange = { 0.20, 0.45 },      -- 20-45% wear
-        priceMultiplier = 0.68           -- 32% off (was 52%)
+        priceRangeMin = 0.50,            -- 50% of new (50% off)
+        priceRangeMax = 0.68,            -- 68% of new (32% off)
+        damageRange = { 0.18, 0.35 },    -- 18-35% damage
+        wearRange = { 0.22, 0.40 },      -- 22-40% wear
+        description = "Moderate wear - some repairs likely"
     },
-    {  -- Good Condition
+    {  -- Good Condition: Well maintained
         name = "Good Condition",
-        damageRange = { 0.05, 0.20 },   -- 5-20% damage
-        wearRange = { 0.08, 0.25 },      -- 8-25% wear
-        priceMultiplier = 0.78           -- 22% off (was 35%)
+        priceRangeMin = 0.68,            -- 68% of new (32% off)
+        priceRangeMax = 0.80,            -- 80% of new (20% off)
+        damageRange = { 0.06, 0.18 },    -- 6-18% damage
+        wearRange = { 0.08, 0.22 },      -- 8-22% wear
+        description = "Well maintained - minimal repairs"
     },
-    {  -- Excellent Condition: Low damage/wear
+    {  -- Excellent Condition: Like new
         name = "Excellent Condition",
-        damageRange = { 0.01, 0.10 },   -- 1-10% damage
-        wearRange = { 0.02, 0.12 },      -- 2-12% wear
-        priceMultiplier = 0.88           -- 12% off (was 20%)
+        priceRangeMin = 0.80,            -- 80% of new (20% off)
+        priceRangeMax = 0.94,            -- 94% of new (6% off)
+        damageRange = { 0.00, 0.06 },    -- 0-6% damage
+        wearRange = { 0.00, 0.08 },      -- 0-8% wear
+        description = "Like new - ready to work immediately"
     }
 }
 
@@ -231,9 +251,13 @@ function DepreciationCalculations.calculateUsedPrice(storeItem, params)
         repaintPrice = Wearable.calculateRepaintPrice(defaultPrice, params.wear)
     end
 
-    -- Get quality tier for price multiplier
+    -- Get quality tier for price multiplier (v1.4.0: now uses ranges)
     local qualityTier = DepreciationCalculations.QUALITY_TIERS[params.qualityLevel] or DepreciationCalculations.QUALITY_TIERS[1]
-    local qualityMultiplier = qualityTier.priceMultiplier or 0.5
+
+    -- Select price within tier's range (random variance within bounds)
+    local priceRangeMin = qualityTier.priceRangeMin or 0.30
+    local priceRangeMax = qualityTier.priceRangeMax or 0.50
+    local qualityMultiplier = priceRangeMin + (math.random() * (priceRangeMax - priceRangeMin))
 
     -- Age-based depreciation (vehicles lose value over time)
     -- BALANCE NOTE (v1.2): Reduced from 5%/year (max 50%) to 3%/year (max 25%)
@@ -242,8 +266,8 @@ function DepreciationCalculations.calculateUsedPrice(storeItem, params)
     local ageMultiplier = 1.0 - ageDepreciation
 
     -- Calculate used price:
-    -- Base price * quality multiplier * age multiplier
-    -- This gives reasonable prices even for poor condition vehicles
+    -- Base price * quality multiplier (from range) * age multiplier
+    -- This gives reasonable prices with realistic variance within each tier
     local usedPrice = defaultPrice * qualityMultiplier * ageMultiplier
 
     -- Ensure minimum price of 5% of base (vehicles are never completely worthless)

@@ -50,8 +50,8 @@ end
 
 -- Term options in months
 RepairFinanceDialog.TERM_OPTIONS = {3, 6, 12, 18, 24}
--- Down payment options as percentages
-RepairFinanceDialog.DOWN_PAYMENT_OPTIONS = {0, 25, 50, 75}
+-- Down payment options as percentages (matches UnifiedPurchaseDialog)
+RepairFinanceDialog.DOWN_PAYMENT_OPTIONS = {0, 5, 10, 15, 20, 25, 30, 40, 50}
 
 --[[
      Called when dialog opens
@@ -109,13 +109,23 @@ function RepairFinanceDialog:setData(vehicle, farmId, repairCost, repairPercent,
         self.vehicleNameText:setText(self.vehicleName)
     end
 
+    -- Update service type (Mechanical Repair or Repaint)
+    if self.serviceTypeText then
+        local serviceType = self.mode == "repaint"
+            and g_i18n:getText("usedplus_rp_sectionRepaint")
+            or g_i18n:getText("usedplus_rp_sectionRepair")
+        self.serviceTypeText:setText(serviceType)
+    end
+
     -- Set vehicle image
     if self.vehicleImageElement and self.storeItem then
         UIHelper.Image.setStoreItemImage(self.vehicleImageElement, self.storeItem)
     end
 
-    -- Update repair cost display
-    UIHelper.Element.setText(self.repairCostText, UIHelper.Text.formatMoney(self.repairCost))
+    -- Update repair cost display with label
+    local costLabel = self.mode == "repaint"
+        and g_i18n:getText("usedplus_rf_repaintCost") or g_i18n:getText("usedplus_rf_repairCost")
+    UIHelper.Element.setText(self.repairCostText, costLabel .. " " .. UIHelper.Text.formatMoney(self.repairCost))
 
     -- Get credit score
     if CreditScore then

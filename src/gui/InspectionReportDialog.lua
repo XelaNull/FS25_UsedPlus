@@ -144,16 +144,24 @@ function InspectionReportDialog:updateDisplay()
         self:updateReliabilityRating("hydraulic", hydraulicRel)
         self:updateReliabilityRating("electrical", electricalRel)
 
-        -- Generate and display notes (safely)
-        local notes = "Vehicle condition assessed."
-        if UsedPlusMaintenance and UsedPlusMaintenance.generateInspectorNotes then
-            notes = UsedPlusMaintenance.generateInspectorNotes(usedPlusData)
+        -- v1.4.0: Display mechanic quote based on workhorse/lemon DNA
+        local quote = "Vehicle condition assessed."
+        if usedPlusData.workhorseLemonScale and UsedPlusMaintenance and UsedPlusMaintenance.getInspectorQuote then
+            quote = UsedPlusMaintenance.getInspectorQuote(usedPlusData.workhorseLemonScale)
         end
+        if self.mechanicQuoteText then
+            self.mechanicQuoteText:setText('"' .. quote .. '"')
+        end
+        if self.mechanicAttribText then
+            self.mechanicAttribText:setText(g_i18n:getText("usedplus_irp_mechanicName"))
+        end
+
+        -- Legacy notes elements (keep for compatibility, may be removed later)
         if self.notesText then
-            self.notesText:setText(notes or "No notes available.")
+            self.notesText:setText("")
         end
         if self.notesText2 then
-            self.notesText2:setText("")  -- Clear second line by default
+            self.notesText2:setText("")
         end
     else
         -- No inspection data - show defaults
@@ -161,8 +169,11 @@ function InspectionReportDialog:updateDisplay()
         self:updateReliabilityRating("hydraulic", 0.5)
         self:updateReliabilityRating("electrical", 0.5)
 
-        if self.notesText then
-            self.notesText:setText(g_i18n:getText("usedplus_inspection_noData"))
+        if self.mechanicQuoteText then
+            self.mechanicQuoteText:setText('"' .. g_i18n:getText("usedplus_inspection_noData") .. '"')
+        end
+        if self.mechanicAttribText then
+            self.mechanicAttribText:setText(g_i18n:getText("usedplus_irp_mechanicName"))
         end
     end
 

@@ -87,6 +87,21 @@
         <e k="usedplus_search_qualityDescription" v="Qualità inferiore = prezzo più basso ma più riparazioni necessarie" />
         <e k="usedplus_search_confirmTitle" v="Ricerca Avviata" />
 
+        <!-- v1.5.0: Multi-find Agent Model -->
+        <e k="usedplus_search_retainer" v="Onorario dell'Agente" />
+        <e k="usedplus_search_commission" v="Commissione di Ricerca" />
+        <e k="usedplus_search_commissionInfo" v="%d%% aggiunto al prezzo del veicolo" />
+        <e k="usedplus_search_monthProgress" v="Mese %d di %d" />
+        <e k="usedplus_search_vehiclesFound" v="%d veicolo/i trovato/i" />
+        <e k="usedplus_search_monthlyChance" v="%d%% al mese" />
+        <e k="usedplus_search_foundVehicles" v="VEICOLI TROVATI" />
+        <e k="usedplus_search_noVehiclesYet" v="Nessun veicolo trovato ancora" />
+        <e k="usedplus_search_inspectVehicle" v="Ispeziona" />
+        <e k="usedplus_search_buyVehicle" v="Acquista" />
+        <e k="usedplus_search_declineVehicle" v="Rifiuta" />
+        <e k="usedplus_notify_vehicleFound" v="Il tuo agente ha trovato un %s!" />
+        <e k="usedplus_notify_searchComplete" v="Ricerca completata: %d veicolo/i trovato/i" />
+
         <!-- Confirmation Dialog -->
         <e k="usedplus_confirmation_title" v="Conferma" />
 
@@ -463,6 +478,14 @@
         <e k="usedPlus_hydraulicDrift" v="Perdita di pressione idraulica!" />
         <e k="usedPlus_implementCutout" v="Attrezzo in stallo!" />
         <e k="usedPlus_electricalCutout" v="Guasto elettrico - attrezzi offline!" />
+
+        <!--  Avvisi di degradazione della velocità (v1.4.0) -->
+        <e k="usedPlus_speedDegraded" v="Motore in difficoltà - velocità max ridotta al %d%%!" />
+        <e k="usedPlus_speedDegradedReminder" v="Veicolo lento - riparazione consigliata" />
+
+        <!--  Avvisi di deriva idraulica (v1.4.0) -->
+        <e k="usedPlus_hydraulicWeak" v="Idraulica debole (%d%%) - gli attrezzi potrebbero derivare!" />
+        <e k="usedPlus_hydraulicDrifted" v="Attrezzo abbassato per guasto idraulico" />
 
         <!--  Inspection System -->
         <e k="usedPlus_inspectButton" v="Ispeziona (%s)" />
@@ -884,10 +907,13 @@
         <e k="usedplus_us_qualityFair" v="Discreto" />
         <e k="usedplus_us_qualityGood" v="Buono" />
         <e k="usedplus_us_qualityExcellent" v="Eccellente" />
+        <e k="usedplus_us_discountFormat" v="~%d%% di sconto" />
         <e k="usedplus_us_infoText" v="Livelli superiori costano di più ma hanno tassi di successo migliori e trovano corrispondenze di qualità superiore." />
 
         <!-- Used Vehicle Preview Dialog -->
         <e k="usedplus_uvp_title" v="Veicolo Usato Trovato" />
+        <e k="usedplus_uvp_sectionVehicle" v="INFORMAZIONI VEICOLO" />
+        <e k="usedplus_uvp_askingPrice" v="Prezzo richiesto:" />
         <e k="usedplus_uvp_sectionCondition" v="CONDIZIONE VISIBILE" />
         <e k="usedplus_uvp_age" v="Età:" />
         <e k="usedplus_uvp_hours" v="Ore:" />

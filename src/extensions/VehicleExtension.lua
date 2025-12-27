@@ -41,8 +41,8 @@ function VehicleExtension:init()
 end
 
 --[[
-    Override getSellPrice to account for finance deals
-    Deducts remaining balance from sell price
+    Override getSellPrice to account for finance deals and reliability
+    v1.4.0: Now applies resale modifier based on vehicle reliability
 ]]
 function VehicleExtension.getSellPrice(self, superFunc)
     -- Get base sell price from game
@@ -52,6 +52,15 @@ function VehicleExtension.getSellPrice(self, superFunc)
     if self.isLeased then
         -- Leased vehicles cannot be sold
         return 0
+    end
+
+    -- v1.4.0: Apply reliability-based resale modifier
+    -- High reliability vehicles sell for more, low reliability for less
+    if UsedPlusMaintenance and UsedPlusMaintenance.CONFIG.enableResaleModifier then
+        local reliabilityData = UsedPlusMaintenance.getReliabilityData(self)
+        if reliabilityData and reliabilityData.resaleModifier then
+            baseSellPrice = math.floor(baseSellPrice * reliabilityData.resaleModifier)
+        end
     end
 
     if self.financeDealId then

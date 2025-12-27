@@ -82,6 +82,21 @@
         <e k="usedplus_search_qualityDescription" v="Nizsi kvalita = nizsi cena, ale vice oprav" />
         <e k="usedplus_search_confirmTitle" v="Vyhledavani zahajeno" />
 
+        <!-- v1.5.0: Multi-find Agent Model -->
+        <e k="usedplus_search_retainer" v="Honorar Agenta" />
+        <e k="usedplus_search_commission" v="Provize za Nalezeni" />
+        <e k="usedplus_search_commissionInfo" v="%d%% pridano k cene vozidla" />
+        <e k="usedplus_search_monthProgress" v="Mesic %d z %d" />
+        <e k="usedplus_search_vehiclesFound" v="Nalezeno %d vozidel" />
+        <e k="usedplus_search_monthlyChance" v="%d%% za mesic" />
+        <e k="usedplus_search_foundVehicles" v="NALEZENA VOZIDLA" />
+        <e k="usedplus_search_noVehiclesYet" v="Zatim nebylo nalezeno zadne vozidlo" />
+        <e k="usedplus_search_inspectVehicle" v="Prozkoumat" />
+        <e k="usedplus_search_buyVehicle" v="Koupit" />
+        <e k="usedplus_search_declineVehicle" v="Odmitnout" />
+        <e k="usedplus_notify_vehicleFound" v="Vas agent nasel %s!" />
+        <e k="usedplus_notify_searchComplete" v="Vyhledavani dokonceno: nalezeno %d vozidel" />
+
         <!-- Confirmation Dialog -->
         <e k="usedplus_confirmation_title" v="Potvrzeni" />
 
@@ -458,6 +473,14 @@
         <e k="usedPlus_hydraulicDrift" v="Ztrata hydraulickeho tlaku!" />
         <e k="usedPlus_implementCutout" v="Nastavba se zastavila!" />
         <e k="usedPlus_electricalCutout" v="Elektricka porucha - nastavby offline!" />
+
+        <!--  Varovani o degradaci rychlosti (v1.4.0) -->
+        <e k="usedPlus_speedDegraded" v="Motor ma potize - maximalni rychlost snizena na %d%%!" />
+        <e k="usedPlus_speedDegradedReminder" v="Vozidlo jede pomalu - doporucena oprava" />
+
+        <!--  Varovani o hydraulickem driftu (v1.4.0) -->
+        <e k="usedPlus_hydraulicWeak" v="Slaba hydraulika (%d%%) - nastavby mohou drifrovat!" />
+        <e k="usedPlus_hydraulicDrifted" v="Nastavba snizena kvuli poruše hydrauliky" />
 
         <!--  Inspection System -->
         <e k="usedPlus_inspectButton" v="Prohlednout (%s)" />
@@ -879,10 +902,13 @@
         <e k="usedplus_us_qualityFair" v="Prumerna" />
         <e k="usedplus_us_qualityGood" v="Dobra" />
         <e k="usedplus_us_qualityExcellent" v="Vyborna" />
+        <e k="usedplus_us_discountFormat" v="~%d%% sleva" />
         <e k="usedplus_us_infoText" v="Vyssi urovne stoji vice, ale maji lepsi uspesnost a nachazeji kvalitnejsi shody." />
 
         <!-- Used Vehicle Preview Dialog -->
         <e k="usedplus_uvp_title" v="Pouzite vozidlo nalezeno" />
+        <e k="usedplus_uvp_sectionVehicle" v="INFORMACE O VOZIDLE" />
+        <e k="usedplus_uvp_askingPrice" v="Cena:" />
         <e k="usedplus_uvp_sectionCondition" v="VIDITELNY STAV" />
         <e k="usedplus_uvp_age" v="Stari:" />
         <e k="usedplus_uvp_hours" v="Motohodiny:" />

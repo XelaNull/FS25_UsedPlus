@@ -66,15 +66,17 @@
                 <Text profile="irpPostRepairValue" id="postRepairValueText" position="250px -78px" text="$0"/>
             </GuiElement>
 
-            <!-- ========== SECTION 3: Inspector Notes ========== -->
-            <!-- After Vehicle (145px) + Mechanical (115px) + gaps = -60-145-15-115-15 = -350 -->
+            <!-- ========== SECTION 3: Mechanic's Assessment (v1.4.0) ========== -->
+            <!-- Quote from inspector based on hidden DNA quality -->
             <GuiElement profile="irpNotesSection" position="0px -350px">
                 <Bitmap profile="irpNotesBg" position="0px 0px"/>
-                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionNotes"/>
+                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionMechanic"/>
 
-                <Text profile="irpNotesText" id="notesText" position="0px -32px"
+                <!-- Quote text (italicized, centered) -->
+                <Text profile="irpQuoteText" id="mechanicQuoteText" position="0px -32px"
                       text=""/>
-                <Text profile="irpNotesText" id="notesText2" position="0px -52px" text=""/>
+                <!-- Mechanic attribution (right-aligned) -->
+                <Text profile="irpQuoteAttrib" id="mechanicAttribText" position="280px -58px" text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 4: Recommendation ========== -->
@@ -244,6 +246,22 @@
             <textBold value="true"/>
             <textColor value="0.4 1 0.5 1"/>
             <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== MECHANIC QUOTE (v1.4.0) ========== -->
+        <Profile name="irpQuoteText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 22px"/>
+            <textSize value="13px"/>
+            <textItalic value="true"/>
+            <textColor value="0.9 0.9 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="irpQuoteAttrib" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.6 0.5 1"/>
+            <textAlignment value="right"/>
         </Profile>
 
         <!-- ========== NOTES & RECOMMENDATION ========== -->

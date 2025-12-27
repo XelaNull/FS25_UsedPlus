@@ -82,6 +82,21 @@
         <e k="usedplus_search_qualityDescription" v="Lower quality = cheaper price but more repairs needed" />
         <e k="usedplus_search_confirmTitle" v="Search Initiated" />
 
+        <!-- v1.5.0: Multi-find Agent Model -->
+        <e k="usedplus_search_retainer" v="Agent Retainer" />
+        <e k="usedplus_search_commission" v="Finder's Fee" />
+        <e k="usedplus_search_commissionInfo" v="%d%% added to vehicle price" />
+        <e k="usedplus_search_monthProgress" v="Month %d of %d" />
+        <e k="usedplus_search_vehiclesFound" v="%d vehicle(s) found" />
+        <e k="usedplus_search_monthlyChance" v="%d%% per month" />
+        <e k="usedplus_search_foundVehicles" v="FOUND VEHICLES" />
+        <e k="usedplus_search_noVehiclesYet" v="No vehicles found yet" />
+        <e k="usedplus_search_inspectVehicle" v="Inspect" />
+        <e k="usedplus_search_buyVehicle" v="Buy" />
+        <e k="usedplus_search_declineVehicle" v="Decline" />
+        <e k="usedplus_notify_vehicleFound" v="Your agent found a %s!" />
+        <e k="usedplus_notify_searchComplete" v="Search complete: %d vehicle(s) found" />
+
         <!-- Confirmation Dialog -->
         <e k="usedplus_confirmation_title" v="Confirmation" />
 
@@ -454,10 +469,22 @@
 
         <!--  Engine/Failure Warnings -->
         <e k="usedPlus_engineStalled" v="Engine stalled!" />
+        <e k="usedPlus_engineStalledRecovery" v="Engine stalled! Wait %d seconds..." />
         <e k="usedPlus_engineWontStart" v="Engine won't start - try again" />
         <e k="usedPlus_hydraulicDrift" v="Hydraulic pressure loss!" />
         <e k="usedPlus_implementCutout" v="Implement stalled!" />
         <e k="usedPlus_electricalCutout" v="Electrical fault - implements offline!" />
+
+        <!--  Speed Degradation Warnings (v1.4.0) -->
+        <e k="usedPlus_speedDegraded" v="Engine struggling - max speed reduced to %d%%!" />
+        <e k="usedPlus_speedDegradedReminder" v="Vehicle running slow - repairs recommended" />
+        <e k="usedPlus_speedGovernor" v="Engine can't sustain this speed!" />
+        <e k="usedPlus_firstStartStall" v="Engine failed to start!" />
+        <e k="usedPlus_steeringLoose" v="Steering feels loose - hydraulics worn!" />
+
+        <!--  Hydraulic Drift Warnings (v1.4.0) -->
+        <e k="usedPlus_hydraulicWeak" v="Hydraulics weak (%d%%) - implements may drift!" />
+        <e k="usedPlus_hydraulicDrifted" v="Implement lowered due to hydraulic failure" />
 
         <!--  Inspection System -->
         <e k="usedPlus_inspectButton" v="Inspect (%s)" />
@@ -674,6 +701,7 @@
 
         <!-- Common Button Labels -->
         <e k="usedplus_button_purchase" v="Purchase" />
+        <e k="usedplus_button_buyNow" v="Buy Now" />
         <e k="usedplus_button_decline" v="Decline" />
         <e k="usedplus_button_goBack" v="Go Back" />
         <e k="usedplus_button_close" v="Close" />
@@ -687,6 +715,8 @@
         <e k="usedplus_irp_sectionVehicle" v="VEHICLE" />
         <e k="usedplus_irp_sectionMechanical" v="MECHANICAL ASSESSMENT" />
         <e k="usedplus_irp_sectionNotes" v="INSPECTOR NOTES" />
+        <e k="usedplus_irp_sectionMechanic" v="MECHANIC'S ASSESSMENT" />
+        <e k="usedplus_irp_mechanicName" v="- Jim" />
         <e k="usedplus_irp_sectionRecommend" v="RECOMMENDATION" />
         <e k="usedplus_irp_listedPrice" v="Listed Price:" />
         <e k="usedplus_irp_engine" v="Engine:" />
@@ -702,9 +732,9 @@
         <e k="usedplus_mrp_sectionReliability" v="RELIABILITY RATINGS" />
         <e k="usedplus_mrp_sectionHistory" v="MAINTENANCE HISTORY" />
         <e k="usedplus_mrp_sectionNotes" v="STATUS NOTES" />
-        <e k="usedplus_mrp_breakdowns" v="Breakdowns:" />
-        <e k="usedplus_mrp_repairs" v="Repairs:" />
-        <e k="usedplus_mrp_inspected" v="Inspected:" />
+        <e k="usedplus_mrp_breakdowns" v="Breakdowns" />
+        <e k="usedplus_mrp_repairs" v="Repairs" />
+        <e k="usedplus_mrp_inspected" v="Inspected" />
         <e k="usedplus_mrp_resaleImpact" v="Resale Impact:" />
         <e k="usedplus_mrp_origin" v="Origin:" />
         <e k="usedplus_mrp_overallCondition" v="OVERALL CONDITION" />
@@ -735,9 +765,10 @@
         <e k="usedplus_mrp_sectionMechanical" v="MECHANICAL STATUS" />
         <e k="usedplus_mrp_sectionService" v="SERVICE HISTORY" />
         <e k="usedplus_mrp_sectionStatus" v="STATUS" />
-        <e k="usedplus_mrp_shopRepairs" v="Shop Repairs:" />
+        <e k="usedplus_mrp_shopRepairs" v="Shop Repairs" />
         <e k="usedplus_mrp_overall" v="Overall:" />
         <e k="usedplus_mrp_condition" v="Condition:" />
+        <e k="usedplus_mrp_hours" v="Operating Hours" />
 
         <!-- Deal Details Dialog -->
         <e k="usedplus_dd_title" v="DEAL DETAILS" />
@@ -879,10 +910,13 @@
         <e k="usedplus_us_qualityFair" v="Fair" />
         <e k="usedplus_us_qualityGood" v="Good" />
         <e k="usedplus_us_qualityExcellent" v="Excellent" />
+        <e k="usedplus_us_discountFormat" v="~%d%% off" />
         <e k="usedplus_us_infoText" v="Higher tiers cost more but have better success rates and find higher quality matches." />
 
         <!-- Used Vehicle Preview Dialog -->
         <e k="usedplus_uvp_title" v="Used Vehicle Found" />
+        <e k="usedplus_uvp_sectionVehicle" v="VEHICLE INFORMATION" />
+        <e k="usedplus_uvp_askingPrice" v="Asking Price:" />
         <e k="usedplus_uvp_sectionCondition" v="VISIBLE CONDITION" />
         <e k="usedplus_uvp_age" v="Age:" />
         <e k="usedplus_uvp_hours" v="Hours:" />
@@ -903,6 +937,8 @@
         <e k="usedplus_rp_sectionRepaint" v="REPAINT" />
         <e k="usedplus_rp_selectAmount" v="Select how much to repair:" />
         <e k="usedplus_rp_selectPaint" v="Select how much to repaint:" />
+        <e k="usedplus_rp_percentExplain" v="Percentage of remaining damage to fix. 100% = restore to full condition." />
+        <e k="usedplus_rp_percentExplainPaint" v="Percentage of paint wear to restore. 100% = fresh factory finish." />
         <e k="usedplus_rp_selected" v="Selected:" />
         <e k="usedplus_rp_cost" v="Cost:" />
         <e k="usedplus_rp_after" v="After:" />
@@ -1208,7 +1244,9 @@
 
         <!-- Repair Finance Dialog -->
         <e k="usedplus_rf_title" v="Finance Repair" />
+        <e k="usedplus_rf_sectionService" v="SERVICE DETAILS" />
         <e k="usedplus_rf_repairCost" v="Repair Cost:" />
+        <e k="usedplus_rf_repaintCost" v="Repaint Cost:" />
         <e k="usedplus_rf_loanTerm" v="Loan Term:" />
         <e k="usedplus_rf_downPayment" v="Down Payment:" />
         <e k="usedplus_rf_monthlyPayment" v="Monthly Payment:" />
@@ -1225,5 +1263,82 @@
         <e k="usedplus_tl_fair" v="Fair 650-699: 8.5%" />
         <e k="usedplus_tl_poor" v="Poor 600-649: 9.5%" />
         <e k="usedplus_tl_veryPoor" v="Very Poor &lt;600: 11%" />
+
+        <!-- ============================================================== -->
+        <!-- INSPECTOR QUOTES - Workhorse/Lemon Scale System                 -->
+        <!-- 50 quotes across 10 tiers (5 per tier)                         -->
+        <!-- Pattern: 2 technical, 2 superstitious, 1 country per tier      -->
+        <!-- ============================================================== -->
+
+        <!-- CATASTROPHIC (0.00-0.09) - Pure Lemons -->
+        <e k="usedplus_quote_cat_1" v="I'm genuinely surprised this made it to the lot." />
+        <e k="usedplus_quote_cat_2" v="Whoever assembled this should find a new career." />
+        <e k="usedplus_quote_cat_3" v="I'd tell ya to run, but I reckon this thing couldn't catch ya anyway." />
+        <e k="usedplus_quote_cat_4" v="I'd burn some sage before driving this one off the lot." />
+        <e k="usedplus_quote_cat_5" v="This thing's got more bad juju than a broken mirror factory." />
+
+        <!-- TERRIBLE (0.10-0.19) - Severe Issues -->
+        <e k="usedplus_quote_ter_1" v="My cousin had one like this. Used it for a chicken coop after. That's about all it was good for." />
+        <e k="usedplus_quote_ter_2" v="Some machines just come off the line wrong. This is one of them." />
+        <e k="usedplus_quote_ter_3" v="My advice? Budget for a lot of shop visits." />
+        <e k="usedplus_quote_ter_4" v="If machines could be cursed, this one surely is." />
+        <e k="usedplus_quote_ter_5" v="Something ain't right with this one. Can't explain it, but I feel it in my bones." />
+
+        <!-- POOR (0.20-0.29) - Problematic -->
+        <e k="usedplus_quote_poor_1" v="She'll run, but don't expect her to thank you for it." />
+        <e k="usedplus_quote_poor_2" v="This here's what we call a 'parts tractor' back home." />
+        <e k="usedplus_quote_poor_3" v="Might want to keep your mechanic on speed dial." />
+        <e k="usedplus_quote_poor_4" v="My grandfather would've called this one 'snake-bit.'" />
+        <e k="usedplus_quote_poor_5" v="Some tractors attract trouble like a lightning rod. This is one of 'em." />
+
+        <!-- BELOW AVERAGE (0.30-0.39) - Mediocre Build -->
+        <e k="usedplus_quote_below_1" v="Nothing special here. Just... adequate." />
+        <e k="usedplus_quote_below_2" v="She's about as reliable as a screen door on a submarine." />
+        <e k="usedplus_quote_below_3" v="She'll get the job done. Eventually." />
+        <e k="usedplus_quote_below_4" v="Not saying it's haunted, but I wouldn't leave it running alone at night." />
+        <e k="usedplus_quote_below_5" v="Some machines carry a little bad karma. This one's got a touch." />
+
+        <!-- SLIGHTLY BELOW (0.40-0.49) - Minor Concerns -->
+        <e k="usedplus_quote_slight_1" v="Acceptable tolerances. Barely." />
+        <e k="usedplus_quote_slight_2" v="I've seen better put together by my nephew with a wrench and some baling wire." />
+        <e k="usedplus_quote_slight_3" v="Standard factory quality. That's all I can say." />
+        <e k="usedplus_quote_slight_4" v="My gut says she'll give you a few headaches. Gut's usually right." />
+        <e k="usedplus_quote_slight_5" v="There's an old saying - some iron just don't want to cooperate." />
+
+        <!-- AVERAGE (0.50-0.59) - Middle of the Road -->
+        <e k="usedplus_quote_avg_1" v="Right down the middle. Nothing remarkable, nothing concerning." />
+        <e k="usedplus_quote_avg_2" v="She'll give you fair service for fair treatment." />
+        <e k="usedplus_quote_avg_3" v="It ain't fancy, but it'll plow a field same as any other." />
+        <e k="usedplus_quote_avg_4" v="The spirits are neutral on this one, if you believe in that sort of thing." />
+        <e k="usedplus_quote_avg_5" v="Not blessed, not cursed. Just... a machine." />
+
+        <!-- ABOVE AVERAGE (0.60-0.69) - Decent Quality -->
+        <e k="usedplus_quote_above_1" v="Whoever put this together knew what they were doing." />
+        <e k="usedplus_quote_above_2" v="That's a machine that'll be with you through more than a few harvests." />
+        <e k="usedplus_quote_above_3" v="Good bones on this one." />
+        <e k="usedplus_quote_above_4" v="Got a good feeling about this one. Call it mechanic's intuition." />
+        <e k="usedplus_quote_above_5" v="Some machines just want to work. This one's got that spirit in her." />
+
+        <!-- GOOD (0.70-0.79) - Quality Build -->
+        <e k="usedplus_quote_good_1" v="This one came out of the factory right." />
+        <e k="usedplus_quote_good_2" v="Now that's the kind of iron my grandpappy would've been proud to park in the barn." />
+        <e k="usedplus_quote_good_3" v="Someone on the assembly line was having a good day." />
+        <e k="usedplus_quote_good_4" v="My old mentor used to say some tractors are born lucky. This might be one." />
+        <e k="usedplus_quote_good_5" v="There's good iron and bad iron. This here's the good stuff." />
+
+        <!-- EXCELLENT (0.80-0.89) - Exceptional Build -->
+        <e k="usedplus_quote_exc_1" v="Now THIS is how they should all be built." />
+        <e k="usedplus_quote_exc_2" v="She's a keeper if I ever saw one." />
+        <e k="usedplus_quote_exc_3" v="Finer than frog hair split four ways - and that's sayin' somethin'." />
+        <e k="usedplus_quote_exc_4" v="If I believed in lucky stars, I'd say this one was born under a whole constellation." />
+        <e k="usedplus_quote_exc_5" v="Some machines got a soul. This one's got a good one." />
+
+        <!-- LEGENDARY (0.90-1.00) - Workhorse -->
+        <e k="usedplus_quote_leg_1" v="In 30 years, I've seen maybe a dozen this well built." />
+        <e k="usedplus_quote_leg_2" v="This one here's got more soul than a Sunday gospel choir." />
+        <e k="usedplus_quote_leg_3" v="Hold onto this one. You won't find another like it." />
+        <e k="usedplus_quote_leg_4" v="Old-timers used to talk about tractors like this. Thought they were just legends." />
+        <e k="usedplus_quote_leg_5" v="This one's got guardian angels working overtime in the engine bay." />
+
     </elements>
 </l10n>

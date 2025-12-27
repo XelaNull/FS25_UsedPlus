@@ -189,6 +189,18 @@ function MaintenanceReportDialog:updateDisplay()
             end
         end
 
+        -- v1.5.1: Generate mechanic's assessment quote
+        self:updateMechanicQuote(maintenanceData)
+
+        -- v1.5.1: Show operating hours
+        if self.hoursText then
+            local hours = 0
+            if vehicle.getOperatingTime then
+                hours = math.floor((vehicle:getOperatingTime() or 0) / 3600000)
+            end
+            self.hoursText:setText(g_i18n:formatNumber(hours))
+        end
+
         -- Generate status notes
         self:updateStatusNotes(maintenanceData)
     else
@@ -221,6 +233,28 @@ function MaintenanceReportDialog:updateDisplay()
         end
         if self.notesText2 then
             self.notesText2:setText("")
+        end
+
+        -- v1.5.1: Set mechanic quote defaults for new vehicles
+        if self.mechanicQuoteText then
+            -- New vehicle gets legendary tier quote
+            local quote = "Vehicle condition assessed."
+            if UsedPlusMaintenance and UsedPlusMaintenance.getInspectorQuote then
+                quote = UsedPlusMaintenance.getInspectorQuote(1.0)  -- 100% reliability
+            end
+            self.mechanicQuoteText:setText('"' .. quote .. '"')
+        end
+        if self.mechanicAttribText then
+            self.mechanicAttribText:setText(g_i18n:getText("usedplus_irp_mechanicName"))
+        end
+
+        -- v1.5.1: Show operating hours for new vehicles
+        if self.hoursText then
+            local hours = 0
+            if vehicle and vehicle.getOperatingTime then
+                hours = math.floor((vehicle:getOperatingTime() or 0) / 3600000)
+            end
+            self.hoursText:setText(g_i18n:formatNumber(hours))
         end
     end
 end
@@ -370,6 +404,33 @@ function MaintenanceReportDialog:updateStatusNotes(data)
     self.notesText:setText(line1)
     if self.notesText2 then
         self.notesText2:setText(line2)
+    end
+end
+
+--[[
+    v1.5.1: Generate mechanic's assessment quote based on reliability data
+    Uses the same quote system as InspectionReportDialog for consistency
+]]
+function MaintenanceReportDialog:updateMechanicQuote(data)
+    if self.mechanicQuoteText == nil then return end
+
+    -- Calculate overall reliability scale (same concept as workhorseLemonScale)
+    local avgReliability = ((data.engineReliability or 1) +
+                          (data.hydraulicReliability or 1) +
+                          (data.electricalReliability or 1)) / 3
+
+    -- Get quote using the maintenance system's quote function
+    local quote = "Vehicle condition assessed."
+    if UsedPlusMaintenance and UsedPlusMaintenance.getInspectorQuote then
+        quote = UsedPlusMaintenance.getInspectorQuote(avgReliability)
+    end
+
+    -- Display the quote with proper formatting
+    self.mechanicQuoteText:setText('"' .. quote .. '"')
+
+    -- Display mechanic attribution
+    if self.mechanicAttribText then
+        self.mechanicAttribText:setText(g_i18n:getText("usedplus_irp_mechanicName"))
     end
 end
 

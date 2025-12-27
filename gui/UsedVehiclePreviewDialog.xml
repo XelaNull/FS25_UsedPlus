@@ -3,62 +3,75 @@
     UsedVehiclePreviewDialog.xml
     Preview dialog for used vehicles with option to inspect or buy as-is
     Shows visible stats but warns about hidden mechanical condition
-    Pattern from: UnifiedPurchaseDialog.xml (working reference)
+    v1.4.0: Redesigned to match InspectionReportDialog styling
 -->
 <GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="700px 550px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 520px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
 
         <GuiElement profile="fs25_dialogContentContainer">
             <!-- Title -->
-            <Text profile="fs25_dialogTitle" id="titleText" position="0px -25px" text="$l10n_usedplus_uvp_title"/>
+            <Text profile="uvpTitle" id="titleText" position="0px -25px" text="$l10n_usedplus_uvp_title"/>
 
-            <!-- ========== Vehicle Info Section ========== -->
-            <GuiElement profile="uvpItemContainer" position="0px -55px">
-                <!-- Vehicle Image (left side) - Y=42px for proper display -->
-                <Bitmap profile="uvpItemImage" id="vehicleImage" position="10px 42px"/>
+            <!-- ========== SECTION 1: Vehicle Info ========== -->
+            <GuiElement profile="uvpSectionContainer" position="0px -60px">
+                <Bitmap profile="uvpSectionBg" position="0px 0px"/>
+                <Text profile="uvpSectionHeader" position="0px -5px" text="$l10n_usedplus_uvp_sectionVehicle"/>
 
-                <!-- Vehicle Info (right of image) -->
-                <Text profile="uvpItemName" id="vehicleNameText" position="180px -10px" text=""/>
-                <Text profile="uvpItemPrice" id="priceText" position="180px -40px" text=""/>
+                <!-- Two-column layout: Image left, Info right -->
+                <GuiElement position="0px -28px">
+                    <!-- Vehicle Image (left) - Y=52px moves UP for proper display -->
+                    <Bitmap profile="uvpVehicleImage" id="vehicleImage" position="-185px 52px"/>
+
+                    <!-- Vehicle Info (right) -->
+                    <Text profile="uvpVehicleName" id="vehicleNameText" position="120px -5px" text=""/>
+
+                    <!-- Price info with label - moved left 50px for better centering -->
+                    <Text profile="uvpLabel" position="70px -35px" text="$l10n_usedplus_uvp_askingPrice"/>
+                    <Text profile="uvpPriceValue" id="priceText" position="180px -35px" text="$0"/>
+                </GuiElement>
             </GuiElement>
 
-            <!-- ========== Visible Condition Section ========== -->
-            <!-- After Item container (145px) + gap = -55 - 145 - 15 = -215 -->
-            <Text profile="uvpSectionTitle" position="0px -215px" text="$l10n_usedplus_uvp_sectionCondition"/>
+            <!-- ========== SECTION 2: Visible Condition ========== -->
+            <GuiElement profile="uvpSectionContainerTall" position="0px -195px">
+                <Bitmap profile="uvpSectionBgTall" position="0px 0px"/>
+                <Text profile="uvpSectionHeader" position="0px -5px" text="$l10n_usedplus_uvp_sectionCondition"/>
 
-            <GuiElement profile="uvpConditionContainer" position="0px -240px">
-                <Text profile="uvpConditionLabel" position="10px -5px" text="$l10n_usedplus_uvp_age"/>
-                <Text profile="uvpConditionValue" id="ageText" position="100px -5px" text=""/>
+                <!-- Left column -->
+                <Text profile="uvpConditionLabel" position="-250px -32px" text="$l10n_usedplus_uvp_age"/>
+                <Text profile="uvpConditionValue" id="ageText" position="-150px -32px" text=""/>
 
-                <Text profile="uvpConditionLabel" position="10px -30px" text="$l10n_usedplus_uvp_hours"/>
-                <Text profile="uvpConditionValue" id="hoursText" position="100px -30px" text=""/>
+                <Text profile="uvpConditionLabel" position="-250px -55px" text="$l10n_usedplus_uvp_hours"/>
+                <Text profile="uvpConditionValue" id="hoursText" position="-150px -55px" text=""/>
 
-                <Text profile="uvpConditionLabel" position="270px -5px" text="$l10n_usedplus_uvp_damage"/>
-                <Text profile="uvpConditionValue" id="damageText" position="360px -5px" text=""/>
+                <!-- Right column - shifted left to prevent value cutoff -->
+                <Text profile="uvpConditionLabel" position="50px -32px" text="$l10n_usedplus_uvp_damage"/>
+                <Text profile="uvpConditionValue" id="damageText" position="150px -32px" text=""/>
 
-                <Text profile="uvpConditionLabel" position="270px -30px" text="$l10n_usedplus_uvp_wear"/>
-                <Text profile="uvpConditionValue" id="wearText" position="360px -30px" text=""/>
+                <Text profile="uvpConditionLabel" position="50px -55px" text="$l10n_usedplus_uvp_wear"/>
+                <Text profile="uvpConditionValue" id="wearText" position="150px -55px" text=""/>
             </GuiElement>
 
-            <!-- ========== Warning Box (Not Inspected) ========== -->
-            <!-- After Condition (60px) + gap = -240 - 60 - 15 = -315 -->
-            <GuiElement profile="uvpWarningContainer" id="warningBg" position="0px -315px">
-                <Text profile="uvpWarningIcon" id="warningIcon" position="20px -20px" text="!"/>
-                <Text profile="uvpWarningTitle" id="warningText" position="60px -12px" text="$l10n_usedplus_uvp_warningTitle"/>
-                <Text profile="uvpWarningSubtext" id="inspectPrompt" position="60px -35px" text=""/>
+            <!-- ========== SECTION 3: Warning Box (Not Inspected) ========== -->
+            <GuiElement profile="uvpWarningSection" id="warningBg" position="0px -310px">
+                <Bitmap profile="uvpWarningBg" position="0px 0px"/>
+                <Text profile="uvpWarningIcon" id="warningIcon" position="-280px -28px" text="!"/>
+                <Text profile="uvpWarningTitle" id="warningText" position="0px -18px" text="$l10n_usedplus_uvp_warningTitle"/>
+                <Text profile="uvpWarningSubtext" id="inspectPrompt" position="0px -45px" text=""/>
             </GuiElement>
 
-            <!-- ========== Already Inspected Box (hidden by default) ========== -->
-            <GuiElement profile="uvpInspectedContainer" id="inspectedSection" position="0px -315px" visible="false">
-                <Text profile="uvpInspectedIcon" position="20px -20px" text="OK"/>
-                <Text profile="uvpInspectedText" id="inspectedText" position="60px -20px" text="$l10n_usedplus_uvp_inspectedText"/>
+            <!-- ========== SECTION 3 ALT: Already Inspected Box (hidden by default) ========== -->
+            <GuiElement profile="uvpInspectedSection" id="inspectedSection" position="0px -310px" visible="false">
+                <Bitmap profile="uvpInspectedBg" position="0px 0px"/>
+                <Text profile="uvpInspectedIcon" position="-280px -28px" text="OK"/>
+                <Text profile="uvpInspectedText" id="inspectedText" position="0px -28px" text="$l10n_usedplus_uvp_inspectedText"/>
             </GuiElement>
+
         </GuiElement>
 
         <!-- Button Box -->
@@ -72,108 +85,145 @@
     </GuiElement>
 
     <GUIProfiles>
-        <!-- Section titles - centered -->
-        <Profile name="uvpSectionTitle" extends="fs25_dialogText" with="anchorTopCenter">
-            <textSize value="15px"/>
+        <!-- ========== TITLE ========== -->
+        <Profile name="uvpTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 30px"/>
+            <textSize value="20px"/>
             <textBold value="true"/>
-            <textColor value="1 0.8 0 1"/>
+            <textColor value="0.5 0.8 1 1"/>
+            <textAlignment value="center"/>
         </Profile>
 
-        <!-- Item container - centered, children use anchorTopLeft -->
-        <Profile name="uvpItemContainer" extends="emptyPanel" with="anchorTopCenter">
-            <size value="500px 145px"/>
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="uvpSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 120px"/>
         </Profile>
 
-        <!-- Item image - anchorTopLeft inside centered container -->
+        <Profile name="uvpSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 95px"/>
+        </Profile>
+
+        <Profile name="uvpWarningSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 75px"/>
+        </Profile>
+
+        <Profile name="uvpInspectedSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 75px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="uvpSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 120px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="uvpSectionBgTall" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 95px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="uvpWarningBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 75px"/>
+            <imageColor value="0.18 0.10 0.06 0.95"/>
+        </Profile>
+
+        <Profile name="uvpInspectedBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 75px"/>
+            <imageColor value="0.06 0.14 0.10 0.95"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="uvpSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO ========== -->
         <!-- EMPIRICALLY TESTED: 210x140px displays store images without stretching -->
-        <Profile name="uvpItemImage" extends="fs25_vehiclesDetailsImage" with="anchorTopLeft">
+        <Profile name="uvpVehicleImage" extends="fs25_vehiclesDetailsImage" with="anchorTopCenter">
             <size value="210px 140px"/>
         </Profile>
 
-        <!-- Item name - anchorTopLeft inside centered container -->
-        <Profile name="uvpItemName" extends="fs25_textDefault" with="anchorTopLeft">
-            <height value="28px"/>
-            <textSize value="20px"/>
+        <Profile name="uvpVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 26px"/>
+            <textSize value="18px"/>
             <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
         </Profile>
 
-        <!-- Item price - anchorTopLeft inside centered container -->
-        <Profile name="uvpItemPrice" extends="fs25_textDefault" with="anchorTopLeft">
-            <height value="26px"/>
-            <textSize value="22px"/>
+        <Profile name="uvpLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="110px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="uvpPriceValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 22px"/>
+            <textSize value="18px"/>
             <textBold value="true"/>
-            <textColor value="0.3 1 0.3 1"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
         </Profile>
 
-        <!-- Condition container - centered, children use anchorTopLeft -->
-        <Profile name="uvpConditionContainer" extends="emptyPanel" with="anchorTopCenter">
-            <size value="500px 60px"/>
+        <!-- ========== CONDITION DISPLAY ========== -->
+        <Profile name="uvpConditionLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
         </Profile>
 
-        <!-- Condition labels - anchorTopLeft inside centered container -->
-        <Profile name="uvpConditionLabel" extends="fs25_textDefault" with="anchorTopLeft">
-            <height value="22px"/>
+        <Profile name="uvpConditionValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="180px 20px"/>
             <textSize value="14px"/>
-            <textColor value="0.7 0.7 0.7 1"/>
-        </Profile>
-
-        <!-- Condition values - anchorTopLeft inside centered container -->
-        <Profile name="uvpConditionValue" extends="fs25_textDefault" with="anchorTopLeft">
-            <height value="22px"/>
-            <textSize value="14px"/>
             <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
         </Profile>
 
-        <!-- Warning container - centered, with background color -->
-        <Profile name="uvpWarningContainer" extends="emptyPanel" with="anchorTopCenter">
-            <size value="500px 70px"/>
-            <backgroundColor value="0.4 0.2 0.1 0.6"/>
-        </Profile>
-
-        <!-- Warning icon -->
-        <Profile name="uvpWarningIcon" extends="fs25_textDefault" with="anchorTopLeft">
-            <size value="30px 30px"/>
-            <textSize value="24px"/>
+        <!-- ========== WARNING SECTION ========== -->
+        <Profile name="uvpWarningIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="40px 40px"/>
+            <textSize value="28px"/>
             <textBold value="true"/>
             <textColor value="1 0.6 0.2 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <!-- Warning title -->
-        <Profile name="uvpWarningTitle" extends="fs25_textDefault" with="anchorTopLeft">
-            <height value="22px"/>
-            <textSize value="14px"/>
+        <Profile name="uvpWarningTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 22px"/>
+            <textSize value="15px"/>
             <textBold value="true"/>
-            <textColor value="1 0.8 0.4 1"/>
+            <textColor value="1 0.75 0.3 1"/>
+            <textAlignment value="center"/>
         </Profile>
 
-        <!-- Warning subtext -->
-        <Profile name="uvpWarningSubtext" extends="fs25_textDefault" with="anchorTopLeft">
-            <height value="20px"/>
+        <Profile name="uvpWarningSubtext" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 20px"/>
             <textSize value="12px"/>
-            <textColor value="0.8 0.8 0.8 1"/>
+            <textColor value="0.85 0.85 0.85 1"/>
+            <textAlignment value="center"/>
         </Profile>
 
-        <!-- Inspected container - centered, with background color -->
-        <Profile name="uvpInspectedContainer" extends="emptyPanel" with="anchorTopCenter">
-            <size value="500px 70px"/>
-            <backgroundColor value="0.1 0.3 0.2 0.6"/>
-        </Profile>
-
-        <!-- Inspected icon -->
-        <Profile name="uvpInspectedIcon" extends="fs25_textDefault" with="anchorTopLeft">
-            <size value="35px 30px"/>
-            <textSize value="18px"/>
+        <!-- ========== INSPECTED SECTION ========== -->
+        <Profile name="uvpInspectedIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="50px 40px"/>
+            <textSize value="20px"/>
             <textBold value="true"/>
             <textColor value="0.3 1 0.5 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <!-- Inspected text -->
-        <Profile name="uvpInspectedText" extends="fs25_textDefault" with="anchorTopLeft">
-            <height value="22px"/>
+        <Profile name="uvpInspectedText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 22px"/>
             <textSize value="14px"/>
             <textColor value="0.7 1 0.8 1"/>
+            <textAlignment value="center"/>
         </Profile>
     </GUIProfiles>
 </GUI>

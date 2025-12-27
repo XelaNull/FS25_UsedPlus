@@ -53,51 +53,58 @@ function UsedSearchDialog:onCreate()
 end
 
 --[[
-     Quality tier definitions
-     Lower quality = lower price, but needs repairs
-     Array order: 1=Any, 2=Poor, 3=Fair, 4=Good, 5=Excellent
-     Display order (leftmost to rightmost): Any, Poor, Fair, Good, Excellent
-     successModifier affects the base success rate from search tier
+    Quality tier definitions with RANGES (v1.4.0 - ECONOMICS.md compliance)
+    Lower quality = lower price, but needs repairs
+    Array order: 1=Any, 2=Poor, 3=Fair, 4=Good, 5=Excellent
+    Display order (leftmost to rightmost): Any, Poor, Fair, Good, Excellent
+    successModifier affects the base success rate from search tier
+
+    Must match DepreciationCalculations.QUALITY_TIERS!
 ]]
 UsedSearchDialog.QUALITY_TIERS = {
-    {  -- Any Condition (catch-all, may need lots of work)
+    {  -- Any Condition: Catch-all with widest variance
         name = "Any Condition",
-        minCondition = 0.10,
-        maxCondition = 0.40,
-        priceMultiplier = 0.30,  -- 30% of new price (70% off)
-        successModifier = 0.08,  -- +8% easier to find rough equipment
-        description = "Cheapest option - may need significant repairs"
+        priceRangeMin = 0.30,            -- 30% of new (70% off)
+        priceRangeMax = 0.50,            -- 50% of new (50% off)
+        damageRange = { 0.35, 0.60 },    -- 35-60% damage
+        wearRange = { 0.40, 0.65 },      -- 40-65% wear
+        successModifier = 0.08,          -- +8% easier to find rough equipment
+        description = "Wildcard - high variance in quality and price"
     },
-    {  -- Poor Condition (worst - may be inoperable!)
+    {  -- Poor Condition: Fixer-upper - highest repair costs
         name = "Poor Condition",
-        minCondition = 0.05,
-        maxCondition = 0.30,
-        priceMultiplier = 0.15,  -- 15% of new price (85% off!)
-        successModifier = 0.15,  -- +15% easier to find junk
-        description = "Bargain bin - may need extensive repairs or be inoperable"
+        priceRangeMin = 0.22,            -- 22% of new (78% off)
+        priceRangeMax = 0.38,            -- 38% of new (62% off)
+        damageRange = { 0.55, 0.80 },    -- 55-80% damage
+        wearRange = { 0.60, 0.85 },      -- 60-85% wear
+        successModifier = 0.15,          -- +15% easier to find junk
+        description = "Bargain bin - extensive repairs needed"
     },
-    {  -- Fair Condition
+    {  -- Fair Condition: Middle ground
         name = "Fair Condition",
-        minCondition = 0.40,
-        maxCondition = 0.60,
-        priceMultiplier = 0.48,  -- 48% of new price (52% off)
-        successModifier = 0.00,  -- Baseline (no modifier)
-        description = "Moderate wear - some repairs likely needed"
+        priceRangeMin = 0.50,            -- 50% of new (50% off)
+        priceRangeMax = 0.68,            -- 68% of new (32% off)
+        damageRange = { 0.18, 0.35 },    -- 18-35% damage
+        wearRange = { 0.22, 0.40 },      -- 22-40% wear
+        successModifier = 0.00,          -- Baseline (no modifier)
+        description = "Moderate wear - some repairs likely"
     },
-    {  -- Good Condition
+    {  -- Good Condition: Well maintained
         name = "Good Condition",
-        minCondition = 0.60,
-        maxCondition = 0.80,
-        priceMultiplier = 0.65,  -- 65% of new price (35% off)
-        successModifier = -0.08, -- -8% harder to find well-maintained
-        description = "Well maintained - minimal repairs needed"
+        priceRangeMin = 0.68,            -- 68% of new (32% off)
+        priceRangeMax = 0.80,            -- 80% of new (20% off)
+        damageRange = { 0.06, 0.18 },    -- 6-18% damage
+        wearRange = { 0.08, 0.22 },      -- 8-22% wear
+        successModifier = -0.08,         -- -8% harder to find well-maintained
+        description = "Well maintained - minimal repairs"
     },
-    {  -- Excellent Condition
+    {  -- Excellent Condition: Like new
         name = "Excellent Condition",
-        minCondition = 0.80,
-        maxCondition = 0.95,
-        priceMultiplier = 0.80,  -- 80% of new price (20% off)
-        successModifier = -0.15, -- -15% harder to find pristine
+        priceRangeMin = 0.80,            -- 80% of new (20% off)
+        priceRangeMax = 0.94,            -- 94% of new (6% off)
+        damageRange = { 0.00, 0.06 },    -- 0-6% damage
+        wearRange = { 0.00, 0.08 },      -- 0-8% wear
+        successModifier = -0.15,         -- -15% harder to find pristine
         description = "Like new - ready to work immediately"
     }
 }
@@ -248,27 +255,40 @@ function UsedSearchDialog:setData(storeItem, storeItemIndex, farmId)
         UIHelper.Image.setStoreItemImageScaled(self.itemImage, storeItem, 210, 105)
     end
 
-    -- Define search tier data (matches UsedVehicleSearch.lua)
-    -- REBALANCED to fix Local loophole - see UsedVehicleSearch.calculateSearchParams()
+    -- Define search tier data (matches UsedVehicleSearch.SEARCH_TIERS)
+    -- v1.5.0: Multi-find agent model with retainer + commission
     -- Store as instance variable so we can recalculate on quality change
     self.SEARCH_TIERS = {
-        { -- Local Search - Quick but expensive per success (impatient tax)
-            feePercent = 0.04,       -- 4% of base price
-            minMonths = 0, maxMonths = 1,  -- Can be instant!
-            successChance = 0.25,    -- 25% success (low odds)
-            matchChance = 0.25       -- 25% config match
+        {  -- Local Search: Quick, cheap, low odds
+            name = "Local Search",
+            retainerFlat = 500,           -- $500 flat retainer
+            retainerPercent = 0,          -- No percentage
+            commissionPercent = 0.06,     -- 6% added to vehicle price
+            maxMonths = 1,                -- 1 month only
+            monthlySuccessChance = 0.30,  -- 30% each month
+            matchChance = 0.25,           -- 25% per configuration
+            maxListings = 3               -- Cap at 3 finds
         },
-        { -- Regional Search - Best value, balanced option (smart choice)
-            feePercent = 0.06,       -- 6% of base price
-            minMonths = 1, maxMonths = 2,  -- 1-2 months
-            successChance = 0.55,    -- 55% success
-            matchChance = 0.50       -- 50% config match
+        {  -- Regional Search: Balanced, best value
+            name = "Regional Search",
+            retainerFlat = 1000,          -- $1000 base
+            retainerPercent = 0.005,      -- Plus 0.5% of vehicle price
+            commissionPercent = 0.08,     -- 8% commission
+            maxMonths = 3,                -- Up to 3 months
+            monthlySuccessChance = 0.55,  -- 55% each month
+            matchChance = 0.50,           -- 50% per configuration
+            maxListings = 6               -- Cap at 6 finds
         },
-        { -- National Search - High certainty, worth the wait (certainty premium)
-            feePercent = 0.10,       -- 10% of base price
-            minMonths = 2, maxMonths = 4,  -- 2-4 months
-            successChance = 0.80,    -- 80% success
-            matchChance = 0.70       -- 70% config match
+        {  -- National Search: Premium, high certainty
+            name = "National Search",
+            retainerFlat = 2000,          -- $2000 base
+            retainerPercent = 0.008,      -- Plus 0.8% of vehicle price
+            commissionPercent = 0.10,     -- 10% commission
+            maxMonths = 6,                -- Up to 6 months
+            monthlySuccessChance = 0.85,  -- 85% each month
+            matchChance = 0.70,           -- 70% per configuration
+            maxListings = 10,             -- Cap at 10 finds
+            guaranteedMinimum = 1         -- At least 1 find guaranteed
         }
     }
 
@@ -276,28 +296,34 @@ function UsedSearchDialog:setData(storeItem, storeItemIndex, farmId)
     local creditFeeModifier = self:getCreditFeeModifier()
     self.creditFeeModifier = creditFeeModifier  -- Store for later use
 
-    -- Populate tier displays using UIHelper (with credit-adjusted fees)
+    -- v1.5.0: Multi-find agent model
+    -- Populate tier displays using UIHelper (with credit-adjusted retainer fees)
     for i, tier in ipairs(self.SEARCH_TIERS) do
-        -- Apply credit modifier to fee
-        local adjustedFeePercent = tier.feePercent * (1 + creditFeeModifier)
-        local cost = math.floor(self.basePrice * adjustedFeePercent)
+        -- Calculate retainer fee: flat + percentage of vehicle price
+        local baseRetainer = tier.retainerFlat + math.floor(self.basePrice * tier.retainerPercent)
+        -- Apply credit modifier to retainer (better credit = cheaper agents)
+        local adjustedRetainer = math.floor(baseRetainer * (1 + creditFeeModifier))
 
+        -- Duration text (just maxMonths now, no minMonths)
         local durationText
-        if tier.minMonths == 0 then
-            -- Local can be instant
-            durationText = tier.maxMonths == 1 and "Up to 1 month" or string.format("Up to %d months", tier.maxMonths)
-        elseif tier.minMonths == tier.maxMonths then
-            durationText = string.format("%d month%s", tier.minMonths, tier.minMonths > 1 and "s" or "")
+        if tier.maxMonths == 1 then
+            durationText = "1 month"
         else
-            durationText = string.format("%d-%d months", tier.minMonths, tier.maxMonths)
+            durationText = string.format("%d months", tier.maxMonths)
         end
 
-        -- Show base success (will be modified by quality selection)
-        local successText = UIHelper.Text.formatPercent(tier.successChance, true, 0)
+        -- Show monthly success chance (will be modified by quality selection)
+        local successText = UIHelper.Text.formatPercent(tier.monthlySuccessChance, true, 0) .. "/mo"
         local matchText = UIHelper.Text.formatPercent(tier.matchChance, true, 0)
 
         local prefix = ({"local", "regional", "national"})[i]
-        UIHelper.Element.setText(self[prefix .. "CostText"], UIHelper.Text.formatMoney(cost))
+
+        -- Cost now shows retainer + commission info
+        -- Format: "$1,500 + 8%"  (retainer + commission)
+        local costText = string.format("%s + %d%%",
+            UIHelper.Text.formatMoney(adjustedRetainer),
+            math.floor(tier.commissionPercent * 100))
+        UIHelper.Element.setText(self[prefix .. "CostText"], costText)
         UIHelper.Element.setText(self[prefix .. "DurationText"], durationText)
         UIHelper.Element.setText(self[prefix .. "SuccessText"], successText)
         UIHelper.Element.setText(self[prefix .. "MatchText"], matchText)
@@ -313,21 +339,17 @@ function UsedSearchDialog:setData(storeItem, storeItemIndex, farmId)
 
     -- Populate quality tier displays using UIHelper
     -- Order matches QUALITY_TIERS: 1=Any, 2=Poor, 3=Fair, 4=Good, 5=Excellent
+    -- Show discount RANGES instead of single values (v1.4.0 - embraces variance)
     local qualityPrefixes = {"anyCondition", "poorCondition", "fairCondition", "goodCondition", "excellentCondition"}
     for i, quality in ipairs(UsedSearchDialog.QUALITY_TIERS) do
-        local estimatedPrice = math.floor(self.basePrice * quality.priceMultiplier)
+        -- Calculate discount range (1 - price range = discount range)
+        -- Note: max discount = 1 - min price, min discount = 1 - max price
+        local maxDiscount = math.floor((1 - (quality.priceRangeMin or 0.30)) * 100)
+        local minDiscount = math.floor((1 - (quality.priceRangeMax or 0.50)) * 100)
 
-        -- Show success modifier with the price
-        local successMod = quality.successModifier or 0
-        local modifierText = ""
-        if successMod > 0 then
-            modifierText = string.format(" +%d%%", successMod * 100)
-        elseif successMod < 0 then
-            modifierText = string.format(" %d%%", successMod * 100)
-        end
-
-        -- Display estimated price and success modifier hint
-        UIHelper.Element.setText(self[qualityPrefixes[i] .. "PriceText"], "~" .. UIHelper.Text.formatMoney(estimatedPrice))
+        -- Display discount range (e.g., "50-70% off")
+        local discountText = string.format("%d-%d%% off", minDiscount, maxDiscount)
+        UIHelper.Element.setText(self[qualityPrefixes[i] .. "PriceText"], discountText)
     end
 
     -- Default selection set in onOpen()
@@ -337,26 +359,28 @@ end
 --[[
      Update displayed success rates based on current tier and quality selection
      Called when either tier or quality selection changes
+     v1.5.0: Now shows monthly success chance with "/mo" suffix
 ]]
 function UsedSearchDialog:updateDisplayedRates()
     if not self.SEARCH_TIERS then
         return
     end
 
-    local selectedQuality = self.selectedQuality or 2  -- Default to Any
+    local selectedQuality = self.selectedQuality or 1  -- Default to Any (index 1)
     local quality = UsedSearchDialog.QUALITY_TIERS[selectedQuality]
     local successMod = quality and quality.successModifier or 0
 
     -- Update each tier's success rate display with quality modifier applied
     local prefixes = {"local", "regional", "national"}
     for i, tier in ipairs(self.SEARCH_TIERS) do
-        local adjustedSuccess = self:getAdjustedSuccessRate(tier.successChance, selectedQuality)
-        local successText = UIHelper.Text.formatPercent(adjustedSuccess, true, 0)
+        -- v1.5.0: Use monthlySuccessChance instead of successChance
+        local adjustedSuccess = self:getAdjustedSuccessRate(tier.monthlySuccessChance, selectedQuality)
+        local successText = UIHelper.Text.formatPercent(adjustedSuccess, true, 0) .. "/mo"
 
         -- Add modifier indicator if not baseline
         if successMod ~= 0 then
             local modSign = successMod > 0 and "+" or ""
-            successText = successText .. string.format(" (%s%d%%)", modSign, successMod * 100)
+            successText = successText .. string.format(" (%s%d%%)", modSign, math.floor(successMod * 100))
         end
 
         UIHelper.Element.setText(self[prefixes[i] .. "SuccessText"], successText)
@@ -494,6 +518,7 @@ end
 
 --[[
      Start Search button callback
+     v1.5.0: Multi-find agent model - retainer fee upfront, commission on purchase
 ]]
 function UsedSearchDialog:onStartSearch()
     if self.storeItem == nil then
@@ -501,36 +526,69 @@ function UsedSearchDialog:onStartSearch()
         return
     end
 
-    -- Calculate search fee (includes duration for confirmation message)
-    -- REBALANCED values - must match self.SEARCH_TIERS and UsedVehicleSearch.lua
+    -- v1.5.0: Multi-find agent model tier data
+    -- Must match self.SEARCH_TIERS and UsedVehicleSearch.SEARCH_TIERS
     local SEARCH_TIERS = {
-        { feePercent = 0.04, name = "Local", minMonths = 0, maxMonths = 1 },
-        { feePercent = 0.06, name = "Regional", minMonths = 1, maxMonths = 2 },
-        { feePercent = 0.10, name = "National", minMonths = 2, maxMonths = 4 }
+        {
+            name = "Local",
+            retainerFlat = 500,
+            retainerPercent = 0,
+            commissionPercent = 0.06,
+            maxMonths = 1,
+            monthlySuccessChance = 0.30,
+            maxListings = 3
+        },
+        {
+            name = "Regional",
+            retainerFlat = 1000,
+            retainerPercent = 0.005,
+            commissionPercent = 0.08,
+            maxMonths = 3,
+            monthlySuccessChance = 0.55,
+            maxListings = 6
+        },
+        {
+            name = "National",
+            retainerFlat = 2000,
+            retainerPercent = 0.008,
+            commissionPercent = 0.10,
+            maxMonths = 6,
+            monthlySuccessChance = 0.85,
+            maxListings = 10,
+            guaranteedMinimum = 1
+        }
     }
 
     local tier = SEARCH_TIERS[self.selectedTier]
 
-    -- Apply credit score modifier to fee (better credit = cheaper agents)
+    -- v1.5.0: Calculate retainer fee (flat + percentage of vehicle price)
+    local baseRetainer = tier.retainerFlat + math.floor(self.basePrice * tier.retainerPercent)
+
+    -- Apply credit score modifier to retainer (better credit = cheaper agents)
     local creditFeeModifier = self:getCreditFeeModifier()
-    local adjustedFeePercent = tier.feePercent * (1 + creditFeeModifier)
-    local searchFee = math.floor(self.basePrice * adjustedFeePercent)
+    local retainerFee = math.floor(baseRetainer * (1 + creditFeeModifier))
 
-    -- Get quality tier info
+    -- Get quality tier info (v1.4.0: uses price range, show midpoint for estimate)
     local qualityTier = UsedSearchDialog.QUALITY_TIERS[self.selectedQuality]
-    local estimatedPrice = math.floor(self.basePrice * qualityTier.priceMultiplier)
+    local priceRangeMin = qualityTier.priceRangeMin or 0.30
+    local priceRangeMax = qualityTier.priceRangeMax or 0.50
+    local avgPriceMultiplier = (priceRangeMin + priceRangeMax) / 2
+    local estimatedBasePrice = math.floor(self.basePrice * avgPriceMultiplier)
+    -- Commission added on top of base price
+    local estimatedCommission = math.floor(estimatedBasePrice * tier.commissionPercent)
+    local estimatedAskingPrice = estimatedBasePrice + estimatedCommission
 
-    -- Validate funds
+    -- Validate funds (only need retainer upfront now!)
     local farm = g_farmManager:getFarmById(self.farmId)
     if farm == nil then
         UsedPlus.logError("Farm not found")
         return
     end
 
-    if farm.money < searchFee then
+    if farm.money < retainerFee then
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format(g_i18n:getText("usedplus_error_insufficientFunds"), g_i18n:formatMoney(searchFee))
+            string.format(g_i18n:getText("usedplus_error_insufficientFunds"), g_i18n:formatMoney(retainerFee))
         )
         return
     end
@@ -544,8 +602,8 @@ function UsedSearchDialog:onStartSearch()
     local selectedQuality = self.selectedQuality
 
     -- Log before closing (close() may clear data)
-    UsedPlus.logDebug(string.format("Search request sent: %s (Tier %d, Quality %d, Fee: $%d)",
-        itemName, selectedTier, selectedQuality, searchFee))
+    UsedPlus.logDebug(string.format("Search request sent: %s (Tier %d, Quality %d, Retainer: $%d)",
+        itemName, selectedTier, selectedQuality, retainerFee))
 
     -- Send search request to server with quality level
     RequestUsedItemEvent.sendToServer(
@@ -560,32 +618,23 @@ function UsedSearchDialog:onStartSearch()
     -- Close dialog first
     self:close()
 
-    -- Build confirmation message with duration info
+    -- v1.5.0: Show styled SearchInitiatedDialog with all details
     local tierName = tier.name
     local qualityName = qualityTier.name
-    local durationText
-    if tier.minMonths == 0 then
-        durationText = tier.maxMonths == 1 and "Up to 1 month" or string.format("Up to %d months", tier.maxMonths)
-    elseif tier.minMonths == tier.maxMonths then
-        durationText = string.format("%d month", tier.minMonths)
-    else
-        durationText = string.format("%d-%d months", tier.minMonths, tier.maxMonths)
-    end
+    local durationText = tier.maxMonths == 1 and "1 month" or string.format("%d months", tier.maxMonths)
 
-    local confirmationMessage = string.format(
-        "Search initiated for %s!\n\n" ..
-        "Search Type: %s\n" ..
-        "Quality: %s\n" ..
-        "Estimated Price: %s\n" ..
-        "Search Duration: %s\n\n" ..
-        "Your agent will notify you when a match is found.",
-        itemName, tierName, qualityName,
-        UIHelper.Text.formatMoney(estimatedPrice), durationText
-    )
-
-    -- Show confirmation dialog popup (visible even in menus)
-    -- Uses our own ConfirmationDialog via DialogLoader
-    DialogLoader.show("ConfirmationDialog", "setMessage", confirmationMessage, g_i18n:getText("usedplus_search_confirmTitle") or "Search Initiated")
+    SearchInitiatedDialog.showWithDetails({
+        vehicleName = itemName,
+        tierName = tierName,
+        duration = durationText,
+        maxListings = tier.maxListings,
+        qualityName = qualityName,
+        retainerFee = retainerFee,
+        commissionPercent = tier.commissionPercent,
+        estimatedBasePrice = estimatedBasePrice,
+        estimatedCommission = estimatedCommission,
+        estimatedAskingPrice = estimatedAskingPrice
+    })
 
     -- Also add corner notification for when they exit menus
     g_currentMission:addIngameNotification(

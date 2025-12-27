@@ -78,6 +78,21 @@
         <e k="usedplus_search_qualityDescription" v="Niedrigere Qualität = günstiger, aber mehr Reparaturen nötig" />
         <e k="usedplus_search_confirmTitle" v="Suche gestartet" />
 
+        <!-- v1.5.0: Multi-find Agent Model -->
+        <e k="usedplus_search_retainer" v="Maklerhonorar" />
+        <e k="usedplus_search_commission" v="Vermittlungsgebühr" />
+        <e k="usedplus_search_commissionInfo" v="%d%% zum Fahrzeugpreis hinzugefügt" />
+        <e k="usedplus_search_monthProgress" v="Monat %d von %d" />
+        <e k="usedplus_search_vehiclesFound" v="%d Fahrzeug(e) gefunden" />
+        <e k="usedplus_search_monthlyChance" v="%d%% pro Monat" />
+        <e k="usedplus_search_foundVehicles" v="GEFUNDENE FAHRZEUGE" />
+        <e k="usedplus_search_noVehiclesYet" v="Noch keine Fahrzeuge gefunden" />
+        <e k="usedplus_search_inspectVehicle" v="Prüfen" />
+        <e k="usedplus_search_buyVehicle" v="Kaufen" />
+        <e k="usedplus_search_declineVehicle" v="Ablehnen" />
+        <e k="usedplus_notify_vehicleFound" v="Ihr Makler hat ein %s gefunden!" />
+        <e k="usedplus_notify_searchComplete" v="Suche abgeschlossen: %d Fahrzeug(e) gefunden" />
+
         <!-- Confirmation Dialog -->
         <e k="usedplus_confirmation_title" v="Bestätigung" />
 
@@ -379,6 +394,17 @@
         <e k="usedPlus_implementCutout" v="Anbaugerät ausgefallen!" />
         <e k="usedPlus_electricalCutout" v="Elektrikfehler - Anbaugeräte offline!" />
 
+        <!--  Geschwindigkeitsabfall Warnungen (v1.4.0) -->
+        <e k="usedPlus_speedDegraded" v="Motor kämpft - Höchstgeschwindigkeit auf %d%% reduziert!" />
+        <e k="usedPlus_speedDegradedReminder" v="Fahrzeug fährt langsam - Reparatur empfohlen" />
+        <e k="usedPlus_speedGovernor" v="Motor kann diese Geschwindigkeit nicht halten!" />
+        <e k="usedPlus_firstStartStall" v="Motor springt nicht an!" />
+        <e k="usedPlus_steeringLoose" v="Lenkung fühlt sich locker an - Hydraulik verschlissen!" />
+
+        <!--  Hydraulik-Drift Warnungen (v1.4.0) -->
+        <e k="usedPlus_hydraulicWeak" v="Hydraulik schwach (%d%%) - Anbaugeräte können driften!" />
+        <e k="usedPlus_hydraulicDrifted" v="Anbaugerät durch Hydraulikfehler abgesenkt" />
+
         <!--  Inspektionssystem -->
         <e k="usedPlus_inspectButton" v="Inspizieren (%s)" />
         <e k="usedPlus_inspectionTitle" v="Inspektionsbericht" />
@@ -594,6 +620,7 @@
 
         <!-- Allgemeine Button-Beschriftungen -->
         <e k="usedplus_button_purchase" v="Kaufen" />
+        <e k="usedplus_button_buyNow" v="Jetzt kaufen" />
         <e k="usedplus_button_decline" v="Ablehnen" />
         <e k="usedplus_button_goBack" v="Zurück" />
         <e k="usedplus_button_close" v="Schließen" />
@@ -622,9 +649,9 @@
         <e k="usedplus_mrp_sectionReliability" v="ZUVERLÄSSIGKEITSWERTE" />
         <e k="usedplus_mrp_sectionHistory" v="WARTUNGSHISTORIE" />
         <e k="usedplus_mrp_sectionNotes" v="STATUSHINWEISE" />
-        <e k="usedplus_mrp_breakdowns" v="Pannen:" />
-        <e k="usedplus_mrp_repairs" v="Reparaturen:" />
-        <e k="usedplus_mrp_inspected" v="Inspiziert:" />
+        <e k="usedplus_mrp_breakdowns" v="Pannen" />
+        <e k="usedplus_mrp_repairs" v="Reparaturen" />
+        <e k="usedplus_mrp_inspected" v="Inspiziert" />
         <e k="usedplus_mrp_resaleImpact" v="Wiederverkaufswert:" />
         <e k="usedplus_mrp_origin" v="Herkunft:" />
         <e k="usedplus_mrp_overallCondition" v="GESAMTZUSTAND" />
@@ -655,9 +682,10 @@
         <e k="usedplus_mrp_sectionMechanical" v="MECHANISCHER STATUS" />
         <e k="usedplus_mrp_sectionService" v="SERVICEHISTORIE" />
         <e k="usedplus_mrp_sectionStatus" v="STATUS" />
-        <e k="usedplus_mrp_shopRepairs" v="Werkstattreparaturen:" />
+        <e k="usedplus_mrp_shopRepairs" v="Werkstattreparaturen" />
         <e k="usedplus_mrp_overall" v="Gesamt:" />
         <e k="usedplus_mrp_condition" v="Zustand:" />
+        <e k="usedplus_mrp_hours" v="Betriebsstunden" />
 
         <!-- Vertragsdetails-Dialog -->
         <e k="usedplus_dd_title" v="VERTRAGSDETAILS" />
@@ -820,10 +848,13 @@
         <e k="usedplus_us_qualityFair" v="Mäßig" />
         <e k="usedplus_us_qualityGood" v="Gut" />
         <e k="usedplus_us_qualityExcellent" v="Ausgezeichnet" />
+        <e k="usedplus_us_discountFormat" v="~%d%% Rabatt" />
         <e k="usedplus_us_infoText" v="Höhere Ebenen kosten mehr, haben aber bessere Erfolgsraten und finden hochwertigere Treffer." />
 
         <!-- Gebrauchtfahrzeug-Vorschau-Dialog -->
         <e k="usedplus_uvp_title" v="Gebrauchtfahrzeug gefunden" />
+        <e k="usedplus_uvp_sectionVehicle" v="FAHRZEUGINFORMATIONEN" />
+        <e k="usedplus_uvp_askingPrice" v="Preis:" />
         <e k="usedplus_uvp_sectionCondition" v="SICHTBARER ZUSTAND" />
         <e k="usedplus_uvp_age" v="Alter:" />
         <e k="usedplus_uvp_hours" v="Stunden:" />
@@ -844,6 +875,8 @@
         <e k="usedplus_rp_sectionRepaint" v="NEULACKIERUNG" />
         <e k="usedplus_rp_selectAmount" v="Wählen Sie den Reparaturumfang:" />
         <e k="usedplus_rp_selectPaint" v="Wählen Sie den Lackierumfang:" />
+        <e k="usedplus_rp_percentExplain" v="Prozent des Schadens zu reparieren. 100% = voller Zustand." />
+        <e k="usedplus_rp_percentExplainPaint" v="Prozent des Lackverschleißes. 100% = werksneue Lackierung." />
         <e k="usedplus_rp_selected" v="Ausgewählt:" />
         <e k="usedplus_rp_cost" v="Kosten:" />
         <e k="usedplus_rp_after" v="Danach:" />
@@ -1149,7 +1182,9 @@
 
         <!-- Reparaturfinanzierungs-Dialog -->
         <e k="usedplus_rf_title" v="Reparatur finanzieren" />
+        <e k="usedplus_rf_sectionService" v="SERVICEDETAILS" />
         <e k="usedplus_rf_repairCost" v="Reparaturkosten:" />
+        <e k="usedplus_rf_repaintCost" v="Lackierkosten:" />
         <e k="usedplus_rf_loanTerm" v="Kreditlaufzeit:" />
         <e k="usedplus_rf_downPayment" v="Anzahlung:" />
         <e k="usedplus_rf_monthlyPayment" v="Monatliche Rate:" />

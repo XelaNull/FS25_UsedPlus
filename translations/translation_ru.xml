@@ -82,6 +82,21 @@
         <e k="usedplus_search_qualityDescription" v="Ниже качество = дешевле цена, но больше ремонта" />
         <e k="usedplus_search_confirmTitle" v="Поиск запущен" />
 
+        <!-- v1.5.0: Multi-find Agent Model -->
+        <e k="usedplus_search_retainer" v="Гонорар агента" />
+        <e k="usedplus_search_commission" v="Комиссия за поиск" />
+        <e k="usedplus_search_commissionInfo" v="%d%% добавляется к цене техники" />
+        <e k="usedplus_search_monthProgress" v="Месяц %d из %d" />
+        <e k="usedplus_search_vehiclesFound" v="Найдено %d единиц техники" />
+        <e k="usedplus_search_monthlyChance" v="%d%% в месяц" />
+        <e k="usedplus_search_foundVehicles" v="НАЙДЕННАЯ ТЕХНИКА" />
+        <e k="usedplus_search_noVehiclesYet" v="Техника пока не найдена" />
+        <e k="usedplus_search_inspectVehicle" v="Осмотреть" />
+        <e k="usedplus_search_buyVehicle" v="Купить" />
+        <e k="usedplus_search_declineVehicle" v="Отклонить" />
+        <e k="usedplus_notify_vehicleFound" v="Ваш агент нашел %s!" />
+        <e k="usedplus_notify_searchComplete" v="Поиск завершен: найдено %d единиц техники" />
+
         <!-- Confirmation Dialog -->
         <e k="usedplus_confirmation_title" v="Подтверждение" />
 
@@ -458,6 +473,14 @@
         <e k="usedPlus_hydraulicDrift" v="Потеря давления гидравлики!" />
         <e k="usedPlus_implementCutout" v="Навесное оборудование остановлено!" />
         <e k="usedPlus_electricalCutout" v="Электрическая неисправность - оборудование отключено!" />
+
+        <!--  Предупреждения о снижении скорости (v1.4.0) -->
+        <e k="usedPlus_speedDegraded" v="Двигатель работает с трудом - макс. скорость снижена до %d%%!" />
+        <e k="usedPlus_speedDegradedReminder" v="Транспорт едет медленно - рекомендуется ремонт" />
+
+        <!--  Предупреждения о дрейфе гидравлики (v1.4.0) -->
+        <e k="usedPlus_hydraulicWeak" v="Слабая гидравлика (%d%%) - оборудование может дрейфовать!" />
+        <e k="usedPlus_hydraulicDrifted" v="Оборудование опущено из-за неисправности гидравлики" />
 
         <!--  Inspection System -->
         <e k="usedPlus_inspectButton" v="Осмотр (%s)" />
@@ -879,10 +902,13 @@
         <e k="usedplus_us_qualityFair" v="Среднее" />
         <e k="usedplus_us_qualityGood" v="Хорошее" />
         <e k="usedplus_us_qualityExcellent" v="Отличное" />
+        <e k="usedplus_us_discountFormat" v="~%d%% скидка" />
         <e k="usedplus_us_infoText" v="Более высокие уровни стоят дороже, но имеют лучшие шансы на успех и находят более качественные варианты." />
 
         <!-- Used Vehicle Preview Dialog -->
         <e k="usedplus_uvp_title" v="Найден б/у транспорт" />
+        <e k="usedplus_uvp_sectionVehicle" v="ИНФОРМАЦИЯ О ТРАНСПОРТЕ" />
+        <e k="usedplus_uvp_askingPrice" v="Цена:" />
         <e k="usedplus_uvp_sectionCondition" v="ВИДИМОЕ СОСТОЯНИЕ" />
         <e k="usedplus_uvp_age" v="Возраст:" />
         <e k="usedplus_uvp_hours" v="Часы:" />

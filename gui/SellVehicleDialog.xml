@@ -10,7 +10,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="860px 720px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="860px 780px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -109,8 +109,8 @@
                 <Text profile="svSectionHeader" position="0px -5px" text="$l10n_usedplus_sv_sectionCompare"/>
 
                 <GuiElement position="0px -35px">
-                    <Text profile="svLabel" position="-100px 0px" text="$l10n_usedplus_sv_tradeInCompare"/>
-                    <Text profile="svValue" id="tradeInCompareText" position="100px 0px" text=""/>
+                    <Text profile="svLabel" position="-150px 0px" text="$l10n_usedplus_sv_tradeInCompare"/>
+                    <Text profile="svTradeInValue" id="tradeInCompareText" position="100px 0px" text=""/>
                 </GuiElement>
             </GuiElement>
 
@@ -299,6 +299,14 @@
             <textSize value="15px"/>
             <textBold value="true"/>
             <textColor value="1 0.9 0.5 1"/>
+        </Profile>
+
+        <!-- Trade-in value (wider to prevent cutoff) -->
+        <Profile name="svTradeInValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="350px 22px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.9 1 1"/>
         </Profile>
 
         <Profile name="svLockWarning" extends="fs25_textDefault" with="anchorTopCenter">

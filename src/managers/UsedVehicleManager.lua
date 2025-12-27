@@ -5,14 +5,21 @@
     Pattern from: BuyUsedEquipment "Async Search Queue System"
     Reference: FS25_ADVANCED_PATTERNS.md - Async Operations section
 
+    v1.5.0: Multi-find agent model
+    - Small retainer fee upfront (paid when search starts)
+    - Commission built into vehicle asking price (paid when buying)
+    - Monthly success rolls (1 game day = 1 month)
+    - Multiple vehicles accumulate in portfolio
+    - Player browses and picks from found vehicles
+
     Responsibilities:
     - Track all active used vehicle searches across all farms
-    - Process search queue hourly (subscribe to HOUR_CHANGED)
-    - Update TTL/TTS counters for each search
-    - Generate used vehicle listings when searches succeed
-    - Send notifications (success/failure) via network events
+    - Process search queue daily (1 day = 1 month) for success rolls
+    - Generate used vehicle listings when monthly rolls succeed
+    - Manage portfolio of found vehicles per search
+    - Send notifications (vehicle found/search complete) via network events
     - Save/load search queue to savegame
-    - Provide query methods for active searches
+    - Provide query methods for active searches and portfolios
 
     This is a global singleton: g_usedVehicleManager
 ]]
@@ -45,26 +52,41 @@ end
 --[[
     Initialize manager after mission loads
     Subscribe to hourly events for queue processing
+    v1.5.0: Still uses HOUR_CHANGED but checks for day change (1 day = 1 month)
 ]]
 function UsedVehicleManager:loadMapFinished()
     if self.isServer then
-        -- Subscribe to hourly game time for TTL/TTS countdown
+        -- Subscribe to hourly game time - we check for day changes
         -- Pattern from: BuyUsedEquipment hourly queue processing
         g_messageCenter:subscribe(MessageType.HOUR_CHANGED, self.onHourChanged, self)
-        UsedPlus.logDebug("UsedVehicleManager subscribed to HOUR_CHANGED")
+
+        -- Track the last day we processed monthly checks
+        self.lastProcessedDay = g_currentMission.environment.currentDay
+
+        UsedPlus.logDebug("UsedVehicleManager subscribed to HOUR_CHANGED (v1.5.0 monthly model)")
     end
 end
 
 --[[
     Hourly queue processing
+    v1.5.0: Checks for day change (1 game day = 1 month) to process monthly success rolls
     Called automatically when in-game hour changes
-    Decrement TTL/TTS for all searches, check for completion
 ]]
 function UsedVehicleManager:onHourChanged()
     if not self.isServer then return end
 
+    local currentDay = g_currentMission.environment.currentDay
+
+    -- v1.5.0: Only process monthly checks once per day (1 day = 1 month)
+    if self.lastProcessedDay == currentDay then
+        return  -- Already processed today
+    end
+
+    self.lastProcessedDay = currentDay
+
     local totalSearches = self:getTotalSearchCount()
-    UsedPlus.logTrace(string.format("HOUR_CHANGED - Processing search queue (total active: %d)", totalSearches))
+    UsedPlus.logDebug(string.format("DAY_CHANGED (Day %d) - Processing monthly search rolls (total active: %d)",
+        currentDay, totalSearches))
 
     -- Process all active searches
     -- Note: pairs() key may not equal farm.farmId, so use farm.farmId consistently
@@ -79,6 +101,7 @@ end
 
 --[[
     Process searches for a single farm
+    v1.5.0: Monthly success rolls - vehicles accumulate in portfolio
     Iterate backwards to safely remove completed searches
 ]]
 function UsedVehicleManager:processSearchesForFarm(farmId, farm)
@@ -87,69 +110,214 @@ function UsedVehicleManager:processSearchesForFarm(farmId, farm)
         local search = farm.usedVehicleSearches[i]
 
         if search.status == "active" then
-            -- Log before update
-            UsedPlus.logTrace(string.format("    Search %s: %s - TTL=%d, TTS=%d",
-                search.id, search.storeItemName, search.ttl, search.tts))
+            -- Log before monthly check
+            UsedPlus.logTrace(string.format("    Search %s: %s - Month %d/%d, Listings: %d/%d",
+                search.id, search.storeItemName,
+                search.monthsElapsed or 0, search.maxMonths or 1,
+                #(search.foundListings or {}), search.maxListings or 10))
 
-            -- Update TTL/TTS counters
-            search:update()
+            -- v1.5.0: Process monthly success roll
+            local listingData = search:processMonthlyCheck()
 
-            -- Check if search completed
-            local result = search:checkCompletion()
+            -- If a vehicle was found this month, flesh out the listing
+            if listingData then
+                UsedPlus.logDebug(string.format("Search %s found vehicle this month: condition=%.1f%%",
+                    search.id, (1 - (listingData.damage or 0)) * 100))
 
-            if result == "success" then
-                -- Search found a vehicle
-                UsedPlus.logDebug(string.format("Search %s succeeded: %s", search.id, search.storeItemName))
+                -- Generate full listing with store item details, configurations, etc.
+                local fullListing = self:generateUsedVehicleListingFromData(search, listingData)
 
-                -- IMPORTANT: Remove search FIRST before any other operations
-                -- This prevents the search from triggering again if anything fails
-                table.remove(farm.usedVehicleSearches, i)
-                self.activeSearches[search.id] = nil
-
-                -- Track success statistic
-                if g_financeManager then
-                    g_financeManager:incrementStatistic(farmId, "searchesSucceeded", 1)
-                end
-
-                -- Generate used vehicle listing
-                local listing = self:generateUsedVehicleListing(search)
-
-                if listing then
-                    -- Store in our own listing system for tracking
-                    if not farm.usedVehicleListings then
-                        farm.usedVehicleListings = {}
+                if fullListing then
+                    -- Add to search's portfolio (foundListings is managed by the search object)
+                    -- The listingData was already added by processMonthlyCheck, but we need to
+                    -- update it with the full data
+                    for j, existingListing in ipairs(search.foundListings) do
+                        if existingListing.id == listingData.id then
+                            -- Replace partial data with full listing
+                            search.foundListings[j] = fullListing
+                            break
+                        end
                     end
-                    table.insert(farm.usedVehicleListings, listing)
 
-                    -- Show the UsedVehiclePreviewDialog so user can buy/inspect
-                    -- The dialog will handle purchase via BuyVehicleEvent
-                    self:showSearchResultDialog(listing, farmId)
+                    -- Track statistic
+                    if g_financeManager then
+                        g_financeManager:incrementStatistic(farmId, "vehiclesFound", 1)
+                    end
+
+                    -- Notify player a vehicle was found
+                    self:notifyVehicleFound(search, fullListing, farmId)
                 end
+            end
 
-            elseif result == "failed" then
-                -- Search failed (TTL expired before TTS)
-                UsedPlus.logDebug(string.format("Search %s failed: %s", search.id, search.storeItemName))
+            -- Check if search has completed (expired or player bought a vehicle)
+            if search.status == "completed" then
+                UsedPlus.logDebug(string.format("Search %s completed: %s (%d vehicles found)",
+                    search.id, search.storeItemName, #(search.foundListings or {})))
 
-                -- IMPORTANT: Remove search FIRST before any dialog operations
-                -- This prevents the search from triggering again if dialog fails
+                -- Remove from active searches
                 table.remove(farm.usedVehicleSearches, i)
                 self.activeSearches[search.id] = nil
 
-                -- Track failure statistic
+                -- Track completion statistic
                 if g_financeManager then
-                    g_financeManager:incrementStatistic(farmId, "searchesFailed", 1)
+                    local foundCount = #(search.foundListings or {})
+                    if foundCount > 0 then
+                        g_financeManager:incrementStatistic(farmId, "searchesSucceeded", 1)
+                    else
+                        g_financeManager:incrementStatistic(farmId, "searchesFailed", 1)
+                    end
                 end
 
-                -- Show failure dialog (safely - removal already done above)
-                self:showSearchFailedDialog(search)
+                -- Notify player search is complete
+                self:notifySearchComplete(search, farmId)
             end
-            -- else: search still active, continue waiting
+            -- else: search still active, will continue next month
         end
     end
 end
 
 --[[
-    Generate used vehicle listing from successful search
+    Notify player that a vehicle was found
+    v1.5.0: Shows notification AND opens UsedVehiclePreviewDialog
+    Player can inspect/buy the found vehicle immediately
+]]
+function UsedVehicleManager:notifyVehicleFound(search, listing, farmId)
+    -- Only show if game is running
+    if g_currentMission == nil or g_currentMission.isLoading then
+        return
+    end
+
+    local message = string.format(
+        g_i18n:getText("usedplus_notify_vehicleFound") or "Your agent found a %s!",
+        search.storeItemName or "vehicle"
+    )
+
+    g_currentMission:addIngameNotification(
+        FSBaseMission.INGAME_NOTIFICATION_OK,
+        message
+    )
+
+    UsedPlus.logDebug(string.format("Notified player: vehicle found for search %s", search.id))
+
+    -- v1.5.0: Show the preview dialog so player can act on it immediately
+    -- This is the same dialog as before - lets them Inspect or Buy As-Is
+    if listing then
+        self:showSearchResultDialog(listing, farmId)
+    end
+end
+
+--[[
+    Notify player that a search has completed
+    v1.5.0: Shows summary of what was found
+]]
+function UsedVehicleManager:notifySearchComplete(search, farmId)
+    -- Only show if game is running
+    if g_currentMission == nil or g_currentMission.isLoading then
+        return
+    end
+
+    local foundCount = #(search.foundListings or {})
+    local message = string.format(
+        g_i18n:getText("usedplus_notify_searchComplete") or "Search complete: %d vehicle(s) found for %s",
+        foundCount, search.storeItemName or "vehicle"
+    )
+
+    g_currentMission:addIngameNotification(
+        foundCount > 0 and FSBaseMission.INGAME_NOTIFICATION_OK or FSBaseMission.INGAME_NOTIFICATION_INFO,
+        message
+    )
+
+    UsedPlus.logDebug(string.format("Notified player: search %s complete with %d vehicles", search.id, foundCount))
+end
+
+--[[
+    Generate used vehicle listing from partial data returned by processMonthlyCheck
+    v1.5.0: Takes basic condition data and adds store item details, configs, commission
+    @param search - The UsedVehicleSearch object
+    @param listingData - Partial data from processMonthlyCheck (id, damage, wear, age, operatingHours, basePrice)
+]]
+function UsedVehicleManager:generateUsedVehicleListingFromData(search, listingData)
+    -- Get store item data
+    local storeItem = g_storeManager:getItemByXMLFilename(search.storeItemIndex)
+    if storeItem == nil then
+        UsedPlus.logError(string.format("Store item not found for search %s (xmlFilename: %s)",
+            search.id, tostring(search.storeItemIndex)))
+        return nil
+    end
+
+    -- Apply configuration matching if specific config requested
+    local selectedConfig = nil
+    if search.requestedConfigId then
+        local configMatch = self:findMatchingConfiguration(storeItem, search.requestedConfigId)
+        if configMatch then
+            selectedConfig = configMatch
+        else
+            selectedConfig = self:selectRandomConfiguration(storeItem)
+        end
+    else
+        selectedConfig = self:selectRandomConfiguration(storeItem)
+    end
+
+    -- Generate hidden reliability scores based on damage, age, hours, and quality tier
+    local usedPlusData = nil
+    if UsedPlusMaintenance and UsedPlusMaintenance.generateReliabilityScores then
+        usedPlusData = UsedPlusMaintenance.generateReliabilityScores(
+            listingData.damage or 0,
+            listingData.age or 1,
+            listingData.operatingHours or 100,
+            search.qualityLevel  -- DNA bias based on quality tier
+        )
+    end
+
+    -- v1.5.0: Calculate commission and asking price
+    local basePrice = listingData.basePrice or listingData.price or 0
+    local commissionPercent = search.commissionPercent or 0.08
+    local commissionAmount = math.floor(basePrice * commissionPercent)
+    local askingPrice = basePrice + commissionAmount
+
+    -- Create full listing object
+    local fullListing = {
+        id = listingData.id,
+        farmId = search.farmId,
+        searchId = search.id,
+        storeItemIndex = search.storeItemIndex,
+        storeItemName = search.storeItemName,
+        configuration = selectedConfig,
+
+        -- Used vehicle stats
+        age = listingData.age or 1,
+        operatingHours = math.floor(listingData.operatingHours or 100),
+        damage = listingData.damage or 0,
+        wear = listingData.wear or 0,
+
+        -- v1.5.0: Pricing with commission
+        basePrice = basePrice,                -- Vehicle value before commission
+        commissionPercent = commissionPercent,
+        commissionAmount = commissionAmount,  -- Commission in dollars
+        askingPrice = askingPrice,            -- What player pays (base + commission)
+        price = askingPrice,                  -- Legacy field for compatibility
+
+        -- Hidden maintenance data
+        usedPlusData = usedPlusData,
+
+        -- Metadata
+        generationName = listingData.generationName or "Unknown",
+        qualityLevel = listingData.qualityLevel or search.qualityLevel,
+        qualityName = listingData.qualityName or "Any",
+        listingDate = g_currentMission.environment.currentDay,
+        status = "available"
+    }
+
+    UsedPlus.logDebug(string.format("Generated full listing %s: %s (base $%d + $%d commission = $%d asking)",
+        fullListing.id, fullListing.storeItemName,
+        fullListing.basePrice, fullListing.commissionAmount, fullListing.askingPrice))
+
+    return fullListing
+end
+
+--[[
+    Generate used vehicle listing from successful search (LEGACY - kept for compatibility)
+    v1.5.0: Updated to include commission calculation
     Uses DepreciationCalculations to create realistic used vehicle
 ]]
 function UsedVehicleManager:generateUsedVehicleListing(search)
@@ -192,14 +360,25 @@ function UsedVehicleManager:generateUsedVehicleListing(search)
     -- FIXED: usedParams doesn't have 'price' - must calculate it
     local usedPrice, repairCost, repaintCost = DepreciationCalculations.calculateUsedPrice(storeItem, usedParams)
 
-    -- Generate hidden reliability scores based on damage
-    -- Phase 3 integration: UsedPlusMaintenance system
+    -- Generate hidden reliability scores based on damage, age, hours, and quality tier
+    -- v1.4.0: DNA distribution is now correlated with quality tier
     local usedPlusData = nil
     if UsedPlusMaintenance and UsedPlusMaintenance.generateReliabilityScores then
-        usedPlusData = UsedPlusMaintenance.generateReliabilityScores(usedParams.damage)
-        UsedPlus.logTrace(string.format("Generated reliability scores: engine=%.2f, hydraulic=%.2f, electrical=%.2f",
-            usedPlusData.engineReliability, usedPlusData.hydraulicReliability, usedPlusData.electricalReliability))
+        usedPlusData = UsedPlusMaintenance.generateReliabilityScores(
+            usedParams.damage,
+            usedParams.age,
+            usedParams.operatingHours,
+            usedParams.qualityLevel  -- DNA bias based on quality tier
+        )
+        UsedPlus.logTrace(string.format("Generated reliability: engine=%.2f, hydraulic=%.2f, electrical=%.2f, DNA=%.3f",
+            usedPlusData.engineReliability, usedPlusData.hydraulicReliability, usedPlusData.electricalReliability,
+            usedPlusData.workhorseLemonScale or 0.5))
     end
+
+    -- v1.5.0: Calculate commission and asking price
+    local commissionPercent = search.commissionPercent or 0.08
+    local commissionAmount = math.floor(usedPrice * commissionPercent)
+    local askingPrice = usedPrice + commissionAmount
 
     -- Create listing object
     local listing = {
@@ -215,7 +394,13 @@ function UsedVehicleManager:generateUsedVehicleListing(search)
         operatingHours = math.floor(usedParams.operatingHours),
         damage = usedParams.damage,
         wear = usedParams.wear,
-        price = usedPrice,  -- FIXED: Now using calculated price
+
+        -- v1.5.0: Pricing with commission
+        basePrice = usedPrice,                -- Vehicle value before commission
+        commissionPercent = commissionPercent,
+        commissionAmount = commissionAmount,  -- Commission in dollars
+        askingPrice = askingPrice,            -- What player pays (base + commission)
+        price = askingPrice,                  -- Legacy field for compatibility
 
         -- Hidden maintenance data (Phase 3)
         usedPlusData = usedPlusData,
@@ -229,9 +414,9 @@ function UsedVehicleManager:generateUsedVehicleListing(search)
         status = "available"
     }
 
-    UsedPlus.logDebug(string.format("Generated listing %s: %s ($%.2f, %d hrs, %.1f%% damage, quality: %s)",
-        listing.id, listing.storeItemName, listing.price, listing.operatingHours, listing.damage * 100,
-        listing.qualityName or "Any"))
+    UsedPlus.logDebug(string.format("Generated listing %s: %s (base $%.2f + $%.2f commission = $%.2f asking, %d hrs, %.1f%% damage)",
+        listing.id, listing.storeItemName, listing.basePrice, listing.commissionAmount, listing.askingPrice,
+        listing.operatingHours, listing.damage * 100))
 
     return listing
 end
@@ -789,6 +974,7 @@ end
 --[[
     Create new search request
     Called from network event (client request → server execution)
+    v1.5.0: Deducts retainer fee (small upfront cost), not percentage fee
 ]]
 function UsedVehicleManager:createSearchRequest(farmId, storeItemIndex, storeItemName, basePrice, searchLevel, requestedConfigId)
     if not self.isServer then
@@ -796,7 +982,7 @@ function UsedVehicleManager:createSearchRequest(farmId, storeItemIndex, storeIte
         return nil
     end
 
-    -- Validate search level (1 = local, 2 = national, 3 = international)
+    -- Validate search level (1 = local, 2 = regional, 3 = national)
     if searchLevel < 1 or searchLevel > 3 then
         UsedPlus.logError(string.format("Invalid search level %d", searchLevel))
         return nil
@@ -811,18 +997,20 @@ function UsedVehicleManager:createSearchRequest(farmId, storeItemIndex, storeIte
     -- Register search
     self:registerSearch(search)
 
-    -- Deduct search fee
+    -- v1.5.0: Deduct retainer fee (small upfront cost)
+    -- Retainer is already calculated in UsedVehicleSearch.new()
     local farm = g_farmManager:getFarmById(farmId)
-    g_currentMission:addMoney(-search.searchCost, farmId, MoneyType.OTHER, true, true)
+    g_currentMission:addMoney(-search.retainerFee, farmId, MoneyType.OTHER, true, true)
 
     -- Track statistics
     if g_financeManager then
         g_financeManager:incrementStatistic(farmId, "searchesStarted", 1)
-        g_financeManager:incrementStatistic(farmId, "totalSearchFees", search.searchCost)
+        g_financeManager:incrementStatistic(farmId, "totalSearchFees", search.retainerFee)
     end
 
-    UsedPlus.logDebug(string.format("Created search %s: %s ($%d fee, %d hrs TTL)",
-        search.id, storeItemName, search.searchCost, search.ttl))
+    UsedPlus.logDebug(string.format("Created search %s: %s ($%d retainer, %d%% commission, %d months)",
+        search.id, storeItemName, search.retainerFee,
+        math.floor((search.commissionPercent or 0.08) * 100), search.maxMonths or 1))
 
     return search
 end
@@ -830,6 +1018,7 @@ end
 --[[
     Register search in manager and farm
     Adds to both global list and farm-specific list
+    v1.5.0: Updated logging for monthly model
 ]]
 function UsedVehicleManager:registerSearch(search)
     -- Add to global searches table
@@ -843,9 +1032,12 @@ function UsedVehicleManager:registerSearch(search)
         end
         table.insert(farm.usedVehicleSearches, search)
 
-        UsedPlus.logDebug(string.format("REGISTERED Search %s for farm %d - TTL=%d, TTS=%d, willSucceed=%s",
-            search.id, search.farmId, search.ttl, search.tts,
-            tostring(search.tts <= search.ttl)))
+        -- v1.5.0: Log monthly model parameters
+        UsedPlus.logDebug(string.format("REGISTERED Search %s for farm %d - %d months, %.0f%% monthly success, max %d finds",
+            search.id, search.farmId,
+            search.maxMonths or 1,
+            (search.monthlySuccessChance or 0.5) * 100,
+            search.maxListings or 10))
         UsedPlus.logTrace(string.format("  Farm now has %d active searches", #farm.usedVehicleSearches))
     else
         UsedPlus.logError(string.format("Could not find farm %d to register search", search.farmId))
@@ -908,6 +1100,98 @@ end
 ]]
 function UsedVehicleManager:getSearchById(searchId)
     return self.activeSearches[searchId]
+end
+
+--[[
+    Complete a purchase from the portfolio browser
+    v1.5.0: Called when player buys a vehicle from VehiclePortfolioDialog
+    This ends the search - player gets one vehicle, remaining listings disappear
+
+    @param search - The UsedVehicleSearch object
+    @param listing - The portfolio listing being purchased
+    @param farmId - Farm ID of the buyer
+    @return boolean success
+]]
+function UsedVehicleManager:completePurchaseFromSearch(search, listing, farmId)
+    if search == nil then
+        UsedPlus.logError("completePurchaseFromSearch: search is nil")
+        return false
+    end
+
+    if listing == nil then
+        UsedPlus.logError("completePurchaseFromSearch: listing is nil")
+        return false
+    end
+
+    UsedPlus.logDebug(string.format("completePurchaseFromSearch: %s buying from search %s",
+        listing.id or "unknown", search.id or "unknown"))
+
+    -- Build a full listing compatible with purchaseUsedVehicle
+    local fullListing = {
+        id = listing.id,
+        farmId = farmId,
+        searchId = search.id,
+        storeItemIndex = search.storeItemIndex,
+        storeItemName = search.storeItemName,
+
+        -- Vehicle condition
+        damage = listing.damage or 0,
+        wear = listing.wear or 0,
+        age = listing.age or 1,
+        operatingHours = listing.operatingHours or 0,
+
+        -- Pricing (use asking price which includes commission)
+        price = listing.askingPrice or listing.basePrice or 0,
+        basePrice = listing.basePrice or 0,
+        commissionAmount = listing.commissionAmount or 0,
+        askingPrice = listing.askingPrice or 0,
+
+        -- Configuration from search (random config was selected during generation)
+        configuration = listing.configuration or {},
+
+        -- Reliability data
+        usedPlusData = listing.usedPlusData
+    }
+
+    -- Perform the purchase
+    local success = self:purchaseUsedVehicle(fullListing, farmId)
+
+    if success then
+        -- Mark search as completed
+        search.status = "completed"
+
+        -- Remove from farm's search list
+        local farm = g_farmManager:getFarmById(farmId)
+        if farm and farm.usedVehicleSearches then
+            for i = #farm.usedVehicleSearches, 1, -1 do
+                if farm.usedVehicleSearches[i].id == search.id then
+                    table.remove(farm.usedVehicleSearches, i)
+                    UsedPlus.logDebug(string.format("Removed search %s from farm %d", search.id, farmId))
+                    break
+                end
+            end
+        end
+
+        -- Remove from global registry
+        self.activeSearches[search.id] = nil
+
+        -- Track statistics
+        if g_financeManager then
+            g_financeManager:incrementStatistic(farmId, "searchesSucceeded", 1)
+            g_financeManager:incrementStatistic(farmId, "commissionsPaid", listing.commissionAmount or 0)
+        end
+
+        UsedPlus.logDebug(string.format("Search %s completed via portfolio purchase - vehicle bought, search ended",
+            search.id))
+
+        -- Notify player
+        g_currentMission:addIngameNotification(
+            FSBaseMission.INGAME_NOTIFICATION_OK,
+            string.format("Search complete! Your %s has been delivered.", search.storeItemName or "vehicle")
+        )
+    end
+
+    return success
 end
 
 --[[

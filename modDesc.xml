@@ -344,6 +344,8 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
         <sourceFile filename="src/gui/UsedVehiclePreviewDialog.lua"/>  <!--  Used vehicle inspection preview -->
         <sourceFile filename="src/gui/InspectionReportDialog.lua"/>  <!--  Inspection report with reliability bars -->
         <sourceFile filename="src/gui/MaintenanceReportDialog.lua"/>  <!--  Maintenance report for owned vehicles -->
+        <sourceFile filename="src/gui/VehiclePortfolioDialog.lua"/>  <!--  v1.5.0: Portfolio browser for multi-find agent model -->
+        <sourceFile filename="src/gui/SearchInitiatedDialog.lua"/>  <!--  v1.5.0: Styled search confirmation -->
 
         <!-- Extensions (depend on managers, GUI) -->
         <sourceFile filename="src/extensions/ShopConfigScreenExtension.lua"/>

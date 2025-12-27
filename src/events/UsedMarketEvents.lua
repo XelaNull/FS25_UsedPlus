@@ -63,6 +63,10 @@ function RequestUsedItemEvent:readStream(streamId, connection)
     self:run(connection)
 end
 
+--[[
+    Execute the search request on server
+    v1.5.0: Multi-find agent model - retainer fee upfront, commission on purchase
+]]
 function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, basePrice, searchLevel, qualityLevel)
     if g_usedVehicleManager == nil then
         UsedPlus.logError("UsedVehicleManager not initialized")
@@ -80,34 +84,37 @@ function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, bas
         return
     end
 
-    qualityLevel = qualityLevel or 2  -- Default to "Any Condition" (index 2)
+    qualityLevel = qualityLevel or 1  -- Default to "Any Condition" (index 1 in v1.5.0)
     if qualityLevel < 1 or qualityLevel > 5 then
-        UsedPlus.logWarn(string.format("Invalid quality level: %d, defaulting to 2", qualityLevel))
-        qualityLevel = 2
+        UsedPlus.logWarn(string.format("Invalid quality level: %d, defaulting to 1", qualityLevel))
+        qualityLevel = 1
     end
 
-    -- Fee percentages must match UsedVehicleSearch.calculateSearchParams()
+    -- v1.5.0: Multi-find agent model with retainer + commission
+    -- Must match UsedVehicleSearch.SEARCH_TIERS
     local SEARCH_TIERS = {
-        { feePercent = 0.04 },  -- Local: 4%
-        { feePercent = 0.06 },  -- Regional: 6%
-        { feePercent = 0.10 }   -- National: 10%
+        { retainerFlat = 500,  retainerPercent = 0 },       -- Local: $500 flat
+        { retainerFlat = 1000, retainerPercent = 0.005 },   -- Regional: $1000 + 0.5%
+        { retainerFlat = 2000, retainerPercent = 0.008 }    -- National: $2000 + 0.8%
     }
 
     local tier = SEARCH_TIERS[searchLevel]
 
-    -- Apply credit fee modifier (must match UsedVehicleSearch calculation)
+    -- Calculate retainer fee: flat + percentage of vehicle price
+    local baseRetainer = tier.retainerFlat + math.floor(basePrice * tier.retainerPercent)
+
+    -- Apply credit fee modifier (better credit = cheaper agents)
     local creditFeeModifier = 0
     if UsedVehicleSearch and UsedVehicleSearch.getCreditFeeModifier then
         creditFeeModifier = UsedVehicleSearch.getCreditFeeModifier(farmId)
     end
-    local adjustedFeePercent = tier.feePercent * (1 + creditFeeModifier)
-    local searchFee = math.floor(basePrice * adjustedFeePercent)
+    local retainerFee = math.floor(baseRetainer * (1 + creditFeeModifier))
 
-    if farm.money < searchFee then
-        UsedPlus.logError(string.format("Insufficient funds for search fee ($%d required)", searchFee))
+    if farm.money < retainerFee then
+        UsedPlus.logError(string.format("Insufficient funds for retainer fee ($%d required)", retainerFee))
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format(g_i18n:getText("usedplus_error_insufficientFunds"), g_i18n:formatMoney(searchFee))
+            string.format(g_i18n:getText("usedplus_error_insufficientFunds"), g_i18n:formatMoney(retainerFee))
         )
         return
     end
@@ -137,8 +144,8 @@ function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, bas
     )
 
     if search then
-        UsedPlus.logDebug(string.format("Search request created: %s (ID: %s, fee: $%d)",
-            storeItemName, search.id, searchFee))
+        UsedPlus.logDebug(string.format("Search request created: %s (ID: %s, retainer: $%d)",
+            storeItemName, search.id, retainerFee))
     else
         UsedPlus.logError(string.format("Failed to create search request for %s", storeItemName))
         g_currentMission:addIngameNotification(
@@ -330,5 +337,108 @@ function CancelSearchEvent:run(connection)
 end
 
 --============================================================================
+-- DECLINE LISTING EVENT
+-- v1.5.0: Network event for declining a listing from portfolio
+-- Removes listing from search's foundListings and syncs across clients
+--============================================================================
 
-UsedPlus.logInfo("UsedMarketEvents loaded (RequestUsedItemEvent, UsedItemFoundEvent, CancelSearchEvent)")
+DeclineListingEvent = {}
+local DeclineListingEvent_mt = Class(DeclineListingEvent, Event)
+
+InitEventClass(DeclineListingEvent, "DeclineListingEvent")
+
+function DeclineListingEvent.emptyNew()
+    local self = Event.new(DeclineListingEvent_mt)
+    return self
+end
+
+function DeclineListingEvent.new(searchId, listingId)
+    local self = DeclineListingEvent.emptyNew()
+    self.searchId = searchId
+    self.listingId = listingId
+    return self
+end
+
+--[[
+    Send decline request to server
+    Convenience method for client-side calls
+]]
+function DeclineListingEvent.sendToServer(searchId, listingId)
+    if g_server ~= nil then
+        -- Single player or server - execute directly
+        DeclineListingEvent.execute(searchId, listingId)
+    else
+        -- Multiplayer client - send to server
+        g_client:getServerConnection():sendEvent(DeclineListingEvent.new(searchId, listingId))
+    end
+end
+
+function DeclineListingEvent:writeStream(streamId, connection)
+    streamWriteString(streamId, self.searchId)
+    streamWriteString(streamId, self.listingId)
+end
+
+function DeclineListingEvent:readStream(streamId, connection)
+    self.searchId = streamReadString(streamId)
+    self.listingId = streamReadString(streamId)
+    self:run(connection)
+end
+
+--[[
+    Execute the decline on server
+    Removes listing from search's foundListings array
+]]
+function DeclineListingEvent.execute(searchId, listingId)
+    if g_usedVehicleManager == nil then
+        UsedPlus.logError("UsedVehicleManager not initialized for decline")
+        return false
+    end
+
+    -- Find the search
+    local search = g_usedVehicleManager:getSearchById(searchId)
+    if search == nil then
+        UsedPlus.logWarn(string.format("Search %s not found for decline", searchId))
+        return false
+    end
+
+    -- Remove listing from foundListings
+    local listings = search.foundListings
+    if listings == nil then
+        UsedPlus.logWarn(string.format("Search %s has no foundListings", searchId))
+        return false
+    end
+
+    local removed = false
+    for i = #listings, 1, -1 do
+        if listings[i].id == listingId then
+            table.remove(listings, i)
+            removed = true
+            UsedPlus.logDebug(string.format("Declined listing %s from search %s", listingId, searchId))
+            break
+        end
+    end
+
+    if not removed then
+        UsedPlus.logWarn(string.format("Listing %s not found in search %s", listingId, searchId))
+        return false
+    end
+
+    -- Track statistic
+    if g_financeManager and search.farmId then
+        g_financeManager:incrementStatistic(search.farmId, "listingsDeclined", 1)
+    end
+
+    return true
+end
+
+function DeclineListingEvent:run(connection)
+    if not connection:getIsServer() then
+        UsedPlus.logError("DeclineListingEvent must run on server")
+        return
+    end
+    DeclineListingEvent.execute(self.searchId, self.listingId)
+end
+
+--============================================================================
+
+UsedPlus.logInfo("UsedMarketEvents loaded (RequestUsedItemEvent, UsedItemFoundEvent, CancelSearchEvent, DeclineListingEvent)")

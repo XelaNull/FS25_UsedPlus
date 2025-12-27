@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Search Initiated Confirmation Dialog
+    Styled dialog showing search details after agent is hired
+    Matches styling of LoanApprovedDialog
+    v1.5.0: Multi-find agent model
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="620px 520px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="siTitle" position="0px -20px" text="Search Initiated"/>
+
+            <!-- ========== SECTION 1: Vehicle Being Searched ========== -->
+            <GuiElement profile="siSectionContainer" position="0px -55px">
+                <Bitmap profile="siSectionBgBlue" position="0px 0px"/>
+                <Text profile="siVehicleName" id="vehicleNameText" position="0px -20px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Search Configuration ========== -->
+            <GuiElement profile="siSectionContainerTall" position="0px -115px">
+                <Bitmap profile="siSectionBg" position="0px 0px"/>
+                <Text profile="siSectionHeader" position="0px -8px" text="SEARCH CONFIGURATION"/>
+
+                <!-- Two columns: Search Tier | Quality Target -->
+                <Text profile="siLabel" position="-150px -32px" text="Search Tier"/>
+                <Text profile="siValueTier" id="tierText" position="-150px -50px" text=""/>
+                <Text profile="siDuration" id="durationText" position="-150px -66px" text=""/>
+
+                <Text profile="siLabel" position="150px -32px" text="Quality Target"/>
+                <Text profile="siValueQuality" id="qualityText" position="150px -50px" text=""/>
+                <Text profile="siMaxFinds" id="maxFindsText" position="150px -66px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Agent Fees ========== -->
+            <GuiElement profile="siSectionContainerMed" position="0px -210px">
+                <Bitmap profile="siSectionBgFee" position="0px 0px"/>
+                <Text profile="siSectionHeader" position="0px -8px" text="AGENT FEES"/>
+
+                <!-- Two columns: Retainer | Commission -->
+                <Text profile="siLabel" position="-150px -32px" text="Retainer (Paid Now)"/>
+                <Text profile="siValueFee" id="retainerText" position="-150px -52px" text=""/>
+
+                <Text profile="siLabel" position="150px -32px" text="Commission Rate"/>
+                <Text profile="siValueCommission" id="commissionText" position="150px -52px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 4: Expected Pricing ========== -->
+            <GuiElement profile="siSectionContainerMed" position="0px -295px">
+                <Bitmap profile="siSectionBgGreen" position="0px 0px"/>
+                <Text profile="siSectionHeader" position="0px -8px" text="EXPECTED PRICING"/>
+
+                <!-- Three columns: Base Price | Commission | Asking Price -->
+                <Text profile="siLabel" position="-180px -32px" text="Est. Base"/>
+                <Text profile="siValue" id="basePriceText" position="-180px -52px" text=""/>
+
+                <Text profile="siLabel" position="0px -32px" text="Est. Commission"/>
+                <Text profile="siValueFeeSmall" id="commissionAmtText" position="0px -52px" text=""/>
+
+                <Text profile="siLabel" position="180px -32px" text="Est. Asking"/>
+                <Text profile="siValueGreen" id="askingPriceText" position="180px -52px" text=""/>
+            </GuiElement>
+
+            <!-- ========== Info Text ========== -->
+            <Text profile="siInfoText" id="infoText" position="0px -390px"
+                text="Your agent will search monthly and notify you when vehicles are found."/>
+            <Text profile="siInfoTextSub" position="0px -412px"
+                text="Check Used Marketplace in ESC menu to view search progress."/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonOK" id="okButton" text="$l10n_button_ok" onClick="onClickOk"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== TITLE ========== -->
+        <Profile name="siTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 28px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="siSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="560px 50px"/>
+        </Profile>
+
+        <Profile name="siSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="560px 85px"/>
+        </Profile>
+
+        <Profile name="siSectionContainerMed" extends="emptyPanel" with="anchorTopCenter">
+            <size value="560px 75px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="siSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="560px 85px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="siSectionBgBlue" extends="baseReference" with="anchorTopCenter">
+            <size value="560px 50px"/>
+            <imageColor value="0.06 0.08 0.14 0.9"/>
+        </Profile>
+
+        <Profile name="siSectionBgFee" extends="baseReference" with="anchorTopCenter">
+            <size value="560px 75px"/>
+            <imageColor value="0.12 0.08 0.08 0.9"/>
+        </Profile>
+
+        <Profile name="siSectionBgGreen" extends="baseReference" with="anchorTopCenter">
+            <size value="560px 75px"/>
+            <imageColor value="0.06 0.12 0.08 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="siSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="540px 20px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE NAME ========== -->
+        <Profile name="siVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="520px 24px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.85 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== LABELS ========== -->
+        <Profile name="siLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VALUES ========== -->
+        <Profile name="siValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siValueTier" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.8 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siValueQuality" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.85 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siDuration" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 14px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siMaxFinds" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 14px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siValueFee" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 18px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.5 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siValueCommission" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 18px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.7 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siValueFeeSmall" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.6 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siValueGreen" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 18px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== INFO TEXT ========== -->
+        <Profile name="siInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="540px 16px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.8 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="siInfoTextSub" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="540px 14px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.6 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

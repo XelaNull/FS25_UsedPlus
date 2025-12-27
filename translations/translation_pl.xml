@@ -82,6 +82,21 @@
         <e k="usedplus_search_qualityDescription" v="Nizsza jakosc = nizsza cena, ale wiecej napraw" />
         <e k="usedplus_search_confirmTitle" v="Wyszukiwanie rozpoczete" />
 
+        <!-- v1.5.0: Multi-find Agent Model -->
+        <e k="usedplus_search_retainer" v="Honorarium Agenta" />
+        <e k="usedplus_search_commission" v="Prowizja od Znalezienia" />
+        <e k="usedplus_search_commissionInfo" v="%d%% dodane do ceny pojazdu" />
+        <e k="usedplus_search_monthProgress" v="Miesiac %d z %d" />
+        <e k="usedplus_search_vehiclesFound" v="Znaleziono %d pojazd(ow)" />
+        <e k="usedplus_search_monthlyChance" v="%d%% na miesiac" />
+        <e k="usedplus_search_foundVehicles" v="ZNALEZIONE POJAZDY" />
+        <e k="usedplus_search_noVehiclesYet" v="Jeszcze nie znaleziono pojazdow" />
+        <e k="usedplus_search_inspectVehicle" v="Sprawdz" />
+        <e k="usedplus_search_buyVehicle" v="Kup" />
+        <e k="usedplus_search_declineVehicle" v="Odrzuc" />
+        <e k="usedplus_notify_vehicleFound" v="Twoj agent znalazl %s!" />
+        <e k="usedplus_notify_searchComplete" v="Wyszukiwanie zakonczone: znaleziono %d pojazd(ow)" />
+
         <!-- Confirmation Dialog -->
         <e k="usedplus_confirmation_title" v="Potwierdzenie" />
 
@@ -458,6 +473,14 @@
         <e k="usedPlus_hydraulicDrift" v="Utrata cisnienia hydraulicznego!" />
         <e k="usedPlus_implementCutout" v="Narzedzie zatrzymalo sie!" />
         <e k="usedPlus_electricalCutout" v="Awaria elektryczna - narzedzia offline!" />
+
+        <!--  Ostrzezenia o degradacji predkosci (v1.4.0) -->
+        <e k="usedPlus_speedDegraded" v="Silnik ma problemy - maksymalna predkosc zredukowana do %d%%!" />
+        <e k="usedPlus_speedDegradedReminder" v="Pojazd jedzie wolno - zalecana naprawa" />
+
+        <!--  Ostrzezenia o dryfie hydraulicznym (v1.4.0) -->
+        <e k="usedPlus_hydraulicWeak" v="Slaba hydraulika (%d%%) - narzedzia moga dryfowac!" />
+        <e k="usedPlus_hydraulicDrifted" v="Narzedzie opuszczone z powodu awarii hydrauliki" />
 
         <!--  Inspection System -->
         <e k="usedPlus_inspectButton" v="Zbadaj (%s)" />
@@ -879,10 +902,13 @@
         <e k="usedplus_us_qualityFair" v="Przecietna" />
         <e k="usedplus_us_qualityGood" v="Dobra" />
         <e k="usedplus_us_qualityExcellent" v="Doskonala" />
+        <e k="usedplus_us_discountFormat" v="~%d%% znizki" />
         <e k="usedplus_us_infoText" v="Wyzsze poziomy kosztuja wiecej, ale maja lepsze wskazniki sukcesu i znajduja lepsza jakosc." />
 
         <!-- Used Vehicle Preview Dialog -->
         <e k="usedplus_uvp_title" v="Znaleziono uzywany pojazd" />
+        <e k="usedplus_uvp_sectionVehicle" v="INFORMACJE O POJEZDZIE" />
+        <e k="usedplus_uvp_askingPrice" v="Cena:" />
         <e k="usedplus_uvp_sectionCondition" v="WIDOCZNY STAN" />
         <e k="usedplus_uvp_age" v="Wiek:" />
         <e k="usedplus_uvp_hours" v="Motogodziny:" />
