@@ -69,9 +69,11 @@ function ModCompatibility.init()
     -- Detect AdvancedMaintenance - checks specialization registry
     ModCompatibility.advancedMaintenanceInstalled = ModCompatibility.checkAdvancedMaintenanceInstalled()
 
-    -- Detect HirePurchasing - checks for LeasingOptions in mission
+    -- Detect HirePurchasing - checks for HP-specific leaseDeals table
+    -- Note: vanilla may have LeasingOptions but not leaseDeals
     ModCompatibility.hirePurchasingInstalled = g_currentMission ~= nil and
-                                                g_currentMission.LeasingOptions ~= nil
+                                                g_currentMission.LeasingOptions ~= nil and
+                                                g_currentMission.LeasingOptions.leaseDeals ~= nil
 
     -- Detect BuyUsedEquipment - checks for global namespace
     ModCompatibility.buyUsedEquipmentInstalled = BuyUsedEquipment ~= nil
