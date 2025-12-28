@@ -350,6 +350,7 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
         <sourceFile filename="src/gui/SearchInitiatedDialog.lua"/>  <!--  v1.5.0: Styled search confirmation -->
         <sourceFile filename="src/gui/SaleListingInitiatedDialog.lua"/>  <!--  v1.5.0: Styled sale listing confirmation -->
         <sourceFile filename="src/gui/SearchExpiredDialog.lua"/>       <!--  v1.5.1: Search expiration with renewal option -->
+        <sourceFile filename="src/gui/SaleExpiredDialog.lua"/>          <!--  v1.5.1: No buyer found dialog -->
 
         <!-- Extensions (depend on managers, GUI) -->
         <sourceFile filename="src/extensions/ShopConfigScreenExtension.lua"/>

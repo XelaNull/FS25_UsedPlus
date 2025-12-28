@@ -187,12 +187,44 @@ end
 function VehicleSaleManager:onListingExpired(farmId, listing, listingIndex)
     UsedPlus.logDebug(string.format("Listing expired for %s", listing.vehicleName))
 
-    -- Send notification
-    g_currentMission:addIngameNotification(
-        FSBaseMission.INGAME_NOTIFICATION_INFO,
-        string.format("No buyer found for %s. Agent fee ($%d) was non-refundable.",
-            listing.vehicleName, listing.agentFee)
-    )
+    -- Show popup dialog instead of notification
+    if SaleExpiredDialog then
+        local callback = function(relistChoice)
+            if relistChoice then
+                -- Player wants to relist - show SellVehicleDialog
+                local vehicle = listing.vehicle
+                if vehicle and DialogLoader then
+                    local sellCallback = function(agentTier, priceTier)
+                        if agentTier ~= nil then
+                            -- Create new listing
+                            local newListing = g_vehicleSaleManager:createSaleListing(farmId, vehicle, agentTier, priceTier or 2)
+                            if newListing then
+                                UsedPlus.logInfo(string.format("Relisted %s with agent tier %d, price tier %d",
+                                    newListing.vehicleName, agentTier, priceTier))
+                            end
+                        end
+                    end
+                    DialogLoader.show("SellVehicleDialog", "setVehicle", vehicle, farmId, sellCallback)
+                else
+                    -- Vehicle not available, just show notification
+                    g_currentMission:addIngameNotification(
+                        FSBaseMission.INGAME_NOTIFICATION_INFO,
+                        "Vehicle no longer available to relist."
+                    )
+                end
+            end
+            -- If not relisting, nothing more to do - vehicle stays in inventory
+        end
+
+        SaleExpiredDialog.showWithListing(listing, callback)
+    else
+        -- Fallback to notification if dialog not loaded
+        g_currentMission:addIngameNotification(
+            FSBaseMission.INGAME_NOTIFICATION_INFO,
+            string.format("No buyer found for %s. Agent fee ($%d) was non-refundable.",
+                listing.vehicleName, listing.agentFee)
+        )
+    end
 
     -- Note: We don't remove from farm.vehicleSaleListings here
     -- It stays with "expired" status for history/UI purposes

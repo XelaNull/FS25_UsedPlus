@@ -448,6 +448,15 @@
         <e k="usedplus_saleOffer_declined" v="Offer declined. Agent continues searching..." />
         <e k="usedplus_saleOffer_expired" v="Offer expired for %s. Agent continues searching..." />
 
+        <!-- Sale Expired Dialog (no buyer found) -->
+        <e k="usedplus_saleExpired_title" v="Sale Listing Expired" />
+        <e k="usedplus_saleExpired_sectionInfo" v="LISTING DETAILS" />
+        <e k="usedplus_saleExpired_sectionOutcome" v="OUTCOME" />
+        <e k="usedplus_saleExpired_noBuyer" v="No buyer was found during the listing period." />
+        <e k="usedplus_saleExpired_feePaid" v="Agent Fee Paid:" />
+        <e k="usedplus_saleExpired_hint" v="You can relist this vehicle with the same or different agent/price settings." />
+        <e k="usedplus_saleExpired_relist" v="Relist Vehicle" />
+
         <!--  Sale Listing Status -->
         <e k="usedplus_sale_statusActive" v="Searching for buyer..." />
         <e k="usedplus_sale_statusPending" v="OFFER: %s" />

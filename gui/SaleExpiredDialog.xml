@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="600px 380px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" position="0px -30px" text="$l10n_usedplus_saleExpired_title"/>
+
+            <!-- ===== INFO SECTION ===== -->
+            <GuiElement profile="seInfoContainer" position="0px -65px">
+                <Bitmap profile="seInfoBg" position="0px 0px"/>
+                <Text profile="seSectionHeader" position="0px -5px" text="$l10n_usedplus_saleExpired_sectionInfo"/>
+
+                <!-- Vehicle Name -->
+                <Text profile="seVehicleName" id="vehicleNameText" position="0px -30px" text=""/>
+
+                <!-- Two column layout for details -->
+                <Text profile="seLabel" position="-200px -58px" text="$l10n_usedplus_sld_agentTier"/>
+                <Text profile="seValue" id="agentTierText" position="-80px -58px" text=""/>
+
+                <Text profile="seLabel" position="60px -58px" text="$l10n_usedplus_sld_priceTier"/>
+                <Text profile="seValue" id="priceTierText" position="180px -58px" text=""/>
+
+                <Text profile="seLabel" position="-200px -80px" text="$l10n_usedplus_sld_listedFor"/>
+                <Text profile="seValue" id="durationText" position="-80px -80px" text=""/>
+
+                <Text profile="seLabel" position="60px -80px" text="$l10n_usedplus_sld_offersReceived"/>
+                <Text profile="seValue" id="offersReceivedText" position="180px -80px" text=""/>
+            </GuiElement>
+
+            <!-- ===== OUTCOME SECTION ===== -->
+            <GuiElement profile="seOutcomeContainer" position="0px -175px">
+                <Bitmap profile="seOutcomeBg" position="0px 0px"/>
+                <Text profile="seSectionHeader" position="0px -5px" text="$l10n_usedplus_saleExpired_sectionOutcome"/>
+
+                <Text profile="seMessageText" position="0px -32px" text="$l10n_usedplus_saleExpired_noBuyer"/>
+
+                <Text profile="seLabel" position="-100px -58px" text="$l10n_usedplus_saleExpired_feePaid"/>
+                <Text profile="seFeeValue" id="feePaidText" position="80px -58px" text=""/>
+            </GuiElement>
+
+            <!-- Info text -->
+            <Text profile="seHintText" position="0px -260px" text="$l10n_usedplus_saleExpired_hint"/>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonActivate" id="relistButton" text="$l10n_usedplus_saleExpired_relist" onClick="onClickRelist"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonBack" id="closeButton" text="$l10n_button_close" onClick="onClickClose"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== CONTAINERS ========== -->
+        <Profile name="seInfoContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="560px 100px"/>
+        </Profile>
+
+        <Profile name="seOutcomeContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="560px 75px"/>
+        </Profile>
+
+        <!-- ========== BACKGROUNDS ========== -->
+        <Profile name="seInfoBg" extends="baseReference" with="anchorTopCenter">
+            <size value="560px 100px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="seOutcomeBg" extends="baseReference" with="anchorTopCenter">
+            <size value="560px 75px"/>
+            <imageColor value="0.15 0.08 0.08 0.9"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="seSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="560px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== LABELS ========== -->
+        <Profile name="seLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+        </Profile>
+
+        <!-- ========== VALUES ========== -->
+        <Profile name="seValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="130px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+
+        <Profile name="seVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 0.85 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="seFeeValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.4 1"/>
+        </Profile>
+
+        <Profile name="seMessageText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 20px"/>
+            <textSize value="14px"/>
+            <textColor value="1 0.6 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="seHintText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="540px 20px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>
