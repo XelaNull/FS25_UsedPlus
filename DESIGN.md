@@ -1,7 +1,7 @@
 # FS25_UsedPlus - Comprehensive Mod Design & Implementation Guide
 
-**Version:** 3.0
-**Last Updated:** 2025-11-27
+**Version:** 3.2
+**Last Updated:** 2025-12-28
 
 ---
 
@@ -15,13 +15,15 @@
    - [Vehicle Sales System](#4-vehicle-sales-system) ✅ IMPLEMENTED
    - [Lease System](#5-lease-system) 🔄 PARTIAL
    - [Land Financing](#6-land-financing) ✅ IMPLEMENTED
-   - [Land Leasing](#7-land-leasing) ❌ NOT STARTED
+   - [Land Leasing](#7-land-leasing) ✅ IMPLEMENTED
    - [General Loan System](#8-general-loan-system) ✅ IMPLEMENTED
    - [Partial Repair & Repaint](#9-partial-repair--repaint-system) ✅ IMPLEMENTED
    - [Trade-In System](#10-trade-in-system) ✅ IMPLEMENTED
    - [Finance Manager GUI](#11-finance-manager-gui) ✅ IMPLEMENTED
    - [Financial Dashboard](#12-financial-dashboard) ✅ IMPLEMENTED
    - [Payment Configuration](#13-payment-configuration-system) ❌ NOT STARTED
+   - [Vehicle Maintenance System](#14-vehicle-maintenance-system) ✅ IMPLEMENTED (Phase 5)
+   - [Vehicle Malfunctions](#15-vehicle-malfunctions) ✅ IMPLEMENTED (Phase 5)
 3. [Technical Architecture](#technical-architecture)
 4. [Implementation Status](#implementation-status)
 
@@ -41,12 +43,14 @@
 | **Vehicle Sales** | Agent-based selling replaces vanilla instant-sell | ✅ Complete |
 | **Lease System** | Custom lease system replacing game's built-in lease | 🔄 Partial |
 | **Land Financing** | Finance land purchases with lower rates | ✅ Complete |
-| **Land Leasing** | Lease farmland instead of purchasing | ❌ Not Started |
+| **Land Leasing** | Lease farmland with monthly payments, buyout option | ✅ Complete |
 | **General Loans** | Collateral-based cash loans | ✅ Complete |
 | **Repair/Repaint** | Partial repair with quick buttons and finance option | ✅ Complete |
 | **Trade-In** | Trade existing vehicles toward new purchases | ✅ Complete |
 | **Finance Manager** | ESC menu for managing all financial deals | ✅ Complete |
 | **Dashboard** | Comprehensive financial overview with credit history | ✅ Complete |
+| **Maintenance** | Three-component reliability (engine, electrical, hydraulic) | ✅ Complete |
+| **Malfunctions** | Realistic breakdowns based on component health | ✅ Complete |
 | **Payment Config** | Per-loan payment customization (skip, min, extra) | ❌ Not Started |
 
 ### Core Philosophy
@@ -265,30 +269,31 @@ Finance farmland purchases with lower interest rates.
 
 ### 7. Land Leasing
 
-**Status:** ❌ NOT STARTED
+**Status:** ✅ FULLY IMPLEMENTED
 
-**NEW FEATURE** - Lease farmland instead of purchasing.
+Lease farmland instead of purchasing outright.
 
-#### Proposed Design
-- Lease land for 1-10 years
-- Lower monthly cost than financing
-- Land reverts at lease end (unless renewed)
-- Option to buy out lease (convert to purchase)
-- Cannot sell leased land
-- Improvements stay with land (player loses them)
-
-#### Benefits for Player
-- Lower capital requirement to farm more land
-- Flexibility to expand/contract farming operation
-- Test land before committing to purchase
+#### Features
+- Lease land for 1, 3, 5, or 10-year terms
+- Shorter terms have higher markup rates (20% for 1 year, 5% for 10 years)
+- Monthly lease payments automatically deducted
+- Expiration warnings at 3 months, 1 month, and 1 week before end
+- Land reverts to NPC ownership upon lease expiration
+- Lease renewal option available before expiration
+- Option to buy out lease (convert to purchase) with discount
 
 #### Lease Terms
-| Term | Monthly Cost | Buyout Discount |
-|------|--------------|-----------------|
-| 1 year | 1.5% of price/month | 0% |
-| 3 years | 1.2% of price/month | 5% |
-| 5 years | 1.0% of price/month | 10% |
-| 10 years | 0.8% of price/month | 15% |
+| Term | Markup Rate | Buyout Discount |
+|------|-------------|-----------------|
+| 1 year | 20% | 0% |
+| 3 years | 12% | 5% |
+| 5 years | 8% | 10% |
+| 10 years | 5% | 15% |
+
+#### Technical Implementation
+- `LandLeaseDialog.lua` - Lease configuration dialog
+- `UnifiedLandPurchaseDialog.lua` - Combined Cash/Finance/Lease selection
+- `InGameMenuMapFrameExtension.lua` - Map context menu integration
 
 ---
 
@@ -493,6 +498,76 @@ Access from Finance Manager → "Configure Payments" button
 
 ---
 
+### 14. Vehicle Maintenance System
+
+**Status:** ✅ FULLY IMPLEMENTED (Phase 5)
+
+Comprehensive reliability and maintenance system for vehicles.
+
+#### Three-Component Reliability
+- **Engine Health**: Affects power output, fuel efficiency, and starting reliability
+- **Electrical Health**: Impacts lights, gauges, and electronic systems
+- **Hydraulic Health**: Controls implement lift, steering assist, and attachments
+
+#### Hidden Reliability Trait
+- Each vehicle has a hidden "lemon or workhorse" trait assigned at spawn
+- Lemons experience more frequent breakdowns and faster wear
+- Workhorses are more reliable with slower degradation
+- Mechanic inspection hints at vehicle's reliability class
+
+#### Tire System
+- Three tire quality tiers: Retread, Normal, Quality
+- Tire tread wears over time based on usage and terrain
+- Worn tires reduce traction and increase slip
+- Flat tires cause steering pull and reduce max speed
+
+#### Fluid Systems
+- **Engine Oil**: Depletes with use, low oil causes engine damage
+- **Hydraulic Fluid**: Powers implements and steering
+- **Fuel**: Fuel leaks drain tank over time when detected
+
+#### Technical Implementation
+- `UsedPlusMaintenance.lua` - Vehicle specialization
+- `InspectionReportDialog.lua` - Inspection results display
+- `MaintenanceReportDialog.lua` - Owned vehicle maintenance view
+- `FluidsDialog.lua` - Fluid service interface
+- `TiresDialog.lua` - Tire service interface
+
+---
+
+### 15. Vehicle Malfunctions
+
+**Status:** ✅ FULLY IMPLEMENTED (Phase 5)
+
+Realistic breakdown events based on component health.
+
+#### Engine Malfunctions
+- **Overheating**: Engine temperature rises, power reduces, eventual stall
+- **Misfiring**: Random power fluctuations and rough running
+- **Stalling**: Engine cuts out unexpectedly, restart required
+- **Hard Starting**: Difficulty starting in cold conditions with worn engine
+
+#### Electrical Malfunctions
+- **Electrical Cutout**: Temporary loss of electrical systems
+- **Gauge Failures**: Instrument readings become unreliable
+- **Light Flickering**: Headlights and work lights flicker or fail
+
+#### Hydraulic Malfunctions
+- **Hydraulic Drift**: Implements slowly lower when raised
+- **Implement Surge**: Sudden unexpected implement movements
+- **PTO Toggle**: Power take-off randomly engages or disengages
+- **Hitch Failure**: Attachments may unexpectedly disconnect
+
+#### Tire Malfunctions
+- **Flat Tire**: Sudden tire failure causing steering pull
+- **Slow Leak**: Gradual pressure loss over time
+- **Blowout**: High-speed tire failure
+
+#### Fuel System Malfunctions
+- **Fuel Leak**: Tank slowly drains fuel when parked or running
+
+---
+
 ## Technical Architecture
 
 ### File Structure
@@ -547,19 +622,28 @@ FS25_UsedPlus/
 8. Finance Manager GUI
 9. Financial Dashboard
 10. Admin Console Commands
-11. Land Financing (basic)
+11. Land Financing
+12. Land Leasing
+13. Vehicle Maintenance System (Phase 5)
+14. Vehicle Malfunctions (Phase 5)
 
 ### Partially Implemented 🔄
-1. **Lease System** - Code exists, needs shop integration
+1. **Vehicle Lease System** - Code exists, needs shop integration
 
 ### Not Started ❌
-1. **Land Leasing** - New feature
-2. **Land Seizure** - Optional enhancement
-3. **Payment Configuration** - Per-loan payment customization
+1. **Land Seizure** - Optional enhancement for defaulted land loans
+2. **Payment Configuration** - Per-loan payment customization
 
 ---
 
 ## Version History
+
+**v3.2 (2025-12-28)** - Documentation Sync with Implementation
+- Updated Land Leasing status to ✅ IMPLEMENTED
+- Added Section 14: Vehicle Maintenance System (Phase 5)
+- Added Section 15: Vehicle Malfunctions (Phase 5)
+- Updated Core Systems table with Maintenance and Malfunctions
+- Synced Implementation Status with actual codebase
 
 **v3.1 (2025-11-27)** - Added Payment Configuration System
 - Added Section 13: Payment Configuration System

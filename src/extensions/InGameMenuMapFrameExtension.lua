@@ -46,43 +46,52 @@ function InGameMenuMapFrameExtension.onLoadMapFinished(self, superFunc)
     end
 
     -- Override the BUY action callback to open our dialog for farmland
-    -- BUY is typically ID 11 in FS25
     if InGameMenuMapFrame.ACTIONS.BUY and self.contextActions[InGameMenuMapFrame.ACTIONS.BUY] then
         -- Store original callback
         InGameMenuMapFrameExtension.originalBuyCallback = self.contextActions[InGameMenuMapFrame.ACTIONS.BUY].callback
         -- Replace with our callback
         self.contextActions[InGameMenuMapFrame.ACTIONS.BUY].callback = InGameMenuMapFrameExtension.onBuyFarmland
         UsedPlus.logDebug("Intercepted BUY action callback (ID=" .. tostring(InGameMenuMapFrame.ACTIONS.BUY) .. ")")
-
-        -- Register FINANCE and LEASE right after BUY
-        -- Use IDs 12 and 13 to appear immediately after BUY (ID 11)
-        local buyId = InGameMenuMapFrame.ACTIONS.BUY
-
-        if InGameMenuMapFrame.ACTIONS.FINANCE_LAND == nil then
-            InGameMenuMapFrame.ACTIONS["FINANCE_LAND"] = buyId + 1
-
-            self.contextActions[InGameMenuMapFrame.ACTIONS.FINANCE_LAND] = {
-                ["title"] = g_i18n:getText("usedplus_action_financeLand") or "Finance",
-                ["callback"] = InGameMenuMapFrameExtension.onFinanceLand,
-                ["isActive"] = false
-            }
-
-            UsedPlus.logDebug("Registered FINANCE_LAND action (ID=" .. tostring(buyId + 1) .. ")")
-        end
-
-        if InGameMenuMapFrame.ACTIONS.LEASE_LAND == nil then
-            InGameMenuMapFrame.ACTIONS["LEASE_LAND"] = buyId + 2
-
-            self.contextActions[InGameMenuMapFrame.ACTIONS.LEASE_LAND] = {
-                ["title"] = g_i18n:getText("usedplus_action_leaseLand") or "Lease",
-                ["callback"] = InGameMenuMapFrameExtension.onLeaseLand,
-                ["isActive"] = false
-            }
-
-            UsedPlus.logDebug("Registered LEASE_LAND action (ID=" .. tostring(buyId + 2) .. ")")
-        end
     else
         UsedPlus.logWarn("Could not intercept BUY action")
+    end
+
+    -- Find the highest existing action ID to avoid collisions with vanilla actions
+    local maxActionId = 0
+    for actionName, actionId in pairs(InGameMenuMapFrame.ACTIONS) do
+        if type(actionId) == "number" and actionId > maxActionId then
+            maxActionId = actionId
+        end
+    end
+    UsedPlus.logDebug("Max existing action ID: " .. tostring(maxActionId))
+
+    -- Register FINANCE_LAND action with unique ID (after all existing actions)
+    if InGameMenuMapFrame.ACTIONS.FINANCE_LAND == nil then
+        local financeId = maxActionId + 1
+        InGameMenuMapFrame.ACTIONS["FINANCE_LAND"] = financeId
+
+        self.contextActions[financeId] = {
+            ["title"] = g_i18n:getText("usedplus_action_financeLand") or "Finance",
+            ["callback"] = InGameMenuMapFrameExtension.onFinanceLand,
+            ["isActive"] = false
+        }
+
+        UsedPlus.logDebug("Registered FINANCE_LAND action (ID=" .. tostring(financeId) .. ")")
+        maxActionId = financeId
+    end
+
+    -- Register LEASE_LAND action with unique ID
+    if InGameMenuMapFrame.ACTIONS.LEASE_LAND == nil then
+        local leaseId = maxActionId + 1
+        InGameMenuMapFrame.ACTIONS["LEASE_LAND"] = leaseId
+
+        self.contextActions[leaseId] = {
+            ["title"] = g_i18n:getText("usedplus_action_leaseLand") or "Lease",
+            ["callback"] = InGameMenuMapFrameExtension.onLeaseLand,
+            ["isActive"] = false
+        }
+
+        UsedPlus.logDebug("Registered LEASE_LAND action (ID=" .. tostring(leaseId) .. ")")
     end
 end
 
