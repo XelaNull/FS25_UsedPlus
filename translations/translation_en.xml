@@ -1052,6 +1052,9 @@
         <e k="usedplus_sli_infoText" v="Your agent is now searching for buyers." />
         <e k="usedplus_sli_infoTextSub" v="You'll receive offers to accept or decline as buyers are found." />
 
+        <!-- Sale Offer Notifications -->
+        <e k="usedplus_notify_saleOffer" v="Buyer found for %s! Offering %s" />
+
         <!-- Sale Offer Dialog -->
         <e k="usedplus_so_title" v="SALE OFFER RECEIVED!" />
         <e k="usedplus_so_sectionVehicle" v="VEHICLE" />
@@ -1240,16 +1243,17 @@
         <e k="usedplus_fmf_regionalSearch" v="Regional Search" />
         <e k="usedplus_fmf_regionalStats" v="6% fee | 70% success | 1-3 months" />
         <e k="usedplus_fmf_nationalSearch" v="National Search" />
-        <e k="usedplus_fmf_nationalStats" v="12% | 85% | 2-6 mo" />
-        <e k="usedplus_fmf_startFromShop" v="Start searches from shop" />
-        <e k="usedplus_fmf_viaSearchUsed" v="via 'Search Used'" />
+        <e k="usedplus_fmf_nationalStats" v="12% fee | 85% success | 2-6 months" />
+        <e k="usedplus_fmf_startFromShop" v="Start searches from shop via 'Search Used'" />
+        <e k="usedplus_fmf_viaSearchUsed" v="" />
         <e k="usedplus_fmf_usedVehicleSearches" v="Used Vehicle Searches" />
         <e k="usedplus_fmf_noActiveSearches" v="No active searches. Start from Shop." />
         <e k="usedplus_fmf_headerPrice" v="PRICE" />
         <e k="usedplus_fmf_headerTier" v="TIER" />
         <e k="usedplus_fmf_headerStatus" v="STATUS" />
-        <e k="usedplus_fmf_headerChance" v="%" />
+        <e k="usedplus_fmf_headerChance" v="QUALITY" />
         <e k="usedplus_fmf_headerTime" v="TIME" />
+        <e k="usedplus_fmf_headerOffers" v="OFFERS" />
         <e k="usedplus_fmf_vehiclesForSale" v="Vehicles For Sale" />
         <e k="usedplus_fmf_noListings" v="No listings. Sell from Garage menu." />
         <e k="usedplus_fmf_lifetimeStats" v="Lifetime Statistics" />
@@ -1568,6 +1572,33 @@
         <e k="usedplus_hydraulic_alreadyFull" v="Hydraulic fluid already full" />
         <e k="usedplus_oil_storageLevel" v="Oil Storage: %d / %d L" />
         <e k="usedplus_hydraulic_storageLevel" v="Hydraulic Storage: %d / %d L" />
+        <e k="usedplus_oil_purchaseAction" v="Purchase Oil" />
+        <e k="usedplus_oil_purchased" v="Purchased %.0fL of oil - %s (Tank: %.0f/%.0fL)" />
+        <e k="usedplus_oil_storageFull" v="Oil tank is full!" />
+
+        <!-- v1.9.0: Unified Fluid Storage System -->
+        <e k="usedplus_fluid_purchaseAction" v="Purchase Fluids" />
+        <e k="usedplus_fluid_oil" v="Engine Oil" />
+        <e k="usedplus_fluid_hydraulic" v="Hydraulic Fluid" />
+        <e k="usedplus_fluid_purchased" v="Purchased %.0fL of %s - %s (Tank: %.0f/%.0fL)" />
+        <e k="usedplus_fluid_storageFull" v="Tank is full!" />
+        <e k="usedplus_fluid_notEnoughStorage" v="Not enough fluid! Need %.1fL, have %.1fL" />
+        <e k="usedplus_hydraulic_refillCompleteStorage" v="Hydraulic fluid refilled - %.1fL used (%.1fL remaining)" />
+
+        <!-- v1.9.4: Fluid Inspection Comments (Mechanic's Assessment) -->
+        <e k="usedplus_fluid_oilLeakSevere" v="Significant oil leak detected - needs immediate attention." />
+        <e k="usedplus_fluid_oilLeakMinor" v="Minor oil leak present - may worsen over time." />
+        <e k="usedplus_fluid_oilCritical" v="Oil level critically low - top up before operation." />
+        <e k="usedplus_fluid_oilLow" v="Oil level below recommended - needs topping up." />
+        <e k="usedplus_fluid_oilAdequate" v="Oil level adequate but monitor regularly." />
+        <e k="usedplus_fluid_oilGood" v="Oil level looks good." />
+        <e k="usedplus_fluid_hydLeakSevere" v="Major hydraulic leak found - repair urgently needed." />
+        <e k="usedplus_fluid_hydLeakMinor" v="Small hydraulic leak detected - keep an eye on it." />
+        <e k="usedplus_fluid_hydCritical" v="Hydraulic fluid dangerously low - implements may not function properly." />
+        <e k="usedplus_fluid_hydLow" v="Hydraulic fluid running low - recommend refill." />
+        <e k="usedplus_fluid_hydGood" v="Hydraulic system looks healthy." />
+        <e k="usedplus_fluid_fuelLeak" v="CAUTION: Fuel leak detected - fire hazard, needs repair." />
+        <e k="usedplus_fluid_allClear" v="All fluid systems appear normal." />
 
         <!-- v1.8.0: Field Service Kit with OBD Scanner -->
         <e k="usedplus_fsk_name" v="Field Service Kit (OBD Scanner)" />

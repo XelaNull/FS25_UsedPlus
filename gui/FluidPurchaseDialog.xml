@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Fluid Purchase Dialog
+
+    Simple dialog for purchasing fluids (Engine Oil or Hydraulic Fluid)
+    for the Oil Service Tank placeable.
+
+    v1.9.2 - Fluid Purchase System
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="500px 380px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_fluid_purchaseAction"/>
+
+            <!-- Tank Status Section -->
+            <GuiElement profile="fpTankSection" id="tankSection" position="0px -60px">
+                <Bitmap profile="fpSectionBg" id="tankSectionBg" position="0px 0px"/>
+                <Text profile="fpSectionHeader" id="tankSectionHeader" position="0px -5px" text="TANK STATUS"/>
+
+                <Text profile="fpLabel" id="levelLabel" position="-100px -30px" text="Current Level:"/>
+                <Text profile="fpValue" id="tankLevelText" position="100px -30px" text="0 / 500 L"/>
+
+                <Text profile="fpLabel" id="contentsLabel" position="-100px -52px" text="Contains:"/>
+                <Text profile="fpValue" id="tankContentsText" position="100px -52px" text="Empty"/>
+            </GuiElement>
+
+            <!-- Purchase Options Section -->
+            <GuiElement profile="fpPurchaseSection" id="purchaseSection" position="0px -145px">
+                <Bitmap profile="fpPurchaseSectionBg" id="purchaseSectionBg" position="0px 0px"/>
+                <Text profile="fpSectionHeader" id="purchaseSectionHeader" position="0px -5px" text="PURCHASE"/>
+
+                <Text profile="fpLabel" id="fluidTypeLabel" position="-100px -35px" text="Fluid Type:"/>
+                <MultiTextOption profile="fpFluidDropdown" id="fluidTypeOption" position="80px -35px"/>
+
+                <Text profile="fpLabel" id="amountLabel" position="-100px -65px" text="Amount:"/>
+                <Text profile="fpAmountValue" id="amountText" position="100px -65px" text="50 L"/>
+
+                <Text profile="fpLabel" id="costLabel" position="-100px -90px" text="Cost:"/>
+                <Text profile="fpCostValue" id="costText" position="100px -90px" text="$250"/>
+            </GuiElement>
+
+        </GuiElement>
+
+        <BoxLayout profile="fs25_dialogButtonBox" id="buttonBox">
+            <Button profile="buttonOK" id="purchaseButton" text="$l10n_usedplus_button_purchase" onClick="onClickPurchase"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator" id="buttonSeparator"/>
+            <Button profile="buttonBack" id="cancelButton" text="$l10n_button_cancel" onClick="onClickCancel"/>
+        </BoxLayout>
+
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- Section Containers -->
+        <Profile name="fpTankSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="440px 75px"/>
+        </Profile>
+
+        <Profile name="fpPurchaseSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="440px 110px"/>
+        </Profile>
+
+        <!-- Section Backgrounds -->
+        <Profile name="fpSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="440px 75px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="fpPurchaseSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="440px 110px"/>
+            <imageColor value="0.06 0.1 0.08 0.9"/>
+        </Profile>
+
+        <!-- Section Header -->
+        <Profile name="fpSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="420px 20px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- Labels -->
+        <Profile name="fpLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="140px 20px"/>
+            <textSize value="14px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="right"/>
+        </Profile>
+
+        <!-- Values -->
+        <Profile name="fpValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="160px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="fpAmountValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="160px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 0.85 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="fpCostValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="160px 20px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- Dropdown -->
+        <Profile name="fpFluidDropdown" extends="fs25_multiTextOption" with="anchorTopCenter">
+            <size value="200px 30px"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

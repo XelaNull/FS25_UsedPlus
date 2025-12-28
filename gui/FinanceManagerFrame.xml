@@ -226,8 +226,7 @@
                     <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_nationalSearch" position="280px 85px" textSize="12px" textBold="true" textColor="1 0.8 0.4 1"/>
                     <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_nationalStats" position="280px 68px" textSize="11px" textColor="0.6 0.6 0.6 1"/>
 
-                    <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_startFromShop" position="280px 42px" textSize="11px" textColor="0.5 0.5 0.5 1"/>
-                    <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_viaSearchUsed" position="280px 26px" textSize="11px" textColor="0.5 0.5 0.5 1"/>
+                    <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_startFromShop" position="280px 35px" textSize="11px" textColor="0.5 0.5 0.5 1"/>
                 </GuiElement>
 
                 <!-- MIDDLE-LOWER: Used Vehicle Searches Table -->
@@ -244,13 +243,14 @@
                         <Bitmap profile="baseReference" imageColor="0.08 0.08 0.08 1" size="500px 145px"/>
 
                         <!-- Column Headers Row (at top of data area) -->
+                        <!-- Aligned with Vehicles For Sale: ITEM(5) | PRICE(130) | TIER(215) | QUALITY(280) | TIME(345) -->
                         <GuiElement position="0px 121px" size="500px 24px">
                             <Bitmap profile="baseReference" imageColor="0.14 0.14 0.14 1" size="500px 24px"/>
                             <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerItem" position="5px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
-                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerPrice" position="210px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
-                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTier" position="280px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
-                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerChance" position="340px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
-                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTime" position="385px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerPrice" position="130px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTier" position="215px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerChance" position="280px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTime" position="345px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
                         </GuiElement>
 
                         <!-- Empty state text - centered in wider container -->
@@ -260,10 +260,10 @@
                         <GuiElement id="searchRow0" position="0px 97px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow0Bg" imageColor="0.1 0.1 0.1 1" size="500px 24px"/>
                             <Text profile="fs25_textDefault" id="searchRow0Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow0Price" text="" position="210px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow0Tier" text="" position="280px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow0Chance" text="" position="340px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow0Time" text="" position="385px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow0Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow0Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow0Chance" text="" position="280px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow0Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Hidden-style Info button -->
                             <Bitmap profile="baseReference" id="searchRow0InfoBtnBg" position="424px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="searchRow0InfoBtn" text="" onClick="onInfoSearch0" position="424px 1px" size="26px 22px"/>
@@ -278,10 +278,10 @@
                         <GuiElement id="searchRow1" position="0px 73px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow1Bg" imageColor="0.12 0.12 0.12 1" size="500px 24px"/>
                             <Text profile="fs25_textDefault" id="searchRow1Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow1Price" text="" position="210px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow1Tier" text="" position="280px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow1Chance" text="" position="340px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow1Time" text="" position="385px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow1Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow1Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow1Chance" text="" position="280px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow1Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Hidden-style Info button -->
                             <Bitmap profile="baseReference" id="searchRow1InfoBtnBg" position="424px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="searchRow1InfoBtn" text="" onClick="onInfoSearch1" position="424px 1px" size="26px 22px"/>
@@ -296,10 +296,10 @@
                         <GuiElement id="searchRow2" position="0px 49px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow2Bg" imageColor="0.1 0.1 0.1 1" size="500px 24px"/>
                             <Text profile="fs25_textDefault" id="searchRow2Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow2Price" text="" position="210px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow2Tier" text="" position="280px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow2Chance" text="" position="340px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow2Time" text="" position="385px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow2Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow2Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow2Chance" text="" position="280px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow2Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Hidden-style Info button -->
                             <Bitmap profile="baseReference" id="searchRow2InfoBtnBg" position="424px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="searchRow2InfoBtn" text="" onClick="onInfoSearch2" position="424px 1px" size="26px 22px"/>
@@ -314,10 +314,10 @@
                         <GuiElement id="searchRow3" position="0px 25px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow3Bg" imageColor="0.12 0.12 0.12 1" size="500px 24px"/>
                             <Text profile="fs25_textDefault" id="searchRow3Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow3Price" text="" position="210px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow3Tier" text="" position="280px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow3Chance" text="" position="340px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow3Time" text="" position="385px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow3Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow3Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow3Chance" text="" position="280px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow3Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Hidden-style Info button -->
                             <Bitmap profile="baseReference" id="searchRow3InfoBtnBg" position="424px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="searchRow3InfoBtn" text="" onClick="onInfoSearch3" position="424px 1px" size="26px 22px"/>
@@ -332,10 +332,10 @@
                         <GuiElement id="searchRow4" position="0px 1px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow4Bg" imageColor="0.1 0.1 0.1 1" size="500px 24px"/>
                             <Text profile="fs25_textDefault" id="searchRow4Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow4Price" text="" position="210px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow4Tier" text="" position="280px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow4Chance" text="" position="340px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
-                            <Text profile="fs25_textDefault" id="searchRow4Time" text="" position="385px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow4Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow4Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow4Chance" text="" position="280px 5px" textSize="11px" textColor="0.5 1 0.5 1"/>
+                            <Text profile="fs25_textDefault" id="searchRow4Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Hidden-style Info button -->
                             <Bitmap profile="baseReference" id="searchRow4InfoBtnBg" position="424px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="searchRow4InfoBtn" text="" onClick="onInfoSearch4" position="424px 1px" size="26px 22px"/>
@@ -354,7 +354,7 @@
                     <GuiElement position="0px 100px" size="500px 25px">
                         <Bitmap profile="baseReference" imageColor="0.15 0.35 0.15 1" size="500px 25px"/>
                         <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_vehiclesForSale" position="8px 5px" textSize="13px" textBold="true" textColor="0.8 1 0.8 1"/>
-                        <Text profile="fs25_textDefault" id="saleListingsCountText" text="" position="410px 5px" textSize="12px" textColor="0.6 0.6 0.6 1"/>
+                        <Text profile="fs25_textDefault" id="saleListingsCountText" text="" position="440px 5px" textSize="12px" textColor="0.6 0.6 0.6 1"/>
                     </GuiElement>
 
                     <!-- Sale Listing Rows Container -->
@@ -362,12 +362,14 @@
                         <Bitmap profile="baseReference" imageColor="0.06 0.08 0.06 1" size="500px 100px"/>
 
                         <!-- Column Headers Row (at top of data area) -->
+                        <!-- Aligned with Used Searches: ITEM(5) | STATUS(130) | TIER(215) | OFFERS(280) | TIME(345) -->
                         <GuiElement position="0px 76px" size="500px 24px">
                             <Bitmap profile="baseReference" imageColor="0.14 0.14 0.14 1" size="500px 24px"/>
                             <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerItem" position="5px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
-                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTier" position="130px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
-                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerStatus" position="185px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
-                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTime" position="265px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerStatus" position="130px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTier" position="215px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerOffers" position="280px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
+                            <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_headerTime" position="345px 5px" textSize="10px" textBold="true" textColor="0.6 0.6 0.6 1"/>
                         </GuiElement>
 
                         <!-- Empty state text - centered in wider container -->
@@ -377,17 +379,18 @@
                         <GuiElement id="saleRow0" position="0px 51px" size="500px 25px" visible="false">
                             <Bitmap profile="baseReference" id="saleRow0Bg" imageColor="0.1 0.12 0.1 1" size="500px 25px"/>
                             <Text profile="fs25_textDefault" id="saleRow0Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow0Tier" text="" position="130px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow0Status" text="" position="185px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow0Time" text="" position="265px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow0Status" text="" position="130px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow0Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow0Offers" text="" position="280px 5px" textSize="11px" textColor="0.9 0.7 0.4 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow0Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Accept button (green, for pending offers) - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow0AcceptBtnBg" position="410px 1px" size="36px 22px" imageColor="0.15 0.25 0.15 1" visible="false"/>
                             <Button profile="financeActionBtn" id="saleRow0AcceptBtn" text="" onClick="onAcceptSale0" position="410px 1px" size="36px 22px" visible="false"/>
-                            <Text profile="fs25_textDefault" id="saleRow0AcceptBtnText" text="YES" position="410px 4px" size="36px 18px" textSize="11px" textBold="true" textAlignment="center" textColor="0.4 1 0.4 1" visible="false"/>
+                            <Text profile="fs25_textDefault" id="saleRow0AcceptBtnText" text="VIEW" position="410px 4px" size="36px 18px" textSize="10px" textBold="true" textAlignment="center" textColor="0.4 1 0.4 1" visible="false"/>
                             <!-- Decline button (red, for pending offers) - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow0DeclineBtnBg" position="450px 1px" size="36px 22px" imageColor="0.25 0.15 0.15 1" visible="false"/>
                             <Button profile="financeActionBtn" id="saleRow0DeclineBtn" text="" onClick="onDeclineSale0" position="450px 1px" size="36px 22px" visible="false"/>
-                            <Text profile="fs25_textDefault" id="saleRow0DeclineBtnText" text="NO" position="450px 4px" size="36px 18px" textSize="11px" textBold="true" textAlignment="center" textColor="1 0.5 0.5 1" visible="false"/>
+                            <Text profile="fs25_textDefault" id="saleRow0DeclineBtnText" text="SKIP" position="450px 4px" size="36px 18px" textSize="10px" textBold="true" textAlignment="center" textColor="1 0.5 0.5 1" visible="false"/>
                             <!-- Info button - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow0InfoBtnBg" position="440px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="saleRow0InfoBtn" text="" onClick="onInfoSale0" position="440px 1px" size="26px 22px"/>
@@ -402,17 +405,18 @@
                         <GuiElement id="saleRow1" position="0px 26px" size="500px 25px" visible="false">
                             <Bitmap profile="baseReference" id="saleRow1Bg" imageColor="0.08 0.1 0.08 1" size="500px 25px"/>
                             <Text profile="fs25_textDefault" id="saleRow1Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow1Tier" text="" position="130px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow1Status" text="" position="185px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow1Time" text="" position="265px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow1Status" text="" position="130px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow1Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow1Offers" text="" position="280px 5px" textSize="11px" textColor="0.9 0.7 0.4 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow1Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Accept button (green, for pending offers) - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow1AcceptBtnBg" position="410px 1px" size="36px 22px" imageColor="0.15 0.25 0.15 1" visible="false"/>
                             <Button profile="financeActionBtn" id="saleRow1AcceptBtn" text="" onClick="onAcceptSale1" position="410px 1px" size="36px 22px" visible="false"/>
-                            <Text profile="fs25_textDefault" id="saleRow1AcceptBtnText" text="YES" position="410px 4px" size="36px 18px" textSize="11px" textBold="true" textAlignment="center" textColor="0.4 1 0.4 1" visible="false"/>
+                            <Text profile="fs25_textDefault" id="saleRow1AcceptBtnText" text="VIEW" position="410px 4px" size="36px 18px" textSize="10px" textBold="true" textAlignment="center" textColor="0.4 1 0.4 1" visible="false"/>
                             <!-- Decline button (red, for pending offers) - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow1DeclineBtnBg" position="450px 1px" size="36px 22px" imageColor="0.25 0.15 0.15 1" visible="false"/>
                             <Button profile="financeActionBtn" id="saleRow1DeclineBtn" text="" onClick="onDeclineSale1" position="450px 1px" size="36px 22px" visible="false"/>
-                            <Text profile="fs25_textDefault" id="saleRow1DeclineBtnText" text="NO" position="450px 4px" size="36px 18px" textSize="11px" textBold="true" textAlignment="center" textColor="1 0.5 0.5 1" visible="false"/>
+                            <Text profile="fs25_textDefault" id="saleRow1DeclineBtnText" text="SKIP" position="450px 4px" size="36px 18px" textSize="10px" textBold="true" textAlignment="center" textColor="1 0.5 0.5 1" visible="false"/>
                             <!-- Info button - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow1InfoBtnBg" position="440px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="saleRow1InfoBtn" text="" onClick="onInfoSale1" position="440px 1px" size="26px 22px"/>
@@ -427,17 +431,18 @@
                         <GuiElement id="saleRow2" position="0px 1px" size="500px 25px" visible="false">
                             <Bitmap profile="baseReference" id="saleRow2Bg" imageColor="0.1 0.12 0.1 1" size="500px 25px"/>
                             <Text profile="fs25_textDefault" id="saleRow2Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow2Tier" text="" position="130px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow2Status" text="" position="185px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
-                            <Text profile="fs25_textDefault" id="saleRow2Time" text="" position="265px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow2Status" text="" position="130px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow2Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow2Offers" text="" position="280px 5px" textSize="11px" textColor="0.9 0.7 0.4 1"/>
+                            <Text profile="fs25_textDefault" id="saleRow2Time" text="" position="345px 5px" textSize="11px" textColor="0.7 0.7 0.7 1"/>
                             <!-- Accept button (green, for pending offers) - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow2AcceptBtnBg" position="410px 1px" size="36px 22px" imageColor="0.15 0.25 0.15 1" visible="false"/>
                             <Button profile="financeActionBtn" id="saleRow2AcceptBtn" text="" onClick="onAcceptSale2" position="410px 1px" size="36px 22px" visible="false"/>
-                            <Text profile="fs25_textDefault" id="saleRow2AcceptBtnText" text="YES" position="410px 4px" size="36px 18px" textSize="11px" textBold="true" textAlignment="center" textColor="0.4 1 0.4 1" visible="false"/>
+                            <Text profile="fs25_textDefault" id="saleRow2AcceptBtnText" text="VIEW" position="410px 4px" size="36px 18px" textSize="10px" textBold="true" textAlignment="center" textColor="0.4 1 0.4 1" visible="false"/>
                             <!-- Decline button (red, for pending offers) - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow2DeclineBtnBg" position="450px 1px" size="36px 22px" imageColor="0.25 0.15 0.15 1" visible="false"/>
                             <Button profile="financeActionBtn" id="saleRow2DeclineBtn" text="" onClick="onDeclineSale2" position="450px 1px" size="36px 22px" visible="false"/>
-                            <Text profile="fs25_textDefault" id="saleRow2DeclineBtnText" text="NO" position="450px 4px" size="36px 18px" textSize="11px" textBold="true" textAlignment="center" textColor="1 0.5 0.5 1" visible="false"/>
+                            <Text profile="fs25_textDefault" id="saleRow2DeclineBtnText" text="SKIP" position="450px 4px" size="36px 18px" textSize="10px" textBold="true" textAlignment="center" textColor="1 0.5 0.5 1" visible="false"/>
                             <!-- Info button - right aligned -->
                             <Bitmap profile="baseReference" id="saleRow2InfoBtnBg" position="440px 1px" size="26px 22px" imageColor="0.18 0.18 0.18 1"/>
                             <Button profile="financeActionBtn" id="saleRow2InfoBtn" text="" onClick="onInfoSale2" position="440px 1px" size="26px 22px"/>

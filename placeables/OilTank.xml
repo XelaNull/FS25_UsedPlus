@@ -1,37 +1,34 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <!--
-    FS25_UsedPlus - Oil Service Tank
+    FS25_UsedPlus - Oil Service Tank (Large)
 
-    A larger placeable oil service point. Drive a vehicle near it to refill engine oil.
-    Default mode: Infinite supply, cost based on vehicle value.
+    A larger oil service point for refilling engine oil and hydraulic fluid.
+    Drive your vehicle near the tank to access refill options.
 
-    Model adapted from: FS25_FuelTanksPack (with acknowledgment)
+    Model adapted from: FS25_FuelTanksPack FuelTankSmall (with acknowledgment)
 
     v1.8.0 - Oil Service Point System
 -->
 <placeable type="usedPlusOilServicePoint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
     <storeData>
         <name>$l10n_usedplus_oilTank_name</name>
-        <image>placeables/store_OilTank.dds</image>
+        <image>placeables/OilTank.dds</image>
         <functions>
             <function>$l10n_usedplus_oilTank_function</function>
         </functions>
-        <specs>
-            <capacity>$l10n_usedplus_oilBarrel_specUnlimited</capacity>
-        </specs>
         <price>2500</price>
-        <dailyUpkeep>5</dailyUpkeep>
+        <dailyUpkeep>8</dailyUpkeep>
         <canBeSold>true</canBeSold>
         <showInStore>true</showInStore>
         <lifetime>1000</lifetime>
         <rotation>0</rotation>
         <brand>NONE</brand>
         <species>placeable</species>
-        <category>misc</category>
+        <category>dieselTanks</category>
         <brush>
             <type>placeable</type>
-            <category>misc</category>
-            <tab>decorations</tab>
+            <category>buildings</category>
+            <tab>containers</tab>
         </brush>
         <vertexBufferMemoryUsage>36096</vertexBufferMemoryUsage>
         <indexBufferMemoryUsage>9216</indexBufferMemoryUsage>
@@ -66,7 +63,36 @@
         </levelAreas>
     </leveling>
 
+    <indoorAreas />
+
+    <ai>
+        <updateAreas>
+            <updateArea startNode="tipOcclusionUpdateAreaStart01" endNode="tipOcclusionUpdateAreaEnd01" />
+        </updateAreas>
+    </ai>
+
+    <tipOcclusionUpdateAreas>
+        <tipOcclusionUpdateArea startNode="tipOcclusionUpdateAreaStart01" endNode="tipOcclusionUpdateAreaEnd01" />
+    </tipOcclusionUpdateAreas>
+
+    <!-- Oil Service Point Configuration (Distance-Based Detection)
+         - Player on foot within 2m can purchase oil for storage
+         - Vehicle within 4m can refill engine oil from storage
+         - Using loadingTrigger as interaction point (near the fuel nozzle)
+    -->
+    <oilServicePoint
+        interactionNode="loadingTrigger"
+        playerRange="2.0"
+        vehicleRange="4.0"
+        storageCapacity="500"
+        oilPricePerLiter="5"
+        litersPerOilChange="10"
+        oilCostMultiplier="0.01"
+        hydraulicCostMultiplier="0.008"
+        useFillableStorage="true"/>
+
     <triggerMarkers>
+        <triggerMarker node="loadingMarker" filename="$data/shared/assets/marker/markerIconLoad.i3d" />
         <triggerMarker node="refillMarker" filename="$data/shared/assets/marker/markerIconWrench.i3d" />
     </triggerMarkers>
 
@@ -76,15 +102,7 @@
 
     <infoTrigger triggerNode="infoTrigger"/>
 
-    <!-- Oil Service Point Configuration -->
-    <oilServicePoint
-        triggerNode="serviceTrigger"
-        oilCostMultiplier="0.01"
-        hydraulicCostMultiplier="0.008"
-        useFillableStorage="false"
-    />
-
-    <!-- i3d mappings from FuelTankSmall structure -->
+    <!-- i3dMappings from FuelTankSmall.i3d (exact copy) -->
     <i3dMappings>
         <i3dMapping id="clearAreaStart01" node="0>0|0" />
         <i3dMapping id="clearAreaWidth01" node="0>0|0|0" />
@@ -94,10 +112,17 @@
         <i3dMapping id="levelAreaHeight01" node="0>1|0|1" />
         <i3dMapping id="testAreaStart01" node="0>2|0" />
         <i3dMapping id="testAreaEnd01" node="0>2|0|0" />
-        <!-- Service trigger - we need to add this node to the i3d or use existing trigger -->
-        <i3dMapping id="serviceTrigger" node="0>4|2" />
+        <i3dMapping id="tipOcclusionUpdateAreaStart01" node="0>3|0" />
+        <i3dMapping id="tipOcclusionUpdateAreaEnd01" node="0>3|0|0" />
+        <i3dMapping id="exactFillRootNode" node="0>4|0|0" />
+        <i3dMapping id="loadingTrigger" node="0>4|1|0" />
+        <i3dMapping id="dischargeNode" node="0>4|1|1" />
+        <i3dMapping id="loadingMarker" node="0>4|1|2" />
+        <i3dMapping id="refillPlayerTrigger" node="0>4|2" />
         <i3dMapping id="refillMarker" node="0>4|2|0" />
+        <i3dMapping id="storage" node="0>4|3" />
         <i3dMapping id="hotspotNode" node="0>4|4" />
         <i3dMapping id="infoTrigger" node="0>4|5" />
+        <i3dMapping id="tipCollision" node="0>5|1" />
     </i3dMappings>
 </placeable>

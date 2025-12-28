@@ -9,7 +9,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="700px 500px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="700px 570px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -67,8 +67,8 @@
             </GuiElement>
 
             <!-- Info Text -->
-            <Text profile="offerInfoText" position="0px -410px" text="$l10n_usedplus_so_acceptInfo"/>
-            <Text profile="offerInfoText" position="0px -430px" text="$l10n_usedplus_so_declineInfo"/>
+            <Text profile="offerInfoText" position="0px -450px" text="$l10n_usedplus_so_acceptInfo"/>
+            <Text profile="offerInfoText" position="0px -475px" text="$l10n_usedplus_so_declineInfo"/>
 
         </GuiElement>
 
@@ -82,7 +82,7 @@
     </GuiElement>
 
     <GUIProfiles>
-        <Profile name="offerSectionTitle" extends="fs25_dialogText">
+        <Profile name="offerSectionTitle" extends="fs25_dialogText" with="anchorTopCenter">
             <textSize value="16px"/>
             <textBold value="true"/>
             <textColor value="1 0.8 0 1"/>
@@ -93,26 +93,26 @@
             <size value="210px 140px"/>
         </Profile>
 
-        <Profile name="offerVehicleName" extends="fs25_textDefault">
+        <Profile name="offerVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
             <height value="28px"/>
             <textSize value="20px"/>
             <textBold value="true"/>
         </Profile>
 
-        <Profile name="offerAgentTier" extends="fs25_textDefault">
+        <Profile name="offerAgentTier" extends="fs25_textDefault" with="anchorTopCenter">
             <height value="24px"/>
             <textSize value="14px"/>
             <textColor value="0.7 0.7 0.7 1"/>
         </Profile>
 
-        <Profile name="offerLabel" extends="fs25_textDefault">
+        <Profile name="offerLabel" extends="fs25_textDefault" with="anchorTopCenter">
             <height value="24px"/>
             <textSize value="14px"/>
             <textColor value="0.7 0.7 0.7 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerAmountValue" extends="fs25_textDefault">
+        <Profile name="offerAmountValue" extends="fs25_textDefault" with="anchorTopCenter">
             <height value="36px"/>
             <textSize value="28px"/>
             <textBold value="true"/>
@@ -120,7 +120,7 @@
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerPercentValue" extends="fs25_textDefault">
+        <Profile name="offerPercentValue" extends="fs25_textDefault" with="anchorTopCenter">
             <height value="28px"/>
             <textSize value="20px"/>
             <textBold value="true"/>
@@ -128,39 +128,39 @@
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerExpirationLabel" extends="fs25_textDefault">
+        <Profile name="offerExpirationLabel" extends="fs25_textDefault" with="anchorTopCenter">
             <textSize value="14px"/>
             <textColor value="1 0.7 0.3 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerExpirationValue" extends="fs25_textDefault">
+        <Profile name="offerExpirationValue" extends="fs25_textDefault" with="anchorTopCenter">
             <textSize value="18px"/>
             <textBold value="true"/>
             <textColor value="1 0.5 0.3 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerCompareLabel" extends="fs25_textDefault">
+        <Profile name="offerCompareLabel" extends="fs25_textDefault" with="anchorTopCenter">
             <textSize value="12px"/>
             <textColor value="0.6 0.6 0.6 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerCompareValue" extends="fs25_textDefault">
+        <Profile name="offerCompareValue" extends="fs25_textDefault" with="anchorTopCenter">
             <textSize value="14px"/>
             <textColor value="0.8 0.8 0.8 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerCompareHighlight" extends="fs25_textDefault">
+        <Profile name="offerCompareHighlight" extends="fs25_textDefault" with="anchorTopCenter">
             <textSize value="14px"/>
             <textBold value="true"/>
             <textColor value="0.3 1 0.3 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <Profile name="offerInfoText" extends="fs25_textDefault">
+        <Profile name="offerInfoText" extends="fs25_textDefault" with="anchorTopCenter">
             <height value="18px"/>
             <textSize value="11px"/>
             <textColor value="0.6 0.6 0.6 1"/>

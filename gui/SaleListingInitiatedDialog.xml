@@ -8,7 +8,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="620px 450px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="620px 480px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -38,7 +38,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 3: Listing Details ========== -->
-            <GuiElement profile="sliSectionContainerTall" position="0px -200px">
+            <GuiElement profile="sliSectionContainerTall" position="0px -210px">
                 <Bitmap profile="sliSectionBgGreen" position="0px 0px"/>
                 <Text profile="sliSectionHeader" position="0px -8px" text="$l10n_usedplus_sli_sectionListing"/>
 
@@ -58,9 +58,9 @@
             </GuiElement>
 
             <!-- ========== Info Text ========== -->
-            <Text profile="sliInfoText" position="0px -320px"
+            <Text profile="sliInfoText" position="0px -350px"
                 text="$l10n_usedplus_sli_infoText"/>
-            <Text profile="sliInfoTextSub" position="0px -342px"
+            <Text profile="sliInfoTextSub" position="0px -372px"
                 text="$l10n_usedplus_sli_infoTextSub"/>
 
         </GuiElement>
@@ -87,11 +87,11 @@
         </Profile>
 
         <Profile name="sliSectionContainerMed" extends="emptyPanel" with="anchorTopCenter">
-            <size value="560px 75px"/>
+            <size value="560px 85px"/>
         </Profile>
 
         <Profile name="sliSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
-            <size value="560px 110px"/>
+            <size value="560px 125px"/>
         </Profile>
 
         <!-- ========== SECTION BACKGROUNDS ========== -->
@@ -101,12 +101,12 @@
         </Profile>
 
         <Profile name="sliSectionBgFee" extends="baseReference" with="anchorTopCenter">
-            <size value="560px 75px"/>
+            <size value="560px 85px"/>
             <imageColor value="0.12 0.08 0.08 0.9"/>
         </Profile>
 
         <Profile name="sliSectionBgGreen" extends="baseReference" with="anchorTopCenter">
-            <size value="560px 110px"/>
+            <size value="560px 125px"/>
             <imageColor value="0.06 0.12 0.08 0.9"/>
         </Profile>
 

@@ -350,6 +350,7 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
         <sourceFile filename="src/gui/SearchExpiredDialog.lua"/>       <!--  v1.5.1: Search expiration with renewal option -->
         <sourceFile filename="src/gui/SaleExpiredDialog.lua"/>          <!--  v1.5.1: No buyer found dialog -->
         <sourceFile filename="src/gui/FieldServiceKitDialog.lua"/>    <!--  v1.8.0: Field Service Kit dialog -->
+        <sourceFile filename="src/gui/FluidPurchaseDialog.lua"/>    <!--  v1.9.3: Fluid purchase dialog -->
 
         <!-- Extensions (depend on managers, GUI) -->
         <sourceFile filename="src/extensions/ShopConfigScreenExtension.lua"/>
@@ -373,9 +374,10 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
     </specializations>
 
     <!-- Vehicle Types - Hand Tools -->
+    <!-- CRITICAL: Mod specializations MUST be referenced with mod name prefix -->
     <vehicleTypes>
         <type name="usedPlusFieldServiceKit" parent="handTool" filename="$dataS/scripts/vehicles/Vehicle.lua">
-            <specialization name="FieldServiceKit"/>
+            <specialization name="FS25_UsedPlus.FieldServiceKit"/>
         </type>
     </vehicleTypes>
 
@@ -393,7 +395,6 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
 
     <!-- Placeables & Hand Tools -->
     <storeItems>
-        <storeItem xmlFilename="placeables/OilBarrel.xml"/>
         <storeItem xmlFilename="placeables/OilTank.xml"/>
         <storeItem xmlFilename="vehicles/fieldServiceKit/fieldServiceKit.xml"/>  <!--  v1.8.0: Field Service Kit -->
     </storeItems>

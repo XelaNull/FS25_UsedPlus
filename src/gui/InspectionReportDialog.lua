@@ -153,6 +153,23 @@ function InspectionReportDialog:updateDisplay()
             self.mechanicQuoteText:setText('"' .. quote .. '"')
         end
 
+        -- v1.9.4: Display fluid/oil assessment from mechanic
+        local fluidComment = nil
+        if UsedPlusMaintenance and UsedPlusMaintenance.getFluidInspectorComment then
+            fluidComment = UsedPlusMaintenance.getFluidInspectorComment(usedPlusData)
+        end
+        if self.fluidAssessmentText and fluidComment then
+            self.fluidAssessmentText:setText(fluidComment)
+            -- Color based on severity (red if leaks, orange if low, green if good)
+            if usedPlusData.hasOilLeak or usedPlusData.hasHydraulicLeak or usedPlusData.hasFuelLeak then
+                self.fluidAssessmentText:setTextColor(1, 0.4, 0.4, 1)  -- Red for leaks
+            elseif (usedPlusData.oilLevel or 1) < 0.5 or (usedPlusData.hydraulicFluidLevel or 1) < 0.5 then
+                self.fluidAssessmentText:setTextColor(1, 0.7, 0.3, 1)  -- Orange for low
+            else
+                self.fluidAssessmentText:setTextColor(0.7, 0.9, 0.7, 1)  -- Light green for good
+            end
+        end
+
         -- Legacy notes elements (keep for compatibility, may be removed later)
         if self.notesText then
             self.notesText:setText("")

@@ -153,6 +153,7 @@ function FinanceManagerFrame:onGuiSetupFinished()
             tier = self[rowId .. "Tier"],
             status = self[rowId .. "Status"],
             time = self[rowId .. "Time"],
+            offers = self[rowId .. "Offers"],
             -- Info button (always visible)
             infoBtn = self[rowId .. "InfoBtn"],
             infoBtnBg = self[rowId .. "InfoBtnBg"],
@@ -899,7 +900,23 @@ function FinanceManagerFrame:updateSearchesSection(farmId)
 
             -- Format values
             local priceStr = g_i18n:formatMoney(basePrice, 0, true, true)
-            local chanceStr = isReady and "100%" or string.format("%d%%", successRate)
+
+            -- Get quality name from search object (short version for table display)
+            local qualityStr = "Any"
+            if not isReady and search then
+                if search.getQualityName then
+                    -- getQualityName returns "Any Condition" etc - shorten for table
+                    local fullName = search:getQualityName() or "Any Condition"
+                    qualityStr = string.gsub(fullName, " Condition", "")
+                elseif search.qualityLevel then
+                    local qualityNames = {"Any", "Poor", "Fair", "Good", "Excellent"}
+                    qualityStr = qualityNames[search.qualityLevel] or "Any"
+                end
+            elseif isReady and item.data then
+                -- For found listings, show the quality from listing data
+                local fullName = item.data.qualityName or "Any Condition"
+                qualityStr = string.gsub(fullName, " Condition", "")
+            end
 
             -- Update row elements
             local row = self.searchRows[rowIndex]
@@ -908,7 +925,7 @@ function FinanceManagerFrame:updateSearchesSection(farmId)
                 if row.item then row.item:setText(itemName) end
                 if row.price then row.price:setText(priceStr) end
                 if row.tier then row.tier:setText(tierName) end
-                if row.chance then row.chance:setText(chanceStr) end
+                if row.chance then row.chance:setText(qualityStr) end
                 if row.time then
                     row.time:setText(timeStr)
                     if isReady then
@@ -1079,6 +1096,18 @@ function FinanceManagerFrame:updateSaleListings(farmId)
                             end
                         end
                         if row.time then row.time:setText(timeStr) end
+
+                        -- Show offers received count
+                        if row.offers then
+                            local offersCount = listing.offersReceived or 0
+                            row.offers:setText(tostring(offersCount))
+                            -- Color based on offers: green if any, gray if none
+                            if offersCount > 0 then
+                                row.offers:setTextColor(0.9, 0.7, 0.4, 1)  -- Gold/orange
+                            else
+                                row.offers:setTextColor(0.5, 0.5, 0.5, 1)  -- Gray
+                            end
+                        end
 
                         -- Info button (always visible when row is visible)
                         if row.infoBtn then row.infoBtn:setVisible(true) end
@@ -1393,6 +1422,7 @@ end
 
 --[[
      Handle Accept button click for a specific sale listing row
+     Now shows full SaleOfferDialog for detailed review (same as when offer first arrives)
     @param rowIndex - The row index (0-2) that was clicked
 ]]
 function FinanceManagerFrame:onAcceptSaleClick(rowIndex)
@@ -1423,40 +1453,37 @@ function FinanceManagerFrame:onAcceptSaleClick(rowIndex)
         return
     end
 
-    -- Show confirmation dialog
-    local offerAmount = listing.currentOffer or 0
+    -- Store reference for callback
+    local self_ref = self
+    local listingId = listing.id
     local vehicleName = listing.vehicleName or "Unknown"
-    local message = string.format(
-        "Accept offer of %s for %s?\n\nThe vehicle will be sold and removed from your farm.",
-        g_i18n:formatMoney(offerAmount, 0, true, true),
-        vehicleName
-    )
+    local offerAmount = listing.currentOffer or 0
 
-    -- Use YesNoDialog.show() instead of g_gui:showYesNoDialog (which doesn't exist in FS25)
-    YesNoDialog.show(
-        function(yes)
-            if yes then
-                -- Send accept event
-                if AcceptSaleOfferEvent then
-                    AcceptSaleOfferEvent.sendToServer(listing.id)
-                    g_currentMission:addIngameNotification(
-                        FSBaseMission.INGAME_NOTIFICATION_OK,
-                        string.format(g_i18n:getText("usedplus_notify_vehicleSold"), vehicleName, g_i18n:formatMoney(offerAmount, 0, true, true))
-                    )
-                else
-                    g_currentMission:addIngameNotification(
-                        FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-                        "Error: AcceptSaleOfferEvent not available"
-                    )
-                end
-                -- Refresh display
-                self:updateDisplay()
+    -- Show full SaleOfferDialog for detailed review (same as when offer first arrives)
+    local callback = function(accepted)
+        if accepted then
+            -- Send accept event
+            if SaleListingActionEvent then
+                SaleListingActionEvent.sendToServer(listingId, SaleListingActionEvent.ACTION_ACCEPT)
+                g_currentMission:addIngameNotification(
+                    FSBaseMission.INGAME_NOTIFICATION_OK,
+                    string.format(g_i18n:getText("usedplus_notify_vehicleSold"), vehicleName, g_i18n:formatMoney(offerAmount, 0, true, true))
+                )
+            elseif AcceptSaleOfferEvent then
+                -- Fallback to legacy event
+                AcceptSaleOfferEvent.sendToServer(listingId)
+                g_currentMission:addIngameNotification(
+                    FSBaseMission.INGAME_NOTIFICATION_OK,
+                    string.format(g_i18n:getText("usedplus_notify_vehicleSold"), vehicleName, g_i18n:formatMoney(offerAmount, 0, true, true))
+                )
             end
-        end,
-        nil,  -- target
-        message,  -- text
-        "Accept Sale Offer"  -- title
-    )
+        end
+        -- Refresh display after dialog closes
+        self_ref:updateDisplay()
+    end
+
+    -- Show SaleOfferDialog - same dialog as when offer first arrives
+    SaleOfferDialog.showForListing(listing, callback)
 end
 
 --[[

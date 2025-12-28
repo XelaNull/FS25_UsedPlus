@@ -128,6 +128,14 @@ function SaleOfferDialog:onClickDecline()
 end
 
 --[[
+     Close this dialog properly
+     v1.9.5: Use closeDialogByName pattern like other dialogs
+]]
+function SaleOfferDialog:close()
+    g_gui:closeDialogByName("SaleOfferDialog")
+end
+
+--[[
      Show the offer dialog for a listing
      Static helper function
     @param listing - VehicleSaleListing with pending offer
@@ -135,15 +143,25 @@ end
 ]]
 --[[
      Static show method - refactored to use DialogLoader
+     v1.9.5: Removed hasPendingOffer check - let the dialog show regardless
+     (status may not be updated yet when this is called from onOfferReceived)
 ]]
 function SaleOfferDialog.showForListing(listing, callback)
-    if listing == nil or not listing:hasPendingOffer() then
-        UsedPlus.logError("Cannot show offer dialog - no pending offer")
-        return
+    if listing == nil then
+        UsedPlus.logError("Cannot show offer dialog - listing is nil")
+        return false
     end
 
+    if listing.currentOffer == nil or listing.currentOffer <= 0 then
+        UsedPlus.logError("Cannot show offer dialog - no valid offer amount")
+        return false
+    end
+
+    UsedPlus.logDebug(string.format("SaleOfferDialog.showForListing: listing=%s, offer=$%d",
+        tostring(listing.id), listing.currentOffer or 0))
+
     -- Use DialogLoader for centralized lazy loading
-    DialogLoader.show("SaleOfferDialog", "setListing", listing, callback)
+    return DialogLoader.show("SaleOfferDialog", "setListing", listing, callback)
 end
 
 UsedPlus.logInfo("SaleOfferDialog loaded")

@@ -1411,6 +1411,17 @@
         <e k="usedplus_hydraulic_alreadyFull" v="Hydraulikflüssigkeit bereits voll" />
         <e k="usedplus_oil_storageLevel" v="Öllager: %d / %d L" />
         <e k="usedplus_hydraulic_storageLevel" v="Hydrauliklager: %d / %d L" />
+        <e k="usedplus_oil_purchaseAction" v="Öl kaufen" />
+        <e k="usedplus_oil_purchased" v="%.0fL Öl gekauft - %s (Tank: %.0f/%.0fL)" />
+        <e k="usedplus_oil_storageFull" v="Öltank ist voll!" />
+
+        <!-- v1.9.0: Unified Fluid Storage System -->
+        <e k="usedplus_fluid_purchaseAction" v="Flüssigkeiten kaufen" />
+        <e k="usedplus_fluid_oil" v="Motoröl" />
+        <e k="usedplus_fluid_hydraulic" v="Hydraulikflüssigkeit" />
+        <e k="usedplus_fluid_purchased" v="%.0fL %s gekauft - %s (Tank: %.0f/%.0fL)" />
+        <e k="usedplus_fluid_storageFull" v="Tank ist voll!" />
+        <e k="usedplus_fluid_notEnoughStorage" v="Nicht genug Flüssigkeit! Benötigt %.1fL, vorhanden %.1fL" />
 
     </elements>
 </l10n>

@@ -269,7 +269,12 @@ function WorkshopScreenExtension:tryCreateInspectButton(screen)
     end
 
     inspectButton.name = "usedPlusInspectButton"
-    inspectButton:setText("Inspect")
+    inspectButton:setText(g_i18n:getText("usedplus_button_inspect") or "Inspect")
+
+    -- IMPORTANT: Explicitly enable the button (source button might have been disabled)
+    if inspectButton.setDisabled then
+        inspectButton:setDisabled(false)
+    end
 
     -- Set click callback
     inspectButton.onClickCallback = function()
@@ -283,6 +288,84 @@ function WorkshopScreenExtension:tryCreateInspectButton(screen)
 
     screen.usedPlusInspectButton = inspectButton
     UsedPlus.logDebug("WorkshopScreenExtension: Inspect button created successfully!")
+
+    -- Now create the Tires button
+    WorkshopScreenExtension:tryCreateTiresButton(screen, sourceButton, parent)
+end
+
+--[[
+    Create Tires button for tire replacement service
+    Called from tryCreateInspectButton after Inspect button is created
+]]
+function WorkshopScreenExtension:tryCreateTiresButton(screen, sourceButton, parent)
+    if screen == nil or sourceButton == nil or parent == nil then
+        return
+    end
+
+    -- Already created?
+    if screen.usedPlusTiresButton then
+        UsedPlus.logDebug("WorkshopScreenExtension: Tires button already exists")
+        return
+    end
+
+    -- Clone the source button
+    local tiresButton = sourceButton:clone(parent)
+    if tiresButton == nil then
+        UsedPlus.logDebug("WorkshopScreenExtension: Failed to clone button for Tires")
+        return
+    end
+
+    tiresButton.name = "usedPlusTiresButton"
+    tiresButton:setText(g_i18n:getText("usedplus_button_tires") or "Tires")
+
+    -- IMPORTANT: Explicitly enable the button
+    if tiresButton.setDisabled then
+        tiresButton:setDisabled(false)
+    end
+
+    -- Set click callback
+    tiresButton.onClickCallback = function()
+        WorkshopScreenExtension:onTiresClick(screen)
+    end
+
+    -- Try to set input action
+    if tiresButton.inputActionName ~= nil then
+        tiresButton.inputActionName = "MENU_EXTRA_2"
+    end
+
+    screen.usedPlusTiresButton = tiresButton
+    UsedPlus.logDebug("WorkshopScreenExtension: Tires button created successfully!")
+end
+
+--[[
+    Handle Tires button click
+    Shows TiresDialog for tire replacement
+]]
+function WorkshopScreenExtension:onTiresClick(screen)
+    local vehicle = nil
+
+    if screen and screen.vehicle then
+        vehicle = screen.vehicle
+    elseif g_workshopScreen and g_workshopScreen.vehicle then
+        vehicle = g_workshopScreen.vehicle
+    end
+
+    if vehicle == nil then
+        UsedPlus.logDebug("WorkshopScreenExtension: No vehicle for tire service")
+        g_currentMission:showBlinkingWarning("No vehicle selected", 2000)
+        return
+    end
+
+    UsedPlus.logDebug(string.format("WorkshopScreenExtension: Opening tires dialog for %s", vehicle:getName()))
+
+    -- Play click sound
+    if g_workshopScreen and g_workshopScreen.playSample then
+        g_workshopScreen:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
+    end
+
+    -- Use DialogLoader for centralized lazy loading
+    local farmId = g_currentMission:getFarmId()
+    DialogLoader.show("TiresDialog", "setVehicle", vehicle, farmId)
 end
 
 --[[

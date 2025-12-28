@@ -13,7 +13,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="720px 520px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 570px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -94,8 +94,8 @@
             </GuiElement>
 
             <!-- Info Text -->
-            <!-- After Payment (90px) + gap = -365 - 90 - 10 = -465 -->
-            <Text profile="tiresInfoText" position="0px -465px" text="$l10n_usedplus_tires_infoText"/>
+            <!-- After Payment (90px) + gap = -365 - 90 - 15 = -470 -->
+            <Text profile="tiresInfoText" position="0px -480px" text="$l10n_usedplus_tires_infoText"/>
 
         </GuiElement>
 

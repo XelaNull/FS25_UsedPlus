@@ -42,6 +42,9 @@ function UsedVehicleManager.new()
     -- Key: storeItem.xmlFilename, Value: { listing=..., farmId=..., timestamp=... }
     self.pendingUsedPurchases = {}
 
+    -- v1.9.5: Pending dirt applications for delayed timer callback
+    UsedVehicleManager.pendingDirtApplications = {}
+
     -- Event subscriptions
     self.isServer = g_currentMission:getIsServer()
     self.isClient = g_currentMission:getIsClient()
@@ -898,12 +901,12 @@ function UsedVehicleManager:applyDirtBasedOnQuality(vehicle, qualityLevel, damag
     end
 
     -- Calculate dirt amount based on quality tier
-    -- Each tier has a base range, then we add randomness
+    -- v1.9.5: Increased dirt for poor/any condition - they should be FILTHY
     local dirtRanges = {
-        [1] = { min = 0.70, max = 1.00 },  -- Any Condition: 70-100% dirty (filthy)
-        [2] = { min = 0.55, max = 0.85 },  -- Poor Condition: 55-85% dirty (very dirty)
-        [3] = { min = 0.30, max = 0.55 },  -- Fair Condition: 30-55% dirty (moderately dirty)
-        [4] = { min = 0.10, max = 0.30 },  -- Good Condition: 10-30% dirty (light dust)
+        [1] = { min = 0.95, max = 1.00 },  -- Any Condition: 95-100% dirty (absolutely filthy)
+        [2] = { min = 0.85, max = 1.00 },  -- Poor Condition: 85-100% dirty (very filthy)
+        [3] = { min = 0.45, max = 0.65 },  -- Fair Condition: 45-65% dirty (noticeably dirty)
+        [4] = { min = 0.15, max = 0.35 },  -- Good Condition: 15-35% dirty (dusty)
         [5] = { min = 0.00, max = 0.10 },  -- Excellent Condition: 0-10% dirty (nearly clean)
     }
 
@@ -913,14 +916,19 @@ function UsedVehicleManager:applyDirtBasedOnQuality(vehicle, qualityLevel, damag
     -- Base dirt amount from quality tier
     local baseDirt = range.min + math.random() * (range.max - range.min)
 
+    -- For poor/any condition, just max it out
+    if tier <= 2 then
+        baseDirt = math.max(baseDirt, 0.90)  -- Ensure at least 90% for poor quality
+    end
+
     -- Add a bit more dirt based on damage (damaged vehicles are often dirtier)
-    local damageBonus = (damage or 0) * 0.15  -- Up to 15% extra dirt from damage
+    local damageBonus = (damage or 0) * 0.10  -- Up to 10% extra dirt from damage
     local finalDirt = math.min(1.0, baseDirt + damageBonus)
 
     UsedPlus.logDebug(string.format("  Applying dirt: tier=%d, baseDirt=%.2f, damageBonus=%.2f, finalDirt=%.2f",
         tier, baseDirt, damageBonus, finalDirt))
 
-    -- Apply dirt to all washable nodes
+    -- v1.9.5: Apply dirt using shader parameters directly (FS25 pattern from CleanWindowsFirst)
     local nodesApplied = 0
     for i = 1, #washable.washableNodes do
         local nodeData = washable.washableNodes[i]
@@ -929,27 +937,82 @@ function UsedVehicleManager:applyDirtBasedOnQuality(vehicle, qualityLevel, damag
             local nodeVariation = (math.random() - 0.5) * 0.1  -- ±5% variation per node
             local nodeDirt = math.max(0, math.min(1, finalDirt + nodeVariation))
 
-            -- Set the dirt amount directly on the node data
+            -- Set the dirt amount on node data
             nodeData.dirtAmount = nodeDirt
-            -- Also set dirtAmountSent to trigger proper sync (fixes clean vehicle bug)
             nodeData.dirtAmountSent = nodeDirt
 
-            -- Use vehicle's setNodeDirtAmount if available for visual update
-            if vehicle.setNodeDirtAmount then
-                vehicle:setNodeDirtAmount(nodeData, nodeDirt, true)
+            -- Update shader parameters on each node for visual dirt (key fix!)
+            if nodeData.nodes then
+                for node, _ in pairs(nodeData.nodes) do
+                    -- scratches_dirt_snow_wetness shader: 2nd parameter is dirt
+                    local success = pcall(function()
+                        setShaderParameter(node, "scratches_dirt_snow_wetness", nil, nodeDirt, nil, nil, false)
+                    end)
+                    if success then
+                        nodesApplied = nodesApplied + 1
+                    end
+                end
             end
-            nodesApplied = nodesApplied + 1
+
+            -- Also update mud nodes if present
+            if nodeData.mudNodes then
+                for node, _ in pairs(nodeData.mudNodes) do
+                    pcall(function()
+                        g_animationManager:setPrevShaderParameter(node, "mudAmount", nodeDirt, 0, 0, 0, false, "prevMudAmount")
+                    end)
+                end
+            end
+
+            -- Use vehicle's setNodeDirtAmount as backup
+            if vehicle.setNodeDirtAmount then
+                pcall(function()
+                    vehicle:setNodeDirtAmount(nodeData, nodeDirt, true)
+                end)
+            end
         end
     end
 
-    -- Force a visual update by calling setDirty on the spec if available
-    if washable.setDirty then
-        washable:setDirty()
-    elseif vehicle.setDirty then
-        vehicle:setDirty()
+    -- Raise dirty flags for network sync if on server
+    if washable.dirtyFlag and vehicle.raiseDirtyFlags then
+        vehicle:raiseDirtyFlags(washable.dirtyFlag)
     end
 
-    UsedPlus.logDebug(string.format("  Applied dirt to %d washable nodes", nodesApplied))
+    UsedPlus.logDebug(string.format("  Applied dirt via shaders to %d nodes, finalDirt=%.2f", nodesApplied, finalDirt))
+end
+
+--[[
+    Timer callback for delayed dirt application
+    Called by addTimer after vehicle has fully spawned
+    @param dirtKey - Key to look up pending dirt application data
+]]
+function UsedVehicleManager:applyDelayedDirt(dirtKey)
+    UsedPlus.logDebug(string.format("applyDelayedDirt called with key: %s", tostring(dirtKey)))
+
+    if UsedVehicleManager.pendingDirtApplications == nil then
+        UsedPlus.logDebug("No pending dirt applications table")
+        return
+    end
+
+    local data = UsedVehicleManager.pendingDirtApplications[dirtKey]
+    if data == nil then
+        UsedPlus.logDebug(string.format("No pending dirt data for key: %s", tostring(dirtKey)))
+        return
+    end
+
+    local vehicle = data.vehicle
+    local listing = data.listing
+
+    -- Clean up
+    UsedVehicleManager.pendingDirtApplications[dirtKey] = nil
+
+    -- Apply dirt if vehicle still exists
+    if vehicle ~= nil and not vehicle.isDeleted then
+        UsedPlus.logDebug(string.format("Applying delayed dirt to %s, qualityLevel=%s",
+            tostring(vehicle:getName()), tostring(listing.qualityLevel)))
+        self:applyDirtBasedOnQuality(vehicle, listing.qualityLevel, listing.damage)
+    else
+        UsedPlus.logDebug("Vehicle was deleted before dirt could be applied")
+    end
 end
 
 --[[
@@ -1097,30 +1160,35 @@ function UsedVehicleManager:selectRandomConfiguration(storeItem)
     if configSets == nil and storeItem.configurations then
         -- storeItem.configurations may be a table of config TYPE names with their options
         -- Iterate and pick random values
+
+        -- v1.9.5: SKIP wheel-related configurations entirely to avoid physics issues
+        -- Some vehicles have wheel configurations with missing radius/width definitions
+        -- which causes wheels to spawn 2-3m away from the vehicle
+        local skipConfigs = {
+            wheel = true,
+            wheels = true,
+            tire = true,
+            tireRear = true,
+            tireFront = true,
+            wheelBrand = true
+        }
+
         for configName, configData in pairs(storeItem.configurations) do
-            if type(configData) == "table" then
+            -- Skip wheel-related configs to avoid physics issues
+            if skipConfigs[configName] then
+                UsedPlus.logTrace(string.format("  Skipping config: %s (wheel-related, using default)", configName))
+            elseif type(configData) == "table" then
                 -- configData is an array of options - pick random index
                 local numOptions = #configData
                 if numOptions > 0 then
-                    -- IMPORTANT: For wheel configs, skip index 1 if multiple options exist
-                    -- because wheelConfiguration(0) is often a stub without proper wheel data
-                    local minIndex = 1
-                    if configName == "wheel" and numOptions > 1 then
-                        minIndex = 2  -- Start from second option to avoid empty wheel configs
-                    end
-                    randomConfigs[configName] = math.random(minIndex, numOptions)
-                    UsedPlus.logTrace(string.format("  Random config: %s = %d (of %d options, min=%d)",
-                        configName, randomConfigs[configName], numOptions, minIndex))
+                    randomConfigs[configName] = math.random(1, numOptions)
+                    UsedPlus.logTrace(string.format("  Random config: %s = %d (of %d options)",
+                        configName, randomConfigs[configName], numOptions))
                 end
             elseif type(configData) == "number" then
                 -- configData is the number of options - pick random
                 if configData > 0 then
-                    -- Same fix for wheel configs
-                    local minIndex = 1
-                    if configName == "wheel" and configData > 1 then
-                        minIndex = 2
-                    end
-                    randomConfigs[configName] = math.random(minIndex, configData)
+                    randomConfigs[configName] = math.random(1, configData)
                 end
             end
         end
@@ -1135,11 +1203,14 @@ function UsedVehicleManager:selectRandomConfiguration(storeItem)
     -- Method 4: If vehicle type has known common configuration types, randomize those
     -- This is a fallback that covers common FS25 configuration types
     if next(randomConfigs) == nil then
-        -- Common configuration types in FS25 - will only be used if the vehicle has them
-        local commonConfigTypes = {
-            "wheel", "design", "color", "rimColor", "baseColor",
-            "frontLoader", "frontLoaderAttacher", "attacherJoint",
-            "beacon", "wheels", "tire", "engine", "transmission"
+        -- v1.9.5: SKIP wheel-related configurations entirely to avoid physics issues
+        local skipConfigs = {
+            wheel = true,
+            wheels = true,
+            tire = true,
+            tireRear = true,
+            tireFront = true,
+            wheelBrand = true
         }
 
         -- Check if storeItem has configurationSets (preset combinations)
@@ -1148,11 +1219,16 @@ function UsedVehicleManager:selectRandomConfiguration(storeItem)
             local randomPreset = storeItem.configurationSets[math.random(1, #storeItem.configurationSets)]
             if randomPreset and randomPreset.configurations then
                 for k, v in pairs(randomPreset.configurations) do
-                    randomConfigs[k] = v
+                    -- Skip wheel-related configs to avoid physics issues
+                    if not skipConfigs[k] then
+                        randomConfigs[k] = v
+                    else
+                        UsedPlus.logTrace(string.format("  Skipping preset config: %s (wheel-related)", k))
+                    end
                 end
                 local presetCount = 0
                 for _ in pairs(randomConfigs) do presetCount = presetCount + 1 end
-                UsedPlus.logDebug(string.format("selectRandomConfiguration: Using random preset with %d configs", presetCount))
+                UsedPlus.logDebug(string.format("selectRandomConfiguration: Using random preset with %d configs (wheel configs excluded)", presetCount))
             end
         end
     end
@@ -1794,6 +1870,25 @@ function UsedVehicleManager.onVehicleBought(buyVehicleData, loadedVehicles, load
     for _, vehicle in ipairs(loadedVehicles) do
         g_usedVehicleManager:applyUsedConditionToVehicle(vehicle, pendingData.listing)
         UsedPlus.logDebug(string.format("Applied used condition to vehicle: %s", tostring(vehicle.typeName)))
+
+        -- v1.9.5: Schedule delayed dirt application to ensure vehicle is fully initialized
+        -- Some vehicles don't have their washable spec ready immediately after spawn
+        -- Use FS25's addTimer pattern (simpler and more reliable)
+        local listingCopy = pendingData.listing  -- Capture for closure
+        local vehicleCopy = vehicle  -- Capture for closure
+
+        -- Store in a temporary table for the timer callback
+        if UsedVehicleManager.pendingDirtApplications == nil then
+            UsedVehicleManager.pendingDirtApplications = {}
+        end
+        local dirtKey = "dirt_" .. tostring(g_currentMission.time)
+        UsedVehicleManager.pendingDirtApplications[dirtKey] = {
+            vehicle = vehicleCopy,
+            listing = listingCopy
+        }
+
+        -- Use addTimer for delayed execution (500ms = 0.5 seconds)
+        addTimer(500, "applyDelayedDirt", g_usedVehicleManager, dirtKey)
     end
 
     -- Remove from pending purchases

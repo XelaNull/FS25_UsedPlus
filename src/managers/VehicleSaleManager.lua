@@ -124,24 +124,73 @@ end
 
 --[[
     Handle new offer received
-    Shows SaleOfferDialog to player for immediate decision
+    Shows notification first (to alert player), then SaleOfferDialog for decision
+    Pattern matches UsedVehicleManager.notifyVehicleFound() for consistency
+    v1.9.5: Fixed auto-show by checking g_currentMission.isLoading and using DialogLoader directly
 ]]
 function VehicleSaleManager:onOfferReceived(farmId, listing)
-    UsedPlus.logDebug(string.format("Offer received for %s: $%d",
+    UsedPlus.logDebug(string.format("onOfferReceived ENTERED for %s: $%d",
         listing.vehicleName, listing.currentOffer))
 
-    -- Check if this is the local player's farm (for dialog display)
-    local isLocalFarm = false
-    if g_currentMission and g_currentMission.player then
-        local playerFarmId = g_currentMission.player.farmId
-        isLocalFarm = (playerFarmId == farmId)
+    -- Check if game is ready (matches working pattern from UsedVehicleManager.notifyVehicleFound)
+    if g_currentMission == nil or g_currentMission.isLoading then
+        UsedPlus.logDebug("onOfferReceived: Skipping - mission not ready or loading")
+        return
     end
 
-    -- For single-player or when this is our farm, show the dialog
-    if isLocalFarm and self.isClient then
-        -- Create callback to handle player decision
+    -- Check if this is the local player's farm (for dialog display)
+    -- v1.9.5: Use multiple methods to get player's farm ID
+    local isLocalFarm = false
+    local playerFarmId = nil
+
+    -- Method 1: Try g_currentMission.player.farmId
+    if g_currentMission.player and g_currentMission.player.farmId then
+        playerFarmId = g_currentMission.player.farmId
+    end
+
+    -- Method 2: Try g_farmManager:getFarmByUserId if player method fails
+    if playerFarmId == nil and g_currentMission.playerUserId then
+        local farm = g_farmManager:getFarmByUserId(g_currentMission.playerUserId)
+        if farm then
+            playerFarmId = farm.farmId
+        end
+    end
+
+    -- Method 3: In single-player, assume farm 1 if still nil
+    if playerFarmId == nil and g_currentMission:getIsServer() then
+        playerFarmId = 1  -- Default farm in single-player
+    end
+
+    isLocalFarm = (playerFarmId ~= nil and playerFarmId == farmId)
+
+    -- Detect single-player: server is running AND only local connection (no dedicated server)
+    local isSinglePlayer = g_currentMission:getIsServer() and not g_currentMission.missionDynamicInfo.isMultiplayer
+
+    UsedPlus.logDebug(string.format("onOfferReceived: farmId=%s, playerFarmId=%s, isLocalFarm=%s, isSinglePlayer=%s",
+        tostring(farmId), tostring(playerFarmId), tostring(isLocalFarm), tostring(isSinglePlayer)))
+
+    -- Step 1: Show notification to alert the player (always, like used vehicle search does)
+    local notifyMessage = string.format(
+        g_i18n:getText("usedplus_notify_saleOffer") or "Buyer found for %s! Offering %s",
+        listing.vehicleName,
+        g_i18n:formatMoney(listing.currentOffer, 0, true, true)
+    )
+    g_currentMission:addIngameNotification(
+        FSBaseMission.INGAME_NOTIFICATION_OK,
+        notifyMessage
+    )
+
+    -- Show dialog in single-player OR when this is our farm in multiplayer
+    local shouldShowDialog = isSinglePlayer or isLocalFarm
+
+    UsedPlus.logDebug(string.format("onOfferReceived: shouldShowDialog=%s", tostring(shouldShowDialog)))
+
+    if shouldShowDialog then
+        -- Step 2: Create callback to handle player decision
         local listingId = listing.id
         local callback = function(accepted)
+            UsedPlus.logDebug(string.format("SaleOfferDialog callback: accepted=%s, listingId=%s",
+                tostring(accepted), tostring(listingId)))
             if accepted then
                 -- Send accept to server (works for SP and MP)
                 SaleListingActionEvent.sendToServer(listingId, SaleListingActionEvent.ACTION_ACCEPT)
@@ -151,18 +200,15 @@ function VehicleSaleManager:onOfferReceived(farmId, listing)
             end
         end
 
-        -- Show the dialog
-        SaleOfferDialog.showForListing(listing, callback)
+        -- Step 3: Show the decision dialog using DialogLoader directly (matches working pattern)
+        UsedPlus.logDebug(string.format("onOfferReceived: About to show SaleOfferDialog for listing %s", listing.id))
 
-        UsedPlus.logDebug(string.format("Showing SaleOfferDialog for listing %s", listing.id))
-    else
-        -- Fallback for multiplayer when this isn't our farm:
-        -- Just send notification (player can respond via Finance Manager)
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_OK,
-            string.format("Sale Offer: %s for %s! Check Finance Manager to respond.",
-                listing.vehicleName, g_i18n:formatMoney(listing.currentOffer, 0, true, true))
-        )
+        if DialogLoader and DialogLoader.show then
+            local success = DialogLoader.show("SaleOfferDialog", "setListing", listing, callback)
+            UsedPlus.logDebug(string.format("onOfferReceived: DialogLoader.show returned %s", tostring(success)))
+        else
+            UsedPlus.logWarn("onOfferReceived: DialogLoader not available")
+        end
     end
 end
 

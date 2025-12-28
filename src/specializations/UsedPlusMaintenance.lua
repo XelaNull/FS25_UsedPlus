@@ -340,6 +340,73 @@ function UsedPlusMaintenance.getInspectorQuote(workhorseLemonScale)
 end
 
 --[[
+    v1.9.4: Get comprehensive fluid inspector comment
+    Generates detailed observations about oil, hydraulic fluid, and leaks
+    @param usedPlusData - The full reliability data including fluid levels and leak status
+    @return string - Detailed fluid assessment comment
+]]
+function UsedPlusMaintenance.getFluidInspectorComment(usedPlusData)
+    if usedPlusData == nil then
+        return nil
+    end
+
+    local comments = {}
+
+    -- Oil assessment
+    local oilLevel = usedPlusData.oilLevel or 1.0
+    local hasOilLeak = usedPlusData.hasOilLeak or false
+    local oilLeakSeverity = usedPlusData.oilLeakSeverity or 0
+
+    if hasOilLeak then
+        if oilLeakSeverity >= 2.0 then
+            table.insert(comments, g_i18n:getText("usedplus_fluid_oilLeakSevere") or "Significant oil leak detected - needs immediate attention.")
+        else
+            table.insert(comments, g_i18n:getText("usedplus_fluid_oilLeakMinor") or "Minor oil leak present - may worsen over time.")
+        end
+    elseif oilLevel < 0.3 then
+        table.insert(comments, g_i18n:getText("usedplus_fluid_oilCritical") or "Oil level critically low - top up before operation.")
+    elseif oilLevel < 0.5 then
+        table.insert(comments, g_i18n:getText("usedplus_fluid_oilLow") or "Oil level below recommended - needs topping up.")
+    elseif oilLevel < 0.7 then
+        table.insert(comments, g_i18n:getText("usedplus_fluid_oilAdequate") or "Oil level adequate but monitor regularly.")
+    else
+        table.insert(comments, g_i18n:getText("usedplus_fluid_oilGood") or "Oil level looks good.")
+    end
+
+    -- Hydraulic fluid assessment
+    local hydraulicLevel = usedPlusData.hydraulicFluidLevel or 1.0
+    local hasHydraulicLeak = usedPlusData.hasHydraulicLeak or false
+    local hydraulicLeakSeverity = usedPlusData.hydraulicLeakSeverity or 0
+
+    if hasHydraulicLeak then
+        if hydraulicLeakSeverity >= 2.0 then
+            table.insert(comments, g_i18n:getText("usedplus_fluid_hydLeakSevere") or "Major hydraulic leak found - repair urgently needed.")
+        else
+            table.insert(comments, g_i18n:getText("usedplus_fluid_hydLeakMinor") or "Small hydraulic leak detected - keep an eye on it.")
+        end
+    elseif hydraulicLevel < 0.4 then
+        table.insert(comments, g_i18n:getText("usedplus_fluid_hydCritical") or "Hydraulic fluid dangerously low - implements may not function properly.")
+    elseif hydraulicLevel < 0.6 then
+        table.insert(comments, g_i18n:getText("usedplus_fluid_hydLow") or "Hydraulic fluid running low - recommend refill.")
+    elseif hydraulicLevel >= 0.8 then
+        table.insert(comments, g_i18n:getText("usedplus_fluid_hydGood") or "Hydraulic system looks healthy.")
+    end
+
+    -- Fuel leak (serious issue)
+    local hasFuelLeak = usedPlusData.hasFuelLeak or false
+    if hasFuelLeak then
+        table.insert(comments, g_i18n:getText("usedplus_fluid_fuelLeak") or "CAUTION: Fuel leak detected - fire hazard, needs repair.")
+    end
+
+    -- Return combined comments or nil if nothing notable
+    if #comments > 0 then
+        return table.concat(comments, " ")
+    else
+        return g_i18n:getText("usedplus_fluid_allClear") or "All fluid systems appear normal."
+    end
+end
+
+--[[
     v1.6.0: Check if warnings should be shown for this vehicle
     Warnings should ONLY show when:
     1. Player is actively controlling THIS vehicle (isActiveForInput)
@@ -2783,8 +2850,26 @@ function UsedPlusMaintenance.generateReliabilityScores(damage, age, hours, quali
         hydraulicFluidLevel = hydraulicFluidLevel * 0.6
     end
 
-    UsedPlus.logDebug(string.format("Generated reliability: DNA=%.2f, ceiling=%.1f%%, est.repairs=%d, tires=%.0f%%, oil=%.0f%%",
-        workhorseLemonScale, maxReliabilityCeiling * 100, estimatedRepairs, tireCondition * 100, oilLevel * 100))
+    -- v1.9.4: Generate leak status for used vehicles
+    -- Leak probability increases with age, hours, and lemon status
+    local leakBaseChance = 0.05 + (age or 0) * 0.02 + (hours or 0) / 10000
+
+    -- Lemons have higher leak chance, workhorses lower
+    local leakModifier = 1.5 - workhorseLemonScale  -- 1.5 for lemons, 0.5 for workhorses
+    leakBaseChance = leakBaseChance * leakModifier
+
+    local hasOilLeak = math.random() < leakBaseChance * 0.8
+    local hasHydraulicLeak = math.random() < leakBaseChance * 0.6
+    local hasFuelLeak = math.random() < leakBaseChance * 0.3
+
+    -- Leak severity (1.0 = slow drip, 3.0 = significant leak)
+    local oilLeakSeverity = hasOilLeak and (1.0 + math.random() * 2.0) or 0
+    local hydraulicLeakSeverity = hasHydraulicLeak and (1.0 + math.random() * 2.0) or 0
+    local fuelLeakMultiplier = hasFuelLeak and (1.0 + math.random() * 0.5) or 1.0
+
+    UsedPlus.logDebug(string.format("Generated reliability: DNA=%.2f, ceiling=%.1f%%, est.repairs=%d, tires=%.0f%%, oil=%.0f%%, leaks=[oil=%s,hyd=%s,fuel=%s]",
+        workhorseLemonScale, maxReliabilityCeiling * 100, estimatedRepairs, tireCondition * 100, oilLevel * 100,
+        tostring(hasOilLeak), tostring(hasHydraulicLeak), tostring(hasFuelLeak)))
 
     return {
         engineReliability = engineReliability,
@@ -2798,7 +2883,15 @@ function UsedPlusMaintenance.generateReliabilityScores(damage, age, hours, quali
         tireCondition = tireCondition,
         tireQuality = tireQuality,
         oilLevel = oilLevel,
-        hydraulicFluidLevel = hydraulicFluidLevel
+        hydraulicFluidLevel = hydraulicFluidLevel,
+
+        -- v1.9.4: Leak status for inspection reports
+        hasOilLeak = hasOilLeak,
+        oilLeakSeverity = oilLeakSeverity,
+        hasHydraulicLeak = hasHydraulicLeak,
+        hydraulicLeakSeverity = hydraulicLeakSeverity,
+        hasFuelLeak = hasFuelLeak,
+        fuelLeakMultiplier = fuelLeakMultiplier
     }
 end
 

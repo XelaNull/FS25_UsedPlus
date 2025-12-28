@@ -8,7 +8,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="720px 620px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 660px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -66,20 +66,24 @@
                 <Text profile="irpPostRepairValue" id="postRepairValueText" position="250px -78px" text="$0"/>
             </GuiElement>
 
-            <!-- ========== SECTION 3: Mechanic's Assessment (v1.4.0) ========== -->
-            <!-- Quote from inspector based on hidden DNA quality -->
-            <GuiElement profile="irpNotesSection" position="0px -350px">
-                <Bitmap profile="irpNotesBg" position="0px 0px"/>
+            <!-- ========== SECTION 3: Mechanic's Assessment (v1.4.0, enhanced v1.9.4) ========== -->
+            <!-- Quote from inspector based on hidden DNA quality + fluid assessment -->
+            <GuiElement profile="irpNotesSectionTall" position="0px -350px">
+                <Bitmap profile="irpNotesBgTall" position="0px 0px"/>
                 <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionMechanic"/>
 
                 <!-- Quote text (italicized, centered) -->
-                <Text profile="irpQuoteText" id="mechanicQuoteText" position="0px -32px"
+                <Text profile="irpQuoteText" id="mechanicQuoteText" position="0px -28px"
+                      text=""/>
+
+                <!-- v1.9.4: Fluid assessment text (oil, hydraulic, leaks) -->
+                <Text profile="irpFluidAssessment" id="fluidAssessmentText" position="0px -55px"
                       text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 4: Recommendation ========== -->
-            <!-- After Notes (85px) + gap = -350-85-15 = -450 -->
-            <GuiElement profile="irpRecommendSection" position="0px -450px">
+            <!-- After Notes (110px) + gap = -350-110-15 = -475 -->
+            <GuiElement profile="irpRecommendSection" position="0px -475px">
                 <Bitmap profile="irpRecommendBg" position="0px 0px"/>
                 <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionRecommend"/>
 
@@ -88,8 +92,8 @@
             </GuiElement>
 
             <!-- Price Clarification Note -->
-            <!-- After Recommend (60px) + gap = -450-60-15 = -525 -->
-            <Text profile="irpInfoText" position="0px -525px"
+            <!-- After Recommend (60px) + gap = -475-60-15 = -550 -->
+            <Text profile="irpInfoText" position="0px -550px"
                   text="$l10n_usedplus_irp_priceNote"/>
 
         </GuiElement>
@@ -127,6 +131,10 @@
             <size value="660px 85px"/>
         </Profile>
 
+        <Profile name="irpNotesSectionTall" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 110px"/>
+        </Profile>
+
         <Profile name="irpRecommendSection" extends="emptyPanel" with="anchorTopCenter">
             <size value="660px 60px"/>
         </Profile>
@@ -144,6 +152,11 @@
 
         <Profile name="irpNotesBg" extends="baseReference" with="anchorTopCenter">
             <size value="660px 85px"/>
+            <imageColor value="0.06 0.08 0.10 0.9"/>
+        </Profile>
+
+        <Profile name="irpNotesBgTall" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 110px"/>
             <imageColor value="0.06 0.08 0.10 0.9"/>
         </Profile>
 
@@ -253,6 +266,15 @@
             <textItalic value="true"/>
             <textColor value="0.9 0.9 0.8 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v1.9.4: Fluid Assessment Text -->
+        <Profile name="irpFluidAssessment" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="620px 40px"/>
+            <textSize value="11px"/>
+            <textColor value="0.7 0.9 0.7 1"/>
+            <textAlignment value="center"/>
+            <textWrap value="true"/>
         </Profile>
 
         <!-- ========== NOTES & RECOMMENDATION ========== -->

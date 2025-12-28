@@ -248,6 +248,15 @@ function DialogLoader.registerAll()
         DialogLoader.register("MaintenanceReportDialog", MaintenanceReportDialog, "gui/MaintenanceReportDialog.xml")
     end
 
+    -- Tire/Fluid service dialogs
+    if TiresDialog then
+        DialogLoader.register("TiresDialog", TiresDialog, "gui/TiresDialog.xml")
+    end
+
+    if FluidsDialog then
+        DialogLoader.register("FluidsDialog", FluidsDialog, "gui/FluidsDialog.xml")
+    end
+
     -- v1.5.1: Search expiration dialog with renewal option
     if SearchExpiredDialog then
         DialogLoader.register("SearchExpiredDialog", SearchExpiredDialog, "gui/SearchExpiredDialog.xml")
