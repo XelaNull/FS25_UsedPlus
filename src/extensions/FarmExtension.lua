@@ -17,6 +17,11 @@ FarmExtension = {}
 -- Track if we've already subscribed to events
 FarmExtension.initialized = false
 
+-- v2.5.2: Track vanilla loan balances to detect payments
+-- The vanilla bank loan (farm.loan) makes automatic payments each period
+-- We need to track these to give proper credit score benefits
+FarmExtension.lastVanillaLoanBalances = {}
+
 --[[
     Initialize farm extension
     Subscribe to game events for payment processing
@@ -54,8 +59,96 @@ function FarmExtension.onPeriodChanged()
     local farms = g_farmManager:getFarms()
     for _, farm in pairs(farms) do
         if farm.farmId ~= FarmManager.SPECTATOR_FARM_ID then
+            -- v2.5.2: Track vanilla loan payments FIRST (before UsedPlus deals)
+            FarmExtension:trackVanillaLoanPayment(farm)
+
+            -- Process UsedPlus finance deals
             FarmExtension:processMonthlyPaymentsForFarm(farm)
         end
+    end
+end
+
+--[[
+    v2.5.2: Track vanilla bank loan payments for credit score
+    The game automatically deducts vanilla loan payments each period.
+    We detect this by comparing the current balance to what we stored last period.
+    If the balance decreased, that's a payment - record it for credit!
+
+    NOTE: Vanilla loans can't be "missed" - they're automatic. So we only
+    record on-time payments. This is fair because the player IS paying.
+]]
+function FarmExtension:trackVanillaLoanPayment(farm)
+    local farmId = farm.farmId
+    local currentLoan = farm.loan or 0
+
+    -- Get the previous balance we stored
+    local previousLoan = FarmExtension.lastVanillaLoanBalances[farmId]
+
+    -- Store current balance for next period
+    FarmExtension.lastVanillaLoanBalances[farmId] = currentLoan
+
+    -- If we don't have a previous balance, this is our first check
+    -- Just store and return (can't detect payment without prior data)
+    if previousLoan == nil then
+        UsedPlus.logDebug(string.format("Farm %d: Initialized vanilla loan tracking at $%.0f",
+            farmId, currentLoan))
+        return
+    end
+
+    -- If there was no loan before and still no loan, nothing to track
+    if previousLoan == 0 and currentLoan == 0 then
+        return
+    end
+
+    -- Calculate the change in loan balance
+    local balanceChange = previousLoan - currentLoan
+
+    -- If balance DECREASED, a payment was made
+    if balanceChange > 0 then
+        -- Estimate the payment amount (this is principal reduction)
+        -- The game also charges interest, so the actual payment is higher
+        -- We'll use a rough estimate: payment ≈ principal + (balance * 10%/12)
+        local estimatedInterest = previousLoan * (0.10 / 12)  -- ~10% annual rate
+        local estimatedPayment = balanceChange + estimatedInterest
+
+        -- Record as on-time payment in PaymentTracker
+        if PaymentTracker then
+            PaymentTracker.recordPayment(
+                farmId,
+                "VANILLA_BANK_LOAN",
+                PaymentTracker.STATUS_ON_TIME,
+                math.floor(estimatedPayment),
+                "vanilla_loan"
+            )
+        end
+
+        -- Record in CreditHistory for event tracking
+        if CreditHistory then
+            CreditHistory.recordEvent(farmId, "PAYMENT_ON_TIME",
+                string.format("Bank Loan: $%d payment", math.floor(estimatedPayment)))
+        end
+
+        UsedPlus.logDebug(string.format("Farm %d: Vanilla loan payment detected - $%.0f (balance: $%.0f -> $%.0f)",
+            farmId, estimatedPayment, previousLoan, currentLoan))
+
+        -- Check if the loan was fully paid off
+        if currentLoan <= 0 and previousLoan > 0 then
+            if CreditHistory then
+                CreditHistory.recordEvent(farmId, "DEAL_PAID_OFF", "Bank Credit Line paid in full!")
+            end
+
+            g_currentMission:addIngameNotification(
+                FSBaseMission.INGAME_NOTIFICATION_OK,
+                "Congratulations! Your bank loan has been paid off!"
+            )
+
+            UsedPlus.logInfo(string.format("Farm %d: Vanilla bank loan paid off!", farmId))
+        end
+    elseif balanceChange < 0 then
+        -- Balance INCREASED - player borrowed more money
+        -- This is recorded elsewhere when they take out the loan
+        UsedPlus.logDebug(string.format("Farm %d: Vanilla loan increased by $%.0f (new balance: $%.0f)",
+            farmId, -balanceChange, currentLoan))
     end
 end
 
