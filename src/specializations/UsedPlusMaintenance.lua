@@ -553,7 +553,7 @@ end
     @param message - The warning text to display
     @param duration - Optional duration in ms (default 2500)
 ]]
-function UsedPlusMaintenance.showWarning(vehicle, message, duration)
+function UsedPlusMaintenance.showWarning(vehicle, message, duration, malfunctionType)
     if not UsedPlusMaintenance.shouldShowWarning(vehicle) then
         return
     end
@@ -562,6 +562,22 @@ function UsedPlusMaintenance.showWarning(vehicle, message, duration)
 
     if g_currentMission and g_currentMission.showBlinkingWarning then
         g_currentMission:showBlinkingWarning(message, duration)
+    end
+
+    -- v2.5.2: Fire API event for malfunction if type specified
+    if malfunctionType and UsedPlusAPI then
+        UsedPlusAPI.fireEvent("onMalfunctionTriggered", vehicle, malfunctionType, message)
+    end
+end
+
+--[[
+    v2.5.2: Helper to fire malfunction ended event
+    @param vehicle - The vehicle
+    @param malfunctionType - Type of malfunction that ended
+]]
+function UsedPlusMaintenance.fireMalfunctionEnded(vehicle, malfunctionType)
+    if UsedPlusAPI then
+        UsedPlusAPI.fireEvent("onMalfunctionEnded", vehicle, malfunctionType)
     end
 end
 
@@ -2212,7 +2228,8 @@ function UsedPlusMaintenance.checkRunawayCondition(vehicle)
 
         UsedPlusMaintenance.showWarning(vehicle,
             g_i18n:getText("usedplus_warning_runaway") or
-            "ENGINE RUNAWAY! Governor failure - TURN OFF ENGINE!")
+            "ENGINE RUNAWAY! Governor failure - TURN OFF ENGINE!",
+            5000, "runaway")
 
         UsedPlus.logDebug(string.format("RUNAWAY triggered on %s (oil=%.1f%%, hydraulic=%.1f%%, speed=%.1f km/h)",
             vehicle:getName(), oilLevel * 100, hydraulicLevel * 100, speed))
@@ -2297,6 +2314,9 @@ function UsedPlusMaintenance.endRunaway(vehicle, reason)
 
     -- Show info (not warning - the danger is over)
     g_currentMission:showBlinkingWarning(messages[reason] or "Runaway ended.", 3000)
+
+    -- v2.5.2: Fire API event
+    UsedPlusMaintenance.fireMalfunctionEnded(vehicle, "runaway")
 
     UsedPlus.logDebug("Runaway ended on " .. vehicle:getName() .. ": " .. reason)
 end

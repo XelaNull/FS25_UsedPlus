@@ -614,6 +614,15 @@ function PaymentTracker.recordPayment(farmId, dealId, status, amount, dealType)
     UsedPlus.logDebug(string.format(
         "PaymentTracker: Farm %d recorded %s payment (streak: %d, total: %d)",
         farmId, status, data.stats.currentStreak, data.stats.totalPayments))
+
+    -- v2.5.2: Fire API events for external mod integration
+    if UsedPlusAPI then
+        if status == PaymentTracker.STATUS_ON_TIME then
+            UsedPlusAPI.fireEvent("onPaymentMade", farmId, dealId, amount, dealType)
+        elseif status == PaymentTracker.STATUS_MISSED then
+            UsedPlusAPI.fireEvent("onPaymentMissed", farmId, dealId, dealType)
+        end
+    end
 end
 
 --[[
@@ -1013,6 +1022,11 @@ end
 function CreditHistory.checkTierChange(farmId, oldScore, newScore)
     local oldRating, oldLevel = CreditScore.getRating(oldScore)
     local newRating, newLevel = CreditScore.getRating(newScore)
+
+    -- v2.5.2: Fire API event for any credit score change (not just tier change)
+    if UsedPlusAPI and oldScore ~= newScore then
+        UsedPlusAPI.fireEvent("onCreditScoreChanged", farmId, newScore, oldScore, newRating, oldRating)
+    end
 
     -- No tier change
     if newLevel == oldLevel then

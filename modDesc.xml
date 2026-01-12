@@ -312,6 +312,7 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
         <sourceFile filename="src/utils/UIHelper.lua"/>       <!--  Centralized UI formatting -->
         <sourceFile filename="src/utils/UsedPlusUI.lua"/>     <!--  UI component system -->
         <sourceFile filename="src/utils/DialogLoader.lua"/>   <!--  Centralized dialog loading -->
+        <sourceFile filename="src/utils/UsedPlusAPI.lua"/>    <!--  v2.5.2: Public API for external mod integration -->
 
         <!-- Vehicle Specialization - Maintenance System (Phase 1) -->
         <!-- IMPORTANT: Specialization must load BEFORE register file -->
