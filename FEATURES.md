@@ -87,7 +87,16 @@ A comprehensive finance, maintenance, and marketplace overhaul for Farming Simul
 * Creates "immortality" for well-maintained workhorses: prevent breakdowns → zero degradation
 
 ### Tire System
-* Three tire quality tiers: Retread, Normal, Quality
+* Three tire quality tiers with meaningful trade-offs:
+
+| Tier | Cost | Traction | Failure Rate | Wear Rate | Initial State | Effective Life |
+|------|------|----------|--------------|-----------|---------------|----------------|
+| **Retread** | 40% | 85% | 3x | 2x faster | +35% worn | ~32% of Normal |
+| **Normal** | 100% | 100% | 1x | 1x | Fresh (0%) | 100% baseline |
+| **Quality** | 150% | 110% | 0.5x | 0.67x | -15% bonus | ~172% of Normal |
+
+* **v2.3.0: Quality tiers create 5x life difference** between cheapest and best options
+* **v2.3.0: DNA affects tire wear**: Lemons (1.4x) wear tires faster, Workhorses (0.6x) are gentler
 * Tire tread wears over time based on usage and terrain
 * Worn tires reduce traction and increase slip
 * Flat tires cause steering pull toward the affected side
@@ -101,6 +110,24 @@ A comprehensive finance, maintenance, and marketplace overhaul for Farming Simul
 * **Fuel**: Fuel leaks drain tank over time when detected
 * Leak detection with dashboard warnings
 * Fluid service dialog to refill oil and hydraulic fluid
+
+### v2.5.2: Fluid-Malfunction Interaction
+**Low fluid levels don't just cause damage - they make ALL related malfunctions worse!**
+
+| Fluid | Affects | Effect at 20% Fluid |
+|-------|---------|---------------------|
+| **Oil** | Engine malfunctions | 2.6x more likely, 2.2x longer duration |
+| **Hydraulic Fluid** | Hydraulic malfunctions | 2.6x more likely, 2.2x longer duration |
+
+* Full fluid = no penalty (1.0x multiplier)
+* 50% fluid = moderate penalty (~2.0x multiplier)
+* 20% fluid = severe penalty (~2.6x multiplier)
+* Empty fluid = maximum penalty (3.0x multiplier)
+
+**Real-world basis:**
+- Low oil makes engines run hotter, wear faster, and misfire more often
+- Low hydraulic fluid causes cavitation, erratic pressure, and valve sticking
+- A farmer who ignores "LOW FLUID" warnings will have a MUCH worse day!
 
 ### Mechanic Inspection
 * Comprehensive inspection available at dealer or via agent
@@ -122,10 +149,12 @@ A comprehensive finance, maintenance, and marketplace overhaul for Farming Simul
 Real consequences for neglecting maintenance:
 
 ### Engine Malfunctions
-* **Overheating**: Engine temperature rises, power reduces, eventual stall
-* **Misfiring**: Random power fluctuations and rough running
-* **Stalling**: Engine cuts out unexpectedly, restart required
+* **Overheating**: Engine temperature rises, power reduces, eventual stall (v2.5.2: faster at low oil!)
+* **Misfiring**: Random power fluctuations and rough running (v2.5.2: more frequent at low oil!)
+* **Stalling**: Engine cuts out unexpectedly, restart required (v2.5.2: more likely at low oil!)
 * **Hard Starting**: Difficulty starting in cold conditions with worn engine
+
+All engine malfunctions are affected by oil level (v2.5.2)!
 
 ### Electrical Malfunctions
 * **Electrical Cutout**: Temporary loss of electrical systems
@@ -133,10 +162,21 @@ Real consequences for neglecting maintenance:
 * **Light Flickering**: Headlights and work lights flicker or fail
 
 ### Hydraulic Malfunctions
-* **Hydraulic Drift**: Implements slowly lower when raised
+* **Hydraulic Drift**: Implements slowly lower when raised (v2.5.2: faster at low fluid)
+* **Hydraulic Surge**: Sudden steering loss for 5-15 seconds - requires active countersteering!
 * **Implement Surge**: Sudden unexpected implement movements
 * **PTO Toggle**: Power take-off randomly engages or disengages
 * **Hitch Failure**: Attachments may unexpectedly disconnect
+
+### v2.5.0: Advanced Hydraulic Malfunctions
+* **Runaway Engine**: When BOTH oil AND hydraulic fluid drop below 10%, the speed governor fails! Vehicle accelerates uncontrollably up to 150% max speed. Brakes only 40% effective. Must turn off engine or crash to stop!
+* **Implement Stuck Down**: Hydraulic lift failure - cannot raise lowered implement for 45+ seconds
+* **Implement Stuck Up**: Hydraulic valve failure - cannot lower raised implement for 45+ seconds
+* **Implement Pull**: Asymmetric drag causes steering to pull left or right
+* **Implement Drag**: Hydraulic strain reduces max speed to 60% while working
+* **Reduced Turning**: Power steering failure limits steering travel to 65%
+
+All v2.5.0/v2.5.2 hydraulic malfunctions are affected by hydraulic fluid level!
 
 ### Tire Malfunctions
 * **Flat Tire**: Sudden tire failure causing steering pull
@@ -297,7 +337,13 @@ Emergency repair system for disabled vehicles in the field.
   - Breakdown degradation applied when RVB parts fail
   - OBD Scanner shows RVB part health: Engine, Thermostat, Generator, Battery, Starter, Glow Plug
   - Legendary workhorses immune to RVB repair degradation
-* **Use Up Your Tyres**: Tire condition syncs from UYT wear data, OBD Scanner shows per-wheel condition
+* **Use Up Your Tyres (v2.3.0 Deep Integration)**:
+  - **Per-wheel display**: TiresDialog shows FL/FR/RL/RR wear when UYT installed
+  - **Quality affects wear rate**: Retread tires wear 2x faster, Quality tires wear 33% slower
+  - **DNA affects wear rate**: Lemons wear tires 40% faster, Workhorses wear 40% slower
+  - **UYT wear influences flat tire probability**: Higher UYT wear = higher flat chance (1x-3x multiplier)
+  - **Two-way sync**: Tire replacement in UsedPlus resets UYT wear tracking
+  - OBD Scanner shows per-wheel UYT wear data
 * **AdvancedMaintenance**: Both systems work together via function chaining
 
 ### Financial Visibility

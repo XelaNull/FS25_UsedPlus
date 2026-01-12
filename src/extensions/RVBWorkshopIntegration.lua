@@ -754,7 +754,7 @@ function RVBWorkshopIntegration:hookServiceButton(dialog)
     -- Store original callback
     local originalCallback = serviceButton.onClickCallback
 
-    -- Wrap with our degradation logic
+    -- Wrap with our degradation logic AND fluid top-up
     serviceButton.onClickCallback = function()
         local vehicle = dialog.vehicle
         UsedPlus.logDebug(string.format("RVBWorkshopIntegration: Service button clicked for %s",
@@ -770,6 +770,50 @@ function RVBWorkshopIntegration:hookServiceButton(dialog)
         if vehicle and ModCompatibility and ModCompatibility.applyRVBRepairDegradation then
             ModCompatibility.applyRVBRepairDegradation(vehicle)
             UsedPlus.logDebug("RVBWorkshopIntegration: Applied repair degradation after RVB service")
+        end
+
+        -- v2.5.1: Service also tops up UsedPlus fluids (oil + hydraulic)
+        -- This creates cohesive experience - RVB service includes our fluids
+        local spec = vehicle and vehicle.spec_usedPlusMaintenance
+        if spec then
+            local fluidsToppedUp = false
+
+            -- Top up oil
+            if spec.oilLevel and spec.oilLevel < 1.0 then
+                spec.oilLevel = 1.0
+                spec.hasOilLeak = false  -- Service fixes minor leaks
+                spec.oilLeakSeverity = 0
+                fluidsToppedUp = true
+                UsedPlus.logDebug("RVBWorkshopIntegration: Topped up engine oil")
+            end
+
+            -- Top up hydraulic fluid
+            if spec.hydraulicFluidLevel and spec.hydraulicFluidLevel < 1.0 then
+                spec.hydraulicFluidLevel = 1.0
+                spec.hasHydraulicLeak = false  -- Service fixes minor leaks
+                spec.hydraulicLeakSeverity = 0
+                fluidsToppedUp = true
+                UsedPlus.logDebug("RVBWorkshopIntegration: Topped up hydraulic fluid")
+            end
+
+            -- Small reliability boost from proper maintenance (max 5% boost, caps at ceiling)
+            if fluidsToppedUp then
+                local serviceBoost = 0.03  -- 3% reliability improvement from service
+
+                -- Hydraulic boost (primary benefit for v2.5.0 malfunctions)
+                local oldHydraulic = spec.hydraulicReliability or 1.0
+                local maxHydraulic = spec.maxHydraulicDurability or spec.maxReliabilityCeiling or 1.0
+                spec.hydraulicReliability = math.min(maxHydraulic, oldHydraulic + serviceBoost)
+
+                -- Engine boost (minor)
+                local oldEngine = spec.engineReliability or 1.0
+                local maxEngine = spec.maxEngineDurability or spec.maxReliabilityCeiling or 1.0
+                spec.engineReliability = math.min(maxEngine, oldEngine + (serviceBoost * 0.5))
+
+                UsedPlus.logDebug(string.format("RVBWorkshopIntegration: Service reliability boost - hydraulic %.1f%% -> %.1f%%, engine %.1f%% -> %.1f%%",
+                    oldHydraulic * 100, spec.hydraulicReliability * 100,
+                    oldEngine * 100, spec.engineReliability * 100))
+            end
         end
     end
 

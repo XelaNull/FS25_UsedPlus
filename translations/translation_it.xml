@@ -120,7 +120,7 @@
         <e k="usedplus_manager_actions" v="Azioni" eh="06df3300" />
         <e k="usedplus_manager_noDeals" v="Nessun contratto di finanziamento o locazione attivo." eh="880134fe" />
         <e k="usedplus_manager_helpText" v="Finanzia i veicoli dal negozio (tasto F). Cerca l'attrezzatura usata (tasto V). I pagamenti vengono detratti automaticamente mensilmente." eh="ea889bec" />
-        <e k="usedplus_vanillaLoan" v="Prestito bancario (Vaniglia)" eh="4f9db178" />
+        <e k="usedplus_vanillaLoan" v="Prestito bancario (Vaniglia)" eh="ae4b0f92" />
 
         <!--  Finance Detail Frame -->
         <e k="usedplus_detail_dealInfo" v="Informazioni sull'affare" eh="442669bc" />
@@ -322,7 +322,7 @@
         <e k="usedplus_repaint_slider" v="Importo di riverniciatura" eh="bf64833d" />
         <e k="usedplus_repaint_cost" v="Costo della riverniciatura" eh="b994cb4e" />
         <e k="usedplus_button_repairVehicle" v="Riparare il veicolo" eh="9592bc0d" />
-        <e k="usedplus_button_repaint" v="Riverniciare" />
+        <e k="usedplus_button_repaint" v="Riverniciare" eh="1d0b7dd4" />
         <e k="usedplus_button_tradeIn" v="Permuta" eh="d9a572a1" />
         <e k="usedplus_repair_financeSuccess" v="Riparazione finanziata! %s su %d mesi a %s/mese" eh="ac520447" />
         <e k="usedplus_repair_noRepairsNeeded" v="Questo veicolo non necessita di riparazioni." eh="58c85fca" />
@@ -1886,6 +1886,18 @@
         <e k="usedplus_preset_lite_desc" v="Solo finanziamento e leasing - niente extra" eh="e3952520" />
         <e k="usedplus_preset_apply" v="Applica" eh="9639e32c" />
         <e k="usedplus_preset_reset" v="Ripristina predefiniti" eh="6795975d" />
+
+        <!-- v2.5.0: Advanced Hydraulic Malfunctions -->
+        <e k="usedplus_warning_runaway" v="ENGINE RUNAWAY! Governor failure - TURN OFF ENGINE!" eh="b5041aa9" />
+        <e k="usedplus_runaway_end_engineOff" v="Engine stopped - runaway ended safely." eh="14fd2da3" />
+        <e k="usedplus_runaway_end_crash" v="Impact detected - runaway ended." eh="0354e555" />
+        <e k="usedplus_runaway_end_damage" v="Vehicle damaged - runaway ended." eh="ad34ca1f" />
+        <e k="usedplus_runaway_end_fluids" v="Fluids restored - governor recovered." eh="7baa9445" />
+        <e k="usedplus_warning_stuckDown" v="HYDRAULIC LIFT FAILURE - Implement cannot raise!" eh="8c1e0f84" />
+        <e k="usedplus_warning_stuckUp" v="HYDRAULIC VALVE FAILURE - Implement cannot lower!" eh="b353bdf9" />
+        <e k="usedplus_warning_implementPull" v="IMPLEMENT DRAG - Pulling %s!" eh="9542214f" />
+        <e k="usedplus_warning_implementDrag" v="HYDRAULIC STRAIN - Speed reduced!" eh="4202b7ec" />
+        <e k="usedplus_warning_reducedTurning" v="POWER STEERING WEAK - Turning limited!" eh="a9794a39" />
 
     </elements>
 </l10n>

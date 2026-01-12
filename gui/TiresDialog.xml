@@ -7,13 +7,19 @@
     - Normal: Standard tires, baseline performance
     - Quality: Premium tires, better traction, lower failure risk
 
+    v2.3.0: UYT Deep Integration
+    - Per-wheel wear display when UYT installed
+    - Quality tiers affect wear rate
+    - Syncs tire replacement with UYT
+
     v1.7.0 - Tire and Fluid System
 -->
 <GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="720px 600px">
+    <!-- v2.3.0: Increased height from 600px to 620px for per-wheel display -->
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 620px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -40,17 +46,22 @@
                     <Text profile="tiresStatusLabel" position="70px -30px" text="$l10n_usedplus_tires_currentQuality"/>
                     <Text profile="tiresQualityValue" id="currentQualityText" position="220px -30px" text=""/>
 
-                    <Text profile="tiresStatusLabel" position="70px -52px" text="$l10n_usedplus_tires_currentCondition"/>
-                    <Text profile="tiresConditionValue" id="currentConditionText" position="220px -52px" text=""/>
+                    <!-- v2.3.0: Condition label with ID for UYT mode text change -->
+                    <Text profile="tiresStatusLabel" id="conditionLabel" position="70px -52px" text="$l10n_usedplus_tires_currentCondition"/>
+                    <!-- v2.3.0: Wider value field for per-wheel display (FL:XX% FR:XX% RL:XX% RR:XX%) -->
+                    <Text profile="tiresConditionValueWide" id="currentConditionText" position="245px -52px" text=""/>
+
+                    <!-- v2.3.0: Worst tire indicator (shown when UYT installed) -->
+                    <Text profile="tiresWorstTireText" id="worstTireText" position="120px -72px" text=""/>
 
                     <!-- Flat Tire Warning (if applicable) -->
-                    <Text profile="tiresWarningText" id="flatTireWarningText" position="120px -75px" text=""/>
+                    <Text profile="tiresWarningText" id="flatTireWarningText" position="120px -90px" text=""/>
                 </GuiElement>
             </GuiElement>
 
             <!-- ========== SECTION 2: Quality Selection ========== -->
-            <!-- After Status (130px) + gap = -60 - 130 - 15 = -205 -->
-            <GuiElement profile="tiresSelectSection" position="0px -205px">
+            <!-- v2.3.0: After Status (145px) + gap = -60 - 145 - 15 = -220 -->
+            <GuiElement profile="tiresSelectSection" position="0px -220px">
                 <Bitmap profile="tiresSelectSectionBg" position="0px 0px"/>
                 <Text profile="tiresSectionHeader" position="0px -5px" text="$l10n_usedplus_tires_sectionSelect"/>
                 <Text profile="tiresHelpText" position="0px -28px" text="$l10n_usedplus_tires_selectHelp"/>
@@ -81,8 +92,8 @@
             </GuiElement>
 
             <!-- ========== SECTION 3: Payment Summary ========== -->
-            <!-- After Select (145px) + gap = -205 - 145 - 15 = -365 -->
-            <GuiElement profile="tiresPaymentSection" position="0px -365px">
+            <!-- v2.3.0: After Select (145px) + gap = -220 - 145 - 15 = -380 -->
+            <GuiElement profile="tiresPaymentSection" position="0px -380px">
                 <Bitmap profile="tiresPaymentSectionBg" position="0px 0px"/>
                 <Text profile="tiresSectionHeader" position="0px -5px" text="$l10n_usedplus_tires_sectionPayment"/>
 
@@ -94,8 +105,8 @@
             </GuiElement>
 
             <!-- Info Text -->
-            <!-- After Payment (90px) + gap = -365 - 90 - 15 = -470 -->
-            <Text profile="tiresInfoText" position="0px -480px" text="$l10n_usedplus_tires_infoText"/>
+            <!-- v2.3.0: After Payment (90px) + gap = -380 - 90 - 15 = -485 -->
+            <Text profile="tiresInfoText" position="0px -495px" text="$l10n_usedplus_tires_infoText"/>
 
         </GuiElement>
 
@@ -109,8 +120,9 @@
 
     <GUIProfiles>
         <!-- ========== SECTION CONTAINERS ========== -->
+        <!-- v2.3.0: Expanded to 145px to fit per-wheel display and worst tire indicator -->
         <Profile name="tiresStatusSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 130px"/>
+            <size value="660px 145px"/>
         </Profile>
 
         <Profile name="tiresSelectSection" extends="emptyPanel" with="anchorTopCenter">
@@ -122,8 +134,9 @@
         </Profile>
 
         <!-- ========== SECTION BACKGROUNDS ========== -->
+        <!-- v2.3.0: Expanded to match section container -->
         <Profile name="tiresStatusSectionBg" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 130px"/>
+            <size value="660px 145px"/>
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 
@@ -185,6 +198,23 @@
             <textSize value="14px"/>
             <textBold value="true"/>
             <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- v2.3.0: Wider condition value for per-wheel UYT display -->
+        <Profile name="tiresConditionValueWide" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 20px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.4 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- v2.3.0: Worst tire indicator text -->
+        <Profile name="tiresWorstTireText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="1 0.6 0.3 1"/>
             <textAlignment value="left"/>
         </Profile>
 

@@ -1499,6 +1499,26 @@
         <!-- v1.7.0: Fuel Leak Warning -->
         <e k="usedplus_warning_fuelLeak" v="Warning: Fuel leak detected! Fuel consumption significantly increased." />
 
+        <!-- v2.4.0: Hydraulic Surge Warning -->
+        <e k="usedplus_warning_hydraulicSurge" v="POWER STEERING LOSS - Vehicle pulling %s!" />
+
+        <!-- v2.5.0: Comprehensive Hydraulic Malfunction Warnings -->
+        <!-- Runaway Engine -->
+        <e k="usedplus_warning_runaway" v="ENGINE RUNAWAY! Governor failure - TURN OFF ENGINE!" />
+        <e k="usedplus_runaway_end_engineOff" v="Engine stopped - runaway ended safely." />
+        <e k="usedplus_runaway_end_crash" v="Impact detected - runaway ended." />
+        <e k="usedplus_runaway_end_damage" v="Vehicle damaged - runaway ended." />
+        <e k="usedplus_runaway_end_fluids" v="Fluids restored - governor recovered." />
+
+        <!-- Implement Stuck -->
+        <e k="usedplus_warning_stuckDown" v="HYDRAULIC LIFT FAILURE - Implement cannot raise!" />
+        <e k="usedplus_warning_stuckUp" v="HYDRAULIC VALVE FAILURE - Implement cannot lower!" />
+
+        <!-- Implement Effects -->
+        <e k="usedplus_warning_implementPull" v="IMPLEMENT DRAG - Pulling %s!" />
+        <e k="usedplus_warning_implementDrag" v="HYDRAULIC STRAIN - Speed reduced!" />
+        <e k="usedplus_warning_reducedTurning" v="POWER STEERING WEAK - Turning limited!" />
+
         <!-- v1.7.0: Tire Quality Names -->
         <e k="usedplus_tire_retread" v="Retread" />
         <e k="usedplus_tire_normal" v="Normal" />
@@ -1569,6 +1589,8 @@
         <e k="usedplus_tires_flatWarning" v="FLAT TIRE - Replacement Required!" />
         <e k="usedplus_tires_selectFirst" v="Please select a tire quality first." />
         <e k="usedplus_tires_replaced" v="Tires replaced: %s" />
+        <!-- v2.3.0: UYT Deep Integration -->
+        <e k="usedplus_tires_conditionUYT" v="Tire Wear (UYT):" />
 
         <!-- v1.7.0: Fluids Service Dialog -->
         <e k="usedplus_fluids_title" v="Fluid Service" />

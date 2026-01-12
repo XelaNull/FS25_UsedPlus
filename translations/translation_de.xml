@@ -120,7 +120,7 @@
         <e k="usedplus_manager_actions" v="Aktionen" eh="06df3300" />
         <e k="usedplus_manager_noDeals" v="Keine aktiven Finanzierungs- oder Leasingverträge." eh="880134fe" />
         <e k="usedplus_manager_helpText" v="Fahrzeuge im Shop finanzieren (F-Taste). Suchen Sie nach gebrauchten Geräten (V-Taste). Zahlungen werden automatisch monatlich abgebucht." eh="ea889bec" />
-        <e k="usedplus_vanillaLoan" v="Bankdarlehen (Vanille)" eh="4f9db178" />
+        <e k="usedplus_vanillaLoan" v="Bankdarlehen (Vanille)" eh="ae4b0f92" />
         <e k="usedplus_loanOpen" v="Offen" eh="c3bf447e" />
         <e k="usedplus_loanNoTerm" v="Unbefristet" eh="8dbfc606" />
         <e k="usedplus_loanInterestOnly" v="Zinsen" eh="920beb5d" />
@@ -325,7 +325,7 @@
         <e k="usedplus_repaint_slider" v="Repaint-Betrag" eh="bf64833d" />
         <e k="usedplus_repaint_cost" v="Neulackierungskosten" eh="b994cb4e" />
         <e k="usedplus_button_repairVehicle" v="Fahrzeug reparieren" eh="9592bc0d" />
-        <e k="usedplus_button_repaint" v="Lackieren" />
+        <e k="usedplus_button_repaint" v="Lackieren" eh="1d0b7dd4" />
         <e k="usedplus_button_tradeIn" v="Inzahlungnahme" eh="d9a572a1" />
         <e k="usedplus_repair_financeSuccess" v="Reparatur finanziert! %s über %d Monate bei %s/Monat" eh="ac520447" />
         <e k="usedplus_repair_noRepairsNeeded" v="Dieses Fahrzeug muss nicht repariert werden." eh="58c85fca" />
@@ -1897,13 +1897,25 @@
         <e k="usedplus_hydraulic_system" v="Hydrauliksystem" eh="2f6e031e" />
         <e k="usedplus_maintenance_grade" v="Wartung" eh="10d0de28" />
         <e k="usedplus_service_history" v="Historie" eh="16d2b386" />
-        <e k="usedplus_mechanic_says" v="Mechaniker" />
-        <e k="usedplus_mechanic_assessment" v="MECHANIKER-BEWERTUNG" />
+        <e k="usedplus_mechanic_says" v="Mechaniker" eh="64eb6697" />
+        <e k="usedplus_mechanic_assessment" v="MECHANIKER-BEWERTUNG" eh="ed0defaa" />
         <e k="usedplus_grade_excellent" v="Ausgezeichnet" eh="fcc2d28a" />
         <e k="usedplus_grade_good" v="Gut" eh="0c6ad70b" />
         <e k="usedplus_grade_fair" v="Befriedigend" eh="f7f20cf0" />
         <e k="usedplus_grade_poor" v="Schlecht" eh="0e94d017" />
         <e k="usedplus_grade_critical" v="Kritisch" eh="278d01e5" />
+
+        <!-- v2.5.0: Advanced Hydraulic Malfunctions -->
+        <e k="usedplus_warning_runaway" v="MOTORÜBERDREHUNG! Reglerfehler - MOTOR ABSTELLEN!" eh="b5041aa9" />
+        <e k="usedplus_runaway_end_engineOff" v="Motor abgestellt - Überdrehung beendet." eh="14fd2da3" />
+        <e k="usedplus_runaway_end_crash" v="Aufprall erkannt - Überdrehung beendet." eh="0354e555" />
+        <e k="usedplus_runaway_end_damage" v="Fahrzeug beschädigt - Überdrehung beendet." eh="ad34ca1f" />
+        <e k="usedplus_runaway_end_fluids" v="Flüssigkeiten aufgefüllt - Regler wiederhergestellt." eh="7baa9445" />
+        <e k="usedplus_warning_stuckDown" v="HYDRAULIK-HUBFEHLER - Anbaugerät kann nicht angehoben werden!" eh="8c1e0f84" />
+        <e k="usedplus_warning_stuckUp" v="HYDRAULIK-VENTILFEHLER - Anbaugerät kann nicht abgesenkt werden!" eh="b353bdf9" />
+        <e k="usedplus_warning_implementPull" v="ANBAUGERÄT ZIEHT - Richtung %s!" eh="9542214f" />
+        <e k="usedplus_warning_implementDrag" v="HYDRAULIK ÜBERLASTET - Geschwindigkeit reduziert!" eh="4202b7ec" />
+        <e k="usedplus_warning_reducedTurning" v="SERVOLENKUNG SCHWACH - Lenkung eingeschränkt!" eh="a9794a39" />
 
     </elements>
 </l10n>

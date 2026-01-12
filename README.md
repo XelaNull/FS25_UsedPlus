@@ -155,6 +155,40 @@ Meanwhile, that "great deal" from the Poor quality tier? It might be a lemon tha
 
 ---
 
+### Real Hydraulic Malfunctions (v2.5.0)
+
+UsedPlus simulates **real hydraulic system failures** that create "oh crap" moments:
+
+| Malfunction | Trigger | Effect | How to Stop |
+|-------------|---------|--------|-------------|
+| **Runaway Engine** | Oil AND hydraulic <10% | Speed increases to 150%, brakes only 40% effective | Turn off engine or crash |
+| **Implement Stuck Down** | Hydraulic <25% | Cannot raise lowered implement | Wait 45+ seconds |
+| **Implement Stuck Up** | Hydraulic <25% | Cannot lower raised implement | Wait 45+ seconds |
+| **Hydraulic Surge** | Hydraulic <60% | Sudden steering pull 5-15 seconds | Countersteer! |
+| **Implement Pull** | Hydraulic <40% | Steering bias from implement drag | Detach or repair |
+| **Implement Drag** | Hydraulic <35% | Max speed reduced to 60% | Repair |
+
+**The Runaway Engine is the star feature:** When you neglect BOTH oil AND hydraulic fluid, the speed governor fails. Your tractor accelerates uncontrollably, brakes barely work, and you must turn off the engine or crash to stop. *Maintain your fluids or pay the price.*
+
+---
+
+### Fluids Actually Matter (v2.5.2)
+
+**Low fluid levels don't just cause damage - they make ALL related malfunctions worse!**
+
+| Fluid Level | Malfunction Chance | Malfunction Duration |
+|-------------|-------------------|---------------------|
+| 100% (Full) | 1.0x (normal) | 1.0x (normal) |
+| 50% | ~2.0x more likely | ~1.75x longer |
+| 20% | ~2.6x more likely | ~2.2x longer |
+| 0% (Empty) | 3.0x more likely | 2.5x longer |
+
+- **Low oil** makes engine malfunctions (overheating, misfiring, stalling) more frequent and severe
+- **Low hydraulic fluid** makes hydraulic malfunctions (drift, surge, stuck implements) more frequent and severe
+- A farmer who ignores "LOW FLUID" warnings will have a MUCH worse day!
+
+---
+
 ### Your Official Credit Report
 
 Open the **Finance Manager** (Shift+F or ESC menu) and pull your credit report - styled like a real credit bureau document:
@@ -210,6 +244,8 @@ When a buyer makes an offer on your equipment, you'll see it here. Lease expirin
 - **Progressive Degradation** - Each repair/breakdown permanently affects max durability
 - **Legendary Workhorse Immunity** - DNA ≥ 0.90 = immune to repair wear, can last forever
 - **RVB Deep Integration** - DNA affects RVB part lifetimes, syncs degradation on faults
+- **Advanced Hydraulic Malfunctions (v2.5.0)** - Runaway engine, stuck implements, steering surge
+- **Fluid-Malfunction Interaction (v2.5.2)** - Low fluid makes ALL related malfunctions worse
 - **Admin Console Commands** - For testing and emergencies
 - **Full Multiplayer Support** - All features work in co-op
 
@@ -396,7 +432,7 @@ If you build something using UsedPlus patterns, a simple credit like *"Patterns 
 
 ## Version
 
-**Current:** 2.2.0
+**Current:** 2.5.2
 **Game Version:** Farming Simulator 25
 
 ---

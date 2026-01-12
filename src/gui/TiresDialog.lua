@@ -6,6 +6,11 @@
     - Normal (2): Standard tires, baseline performance
     - Quality (3): Premium tires, better traction (110%), lower failure risk (0.5x)
 
+    v2.3.0: UYT Deep Integration
+    - Shows per-wheel wear when UYT installed (FL/FR/RL/RR)
+    - Quality tiers affect UYT wear rate (retread 2x faster, quality 33% slower)
+    - Tire replacement syncs to UYT (resets their wear tracking)
+
     Pattern from: RepairDialog, MessageDialog
 
     v1.7.0 - Tire and Fluid System
@@ -39,6 +44,12 @@ function TiresDialog.new(target, customMt)
     self.currentQuality = 2  -- 1=Retread, 2=Normal, 3=Quality
     self.currentCondition = 1.0  -- 0-1
     self.hasFlatTire = false
+
+    -- v2.3.0: UYT per-wheel tracking
+    self.hasUYT = false
+    self.perWheelConditions = nil  -- { FL=0.85, FR=0.82, RL=0.90, RR=0.88 }
+    self.worstWheel = nil          -- "FR"
+    self.worstCondition = 1.0
 
     -- Selected quality
     self.selectedQuality = nil
@@ -106,14 +117,45 @@ function TiresDialog:setVehicle(vehicle, farmId)
         self.hasFlatTire = false
     end
 
+    -- v2.3.0: Get UYT per-wheel data if available
+    self.hasUYT = ModCompatibility and ModCompatibility.uytInstalled and ModCompatibility.hasUYTTires(vehicle)
+    self.perWheelConditions = nil
+    self.worstWheel = nil
+    self.worstCondition = 1.0
+
+    if self.hasUYT then
+        local wheelLabels = { "FL", "FR", "RL", "RR" }
+        self.perWheelConditions = {}
+        local worstWear = 0
+
+        for i = 1, 4 do
+            local wear = ModCompatibility.getUYTTireWear(vehicle, i)
+            local condition = 1.0 - wear
+            self.perWheelConditions[wheelLabels[i]] = condition
+
+            if wear > worstWear then
+                worstWear = wear
+                self.worstWheel = wheelLabels[i]
+                self.worstCondition = condition
+            end
+        end
+
+        UsedPlus.logDebug(string.format("TiresDialog: UYT data - FL=%.0f%% FR=%.0f%% RL=%.0f%% RR=%.0f%%, worst=%s",
+            (self.perWheelConditions.FL or 1) * 100,
+            (self.perWheelConditions.FR or 1) * 100,
+            (self.perWheelConditions.RL or 1) * 100,
+            (self.perWheelConditions.RR or 1) * 100,
+            self.worstWheel or "none"))
+    end
+
     -- Reset selection
     self.selectedQuality = nil
 
     -- Calculate tire replacement costs
     self:calculateCosts()
 
-    UsedPlus.logDebug(string.format("TiresDialog:setVehicle %s - quality=%d, condition=%.0f%%, flat=%s",
-        self.vehicleName, self.currentQuality, self.currentCondition * 100, tostring(self.hasFlatTire)))
+    UsedPlus.logDebug(string.format("TiresDialog:setVehicle %s - quality=%d, condition=%.0f%%, flat=%s, UYT=%s",
+        self.vehicleName, self.currentQuality, self.currentCondition * 100, tostring(self.hasFlatTire), tostring(self.hasUYT)))
 end
 
 --[[
@@ -164,17 +206,61 @@ function TiresDialog:updateDisplay()
     end
 
     -- Current condition
-    if self.currentConditionText then
-        local conditionPercent = math.floor(self.currentCondition * 100)
-        self.currentConditionText:setText(string.format("%d%%", conditionPercent))
+    -- v2.3.0: Show per-wheel conditions when UYT is installed
+    if self.hasUYT and self.perWheelConditions then
+        -- Show per-wheel display
+        if self.currentConditionText then
+            local fl = math.floor((self.perWheelConditions.FL or 1) * 100)
+            local fr = math.floor((self.perWheelConditions.FR or 1) * 100)
+            local rl = math.floor((self.perWheelConditions.RL or 1) * 100)
+            local rr = math.floor((self.perWheelConditions.RR or 1) * 100)
 
-        -- Color based on condition
-        if self.currentCondition >= 0.7 then
-            self.currentConditionText:setTextColor(0.3, 1, 0.4, 1)  -- Green
-        elseif self.currentCondition >= 0.4 then
-            self.currentConditionText:setTextColor(1, 0.85, 0.2, 1)  -- Yellow
-        else
-            self.currentConditionText:setTextColor(1, 0.4, 0.4, 1)  -- Red
+            -- Format: "FL:85% FR:82% RL:90% RR:88%"
+            self.currentConditionText:setText(string.format("FL:%d%% FR:%d%% RL:%d%% RR:%d%%", fl, fr, rl, rr))
+
+            -- Color based on worst tire
+            if self.worstCondition >= 0.7 then
+                self.currentConditionText:setTextColor(0.3, 1, 0.4, 1)  -- Green
+            elseif self.worstCondition >= 0.4 then
+                self.currentConditionText:setTextColor(1, 0.85, 0.2, 1)  -- Yellow
+            else
+                self.currentConditionText:setTextColor(1, 0.4, 0.4, 1)  -- Red
+            end
+        end
+
+        -- Show worst tire indicator in a separate element if available
+        if self.worstTireText then
+            if self.worstWheel then
+                self.worstTireText:setText(string.format("Worst: %s %.0f%%", self.worstWheel, self.worstCondition * 100))
+                self.worstTireText:setVisible(true)
+            else
+                self.worstTireText:setVisible(false)
+            end
+        end
+
+        -- Update condition label to indicate UYT source
+        if self.conditionLabel then
+            self.conditionLabel:setText(g_i18n:getText("usedplus_tires_conditionUYT") or "Tire Wear (UYT):")
+        end
+    else
+        -- Standard single condition display
+        if self.currentConditionText then
+            local conditionPercent = math.floor(self.currentCondition * 100)
+            self.currentConditionText:setText(string.format("%d%%", conditionPercent))
+
+            -- Color based on condition
+            if self.currentCondition >= 0.7 then
+                self.currentConditionText:setTextColor(0.3, 1, 0.4, 1)  -- Green
+            elseif self.currentCondition >= 0.4 then
+                self.currentConditionText:setTextColor(1, 0.85, 0.2, 1)  -- Yellow
+            else
+                self.currentConditionText:setTextColor(1, 0.4, 0.4, 1)  -- Red
+            end
+        end
+
+        -- Hide worst tire indicator when UYT not available
+        if self.worstTireText then
+            self.worstTireText:setVisible(false)
         end
     end
 

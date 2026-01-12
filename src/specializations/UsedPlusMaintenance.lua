@@ -118,6 +118,84 @@ UsedPlusMaintenance.CONFIG = {
     hitchFailureThreshold = 0.15,         -- Only below 15% hydraulic reliability
     hitchFailureChance = 0.0001,          -- 0.01% chance per check (VERY rare)
 
+    -- v2.4.0: Hydraulic surge event (temporary hard steering pull - "oh crap" moment)
+    enableHydraulicSurge = true,
+    hydraulicSurgeThreshold = 0.6,        -- Can trigger below 60% hydraulic reliability
+    hydraulicSurgeBaseChance = 0.005,     -- 0.5% chance per second check
+    hydraulicSurgeDurationMin = 5000,     -- Minimum 5 seconds
+    hydraulicSurgeDurationMax = 15000,    -- Maximum 15 seconds
+    hydraulicSurgeStrength = 0.3,         -- 30% steering bias (strong but recoverable)
+    hydraulicSurgeFadeTime = 2000,        -- Fade out over last 2 seconds
+    hydraulicSurgeCooldown = 60000,       -- 60 second cooldown between surges
+    hydraulicSurgeMinSpeed = 10,          -- Only trigger above 10 km/h (meaningful driving)
+
+    -- v2.5.0: RUNAWAY ENGINE (governor failure when both fluids critically low)
+    -- When oil AND hydraulic fluid are both critically low, the speed governor fails
+    -- Vehicle accelerates uncontrollably - must turn off engine or crash to stop
+    enableRunaway = true,
+    runawayOilThreshold = 0.10,           -- Oil must be below 10%
+    runawayHydraulicThreshold = 0.10,     -- Hydraulic must be below 10%
+    runawaySpeedBoostMax = 1.5,           -- Up to 150% normal max speed
+    runawaySpeedRampTime = 10000,         -- 10 seconds to reach full boost
+    runawayBrakeEffectiveness = 0.4,      -- Brakes 40% as effective during runaway
+    runawayCrashSpeedDelta = 15,          -- Speed drop > 15 km/h per second = crash detected
+    runawayMinSpeed = 5,                  -- Only trigger when already moving >5 km/h
+
+    -- v2.5.0: Implement stuck down (hydraulic lift failure - can't raise)
+    enableImplementStuckDown = true,
+    implementStuckDownThreshold = 0.25,   -- Below 25% hydraulic reliability
+    implementStuckDownChance = 0.001,     -- 0.1% chance per check when lowered
+    implementStuckDownDuration = 45000,   -- 45 seconds until clears
+
+    -- v2.5.0: Implement stuck up (hydraulic valve failure - can't lower)
+    enableImplementStuckUp = true,
+    implementStuckUpThreshold = 0.25,     -- Below 25% hydraulic reliability
+    implementStuckUpChance = 0.001,       -- 0.1% chance per check when raised
+    implementStuckUpDuration = 45000,     -- 45 seconds until clears
+
+    -- v2.5.0: Implement causes steering pull (asymmetric drag from attached implements)
+    enableImplementPull = true,
+    implementPullThreshold = 0.4,         -- Below 40% hydraulic reliability
+    implementPullMaxStrength = 0.15,      -- 15% steering bias from implement drag
+    implementPullChance = 0.0005,         -- 0.05% chance per check to activate
+    implementPullDuration = 60000,        -- 60 seconds until clears
+
+    -- v2.5.0: Implement causes speed drag (hydraulic can't maintain position under load)
+    enableImplementDrag = true,
+    implementDragThreshold = 0.35,        -- Below 35% hydraulic reliability
+    implementDragSpeedMult = 0.6,         -- 60% max speed when dragging
+    implementDragChance = 0.0005,         -- 0.05% chance per check to activate
+    implementDragDuration = 45000,        -- 45 seconds until clears
+
+    -- v2.5.0: Reduced turning radius (power steering failure)
+    enableReducedTurning = true,
+    reducedTurningThreshold = 0.3,        -- Below 30% hydraulic reliability
+    reducedTurningLimit = 0.65,           -- 65% of normal steering travel
+    reducedTurningChance = 0.0008,        -- 0.08% chance per check to activate
+    reducedTurningDuration = 30000,       -- 30 seconds until clears
+
+    -- v2.5.2: FLUID LEVEL MULTIPLIERS
+    -- Low fluid increases malfunction probability AND severity
+    -- This simulates the real-world effect of running systems without proper lubrication/pressure
+    --
+    -- Formula: multiplier = 1.0 + ((1.0 - fluidLevel) * configMultiplier)
+    -- Example at 20% fluid with multiplier 2.0: 1.0 + (0.8 * 2.0) = 2.6x effect
+
+    -- Hydraulic fluid affects hydraulic malfunctions
+    hydraulicFluidChanceMultiplier = 2.0,     -- Low fluid up to 3x malfunction chance
+    hydraulicFluidSeverityMultiplier = 1.5,   -- Low fluid up to 2.5x duration/severity
+    hydraulicFluidCriticalThreshold = 0.25,   -- Below 25% fluid = severe penalties
+
+    -- Oil affects engine malfunctions
+    oilChanceMultiplier = 2.0,                -- Low oil up to 3x engine malfunction chance
+    oilSeverityMultiplier = 1.5,              -- Low oil up to 2.5x duration/severity
+    oilCriticalThreshold = 0.25,              -- Below 25% oil = severe penalties
+
+    -- Combined fluid+reliability calculation mode
+    -- "additive" = reliability + fluid factors stack (more punishing)
+    -- "multiplicative" = reliability * fluid factors compound (more extreme at low values)
+    fluidCalculationMode = "multiplicative",
+
     -- v1.7.0: Tire System Settings
     enableTireWear = true,
     tireWearRatePerKm = 0.001,            -- 0.1% condition loss per km
@@ -134,6 +212,22 @@ UsedPlusMaintenance.CONFIG = {
     tireQualityCostMult = 1.50,           -- 150% of normal cost
     tireQualityTractionMult = 1.10,       -- 110% traction
     tireQualityFailureMult = 0.5,         -- 0.5x failure chance
+
+    -- v2.3.0: Tire wear rate multipliers (quality affects how fast tires wear)
+    tireRetreadWearMult = 2.0,            -- Retread wears 2x faster
+    tireNormalWearMult = 1.0,             -- Normal baseline
+    tireQualityWearMult = 0.67,           -- Quality wears 33% slower
+
+    -- v2.3.0: DNA-based tire wear (lemons are harder on tires)
+    tireDNAWearEnabled = true,            -- Enable DNA influence on tire wear
+    tireDNAWearMinMult = 0.6,             -- Workhorse (DNA=1.0): 0.6x wear
+    tireDNAWearMaxMult = 1.4,             -- Lemon (DNA=0.0): 1.4x wear
+
+    -- v2.3.0: Retread initial wear (retreads are reconditioned casings)
+    tireRetreadInitialWear = 0.35,        -- Retreads start at 35% wear (reconditioned)
+
+    -- v2.3.0: Quality tire life bonus (premium tires have extended life)
+    tireQualityLifeBonus = 0.15,          -- Quality tires get 15% bonus life (start at -15% wear)
 
     -- v1.7.0: Flat tire malfunction
     enableFlatTire = true,
@@ -609,7 +703,10 @@ function UsedPlusMaintenance.initSpecialization()
     schemaSavegame:register(XMLValueType.BOOL,  key .. ".hasFuelLeak", "Does fuel tank have leak?", false)
     schemaSavegame:register(XMLValueType.FLOAT, key .. ".fuelLeakMultiplier", "Fuel leak rate multiplier", 1.0)
 
-    UsedPlus.logDebug("UsedPlusMaintenance schema registration complete (v1.7.0 with tire/fluid fields)")
+    -- v2.4.0: Hydraulic Surge Event (only cooldown matters for persistence)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".hydraulicSurgeCooldownEnd", "Cooldown timer end time", 0)
+
+    UsedPlus.logDebug("UsedPlusMaintenance schema registration complete (v2.4.0 with hydraulic surge)")
 end
 
 --[[
@@ -761,6 +858,66 @@ function UsedPlusMaintenance:setSteeringInput(superFunc, inputValue, isAnalog, d
     local speed = 0
     if self.getLastSpeed then
         speed = self:getLastSpeed()
+    end
+
+    -- ========== v2.4.0: HYDRAULIC SURGE EVENT ==========
+    -- Time-limited "oh crap" moment - strong temporary pull that fades out
+    -- This is SEPARATE from chronic steering degradation below
+    if spec.hydraulicSurgeActive and config.enableHydraulicSurge then
+        local currentTime = g_currentMission.time or 0
+
+        if currentTime >= spec.hydraulicSurgeEndTime then
+            -- Surge ended - enter cooldown
+            spec.hydraulicSurgeActive = false
+            spec.hydraulicSurgeCooldownEnd = currentTime + config.hydraulicSurgeCooldown
+            UsedPlus.logDebug(string.format("Hydraulic surge ended on %s, cooldown until %d",
+                self:getName(), spec.hydraulicSurgeCooldownEnd))
+        else
+            -- Calculate surge strength (with fade)
+            local surgeStrength = config.hydraulicSurgeStrength
+            if currentTime >= spec.hydraulicSurgeFadeStartTime then
+                -- In fade period - reduce strength smoothly
+                local fadeProgress = (currentTime - spec.hydraulicSurgeFadeStartTime) / config.hydraulicSurgeFadeTime
+                fadeProgress = math.min(fadeProgress, 1.0)  -- Clamp to 1.0
+                surgeStrength = surgeStrength * (1 - fadeProgress)
+            end
+
+            -- Apply surge pull (strong bias to one side)
+            local surgePull = surgeStrength * spec.hydraulicSurgeDirection
+            inputValue = inputValue + surgePull
+
+            -- Clamp to valid range
+            inputValue = math.max(-1, math.min(1, inputValue))
+        end
+    end
+
+    -- ========== v2.5.0: IMPLEMENT PULL (asymmetric drag from attached implements) ==========
+    -- Time-limited effect from implement drag causing steering bias
+    if spec.implementPullActive and config.enableImplementPull then
+        -- Check if implements are still attached
+        local hasImplements = false
+        if self.getAttachedImplements then
+            local implements = self:getAttachedImplements()
+            hasImplements = implements and #implements > 0
+        end
+
+        if hasImplements then
+            -- Speed factor - more noticeable at higher speeds
+            local implPullSpeedFactor = 0
+            if speed > 5 then
+                implPullSpeedFactor = math.min((speed - 5) / 20, 1.0)  -- Full effect at 25 km/h
+            end
+
+            -- Apply implement pull
+            local implPullAmount = config.implementPullMaxStrength * implPullSpeedFactor * spec.implementPullDirection
+            inputValue = inputValue + implPullAmount
+
+            -- Clamp to valid range
+            inputValue = math.max(-1, math.min(1, inputValue))
+        else
+            -- No implements - clear the effect
+            spec.implementPullActive = false
+        end
     end
 
     -- ========== v1.7.0: FLAT TIRE STEERING PULL ==========
@@ -929,6 +1086,12 @@ function UsedPlusMaintenance:setSteeringInput(superFunc, inputValue, isAnalog, d
         -- Reset wander when stopped
         spec.steeringWanderCurrent = 0
         spec.steeringWanderTarget = 0
+    end
+
+    -- ========== v2.5.0: REDUCED TURNING (power steering failure limits steering travel) ==========
+    if spec.reducedTurningActive and config.enableReducedTurning then
+        -- Limit steering travel to percentage of normal
+        inputValue = inputValue * config.reducedTurningLimit  -- 0.65 = 65% of normal steering
     end
 
     -- Final clamp
@@ -1105,6 +1268,40 @@ function UsedPlusMaintenance:onLoad(savegame)
     spec.fuelLeakMultiplier = 1.0         -- Current fuel consumption multiplier
     spec.hasShownFuelLeakWarning = false  -- One-time fuel leak warning
 
+    -- v2.4.0: Hydraulic surge event state (time-limited hard steering pull)
+    spec.hydraulicSurgeActive = false     -- True during a surge event
+    spec.hydraulicSurgeEndTime = 0        -- When current surge ends
+    spec.hydraulicSurgeFadeStartTime = 0  -- When fade-out begins
+    spec.hydraulicSurgeDirection = 0      -- -1=left, 1=right
+    spec.hydraulicSurgeCooldownEnd = 0    -- Cooldown timer (no new surge until this time)
+
+    -- v2.5.0: RUNAWAY ENGINE state (governor failure - speed increases uncontrollably)
+    spec.runawayActive = false            -- True during runaway event
+    spec.runawayStartTime = 0             -- When runaway began (for speed ramp)
+    spec.runawayPreviousSpeed = 0         -- For crash detection (speed delta)
+    spec.runawayPreviousDamage = 0        -- Backup crash detection
+
+    -- v2.5.0: Implement stuck down state (can't raise)
+    spec.implementStuckDown = false       -- True when stuck down
+    spec.implementStuckDownEndTime = 0    -- When stuck clears
+
+    -- v2.5.0: Implement stuck up state (can't lower)
+    spec.implementStuckUp = false         -- True when stuck up
+    spec.implementStuckUpEndTime = 0      -- When stuck clears
+
+    -- v2.5.0: Implement steering pull state (asymmetric drag)
+    spec.implementPullActive = false      -- True when active
+    spec.implementPullEndTime = 0         -- When effect clears
+    spec.implementPullDirection = 0       -- -1=left, 1=right
+
+    -- v2.5.0: Implement speed drag state (can't maintain position)
+    spec.implementDragActive = false      -- True when dragging
+    spec.implementDragEndTime = 0         -- When effect clears
+
+    -- v2.5.0: Reduced turning state (power steering failure)
+    spec.reducedTurningActive = false     -- True when steering is limited
+    spec.reducedTurningEndTime = 0        -- When effect clears
+
     UsedPlus.logTrace("UsedPlusMaintenance onLoad complete for: " .. tostring(self:getName()))
 end
 
@@ -1198,6 +1395,9 @@ function UsedPlusMaintenance:onPostLoad(savegame)
         -- v1.7.0: Load fuel leak state (with nil guards for old savegames)
         spec.hasFuelLeak = xmlFile:getValue(key .. ".hasFuelLeak", spec.hasFuelLeak) or false
         spec.fuelLeakMultiplier = xmlFile:getValue(key .. ".fuelLeakMultiplier", spec.fuelLeakMultiplier) or 1.0
+
+        -- v2.4.0: Load hydraulic surge cooldown (surge active state not persisted - too transient)
+        spec.hydraulicSurgeCooldownEnd = xmlFile:getValue(key .. ".hydraulicSurgeCooldownEnd", spec.hydraulicSurgeCooldownEnd) or 0
 
         -- v2.1.0: Load RVB/UYT deferred sync data
         spec.rvbDataSynced = xmlFile:getValue(key .. ".rvbDataSynced", spec.rvbDataSynced) or false
@@ -1313,6 +1513,9 @@ function UsedPlusMaintenance:saveToXMLFile(xmlFile, key, usedModNames)
     xmlFile:setValue(key .. ".hasFuelLeak", spec.hasFuelLeak)
     xmlFile:setValue(key .. ".fuelLeakMultiplier", spec.fuelLeakMultiplier)
 
+    -- v2.4.0: Save hydraulic surge cooldown (active state not saved - too transient)
+    xmlFile:setValue(key .. ".hydraulicSurgeCooldownEnd", spec.hydraulicSurgeCooldownEnd or 0)
+
     -- v2.1.0: Save RVB/UYT deferred sync data
     xmlFile:setValue(key .. ".rvbDataSynced", spec.rvbDataSynced)
     xmlFile:setValue(key .. ".tireDataSynced", spec.tireDataSynced)
@@ -1425,6 +1628,31 @@ function UsedPlusMaintenance:onReadStream(streamId, connection)
     spec.hasFuelLeak = streamReadBool(streamId)
     spec.fuelLeakMultiplier = streamReadFloat32(streamId)
 
+    -- v2.4.0: Hydraulic surge event (sync active state for multiplayer)
+    spec.hydraulicSurgeActive = streamReadBool(streamId)
+    spec.hydraulicSurgeEndTime = streamReadFloat32(streamId)
+    spec.hydraulicSurgeFadeStartTime = streamReadFloat32(streamId)
+    spec.hydraulicSurgeDirection = streamReadInt8(streamId)
+    spec.hydraulicSurgeCooldownEnd = streamReadFloat32(streamId)
+
+    -- v2.5.0: Comprehensive hydraulic malfunctions (sync active states)
+    -- Runaway engine
+    spec.runawayActive = streamReadBool(streamId)
+    spec.runawayStartTime = streamReadFloat32(streamId)
+    -- Implement stuck
+    spec.implementStuckDown = streamReadBool(streamId)
+    spec.implementStuckDownEndTime = streamReadFloat32(streamId)
+    spec.implementStuckUp = streamReadBool(streamId)
+    spec.implementStuckUpEndTime = streamReadFloat32(streamId)
+    -- Implement effects
+    spec.implementPullActive = streamReadBool(streamId)
+    spec.implementPullEndTime = streamReadFloat32(streamId)
+    spec.implementPullDirection = streamReadInt8(streamId)
+    spec.implementDragActive = streamReadBool(streamId)
+    spec.implementDragEndTime = streamReadFloat32(streamId)
+    spec.reducedTurningActive = streamReadBool(streamId)
+    spec.reducedTurningEndTime = streamReadFloat32(streamId)
+
     UsedPlus.logTrace("UsedPlusMaintenance onReadStream complete")
 end
 
@@ -1502,6 +1730,31 @@ function UsedPlusMaintenance:onWriteStream(streamId, connection)
     streamWriteBool(streamId, spec.hasFuelLeak)
     streamWriteFloat32(streamId, spec.fuelLeakMultiplier)
 
+    -- v2.4.0: Hydraulic surge event (sync active state for multiplayer)
+    streamWriteBool(streamId, spec.hydraulicSurgeActive or false)
+    streamWriteFloat32(streamId, spec.hydraulicSurgeEndTime or 0)
+    streamWriteFloat32(streamId, spec.hydraulicSurgeFadeStartTime or 0)
+    streamWriteInt8(streamId, spec.hydraulicSurgeDirection or 0)
+    streamWriteFloat32(streamId, spec.hydraulicSurgeCooldownEnd or 0)
+
+    -- v2.5.0: Comprehensive hydraulic malfunctions (sync active states)
+    -- Runaway engine
+    streamWriteBool(streamId, spec.runawayActive or false)
+    streamWriteFloat32(streamId, spec.runawayStartTime or 0)
+    -- Implement stuck
+    streamWriteBool(streamId, spec.implementStuckDown or false)
+    streamWriteFloat32(streamId, spec.implementStuckDownEndTime or 0)
+    streamWriteBool(streamId, spec.implementStuckUp or false)
+    streamWriteFloat32(streamId, spec.implementStuckUpEndTime or 0)
+    -- Implement effects
+    streamWriteBool(streamId, spec.implementPullActive or false)
+    streamWriteFloat32(streamId, spec.implementPullEndTime or 0)
+    streamWriteInt8(streamId, spec.implementPullDirection or 0)
+    streamWriteBool(streamId, spec.implementDragActive or false)
+    streamWriteFloat32(streamId, spec.implementDragEndTime or 0)
+    streamWriteBool(streamId, spec.reducedTurningActive or false)
+    streamWriteFloat32(streamId, spec.reducedTurningEndTime or 0)
+
     UsedPlus.logTrace("UsedPlusMaintenance onWriteStream complete")
 end
 
@@ -1567,6 +1820,11 @@ function UsedPlusMaintenance:onUpdate(dt, isActiveForInput, isActiveForInputIgno
         UsedPlusMaintenance.trackDistanceTraveled(self, dt)
     end
 
+    -- v2.5.0: Update runaway state every frame (for crash detection)
+    if UsedPlusMaintenance.CONFIG.enableRunaway then
+        UsedPlusMaintenance.updateRunawayState(self, dt)
+    end
+
     -- ========== PERIODIC CHECKS (throttled to every 1 second) ==========
 
     spec.updateTimer = (spec.updateTimer or 0) + dt
@@ -1598,6 +1856,13 @@ function UsedPlusMaintenance:onUpdate(dt, isActiveForInput, isActiveForInputIgno
     -- v1.6.0: Steering pull surge timer (intermittent intensification)
     if UsedPlusMaintenance.CONFIG.enableSteeringDegradation then
         UsedPlusMaintenance.updateSteeringPullSurge(self)
+    end
+
+    -- v2.4.0: Hydraulic surge event (time-limited hard steering pull)
+    -- v1.4.0: Check UsedPlusSettings for malfunctions toggle (surges are malfunctions)
+    local malfunctionsEnabledForSurge = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if UsedPlusMaintenance.CONFIG.enableHydraulicSurge and malfunctionsEnabledForSurge then
+        UsedPlusMaintenance.checkHydraulicSurge(self)
     end
 
     -- v1.6.0: Engine misfiring (check for new misfire triggers)
@@ -1651,6 +1916,36 @@ function UsedPlusMaintenance:onUpdate(dt, isActiveForInput, isActiveForInputIgno
         UsedPlusMaintenance.checkForNewLeaks(self)
     end
 
+    -- v2.5.0: Comprehensive hydraulic malfunctions
+    if malfunctionsEnabled then
+        -- Update timers for time-limited effects (clears expired effects)
+        UsedPlusMaintenance.updateMalfunctionTimers(self)
+
+        -- Check for runaway engine (requires both oil AND hydraulic critically low)
+        if UsedPlusMaintenance.CONFIG.enableRunaway then
+            UsedPlusMaintenance.checkRunawayCondition(self)
+        end
+
+        -- Check for implement stuck malfunctions
+        if UsedPlusMaintenance.CONFIG.enableImplementStuckDown then
+            UsedPlusMaintenance.checkImplementStuckDown(self)
+        end
+        if UsedPlusMaintenance.CONFIG.enableImplementStuckUp then
+            UsedPlusMaintenance.checkImplementStuckUp(self)
+        end
+
+        -- Check for implement effect malfunctions
+        if UsedPlusMaintenance.CONFIG.enableImplementPull then
+            UsedPlusMaintenance.checkImplementPull(self)
+        end
+        if UsedPlusMaintenance.CONFIG.enableImplementDrag then
+            UsedPlusMaintenance.checkImplementDrag(self)
+        end
+        if UsedPlusMaintenance.CONFIG.enableReducedTurning then
+            UsedPlusMaintenance.checkReducedTurning(self)
+        end
+    end
+
     -- v1.7.0: Process fuel leak (drains fuel from tank)
     UsedPlusMaintenance.processFuelLeak(self, dt)
 
@@ -1692,6 +1987,662 @@ function UsedPlusMaintenance.updateSteeringPullSurge(vehicle)
 
         UsedPlus.logDebug(string.format("Steering pull surge triggered on %s (direction=%d, duration=%dms)",
             vehicle:getName(), spec.steeringPullDirection, config.steeringPullSurgeDuration))
+    end
+end
+
+--[[
+    ===================================================================================
+    v2.5.2: FLUID FACTOR HELPER FUNCTIONS
+    ===================================================================================
+    These functions calculate how fluid levels affect malfunction probability and severity.
+    Low fluid makes existing reliability problems WORSE:
+    - Increases the CHANCE of malfunctions triggering
+    - Increases the SEVERITY (duration/intensity) of malfunctions that do trigger
+
+    Real-world basis:
+    - Hydraulic systems need fluid pressure to function properly
+    - Low fluid causes cavitation, overheating, and erratic behavior
+    - Engine oil lubricates and cools - low oil accelerates wear and damage
+]]
+
+--[[
+    v2.5.2: Calculate fluid multiplier for malfunction CHANCE
+    @param fluidLevel - Current fluid level (0.0-1.0)
+    @param multiplierConfig - Config value for max multiplier effect
+    @return number - Multiplier (1.0 = no effect, higher = more likely to malfunction)
+]]
+function UsedPlusMaintenance.getFluidChanceMultiplier(fluidLevel, multiplierConfig)
+    local config = UsedPlusMaintenance.CONFIG
+
+    -- Full fluid = no penalty (1.0x)
+    -- Empty fluid = max penalty (1.0 + multiplierConfig)
+    -- Example: At 20% fluid with multiplier 2.0: 1.0 + (0.8 * 2.0) = 2.6x chance
+    local deficit = 1.0 - (fluidLevel or 1.0)
+    local multiplier = 1.0 + (deficit * (multiplierConfig or 2.0))
+
+    return multiplier
+end
+
+--[[
+    v2.5.2: Calculate fluid multiplier for malfunction SEVERITY (duration/intensity)
+    @param fluidLevel - Current fluid level (0.0-1.0)
+    @param multiplierConfig - Config value for max severity multiplier
+    @return number - Multiplier (1.0 = no effect, higher = longer/worse malfunctions)
+]]
+function UsedPlusMaintenance.getFluidSeverityMultiplier(fluidLevel, multiplierConfig)
+    local config = UsedPlusMaintenance.CONFIG
+
+    -- Same formula as chance, but typically with a lower multiplier
+    -- so severity doesn't get TOO extreme
+    local deficit = 1.0 - (fluidLevel or 1.0)
+    local multiplier = 1.0 + (deficit * (multiplierConfig or 1.5))
+
+    return multiplier
+end
+
+--[[
+    v2.5.2: Get hydraulic fluid chance multiplier for a vehicle
+    Convenience wrapper that reads vehicle spec and config
+    @param vehicle - Vehicle to check
+    @return number - Chance multiplier (1.0 = no effect)
+]]
+function UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return 1.0 end
+
+    local config = UsedPlusMaintenance.CONFIG
+    local fluidLevel = spec.hydraulicFluidLevel or 1.0
+
+    return UsedPlusMaintenance.getFluidChanceMultiplier(fluidLevel, config.hydraulicFluidChanceMultiplier)
+end
+
+--[[
+    v2.5.2: Get hydraulic fluid severity multiplier for a vehicle
+    @param vehicle - Vehicle to check
+    @return number - Severity multiplier (1.0 = no effect)
+]]
+function UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return 1.0 end
+
+    local config = UsedPlusMaintenance.CONFIG
+    local fluidLevel = spec.hydraulicFluidLevel or 1.0
+
+    return UsedPlusMaintenance.getFluidSeverityMultiplier(fluidLevel, config.hydraulicFluidSeverityMultiplier)
+end
+
+--[[
+    v2.5.2: Get oil chance multiplier for a vehicle
+    @param vehicle - Vehicle to check
+    @return number - Chance multiplier (1.0 = no effect)
+]]
+function UsedPlusMaintenance.getOilChanceMultiplier(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return 1.0 end
+
+    local config = UsedPlusMaintenance.CONFIG
+    local oilLevel = spec.oilLevel or 1.0
+
+    return UsedPlusMaintenance.getFluidChanceMultiplier(oilLevel, config.oilChanceMultiplier)
+end
+
+--[[
+    v2.5.2: Get oil severity multiplier for a vehicle
+    @param vehicle - Vehicle to check
+    @return number - Severity multiplier (1.0 = no effect)
+]]
+function UsedPlusMaintenance.getOilSeverityMultiplier(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return 1.0 end
+
+    local config = UsedPlusMaintenance.CONFIG
+    local oilLevel = spec.oilLevel or 1.0
+
+    return UsedPlusMaintenance.getFluidSeverityMultiplier(oilLevel, config.oilSeverityMultiplier)
+end
+
+--[[
+    v2.4.0: Check for hydraulic surge event (time-limited hard steering pull)
+    Called every 1 second from onUpdate periodic checks
+    Creates "oh crap" moments where steering suddenly pulls hard to one side
+    This is SEPARATE from chronic steering degradation - it's an EVENT that triggers,
+    lasts 5-15 seconds, requires active countersteering, then goes away
+]]
+function UsedPlusMaintenance.checkHydraulicSurge(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+    local currentTime = g_currentMission.time or 0
+
+    -- Don't trigger if disabled
+    if not config.enableHydraulicSurge then return end
+
+    -- Don't trigger new surge if one is already active
+    if spec.hydraulicSurgeActive then return end
+
+    -- Don't trigger during cooldown
+    if currentTime < (spec.hydraulicSurgeCooldownEnd or 0) then return end
+
+    -- Only trigger at meaningful speeds (not crawling around the farm)
+    local speed = 0
+    if vehicle.getLastSpeed then
+        speed = vehicle:getLastSpeed()
+    end
+    if speed < config.hydraulicSurgeMinSpeed then return end
+
+    -- Get hydraulic reliability
+    local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
+
+    -- Only trigger below threshold
+    if hydraulicReliability >= config.hydraulicSurgeThreshold then return end
+
+    -- Calculate chance based on reliability (worse reliability = higher chance)
+    local reliabilityFactor = (config.hydraulicSurgeThreshold - hydraulicReliability) / config.hydraulicSurgeThreshold
+    local baseChance = config.hydraulicSurgeBaseChance * reliabilityFactor * 3  -- Scales up to 1.5% at 0% reliability
+
+    -- v2.5.2: Apply fluid multiplier (low fluid = even higher chance)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local chance = baseChance * fluidMultiplier
+
+    if math.random() < chance then
+        -- TRIGGER SURGE!
+        spec.hydraulicSurgeActive = true
+        local baseDuration = math.random(config.hydraulicSurgeDurationMin, config.hydraulicSurgeDurationMax)
+
+        -- v2.5.2: Apply severity multiplier to duration (low fluid = longer surges)
+        local severityMultiplier = UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+        local duration = math.floor(baseDuration * severityMultiplier)
+
+        spec.hydraulicSurgeEndTime = currentTime + duration
+        spec.hydraulicSurgeFadeStartTime = spec.hydraulicSurgeEndTime - config.hydraulicSurgeFadeTime
+        spec.hydraulicSurgeDirection = math.random() < 0.5 and -1 or 1
+
+        -- Show red popup warning (consistent with other malfunctions)
+        local directionText = spec.hydraulicSurgeDirection < 0 and
+            (g_i18n:getText("usedPlus_directionLeft") or "left") or
+            (g_i18n:getText("usedPlus_directionRight") or "right")
+
+        UsedPlusMaintenance.showWarning(vehicle,
+            string.format(g_i18n:getText("usedplus_warning_hydraulicSurge") or "POWER STEERING LOSS - Vehicle pulling %s!", directionText)
+        )
+
+        UsedPlus.logDebug(string.format("Hydraulic surge triggered on %s (direction=%s, duration=%dms, reliability=%.1f%%)",
+            vehicle:getName(), directionText, duration, hydraulicReliability * 100))
+    end
+end
+
+--[[
+    v2.5.0: RUNAWAY ENGINE - Check if conditions are met to trigger runaway
+    Requires BOTH oil AND hydraulic fluid critically low (<10%)
+    This simulates governor failure from lack of lubrication + hydraulic pressure
+]]
+function UsedPlusMaintenance.checkRunawayCondition(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+
+    -- Don't trigger if disabled
+    if not config.enableRunaway then return end
+
+    -- Don't trigger if already in runaway
+    if spec.runawayActive then return end
+
+    -- Need to be moving above minimum speed
+    local speed = 0
+    if vehicle.getLastSpeed then
+        speed = vehicle:getLastSpeed()
+    end
+    if speed < config.runawayMinSpeed then return end
+
+    -- Check if BOTH fluids are critically low
+    local oilLevel = spec.oilLevel or 1.0
+    local hydraulicLevel = spec.hydraulicFluidLevel or 1.0
+
+    local oilCritical = oilLevel < config.runawayOilThreshold
+    local hydraulicCritical = hydraulicLevel < config.runawayHydraulicThreshold
+
+    if oilCritical and hydraulicCritical then
+        -- TRIGGER RUNAWAY!
+        spec.runawayActive = true
+        spec.runawayStartTime = g_currentMission.time or 0
+        spec.runawayPreviousSpeed = speed
+        spec.runawayPreviousDamage = vehicle:getVehicleDamage() or 0
+
+        UsedPlusMaintenance.showWarning(vehicle,
+            g_i18n:getText("usedplus_warning_runaway") or
+            "ENGINE RUNAWAY! Governor failure - TURN OFF ENGINE!")
+
+        UsedPlus.logDebug(string.format("RUNAWAY triggered on %s (oil=%.1f%%, hydraulic=%.1f%%, speed=%.1f km/h)",
+            vehicle:getName(), oilLevel * 100, hydraulicLevel * 100, speed))
+    end
+end
+
+--[[
+    v2.5.0: Update runaway state per-frame
+    Checks for END conditions: engine off, crash detected, fluids restored
+    Called every frame when runaway is active
+]]
+function UsedPlusMaintenance.updateRunawayState(vehicle, dt)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+    if not spec.runawayActive then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+    local currentTime = g_currentMission.time or 0
+
+    -- Condition 1: Engine turned off
+    local motorized = vehicle.spec_motorized
+    if motorized and not motorized.isMotorStarted then
+        UsedPlusMaintenance.endRunaway(vehicle, "engine_off")
+        return
+    end
+
+    -- Condition 2: Crash detected (sudden speed loss while moving)
+    local currentSpeed = 0
+    if vehicle.getLastSpeed then
+        currentSpeed = vehicle:getLastSpeed()
+    end
+
+    -- dt is in milliseconds, convert to seconds for per-second delta
+    local dtSeconds = dt / 1000
+    if dtSeconds > 0 and currentSpeed > 2 then
+        local speedDelta = (spec.runawayPreviousSpeed - currentSpeed) / dtSeconds
+        if speedDelta > config.runawayCrashSpeedDelta then
+            -- Was moving fast, suddenly slowed = crash!
+            UsedPlusMaintenance.endRunaway(vehicle, "crash")
+            return
+        end
+    end
+
+    -- Condition 3: Damage increased significantly (backup crash detection)
+    local currentDamage = vehicle:getVehicleDamage() or 0
+    if currentDamage - (spec.runawayPreviousDamage or 0) > 0.02 then
+        UsedPlusMaintenance.endRunaway(vehicle, "damage")
+        return
+    end
+
+    -- Condition 4: Fluids restored (player refilled while running - unlikely but possible)
+    local oilLevel = spec.oilLevel or 1.0
+    local hydraulicLevel = spec.hydraulicFluidLevel or 1.0
+    local oilOK = oilLevel >= config.runawayOilThreshold
+    local hydraulicOK = hydraulicLevel >= config.runawayHydraulicThreshold
+    if oilOK or hydraulicOK then
+        UsedPlusMaintenance.endRunaway(vehicle, "fluids_restored")
+        return
+    end
+
+    -- Update tracking for next frame
+    spec.runawayPreviousSpeed = currentSpeed
+    spec.runawayPreviousDamage = currentDamage
+end
+
+--[[
+    v2.5.0: End runaway state and show appropriate message
+    @param reason - Why runaway ended: "engine_off", "crash", "damage", "fluids_restored"
+]]
+function UsedPlusMaintenance.endRunaway(vehicle, reason)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    spec.runawayActive = false
+
+    local messages = {
+        engine_off = g_i18n:getText("usedplus_runaway_end_engineOff") or "Engine stopped - runaway ended.",
+        crash = g_i18n:getText("usedplus_runaway_end_crash") or "Impact detected - runaway ended.",
+        damage = g_i18n:getText("usedplus_runaway_end_damage") or "Vehicle damaged - runaway ended.",
+        fluids_restored = g_i18n:getText("usedplus_runaway_end_fluids") or "Fluids restored - governor recovered."
+    }
+
+    -- Show info (not warning - the danger is over)
+    g_currentMission:showBlinkingWarning(messages[reason] or "Runaway ended.", 3000)
+
+    UsedPlus.logDebug("Runaway ended on " .. vehicle:getName() .. ": " .. reason)
+end
+
+--[[
+    v2.5.0: Check for implement stuck DOWN malfunction
+    Hydraulic lift failure prevents raising the implement
+]]
+function UsedPlusMaintenance.checkImplementStuckDown(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+
+    if not config.enableImplementStuckDown then return end
+    if spec.implementStuckDown then return end  -- Already stuck
+
+    local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
+    if hydraulicReliability >= config.implementStuckDownThreshold then return end
+
+    -- Check if any implement is lowered
+    local implements = nil
+    if vehicle.getAttachedImplements then
+        implements = vehicle:getAttachedImplements()
+    end
+    if not implements or #implements == 0 then return end
+
+    for _, impl in pairs(implements) do
+        local implement = impl.object
+        if implement and implement.getIsLowered and implement:getIsLowered() then
+            -- Has a lowered implement - can get stuck!
+            local reliabilityFactor = (config.implementStuckDownThreshold - hydraulicReliability) / config.implementStuckDownThreshold
+            local baseChance = config.implementStuckDownChance * reliabilityFactor * 2
+
+            -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+            local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+            local chance = baseChance * fluidMultiplier
+
+            if math.random() < chance then
+                -- STUCK!
+                spec.implementStuckDown = true
+
+                -- v2.5.2: Apply severity multiplier to duration (low fluid = stuck longer)
+                local severityMultiplier = UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+                local duration = math.floor(config.implementStuckDownDuration * severityMultiplier)
+                spec.implementStuckDownEndTime = (g_currentMission.time or 0) + duration
+
+                UsedPlusMaintenance.showWarning(vehicle,
+                    g_i18n:getText("usedplus_warning_stuckDown") or
+                    "HYDRAULIC LIFT FAILURE - Implement cannot raise!")
+
+                UsedPlus.logDebug(string.format("Implement stuck DOWN on %s (reliability=%.1f%%, fluidMult=%.2fx, duration=%ds)",
+                    vehicle:getName(), hydraulicReliability * 100, fluidMultiplier, duration / 1000))
+                return
+            end
+        end
+    end
+end
+
+--[[
+    v2.5.0: Check for implement stuck UP malfunction
+    Hydraulic valve failure prevents lowering the implement
+]]
+function UsedPlusMaintenance.checkImplementStuckUp(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+
+    if not config.enableImplementStuckUp then return end
+    if spec.implementStuckUp then return end  -- Already stuck
+
+    local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
+    if hydraulicReliability >= config.implementStuckUpThreshold then return end
+
+    -- Check if any implement is raised
+    local implements = nil
+    if vehicle.getAttachedImplements then
+        implements = vehicle:getAttachedImplements()
+    end
+    if not implements or #implements == 0 then return end
+
+    for _, impl in pairs(implements) do
+        local implement = impl.object
+        if implement and implement.getIsLowered then
+            if not implement:getIsLowered() then
+                -- Has a raised implement - can get stuck!
+                local reliabilityFactor = (config.implementStuckUpThreshold - hydraulicReliability) / config.implementStuckUpThreshold
+                local baseChance = config.implementStuckUpChance * reliabilityFactor * 2
+
+                -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+                local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+                local chance = baseChance * fluidMultiplier
+
+                if math.random() < chance then
+                    -- STUCK!
+                    spec.implementStuckUp = true
+
+                    -- v2.5.2: Apply severity multiplier to duration (low fluid = stuck longer)
+                    local severityMultiplier = UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+                    local duration = math.floor(config.implementStuckUpDuration * severityMultiplier)
+                    spec.implementStuckUpEndTime = (g_currentMission.time or 0) + duration
+
+                    UsedPlusMaintenance.showWarning(vehicle,
+                        g_i18n:getText("usedplus_warning_stuckUp") or
+                        "HYDRAULIC VALVE FAILURE - Implement cannot lower!")
+
+                    UsedPlus.logDebug(string.format("Implement stuck UP on %s (reliability=%.1f%%, fluidMult=%.2fx, duration=%ds)",
+                        vehicle:getName(), hydraulicReliability * 100, fluidMultiplier, duration / 1000))
+                    return
+                end
+            end
+        end
+    end
+end
+
+--[[
+    v2.5.0: Check for implement steering pull malfunction
+    Asymmetric drag from implements causes steering bias
+]]
+function UsedPlusMaintenance.checkImplementPull(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+
+    if not config.enableImplementPull then return end
+    if spec.implementPullActive then return end  -- Already active
+
+    local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
+    if hydraulicReliability >= config.implementPullThreshold then return end
+
+    -- Need attached implements
+    local implements = nil
+    if vehicle.getAttachedImplements then
+        implements = vehicle:getAttachedImplements()
+    end
+    if not implements or #implements == 0 then return end
+
+    local reliabilityFactor = (config.implementPullThreshold - hydraulicReliability) / config.implementPullThreshold
+    local baseChance = config.implementPullChance * reliabilityFactor * 2
+
+    -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local chance = baseChance * fluidMultiplier
+
+    if math.random() < chance then
+        -- ACTIVATE!
+        spec.implementPullActive = true
+
+        -- v2.5.2: Apply severity multiplier to duration
+        local severityMultiplier = UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+        local duration = math.floor(config.implementPullDuration * severityMultiplier)
+        spec.implementPullEndTime = (g_currentMission.time or 0) + duration
+
+        spec.implementPullDirection = math.random() < 0.5 and -1 or 1
+
+        local directionText = spec.implementPullDirection < 0 and
+            (g_i18n:getText("usedPlus_directionLeft") or "left") or
+            (g_i18n:getText("usedPlus_directionRight") or "right")
+
+        UsedPlusMaintenance.showWarning(vehicle,
+            string.format(g_i18n:getText("usedplus_warning_implementPull") or
+            "IMPLEMENT DRAG - Pulling %s!", directionText))
+
+        UsedPlus.logDebug(string.format("Implement pull activated on %s (direction=%s, reliability=%.1f%%, fluidMult=%.2fx)",
+            vehicle:getName(), directionText, hydraulicReliability * 100, fluidMultiplier))
+    end
+end
+
+--[[
+    v2.5.0: Check for implement speed drag malfunction
+    Hydraulic system can't maintain implement position under load
+]]
+function UsedPlusMaintenance.checkImplementDrag(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+
+    if not config.enableImplementDrag then return end
+    if spec.implementDragActive then return end  -- Already active
+
+    local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
+    if hydraulicReliability >= config.implementDragThreshold then return end
+
+    -- Need lowered implements (under load)
+    local implements = nil
+    if vehicle.getAttachedImplements then
+        implements = vehicle:getAttachedImplements()
+    end
+    if not implements or #implements == 0 then return end
+
+    local hasLoweredImpl = false
+    for _, impl in pairs(implements) do
+        local implement = impl.object
+        if implement and implement.getIsLowered and implement:getIsLowered() then
+            hasLoweredImpl = true
+            break
+        end
+    end
+    if not hasLoweredImpl then return end
+
+    local reliabilityFactor = (config.implementDragThreshold - hydraulicReliability) / config.implementDragThreshold
+    local baseChance = config.implementDragChance * reliabilityFactor * 2
+
+    -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local chance = baseChance * fluidMultiplier
+
+    if math.random() < chance then
+        -- ACTIVATE!
+        spec.implementDragActive = true
+
+        -- v2.5.2: Apply severity multiplier to duration
+        local severityMultiplier = UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+        local duration = math.floor(config.implementDragDuration * severityMultiplier)
+        spec.implementDragEndTime = (g_currentMission.time or 0) + duration
+
+        UsedPlusMaintenance.showWarning(vehicle,
+            g_i18n:getText("usedplus_warning_implementDrag") or
+            "HYDRAULIC STRAIN - Speed reduced!")
+
+        UsedPlus.logDebug(string.format("Implement drag activated on %s (reliability=%.1f%%, fluidMult=%.2fx)",
+            vehicle:getName(), hydraulicReliability * 100, fluidMultiplier))
+    end
+end
+
+--[[
+    v2.5.0: Check for reduced turning radius malfunction
+    Power steering failure reduces steering effectiveness
+]]
+function UsedPlusMaintenance.checkReducedTurning(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local config = UsedPlusMaintenance.CONFIG
+
+    if not config.enableReducedTurning then return end
+    if spec.reducedTurningActive then return end  -- Already active
+
+    local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
+    if hydraulicReliability >= config.reducedTurningThreshold then return end
+
+    local reliabilityFactor = (config.reducedTurningThreshold - hydraulicReliability) / config.reducedTurningThreshold
+    local baseChance = config.reducedTurningChance * reliabilityFactor * 2
+
+    -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local chance = baseChance * fluidMultiplier
+
+    if math.random() < chance then
+        -- ACTIVATE!
+        spec.reducedTurningActive = true
+
+        -- v2.5.2: Apply severity multiplier to duration
+        local severityMultiplier = UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+        local duration = math.floor(config.reducedTurningDuration * severityMultiplier)
+        spec.reducedTurningEndTime = (g_currentMission.time or 0) + duration
+
+        UsedPlusMaintenance.showWarning(vehicle,
+            g_i18n:getText("usedplus_warning_reducedTurning") or
+            "POWER STEERING WEAK - Turning limited!")
+
+        UsedPlus.logDebug(string.format("Reduced turning activated on %s (reliability=%.1f%%, fluidMult=%.2fx)",
+            vehicle:getName(), hydraulicReliability * 100, fluidMultiplier))
+    end
+end
+
+--[[
+    v2.5.0: Update time-limited malfunction states
+    Checks if stuck/pull/drag/turning effects have expired
+    Also ENFORCES stuck states by immediately undoing player's raise/lower attempts
+]]
+function UsedPlusMaintenance.updateMalfunctionTimers(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec == nil then return end
+
+    local currentTime = g_currentMission.time or 0
+
+    -- Check implement stuck down - also ENFORCE the stuck state
+    if spec.implementStuckDown then
+        if currentTime >= spec.implementStuckDownEndTime then
+            spec.implementStuckDown = false
+            UsedPlus.logDebug("Implement stuck down cleared on " .. vehicle:getName())
+        else
+            -- ENFORCE: If any implement got raised, force it back down!
+            if vehicle.getAttachedImplements then
+                local implements = vehicle:getAttachedImplements()
+                if implements then
+                    for _, impl in pairs(implements) do
+                        local implement = impl.object
+                        if implement and implement.getIsLowered and implement.setLoweredAll then
+                            if not implement:getIsLowered() then
+                                -- Player tried to raise it - force it back down!
+                                implement:setLoweredAll(true)
+                                UsedPlus.logTrace("Enforcing stuck DOWN on " .. vehicle:getName())
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    -- Check implement stuck up - also ENFORCE the stuck state
+    if spec.implementStuckUp then
+        if currentTime >= spec.implementStuckUpEndTime then
+            spec.implementStuckUp = false
+            UsedPlus.logDebug("Implement stuck up cleared on " .. vehicle:getName())
+        else
+            -- ENFORCE: If any implement got lowered, force it back up!
+            if vehicle.getAttachedImplements then
+                local implements = vehicle:getAttachedImplements()
+                if implements then
+                    for _, impl in pairs(implements) do
+                        local implement = impl.object
+                        if implement and implement.getIsLowered and implement.setLoweredAll then
+                            if implement:getIsLowered() then
+                                -- Player tried to lower it - force it back up!
+                                implement:setLoweredAll(false)
+                                UsedPlus.logTrace("Enforcing stuck UP on " .. vehicle:getName())
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    -- Check implement pull
+    if spec.implementPullActive and currentTime >= spec.implementPullEndTime then
+        spec.implementPullActive = false
+        UsedPlus.logDebug("Implement pull cleared on " .. vehicle:getName())
+    end
+
+    -- Check implement drag
+    if spec.implementDragActive and currentTime >= spec.implementDragEndTime then
+        spec.implementDragActive = false
+        UsedPlus.logDebug("Implement drag cleared on " .. vehicle:getName())
+    end
+
+    -- Check reduced turning
+    if spec.reducedTurningActive and currentTime >= spec.reducedTurningEndTime then
+        spec.reducedTurningActive = false
+        UsedPlus.logDebug("Reduced turning cleared on " .. vehicle:getName())
     end
 end
 
@@ -1760,19 +2711,27 @@ function UsedPlusMaintenance.checkEngineMisfire(vehicle)
     -- At threshold (60%): 0% chance
     -- At 0%: max chance (15%)
     local reliabilityFactor = (config.misfireThreshold - engineReliability) / config.misfireThreshold
-    local misfireChance = reliabilityFactor * config.misfireMaxChancePerCheck
+    local baseMisfireChance = reliabilityFactor * config.misfireMaxChancePerCheck
 
     -- Higher load = more likely to misfire
     local load = 0
     if vehicle.getMotorLoadPercentage then
         load = vehicle:getMotorLoadPercentage() or 0
     end
-    misfireChance = misfireChance * (0.5 + load * 0.5)  -- 50-100% of base chance
+    local loadChance = baseMisfireChance * (0.5 + load * 0.5)  -- 50-100% of base chance
+
+    -- v2.5.2: Apply oil multiplier (low oil = higher chance)
+    local oilMultiplier = UsedPlusMaintenance.getOilChanceMultiplier(vehicle)
+    local misfireChance = loadChance * oilMultiplier
 
     if math.random() < misfireChance then
         -- Trigger misfire!
         spec.misfireActive = true
-        local duration = math.random(config.misfireDurationMin, config.misfireDurationMax)
+        local baseDuration = math.random(config.misfireDurationMin, config.misfireDurationMax)
+
+        -- v2.5.2: Apply oil severity multiplier to duration
+        local severityMultiplier = UsedPlusMaintenance.getOilSeverityMultiplier(vehicle)
+        local duration = math.floor(baseDuration * severityMultiplier)
         spec.misfireEndTime = (g_currentMission.time or 0) + duration
 
         -- Check for burst mode
@@ -1835,6 +2794,10 @@ function UsedPlusMaintenance.updateEngineTemperature(vehicle)
 
         local heatRate = config.overheatHeatRateBase + (load * config.overheatHeatRateLoad)
         heatRate = heatRate * reliabilityFactor
+
+        -- v2.5.2: Low oil makes engine run hotter (oil is coolant + lubricant!)
+        local oilMultiplier = UsedPlusMaintenance.getOilSeverityMultiplier(vehicle)
+        heatRate = heatRate * oilMultiplier
 
         spec.engineTemperature = math.min(1.0, (spec.engineTemperature or 0) + heatRate)
 
@@ -1951,7 +2914,11 @@ function UsedPlusMaintenance.checkImplementSurge(vehicle, implement, hydraulicRe
 
     -- Calculate surge chance based on reliability
     local reliabilityFactor = (config.implementSurgeThreshold - hydraulicReliability) / config.implementSurgeThreshold
-    local surgeChance = reliabilityFactor * config.implementSurgeChance
+    local baseChance = reliabilityFactor * config.implementSurgeChance
+
+    -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local surgeChance = baseChance * fluidMultiplier
 
     if math.random() < surgeChance then
         -- Surge! Lift the implement
@@ -1989,7 +2956,11 @@ function UsedPlusMaintenance.checkImplementDrop(vehicle, implement, hydraulicRel
 
     -- Calculate drop chance based on reliability
     local reliabilityFactor = (config.implementDropThreshold - hydraulicReliability) / config.implementDropThreshold
-    local dropChance = reliabilityFactor * config.implementDropChance
+    local baseChance = reliabilityFactor * config.implementDropChance
+
+    -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local dropChance = baseChance * fluidMultiplier
 
     if math.random() < dropChance then
         -- Drop! Lower the implement suddenly
@@ -2071,7 +3042,11 @@ function UsedPlusMaintenance.checkHitchFailure(vehicle, implementInfo, hydraulic
 
     -- Calculate failure chance (very low)
     local reliabilityFactor = (config.hitchFailureThreshold - hydraulicReliability) / config.hitchFailureThreshold
-    local failureChance = reliabilityFactor * config.hitchFailureChance
+    local baseChance = reliabilityFactor * config.hitchFailureChance
+
+    -- v2.5.2: Apply fluid multiplier (low fluid = higher chance)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    local failureChance = baseChance * fluidMultiplier
 
     if math.random() < failureChance then
         -- Hitch failure! Detach the implement
@@ -2180,8 +3155,16 @@ function UsedPlusMaintenance.calculateFailureProbability(vehicle, failureType, r
     -- This is significant when EITHER load OR reliability is extreme
     local loadMultiplier = 1.0 + (load * (1 - reliability) * 3.0)
 
+    -- v2.5.2: FLUID CONTRIBUTION (low fluid = higher failure chance)
+    local fluidMultiplier = 1.0
+    if failureType == "engine" then
+        fluidMultiplier = UsedPlusMaintenance.getOilChanceMultiplier(vehicle)
+    elseif failureType == "hydraulic" then
+        fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidChanceMultiplier(vehicle)
+    end
+
     -- Combined probability
-    local probability = baseChance * damageMultiplier * hoursMultiplier * loadMultiplier
+    local probability = baseChance * damageMultiplier * hoursMultiplier * loadMultiplier * fluidMultiplier
     probability = probability * UsedPlusMaintenance.CONFIG.failureRateMultiplier
 
     -- Cap at 5% per second max (allows for truly terrible engines)
@@ -2399,9 +3382,51 @@ function UsedPlusMaintenance.calculateSpeedLimit(vehicle)
         flatTireSpeedFactor = config.flatTireSpeedReduction  -- 0.5 = 50% max speed
     end
 
+    -- v2.5.0: Implement drag reduces speed
+    local implementDragFactor = 1.0
+    if spec.implementDragActive and config.enableImplementDrag then
+        -- Check if any implement is actually lowered
+        local hasLoweredImpl = false
+        if vehicle.getAttachedImplements then
+            local implements = vehicle:getAttachedImplements()
+            if implements then
+                for _, impl in pairs(implements) do
+                    local implement = impl.object
+                    if implement and implement.getIsLowered and implement:getIsLowered() then
+                        hasLoweredImpl = true
+                        break
+                    end
+                end
+            end
+        end
+        if hasLoweredImpl then
+            implementDragFactor = config.implementDragSpeedMult  -- 0.6 = 60% max speed
+        else
+            -- Implement was raised, clear the drag effect
+            spec.implementDragActive = false
+        end
+    end
+
     -- Combined factor (multiplicative stacking)
-    local finalFactor = reliabilitySpeedFactor * damageSpeedFactor * flatTireSpeedFactor
+    local finalFactor = reliabilitySpeedFactor * damageSpeedFactor * flatTireSpeedFactor * implementDragFactor
     finalFactor = math.max(finalFactor, 0.2)  -- Never below 20% speed (even with flat)
+
+    -- v2.5.0: RUNAWAY ENGINE - Overrides ALL reductions!
+    -- When runaway is active, the governor has failed - vehicle accelerates beyond normal max
+    if spec.runawayActive and config.enableRunaway then
+        local currentTime = g_currentMission.time or 0
+        local elapsed = currentTime - (spec.runawayStartTime or 0)
+
+        -- Ramp up speed boost over time (10 seconds to full)
+        local rampProgress = math.min(elapsed / config.runawaySpeedRampTime, 1.0)
+        local speedBoost = 1.0 + ((config.runawaySpeedBoostMax - 1.0) * rampProgress)
+
+        -- OVERRIDE normal speed factor - vehicle goes FASTER than normal max!
+        finalFactor = speedBoost
+
+        UsedPlus.logTrace(string.format("RUNAWAY: speed boost %.1f%% (ramp %.1f%%)",
+            speedBoost * 100, rampProgress * 100))
+    end
 
     -- Store for use by getCanMotorRun speed governor
     spec.maxSpeedFactor = finalFactor
@@ -2537,7 +3562,11 @@ function UsedPlusMaintenance.checkHydraulicDrift(vehicle, dt)
     local baseSpeed = UsedPlusMaintenance.CONFIG.hydraulicDriftSpeed
     local reliabilityFactor = 1 - hydraulicReliability  -- 0.5 reliability = 0.5 factor
     local damageMultiplier = 1.0 + (damage * 2.0)  -- 0% damage = 1x, 100% = 3x
-    local driftSpeed = baseSpeed * reliabilityFactor * damageMultiplier * (dt / 1000)  -- Convert to per-second
+
+    -- v2.5.2: Low hydraulic fluid makes drift faster (fluid pressure is what holds implements up!)
+    local fluidMultiplier = UsedPlusMaintenance.getHydraulicFluidSeverityMultiplier(vehicle)
+
+    local driftSpeed = baseSpeed * reliabilityFactor * damageMultiplier * fluidMultiplier * (dt / 1000)  -- Convert to per-second
 
     -- Check all child vehicles (attached implements)
     local childVehicles = vehicle:getChildVehicles()
@@ -3357,28 +4386,58 @@ end
 --[[
     Apply tire wear based on accumulated distance
     Called every 1 second from periodic checks
+
+    v2.3.0: Quality and DNA-based wear multipliers
+    - Retread tires wear 2x faster, Quality tires wear 33% slower
+    - Lemons (low DNA) are harder on tires, workhorses (high DNA) are gentler
+    - When UYT is installed, also modifies UYT's distance tracking
 ]]
 function UsedPlusMaintenance.applyTireWear(vehicle)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
     if spec.hasFlatTire then return end  -- No additional wear with flat
 
+    local config = UsedPlusMaintenance.CONFIG
+
     -- Convert accumulated distance to km
     local distanceKm = (spec.distanceTraveled or 0) / 1000
 
     if distanceKm > 0 then
-        -- Calculate wear amount
-        local wearRate = UsedPlusMaintenance.CONFIG.tireWearRatePerKm
-        local wearAmount = distanceKm * wearRate
+        -- v2.3.0: Calculate quality-based wear multiplier
+        local qualityWearMult = config.tireNormalWearMult
+        if spec.tireQuality == 1 then  -- Retread
+            qualityWearMult = config.tireRetreadWearMult
+        elseif spec.tireQuality == 3 then  -- Quality
+            qualityWearMult = config.tireQualityWearMult
+        end
 
-        -- Apply wear
+        -- v2.3.0: Calculate DNA-based wear multiplier
+        local dnaWearMult = 1.0
+        if config.tireDNAWearEnabled then
+            local dna = spec.workhorseLemonScale or 0.5
+            -- Lemons (DNA=0) get max wear (1.4x), Workhorses (DNA=1) get min wear (0.6x)
+            dnaWearMult = config.tireDNAWearMaxMult - (dna * (config.tireDNAWearMaxMult - config.tireDNAWearMinMult))
+        end
+
+        -- Combined wear multiplier
+        local totalWearMult = qualityWearMult * dnaWearMult
+
+        -- Calculate wear amount with multipliers
+        local wearRate = config.tireWearRatePerKm
+        local wearAmount = distanceKm * wearRate * totalWearMult
+
+        -- Apply wear to UsedPlus tire condition
         spec.tireCondition = math.max(0, (spec.tireCondition or 1.0) - wearAmount)
+
+        -- v2.3.0: Apply wear multiplier to UYT if installed
+        if ModCompatibility.uytInstalled then
+            UsedPlusMaintenance.applyWearMultiplierToUYT(vehicle, totalWearMult, distanceKm)
+        end
 
         -- Reset distance counter
         spec.distanceTraveled = 0
 
         -- Check for warnings
-        local config = UsedPlusMaintenance.CONFIG
         if spec.tireCondition <= config.tireCriticalThreshold and not spec.hasShownTireCriticalWarning then
             spec.hasShownTireCriticalWarning = true
             UsedPlusMaintenance.showWarning(vehicle, g_i18n:getText("usedplus_warning_tireCritical"))
@@ -3390,9 +4449,60 @@ function UsedPlusMaintenance.applyTireWear(vehicle)
 end
 
 --[[
+    v2.3.0: Apply wear rate multiplier to UYT's tire distance tracking
+    UYT calculates wear from distance traveled per wheel. We modify that distance
+    to effectively change the wear rate based on tire quality and DNA.
+
+    @param vehicle - The vehicle
+    @param wearMult - Combined quality + DNA wear multiplier (e.g., 1.4 for lemons with retreads)
+    @param distanceKm - Distance traveled this update in km
+]]
+function UsedPlusMaintenance.applyWearMultiplierToUYT(vehicle, wearMult, distanceKm)
+    if not ModCompatibility.uytInstalled then return end
+    if not UseYourTyres then return end
+    if not vehicle.spec_wheels or not vehicle.spec_wheels.wheels then return end
+
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return end
+
+    -- Initialize tracking if needed
+    if not spec.uytPreviousDistances then
+        spec.uytPreviousDistances = {}
+    end
+
+    -- Distance delta in meters (what we added this frame)
+    local distanceMeters = distanceKm * 1000
+
+    -- Apply multiplier to each wheel's UYT distance
+    for i, wheel in ipairs(vehicle.spec_wheels.wheels) do
+        if wheel.uytTravelledDist ~= nil then
+            local prevDist = spec.uytPreviousDistances[i] or 0
+            local currentDist = wheel.uytTravelledDist
+
+            -- Only modify if distance increased (wheel is moving)
+            if currentDist > prevDist then
+                local delta = currentDist - prevDist
+
+                -- If wearMult > 1, add extra distance to simulate faster wear
+                -- If wearMult < 1, reduce the distance to simulate slower wear
+                if wearMult ~= 1.0 then
+                    local adjustedDelta = delta * wearMult
+                    local adjustment = adjustedDelta - delta
+                    wheel.uytTravelledDist = currentDist + adjustment
+                end
+            end
+
+            -- Track for next update
+            spec.uytPreviousDistances[i] = wheel.uytTravelledDist
+        end
+    end
+end
+
+--[[
     Check for tire-related malfunctions (flat tire, low traction)
     Called every 1 second from periodic checks
     v1.8.0: Defers flat tire trigger to UYT/RVB when those mods are installed
+    v2.3.0: When UYT installed, uses UYT wear to influence flat probability (NOT defer)
 ]]
 function UsedPlusMaintenance.checkTireMalfunctions(vehicle)
     local spec = vehicle.spec_usedPlusMaintenance
@@ -3403,18 +4513,41 @@ function UsedPlusMaintenance.checkTireMalfunctions(vehicle)
     -- Skip if already have flat tire
     if spec.hasFlatTire then return end
 
-    -- v1.8.0: Defer flat tire triggering to UYT or RVB if installed
-    -- These mods have their own tire failure mechanics - we don't want double failures
-    -- Our tire CONDITION still degrades (for low traction warnings, steering pull, etc.)
-    -- But the actual FLAT TIRE event is handled by the other mod
-    local shouldDeferFlatTire = ModCompatibility.shouldDeferTireFailure()
+    -- v2.3.0: Determine effective tire condition for flat tire check
+    -- When UYT is installed, use UYT's worst tire wear to influence probability
+    -- This creates a unified experience where UYT wear affects flat tire chance
+    local effectiveWear = 1.0 - (spec.tireCondition or 1.0)  -- Default: use our condition
+
+    if ModCompatibility and ModCompatibility.uytInstalled then
+        -- Use the worst UYT tire wear to influence flat probability
+        local uytWorstWear = ModCompatibility.getWorstUYTTireWear(vehicle)
+        if uytWorstWear > 0 then
+            -- Blend UYT wear with our condition - UYT takes priority when it has data
+            -- More worn UYT tires = higher flat probability
+            effectiveWear = math.max(effectiveWear, uytWorstWear)
+        end
+    end
+
+    local effectiveCondition = 1.0 - effectiveWear
+
+    -- v1.8.0: Check if we should defer flat tire to RVB (but NOT UYT - we integrate with UYT)
+    -- RVB has its own tire failure mechanics, UYT doesn't have flat tires at all
+    local shouldDeferFlatTire = ModCompatibility and ModCompatibility.rvbInstalled
 
     -- Check for flat tire (only if tires are worn and vehicle is moving)
-    -- v1.8.0: Skip flat tire trigger if UYT/RVB handles it
-    if config.enableFlatTire and spec.tireCondition < config.flatTireThreshold and not shouldDeferFlatTire then
-        -- Calculate chance based on tire condition and quality
-        local conditionFactor = 1 - (spec.tireCondition / config.flatTireThreshold)
-        local chance = config.flatTireBaseChance * conditionFactor * (spec.tireFailureMultiplier or 1.0)
+    if config.enableFlatTire and effectiveCondition < config.flatTireThreshold and not shouldDeferFlatTire then
+        -- Calculate chance based on effective tire condition and quality
+        local conditionFactor = 1 - (effectiveCondition / config.flatTireThreshold)
+
+        -- v2.3.0: When UYT installed, flat chance increases with UYT wear
+        -- Base chance scales from 1x at 0% wear to 3x at 100% wear
+        local uytWearBonus = 1.0
+        if ModCompatibility and ModCompatibility.uytInstalled then
+            local uytWorstWear = ModCompatibility.getWorstUYTTireWear(vehicle)
+            uytWearBonus = 1.0 + (uytWorstWear * 2.0)  -- 1x to 3x based on UYT wear
+        end
+
+        local chance = config.flatTireBaseChance * conditionFactor * (spec.tireFailureMultiplier or 1.0) * uytWearBonus
 
         if math.random() < chance then
             -- Flat tire!
@@ -3425,8 +4558,8 @@ function UsedPlusMaintenance.checkTireMalfunctions(vehicle)
 
             local sideText = spec.flatTireSide < 0 and "left" or "right"
             UsedPlusMaintenance.showWarning(vehicle, g_i18n:getText("usedplus_warning_flatTire"))
-            UsedPlus.logDebug(string.format("Flat tire triggered on %s side for %s",
-                sideText, vehicle:getName()))
+            UsedPlus.logDebug(string.format("Flat tire triggered on %s side for %s (UYT bonus: %.1fx)",
+                sideText, vehicle:getName(), uytWearBonus))
         end
     end
 
@@ -3891,6 +5024,15 @@ function UsedPlusMaintenance.setTireQuality(vehicle, quality)
     else  -- Normal (2)
         spec.tireMaxTraction = config.tireNormalTractionMult
         spec.tireFailureMultiplier = config.tireNormalFailureMult
+    end
+
+    -- v2.3.0: Reset UYT distance tracking for accurate wear multiplier application
+    spec.uytPreviousDistances = {}
+
+    -- v2.3.0: Sync tire replacement to UYT (resets their distance counters)
+    -- Pass quality so retreads can start with pre-existing wear (reconditioned casings)
+    if ModCompatibility and ModCompatibility.uytInstalled then
+        ModCompatibility.syncTireReplacementWithUYT(vehicle, quality)
     end
 
     UsedPlus.logDebug(string.format("Tires replaced on %s: quality=%d, traction=%.0f%%, failureMult=%.1f",

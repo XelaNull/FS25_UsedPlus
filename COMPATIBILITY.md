@@ -1,7 +1,7 @@
 # FS25_UsedPlus - Cross-Mod Compatibility Guide
 
-**Last Updated:** 2026-01-10
-**Version:** 2.1.0 (RVB Workshop Integration)
+**Last Updated:** 2026-01-11
+**Version:** 2.5.1 (Comprehensive Hydraulic Malfunctions + RVB Service Integration)
 
 This document analyzes compatibility between UsedPlus and popular FS25 mods that players commonly run together.
 
@@ -14,7 +14,7 @@ This document analyzes compatibility between UsedPlus and popular FS25 mods that
 | **CrudeOilProduction** | COMPATIBLE | Pure production mod, no conflicts |
 | **SpecialOffers** | COMPATIBLE | Notification utility, no conflicts |
 | **Real Vehicle Breakdowns** | INTEGRATED | UsedPlus provides "symptoms before failure" |
-| **Use Up Your Tyres** | INTEGRATED | Tire condition syncs, flat tire deferred |
+| **Use Up Your Tyres** | DEEPLY INTEGRATED | Quality/DNA affects wear rate, two-way sync, per-wheel display |
 | **EnhancedLoanSystem** | INTEGRATED | ELS loans display in Finance Manager with Pay Early support |
 | **BuyUsedEquipment** | COMPATIBLE | UsedPlus hides search button when BUE detected |
 | **HirePurchasing** | INTEGRATED | HP leases display in Finance Manager |
@@ -112,6 +112,15 @@ This document analyzes compatibility between UsedPlus and popular FS25 mods that
   - On next vehicle load after RVB installation, data is automatically synced
   - Prevents mismatch between UsedPlus showing "Engine 72%" while RVB shows "Engine 100%"
 
+**v2.5.1 Service Button Integration:**
+When player uses RVB's "Service" button in the Workshop Dialog:
+- RVB's original service runs (resets RVB part wear)
+- **UsedPlus fluids topped up** - Oil and hydraulic fluid restored to 100%
+- **Minor leaks fixed** - Oil/hydraulic leak states cleared
+- **Small reliability boost** - +3% hydraulic, +1.5% engine reliability (capped at durability ceiling)
+
+This ensures routine maintenance through RVB also maintains the hydraulic system, preventing the gap where engine/electrical get serviced but hydraulics don't.
+
 **What happens with both installed:**
 | Feature | Who Handles It |
 |---------|---------------|
@@ -119,10 +128,14 @@ This document analyzes compatibility between UsedPlus and popular FS25 mods that
 | First-start stalling | UsedPlus (uses RVB engine health) |
 | Hydraulic drift | UsedPlus only (unique feature) |
 | Steering pull | UsedPlus only (unique feature) |
+| **Runaway Engine** | **UsedPlus (v2.5.0 - requires low oil + hydraulic)** |
+| **Implement Stuck/Pull/Drag** | **UsedPlus (v2.5.0)** |
 | Final engine failure | RVB (7 km/h cap when part exhausted) |
 | Final electrical failure | RVB (lights/starter fail) |
 | Flat tire trigger | RVB (via UYT integration) |
 | Workshop Inspect button | RVB (UsedPlus hides its button) |
+| **RVB Service button** | **RVB + UsedPlus fluids (v2.5.1)** |
+| **RVB Repair button** | **Opens UsedPlus RepairDialog** |
 | **RVB Workshop vehicle info** | **UsedPlus injects (v2.1.0+)** |
 | **OBD Part Detail Display** | **UsedPlus (v2.0.0+)** |
 | **OBD Fault Warnings** | **UsedPlus (v2.0.0+)** |
@@ -132,13 +145,38 @@ This document analyzes compatibility between UsedPlus and popular FS25 mods that
 ### Use Up Your Tyres (UYT)
 **Author:** 50keda
 
-**Status:** INTEGRATED (v2.0.0+)
+**Status:** DEEPLY INTEGRATED (v2.3.0)
 
 **What it does:** Distance-based tire wear system with visual progression and friction reduction.
 
+**v2.3.0 Deep Integration (NEW!):**
+- **Two-Way Sync** - UsedPlus now syncs BACK to UYT when tires are replaced
+  - TiresDialog replacement resets UYT's distance tracking
+  - No more desync between UsedPlus and UYT tire states
+- **Quality Affects UYT Wear Rate** - UsedPlus tire quality tiers modify UYT wear:
+
+  | Tier | Cost | Traction | Wear Rate | Initial State | Effective Life |
+  |------|------|----------|-----------|---------------|----------------|
+  | Retread | 40% | 85% | 2x faster | +35% worn | ~32% of Normal |
+  | Normal | 100% | 100% | 1x | Fresh | 100% baseline |
+  | Quality | 150% | 110% | 0.67x | -15% bonus | ~172% of Normal |
+
+  *5x life difference between cheapest and best options!*
+- **DNA Affects UYT Wear Rate** - Vehicle DNA influences tire wear:
+  - Lemons (low DNA): 1.4x wear rate (harder on tires)
+  - Workhorses (high DNA): 0.6x wear rate (gentler driving)
+- **UYT Wear Influences Flat Probability** - Higher UYT wear increases flat tire chance:
+  - 0% UYT wear: 1x flat chance (baseline)
+  - 100% UYT wear: 3x flat chance (worn tires more likely to fail)
+  - Note: UYT itself has no flat tires - UsedPlus adds this as a complementary feature
+- **Per-Wheel Display in TiresDialog** - When UYT installed:
+  - Shows FL/FR/RL/RR individual conditions
+  - "Worst" tire indicator
+  - Condition label changes to "Tire Wear (UYT):"
+
 **How UsedPlus integrates:**
 - **Tire Condition Sync** - UsedPlus reads UYT wear data to update tire condition displays
-- **Flat Tire Deferral** - UsedPlus skips its own flat tire trigger when UYT is installed
+- **Flat Tire Enhancement** - UsedPlus uses UYT wear to influence flat probability (complementary to UYT)
 - **Low Traction Warnings** - UsedPlus still shows traction warnings based on synced condition
 
 **v2.0.0 OBD Scanner Enhancement:**
@@ -169,12 +207,16 @@ This document analyzes compatibility between UsedPlus and popular FS25 mods that
 **What happens with both installed:**
 | Feature | Who Handles It |
 |---------|---------------|
-| Tire wear calculation | UYT (distance-based) |
+| Tire wear calculation | Both: UYT (distance) + UsedPlus (quality/DNA multipliers) |
 | Visual tire degradation | UYT (shader-based) |
 | Tire condition display | UsedPlus (synced from UYT) |
-| Flat tire trigger | UYT/RVB |
+| Flat tire trigger | UsedPlus (UYT doesn't have flats) |
 | Low traction warning | UsedPlus |
-| Tire replacement | UYT (workshop button) |
+| Tire replacement (shop) | UYT (workshop button) |
+| Tire replacement (UsedPlus) | UsedPlus (syncs to UYT) |
+| **TiresDialog per-wheel display** | **UsedPlus (v2.3.0+)** |
+| **Quality wear multiplier** | **UsedPlus (v2.3.0+)** |
+| **DNA wear multiplier** | **UsedPlus (v2.3.0+)** |
 | **OBD Tire Detail Display** | **UsedPlus (v2.0.0+)** |
 | **OBD Worst Tire Indicator** | **UsedPlus (v2.0.0+)** |
 
@@ -423,6 +465,18 @@ You can now run any combination:
 ---
 
 ## Version History
+
+**2026-01-11 (v2.3.0)** - UYT Deep Integration
+- NEW: Two-way sync - UsedPlus tire replacement now resets UYT distance tracking
+- NEW: Quality tiers affect UYT wear rate (Retread 2x faster, Quality 33% slower)
+- NEW: Retreads start at 35% wear (reconditioned casings have pre-existing wear)
+- NEW: Quality tires get 15% bonus life (premium materials start fresh with extra capacity)
+- NEW: DNA affects tire wear rate (Lemons 40% faster, Workhorses 40% slower)
+- NEW: UYT wear influences flat tire probability (1x-3x based on worst tire wear)
+- NEW: TiresDialog shows per-wheel conditions when UYT installed (FL/FR/RL/RR)
+- NEW: TiresDialog shows "Worst" tire indicator
+- UYT status upgraded from INTEGRATED to DEEPLY INTEGRATED
+- Added `syncTireReplacementWithUYT()`, `applyInitialUYTWear()`, and `getWorstUYTTireWear()` functions
 
 **2026-01-10 (v2.1.0)** - RVB Workshop & Holistic Inspection Integration
 - NEW: UsedPlus data now appears in RVB's Workshop Dialog

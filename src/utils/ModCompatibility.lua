@@ -470,6 +470,137 @@ function ModCompatibility.syncReliabilityFromRVB(vehicle)
     -- Note: hydraulicReliability stays native - RVB doesn't track it
 end
 
+--[[
+    v2.3.0: Sync tire replacement to UYT
+    When UsedPlus replaces tires, reset UYT's tire wear tracking
+    Retreads start with pre-existing wear (they're reconditioned casings)
+
+    @param vehicle - The vehicle that had tires replaced
+    @param tireQuality - 1=Retread, 2=Normal, 3=Quality (optional, defaults to 2)
+    @return boolean - true if sync successful
+]]
+function ModCompatibility.syncTireReplacementWithUYT(vehicle, tireQuality)
+    if not ModCompatibility.uytInstalled then return false end
+    if not UseYourTyres then return false end
+    if not vehicle then return false end
+
+    tireQuality = tireQuality or 2  -- Default to Normal
+
+    -- Check if vehicle has UYT-compatible tires
+    if not vehicle.uytHasTyres then
+        UsedPlus.logDebug("syncTireReplacementWithUYT: Vehicle has no UYT tires")
+        return false
+    end
+
+    -- Get UYT replacement price and trigger their reset event
+    local price = UseYourTyres.getTyresPrice and UseYourTyres.getTyresPrice(vehicle, false) or 0
+
+    -- Try to send UYT's replacement event first (this resets to 0)
+    local resetSuccessful = false
+    if UytReplaceEvent and UytReplaceEvent.new then
+        -- UYT's event resets all wheel distances
+        local event = UytReplaceEvent.new(vehicle, price)
+        if event and event.sendToServer then
+            event:sendToServer()
+            resetSuccessful = true
+            UsedPlus.logInfo(string.format("Synced tire replacement to UYT for %s", vehicle:getName()))
+        end
+    end
+
+    -- Fallback: Directly reset wheel distances (server-side only)
+    if not resetSuccessful and vehicle.isServer and vehicle.spec_wheels and vehicle.spec_wheels.wheels then
+        for _, wheel in ipairs(vehicle.spec_wheels.wheels) do
+            if wheel.uytTravelledDist ~= nil then
+                wheel.uytTravelledDist = 0
+            end
+        end
+        resetSuccessful = true
+        UsedPlus.logInfo(string.format("Direct reset of UYT tire distances for %s", vehicle:getName()))
+    end
+
+    -- v2.3.0: Apply initial wear for retreads (reconditioned casings start with wear)
+    if resetSuccessful and tireQuality == 1 and vehicle.isServer then
+        local initialWear = UsedPlusMaintenance.CONFIG.tireRetreadInitialWear or 0.35
+        ModCompatibility.applyInitialUYTWear(vehicle, initialWear)
+    end
+
+    -- v2.3.0: Apply life bonus for Quality tires (premium tires have extended life)
+    -- This sets negative wear (distance offset) giving them extra life beyond 100%
+    if resetSuccessful and tireQuality == 3 and vehicle.isServer then
+        local lifeBonus = UsedPlusMaintenance.CONFIG.tireQualityLifeBonus or 0.15
+        ModCompatibility.applyInitialUYTWear(vehicle, -lifeBonus)
+    end
+
+    return resetSuccessful
+end
+
+--[[
+    v2.3.0: Apply initial wear to UYT tires
+    Used for retreads (positive wear) and Quality tires (negative wear = bonus life)
+
+    @param vehicle - The vehicle
+    @param wearAmount - Wear to apply: positive for retreads, negative for Quality bonus
+                        e.g., 0.35 = 35% pre-worn, -0.15 = 15% bonus life
+]]
+function ModCompatibility.applyInitialUYTWear(vehicle, wearAmount)
+    if not ModCompatibility.uytInstalled then return end
+    if not vehicle or not vehicle.spec_wheels then return end
+    if wearAmount == 0 then return end
+
+    -- Calculate distance to add/subtract based on UYT's wear formula
+    -- UYT wear = (distance / perimeter) / maxRevolutions
+    -- So distance = wear * perimeter * maxRevolutions
+    -- Base maxRevolutions for 2m tire = 240000m / (2 * pi) ≈ 38197 revolutions
+    -- We'll estimate based on typical tire size
+
+    for _, wheel in ipairs(vehicle.spec_wheels.wheels) do
+        if wheel.uytTravelledDist ~= nil then
+            -- Get wheel perimeter (radius * 2 * pi)
+            local radius = wheel.radius or 0.5
+            local perimeter = radius * 2 * math.pi
+
+            -- UYT base distance for full wear is ~240000m for 2m diameter tire
+            -- Scale by actual diameter
+            local diameter = radius * 2
+            local baseDistance = 240000 * (diameter / 2.0)
+
+            -- Calculate distance for desired wear (can be negative for bonus life)
+            local distanceToSet = wearAmount * baseDistance
+
+            -- Clamp to valid range (can't have negative distance traveled)
+            -- But negative wearAmount creates negative distance = bonus life
+            wheel.uytTravelledDist = math.max(-baseDistance * 0.20, distanceToSet)  -- Cap bonus at 20%
+
+            UsedPlus.logDebug(string.format("Applied %.0f%% initial UYT wear to wheel (dist=%.0fm)",
+                wearAmount * 100, wheel.uytTravelledDist))
+        end
+    end
+
+    local description = wearAmount > 0 and "retreads" or "Quality bonus"
+    UsedPlus.logInfo(string.format("Applied %.0f%% initial wear to UYT tires for %s (%s)",
+        wearAmount * 100, vehicle:getName(), description))
+end
+
+--[[
+    v2.3.0: Get worst tire wear from UYT for flat tire probability
+    Returns the highest wear value across all wheels
+
+    @param vehicle - The vehicle to check
+    @return number - 0.0 (all new) to 1.0 (worst tire fully worn)
+]]
+function ModCompatibility.getWorstUYTTireWear(vehicle)
+    if not ModCompatibility.uytInstalled then return 0 end
+    if not vehicle or not vehicle.spec_wheels then return 0 end
+
+    local worstWear = 0
+    for i, wheel in ipairs(vehicle.spec_wheels.wheels) do
+        local wear = ModCompatibility.getUYTTireWear(vehicle, i)
+        worstWear = math.max(worstWear, wear)
+    end
+
+    return worstWear
+end
+
 --============================================================================
 -- OBD FIELD SERVICE KIT INTEGRATION
 --============================================================================
