@@ -40,6 +40,9 @@ function FinanceManager.new()
     -- ID generation
     self.nextDealId = 1
 
+    -- v2.7.0: Track last processed period for time jump detection
+    self.lastProcessedPeriod = 0
+
     -- Event subscriptions
     self.isServer = g_currentMission:getIsServer()
     self.isClient = g_currentMission:getIsClient()
@@ -158,19 +161,49 @@ end
     Monthly payment processing
     Called automatically when in-game month changes
     Pattern from: EnhancedLoanSystem automatic payment collection
+    v2.7.0: Handles time jumps by processing multiple periods if needed
 ]]
 function FinanceManager:onPeriodChanged()
     if not self.isServer then return end
 
-    UsedPlus.logDebug("Processing monthly payments for all farms")
+    -- v2.7.0: Calculate periods to process (handles time jumps from save/load)
+    local currentPeriod = g_currentMission.environment.currentPeriod or 1
+    local lastPeriod = self.lastProcessedPeriod or 0
+    local periodsToProcess = 1  -- Default: just this period
 
-    -- Process payments for each farm
-    for farmId, deals in pairs(self.dealsByFarm) do
-        self:processMonthlyPaymentsForFarm(farmId, deals)
+    if lastPeriod > 0 and currentPeriod > lastPeriod then
+        periodsToProcess = currentPeriod - lastPeriod
+        -- Cap to prevent excessive processing (12 periods = 1 year)
+        local maxPeriodsToProcess = 12
+        if periodsToProcess > maxPeriodsToProcess then
+            UsedPlus.logDebug(string.format("TIME_JUMP: %d periods jumped for finance, capping to %d", periodsToProcess, maxPeriodsToProcess))
+            periodsToProcess = maxPeriodsToProcess
+        end
     end
 
-    -- Process vanilla bank loan extra payments (bridges vanilla loan system)
-    self:processVanillaLoanExtraPayments()
+    self.lastProcessedPeriod = currentPeriod
+
+    if periodsToProcess > 1 then
+        UsedPlus.logDebug(string.format("TIME_JUMP: Processing %d months of payments (Period %d -> %d)",
+            periodsToProcess, lastPeriod, currentPeriod))
+    else
+        UsedPlus.logDebug("Processing monthly payments for all farms")
+    end
+
+    -- v2.7.0: Process each jumped period to ensure proper payment collection
+    for periodIteration = 1, periodsToProcess do
+        if periodsToProcess > 1 then
+            UsedPlus.logTrace(string.format("  Payment processing iteration %d/%d", periodIteration, periodsToProcess))
+        end
+
+        -- Process payments for each farm
+        for farmId, deals in pairs(self.dealsByFarm) do
+            self:processMonthlyPaymentsForFarm(farmId, deals)
+        end
+
+        -- Process vanilla bank loan extra payments (bridges vanilla loan system)
+        self:processVanillaLoanExtraPayments()
+    end
 end
 
 --[[
@@ -747,6 +780,9 @@ function FinanceManager:saveToXMLFile(missionInfo)
         -- Save next ID counter
         xmlFile:setInt("usedPlus#nextDealId", self.nextDealId)
 
+        -- v2.7.0: Save last processed period for time jump detection
+        xmlFile:setInt("usedPlus#lastProcessedPeriod", self.lastProcessedPeriod or 0)
+
         -- Save deals grouped by farm
         local farmIndex = 0
         for farmId, deals in pairs(self.dealsByFarm) do
@@ -842,6 +878,9 @@ function FinanceManager:loadFromXMLFile(missionInfo)
     if xmlFile ~= nil then
         -- Load next ID counter
         self.nextDealId = xmlFile:getInt("usedPlus#nextDealId", 1)
+
+        -- v2.7.0: Load last processed period for time jump detection
+        self.lastProcessedPeriod = xmlFile:getInt("usedPlus#lastProcessedPeriod", 0)
 
         -- Load deals (without triggering credit history events)
         local skipCreditHistory = true

@@ -56,6 +56,9 @@ function VehicleSaleManager.new()
     -- v1.9.7: Flag to check for pending offers on first hour tick after load
     self.checkPendingOnFirstTick = false
 
+    -- v2.7.0: Track total processed hours for time jump detection
+    self.totalProcessedHours = 0
+
     return self
 end
 
@@ -91,6 +94,7 @@ end
     Hourly queue processing
     Called automatically when in-game hour changes
     Updates all listings, generates offers, handles expirations
+    v2.7.0: Handles time jumps (sleep, fast-forward, save/load) by processing multiple iterations
 ]]
 function VehicleSaleManager:onHourChanged()
     if not self.isServer then return end
@@ -104,16 +108,46 @@ function VehicleSaleManager:onHourChanged()
         end
     end
 
-    local totalListings = self:getTotalListingCount()
-    UsedPlus.logTrace(string.format("HOUR_CHANGED - Processing sale queue (total active: %d)", totalListings))
+    -- v2.7.0: Calculate hours to process (handles time jumps)
+    local lastHour = self.totalProcessedHours or 0
+    self.totalProcessedHours = lastHour + 1
+    local hoursToProcess = 1  -- Default: just this hour
 
-    -- Process all active listings
-    -- Note: pairs() key may not equal farm.farmId, so use farm.farmId consistently
-    for _, farm in pairs(g_farmManager:getFarms()) do
-        local farmId = farm.farmId
-        if farm.vehicleSaleListings and #farm.vehicleSaleListings > 0 then
-            UsedPlus.logTrace(string.format("  Farm %d has %d sale listings", farmId, #farm.vehicleSaleListings))
-            self:processListingsForFarm(farmId, farm)
+    -- On first tick after load, we may need to catch up
+    -- Compare against environment time if we have a significant gap
+    local currentGameHour = (g_currentMission.environment.currentDay - 1) * 24 + g_currentMission.environment.currentHour
+    if lastHour > 0 and currentGameHour > lastHour then
+        hoursToProcess = currentGameHour - lastHour
+        -- Cap to prevent excessive processing (720 hours = 30 days)
+        local maxHoursToProcess = 720
+        if hoursToProcess > maxHoursToProcess then
+            UsedPlus.logDebug(string.format("TIME_JUMP: %d hours jumped for sales, capping to %d", hoursToProcess, maxHoursToProcess))
+            hoursToProcess = maxHoursToProcess
+        end
+        self.totalProcessedHours = currentGameHour
+    end
+
+    local totalListings = self:getTotalListingCount()
+
+    if hoursToProcess > 1 then
+        UsedPlus.logDebug(string.format("TIME_JUMP: Processing %d hours of sale listings (total active: %d)",
+            hoursToProcess, totalListings))
+    else
+        UsedPlus.logTrace(string.format("HOUR_CHANGED - Processing sale queue (total active: %d)", totalListings))
+    end
+
+    -- v2.7.0: Process each jumped hour to ensure proper TTL/TTS countdown
+    for hourIteration = 1, hoursToProcess do
+        -- Process all active listings for this hour
+        for _, farm in pairs(g_farmManager:getFarms()) do
+            local farmId = farm.farmId
+            if farm.vehicleSaleListings and #farm.vehicleSaleListings > 0 then
+                if hoursToProcess > 1 and hourIteration == 1 then
+                    UsedPlus.logTrace(string.format("  Processing %d hours for Farm %d (%d sale listings)",
+                        hoursToProcess, farmId, #farm.vehicleSaleListings))
+                end
+                self:processListingsForFarm(farmId, farm)
+            end
         end
     end
 end
@@ -865,6 +899,9 @@ function VehicleSaleManager:saveToXMLFile(missionInfo)
         -- Save next ID counter
         xmlFile:setInt("usedPlusSales#nextListingId", self.nextListingId)
 
+        -- v2.7.0: Save total processed hours for time jump detection
+        xmlFile:setInt("usedPlusSales#totalProcessedHours", self.totalProcessedHours or 0)
+
         -- Save listings grouped by farm
         -- Note: pairs() key may not equal farm.farmId, so use farm.farmId consistently
         local farmIndex = 0
@@ -907,6 +944,9 @@ function VehicleSaleManager:loadFromXMLFile(missionInfo)
     if xmlFile ~= nil then
         -- Load next ID counter
         self.nextListingId = xmlFile:getInt("usedPlusSales#nextListingId", 1)
+
+        -- v2.7.0: Load total processed hours for time jump detection
+        self.totalProcessedHours = xmlFile:getInt("usedPlusSales#totalProcessedHours", 0)
 
         -- Load listings
         xmlFile:iterate("usedPlusSales.farms.farm", function(_, farmKey)

@@ -165,32 +165,27 @@ ShopController.buyItem = Utils.prependedFunction(ShopController.buyItem,
 **Source:** `docs/patterns/async-operations.md` (lines 439-448)
 **Reference Mod:** BuyUsedEquipment original implementation
 
-**Current State:** Processing assumes standard tick rate (1 hour = 1 tick)
+**Status:** ✅ IMPLEMENTED (v2.7.0)
 
-**Opportunity:** Handle fast-forward scenarios properly:
-- Catch up on multiple missed payments during time skip
-- Process multiple search months at once
-- Prevent exploits from time manipulation
+**Implementation:**
+All three managers now detect and handle time jumps from sleep, fast-forward, or save/load:
 
-**Implementation Notes:**
+- **UsedVehicleManager**: Tracks `lastProcessedDay`, processes multiple days of search rolls (capped at 30)
+- **VehicleSaleManager**: Tracks `totalProcessedHours`, processes multiple hours of TTL/TTS (capped at 720 = 30 days)
+- **FinanceManager**: Tracks `lastProcessedPeriod`, processes multiple months of payments (capped at 12)
+
 ```lua
-function Manager:onHourChanged()
-    local hoursJumped = self:calculateHoursJumped()
-    if hoursJumped > 1 then
-        -- Process multiple iterations
-        for i = 1, hoursJumped do
-            self:processHourlyLogic()
-        end
+-- Example from UsedVehicleManager
+local daysJumped = currentDay - lastProcessedDay
+if daysJumped > 1 then
+    UsedPlus.logDebug(string.format("TIME_JUMP: Processing %d days", daysJumped))
+    for dayIteration = 1, math.min(daysJumped, 30) do
+        self:processSearchesForFarm(farmId, farm)
     end
 end
 ```
 
-**Benefit:** Robustness against edge cases and exploits
-
-**Files to Modify:**
-- `src/managers/UsedVehicleManager.lua`
-- `src/managers/VehicleSaleManager.lua`
-- `src/managers/FinanceManager.lua`
+**Benefit:** Robust time handling - searches expire correctly, payments are collected, sales progress even after time skips
 
 ---
 
@@ -270,7 +265,7 @@ end
 | Utils.prependedFunction | LOW | MEDIUM | 3 | v2.7.x |
 | HUD Overlay | MEDIUM | HIGH | 4 | v2.8.0 |
 | Animations | MEDIUM | MEDIUM | 5 | v3.0.0 |
-| Time Jump Handling | MEDIUM | MEDIUM | 6 | v2.8.x |
+| Time Jump Handling | MEDIUM | MEDIUM | ✅ DONE | v2.7.0 |
 | OptionSlider | LOW | UNKNOWN | - | Needs Testing |
 | Production Patterns | HIGH | LOW | - | Not Recommended |
 | Custom TextInput | LOW | LOW | - | As Needed |

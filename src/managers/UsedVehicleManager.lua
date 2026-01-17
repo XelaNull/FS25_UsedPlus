@@ -78,37 +78,65 @@ end
     Hourly queue processing
     v1.5.0: Checks for day change (1 game day = 1 month) to process monthly success rolls
     v2.7.0: Also tracks total hours and checks for inspection completions EVERY hour
+    v2.7.0: Handles time jumps (sleep, fast-forward, save/load) by processing multiple iterations
     Called automatically when in-game hour changes
 ]]
 function UsedVehicleManager:onHourChanged()
     if not self.isServer then return end
 
-    -- v2.7.0: Increment total game hours (for inspection timing)
-    self.totalGameHours = (self.totalGameHours or 0) + 1
+    -- v2.7.0: Calculate hours jumped for inspection timing
+    -- This handles time jumps from sleep, fast-forward, or save/load
+    local lastHour = self.totalGameHours or 0
+    self.totalGameHours = lastHour + 1
 
     -- v2.7.0: Check for inspection completions EVERY hour
+    -- Note: inspections use absolute hour comparison, so time jumps naturally complete them
     self:processInspectionCompletions()
 
     local currentDay = g_currentMission.environment.currentDay
+    local lastProcessedDay = self.lastProcessedDay or currentDay
 
-    -- v1.5.0: Only process monthly checks once per day (1 day = 1 month)
-    if self.lastProcessedDay == currentDay then
-        return  -- Already processed today for monthly rolls
+    -- v2.7.0: Calculate days jumped (handles time skips from sleep, fast-forward, save/load)
+    local daysJumped = currentDay - lastProcessedDay
+
+    if daysJumped <= 0 then
+        return  -- Already processed today or time went backwards (shouldn't happen)
+    end
+
+    -- v2.7.0: Cap days jumped to prevent excessive processing after long absences
+    -- 30 days max = ~1 month of catch-up processing
+    local maxDaysToProcess = 30
+    if daysJumped > maxDaysToProcess then
+        UsedPlus.logDebug(string.format("TIME_JUMP: %d days jumped, capping to %d", daysJumped, maxDaysToProcess))
+        daysJumped = maxDaysToProcess
     end
 
     self.lastProcessedDay = currentDay
 
     local totalSearches = self:getTotalSearchCount()
-    UsedPlus.logDebug(string.format("DAY_CHANGED (Day %d) - Processing monthly search rolls (total active: %d)",
-        currentDay, totalSearches))
 
-    -- Process all active searches
-    -- Note: pairs() key may not equal farm.farmId, so use farm.farmId consistently
-    for _, farm in pairs(g_farmManager:getFarms()) do
-        local farmId = farm.farmId
-        if farm.usedVehicleSearches and #farm.usedVehicleSearches > 0 then
-            UsedPlus.logTrace(string.format("  Farm %d has %d searches", farmId, #farm.usedVehicleSearches))
-            self:processSearchesForFarm(farmId, farm)
+    if daysJumped > 1 then
+        UsedPlus.logDebug(string.format("TIME_JUMP: Processing %d days of search rolls (Day %d -> %d, total active: %d)",
+            daysJumped, lastProcessedDay, currentDay, totalSearches))
+    else
+        UsedPlus.logDebug(string.format("DAY_CHANGED (Day %d) - Processing monthly search rolls (total active: %d)",
+            currentDay, totalSearches))
+    end
+
+    -- v2.7.0: Process each jumped day to ensure proper TTL/TTS countdown
+    for dayIteration = 1, daysJumped do
+        -- Process all active searches for this day
+        for _, farm in pairs(g_farmManager:getFarms()) do
+            local farmId = farm.farmId
+            if farm.usedVehicleSearches and #farm.usedVehicleSearches > 0 then
+                if daysJumped > 1 then
+                    UsedPlus.logTrace(string.format("  Day %d/%d: Farm %d has %d searches",
+                        dayIteration, daysJumped, farmId, #farm.usedVehicleSearches))
+                else
+                    UsedPlus.logTrace(string.format("  Farm %d has %d searches", farmId, #farm.usedVehicleSearches))
+                end
+                self:processSearchesForFarm(farmId, farm)
+            end
         end
     end
 end
@@ -1713,6 +1741,9 @@ function UsedVehicleManager:saveToXMLFile(missionInfo)
         -- v2.7.0: Save total game hours for inspection timing
         xmlFile:setInt("usedPlusVehicles#totalGameHours", self.totalGameHours or 0)
 
+        -- v2.7.0: Save last processed day for time jump detection
+        xmlFile:setInt("usedPlusVehicles#lastProcessedDay", self.lastProcessedDay or 0)
+
         -- Save searches and listings grouped by farm
         -- Note: pairs() key may not equal farm.farmId, so use farm.farmId consistently
         local farmIndex = 0
@@ -1819,6 +1850,9 @@ function UsedVehicleManager:loadFromXMLFile(missionInfo)
 
         -- v2.7.0: Load total game hours for inspection timing
         self.totalGameHours = xmlFile:getInt("usedPlusVehicles#totalGameHours", 0)
+
+        -- v2.7.0: Load last processed day for time jump detection
+        self.lastProcessedDay = xmlFile:getInt("usedPlusVehicles#lastProcessedDay", 0)
 
         -- Load searches and listings
         xmlFile:iterate("usedPlusVehicles.farms.farm", function(_, farmKey)
