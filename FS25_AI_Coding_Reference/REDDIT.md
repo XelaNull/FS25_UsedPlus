@@ -2,7 +2,7 @@
 
 Hey all,
 
-I've been working on my first FS25 mod using Claude Code (Opus 4.5) as my coding partner. We kept running into the same issues - GUI coordinates being backwards from what we expected, functions that don't exist, patterns that silently fail. So we started writing things down.
+I've been working on my first FS25 mod using Claude Code (Opus 4.5) as my coding partner. I kept running into the same issues - GUI coordinates being backwards from what I expected, functions that don't exist, patterns that silently fail. So I started having Claude write things down.
 
 Ended up with a collection of notes called the **[FS25 AI Coding Reference](https://github.com/XelaNull/FS25_UsedPlus/tree/master/FS25_AI_Coding_Reference)**. It was created by AI, for AI - structured specifically so AI coding assistants can reference it when helping with FS25 mods. But due to its structured nature, it turns out to be pretty useful for us humans too. :)
 
@@ -22,7 +22,7 @@ I also found a couple other community resources while researching that are worth
 - **[FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)** - Huge API reference with 11,000+ functions documented
 - **[FS25-lua-scripting](https://github.com/Dukefarming/FS25-lua-scripting)** - Raw Lua files from the game
 
-Between those two and my notes, most questions I've had are covered somewhere.
+Between those and Claude's notes, most questions I've had are covered somewhere.
 
 ## Quick example - stuff that doesn't work
 
