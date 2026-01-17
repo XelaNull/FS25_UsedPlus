@@ -691,6 +691,22 @@
         <e k="usedplus_inspection_rec_fair" v="Fair condition - negotiate or budget for repairs" />
         <e k="usedplus_inspection_rec_poor" v="Poor condition - significant repairs needed" />
 
+        <!-- v2.7.0: Delayed Inspection System -->
+        <e k="usedplus_inspection_started" v="Inspection started! Ready in ~%d hours." />
+        <e k="usedplus_inspection_complete" v="%s inspection complete for %s! View report now." />
+        <e k="usedplus_inspection_alreadyPending" v="Inspection already in progress!" />
+        <e k="usedplus_inspection_notReady" v="Inspection not yet complete!" />
+        <e k="usedplus_inspection_notDone" v="Vehicle has not been inspected!" />
+        <e k="usedplus_inspection_failed" v="Inspection failed: %s" />
+        <e k="usedplus_inspectionTitle" v="Vehicle Inspection" />
+        <e k="usedplus_confirmInspection" v="Request %s inspection for %s?\n\nReady in ~%d hours." />
+        <e k="usedplus_selectInspectionTier" v="Select Inspection Type:" />
+
+        <!-- Inspection Tier Descriptions -->
+        <e k="usedplus_tier_quick_desc" v="Overall rating only" />
+        <e k="usedplus_tier_standard_desc" v="Full reliability + parts condition" />
+        <e k="usedplus_tier_comprehensive_desc" v="Full details + DNA hint + repair estimate" />
+
         <!-- Maintenance Report Dialog -->
         <e k="usedplus_common_yes" v="Yes" />
         <e k="usedplus_common_no" v="No" />
@@ -723,6 +739,12 @@
         <!-- Used Vehicle Preview Dialog -->
         <e k="usedplus_preview_ageYears" v="%d years" />
         <e k="usedplus_preview_payForInspection" v="Pay %s for professional inspection" />
+
+        <!-- v2.7.0: Preview Dialog - Delayed Inspection -->
+        <e k="usedplus_preview_inspectionRange" v="Inspection options: %s - %s" />
+        <e k="usedplus_preview_inspectionProgress" v="%s inspection in progress... ~%d hrs remaining" />
+        <e k="usedplus_preview_requestInspection" v="Request Inspection" />
+        <e k="usedplus_preview_inProgress" v="In Progress..." />
 
         <!-- ============================================== -->
         <!-- PHASE 1c: Land Purchase Dialog Notifications   -->
@@ -1810,6 +1832,25 @@
         <e k="usedplus_fsk_hint_hyd_flow" v="Flow rate irregularities in aux circuits" />
         <e k="usedplus_fsk_hint_hyd_temp" v="Hydraulic fluid temperature warnings logged" />
 
+        <!-- v2.7.0: Mode Selection -->
+        <e k="usedplus_fsk_mode_diagnose" v="Diagnose Component" />
+        <e k="usedplus_fsk_mode_malfunctions" v="Locate Malfunctions" />
+        <e k="usedplus_fsk_mode_tire" v="Tire Service" />
+        <e k="usedplus_fsk_mode_rvb" v="RVB System Analysis" />
+        <e k="usedplus_fsk_rvb_not_installed" v="RVB mod not installed" />
+        <e k="usedplus_fsk_rvb_no_data" v="No RVB data available for this vehicle" />
+        <e k="usedplus_fsk_no_malfunctions" v="No active malfunctions detected" />
+
+        <!-- v2.7.0: Malfunction/Component names -->
+        <e k="usedplus_component_engine" v="Engine" />
+        <e k="usedplus_component_hydraulic" v="Hydraulics" />
+        <e k="usedplus_component_electrical" v="Electrical" />
+        <e k="usedplus_component_fuel_system" v="Fuel System" />
+        <e k="usedplus_component_tires" v="Tires" />
+        <e k="usedplus_malfunction_seized" v="SEIZED" />
+        <e k="usedplus_malfunction_leak" v="LEAKING" />
+        <e k="usedplus_malfunction_flat" v="FLAT" />
+
         <!-- v1.9.9: Settings System -->
         <e k="usedplus_settings_header" v="UsedPlus Settings" />
         <e k="usedplus_settings_requiresAdmin" v="Only the server admin can change settings." />
@@ -1917,6 +1958,12 @@
         <e k="usedplus_setting_conditionMult_desc" v="How much condition affects vehicle price" />
         <e k="usedplus_setting_brandBonus" v="Brand Loyalty Bonus" />
         <e k="usedplus_setting_brandBonus_desc" v="Extra trade-in value when buying same brand" />
+
+        <!-- v2.7.0: Shop Behavior -->
+        <e k="usedplus_setting_overrideShopBuyLease" v="Override Shop Buy/Lease" />
+        <e k="usedplus_setting_overrideShopBuyLease_desc" v="When ON, Buy/Lease buttons open UsedPlus dialog. When OFF, use Finance button instead. Disable if you have conflicts with other shop mods." />
+        <e k="usedplus_setting_overrideRVBRepair" v="Override RVB Repair" />
+        <e k="usedplus_setting_overrideRVBRepair_desc" v="When ON, RVB's Repair button opens UsedPlus partial repair. When OFF, use Map > Repair Vehicle for UsedPlus features. Only applies with Real Vehicle Breakdowns installed." />
 
         <!-- v2.0.0: Expanded Presets (6 presets) -->
         <e k="usedplus_preset_title" v="Apply Preset" />

@@ -17,3 +17,7 @@ desktop.ini
 # Temp files
 *.tmp
 *.bak
+
+# Windows reserved device names (accidental redirect artifacts)
+nul
+NUL

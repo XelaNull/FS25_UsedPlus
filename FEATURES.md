@@ -272,13 +272,26 @@ After inspecting a used vehicle, you can negotiate the price instead of paying f
 * Seller may Accept, Counter, or Reject your offer
 * **Cash only!** Used vehicle purchases require full payment upfront
 
-**Seller Personalities (v2.6.1 - now with tolerance!):**
+**Seller Personalities (v2.6.2 - DNA-driven!):**
 | Type | Accept At | Tolerance | Frequency | Behavior |
 |------|-----------|-----------|-----------|----------|
 | **Desperate** | 65% | +8% | 10% | Very forgiving of lowballs |
 | **Motivated** | 75% | +4% | 25% | Somewhat tolerant |
 | **Reasonable** | 85% | 0% | 40% | Standard expectations |
 | **Firm** | 92% | -5% | 25% | Easily insulted by lowballs |
+| **Immovable** | 98% | -10% | ~5% | Workhorse owners - they know what they have! |
+
+**v2.6.2: DNA-Driven Seller Assignment**
+Seller personality is no longer random - it's tied to the vehicle's hidden DNA!
+* **Lemons (DNA < 0.30)**: 60% Desperate, 25% Motivated, 15% Reasonable
+* **Average (DNA 0.30-0.69)**: 10% Desperate, 30% Motivated, 45% Reasonable, 15% Firm
+* **Workhorses (DNA 0.70-0.89)**: 5% Motivated, 30% Reasonable, 50% Firm, 15% Immovable
+* **Legendary (DNA ≥ 0.90)**: 20% Firm, 80% Immovable - owners KNOW they have gold!
+
+This creates meaningful market dynamics:
+* Great deals are more likely to be lemons (desperate sellers unloading problems)
+* Stubborn sellers often have workhorses worth paying more for
+* "Too good to be true" pricing? Probably a lemon!
 
 **v2.6.1 Rejection Risk System - Lowballing Has Consequences!**
 
@@ -322,10 +335,13 @@ The further below the seller's threshold you offer, the higher your rejection ri
 * Accept the counter, Stand Firm (risky!), or Walk Away
 * "Stand Firm" outcomes: 30% accept, 50% hold, 20% walk away
 
-**Negotiation Lock:**
-* If seller walks away, listing is locked for 1 game hour
-* Shows "Seller is unavailable" until cooldown expires
-* Strategic risk: push too hard and lose access temporarily
+**Negotiation Lock & Permanent Walk-Away (v2.6.2):**
+* **Temporary Cooldown (1 hour)**: Seller rejects but may return
+* **Permanent Walk-Away**: Insulting offers (>20% below threshold) cause PERMANENT rejection!
+  - The listing is locked forever - that vehicle is gone
+  - Shows "The seller walked away permanently" warning
+  - Strategic risk: push too hard and lose the vehicle entirely
+* Immovable sellers (workhorse owners) are especially sensitive to lowball offers
 
 **Strategic Tips:**
 * Read the mechanic's whisper to identify seller personality!
@@ -419,6 +435,7 @@ The further below the seller's threshold you offer, the higher your rejection ri
   - Breakdown degradation applied when RVB parts fail
   - OBD Scanner shows RVB part health: Engine, Thermostat, Generator, Battery, Starter, Glow Plug
   - Legendary workhorses immune to RVB repair degradation
+  - **v2.7.0**: Override RVB Repair toggle - disable to let RVB handle repair natively (use Map > "Repair Vehicle" for UsedPlus features)
 * **Use Up Your Tyres (v2.3.0 Deep Integration)**:
   - **Per-wheel display**: TiresDialog shows FL/FR/RL/RR wear when UYT installed
   - **Quality affects wear rate**: Retread tires wear 2x faster, Quality tires wear 33% slower
@@ -432,6 +449,16 @@ The further below the seller's threshold you offer, the higher your rejection ri
 * Monthly total shows loans + leases + employment wages (marked with * when wages included)
 * Assets display shows farmland count: "Assets: $X (Y fields)"
 * Complete picture of monthly cash requirements for accurate budgeting
+
+### Compatibility Toggles (Settings)
+UsedPlus provides escape hatches for mod conflicts:
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Override Shop Buy/Lease** | ON | When ON, UsedPlus intercepts Buy/Lease buttons. When OFF, vanilla/other mods handle them. |
+| **Override RVB Repair** (v2.7.0) | ON | When ON, RVB's Repair button opens UsedPlus partial repair. When OFF, RVB handles repair natively. Only shown when RVB is installed. |
+
+Access via **ESC > Settings > UsedPlus**
 
 ### Compatible Mods
 * **BuyUsedEquipment**: UsedPlus hides Search button, BUE handles used search
@@ -469,6 +496,19 @@ The further below the seller's threshold you offer, the higher your rejection ri
 
 ## LOCALIZATION
 
-* Full English translation included
-* German translation included
-* Additional languages: French, Spanish, Italian, Portuguese, Polish, Russian, Chinese, Japanese
+Full localization support with 10 languages:
+
+| Language | Status |
+|----------|--------|
+| English | ✓ Complete (source) |
+| German | ✓ Complete |
+| French | ✓ Complete |
+| Spanish | ✓ Complete |
+| Italian | ✓ Complete |
+| Polish | ✓ Complete |
+| Portuguese (BR) | ✓ Complete |
+| Russian | ✓ Complete |
+| Ukrainian | ✓ Complete |
+| Czech | ✓ Complete |
+
+All 1,654 translation keys available in every language.
