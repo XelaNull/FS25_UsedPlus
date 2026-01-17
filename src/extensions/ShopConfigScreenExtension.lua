@@ -255,10 +255,19 @@ function ShopConfigScreenExtension.updateButtonsHook(self, storeItem, vehicle, s
 
         -- v1.7.2: ACTIVE CALLBACK SWAP (every update, not a one-time wrapper)
         -- v1.9.9: Check for hand tools BEFORE wrapping - don't touch their callbacks at all
+        -- v2.6.3: Only swap callback if we can actually handle the item (fixes seeds, consumables, etc.)
+        -- v2.7.0: Respect overrideShopBuyLease setting - when OFF, never swap callbacks
         if self.buyButton then
+            local overrideEnabled = not UsedPlusSettings or UsedPlusSettings:get("overrideShopBuyLease") ~= false
             local isHandTool = storeItem and storeItem.financeCategory == "SHOP_HANDTOOL_BUY"
+            local canFinance = ShopConfigScreenExtension.canFinanceItem(storeItem)
 
-            if isOwnedVehicle then
+            if not overrideEnabled then
+                -- v2.7.0: Override disabled - always use vanilla callback
+                -- User should use Finance button for UsedPlus features
+                self.buyButton.onClickCallback = self.usedPlusOriginalBuyCallback
+                UsedPlus.logDebug("Buy button: restored original callback (override disabled in settings)")
+            elseif isOwnedVehicle then
                 -- OWNED VEHICLE: Restore original game callback completely
                 -- Don't touch it - let the game handle customization natively
                 self.buyButton.onClickCallback = self.usedPlusOriginalBuyCallback
@@ -268,28 +277,39 @@ function ShopConfigScreenExtension.updateButtonsHook(self, storeItem, vehicle, s
                 -- These items need the vanilla buy flow to work properly
                 self.buyButton.onClickCallback = self.usedPlusOriginalBuyCallback
                 UsedPlus.logDebug("Buy button: restored original callback for hand tool: " .. tostring(storeItem.name))
+            elseif not canFinance then
+                -- v2.6.3: NON-FINANCEABLE ITEM (seeds, consumables, cheap objects, etc.)
+                -- Restore vanilla callback - we don't want to intercept these
+                self.buyButton.onClickCallback = self.usedPlusOriginalBuyCallback
+                UsedPlus.logDebug("Buy button: restored original callback for non-financeable item: " .. tostring(storeItem and storeItem.name or "nil"))
             else
                 -- FINANCEABLE NEW ITEM: Set our UnifiedPurchaseDialog callback
                 local shopScreen = self
                 local currentStoreItem = storeItem
                 self.buyButton.onClickCallback = function()
-                    UsedPlus.logDebug("Buy button clicked - new item: " .. tostring(currentStoreItem and currentStoreItem.name or "nil"))
-                    if currentStoreItem and ShopConfigScreenExtension.canFinanceItem(currentStoreItem) then
-                        ShopConfigScreenExtension.onUnifiedBuyClick(shopScreen, currentStoreItem, UnifiedPurchaseDialog.MODE_CASH)
-                    end
-                    -- No fallback needed - we only set this callback for financeable items
+                    UsedPlus.logDebug("Buy button clicked - financeable item: " .. tostring(currentStoreItem and currentStoreItem.name or "nil"))
+                    ShopConfigScreenExtension.onUnifiedBuyClick(shopScreen, currentStoreItem, UnifiedPurchaseDialog.MODE_CASH)
                 end
-                UsedPlus.logDebug("Buy button: set UsedPlus callback for new item")
+                UsedPlus.logDebug("Buy button: set UsedPlus callback for financeable item")
             end
         end
 
         -- v1.4.0: Check settings system for lease feature toggle
         -- v1.9.9: Check for hand tools BEFORE wrapping - don't touch their callbacks at all
+        -- v2.6.3: Only swap callback if we can actually handle the item (fixes seeds, consumables, etc.)
+        -- v2.7.0: Respect overrideShopBuyLease setting - when OFF, never swap callbacks
         if self.leaseButton then
+            local overrideEnabled = not UsedPlusSettings or UsedPlusSettings:get("overrideShopBuyLease") ~= false
             local leaseEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Lease")
             local isHandTool = storeItem and storeItem.financeCategory == "SHOP_HANDTOOL_BUY"
+            local canLease = ShopConfigScreenExtension.canLeaseItem(storeItem)
 
-            if isOwnedVehicle or not leaseEnabled then
+            if not overrideEnabled then
+                -- v2.7.0: Override disabled - always use vanilla callback
+                -- User should use Finance button for UsedPlus features
+                self.leaseButton.onClickCallback = self.usedPlusOriginalLeaseCallback
+                UsedPlus.logDebug("Lease button: restored original callback (override disabled in settings)")
+            elseif isOwnedVehicle or not leaseEnabled then
                 -- OWNED VEHICLE or LEASE DISABLED: Restore original game callback
                 self.leaseButton.onClickCallback = self.usedPlusOriginalLeaseCallback
                 UsedPlus.logDebug("Lease button: restored original callback for owned vehicle or disabled system")
@@ -297,18 +317,20 @@ function ShopConfigScreenExtension.updateButtonsHook(self, storeItem, vehicle, s
                 -- HAND TOOL: Don't wrap callback - restore original and let game handle it
                 self.leaseButton.onClickCallback = self.usedPlusOriginalLeaseCallback
                 UsedPlus.logDebug("Lease button: restored original callback for hand tool")
+            elseif not canLease then
+                -- v2.6.3: NON-LEASEABLE ITEM (seeds, consumables, cheap objects, etc.)
+                -- Restore vanilla callback - we don't want to intercept these
+                self.leaseButton.onClickCallback = self.usedPlusOriginalLeaseCallback
+                UsedPlus.logDebug("Lease button: restored original callback for non-leaseable item: " .. tostring(storeItem and storeItem.name or "nil"))
             else
                 -- LEASEABLE NEW ITEM: Set our UnifiedPurchaseDialog callback
                 local shopScreen = self
                 local currentStoreItem = storeItem
                 self.leaseButton.onClickCallback = function()
-                    UsedPlus.logDebug("Lease button clicked - new item: " .. tostring(currentStoreItem and currentStoreItem.name or "nil"))
-                    if currentStoreItem and ShopConfigScreenExtension.canLeaseItem(currentStoreItem) then
-                        ShopConfigScreenExtension.onUnifiedBuyClick(shopScreen, currentStoreItem, UnifiedPurchaseDialog.MODE_LEASE)
-                    end
-                    -- No fallback needed - we only set this callback for leaseable items
+                    UsedPlus.logDebug("Lease button clicked - leaseable item: " .. tostring(currentStoreItem and currentStoreItem.name or "nil"))
+                    ShopConfigScreenExtension.onUnifiedBuyClick(shopScreen, currentStoreItem, UnifiedPurchaseDialog.MODE_LEASE)
                 end
-                UsedPlus.logDebug("Lease button: set UsedPlus callback for new item")
+                UsedPlus.logDebug("Lease button: set UsedPlus callback for leaseable item")
             end
         end
 
@@ -461,12 +483,26 @@ function ShopConfigScreenExtension.canSearchItem(storeItem)
 
     -- Can only search for vehicles (not hand tools)
     if storeItem.species ~= StoreSpecies.VEHICLE then
+        UsedPlus.logDebug("canSearchItem: Excluding non-vehicle: " .. tostring(storeItem.name) .. " (species=" .. tostring(storeItem.species) .. ")")
         return false
     end
 
     -- v1.9.8: Exclude hand tools from used search (Field Service Kit, etc.)
     if storeItem.financeCategory == "SHOP_HANDTOOL_BUY" then
+        UsedPlus.logDebug("canSearchItem: Excluding hand tool: " .. tostring(storeItem.name))
         return false
+    end
+
+    -- v2.7.0: Check minimum value - only show "Search Used" for items $10k+ (was $2.5k)
+    -- There's no realistic used market for cheap tools and small attachments
+    local price = storeItem.price or 0
+    if FinanceCalculations and FinanceCalculations.meetsMinimumAmount then
+        local meetsMinimum, minRequired = FinanceCalculations.meetsMinimumAmount(price, "USED_SEARCH")
+        if not meetsMinimum then
+            UsedPlus.logDebug(string.format("canSearchItem: Excluding low-value item: %s (price=$%d, min=$%d)",
+                tostring(storeItem.name), price, minRequired))
+            return false
+        end
     end
 
     return true

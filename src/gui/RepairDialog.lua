@@ -60,6 +60,12 @@ function RepairDialog.new(target, custom_mt, i18n)
     self.fullRepairCost = 0
     self.fullRepaintCost = 0
 
+    -- v2.7.0: Additional repair costs (fuel leak, flat tire)
+    self.hasFuelLeak = false
+    self.hasFlatTire = false
+    self.fuelLeakRepairCost = 0
+    self.flatTireRepairCost = 0
+
     return self
 end
 
@@ -170,6 +176,33 @@ function RepairDialog:setVehicle(vehicle, farmId, mode, rvbRepairCost)
         self.repaintPercent = 50
     end
 
+    -- v2.7.0: Detect fuel leak and flat tire status (only relevant for mechanical repair)
+    self.hasFuelLeak = false
+    self.hasFlatTire = false
+    self.fuelLeakRepairCost = 0
+    self.flatTireRepairCost = 0
+
+    local maintSpec = vehicle.spec_usedPlusMaintenance
+    if maintSpec ~= nil then
+        self.hasFuelLeak = maintSpec.hasFuelLeak or false
+        self.hasFlatTire = maintSpec.hasFlatTire or false
+
+        -- Calculate additional repair costs based on vehicle price
+        local config = UsedPlusMaintenance.CONFIG or {}
+
+        if self.hasFuelLeak then
+            local fuelLeakMult = config.workshopFuelLeakRepairCostMult or 0.02
+            self.fuelLeakRepairCost = math.floor(self.basePrice * fuelLeakMult)
+            UsedPlus.logDebug(string.format("RepairDialog: Fuel leak detected, repair cost: $%d", self.fuelLeakRepairCost))
+        end
+
+        if self.hasFlatTire then
+            local flatTireMult = config.workshopFlatTireRepairCostMult or 0.01
+            self.flatTireRepairCost = math.floor(self.basePrice * flatTireMult)
+            UsedPlus.logDebug(string.format("RepairDialog: Flat tire detected, repair cost: $%d", self.flatTireRepairCost))
+        end
+    end
+
     -- Calculate initial costs
     self:calculateCosts()
 
@@ -203,8 +236,20 @@ function RepairDialog:calculateCosts()
         self.repaintCost = math.floor(self.fullRepaintCost * (self.repaintPercent / 100))
     end
 
-    -- Total cost (only active modes)
-    self.totalCost = self.repairCost + self.repaintCost
+    -- v2.7.0: Add additional repair costs for mechanical repair mode only
+    -- Fuel leak and flat tire repairs are only included when doing mechanical repair
+    local additionalCosts = 0
+    if self.mode == RepairDialog.MODE_REPAIR or self.mode == RepairDialog.MODE_BOTH then
+        if self.hasFuelLeak then
+            additionalCosts = additionalCosts + self.fuelLeakRepairCost
+        end
+        if self.hasFlatTire then
+            additionalCosts = additionalCosts + self.flatTireRepairCost
+        end
+    end
+
+    -- Total cost (only active modes + additional repairs)
+    self.totalCost = self.repairCost + self.repaintCost + additionalCosts
 end
 
 --[[
@@ -321,6 +366,26 @@ function RepairDialog:updateDisplay()
     UIHelper.Element.setText(self.workPercentText, UIHelper.Text.formatPercent(workPercent, false))
     UIHelper.Element.setText(self.workCostText, UIHelper.Text.formatMoney(workCost))
     UIHelper.Element.setText(self.workAfterText, UIHelper.Text.formatPercent(workAfter, false))
+
+    -- v2.7.0: Display additional repair costs (fuel leak, flat tire) if any
+    local hasAdditionalRepairs = isRepairMode and (self.hasFuelLeak or self.hasFlatTire)
+    if self.additionalRepairsText then
+        if hasAdditionalRepairs then
+            local parts = {}
+            if self.hasFuelLeak then
+                table.insert(parts, string.format("Fuel Leak (+%s)", UIHelper.Text.formatMoney(self.fuelLeakRepairCost)))
+            end
+            if self.hasFlatTire then
+                table.insert(parts, string.format("Flat Tire (+%s)", UIHelper.Text.formatMoney(self.flatTireRepairCost)))
+            end
+            local additionalText = "Includes: " .. table.concat(parts, ", ")
+            self.additionalRepairsText:setText(additionalText)
+            self.additionalRepairsText:setTextColor(1, 0.8, 0.2, 1)  -- Yellow/gold for info
+            self.additionalRepairsText:setVisible(true)
+        else
+            self.additionalRepairsText:setVisible(false)
+        end
+    end
 
     -- Total cost (orange for expense)
     UIHelper.Element.setTextWithColor(self.totalCostText,

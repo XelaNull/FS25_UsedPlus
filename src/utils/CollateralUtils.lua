@@ -208,48 +208,6 @@ function CollateralUtils.getExcludedVehicleIds(farmId)
 end
 
 --[[
-    Auto-select vehicles as collateral for a given loan amount
-    Selects highest-value vehicles first until total collateral >= loan amount / LTV_RATIO
-
-    @param farmId - The farm ID
-    @param loanAmount - The requested loan amount
-    @return table - Array of selected collateral items
-    @return number - Total value of selected collateral
-    @return boolean - Whether sufficient collateral was found
-]]
-function CollateralUtils.selectCollateralForAmount(farmId, loanAmount)
-    local pledgeable = CollateralUtils.getPledgeableVehicles(farmId)
-    local selected = {}
-    local totalValue = 0
-
-    -- Required collateral = loan amount / LTV ratio
-    -- e.g., $100k loan needs $133k collateral at 75% LTV
-    local requiredCollateral = loanAmount / CollateralUtils.LTV_RATIO
-
-    for _, item in ipairs(pledgeable) do
-        if totalValue >= requiredCollateral then
-            break  -- We have enough collateral
-        end
-
-        -- Add this vehicle to collateral
-        table.insert(selected, {
-            vehicleId = item.vehicleId,
-            objectId = item.objectId,
-            configFile = item.configFile,
-            name = item.name,
-            value = item.value,
-            farmId = farmId
-        })
-
-        totalValue = totalValue + item.value
-    end
-
-    local sufficient = totalValue >= requiredCollateral
-
-    return selected, totalValue, sufficient
-end
-
---[[
     Calculate maximum loan amount based on available collateral
 
     @param farmId - The farm ID

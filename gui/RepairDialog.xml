@@ -90,6 +90,9 @@
 
                 <Text profile="rpLabel" position="220px -118px" text="$l10n_usedplus_rp_after"/>
                 <Text profile="rpAfterValue" id="workAfterText" position="220px -138px" text=""/>
+
+                <!-- v2.7.0: Additional repairs included (fuel leak, flat tire) -->
+                <Text profile="rpAdditionalRepairs" id="additionalRepairsText" position="0px -160px" text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 3: Payment Summary ========== -->
@@ -323,6 +326,15 @@
             <size value="700px 18px"/>
             <textSize value="12px"/>
             <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v2.7.0: Additional repairs text (fuel leak, flat tire) -->
+        <Profile name="rpAdditionalRepairs" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="680px 18px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
             <textAlignment value="center"/>
         </Profile>
 

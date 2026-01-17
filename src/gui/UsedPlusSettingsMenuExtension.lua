@@ -275,6 +275,22 @@ function UsedPlusSettingsMenuExtension:addSettingsElements(frame)
         )
     end
 
+    -- v2.7.0: Shop Buy/Lease override toggle (always shown)
+    frame.usedplus_overrideShopBuyLeaseToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+        frame, "onOverrideShopBuyLeaseToggleChanged",
+        g_i18n:getText("usedplus_setting_overrideShopBuyLease") or "Override Shop Buy/Lease",
+        g_i18n:getText("usedplus_setting_overrideShopBuyLease_desc") or "When ON, Buy/Lease buttons open UsedPlus dialog. When OFF, use Finance button for UsedPlus features. Disable if you have conflicts with other shop mods."
+    )
+
+    -- v2.7.0: RVB Repair override toggle (only shown when RVB is installed)
+    if ModCompatibility and ModCompatibility.rvbInstalled then
+        frame.usedplus_overrideRVBRepairToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+            frame, "onOverrideRVBRepairToggleChanged",
+            g_i18n:getText("usedplus_setting_overrideRVBRepair") or "Override RVB Repair",
+            g_i18n:getText("usedplus_setting_overrideRVBRepair_desc") or "When ON, RVB's Repair button opens UsedPlus partial repair. When OFF, use Map > Repair Vehicle for UsedPlus features."
+        )
+    end
+
     -- Economic parameters
     -- v2.0.0: Updated tooltip to clarify what interest rate applies to
     frame.usedplus_interestRate = UsedPlusSettingsMenuExtension:addMultiTextOption(
@@ -556,6 +572,8 @@ function UsedPlusSettingsMenuExtension:updateSettingsUI(frame)
     setChecked(frame.usedplus_hpIntegrationToggle, "enableHPIntegration") -- v2.6.2
     setChecked(frame.usedplus_bueIntegrationToggle, "enableBUEIntegration") -- v2.6.2
     setChecked(frame.usedplus_elsIntegrationToggle, "enableELSIntegration") -- v2.6.2
+    setChecked(frame.usedplus_overrideShopBuyLeaseToggle, "overrideShopBuyLease") -- v2.7.0
+    setChecked(frame.usedplus_overrideRVBRepairToggle, "overrideRVBRepair") -- v2.7.0
 
     -- Update economic parameters
     setState(frame.usedplus_interestRate, ranges.interestRateValues, "baseInterestRate")
@@ -749,6 +767,22 @@ function UsedPlusSettingsMenuExtension:onELSIntegrationToggleChanged(state)
         if ModCompatibility and ModCompatibility.refreshIntegrationSettings then
             ModCompatibility.refreshIntegrationSettings()
         end
+    end
+end
+
+-- v2.7.0: NEW - Shop Buy/Lease override toggle
+function UsedPlusSettingsMenuExtension:onOverrideShopBuyLeaseToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("overrideShopBuyLease", state == BinaryOptionElement.STATE_RIGHT)
+        UsedPlus.logInfo("Shop Buy/Lease override " .. (state == BinaryOptionElement.STATE_RIGHT and "enabled" or "disabled"))
+    end
+end
+
+-- v2.7.0: RVB Repair override toggle
+function UsedPlusSettingsMenuExtension:onOverrideRVBRepairToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("overrideRVBRepair", state == BinaryOptionElement.STATE_RIGHT)
+        UsedPlus.logInfo("RVB Repair override " .. (state == BinaryOptionElement.STATE_RIGHT and "enabled" or "disabled"))
     end
 end
 

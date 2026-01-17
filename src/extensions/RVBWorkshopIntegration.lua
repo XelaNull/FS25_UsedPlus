@@ -222,6 +222,12 @@ function RVBWorkshopIntegration:hookRepairButton(dialog)
         return
     end
 
+    -- v2.7.0: Don't hook if override is disabled - let RVB handle repair natively
+    if UsedPlusSettings and UsedPlusSettings:get("overrideRVBRepair") == false then
+        UsedPlus.logDebug("RVBWorkshopIntegration: RVB repair override disabled, not hooking repair button")
+        return
+    end
+
     if dialog == nil then
         return
     end
@@ -252,7 +258,7 @@ function RVBWorkshopIntegration:hookRepairButton(dialog)
     end
 
     -- Store original callback for potential fallback
-    local originalCallback = repairButton.onClickCallback
+    dialog.usedPlusOriginalRepairCallback = repairButton.onClickCallback
 
     -- Replace with our callback
     repairButton.onClickCallback = function()
@@ -269,9 +275,16 @@ end
 ]]
 function RVBWorkshopIntegration:onRVBRepairButtonClick(dialog)
     -- v2.6.2: Check master repair system toggle
-    if UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
-        UsedPlus.logDebug("RVBWorkshopIntegration: Repair system disabled, falling back to RVB default")
-        -- Don't intercept - let original RVB behavior happen
+    -- v2.7.0: Also check override setting
+    local repairDisabled = UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false
+    local overrideDisabled = UsedPlusSettings and UsedPlusSettings:get("overrideRVBRepair") == false
+
+    if repairDisabled or overrideDisabled then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Repair override disabled, calling original RVB callback")
+        -- Call original RVB behavior
+        if dialog.usedPlusOriginalRepairCallback then
+            dialog.usedPlusOriginalRepairCallback()
+        end
         return
     end
 

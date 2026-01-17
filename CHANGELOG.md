@@ -4,6 +4,112 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.7.0] - 2026-01-17
+
+### Added
+- **Delayed Inspection System** - Inspections now take game time instead of being instant!
+  - **Three Inspection Tiers** with different costs, times, and data revealed:
+    - **Quick Glance**: $1,000 + 2% (cap $2,500), 2 hours, overall rating only
+    - **Standard**: $2,000 + 3% (cap $5,000), 6 hours, full reliability + parts
+    - **Comprehensive**: $4,000 + 5% (cap $10,000), 12 hours, full details + DNA hint
+  - Uses `HOUR_CHANGED` subscription - time scales with game speed
+  - In-game notification when inspection completes
+  - Progress display shows remaining hours
+
+- **Listing Hold System** - Listings don't expire during inspection
+  - `listingOnHold` flag prevents expiration while mechanic is working
+  - Protects player's investment in the inspection fee
+
+- **Credit-Gated Finance Terms** - Longer loan terms require better credit
+  - Max vehicle finance term reduced from 20 to 15 years
+  - 1-5 years: Any credit (300+)
+  - 6-10 years: Fair credit (650+)
+  - 11-15 years: Good credit (700+)
+  - Term selector dynamically adjusts based on player's credit score
+
+- **Shop Buy/Lease Override Toggle** - New setting for mod compatibility
+  - `overrideShopBuyLease` setting in ESC > Settings > UsedPlus (default: ON)
+  - When ON: Buy/Lease buttons open UnifiedPurchaseDialog (current behavior)
+  - When OFF: Buy/Lease use vanilla behavior; use Finance button for UsedPlus features
+  - Applies to both shop Buy/Lease AND farmland Buy on the map
+  - Allows peaceful coexistence with other mods that also modify shop buttons
+
+- **RVB Repair Override Toggle** - New setting for Real Vehicle Breakdowns users
+  - `overrideRVBRepair` setting in ESC > Settings > UsedPlus (default: ON)
+  - When ON: RVB's Repair button opens UsedPlus partial repair dialog
+  - When OFF: RVB handles repair natively; use Map > "Repair Vehicle" for UsedPlus features
+  - Only appears in settings when RVB is installed
+  - Allows peaceful coexistence with other mods that also modify RVB
+
+### Changed
+- **Inspection fees significantly increased** (was $200 base + 1% capped at $2,000)
+- **"Inspect" button now shows "Request Inspection"** when not yet inspected
+- **"View Report" button** only appears after inspection is complete
+- Preview dialog shows inspection state: Not Inspected → In Progress → Complete
+
+### Fixed
+- **FinanceDetailFrame payment buttons not working** - XML callbacks were misnamed
+  - `onMakePayment()` → `onClickMakePayment()` (matches XML `onClick="onClickMakePayment"`)
+  - `onEndLease()` → `onClickEndLease()` (matches XML `onClick="onClickEndLease"`)
+- **DNA-based breakdown degradation not applied** - `applyBreakdownDegradation()` was defined but never called
+  - Now called on engine overheat (Engine component)
+  - Now called on hydraulic drop (Hydraulic component)
+  - Now called on hitch failure (Hydraulic component)
+  - Lemons (low DNA) now properly degrade faster on breakdowns
+- **Repair event not updating vehicle reliability** - `onVehicleRepaired()` callback was orphaned
+  - RepairVehicleEvent now calls `UsedPlusMaintenance.onVehicleRepaired()` after repairs
+  - Lemon/Workhorse repair degradation now properly applied
+- **Flat tire not cleared after repair** - `repairFlatTire()` was never called
+  - TiresDialog: Tire replacement now clears flat tire state
+  - FieldServiceKitDialog: OBD Scanner tire patch/plug now clears flat tire state
+  - RepairVehicleEvent: Workshop repair now clears flat tire state
+- **Fuel leak not fixed after repair** - `repairFuelLeak()` was orphaned
+  - RepairVehicleEvent: Workshop engine repair now clears fuel leak
+  - FieldServiceKitDialog: OBD Scanner engine diagnosis now clears fuel leak (good/perfect outcome)
+
+### Technical
+- New inspection fields on listing: `inspectionState`, `inspectionTier`, `inspectionRequestedAtHour`, `inspectionCompletesAtHour`, `inspectionFarmId`, `inspectionCostPaid`, `listingOnHold`
+- `UsedVehicleManager.totalGameHours` tracks time for inspection completion
+- `UsedVehicleManager:requestInspection()` - request inspection for a listing
+- `UsedVehicleManager:processInspectionCompletions()` - called every game hour
+- `UsedVehicleManager:getInspectionHoursRemaining()` - helper for UI
+- `UsedPlusMaintenance.calculateInspectionCostForTier()` - tier cost calculation
+- All inspection state persists to savegame
+- Added `find_used.js` - Static analysis tool to find unused code
+- Removed dead code: `selectCollateralForAmount()`, `showSearchFailedDialog()`, legacy payment functions
+
+---
+
+## [2.6.3] - 2026-01-17
+
+### Fixed
+- **Shop buttons no longer intercept non-vehicle items** (seeds, fertilizers, consumables)
+  - Buy button: Now checks `canFinanceItem()` before swapping callback; restores vanilla for items we don't handle
+  - Lease button: Same pattern - only intercepts leaseable vehicles
+  - Search Used button: Added $2,500 minimum price check to `canSearchItem()`
+  - Previously: Clicking Buy on seeds did nothing (callback intercepted but no fallback)
+  - Previously: Search Used appeared on seed pallets (they're StoreSpecies.VEHICLE in FS25)
+  - Now: Seeds, fertilizers, and other cheap consumables use vanilla shop flow correctly
+
+- **On-time payments now build credit for ALL UsedPlus financial products**
+  - FinanceDeal.lua: Added PaymentTracker.recordPayment() for vehicle/land/cash loan payments
+  - LeaseDeal.lua: Added PaymentTracker.recordPayment() for vehicle lease payments
+  - LandLeaseDeal.lua: Added PaymentTracker.recordPayment() for land lease payments
+  - Previously only vanilla bank loans and external API payments built credit history
+  - Now all on-time payments contribute to credit score (was asymmetric: missed payments hurt, but on-time didn't help)
+
+- **UYT tire wear now properly applied to purchased used vehicles**
+  - Implemented delayed UYT tire wear application (750ms after spawn)
+  - Previously tire wear was applied immediately during vehicle spawn, before UYT wheel data structures were ready
+  - Now poor quality vehicles will show visually worn tires via UYT
+  - Follows same pattern as delayed dirt application which was already working
+
+### Changed
+- Credit system now symmetric: on-time payments build credit just like missed payments hurt credit
+- UYT tire initialization uses delayed timer pattern for reliability
+
+---
+
 ## [2.6.2] - 2026-01-17
 
 ### Added

@@ -21,8 +21,18 @@ UnifiedPurchaseDialog.MODE_LEASE = 3
 
 UnifiedPurchaseDialog.MODE_TEXTS = {"Buy with Cash", "Finance", "Lease"}
 
--- Term options
-UnifiedPurchaseDialog.FINANCE_TERMS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}  -- Years (1-year increments)
+-- Term options (v2.7.0: reduced from 20 to 15 years max, credit-gated)
+-- Longer terms require better credit to prevent over-leveraging
+UnifiedPurchaseDialog.FINANCE_TERMS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}  -- Years (max 15)
+-- Credit requirements for term lengths:
+-- 1-5 years: Any credit (300+)
+-- 6-10 years: Fair credit (650+)
+-- 11-15 years: Good credit (700+)
+UnifiedPurchaseDialog.TERM_CREDIT_REQUIREMENTS = {
+    {maxYears = 5, minCredit = 300},   -- Anyone can get short-term
+    {maxYears = 10, minCredit = 650},  -- Fair credit for medium-term
+    {maxYears = 15, minCredit = 700},  -- Good credit for long-term
+}
 -- Lease terms in months: 3, 6, 9 months (short-term), then 1-5 years
 -- Vehicle leases beyond 5 years don't make financial sense - just buy it!
 UnifiedPurchaseDialog.LEASE_TERMS = {3, 6, 9, 12, 24, 36, 48, 60}
@@ -57,6 +67,37 @@ end
 function UnifiedPurchaseDialog.getDownPaymentPercent(index)
     local options = UnifiedPurchaseDialog.getDownPaymentOptions()
     return options[index] or options[1] or 0
+end
+
+--[[
+    Get maximum allowed finance term based on credit score
+    @param creditScore - Player's current credit score (300-850)
+    @return maxYears - Maximum allowed term in years
+]]
+function UnifiedPurchaseDialog.getMaxTermForCredit(creditScore)
+    local maxYears = 5  -- Default: anyone can get 5 years
+    for _, tier in ipairs(UnifiedPurchaseDialog.TERM_CREDIT_REQUIREMENTS) do
+        if creditScore >= tier.minCredit then
+            maxYears = tier.maxYears
+        end
+    end
+    return maxYears
+end
+
+--[[
+    Get available finance terms based on credit score
+    @param creditScore - Player's current credit score (300-850)
+    @return filtered table of term years
+]]
+function UnifiedPurchaseDialog.getFinanceTermsForCredit(creditScore)
+    local maxYears = UnifiedPurchaseDialog.getMaxTermForCredit(creditScore)
+    local terms = {}
+    for _, years in ipairs(UnifiedPurchaseDialog.FINANCE_TERMS) do
+        if years <= maxYears then
+            table.insert(terms, years)
+        end
+    end
+    return terms
 end
 
 --[[
@@ -239,6 +280,7 @@ end
 --[[
     Calculate credit parameters
     v2.0.0: Respects enableCreditSystem setting
+    v2.7.0: Updates available term options based on credit
 ]]
 function UnifiedPurchaseDialog:calculateCreditParameters()
     local farmId = g_currentMission:getFarmId()
@@ -266,6 +308,66 @@ function UnifiedPurchaseDialog:calculateCreditParameters()
         self.financeMinScore = 550
         self.leaseMinScore = 600
     end
+
+    -- v2.7.0: Update term options based on credit score
+    self:updateTermOptionsForCredit()
+end
+
+--[[
+    Update finance term slider options based on credit score
+    v2.7.0: Longer terms require better credit
+    - 1-5 years: Any credit (300+)
+    - 6-10 years: Fair credit (650+)
+    - 11-15 years: Good credit (700+)
+]]
+function UnifiedPurchaseDialog:updateTermOptionsForCredit()
+    if not self.financeTermSlider then
+        return
+    end
+
+    local availableTerms = UnifiedPurchaseDialog.getFinanceTermsForCredit(self.creditScore)
+    local maxYears = UnifiedPurchaseDialog.getMaxTermForCredit(self.creditScore)
+
+    -- Store available terms for later lookup
+    self.availableFinanceTerms = availableTerms
+
+    -- Build texts for available terms
+    local texts = {}
+    for _, years in ipairs(availableTerms) do
+        table.insert(texts, years .. (years == 1 and " Year" or " Years"))
+    end
+
+    -- If better credit would unlock more terms, show hint
+    if maxYears < 15 then
+        local nextTier = nil
+        for _, tier in ipairs(UnifiedPurchaseDialog.TERM_CREDIT_REQUIREMENTS) do
+            if tier.maxYears > maxYears then
+                nextTier = tier
+                break
+            end
+        end
+        if nextTier then
+            UsedPlus.logDebug(string.format("Credit %d allows up to %d year terms. Score %d+ unlocks %d years.",
+                self.creditScore, maxYears, nextTier.minCredit, nextTier.maxYears))
+        end
+    end
+
+    self.financeTermSlider:setTexts(texts)
+
+    -- Ensure current selection is valid
+    if self.financeTermIndex > #availableTerms then
+        self.financeTermIndex = #availableTerms
+    end
+    self.financeTermSlider:setState(self.financeTermIndex)
+end
+
+--[[
+    Get selected finance term in years (from credit-filtered options)
+    @return years
+]]
+function UnifiedPurchaseDialog:getSelectedTermYears()
+    local terms = self.availableFinanceTerms or UnifiedPurchaseDialog.getFinanceTermsForCredit(self.creditScore)
+    return terms[self.financeTermIndex] or 5
 end
 
 --[[
@@ -953,7 +1055,7 @@ end
     Refactored to use UIHelper formatting
 ]]
 function UnifiedPurchaseDialog:updateFinanceDisplay()
-    local termYears = UnifiedPurchaseDialog.FINANCE_TERMS[self.financeTermIndex] or 5
+    local termYears = self:getSelectedTermYears()
     local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
     -- Use filtered cash back options (limited by down payment + trade-in)
     local cashBack = (self.validCashBackOptions and self.validCashBackOptions[self.financeCashBackIndex]) or 0
@@ -1158,7 +1260,7 @@ function UnifiedPurchaseDialog:buildConfirmationMessage()
 
     elseif self.currentMode == UnifiedPurchaseDialog.MODE_FINANCE then
         -- Finance purchase
-        local termYears = UnifiedPurchaseDialog.FINANCE_TERMS[self.financeTermIndex] or 5
+        local termYears = self:getSelectedTermYears()
         local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
         local cashBack = (self.validCashBackOptions and self.validCashBackOptions[self.financeCashBackIndex]) or 0
         local downPayment = self.vehiclePrice * (downPct / 100)
@@ -1398,7 +1500,7 @@ function UnifiedPurchaseDialog:executeFinancePurchase()
     end
 
     -- Calculate finance parameters
-    local termYears = UnifiedPurchaseDialog.FINANCE_TERMS[self.financeTermIndex] or 5
+    local termYears = self:getSelectedTermYears()
     local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
     -- Use filtered cash back options (limited by down payment + trade-in)
     local cashBack = (self.validCashBackOptions and self.validCashBackOptions[self.financeCashBackIndex]) or 0
@@ -1555,25 +1657,6 @@ end
 ]]
 function UnifiedPurchaseDialog:onCancel()
     self:close()
-end
-
---[[
-    Search Used button clicked
-     Refactored to use DialogLoader for centralized loading
-]]
-function UnifiedPurchaseDialog:onSearchUsed()
-    if not self.storeItem then
-        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO, g_i18n:getText("usedplus_error_noVehicleSelected"))
-        return
-    end
-
-    -- Close this dialog first
-    self:close()
-
-    local farmId = g_currentMission:getFarmId()
-
-    -- Use DialogLoader for centralized lazy loading
-    DialogLoader.show("UsedSearchDialog", "setData", self.storeItem, self.storeItem.xmlFilename, farmId)
 end
 
 --[[

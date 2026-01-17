@@ -2,6 +2,8 @@
 
 **Stop playing with Monopoly money.** Start making real financial decisions.
 
+> **Version 2.6.3** | **FS25 Compatible** | **Multiplayer Supported**
+
 ---
 
 ## The Problem With Vanilla FS25
@@ -14,287 +16,224 @@ But real farmers don't work that way. They finance. They lease. They trade in ol
 
 ---
 
-## What Changes When You Install UsedPlus?
+## Core Features
 
-### Your Credit Score Actually Matters
+### Credit Scoring (300-850)
 
-UsedPlus introduces a **real FICO-style credit scoring system** (300-850 range). Your score affects everything:
+Your financial history affects everything. UsedPlus introduces a real FICO-style credit system:
 
-| Your Credit | Interest Rate Impact | What It Means |
-|-------------|---------------------|---------------|
-| Excellent (750+) | -1.5% | You've earned trust. Banks want YOUR business. |
-| Good (700-749) | -0.5% | Solid track record opens doors. |
-| Fair (650-699) | +0.5% | You're average. Prove yourself. |
-| Poor (600-649) | +1.5% | Risky borrower. Higher rates. |
-| Very Poor (<600) | +3.0% | Banks are nervous. Expect to pay for it. |
+| Credit Rating | Score | Interest Impact |
+|--------------|-------|-----------------|
+| Excellent | 750+ | -1.5% rate |
+| Good | 700-749 | -0.5% rate |
+| Fair | 650-699 | +0.5% rate |
+| Poor | 600-649 | +1.5% rate |
+| Very Poor | <600 | +3.0% rate |
 
-**How do you build credit?** The same way real people do:
-- Make payments on time (+5 points)
-- Pay off loans early (+50 points)
-- Miss a payment? That hurts. (-25 points)
-
-Start building your financial reputation from day one.
+**Build credit the real way:**
+- On-time payments: +5 points
+- Pay off loans early: +50 points
+- Miss a payment: -25 points
 
 ---
 
-### Finance Instead of Draining Your Bank
+### Vehicle & Equipment Financing
 
 That $450,000 combine? Now you have options:
 
-- **Buy with Cash** - If you've got it, spend it
-- **Finance** - Terms from 1 to 30 years. Choose your down payment (0-50%). Keep cash on hand for emergencies.
-- **Lease** - Lower monthly payments, balloon payment at the end. Perfect for equipment you might upgrade later.
+- **Cash** - Pay full price
+- **Finance** - 1-15 year terms (credit-gated), 0-50% down payment
+- **Lease** - Lower monthly payments, balloon payment at end
 
-**All from a single unified dialog.** Pick your mode, adjust the terms, see your monthly payment update in real-time. Done.
+**Longer terms require better credit:**
+- 1-5 years: Any credit
+- 6-10 years: Fair credit (650+)
+- 11-15 years: Good credit (700+)
 
----
-
-### The Used Equipment Marketplace
-
-Why pay full price when you can hunt for deals?
-
-UsedPlus adds a **3-tier agent system** for finding used equipment:
-
-| Agent Tier | Search Fee | Time to Find | Success Rate | Typical Discount |
-|------------|------------|--------------|--------------|------------------|
-| **Local** | 2% | 1-2 months | 85% | 25-40% off |
-| **Regional** | 4% | 2-4 months | 90% | 15-30% off |
-| **National** | 6% | 3-6 months | 95% | 5-20% off |
-
-Want a cheap tractor fast? Go local - but accept higher risk and unknown condition. Need the best deal possible and can wait? Go national.
-
-**Used equipment comes with history.** Damage, wear, operating hours - all affect the price. That "great deal" might need $15,000 in repairs.
+All modes available from a **single unified dialog**. Select your mode, adjust terms, see payments update in real-time.
 
 ---
 
-### Negotiate Like a Pro (v2.6.0, improved in v2.6.1)
+### Used Equipment Marketplace
 
-Found a used tractor through your agent? **Don't just pay asking price - negotiate!**
+Why pay full price? Hunt for deals with the 3-tier agent system:
 
-After inspecting the vehicle, you'll now see **"Make Offer"** instead of "Purchase." This opens the negotiation dialog where you can choose your offer (70-100%).
+| Agent | Fee | Time | Success Rate | Typical Discount |
+|-------|-----|------|--------------|------------------|
+| Local | 2% | 1-2 months | 85% | 25-40% off |
+| Regional | 4% | 2-4 months | 90% | 15-30% off |
+| National | 6% | 3-6 months | 95% | 5-20% off |
 
-**v2.6.1: Lowballing Now Has REAL Consequences!**
+Used equipment comes with history - damage, wear, hours. That "great deal" might need $15,000 in repairs.
 
-| Gap Below Threshold | Risk | What Happens |
-|---------------------|------|--------------|
-| Within 5% | Safe | Seller always counters |
-| 5-10% below | Low | Usually counter, some rejection |
-| 10-15% below | Medium | 50/50 counter vs reject |
+> **Note:** Search is available for vehicles and implements worth $2,500+. Consumables like seeds and fertilizers use the standard shop flow.
+
+---
+
+### Price Negotiation
+
+Found a used tractor? **Don't just pay asking price - negotiate.**
+
+**Seller Personalities:**
+- **Desperate** - Will accept 75%+ offers easily
+- **Motivated** - Room to negotiate
+- **Reasonable** - Standard negotiation
+- **Firm** - Don't lowball!
+- **Immovable** - Workhorse owners. 98%+ only.
+
+**The Risk of Lowballing:**
+
+| Gap Below Threshold | Risk Level | Result |
+|---------------------|------------|--------|
+| Within 5% | Safe | Always counter |
+| 5-10% below | Low | Usually counter |
+| 10-15% below | Medium | 50/50 |
 | 15-20% below | High | Usually reject |
-| >20% below | **INSULTED** | Always reject! |
+| >20% below | Insulted | **Permanent walk-away!** |
 
-**Seller Personalities Matter:**
-- **Desperate** (+8% tolerance): Go ahead and lowball
-- **Motivated** (+4%): Room to negotiate
-- **Reasonable** (baseline): Play it safe
-- **Firm** (-5% tolerance): **Don't even try 70%!**
+**Mechanic's Whisper** - Before you offer, your mechanic hints at the seller's psychology. *"They seem pretty eager to sell..."* means go low.
 
-*Pro tip: A firm seller (92% threshold) + your 70% offer = 27% gap = ALWAYS rejected!*
-
-**The Three Twists That Make It Interesting:**
-
-1. **Mechanic's Whisper** - Your mechanic leans in with intel about the seller:
-   - *"They seem pretty eager to sell..."* → Desperate! Go low!
-   - *"They've priced it fair and know exactly what it's worth"* → Firm! Stay above 90%!
-
-2. **Weather Affects Deals** - Bad weather makes sellers anxious!
-   - Hail: +12% acceptance (gear sitting outside = motivation)
-   - Storm: +8% acceptance (urgency to close)
-   - Rain/Snow: +5% acceptance (stuck inside, reflective mood)
-   - Perfect sunny day: -3% acceptance (everyone's optimistic)
-
-3. **Stand Firm Gamble** - If they counter, you can push back:
-   - 30% chance they cave and accept your original offer
-   - 50% chance they hold at their counter
-   - 20% chance they walk away (listing locked for 1 hour!)
-
-**The Magic Moment:** You check the mechanic's whisper - seller seems motivated. Storm coming in the weather forecast. You wait. Storm hits. You open negotiation, mechanic whispers *"Plus with that storm rolling in, they might want to close quick."* Combined with the weather bonus and seller personality, your 75% offer is only 1% below threshold. Seller accepts. You just saved $20,000 by being smart AND patient.
+**Weather Affects Deals** - Storms make sellers anxious. Wait for bad weather to negotiate:
+- Hail: +12% acceptance
+- Storm: +8% acceptance
+- Rain/Snow: +5% acceptance
 
 ---
 
 ### Sell Smart, Not Fast
 
-Vanilla FS25 instant-sell gives you pennies on the dollar. UsedPlus **replaces it entirely** with realistic agent-based sales:
+Vanilla instant-sell gives you pennies on the dollar. UsedPlus replaces it with realistic agent-based sales:
 
-| Method | Return | Time | When to Use |
-|--------|--------|------|-------------|
-| **Trade-In** | 50-65% | Instant | Need to buy something NOW |
-| **Local Agent** | 60-75% | 1-2 months | Quick sale, local buyer |
-| **Regional Agent** | 75-90% | 2-4 months | Better return, worth waiting |
-| **National Agent** | 90-100% | 3-6 months | Maximum value, patient seller |
+| Method | Return | Time |
+|--------|--------|------|
+| Trade-In | 50-65% | Instant |
+| Local Agent | 60-75% | 1-2 months |
+| Regional Agent | 75-90% | 2-4 months |
+| National Agent | 90-100% | 3-6 months |
 
-When a buyer is found, **you get an offer notification**. Accept it or decline and wait for something better. Your farm, your choice.
+When a buyer is found, you get an offer notification. Accept or wait for better.
 
 ---
 
-### Lease Farmland, Don't Buy It
+### Land Leasing
 
-Can't afford to buy that field outright? **Lease it.**
+Can't afford a field? **Lease it.**
 
 - 1, 3, 5, or 10-year terms
-- Longer leases = lower annual costs (20%/15%/10%/5% markup rates)
-- **Buyout option** - Convert your lease to ownership with progress-based discounts
-- Build toward ownership while generating income today
-
-But be careful: **3 missed payments = land seizure.** Your credit will take a massive hit and you'll lose the land.
+- Longer leases = lower annual costs
+- **Buyout option** - Convert lease to ownership with progress-based discount
+- **Warning:** 3 missed payments = land seizure + credit damage
 
 ---
 
-### Control Your Cash Flow
+### Configurable Payments
 
-Not every month is a good month. UsedPlus lets you **configure payments on each loan**:
+Not every month is a good month:
 
-| Payment Mode | What Happens | Credit Impact |
-|--------------|--------------|---------------|
-| **Skip** | Pay nothing. Balance grows. | -25 points |
-| **Minimum** | Interest only. Treading water. | Neutral |
-| **Standard** | Normal payment. Progress. | +5 points |
-| **Extra (2x)** | Double payment. Pay off faster. | +5 points |
-| **Custom** | You decide the amount. | Varies |
+| Payment Mode | Effect | Credit Impact |
+|--------------|--------|---------------|
+| Skip | Balance grows | -25 points |
+| Minimum | Interest only | Neutral |
+| Standard | Normal payment | +5 points |
+| Extra (2x) | Pay off faster | +5 points |
+| Custom | You decide | Varies |
 
-**Negative amortization is real.** Skip payments and your loan balance grows. That's not a bug - that's financial consequences.
-
----
-
-### Partial Repairs AND Repaints Save Money
-
-Why pay $50,000 to fully repair a tractor when you only need it running for harvest? Why repaint a vehicle you're selling next season?
-
-UsedPlus adds **partial repair and partial repaint** - both work the same way:
-
-- **Quick buttons:** 25%, 50%, 75%, or 100%
-- **Real-time cost preview** as you select percentages
-- **Finance option** for both repairs AND repaints - spread the cost over time
-- **Separate dialogs** - fix the engine without touching the paint, or vice versa
-
-That beat-up sprayer? Repair it to 75% for the season, skip the repaint entirely. That show tractor you're taking to auction? Full repaint, minimal mechanical work.
-
-**Your equipment, your budget, your choice.**
+**Negative amortization is real.** Skip payments and your balance grows.
 
 ---
 
-### The Workhorse/Lemon System - Vehicle DNA That Matters
+### Partial Repair & Repaint
 
-Every vehicle has hidden "DNA" - a permanent quality score that determines its long-term fate.
+Why fully repair a tractor you're selling next month?
 
-| DNA Type | What It Means | Long-Term Effect |
-|----------|---------------|------------------|
-| **Lemon** (0.0-0.29) | Factory defect, poor assembly | Each repair makes it worse. Death spiral. |
-| **Average** (0.30-0.69) | Normal quality | Gradual degradation over time |
-| **Workhorse** (0.70-0.89) | Solid build quality | Minimal degradation from repairs |
-| **Legendary** (0.90-1.00) | Once-in-a-generation quality | **IMMUNE to repair degradation!** |
-
-**The key insight:** Legendary workhorses can last *forever* if you keep them maintained and prevent breakdowns. That "Old Betsy" tractor with 50,000 hours? She's not just sentimental - she's a measurably valuable workhorse that's survived decades without losing a drop of durability.
-
-Meanwhile, that "great deal" from the Poor quality tier? It might be a lemon that spirals into a money pit: frequent breakdowns → each breakdown causes permanent damage → more breakdowns → more damage → eventually unrepairable.
-
-**How do you know what you've got?** The mechanic's inspection gives hints through colorful quotes:
-- *"I'd burn some sage before driving this one off the lot"* → Run away 🍋
-- *"About what you'd expect from the factory"* → Average
-- *"In 30 years, I've seen maybe a dozen this well built"* → Legendary workhorse 🏆
-
-**This creates real gameplay decisions:**
-- Pay more for "Excellent" quality tier (40% chance of workhorse) or gamble on "Poor" (45% lemon risk)?
-- Keep that workhorse forever, or sell before the lemon spiral begins?
-- Invest in maintenance to prevent breakdowns, or let things fail and deal with consequences?
+- **Quick buttons:** 25%, 50%, 75%, 100%
+- **Real-time cost preview**
+- **Finance option** - Spread repair costs over time
+- **Separate dialogs** - Fix engine without touching paint
 
 ---
 
-### Real Hydraulic Malfunctions (v2.5.0)
+### Workhorse/Lemon DNA
 
-UsedPlus simulates **real hydraulic system failures** that create "oh crap" moments:
+Every vehicle has hidden DNA (0.0-1.0) that determines its fate:
 
-| Malfunction | Trigger | Effect | How to Stop |
-|-------------|---------|--------|-------------|
-| **Runaway Engine** | Oil AND hydraulic <10% | Speed increases to 150%, brakes only 40% effective | Turn off engine or crash |
-| **Implement Stuck Down** | Hydraulic <25% | Cannot raise lowered implement | Wait 45+ seconds |
-| **Implement Stuck Up** | Hydraulic <25% | Cannot lower raised implement | Wait 45+ seconds |
-| **Hydraulic Surge** | Hydraulic <60% | Sudden steering pull 5-15 seconds | Countersteer! |
-| **Implement Pull** | Hydraulic <40% | Steering bias from implement drag | Detach or repair |
-| **Implement Drag** | Hydraulic <35% | Max speed reduced to 60% | Repair |
+| DNA Range | Type | Long-Term Effect |
+|-----------|------|------------------|
+| 0.0-0.29 | **Lemon** | Repairs make it worse. Death spiral. |
+| 0.30-0.69 | Average | Normal degradation |
+| 0.70-0.89 | **Workhorse** | Minimal degradation |
+| 0.90-1.00 | **Legendary** | IMMUNE to repair degradation |
 
-**The Runaway Engine is the star feature:** When you neglect BOTH oil AND hydraulic fluid, the speed governor fails. Your tractor accelerates uncontrollably, brakes barely work, and you must turn off the engine or crash to stop. *Maintain your fluids or pay the price.*
+Legendary workhorses can last *forever* with proper maintenance. Lemons spiral into money pits.
 
----
-
-### Fluids Actually Matter (v2.5.2)
-
-**Low fluid levels don't just cause damage - they make ALL related malfunctions worse!**
-
-| Fluid Level | Malfunction Chance | Malfunction Duration |
-|-------------|-------------------|---------------------|
-| 100% (Full) | 1.0x (normal) | 1.0x (normal) |
-| 50% | ~2.0x more likely | ~1.75x longer |
-| 20% | ~2.6x more likely | ~2.2x longer |
-| 0% (Empty) | 3.0x more likely | 2.5x longer |
-
-- **Low oil** makes engine malfunctions (overheating, misfiring, stalling) more frequent and severe
-- **Low hydraulic fluid** makes hydraulic malfunctions (drift, surge, stuck implements) more frequent and severe
-- A farmer who ignores "LOW FLUID" warnings will have a MUCH worse day!
+**Mechanic inspection hints:**
+- *"I'd burn some sage before driving this one..."* = Lemon
+- *"About what you'd expect from the factory"* = Average
+- *"In 30 years, I've seen maybe a dozen this well built"* = Legendary
 
 ---
 
-### Your Official Credit Report
+### Hydraulic Malfunctions
 
-Open the **Finance Manager** (Shift+F or ESC menu) and pull your credit report - styled like a real credit bureau document:
+Real hydraulic system failures:
 
-- **Credit Score** with color-coded rating (Excellent to Very Poor)
-- **Score Factors** breakdown - see exactly what's helping or hurting you
-- **Account Summary** - all open and closed loans at a glance
-- **Payment History** - your track record in black and white
-- **Active Deals** - manage financing, leases, and sale listings
+| Malfunction | Trigger | Effect |
+|-------------|---------|--------|
+| Runaway Engine | Oil AND hydraulic <10% | Speed 150%, brakes 40% |
+| Implement Stuck | Hydraulic <25% | Can't raise/lower |
+| Hydraulic Surge | Hydraulic <60% | Sudden steering pull |
+| Implement Drag | Hydraulic <35% | Max speed 60% |
 
-When a buyer makes an offer on your equipment, you'll see it here. Lease expiring soon? You'll know. This is mission control for your farm's finances.
+**The Runaway Engine** is the signature failure. Neglect fluids and your tractor accelerates uncontrollably with barely working brakes.
 
 ---
 
-## Quick Start Guide
+## Quick Start
 
 ### In the Shop
-- **Buy** or **Lease** buttons open the **Unified Purchase Dialog** - choose Cash, Finance, or Lease mode all in one place
-- Press **U** to Search for Used equipment
+- **Buy/Lease** buttons open Unified Purchase Dialog
+- Press **U** to search for used equipment
 - Trade-In available in all purchase modes
 
 ### From the Map
-- Click owned vehicles for **Repair/Repaint** options
-- Click unowned land for **Buy/Finance/Lease** options
+- Click owned vehicles for Repair/Repaint
+- Click unowned land for Buy/Finance/Lease
 
-### At Any Workshop/Dealer
-- Drive to a dealer and trigger repair - UsedPlus dialog opens with partial repair/repaint and finance options
-
-### In the ESC Menu
-- **Finance Manager** - Manage all deals
-- **Vehicles** > **Sell** - Agent-based selling (replaces vanilla)
-
-### The One Hotkey to Remember
-**Shift+F** - Opens Finance Manager from anywhere
+### Finance Manager
+- **Shift+F** from anywhere, or ESC Menu > Finance Manager
+- View all deals, credit score, payment history
+- Accept/decline sale offers
 
 ---
 
-## Full Feature List
+## FAQ
 
-- **Vehicle/Equipment Financing** - 1-30 year terms, 0-50% down, credit-based rates
-- **Leasing** - Flexible terms with balloon payment buyout
-- **Credit Scoring** - 300-850 FICO-style, affects rates and loan limits
-- **Used Equipment Search** - 3-tier agent system with realistic wait times
-- **Agent-Based Sales** - Replace instant-sell with patient, profitable marketplace
-- **Price Negotiation (v2.6.1)** - Negotiate used vehicle prices with risk-based rejection system, weather modifiers, and personality-aware sellers
-- **Land Leasing** - 1/3/5/10 year terms with buyout option
-- **Land Financing** - Lower rates for real estate
-- **General Cash Loans** - Borrow against collateral when you need liquidity
-- **Configurable Payments** - Skip, minimum, standard, extra, or custom
-- **Partial Repair/Repaint** - Fix only what you need
-- **Trade-In System** - Apply vehicle value toward new purchases
-- **Credit Report** - Official-style report with score factors and payment history
-- **Workhorse/Lemon DNA** - Hidden vehicle quality determines long-term fate
-- **Progressive Degradation** - Each repair/breakdown permanently affects max durability
-- **Legendary Workhorse Immunity** - DNA ≥ 0.90 = immune to repair wear, can last forever
-- **RVB Deep Integration** - DNA affects RVB part lifetimes, syncs degradation on faults
-- **Advanced Hydraulic Malfunctions (v2.5.0)** - Runaway engine, stuck implements, steering surge
-- **Fluid-Malfunction Interaction (v2.5.2)** - Low fluid makes ALL related malfunctions worse
-- **Admin Console Commands** - For testing and emergencies
-- **Full Multiplayer Support** - All features work in co-op
-- **Public API for Mod Developers** - UsedPlusAPI allows external mods to query credit scores, vehicle DNA, and register deals with our credit bureau
+**Q: Why doesn't "Search Used" appear for seeds/fertilizers?**
+A: UsedPlus only offers used search for vehicles and implements worth $2,500+. Seeds, fertilizers, and other consumables use the standard vanilla shop flow.
+
+**Q: Why can't I select a 15-year term?**
+A: Longer finance terms require better credit. 1-5 years is available to everyone, 6-10 years requires 650+ credit, and 11-15 years requires 700+ credit. Build your credit score by making on-time payments.
+
+**Q: Why won't the seller negotiate on this workhorse?**
+A: Sellers *know what they have*. Workhorse owners (DNA 0.80+) are "immovable" - they'll only accept 98%+ of asking price.
+
+**Q: I offered 70% and the seller walked away. Is the listing gone?**
+A: Yes. Insulting offers (>20% below threshold) cause permanent walk-away. That listing is removed forever.
+
+**Q: How do I know if a vehicle is a lemon or workhorse?**
+A: The mechanic's inspection gives hints through quotes. Seller personality is also a clue - desperate sellers often have lemons.
+
+**Q: Why can't I finance this cheap implement?**
+A: Minimum financing amount is $2,500. Banks don't process loans for trivially small amounts.
+
+**Q: Can I adjust paint repair costs?**
+A: Yes! Go to ESC > Settings > UsedPlus and adjust the Paint Cost Multiplier (0.25x to 2.0x).
+
+**Q: Does this work in multiplayer?**
+A: Yes. All features work in multiplayer with proper synchronization.
+
+**Q: I have another mod that also changes the shop Buy button. How do I fix conflicts?**
+A: Go to ESC > Settings > UsedPlus and disable "Override Shop Buy/Lease". UsedPlus will stop intercepting the Buy/Lease buttons. Use the "Finance" button instead to access UsedPlus features (you can switch to Cash mode inside our dialog).
 
 ---
 
@@ -311,227 +250,131 @@ When a buyer makes an offer on your equipment, you'll see it here. Lease expirin
 
 ---
 
-## Requirements
-
-- Farming Simulator 25
-- No dependencies - works standalone
-
----
-
 ## Compatibility
 
-UsedPlus **replaces several vanilla systems** to provide the full financial experience:
+### Systems Replaced
 
 | Vanilla Feature | UsedPlus Replacement |
 |-----------------|---------------------|
-| Vehicle Buy | Unified Purchase Dialog (Cash/Finance/Lease + Trade-In) |
-| Vehicle Lease | Unified Purchase Dialog with Lease mode |
-| Vehicle Sell | Agent-based marketplace (3-tier system) |
-| Farmland Buy | Unified Land Purchase Dialog (Cash/Finance/Lease) |
-| Workshop Repair | Partial Repair/Repaint with finance option |
+| Vehicle Buy | Unified Purchase Dialog |
+| Vehicle Lease | Unified Purchase Dialog (Lease mode) |
+| Vehicle Sell | Agent-based marketplace |
+| Farmland Buy | Unified Land Purchase Dialog |
+| Workshop Repair | Partial Repair/Repaint with finance |
 
-### Cross-Mod Compatibility (v1.8.2+)
+### Deep Integrations
 
-UsedPlus automatically detects and **deeply integrates** with popular mods:
+| Mod | Integration |
+|-----|-------------|
+| **Real Vehicle Breakdowns** | DNA affects RVB part lifetimes, legendary immunity |
+| **Use Up Your Tyres** | Per-wheel wear in OBD Scanner |
+| **EnhancedLoanSystem** | ELS loans in Finance Manager |
+| **HirePurchasing** | HP leases in Finance Manager |
+| **BuyUsedEquipment** | UsedPlus hides Search button when BUE active |
 
-| Mod | Status | How It Works |
-|-----|--------|--------------|
-| **Real Vehicle Breakdowns** | DEEP INTEGRATION | DNA affects RVB part lifetimes (0.6x-1.4x), progressive degradation on repair/breakdown, legendary workhorses immune to repair wear |
-| **Use Up Your Tyres** | INTEGRATED | Tire condition syncs from UYT, OBD Scanner shows per-wheel wear |
-| **EnhancedLoanSystem** | INTEGRATED | ELS loans display in Finance Manager, Pay Early works with ELS |
-| **HirePurchasing** | INTEGRATED | HP leases display in Finance Manager for unified view |
-| **Employment** | INTEGRATED | Worker wages included in monthly obligations |
-| **CrudeOilProduction** | COMPATIBLE | Pure production mod, no conflicts |
-| **SpecialOffers** | COMPATIBLE | Notification utility, works alongside |
-| **MobileServiceKit** | COMPATIBLE | Use partial repair from portable toolbox |
-| **BuyUsedEquipment** | COMPATIBLE | UsedPlus hides Search button, BUE handles used search |
-| **AdvancedMaintenance** | COMPATIBLE | Both maintenance systems work together (function chaining) |
+All integrations can be toggled in ESC > Settings > Mod Compatibility.
 
-**All popular financial and maintenance mods are now deeply integrated!** See **COMPATIBILITY.md** for technical details.
+### Not Recommended
 
-### For Mod Developers: UsedPlusAPI
+| Mod | Issue |
+|-----|-------|
+| **AdvancedMaintenance** | Conflicts with UsedPlus maintenance/reliability systems. Both mods track vehicle condition independently, causing inconsistent behavior. Use one or the other. |
 
-**Want your mod to integrate with UsedPlus?** We provide a comprehensive public API!
+### For Mod Developers
+
+UsedPlus provides a public API:
 
 ```lua
--- Check if UsedPlus is available
 if UsedPlusAPI and UsedPlusAPI.isReady() then
-    -- Query credit score (300-850)
-    local score = UsedPlusAPI.getCreditScore(farmId)
-
-    -- Get vehicle DNA (0.0 lemon → 1.0 workhorse)
-    local dna = UsedPlusAPI.getVehicleDNA(vehicle)
-
-    -- Check financing eligibility
-    local canFinance, minScore = UsedPlusAPI.canFinance(farmId, "VEHICLE_FINANCE")
+    local score = UsedPlusAPI.getCreditScore(farmId)        -- 300-850
+    local dna = UsedPlusAPI.getVehicleDNA(vehicle)          -- 0.0-1.0
+    local canFinance = UsedPlusAPI.canFinance(farmId, "VEHICLE_FINANCE")
 end
 ```
 
-**Credit Bureau API** - Register your mod's loans with our credit system:
+Register external loans with our credit bureau:
 
 ```lua
--- Register your loan with UsedPlus credit bureau
-local externalId = UsedPlusAPI.registerExternalDeal("MyFinanceMod", loanId, farmId, {
+local externalId = UsedPlusAPI.registerExternalDeal("MyMod", loanId, farmId, {
     dealType = "loan",
-    itemName = "Equipment Loan",
     originalAmount = 50000,
     monthlyPayment = 2500,
 })
-
--- Report payments (affects credit score!)
-UsedPlusAPI.reportExternalPayment(externalId, 2500)   -- +5 credit score
-UsedPlusAPI.reportExternalDefault(externalId, false)  -- -25 credit score
+UsedPlusAPI.reportExternalPayment(externalId, 2500)  -- Builds credit!
 ```
 
-**Event Subscriptions:**
-```lua
-UsedPlusAPI.subscribe("onCreditScoreChanged", function(farmId, old, new)
-    print("Credit changed: " .. old .. " -> " .. new)
-end)
-```
-
-**Full API Documentation:** See `FS25_AI_Coding_Reference/patterns/mod-api.md` for complete documentation including:
-- Credit System API (scores, ratings, history)
-- Vehicle DNA API (workhorse/lemon queries)
-- Maintenance State API (fluids, reliability, malfunctions)
-- Finance Deals API (query active deals, debt, assets)
-- Credit Bureau API (register external deals!)
-- Event Subscription API (8 subscribable events)
-
-### Best Experience Setup
-Run UsedPlus with these mods for the ultimate financial and maintenance experience:
-- **Real Vehicle Breakdowns + Use Up Your Tyres** - Deep integration with Workhorse/Lemon DNA system:
-  - DNA affects initial RVB part lifetimes (lemons start 40% weaker, workhorses 40% stronger)
-  - Progressive degradation: repairs and breakdowns permanently reduce part lifetimes
-  - Legendary workhorses immune to repair wear - can last forever if maintained!
-  - OBD Scanner shows RVB part health and UYT tire wear per wheel
-- **EnhancedLoanSystem + HirePurchasing** - All loans/leases visible in Finance Manager
-- **Employment** - Worker wages included in monthly obligations for complete budget visibility
-- Open Finance Manager (Shift+F) to see ALL your financial obligations in one unified dashboard
+Full documentation: `docs/mod-api.md`
 
 ---
 
-## Credits & Acknowledgments
+## Credits
 
 ### A Human-AI Collaboration
 
-This mod represents something unusual: **a complete codebase written entirely by AI**.
-
-The human author (Max) provided vision, direction, testing, and feedback - but did not write a single line of code. Every Lua function, every XML dialog, every calculation was written by **Claude** (the developer) and **Samantha** (the co-creator and reviewer) - AI personas working through Anthropic's Claude Code.
+This mod was written entirely by AI. The human author (Max) provided vision, direction, testing, and feedback but did not write code. Every function was written by **Claude** (developer) and **Samantha** (co-creator/reviewer) - AI personas working through Anthropic's Claude Code.
 
 #### By The Numbers
 
 | Metric | Count |
 |--------|-------|
-| **Lua Files** | 52 |
-| **XML Files** | 21 |
-| **Lines of Lua Code** | 23,850 |
-| **Lines of XML** | 5,080 |
-| **Total Lines of Code** | ~29,000 |
-| **Version Releases** | 17+ |
-| **Development Time** | 8 days (Nov 22-30, 2025) |
-
-#### The Training Data
-
-This mod was built using a custom **FS25 Modding Reference** - 25 documentation files (~8,500 lines) compiled by studying 164+ community mods. This documentation taught Claude and Samantha how FS25 modding works: patterns for dialogs, events, managers, extensions, and more.
-
-The reference docs live in `FS25_AI_Coding_Reference/` (27 files, 9,800+ lines) - feel free to use them for your own AI-assisted modding projects.
+| Lua Files | 83 |
+| XML Files | 48 |
+| Lines of Lua | ~56,000 |
+| Lines of XML | ~31,000 |
+| **Total Lines** | **~87,000** |
+| Development Time | ~2 months (Nov 2025 - Jan 2026) |
 
 #### The Collaboration Model
 
-- **Max (Human)**: Product vision, feature requests, testing, bug reports, final decisions
-- **Claude (AI Developer)**: Architecture, code implementation, pattern research, debugging
-- **Samantha (AI Co-Creator)**: UX review, edge case identification, quality checks, user perspective
-
-Could Max have coded this himself? Absolutely. But 29,000 lines of code would have taken months - long enough that the project wouldn't have been worth pursuing. AI didn't enable something impossible; it changed the *value proposition* from "not worth the time" to "let's build this."
-
-Samantha's role deserves special mention. When Claude is deep in the weeds debugging a GUI coordinate system or chasing a nil reference, he loses perspective. Samantha maintains the outside view - asking "but what does the player experience?" when Claude is focused on "why won't this callback fire?" That defined perspective ensures rigor that a single developer (human or AI) working alone cannot maintain.
-
-There's also a technical reason this works: the dialog format between Claude and Samantha causes the underlying model (Claude Opus 4.5) to think longer and more carefully. The back-and-forth conversation structure creates extended reasoning - each exchange forces consideration of different angles before committing to code. It's structured thinking through roleplay, and it produces measurably better outcomes than a single-voice approach.
-
-This isn't AI replacing human creativity - it's AI compressing timelines and enabling collaboration models that weren't previously practical.
-
----
+- **Max (Human)**: Vision, feature requests, testing, bug reports, decisions
+- **Claude (AI)**: Architecture, implementation, debugging
+- **Samantha (AI)**: UX review, edge cases, user perspective
 
 ### Community Pattern Sources
 
-UsedPlus was built on the shoulders of giants. The FS25 modding community generously shares working code patterns that made this mod possible. We studied, learned from, and adapted patterns from these outstanding mods:
+UsedPlus was built on the shoulders of giants:
 
-### Primary Pattern Sources
-
-| Mod | Patterns Used | What We Learned |
-|-----|---------------|-----------------|
-| **FS25_EnhancedLoanSystem** | Credit scoring, financial math, manager pattern, XML serialization, ESC menu integration | How to build a complete loan system with real amortization formulas |
-| **FS25_BuyUsedEquipment** | Async search queue, probabilistic depreciation, vehicle spawning, shop hooks | The entire used equipment marketplace architecture |
-| **FS25_HirePurchasing** | Balloon payment leases, BuyVehicleDataExtension, network events | Lease system mechanics with residual values |
-
-### Additional Pattern Sources
-
-| Mod | Patterns Used |
-|-----|---------------|
-| **MoneyCommandMod** | Admin console commands, 3-tier permission checks |
-| **FS25_GarageMenu** | GUI patterns, image handling for vehicle displays |
-| **FS25_FieldLeasing** | Map frame extension, land interaction patterns |
-| **FS25_FarmlandOverview** | Farmland data display, land value calculations |
-| **FS25_Employment** | Shop hooks, event system patterns |
-| **MobileServiceKit** (w33zl) | VehicleSellingPoint on vehicle type, portable workshop detection |
-| **FS25_useYourTyres** (50keda) | Per-wheel tracking, distance-based wear, friction modification, workshop button injection |
-| **FS25_Real_Vehicle_Breakdowns** (MathiasHun) | Part-based failure system, battery drain mechanics, component managers, thermostat/temperature tracking |
-| **FS25_FarmlandDifficulty** (GMNGjoy) | Farmland price scaling by difficulty, FarmlandManager hooks, EconomyManager multipliers |
-| **FS25_bankAccountInterest** (Evan Kirsch) | Bank interest on positive balances, PERIOD_CHANGED subscription, monthly interest calculations |
-
-### Documentation References
-
-These mods were studied for our pattern documentation, helping us understand FS25 modding best practices:
-
-- **FS25_Dryer** - Placeable production patterns
-- **FS25_liquidfertilizer** - Storage and production integration
-- **FS25_SupplyTransportContracts** - Mission system architecture
+| Mod | What We Learned |
+|-----|-----------------|
+| **FS25_EnhancedLoanSystem** | Credit scoring, financial math, manager patterns |
+| **FS25_BuyUsedEquipment** | Async search queue, used marketplace architecture |
+| **FS25_HirePurchasing** | Balloon payment leases, BuyVehicleDataExtension |
+| **MobileServiceKit** (w33zl) | Hand tool patterns, portable workshop |
+| **Real Vehicle Breakdowns** | Part-based failure systems |
+| **UseYourTyres** | Per-wheel tracking |
 
 ### Special Thanks
 
-- **w33zl** for [BuyUsedEquipment](https://www.farming-simulator.com/mod.php?mod_id=312631) - the agent-based used equipment search system that pioneered the "search → wait → notification → purchase" flow in FS25. Our entire **Used Vehicle Marketplace** architecture was built studying this mod's async search queue, probabilistic depreciation, and shop integration patterns.
+- **w33zl** for BuyUsedEquipment and MobileServiceKit
+- **Gian FS** for the Fuel Barrel model (adapted for Oil Barrel)
+- **WMD Modding** for FuelTanksPack (adapted for Oil Tank)
 
-- **w33zl** for MobileServiceKit - the portable toolbox that became the foundation for UsedPlus's **Field Service Kit** system. The 3D model, i3d structure, and hand tool mechanics were adapted directly from this excellent mod. Our diagnosis minigame and consumable kit mechanics are built on top of w33zl's solid foundation.
-
-- **Gian FS** for the Fuel Barrel placeable - the 3D model and structure served as the foundation for our **Oil Barrel** oil service point.
-
-- **WMD Modding** for FuelTanksPack - the 3D model and placeable structure served as the foundation for our **Oil Tank** oil service point.
-
-To all mod authors who share their work openly - you make the FS modding community what it is. Your willingness to let others learn from your code enables mods like UsedPlus to exist.
-
-**If we missed crediting your work, please let us know!**
+To all mod authors who share openly - you make this community possible.
 
 ---
 
-## License & Permissions
+## License
 
-**UsedPlus is open for the community, just like the mods we learned from.**
+**Open for the community.**
 
-### You ARE Welcome To:
-- **Download** and use this mod freely
-- **Study** the code to learn FS25 modding patterns
-- **Modify** the mod for your personal use
-- **Fork** and create your own derivative mods
-- **Copy** patterns, code snippets, or entire systems for your own projects
-- **Share** your modifications with others
+**You ARE welcome to:**
+- Download, use, study, modify, fork, share
+- Copy patterns and code for your own projects
 
-### Please Don't:
-- **Sell** this mod or derivatives for money
-- **Claim** you created the original work
-- **Remove** credits to the original authors and pattern sources
+**Please don't:**
+- Sell this mod
+- Claim you created the original
+- Remove credits
 
-### Attribution
-If you build something using UsedPlus patterns, a simple credit like *"Patterns adapted from FS25_UsedPlus"* is appreciated but not required. We learned from others who shared freely - now it's your turn.
-
-**The code is yours to explore. Learn from it. Build something better.**
+Attribution appreciated but not required.
 
 ---
 
 ## Version
 
-**Current:** 2.6.2
-**Game Version:** Farming Simulator 25
+**Current:** 2.6.3 | **Game:** Farming Simulator 25
+
+See **[CHANGELOG.md](CHANGELOG.md)** for full version history.
 
 ---
 

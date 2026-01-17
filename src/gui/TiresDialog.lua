@@ -432,6 +432,12 @@ function TiresDialog:onConfirm()
     if self.vehicle and self.vehicle.spec_usedPlusMaintenance then
         UsedPlusMaintenance.setTireQuality(self.vehicle, self.selectedQuality)
 
+        -- v2.7.0: Tire replacement also fixes flat tires
+        if self.hasFlatTire then
+            UsedPlusMaintenance.repairFlatTire(self.vehicle)
+            UsedPlus.logInfo(string.format("Flat tire repaired on %s", self.vehicleName))
+        end
+
         -- Log the transaction
         UsedPlus.logInfo(string.format("Tires replaced on %s: %s for %s",
             self.vehicleName, self:getQualityName(self.selectedQuality), g_i18n:formatMoney(cost, 0, true, true)))

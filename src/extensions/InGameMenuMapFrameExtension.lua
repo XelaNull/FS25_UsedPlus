@@ -322,6 +322,17 @@ end
 ]]
 function InGameMenuMapFrameExtension.onBuyFarmland(inGameMenuMapFrame, element)
     UsedPlus.logDebug("onBuyFarmland called - intercepted Buy action")
+
+    -- v2.7.0: Check if override is enabled - if not, use vanilla callback
+    local overrideEnabled = not UsedPlusSettings or UsedPlusSettings:get("overrideShopBuyLease") ~= false
+    if not overrideEnabled then
+        UsedPlus.logDebug("onBuyFarmland: Override disabled, using vanilla callback")
+        if InGameMenuMapFrameExtension.originalBuyCallback then
+            return InGameMenuMapFrameExtension.originalBuyCallback(inGameMenuMapFrame, element)
+        end
+        return true
+    end
+
     if inGameMenuMapFrame.selectedFarmland == nil then
         UsedPlus.logWarn("onBuyFarmland: No farmland selected")
         return true

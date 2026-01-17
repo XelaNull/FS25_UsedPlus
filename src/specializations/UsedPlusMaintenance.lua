@@ -38,8 +38,39 @@ UsedPlusMaintenance.CONFIG = {
     -- Balance tuning
     failureRateMultiplier = 1.0,      -- Global failure frequency
     speedDegradationMax = 0.5,        -- Max 50% speed reduction
-    inspectionCostBase = 200,         -- Base inspection cost
-    inspectionCostPercent = 0.01,     -- + 1% of vehicle price
+
+    -- v2.7.0: Tiered Inspection System (replaces instant inspection)
+    -- Inspections now take time and cost more, but reveal more information
+    inspectionTiers = {
+        {  -- Tier 1: Quick Glance
+            name = "Quick Glance",
+            baseCost = 1000,          -- $1,000 base fee
+            percentCost = 0.02,       -- + 2% of vehicle price
+            maxCost = 2500,           -- Cap at $2,500
+            durationHours = 2,        -- 2 game hours
+            revealLevel = 1           -- Overall rating only
+        },
+        {  -- Tier 2: Standard Inspection
+            name = "Standard",
+            baseCost = 2000,          -- $2,000 base fee
+            percentCost = 0.03,       -- + 3% of vehicle price
+            maxCost = 5000,           -- Cap at $5,000
+            durationHours = 6,        -- 6 game hours
+            revealLevel = 2           -- Full reliability + RVB/tire
+        },
+        {  -- Tier 3: Comprehensive Inspection
+            name = "Comprehensive",
+            baseCost = 4000,          -- $4,000 base fee
+            percentCost = 0.05,       -- + 5% of vehicle price
+            maxCost = 10000,          -- Cap at $10,000
+            durationHours = 12,       -- 12 game hours
+            revealLevel = 3           -- Full + DNA hint + repair estimate
+        }
+    },
+
+    -- Legacy inspection cost (kept for backwards compatibility)
+    inspectionCostBase = 200,         -- Base inspection cost (DEPRECATED - use inspectionTiers)
+    inspectionCostPercent = 0.01,     -- + 1% of vehicle price (DEPRECATED - use inspectionTiers)
 
     -- Thresholds
     damageThresholdForFailures = 0.2, -- Failures start at 20% damage
@@ -218,6 +249,11 @@ UsedPlusMaintenance.CONFIG = {
     -- Seizure repair settings
     seizureRepairCostMult = 0.05,             -- 5% of vehicle price per seized component
     seizureRepairMinReliability = 0.30,       -- OBD Scanner repair restores to at least 30%
+
+    -- v2.7.0: Workshop additional repair costs
+    -- When workshop repair includes fixing fuel leaks or flat tires, charge extra
+    workshopFuelLeakRepairCostMult = 0.02,    -- 2% of vehicle price to repair fuel leak
+    workshopFlatTireRepairCostMult = 0.01,    -- 1% of vehicle price to repair flat tire (per tire)
 
     -- v1.7.0: Tire System Settings
     enableTireWear = true,
@@ -409,6 +445,55 @@ UsedPlusMaintenance.QUALITY_DNA_RANGES = {
     [4] = { min = 0.30, max = 0.95, avg = 0.60 },  -- Good: Quality bias (~5% lemon, ~20% workhorse)
     [5] = { min = 0.50, max = 1.00, avg = 0.75 },  -- Excellent: Workhorse bias (~0% lemon, ~40% workhorse)
 }
+
+--[[
+    v2.7.0: Calculate inspection cost for a specific tier
+    @param tierIndex - 1 = Quick Glance, 2 = Standard, 3 = Comprehensive
+    @param vehiclePrice - The vehicle's listing price
+    @return cost, tierConfig - Cost in dollars and the tier configuration
+]]
+function UsedPlusMaintenance.calculateInspectionCostForTier(tierIndex, vehiclePrice)
+    local tier = UsedPlusMaintenance.CONFIG.inspectionTiers[tierIndex]
+    if tier == nil then
+        tier = UsedPlusMaintenance.CONFIG.inspectionTiers[2]  -- Default to Standard
+    end
+
+    local baseCost = tier.baseCost or 2000
+    local percentCost = (vehiclePrice or 0) * (tier.percentCost or 0.03)
+    local totalCost = baseCost + percentCost
+    local cappedCost = math.min(totalCost, tier.maxCost or 5000)
+
+    return math.floor(cappedCost), tier
+end
+
+--[[
+    v2.7.0: Get inspection tier configuration by index
+    @param tierIndex - 1, 2, or 3
+    @return tier configuration table
+]]
+function UsedPlusMaintenance.getInspectionTier(tierIndex)
+    return UsedPlusMaintenance.CONFIG.inspectionTiers[tierIndex]
+end
+
+--[[
+    v2.7.0: Get all inspection tier names and costs for display
+    @param vehiclePrice - The vehicle's listing price
+    @return array of {name, cost, hours, revealLevel} tables
+]]
+function UsedPlusMaintenance.getInspectionTierOptions(vehiclePrice)
+    local options = {}
+    for i, tier in ipairs(UsedPlusMaintenance.CONFIG.inspectionTiers) do
+        local cost = UsedPlusMaintenance.calculateInspectionCostForTier(i, vehiclePrice)
+        table.insert(options, {
+            index = i,
+            name = tier.name,
+            cost = cost,
+            durationHours = tier.durationHours,
+            revealLevel = tier.revealLevel
+        })
+    end
+    return options
+end
 
 --[[
     Get inspector quote based on workhorse/lemon scale
@@ -2932,6 +3017,9 @@ function UsedPlusMaintenance.updateEngineTemperature(vehicle)
                 spec.overheatCooldownEndTime = currentTime + config.overheatCooldownMs
                 spec.failureCount = (spec.failureCount or 0) + 1  -- v1.6.0: Count as breakdown
 
+                -- v2.7.0: Apply DNA-based breakdown degradation (lemons degrade faster)
+                UsedPlusMaintenance.applyBreakdownDegradation(vehicle, "Engine")
+
                 if UsedPlusMaintenance.shouldShowWarning(vehicle) then
                     g_currentMission:showBlinkingWarning(
                         g_i18n:getText("usedPlus_engineOverheated") or "ENGINE OVERHEATED! Let it cool down!",
@@ -3100,6 +3188,9 @@ function UsedPlusMaintenance.checkImplementDrop(vehicle, implement, hydraulicRel
             implement:setLoweredAll(true)
             spec.failureCount = (spec.failureCount or 0) + 1  -- v1.6.0: Count as breakdown
 
+            -- v2.7.0: Apply DNA-based breakdown degradation (lemons degrade faster)
+            UsedPlusMaintenance.applyBreakdownDegradation(vehicle, "Hydraulic")
+
             -- v1.7.0: Hydraulic failure while fluid is low = permanent damage
             UsedPlusMaintenance.applyHydraulicDamageOnFailure(vehicle)
 
@@ -3191,6 +3282,9 @@ function UsedPlusMaintenance.checkHitchFailure(vehicle, implementInfo, hydraulic
         if vehicle.detachImplementByObject then
             vehicle:detachImplementByObject(implement)
             spec.failureCount = (spec.failureCount or 0) + 1  -- v1.6.0: Count as major breakdown
+
+            -- v2.7.0: Apply DNA-based breakdown degradation (lemons degrade faster)
+            UsedPlusMaintenance.applyBreakdownDegradation(vehicle, "Hydraulic")
 
             -- v1.7.0: Hitch failure while fluid is low = permanent damage
             UsedPlusMaintenance.applyHydraulicDamageOnFailure(vehicle)

@@ -561,13 +561,20 @@ function UsedVehicleSearch:cleanupExpiredListings()
     -- Iterate backwards for safe removal
     for i = #self.foundListings, 1, -1 do
         local listing = self.foundListings[i]
-        local listingAge = self.monthsElapsed - (listing.foundMonth or 0)
-        local maxAge = listing.expirationMonths or 3  -- Default to 3 if not set
 
-        if listingAge >= maxAge then
-            table.insert(expiredNames, listing.id or "unknown")
-            table.remove(self.foundListings, i)
-            expiredCount = expiredCount + 1
+        -- v2.7.0: Skip listings that are on hold (inspection in progress)
+        if listing.listingOnHold then
+            UsedPlus.logDebug(string.format("Search %s: Listing %s on hold (inspection in progress), skipping expiration",
+                self.id, listing.id or "unknown"))
+        else
+            local listingAge = self.monthsElapsed - (listing.foundMonth or 0)
+            local maxAge = listing.expirationMonths or 3  -- Default to 3 if not set
+
+            if listingAge >= maxAge then
+                table.insert(expiredNames, listing.id or "unknown")
+                table.remove(self.foundListings, i)
+                expiredCount = expiredCount + 1
+            end
         end
     end
 
@@ -755,7 +762,17 @@ function UsedVehicleSearch:generateFoundVehicleDetails()
         daysOnMarket = 0,                        -- Incremented each day listing exists
         whisperType = nil,                       -- Generated on first inspection
         negotiationLocked = false,               -- True if seller walked away
-        negotiationLockExpires = 0               -- Game time when lock expires
+        negotiationLockExpires = 0,              -- Game time when lock expires
+
+        -- v2.7.0: Delayed inspection system
+        -- Inspection states: nil (not requested), "pending", "complete"
+        inspectionState = nil,                   -- nil, "pending", or "complete"
+        inspectionTier = nil,                    -- 1=Quick, 2=Standard, 3=Comprehensive
+        inspectionRequestedAtHour = nil,         -- Total game hours when inspection was requested
+        inspectionCompletesAtHour = nil,         -- Total game hours when inspection will be ready
+        inspectionFarmId = nil,                  -- Which farm paid for the inspection
+        inspectionCostPaid = nil,                -- Fee paid (for tracking)
+        listingOnHold = false                    -- Prevents expiration during inspection
     }
 
     -- Generate whisper type based on listing characteristics
@@ -1113,6 +1130,27 @@ function UsedVehicleSearch:saveListingToXML(xmlFile, key, listing)
     xmlFile:setString(key .. "#whisperType", listing.whisperType or "standard")
     xmlFile:setBool(key .. "#negotiationLocked", listing.negotiationLocked or false)
     xmlFile:setInt(key .. "#negotiationLockExpires", listing.negotiationLockExpires or 0)
+
+    -- v2.7.0: Save delayed inspection data
+    if listing.inspectionState then
+        xmlFile:setString(key .. "#inspectionState", listing.inspectionState)
+    end
+    if listing.inspectionTier then
+        xmlFile:setInt(key .. "#inspectionTier", listing.inspectionTier)
+    end
+    if listing.inspectionRequestedAtHour then
+        xmlFile:setInt(key .. "#inspectionRequestedAtHour", listing.inspectionRequestedAtHour)
+    end
+    if listing.inspectionCompletesAtHour then
+        xmlFile:setInt(key .. "#inspectionCompletesAtHour", listing.inspectionCompletesAtHour)
+    end
+    if listing.inspectionFarmId then
+        xmlFile:setInt(key .. "#inspectionFarmId", listing.inspectionFarmId)
+    end
+    if listing.inspectionCostPaid then
+        xmlFile:setFloat(key .. "#inspectionCostPaid", listing.inspectionCostPaid)
+    end
+    xmlFile:setBool(key .. "#listingOnHold", listing.listingOnHold or false)
 end
 
 --[[
@@ -1289,6 +1327,30 @@ function UsedVehicleSearch:loadListingFromXML(xmlFile, key)
     if listing.whisperType == nil or listing.whisperType == "" then
         listing.whisperType = UsedVehicleSearch.generateWhisperType(listing)
     end
+
+    -- v2.7.0: Load delayed inspection data
+    listing.inspectionState = xmlFile:getString(key .. "#inspectionState", nil)
+    local savedTier = xmlFile:getInt(key .. "#inspectionTier", nil)
+    if savedTier then
+        listing.inspectionTier = savedTier
+    end
+    local savedRequestHour = xmlFile:getInt(key .. "#inspectionRequestedAtHour", nil)
+    if savedRequestHour then
+        listing.inspectionRequestedAtHour = savedRequestHour
+    end
+    local savedCompleteHour = xmlFile:getInt(key .. "#inspectionCompletesAtHour", nil)
+    if savedCompleteHour then
+        listing.inspectionCompletesAtHour = savedCompleteHour
+    end
+    local savedFarmId = xmlFile:getInt(key .. "#inspectionFarmId", nil)
+    if savedFarmId then
+        listing.inspectionFarmId = savedFarmId
+    end
+    local savedCostPaid = xmlFile:getFloat(key .. "#inspectionCostPaid", nil)
+    if savedCostPaid then
+        listing.inspectionCostPaid = savedCostPaid
+    end
+    listing.listingOnHold = xmlFile:getBool(key .. "#listingOnHold", false)
 
     return listing
 end

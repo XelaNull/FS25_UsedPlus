@@ -253,6 +253,31 @@ function RepairVehicleEvent.execute(vehicleId, farmId, repairPercent, repaintPer
         end
     end
 
+    -- v2.7.0: Workshop repair fixes fuel leaks (engine-related issue)
+    if repairPercent > 0 and UsedPlusMaintenance and UsedPlusMaintenance.repairFuelLeak then
+        local spec = vehicle.spec_usedPlusMaintenance
+        if spec and spec.hasFuelLeak then
+            UsedPlusMaintenance.repairFuelLeak(vehicle)
+            UsedPlus.logDebug("Workshop repair: Fuel leak fixed")
+        end
+    end
+
+    -- v2.7.0: Workshop repair also fixes flat tires
+    if repairPercent > 0 and UsedPlusMaintenance and UsedPlusMaintenance.repairFlatTire then
+        local spec = vehicle.spec_usedPlusMaintenance
+        if spec and spec.hasFlatTire then
+            UsedPlusMaintenance.repairFlatTire(vehicle)
+            UsedPlus.logDebug("Workshop repair: Flat tire fixed")
+        end
+    end
+
+    -- v2.7.0: Update vehicle reliability via UsedPlusMaintenance
+    -- This applies repair degradation (lemons degrade faster) and repair bonuses
+    if repairPercent > 0 and UsedPlusMaintenance and UsedPlusMaintenance.onVehicleRepaired then
+        UsedPlusMaintenance.onVehicleRepaired(vehicle, totalCost)
+        UsedPlus.logDebug("Notified UsedPlusMaintenance of repair completion")
+    end
+
     UsedPlus.logDebug(string.format("Repair completed: %s, repairs applied: %s, cost: $%d, financed: %s",
         vehicleName, tostring(repairsApplied), totalCost, tostring(isFinanced)))
 

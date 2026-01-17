@@ -25,8 +25,59 @@
             <!-- Title -->
             <Text profile="fskTitle" id="dialogTitle" position="0px -25px" text="$l10n_usedplus_fsk_title"/>
 
+            <!-- ========== STEP 0: MODE SELECTION (v2.7.0) ========== -->
+            <GuiElement profile="fskStepContainer" id="modeSelectContainer" position="0px -55px">
+
+                <!-- Header -->
+                <GuiElement profile="fskModeHeaderSection" position="0px 0px">
+                    <Bitmap profile="fskModeHeaderBg" position="0px 0px"/>
+                    <Text profile="fskSectionHeader" position="0px -8px" text="FIELD SERVICE KIT"/>
+                    <Text profile="fskModeSubtitle" position="0px -28px" text="Select service mode"/>
+                </GuiElement>
+
+                <!-- Mode Buttons (2x2 grid) -->
+                <!-- Diagnose Component (top-left) -->
+                <GuiElement profile="fskModeBox" position="-165px -70px">
+                    <Bitmap profile="fskModeBoxBg" id="modeDiagnoseBg" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeDiagnoseButton" text="" onClick="onModeDiagnoseClick" position="0px 0px"/>
+                    <Text profile="fskModeIcon" position="0px -15px" text="🔧"/>
+                    <Text profile="fskModeLabel" position="0px -48px" text="Diagnose Component"/>
+                    <Text profile="fskModeDesc" position="0px -68px" text="Skill-based repair minigame"/>
+                </GuiElement>
+
+                <!-- Locate Malfunctions (top-right) -->
+                <GuiElement profile="fskModeBox" position="165px -70px">
+                    <Bitmap profile="fskModeBoxBgWarning" id="modeMalfunctionsBg" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeMalfunctionsButton" text="" onClick="onModeMalfunctionsClick" position="0px 0px"/>
+                    <Text profile="fskModeIcon" position="0px -15px" text="⚠"/>
+                    <Text profile="fskModeLabel" position="0px -48px" text="Locate Malfunctions"/>
+                    <Text profile="fskModeDesc" position="0px -68px" text="View active issues"/>
+                </GuiElement>
+
+                <!-- Tire Service (bottom-left) -->
+                <GuiElement profile="fskModeBox" position="-165px -175px">
+                    <Bitmap profile="fskModeBoxBg" id="modeTireServiceBg" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeTireServiceButton" text="" onClick="onModeTireServiceClick" position="0px 0px"/>
+                    <Text profile="fskModeIcon" position="0px -15px" text="🛞"/>
+                    <Text profile="fskModeLabel" position="0px -48px" text="Tire Service"/>
+                    <Text profile="fskModeDesc" position="0px -68px" text="Repair flat tire"/>
+                </GuiElement>
+
+                <!-- RVB System Analysis (bottom-right) - hidden if RVB not installed -->
+                <GuiElement profile="fskModeBox" id="modeRVBBox" position="165px -175px">
+                    <Bitmap profile="fskModeBoxBgTech" id="modeRVBBg" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeRVBButton" text="" onClick="onModeRVBClick" position="0px 0px"/>
+                    <Text profile="fskModeIcon" position="0px -15px" text="📊"/>
+                    <Text profile="fskModeLabel" position="0px -48px" text="RVB System Analysis"/>
+                    <Text profile="fskModeDesc" position="0px -68px" text="View RVB component life"/>
+                </GuiElement>
+
+                <!-- Info text -->
+                <Text profile="fskModeInfoText" position="0px -290px" text="Use the Field Service Kit for emergency field repairs"/>
+            </GuiElement>
+
             <!-- ========== STEP 1: SYSTEM SELECTION ========== -->
-            <GuiElement profile="fskStepContainer" id="systemSelectContainer" position="0px -55px">
+            <GuiElement profile="fskStepContainer" id="systemSelectContainer" position="0px -55px" visible="false">
 
                 <!-- SECTION: Vehicle Info -->
                 <GuiElement profile="fskVehicleSection" position="0px 0px">
@@ -231,11 +282,106 @@
                 <Text profile="fskTireOptionResult" position="160px -140px" text="$l10n_usedplus_fsk_tire_plug_result"/>
             </GuiElement>
 
+            <!-- ========== STEP 5: MALFUNCTIONS LIST (v2.7.0) ========== -->
+            <GuiElement profile="fskStepContainer" id="malfunctionsContainer" position="0px -55px" visible="false">
+
+                <!-- Header -->
+                <GuiElement profile="fskMalfHeaderSection" position="0px 0px">
+                    <Bitmap profile="fskMalfHeaderBg" position="0px 0px"/>
+                    <Text profile="fskSectionHeader" position="0px -8px" text="ACTIVE MALFUNCTIONS"/>
+                    <Text profile="fskMalfCount" id="malfCountText" position="0px -32px" text=""/>
+                </GuiElement>
+
+                <!-- Malfunction list (up to 4 items) -->
+                <GuiElement profile="fskMalfRow" id="malf1Row" position="0px -70px">
+                    <Bitmap profile="fskMalfRowBg" position="0px 0px"/>
+                    <Text profile="fskMalfName" id="malf1NameText" position="-180px -10px" text=""/>
+                    <Text profile="fskMalfIssue" id="malf1IssueText" position="150px -10px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskMalfRow" id="malf2Row" position="0px -115px">
+                    <Bitmap profile="fskMalfRowBg" position="0px 0px"/>
+                    <Text profile="fskMalfName" id="malf2NameText" position="-180px -10px" text=""/>
+                    <Text profile="fskMalfIssue" id="malf2IssueText" position="150px -10px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskMalfRow" id="malf3Row" position="0px -160px">
+                    <Bitmap profile="fskMalfRowBg" position="0px 0px"/>
+                    <Text profile="fskMalfName" id="malf3NameText" position="-180px -10px" text=""/>
+                    <Text profile="fskMalfIssue" id="malf3IssueText" position="150px -10px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskMalfRow" id="malf4Row" position="0px -205px">
+                    <Bitmap profile="fskMalfRowBg" position="0px 0px"/>
+                    <Text profile="fskMalfName" id="malf4NameText" position="-180px -10px" text=""/>
+                    <Text profile="fskMalfIssue" id="malf4IssueText" position="150px -10px" text=""/>
+                </GuiElement>
+
+                <!-- Info text -->
+                <Text profile="fskMalfInfo" position="0px -270px" text="Visit workshop for full repairs"/>
+            </GuiElement>
+
+            <!-- ========== STEP 6: RVB ANALYSIS (v2.7.0) ========== -->
+            <GuiElement profile="fskStepContainer" id="rvbAnalysisContainer" position="0px -55px" visible="false">
+
+                <!-- Header -->
+                <GuiElement profile="fskRVBHeaderSection" position="0px 0px">
+                    <Bitmap profile="fskRVBAnalysisBg" position="0px 0px"/>
+                    <Text profile="fskSectionHeader" position="0px -8px" text="RVB SYSTEM ANALYSIS"/>
+                    <Text profile="fskRVBSummary" id="rvbSummaryText" position="0px -32px" text=""/>
+                </GuiElement>
+
+                <!-- No data message -->
+                <Text profile="fskRVBNoData" id="rvbNoDataText" position="0px -80px" text="" visible="false"/>
+
+                <!-- RVB Parts list (up to 6 items) -->
+                <GuiElement profile="fskRVBPartRow" id="rvbPart1Row" position="0px -70px">
+                    <Bitmap profile="fskRVBPartBg" position="0px 0px"/>
+                    <Text profile="fskRVBPartName" id="rvbPart1NameText" position="-180px -8px" text=""/>
+                    <Text profile="fskRVBPartLife" id="rvbPart1LifeText" position="150px -8px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskRVBPartRow" id="rvbPart2Row" position="0px -105px">
+                    <Bitmap profile="fskRVBPartBg" position="0px 0px"/>
+                    <Text profile="fskRVBPartName" id="rvbPart2NameText" position="-180px -8px" text=""/>
+                    <Text profile="fskRVBPartLife" id="rvbPart2LifeText" position="150px -8px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskRVBPartRow" id="rvbPart3Row" position="0px -140px">
+                    <Bitmap profile="fskRVBPartBg" position="0px 0px"/>
+                    <Text profile="fskRVBPartName" id="rvbPart3NameText" position="-180px -8px" text=""/>
+                    <Text profile="fskRVBPartLife" id="rvbPart3LifeText" position="150px -8px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskRVBPartRow" id="rvbPart4Row" position="0px -175px">
+                    <Bitmap profile="fskRVBPartBg" position="0px 0px"/>
+                    <Text profile="fskRVBPartName" id="rvbPart4NameText" position="-180px -8px" text=""/>
+                    <Text profile="fskRVBPartLife" id="rvbPart4LifeText" position="150px -8px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskRVBPartRow" id="rvbPart5Row" position="0px -210px">
+                    <Bitmap profile="fskRVBPartBg" position="0px 0px"/>
+                    <Text profile="fskRVBPartName" id="rvbPart5NameText" position="-180px -8px" text=""/>
+                    <Text profile="fskRVBPartLife" id="rvbPart5LifeText" position="150px -8px" text=""/>
+                </GuiElement>
+
+                <GuiElement profile="fskRVBPartRow" id="rvbPart6Row" position="0px -245px">
+                    <Bitmap profile="fskRVBPartBg" position="0px 0px"/>
+                    <Text profile="fskRVBPartName" id="rvbPart6NameText" position="-180px -8px" text=""/>
+                    <Text profile="fskRVBPartLife" id="rvbPart6LifeText" position="150px -8px" text=""/>
+                </GuiElement>
+
+                <!-- Info text -->
+                <Text profile="fskRVBInfo" position="0px -290px" text="RVB parts degrade with operating hours"/>
+            </GuiElement>
+
         </GuiElement>
 
         <!-- Button Box -->
         <BoxLayout profile="fs25_dialogButtonBox">
             <Button profile="buttonOK" id="okButton" text="$l10n_button_ok" onClick="onOkClick" visible="false"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonActivate" id="backButton" text="Back" onClick="onBackClick" visible="false"/>
             <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
             <Button profile="buttonBack" id="cancelButton" text="$l10n_button_cancel" onClick="onCancelClick"/>
         </BoxLayout>
@@ -623,6 +769,150 @@
             <size value="600px 16px"/>
             <textSize value="11px"/>
             <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== v2.7.0: MODE SELECTION PROFILES ========== -->
+        <Profile name="fskModeHeaderSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 48px"/>
+        </Profile>
+        <Profile name="fskModeHeaderBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 48px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+        <Profile name="fskModeSubtitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 16px"/>
+            <textSize value="12px"/>
+            <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- Mode selection boxes -->
+        <Profile name="fskModeBox" extends="emptyPanel" with="anchorTopCenter">
+            <size value="300px 90px"/>
+        </Profile>
+        <Profile name="fskModeBoxBg" extends="baseReference" with="anchorTopCenter">
+            <size value="300px 90px"/>
+            <imageColor value="0.12 0.15 0.12 0.9"/>
+        </Profile>
+        <Profile name="fskModeBoxBgWarning" extends="baseReference" with="anchorTopCenter">
+            <size value="300px 90px"/>
+            <imageColor value="0.18 0.14 0.08 0.9"/>
+        </Profile>
+        <Profile name="fskModeBoxBgTech" extends="baseReference" with="anchorTopCenter">
+            <size value="300px 90px"/>
+            <imageColor value="0.10 0.12 0.16 0.9"/>
+        </Profile>
+        <Profile name="fskModeBtn" extends="emptyPanel" with="anchorTopCenter">
+            <size value="300px 90px"/>
+            <isFocusable value="true"/>
+        </Profile>
+        <Profile name="fskModeIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="50px 28px"/>
+            <textSize value="22px"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskModeLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="280px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskModeDesc" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="280px 14px"/>
+            <textSize value="10px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskModeInfoText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== v2.7.0: MALFUNCTIONS PROFILES ========== -->
+        <Profile name="fskMalfHeaderSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 55px"/>
+        </Profile>
+        <Profile name="fskMalfHeaderBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 55px"/>
+            <imageColor value="0.15 0.10 0.08 0.9"/>
+        </Profile>
+        <Profile name="fskMalfCount" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskMalfRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 38px"/>
+        </Profile>
+        <Profile name="fskMalfRowBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 38px"/>
+            <imageColor value="0.10 0.10 0.12 0.9"/>
+        </Profile>
+        <Profile name="fskMalfName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="280px 18px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+        </Profile>
+        <Profile name="fskMalfIssue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 18px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.3 1"/>
+        </Profile>
+        <Profile name="fskMalfInfo" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== v2.7.0: RVB ANALYSIS PROFILES ========== -->
+        <Profile name="fskRVBHeaderSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 55px"/>
+        </Profile>
+        <Profile name="fskRVBAnalysisBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 55px"/>
+            <imageColor value="0.08 0.10 0.15 0.9"/>
+        </Profile>
+        <Profile name="fskRVBSummary" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="400px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.7 0.8 0.9 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskRVBNoData" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskRVBPartRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 30px"/>
+        </Profile>
+        <Profile name="fskRVBPartBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 30px"/>
+            <imageColor value="0.08 0.08 0.10 0.9"/>
+        </Profile>
+        <Profile name="fskRVBPartName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="280px 16px"/>
+            <textSize value="12px"/>
+            <textColor value="0.9 0.9 0.9 1"/>
+        </Profile>
+        <Profile name="fskRVBPartLife" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 16px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+        </Profile>
+        <Profile name="fskRVBInfo" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.5 0.6 0.7 1"/>
             <textAlignment value="center"/>
         </Profile>
     </GUIProfiles>

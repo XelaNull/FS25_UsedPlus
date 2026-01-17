@@ -139,6 +139,17 @@ function LandLeaseDeal:processMonthlyPayment()
     self.totalPaid = self.totalPaid + self.monthlyPayment
     self.missedPayments = 0  -- Reset missed payment counter
 
+    -- Record on-time payment to PaymentTracker (builds credit score!)
+    if PaymentTracker then
+        PaymentTracker.recordPayment(
+            self.farmId,
+            self.id or "unknown",
+            PaymentTracker.STATUS_ON_TIME,
+            self.monthlyPayment,
+            "land_lease"
+        )
+    end
+
     -- Update remaining cost for UI
     self.currentBalance = self:calculateRemainingCost()
 

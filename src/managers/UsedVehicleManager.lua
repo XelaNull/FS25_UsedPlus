@@ -45,6 +45,10 @@ function UsedVehicleManager.new()
     -- v1.9.5: Pending dirt applications for delayed timer callback
     UsedVehicleManager.pendingDirtApplications = {}
 
+    -- v2.7.0: Track total game hours for inspection timing
+    -- This increments every hour and persists across saves
+    self.totalGameHours = 0
+
     -- Event subscriptions
     self.isServer = g_currentMission:getIsServer()
     self.isClient = g_currentMission:getIsClient()
@@ -73,16 +77,23 @@ end
 --[[
     Hourly queue processing
     v1.5.0: Checks for day change (1 game day = 1 month) to process monthly success rolls
+    v2.7.0: Also tracks total hours and checks for inspection completions EVERY hour
     Called automatically when in-game hour changes
 ]]
 function UsedVehicleManager:onHourChanged()
     if not self.isServer then return end
 
+    -- v2.7.0: Increment total game hours (for inspection timing)
+    self.totalGameHours = (self.totalGameHours or 0) + 1
+
+    -- v2.7.0: Check for inspection completions EVERY hour
+    self:processInspectionCompletions()
+
     local currentDay = g_currentMission.environment.currentDay
 
     -- v1.5.0: Only process monthly checks once per day (1 day = 1 month)
     if self.lastProcessedDay == currentDay then
-        return  -- Already processed today
+        return  -- Already processed today for monthly rolls
     end
 
     self.lastProcessedDay = currentDay
@@ -653,40 +664,6 @@ function UsedVehicleManager:showSearchResultDialog(listing, farmId)
 end
 
 --[[
-    Show dialog when search fails (no vehicle found)
-    @param search - The failed UsedVehicleSearch
-]]
-function UsedVehicleManager:showSearchFailedDialog(search)
-    -- Only show dialog if game is running and not in loading state
-    if g_currentMission == nil or g_currentMission.isLoading then
-        UsedPlus.logDebug("Skipping failure dialog - mission not ready")
-        return
-    end
-
-    local title = g_i18n:getText("usedplus_searchFailed_title") or "Search Complete"
-    local message = string.format(
-        g_i18n:getText("usedplus_searchFailed_message") or "Your agent was unable to find a %s matching your criteria. The search fee is non-refundable.",
-        search.storeItemName or "vehicle"
-    )
-
-    -- Use InfoDialog for single-button "OK" dialog
-    local dialog = g_gui:showDialog("InfoDialog")
-    if dialog ~= nil and dialog.target ~= nil then
-        dialog.target:setDialogType(DialogElement.TYPE_INFO)
-        dialog.target:setText(message)
-        dialog.target:setCallback(function() end, nil)
-        UsedPlus.logDebug(string.format("Showing search failed dialog for %s", search.storeItemName or "Unknown"))
-    else
-        -- Fallback to notification if dialog fails
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_INFO,
-            message
-        )
-        UsedPlus.logDebug(string.format("Showing search failed notification for %s", search.storeItemName or "Unknown"))
-    end
-end
-
---[[
     Purchase a used vehicle from a listing
     Called when user confirms purchase in UsedVehiclePreviewDialog
     @param listing - The UsedVehicleListing to purchase
@@ -1097,6 +1074,67 @@ function UsedVehicleManager:applyDelayedDirt(dirtKey)
         self:applyDirtBasedOnQuality(vehicle, listing.qualityLevel, listing.damage)
     else
         UsedPlus.logDebug("Vehicle was deleted before dirt could be applied")
+    end
+end
+
+--[[
+    Apply delayed UYT tire wear after vehicle is fully loaded
+    This ensures UYT's wheel data structures are ready before we set wear
+
+    @param uytKey - Key to look up pending tire data
+]]
+function UsedVehicleManager:applyDelayedUYTTireWear(uytKey)
+    UsedPlus.logDebug(string.format("applyDelayedUYTTireWear called with key: %s", tostring(uytKey)))
+
+    if UsedVehicleManager.pendingUYTTireApplications == nil then
+        UsedPlus.logDebug("No pending UYT tire applications table")
+        return
+    end
+
+    local data = UsedVehicleManager.pendingUYTTireApplications[uytKey]
+    if data == nil then
+        UsedPlus.logDebug(string.format("No pending UYT tire data for key: %s", tostring(uytKey)))
+        return
+    end
+
+    local vehicle = data.vehicle
+    local tireConditions = data.tireConditions
+
+    -- Clean up
+    UsedVehicleManager.pendingUYTTireApplications[uytKey] = nil
+
+    -- Apply UYT tire wear if vehicle still exists and UYT is available
+    if vehicle ~= nil and not vehicle.isDeleted then
+        if ModCompatibility and ModCompatibility.uytInstalled and UseYourTyres then
+            if vehicle.spec_wheels and vehicle.spec_wheels.wheels then
+                local wheelCount = #vehicle.spec_wheels.wheels
+                local tireKeys = { "FL", "FR", "RL", "RR" }
+
+                UsedPlus.logDebug(string.format("Applying delayed UYT tire wear to %s (%d wheels)",
+                    tostring(vehicle:getName()), wheelCount))
+
+                for i = 1, math.min(wheelCount, 4) do
+                    local wheel = vehicle.spec_wheels.wheels[i]
+                    local condition = tireConditions[tireKeys[i]] or 1.0
+                    local wear = 1.0 - condition
+
+                    -- Try to set UYT wear if the API is available
+                    if wheel and UseYourTyres.setWearAmount then
+                        UseYourTyres.setWearAmount(wheel, wear)
+                        UsedPlus.logDebug(string.format("  Delayed UYT wheel %d: Set wear to %.0f%%",
+                            i, wear * 100))
+                    elseif wheel then
+                        UsedPlus.logDebug(string.format("  Wheel %d exists but UseYourTyres.setWearAmount not available", i))
+                    end
+                end
+            else
+                UsedPlus.logDebug("Vehicle has no spec_wheels or wheels table")
+            end
+        else
+            UsedPlus.logDebug("UYT not installed or ModCompatibility not available")
+        end
+    else
+        UsedPlus.logDebug("Vehicle was deleted before UYT tire wear could be applied")
     end
 end
 
@@ -1672,6 +1710,9 @@ function UsedVehicleManager:saveToXMLFile(missionInfo)
         -- Save next ID counter
         xmlFile:setInt("usedPlusVehicles#nextSearchId", self.nextSearchId)
 
+        -- v2.7.0: Save total game hours for inspection timing
+        xmlFile:setInt("usedPlusVehicles#totalGameHours", self.totalGameHours or 0)
+
         -- Save searches and listings grouped by farm
         -- Note: pairs() key may not equal farm.farmId, so use farm.farmId consistently
         local farmIndex = 0
@@ -1776,6 +1817,9 @@ function UsedVehicleManager:loadFromXMLFile(missionInfo)
         -- Load next ID counter
         self.nextSearchId = xmlFile:getInt("usedPlusVehicles#nextSearchId", 1)
 
+        -- v2.7.0: Load total game hours for inspection timing
+        self.totalGameHours = xmlFile:getInt("usedPlusVehicles#totalGameHours", 0)
+
         -- Load searches and listings
         xmlFile:iterate("usedPlusVehicles.farms.farm", function(_, farmKey)
             local farmId = xmlFile:getInt(farmKey .. "#farmId")
@@ -1870,6 +1914,200 @@ function UsedVehicleManager:loadListingFromXMLFile(xmlFile, key)
     end
 
     return listing
+end
+
+-- ============================================================================
+-- v2.7.0: DELAYED INSPECTION SYSTEM
+-- ============================================================================
+
+--[[
+    v2.7.0: Request an inspection for a listing
+    @param listing - The listing to inspect
+    @param search - The search containing this listing
+    @param tierIndex - 1=Quick, 2=Standard, 3=Comprehensive
+    @param farmId - Farm requesting the inspection
+    @return success boolean, error message string
+]]
+function UsedVehicleManager:requestInspection(listing, search, tierIndex, farmId)
+    if listing == nil then
+        return false, "No listing provided"
+    end
+
+    -- Check if already inspected or inspection in progress
+    if listing.inspectionState == "pending" then
+        return false, "Inspection already in progress"
+    end
+    if listing.inspectionState == "complete" then
+        return false, "Already inspected"
+    end
+
+    -- Get tier configuration
+    local tier = UsedPlusMaintenance.CONFIG.inspectionTiers[tierIndex]
+    if tier == nil then
+        return false, "Invalid inspection tier"
+    end
+
+    -- Calculate cost
+    local cost = UsedPlusMaintenance.calculateInspectionCostForTier(tierIndex, listing.price or 0)
+
+    -- Check if farm can afford
+    local farm = g_farmManager:getFarmById(farmId)
+    if farm == nil then
+        return false, "Invalid farm"
+    end
+    if farm.money < cost then
+        return false, "Insufficient funds"
+    end
+
+    -- Deduct money
+    g_currentMission:addMoney(-cost, farmId, MoneyType.OTHER, true, true)
+
+    -- Calculate completion time
+    local currentHour = self.totalGameHours or 0
+    local completionHour = currentHour + tier.durationHours
+
+    -- Update listing with inspection data
+    listing.inspectionState = "pending"
+    listing.inspectionTier = tierIndex
+    listing.inspectionRequestedAtHour = currentHour
+    listing.inspectionCompletesAtHour = completionHour
+    listing.inspectionFarmId = farmId
+    listing.inspectionCostPaid = cost
+    listing.listingOnHold = true  -- Prevent expiration during inspection
+
+    -- Track statistics
+    if g_financeManager then
+        g_financeManager:incrementStatistic(farmId, "inspectionsPurchased", 1)
+        g_financeManager:incrementStatistic(farmId, "totalInspectionFees", cost)
+    end
+
+    UsedPlus.logDebug(string.format("Inspection requested: %s tier %d (%s), cost $%d, completes at hour %d",
+        listing.storeItemName or listing.id, tierIndex, tier.name, cost, completionHour))
+
+    -- Send notification
+    g_currentMission:addIngameNotification(
+        FSBaseMission.INGAME_NOTIFICATION_OK,
+        string.format(g_i18n:getText("usedplus_inspection_started") or "Inspection started! Ready in ~%d hours.",
+            tier.durationHours)
+    )
+
+    return true, nil
+end
+
+--[[
+    v2.7.0: Process inspection completions
+    Called every game hour to check if any pending inspections are now complete
+]]
+function UsedVehicleManager:processInspectionCompletions()
+    local currentHour = self.totalGameHours or 0
+    local completedCount = 0
+
+    -- Iterate through all farms and their searches
+    for _, farm in pairs(g_farmManager:getFarms()) do
+        if farm.usedVehicleSearches then
+            for _, search in ipairs(farm.usedVehicleSearches) do
+                if search.foundListings then
+                    for _, listing in ipairs(search.foundListings) do
+                        -- Check if this listing has a pending inspection that should complete
+                        if listing.inspectionState == "pending" and
+                           listing.inspectionCompletesAtHour and
+                           currentHour >= listing.inspectionCompletesAtHour then
+                            -- Mark inspection as complete
+                            listing.inspectionState = "complete"
+                            listing.listingOnHold = false  -- Allow expiration again
+
+                            completedCount = completedCount + 1
+
+                            UsedPlus.logDebug(string.format("Inspection complete: %s (tier %d)",
+                                listing.storeItemName or listing.id, listing.inspectionTier or 0))
+
+                            -- Notify the farm that requested it
+                            if listing.inspectionFarmId == farm.farmId then
+                                self:notifyInspectionComplete(listing, search, farm.farmId)
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    if completedCount > 0 then
+        UsedPlus.logDebug(string.format("Processed %d inspection completion(s) at hour %d",
+            completedCount, currentHour))
+    end
+end
+
+--[[
+    v2.7.0: Notify player that an inspection is complete
+    @param listing - The listing that was inspected
+    @param search - The search containing this listing
+    @param farmId - Farm that paid for the inspection
+]]
+function UsedVehicleManager:notifyInspectionComplete(listing, search, farmId)
+    -- Only notify if game is running
+    if g_currentMission == nil or g_currentMission.isLoading then
+        return
+    end
+
+    local vehicleName = listing.storeItemName or search.storeItemName or "Vehicle"
+    local tierName = "Standard"
+    if listing.inspectionTier and UsedPlusMaintenance.CONFIG.inspectionTiers[listing.inspectionTier] then
+        tierName = UsedPlusMaintenance.CONFIG.inspectionTiers[listing.inspectionTier].name
+    end
+
+    local message = string.format(
+        g_i18n:getText("usedplus_inspection_complete") or "%s inspection complete for %s! View report now.",
+        tierName, vehicleName
+    )
+
+    g_currentMission:addIngameNotification(
+        FSBaseMission.INGAME_NOTIFICATION_OK,
+        message
+    )
+
+    -- Note: We intentionally DON'T auto-open the dialog here
+    -- Player can view the report from their portfolio when ready
+    -- This avoids interrupting gameplay (e.g., while harvesting)
+end
+
+--[[
+    v2.7.0: Get remaining hours until inspection completes
+    @param listing - The listing being inspected
+    @return hours remaining, or 0 if complete/not started
+]]
+function UsedVehicleManager:getInspectionHoursRemaining(listing)
+    if listing == nil or listing.inspectionState ~= "pending" then
+        return 0
+    end
+
+    local currentHour = self.totalGameHours or 0
+    local completionHour = listing.inspectionCompletesAtHour or currentHour
+
+    return math.max(0, completionHour - currentHour)
+end
+
+--[[
+    v2.7.0: Cancel a pending inspection (no refund - sunk cost)
+    @param listing - The listing with pending inspection
+    @return success boolean
+]]
+function UsedVehicleManager:cancelInspection(listing)
+    if listing == nil or listing.inspectionState ~= "pending" then
+        return false
+    end
+
+    listing.inspectionState = nil
+    listing.inspectionTier = nil
+    listing.inspectionRequestedAtHour = nil
+    listing.inspectionCompletesAtHour = nil
+    listing.inspectionFarmId = nil
+    listing.inspectionCostPaid = nil
+    listing.listingOnHold = false
+
+    UsedPlus.logDebug(string.format("Inspection cancelled: %s (no refund)", listing.id or "unknown"))
+
+    return true
 end
 
 --[[
@@ -1978,6 +2216,24 @@ function UsedVehicleManager.onVehicleBought(buyVehicleData, loadedVehicles, load
 
         -- Use addTimer for delayed execution (500ms = 0.5 seconds)
         addTimer(500, "applyDelayedDirt", g_usedVehicleManager, dirtKey)
+
+        -- v2.6.3: Schedule delayed UYT tire wear application
+        -- UYT wheel data structures may not be ready immediately after spawn
+        -- Apply tire wear slightly later (750ms) to ensure UYT is initialized
+        if listingCopy.tireConditions and ModCompatibility and ModCompatibility.uytInstalled then
+            if UsedVehicleManager.pendingUYTTireApplications == nil then
+                UsedVehicleManager.pendingUYTTireApplications = {}
+            end
+            local uytKey = "uyt_" .. tostring(g_currentMission.time)
+            UsedVehicleManager.pendingUYTTireApplications[uytKey] = {
+                vehicle = vehicleCopy,
+                tireConditions = listingCopy.tireConditions
+            }
+
+            -- Use addTimer for delayed UYT execution (750ms = after dirt, to give UYT time to init)
+            addTimer(750, "applyDelayedUYTTireWear", g_usedVehicleManager, uytKey)
+            UsedPlus.logDebug("Scheduled delayed UYT tire wear application")
+        end
     end
 
     -- Remove from pending purchases

@@ -50,10 +50,14 @@ function FieldServiceKitDialog.register()
     end
 end
 
-FieldServiceKitDialog.STEP_SYSTEM_SELECT = 1
-FieldServiceKitDialog.STEP_DIAGNOSIS = 2
-FieldServiceKitDialog.STEP_RESULTS = 3
-FieldServiceKitDialog.STEP_TIRE_REPAIR = 4
+-- v2.7.0: Added mode selection as first step
+FieldServiceKitDialog.STEP_MODE_SELECT = 0       -- Choose what to do (new!)
+FieldServiceKitDialog.STEP_SYSTEM_SELECT = 1     -- Component diagnosis (original)
+FieldServiceKitDialog.STEP_DIAGNOSIS = 2         -- Pick diagnosis for component
+FieldServiceKitDialog.STEP_RESULTS = 3           -- Show repair results
+FieldServiceKitDialog.STEP_TIRE_REPAIR = 4       -- Tire patch/plug options
+FieldServiceKitDialog.STEP_MALFUNCTIONS = 5      -- Show active malfunctions (new!)
+FieldServiceKitDialog.STEP_RVB_ANALYSIS = 6      -- RVB component repair (new!)
 
 function FieldServiceKitDialog.new(target, custom_mt)
     local self = MessageDialog.new(target, custom_mt or FieldServiceKitDialog_mt)
@@ -61,13 +65,14 @@ function FieldServiceKitDialog.new(target, custom_mt)
     self.vehicle = nil
     self.kit = nil
     self.kitTier = "basic"
-    self.currentStep = FieldServiceKitDialog.STEP_SYSTEM_SELECT
+    self.currentStep = FieldServiceKitDialog.STEP_MODE_SELECT  -- v2.7.0: Start at mode selection
     self.selectedSystem = nil
     self.actualFailedSystem = nil
     self.currentScenario = nil
     self.selectedDiagnosis = nil
     self.repairResult = nil
     self.hasFlatTire = false
+    self.hasFuelLeak = false  -- v2.7.0: Track fuel leak state
 
     return self
 end
@@ -91,7 +96,7 @@ function FieldServiceKitDialog:setData(vehicle, kit, kitTier)
     self.vehicle = vehicle
     self.kit = kit
     self.kitTier = kitTier or "basic"
-    self.currentStep = FieldServiceKitDialog.STEP_SYSTEM_SELECT
+    self.currentStep = FieldServiceKitDialog.STEP_MODE_SELECT  -- v2.7.0: Start at mode selection
     self.selectedSystem = nil
     self.selectedDiagnosis = nil
     self.repairResult = nil
@@ -103,6 +108,10 @@ function FieldServiceKitDialog:setData(vehicle, kit, kitTier)
     if maintSpec ~= nil then
         self.actualFailedSystem = maintSpec.lastFailedSystem or self:determineFailedSystem(maintSpec)
         self.hasFlatTire = self:checkForFlatTire(vehicle)
+        self.hasFuelLeak = maintSpec.hasFuelLeak or false  -- v2.7.0
+    else
+        self.hasFlatTire = false
+        self.hasFuelLeak = false
     end
 
     self:updateDisplay()
@@ -152,7 +161,9 @@ function FieldServiceKitDialog:updateDisplay()
     local vehicleName = self.vehicle:getName() or "Vehicle"
     local maintSpec = self.vehicle.spec_usedPlusMaintenance
 
-    if self.currentStep == FieldServiceKitDialog.STEP_SYSTEM_SELECT then
+    if self.currentStep == FieldServiceKitDialog.STEP_MODE_SELECT then
+        self:displayModeSelection(vehicleName, maintSpec)
+    elseif self.currentStep == FieldServiceKitDialog.STEP_SYSTEM_SELECT then
         self:displaySystemSelection(vehicleName, maintSpec)
     elseif self.currentStep == FieldServiceKitDialog.STEP_DIAGNOSIS then
         self:displayDiagnosis()
@@ -160,7 +171,67 @@ function FieldServiceKitDialog:updateDisplay()
         self:displayResults()
     elseif self.currentStep == FieldServiceKitDialog.STEP_TIRE_REPAIR then
         self:displayTireRepair()
+    elseif self.currentStep == FieldServiceKitDialog.STEP_MALFUNCTIONS then
+        self:displayMalfunctions()
+    elseif self.currentStep == FieldServiceKitDialog.STEP_RVB_ANALYSIS then
+        self:displayRVBAnalysis()
     end
+end
+
+--[[
+    v2.7.0: Display Mode Selection (new first step)
+    Player chooses what to do with the Field Service Kit
+]]
+function FieldServiceKitDialog:displayModeSelection(vehicleName, maintSpec)
+    -- Update vehicle name
+    if self.vehicleNameText ~= nil then
+        self.vehicleNameText:setText(vehicleName)
+    end
+
+    -- Count active malfunctions for the button label
+    local malfunctionCount = 0
+    local seized = self:getSeizedComponents()
+    if seized.engine then malfunctionCount = malfunctionCount + 1 end
+    if seized.hydraulic then malfunctionCount = malfunctionCount + 1 end
+    if seized.electrical then malfunctionCount = malfunctionCount + 1 end
+    if self.hasFuelLeak then malfunctionCount = malfunctionCount + 1 end
+    if self.hasFlatTire then malfunctionCount = malfunctionCount + 1 end
+
+    -- Update mode button labels based on current state
+    if self.modeDiagnoseButton ~= nil then
+        self.modeDiagnoseButton:setText(g_i18n:getText("usedplus_fsk_mode_diagnose") or "Diagnose Component")
+    end
+
+    if self.modeMalfunctionsButton ~= nil then
+        local malfText = g_i18n:getText("usedplus_fsk_mode_malfunctions") or "Locate Malfunctions"
+        if malfunctionCount > 0 then
+            malfText = malfText .. string.format(" (%d)", malfunctionCount)
+        end
+        self.modeMalfunctionsButton:setText(malfText)
+    end
+
+    if self.modeTireServiceButton ~= nil then
+        local tireText = g_i18n:getText("usedplus_fsk_mode_tire") or "Tire Service"
+        if self.hasFlatTire then
+            tireText = tireText .. " (!)"
+        end
+        self.modeTireServiceButton:setText(tireText)
+        -- Disable if no flat tire (optional - could allow tire inspection even without flat)
+        -- For now, keep enabled to allow future "inspect tires" feature
+    end
+
+    -- v2.7.0: Only show RVB button if RVB mod is actually installed
+    -- Don't tease players with features they can't use
+    local hasRVB = ModCompatibility.rvbInstalled or false
+    if self.modeRVBBox ~= nil then
+        self.modeRVBBox:setVisible(hasRVB)
+    end
+    if self.modeRVBButton ~= nil then
+        self.modeRVBButton:setVisible(hasRVB)
+    end
+
+    -- Show mode selection container, hide others
+    self:setStepVisibility(FieldServiceKitDialog.STEP_MODE_SELECT)
 end
 
 --[[
@@ -647,6 +718,10 @@ end
     Set visibility of step containers
 ]]
 function FieldServiceKitDialog:setStepVisibility(activeStep)
+    -- v2.7.0: Mode selection container
+    if self.modeSelectContainer ~= nil then
+        self.modeSelectContainer:setVisible(activeStep == FieldServiceKitDialog.STEP_MODE_SELECT)
+    end
     if self.systemSelectContainer ~= nil then
         self.systemSelectContainer:setVisible(activeStep == FieldServiceKitDialog.STEP_SYSTEM_SELECT)
     end
@@ -659,15 +734,28 @@ function FieldServiceKitDialog:setStepVisibility(activeStep)
     if self.tireRepairContainer ~= nil then
         self.tireRepairContainer:setVisible(activeStep == FieldServiceKitDialog.STEP_TIRE_REPAIR)
     end
+    -- v2.7.0: New containers for malfunctions and RVB
+    if self.malfunctionsContainer ~= nil then
+        self.malfunctionsContainer:setVisible(activeStep == FieldServiceKitDialog.STEP_MALFUNCTIONS)
+    end
+    if self.rvbAnalysisContainer ~= nil then
+        self.rvbAnalysisContainer:setVisible(activeStep == FieldServiceKitDialog.STEP_RVB_ANALYSIS)
+    end
 
     -- Update button visibility based on step
     if self.okButton ~= nil then
-        if activeStep == FieldServiceKitDialog.STEP_RESULTS then
-            self.okButton:setText(g_i18n:getText("button_ok") or "OK")
-            self.okButton:setVisible(true)  -- Show OK button on results screen
-        else
-            self.okButton:setVisible(false)
-        end
+        local showOk = (activeStep == FieldServiceKitDialog.STEP_RESULTS) or
+                       (activeStep == FieldServiceKitDialog.STEP_MALFUNCTIONS) or
+                       (activeStep == FieldServiceKitDialog.STEP_RVB_ANALYSIS)
+        self.okButton:setText(g_i18n:getText("button_ok") or "OK")
+        self.okButton:setVisible(showOk)
+    end
+
+    -- v2.7.0: Back button for navigating back to mode selection
+    if self.backButton ~= nil then
+        local showBack = (activeStep ~= FieldServiceKitDialog.STEP_MODE_SELECT) and
+                         (activeStep ~= FieldServiceKitDialog.STEP_RESULTS)
+        self.backButton:setVisible(showBack)
     end
 
     if self.cancelButton ~= nil then
@@ -691,6 +779,299 @@ function FieldServiceKitDialog:setReliabilityColor(element, value)
 end
 
 -- v2.2.1: Removed custom hover effect code - buttonActivate profile provides built-in hover styling
+
+-- ===========================================================================
+-- v2.7.0: MODE SELECTION BUTTON HANDLERS
+-- ===========================================================================
+
+--[[
+    Mode: Diagnose Component - goes to original system selection flow
+]]
+function FieldServiceKitDialog:onModeDiagnoseClick()
+    self.currentStep = FieldServiceKitDialog.STEP_SYSTEM_SELECT
+    self:updateDisplay()
+end
+
+--[[
+    Mode: Locate Malfunctions - shows active issues
+]]
+function FieldServiceKitDialog:onModeMalfunctionsClick()
+    self.currentStep = FieldServiceKitDialog.STEP_MALFUNCTIONS
+    self:updateDisplay()
+end
+
+--[[
+    Mode: Tire Service - goes to tire repair flow
+]]
+function FieldServiceKitDialog:onModeTireServiceClick()
+    if self.hasFlatTire then
+        self.currentStep = FieldServiceKitDialog.STEP_TIRE_REPAIR
+    else
+        -- No flat tire - could show tire inspection in future
+        -- For now just go to tire repair which will show "no flat tire" message
+        self.currentStep = FieldServiceKitDialog.STEP_TIRE_REPAIR
+    end
+    self:updateDisplay()
+end
+
+--[[
+    Mode: RVB System Analysis - shows RVB component repair options
+]]
+function FieldServiceKitDialog:onModeRVBClick()
+    if not ModCompatibility.rvbInstalled then
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_fsk_rvb_not_installed") or "RVB mod not installed",
+            3000
+        )
+        return
+    end
+    self.currentStep = FieldServiceKitDialog.STEP_RVB_ANALYSIS
+    self:updateDisplay()
+end
+
+--[[
+    Back button - returns to mode selection
+]]
+function FieldServiceKitDialog:onBackClick()
+    self.currentStep = FieldServiceKitDialog.STEP_MODE_SELECT
+    self:updateDisplay()
+end
+
+-- ===========================================================================
+-- v2.7.0: MALFUNCTIONS VIEW
+-- Shows all active issues: seizures, fuel leak, flat tire
+-- ===========================================================================
+
+--[[
+    Display active malfunctions list
+]]
+function FieldServiceKitDialog:displayMalfunctions()
+    local maintSpec = self.vehicle.spec_usedPlusMaintenance
+    local vehicleName = self.vehicle:getName() or "Vehicle"
+
+    -- Update vehicle name
+    if self.malfVehicleNameText ~= nil then
+        self.malfVehicleNameText:setText(vehicleName)
+    end
+
+    -- Gather all active malfunctions
+    local malfunctions = {}
+
+    -- Check for seized components
+    local seized = self:getSeizedComponents()
+    if seized.engine then
+        table.insert(malfunctions, {
+            name = g_i18n:getText("usedplus_component_engine") or "Engine",
+            issue = g_i18n:getText("usedplus_malfunction_seized") or "SEIZED",
+            severity = "critical",
+            repairable = true,
+            repairAction = "engine_seizure"
+        })
+    end
+    if seized.hydraulic then
+        table.insert(malfunctions, {
+            name = g_i18n:getText("usedplus_component_hydraulic") or "Hydraulics",
+            issue = g_i18n:getText("usedplus_malfunction_seized") or "SEIZED",
+            severity = "critical",
+            repairable = true,
+            repairAction = "hydraulic_seizure"
+        })
+    end
+    if seized.electrical then
+        table.insert(malfunctions, {
+            name = g_i18n:getText("usedplus_component_electrical") or "Electrical",
+            issue = g_i18n:getText("usedplus_malfunction_seized") or "SEIZED",
+            severity = "critical",
+            repairable = true,
+            repairAction = "electrical_seizure"
+        })
+    end
+
+    -- Check for fuel leak
+    if self.hasFuelLeak then
+        table.insert(malfunctions, {
+            name = g_i18n:getText("usedplus_component_fuel_system") or "Fuel System",
+            issue = g_i18n:getText("usedplus_malfunction_leak") or "LEAKING",
+            severity = "warning",
+            repairable = true,
+            repairAction = "fuel_leak"
+        })
+    end
+
+    -- Check for flat tire
+    if self.hasFlatTire then
+        table.insert(malfunctions, {
+            name = g_i18n:getText("usedplus_component_tires") or "Tires",
+            issue = g_i18n:getText("usedplus_malfunction_flat") or "FLAT",
+            severity = "warning",
+            repairable = true,
+            repairAction = "flat_tire"
+        })
+    end
+
+    -- Store malfunctions for repair actions
+    self.currentMalfunctions = malfunctions
+
+    -- Update malfunction count
+    if self.malfCountText ~= nil then
+        if #malfunctions > 0 then
+            self.malfCountText:setText(string.format("%d %s", #malfunctions,
+                #malfunctions == 1 and "issue found" or "issues found"))
+            self.malfCountText:setTextColor(1, 0.5, 0.2, 1)  -- Orange
+        else
+            self.malfCountText:setText(g_i18n:getText("usedplus_fsk_no_malfunctions") or "No active malfunctions")
+            self.malfCountText:setTextColor(0.4, 0.8, 0.4, 1)  -- Green
+        end
+    end
+
+    -- Display up to 4 malfunctions in the list
+    for i = 1, 4 do
+        local nameElement = self["malf" .. i .. "NameText"]
+        local issueElement = self["malf" .. i .. "IssueText"]
+        local rowElement = self["malf" .. i .. "Row"]
+
+        if malfunctions[i] then
+            local malf = malfunctions[i]
+            if nameElement then nameElement:setText(malf.name) end
+            if issueElement then
+                issueElement:setText(malf.issue)
+                if malf.severity == "critical" then
+                    issueElement:setTextColor(1, 0.2, 0.2, 1)  -- Red
+                else
+                    issueElement:setTextColor(1, 0.6, 0.2, 1)  -- Orange
+                end
+            end
+            if rowElement then rowElement:setVisible(true) end
+        else
+            if nameElement then nameElement:setText("") end
+            if issueElement then issueElement:setText("") end
+            if rowElement then rowElement:setVisible(false) end
+        end
+    end
+
+    self:setStepVisibility(FieldServiceKitDialog.STEP_MALFUNCTIONS)
+end
+
+-- ===========================================================================
+-- v2.7.0: RVB ANALYSIS VIEW
+-- Shows RVB component breakdown and allows incremental repair
+-- ===========================================================================
+
+--[[
+    Display RVB system analysis
+    Shows individual RVB component life percentages and repair options
+]]
+function FieldServiceKitDialog:displayRVBAnalysis()
+    if not ModCompatibility.rvbInstalled then
+        self:onBackClick()
+        return
+    end
+
+    local vehicleName = self.vehicle:getName() or "Vehicle"
+
+    -- Update vehicle name
+    if self.rvbVehicleNameText ~= nil then
+        self.rvbVehicleNameText:setText(vehicleName)
+    end
+
+    -- Get RVB diagnostic data
+    local diagData = ModCompatibility.getOBDDiagnosticData(self.vehicle)
+
+    if not diagData.hasRVBData then
+        if self.rvbNoDataText ~= nil then
+            self.rvbNoDataText:setText(g_i18n:getText("usedplus_fsk_rvb_no_data") or "No RVB data available for this vehicle")
+            self.rvbNoDataText:setVisible(true)
+        end
+        self:setStepVisibility(FieldServiceKitDialog.STEP_RVB_ANALYSIS)
+        return
+    end
+
+    if self.rvbNoDataText ~= nil then
+        self.rvbNoDataText:setVisible(false)
+    end
+
+    -- Collect all RVB parts from all systems
+    local allParts = {}
+
+    -- Engine parts
+    for _, part in ipairs(diagData.engine.rvbParts or {}) do
+        table.insert(allParts, {
+            name = part.name,
+            life = part.life,
+            fault = part.fault,
+            prefault = part.prefault,
+            system = "engine"
+        })
+    end
+
+    -- Electrical parts
+    for _, part in ipairs(diagData.electrical.rvbParts or {}) do
+        table.insert(allParts, {
+            name = part.name,
+            life = part.life,
+            fault = part.fault,
+            prefault = part.prefault,
+            system = "electrical"
+        })
+    end
+
+    -- Store for repair actions
+    self.rvbParts = allParts
+
+    -- Display parts (up to 6 visible at once)
+    for i = 1, 6 do
+        local nameElement = self["rvbPart" .. i .. "NameText"]
+        local lifeElement = self["rvbPart" .. i .. "LifeText"]
+        local rowElement = self["rvbPart" .. i .. "Row"]
+
+        if allParts[i] then
+            local part = allParts[i]
+            if nameElement then nameElement:setText(part.name) end
+            if lifeElement then
+                local lifePercent = math.floor(part.life * 100)
+                local statusStr = string.format("%d%%", lifePercent)
+                if part.fault then
+                    statusStr = statusStr .. " FAULT"
+                    lifeElement:setTextColor(1, 0.2, 0.2, 1)
+                elseif part.prefault then
+                    statusStr = statusStr .. " !"
+                    lifeElement:setTextColor(1, 0.6, 0.2, 1)
+                elseif lifePercent >= 70 then
+                    lifeElement:setTextColor(0.4, 0.8, 0.4, 1)
+                elseif lifePercent >= 40 then
+                    lifeElement:setTextColor(1, 0.8, 0.2, 1)
+                else
+                    lifeElement:setTextColor(1, 0.5, 0.2, 1)
+                end
+                lifeElement:setText(statusStr)
+            end
+            if rowElement then rowElement:setVisible(true) end
+        else
+            if nameElement then nameElement:setText("") end
+            if lifeElement then lifeElement:setText("") end
+            if rowElement then rowElement:setVisible(false) end
+        end
+    end
+
+    -- Show summary
+    if self.rvbSummaryText ~= nil then
+        local faultCount = 0
+        local avgLife = 0
+        for _, part in ipairs(allParts) do
+            if part.fault then faultCount = faultCount + 1 end
+            avgLife = avgLife + part.life
+        end
+        if #allParts > 0 then
+            avgLife = avgLife / #allParts
+        end
+
+        local summary = string.format("Average Part Life: %d%% | Faults: %d",
+            math.floor(avgLife * 100), faultCount)
+        self.rvbSummaryText:setText(summary)
+    end
+
+    self:setStepVisibility(FieldServiceKitDialog.STEP_RVB_ANALYSIS)
+end
 
 --[[
     System selection button handlers
@@ -803,6 +1184,14 @@ function FieldServiceKitDialog:applyRepair(diagnosisIndex)
         -- Apply reliability boost to the ACTUAL failed system (not player's guess)
         if self.actualFailedSystem == DiagnosisData.SYSTEM_ENGINE then
             maintSpec.engineReliability = math.min(1.0, maintSpec.engineReliability + self.repairResult.reliabilityBoost)
+
+            -- v2.7.0: Engine repair can also fix fuel leaks (good/perfect outcome only)
+            if maintSpec.hasFuelLeak and self.repairResult.outcome ~= DiagnosisData.OUTCOME_FAILED then
+                if UsedPlusMaintenance and UsedPlusMaintenance.repairFuelLeak then
+                    UsedPlusMaintenance.repairFuelLeak(self.vehicle)
+                    UsedPlus.logInfo("OBD Scanner: Fuel leak repaired during engine diagnosis")
+                end
+            end
         elseif self.actualFailedSystem == DiagnosisData.SYSTEM_ELECTRICAL then
             maintSpec.electricalReliability = math.min(1.0, maintSpec.electricalReliability + self.repairResult.reliabilityBoost)
         elseif self.actualFailedSystem == DiagnosisData.SYSTEM_HYDRAULIC then
@@ -879,6 +1268,12 @@ function FieldServiceKitDialog:applyTireRepair(repairType)
                     i, repairType, result.conditionRestore * 100))
             end
         end
+    end
+
+    -- v2.7.0: Clear the flat tire state after field repair
+    if self.hasFlatTire and UsedPlusMaintenance and UsedPlusMaintenance.repairFlatTire then
+        UsedPlusMaintenance.repairFlatTire(self.vehicle)
+        UsedPlus.logInfo(string.format("Flat tire state cleared via %s repair", repairType))
     end
 
     -- Consume kit and close

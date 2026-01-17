@@ -327,9 +327,9 @@ function FinanceDetailFrame:onPaymentSliderChanged()
 end
 
 --[[
-     Make Payment button callback
+     Make Payment button callback (wired to onClick="onClickMakePayment" in XML)
 ]]
-function FinanceDetailFrame:onMakePayment()
+function FinanceDetailFrame:onClickMakePayment()
     if self.deal == nil then return end
 
     local paymentAmount = self.paymentSlider:getValue()
@@ -369,9 +369,9 @@ function FinanceDetailFrame:onMakePayment()
 end
 
 --[[
-     End Lease Early button callback
+     End Lease Early button callback (wired to onClick="onClickEndLease" in XML)
 ]]
-function FinanceDetailFrame:onEndLease()
+function FinanceDetailFrame:onClickEndLease()
     if self.deal == nil or self.deal.dealType ~= 2 then return end
 
     -- Show confirmation dialog (lease termination is serious)

@@ -62,6 +62,32 @@ end
     @param originalCallbackTarget - Original target from UsedVehicleManager
 ]]
 function InspectionReportDialog:show(listing, farmId, onPurchaseCallback, callbackTarget, originalPurchaseCallback, originalCallbackTarget)
+    -- v2.7.0: Guard against incomplete inspections
+    if listing == nil then
+        UsedPlus.logWarn("InspectionReportDialog:show - No listing provided")
+        return
+    end
+
+    -- Check if inspection is still pending
+    if listing.inspectionState == "pending" then
+        UsedPlus.logWarn("InspectionReportDialog:show - Inspection still in progress, cannot view report yet")
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_inspection_notReady") or "Inspection not yet complete!",
+            3000
+        )
+        return
+    end
+
+    -- Check if inspection was actually done
+    if listing.inspectionState ~= "complete" then
+        UsedPlus.logWarn("InspectionReportDialog:show - Vehicle has not been inspected")
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_inspection_notDone") or "Vehicle has not been inspected!",
+            3000
+        )
+        return
+    end
+
     self.listing = listing
     self.farmId = farmId
     self.onPurchaseCallback = onPurchaseCallback

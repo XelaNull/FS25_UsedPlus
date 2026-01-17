@@ -461,6 +461,18 @@ function FinanceDeal:processMonthlyPayment()
         g_currentMission:addMoneyChange(-paymentAmount, self.farmId, MoneyType.OTHER, true)
     end
 
+    -- Record on-time payment to PaymentTracker (builds credit score!)
+    if PaymentTracker then
+        local dealType = self.itemType or "finance"  -- "vehicle", "land", "loan"
+        PaymentTracker.recordPayment(
+            self.farmId,
+            self.id or "unknown",
+            PaymentTracker.STATUS_ON_TIME,
+            paymentAmount,
+            dealType
+        )
+    end
+
     -- Check if paid off (balance near zero)
     if self.currentBalance <= 0.01 then
         self.status = "paid_off"

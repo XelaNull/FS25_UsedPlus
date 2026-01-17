@@ -1,5 +1,6 @@
 --[[
     FS25_UsedPlus - Used Vehicle Preview Dialog
+    v2.7.0: Tiered delayed inspection system
 
     Shows used vehicle details with option to inspect or buy as-is.
     This is the entry point for the inspection system.
@@ -10,8 +11,14 @@
     2. This dialog shows visible stats + warning about hidden condition
     3. Player can:
        a) Buy As-Is - Purchase without knowing reliability
-       b) Inspect - Pay inspection fee, see InspectionReportDialog
-       c) Cancel - Return to previous screen
+       b) Request Inspection - Choose tier (Quick/Standard/Comprehensive)
+       c) View Report - If inspection is complete
+       d) Cancel - Return to previous screen
+
+    v2.7.0 Changes:
+    - Inspections are no longer instant - they take game time
+    - Three tiers with different costs, times, and data revealed
+    - Shows progress when inspection is in progress
 ]]
 
 UsedVehiclePreviewDialog = {}
@@ -27,11 +34,14 @@ function UsedVehiclePreviewDialog.new(target, customMt)
     local self = ScreenElement.new(target, customMt or UsedVehiclePreviewDialog_mt)
 
     self.listing = nil
+    self.search = nil  -- v2.7.0: Need search reference for inspection request
     self.farmId = nil
     self.onPurchaseCallback = nil
     self.callbackTarget = nil
-    self.inspectionCost = 0
     self.isBackAllowed = true
+
+    -- v2.7.0: Tier costs calculated on show
+    self.tierCosts = {}
 
     return self
 end
@@ -58,15 +68,17 @@ end
     @param farmId - Farm ID of the buyer
     @param onPurchaseCallback - Function(confirmed, listing) called when dialog closes
     @param callbackTarget - Target object for callback
+    @param search - (Optional) The search object containing this listing
 ]]
-function UsedVehiclePreviewDialog:show(listing, farmId, onPurchaseCallback, callbackTarget)
+function UsedVehiclePreviewDialog:show(listing, farmId, onPurchaseCallback, callbackTarget, search)
     self.listing = listing
     self.farmId = farmId
     self.onPurchaseCallback = onPurchaseCallback
     self.callbackTarget = callbackTarget
+    self.search = search
 
-    -- Calculate inspection cost
-    self.inspectionCost = InspectionReportDialog.calculateInspectionCost(listing.price or 0)
+    -- v2.7.0: Calculate tier costs
+    self.tierCosts = UsedPlusMaintenance.getInspectionTierOptions(listing.price or 0)
 
     g_gui:showDialog("UsedVehiclePreviewDialog")
 end
@@ -87,6 +99,24 @@ end
 ]]
 function UsedVehiclePreviewDialog:onClose()
     UsedVehiclePreviewDialog:superClass().onClose(self)
+end
+
+--[[
+    v2.7.0: Get current inspection state
+    @return "none", "pending", or "complete"
+]]
+function UsedVehiclePreviewDialog:getInspectionState()
+    local listing = self.listing
+    if listing == nil then return "none" end
+
+    if listing.inspectionState == "pending" then
+        return "pending"
+    end
+    if listing.inspectionState == "complete" then
+        return "complete"
+    end
+
+    return "none"
 end
 
 --[[
@@ -148,36 +178,92 @@ function UsedVehiclePreviewDialog:updateDisplay()
         self.wearText:setText(wearDesc)
     end
 
-    -- Check if already inspected
-    local wasInspected = listing.usedPlusData and listing.usedPlusData.wasInspected
+    -- v2.7.0: Update based on inspection state
+    local inspectionState = self:getInspectionState()
 
-    -- Update warning/inspected sections visibility
-    if self.warningBg then
-        self.warningBg:setVisible(not wasInspected)
-    end
-    if self.warningIcon then
-        self.warningIcon:setVisible(not wasInspected)
-    end
-    if self.warningText then
-        self.warningText:setVisible(not wasInspected)
-    end
-    if self.inspectPrompt then
-        self.inspectPrompt:setVisible(not wasInspected)
-        self.inspectPrompt:setText(string.format(g_i18n:getText("usedplus_preview_payForInspection"),
-            g_i18n:formatMoney(self.inspectionCost, 0, true, true)))
+    -- Update section visibility based on state
+    self:updateInspectionSections(inspectionState)
+
+    -- Update buttons based on state
+    self:updateButtons(inspectionState)
+end
+
+--[[
+    v2.7.0: Update inspection section visibility
+]]
+function UsedVehiclePreviewDialog:updateInspectionSections(inspectionState)
+    local listing = self.listing
+
+    -- Warning section (not inspected)
+    local showWarning = (inspectionState == "none")
+    if self.warningBg then self.warningBg:setVisible(showWarning) end
+    if self.warningIcon then self.warningIcon:setVisible(showWarning) end
+    if self.warningText then self.warningText:setVisible(showWarning) end
+
+    -- Tier selection (not inspected) - show cost summary
+    if self.inspectPrompt and showWarning then
+        self.inspectPrompt:setVisible(true)
+        -- Show tier range instead of single price
+        local minCost = self.tierCosts[1] and self.tierCosts[1].cost or 0
+        local maxCost = self.tierCosts[3] and self.tierCosts[3].cost or 0
+        local promptText = string.format(
+            g_i18n:getText("usedplus_preview_inspectionRange") or "Inspection options: %s - %s",
+            g_i18n:formatMoney(minCost, 0, true, true),
+            g_i18n:formatMoney(maxCost, 0, true, true)
+        )
+        self.inspectPrompt:setText(promptText)
+    elseif self.inspectPrompt then
+        self.inspectPrompt:setVisible(false)
     end
 
+    -- Progress section (inspection pending)
+    local showProgress = (inspectionState == "pending")
+    if self.progressSection then
+        self.progressSection:setVisible(showProgress)
+    end
+    if showProgress and self.progressText then
+        local hoursRemaining = 0
+        if g_usedVehicleManager then
+            hoursRemaining = g_usedVehicleManager:getInspectionHoursRemaining(listing)
+        end
+        local tierName = "Standard"
+        if listing.inspectionTier and UsedPlusMaintenance.CONFIG.inspectionTiers[listing.inspectionTier] then
+            tierName = UsedPlusMaintenance.CONFIG.inspectionTiers[listing.inspectionTier].name
+        end
+        local progressMsg = string.format(
+            g_i18n:getText("usedplus_preview_inspectionProgress") or "%s inspection in progress... ~%d hrs remaining",
+            tierName, hoursRemaining
+        )
+        self.progressText:setText(progressMsg)
+    end
+
+    -- Inspected section (complete)
+    local showInspected = (inspectionState == "complete")
     if self.inspectedSection then
-        self.inspectedSection:setVisible(wasInspected)
+        self.inspectedSection:setVisible(showInspected)
     end
+end
 
-    -- Update inspect button text and state
+--[[
+    v2.7.0: Update button states based on inspection state
+]]
+function UsedVehiclePreviewDialog:updateButtons(inspectionState)
+    -- Update inspect button text based on state
     if self.inspectButton then
-        if wasInspected then
-            self.inspectButton:setText(g_i18n:getText("usedplus_preview_viewReport"))
+        if inspectionState == "complete" then
+            -- Show "View Report" button
+            self.inspectButton:setText(g_i18n:getText("usedplus_preview_viewReport") or "View Report")
+            self.inspectButton:setVisible(true)
+        elseif inspectionState == "pending" then
+            -- Disable inspect button while in progress
+            self.inspectButton:setText(g_i18n:getText("usedplus_preview_inProgress") or "In Progress...")
+            self.inspectButton:setDisabled(true)
+            self.inspectButton:setVisible(true)
         else
-            self.inspectButton:setText(string.format(g_i18n:getText("usedPlus_inspectButton"),
-                g_i18n:formatMoney(self.inspectionCost, 0, true, true)))
+            -- Show "Request Inspection" - clicking opens tier selection
+            self.inspectButton:setText(g_i18n:getText("usedplus_preview_requestInspection") or "Request Inspection")
+            self.inspectButton:setDisabled(false)
+            self.inspectButton:setVisible(true)
         end
     end
 end
@@ -203,61 +289,139 @@ function UsedVehiclePreviewDialog:onClickBuyAsIs()
 end
 
 --[[
-    Button handler: Pay for inspection
+    Button handler: Inspect button clicked
+    v2.7.0: Opens tier selection dialog if not inspected
 ]]
 function UsedVehiclePreviewDialog:onClickInspect()
     local listing = self.listing
-    local wasInspected = listing.usedPlusData and listing.usedPlusData.wasInspected
+    local inspectionState = self:getInspectionState()
 
-    if wasInspected then
-        -- Already inspected - just show the report
+    if inspectionState == "complete" then
+        -- Already inspected - show the report
         self:close()
         local inspectionDialog = InspectionReportDialog.getInstance()
-        -- Pass all context needed for Purchase/Decline/Go Back
         inspectionDialog:show(listing, self.farmId, self.onInspectionComplete, self,
             self.onPurchaseCallback, self.callbackTarget)
+    elseif inspectionState == "pending" then
+        -- In progress - do nothing (button should be disabled)
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_inspection_alreadyPending") or "Inspection already in progress!",
+            3000
+        )
     else
-        -- Need to pay for inspection
-        local farm = g_farmManager:getFarmById(self.farmId)
-        if farm == nil then
-            g_currentMission:showBlinkingWarning("Invalid farm!", 3000)
-            return
-        end
-
-        -- Check if player can afford inspection
-        if farm.money < self.inspectionCost then
-            g_currentMission:showBlinkingWarning(
-                string.format("Cannot afford inspection (%s required)",
-                    g_i18n:formatMoney(self.inspectionCost, 0, true, true)),
-                3000
-            )
-            return
-        end
-
-        -- Deduct inspection cost
-        g_currentMission:addMoney(-self.inspectionCost, self.farmId, MoneyType.OTHER, true, true)
-
-        -- Mark as inspected
-        if listing.usedPlusData then
-            listing.usedPlusData.wasInspected = true
-        end
-
-        -- Track statistics
-        if g_financeManager then
-            g_financeManager:incrementStatistic(self.farmId, "inspectionsPurchased", 1)
-            g_financeManager:incrementStatistic(self.farmId, "totalInspectionFees", self.inspectionCost)
-        end
-
-        UsedPlus.logDebug(string.format("Inspection purchased for %s - cost: %s",
-            listing.storeItemName, g_i18n:formatMoney(self.inspectionCost, 0, true, true)))
-
-        -- Show the inspection report
-        self:close()
-        local inspectionDialog = InspectionReportDialog.getInstance()
-        -- Pass all context needed for Purchase/Decline/Go Back
-        inspectionDialog:show(listing, self.farmId, self.onInspectionComplete, self,
-            self.onPurchaseCallback, self.callbackTarget)
+        -- Not inspected - open tier selection dialog
+        self:showTierSelectionDialog()
     end
+end
+
+--[[
+    v2.7.0: Show tier selection dialog
+    Uses InfoDialog with options to select inspection tier
+]]
+function UsedVehiclePreviewDialog:showTierSelectionDialog()
+    local listing = self.listing
+
+    -- Build options text
+    local options = {}
+    for i, tier in ipairs(self.tierCosts) do
+        local tierConfig = UsedPlusMaintenance.CONFIG.inspectionTiers[i]
+        local optionText = string.format("%s - %s (~%d hrs)",
+            tier.name,
+            g_i18n:formatMoney(tier.cost, 0, true, true),
+            tier.durationHours
+        )
+        table.insert(options, { text = optionText, tier = i })
+    end
+
+    -- Show selection dialog using YesNoDialog pattern
+    -- For now, we'll use a simpler approach: show 3 buttons on the dialog
+    -- or use InfoDialog with callback
+
+    -- Build description for each tier
+    local tierDescriptions = {
+        g_i18n:getText("usedplus_tier_quick_desc") or "Overall rating only",
+        g_i18n:getText("usedplus_tier_standard_desc") or "Full reliability + parts condition",
+        g_i18n:getText("usedplus_tier_comprehensive_desc") or "Full details + DNA hint + repair estimate"
+    }
+
+    local messageText = g_i18n:getText("usedplus_selectInspectionTier") or "Select Inspection Type:\n\n"
+    for i, tier in ipairs(self.tierCosts) do
+        messageText = messageText .. string.format("[%d] %s - %s (~%d hrs)\n    %s\n\n",
+            i, tier.name,
+            g_i18n:formatMoney(tier.cost, 0, true, true),
+            tier.durationHours,
+            tierDescriptions[i] or ""
+        )
+    end
+
+    -- Use TextInputDialog approach or just cycle through with button clicks
+    -- For MVP: Use InfoDialog and have 3 separate buttons call tier-specific handlers
+
+    -- Show a yes/no dialog for the recommended (Standard) tier
+    local standardTier = self.tierCosts[2]
+    local confirmText = string.format(
+        g_i18n:getText("usedplus_confirmInspection") or "Request %s inspection for %s?\n\nReady in ~%d hours.",
+        standardTier.name,
+        g_i18n:formatMoney(standardTier.cost, 0, true, true),
+        standardTier.durationHours
+    )
+
+    -- Use the correct YesNoDialog.show(callback, target, text) pattern
+    YesNoDialog.show(
+        function(target, yes)
+            if yes then
+                self:requestInspectionTier(2)  -- Standard tier
+            end
+        end,
+        self,
+        confirmText
+    )
+end
+
+--[[
+    v2.7.0: Request inspection at specified tier
+    @param tierIndex - 1=Quick, 2=Standard, 3=Comprehensive
+]]
+function UsedVehiclePreviewDialog:requestInspectionTier(tierIndex)
+    local listing = self.listing
+
+    if g_usedVehicleManager == nil then
+        g_currentMission:showBlinkingWarning("Used vehicle system not available!", 3000)
+        return
+    end
+
+    -- Request the inspection
+    local success, errorMsg = g_usedVehicleManager:requestInspection(
+        listing,
+        self.search,
+        tierIndex,
+        self.farmId
+    )
+
+    if success then
+        -- Refresh display to show pending state
+        self:updateDisplay()
+    else
+        g_currentMission:showBlinkingWarning(
+            string.format(g_i18n:getText("usedplus_inspection_failed") or "Inspection failed: %s", errorMsg or "Unknown error"),
+            3000
+        )
+    end
+end
+
+--[[
+    v2.7.0: Tier button handlers (if using dedicated buttons)
+]]
+function UsedVehiclePreviewDialog:onClickTierQuick()
+    self:requestInspectionTier(1)
+end
+
+function UsedVehiclePreviewDialog:onClickTierStandard()
+    self:requestInspectionTier(2)
+end
+
+function UsedVehiclePreviewDialog:onClickTierComprehensive()
+    self:requestInspectionTier(3)
 end
 
 --[[
@@ -343,4 +507,4 @@ function UsedVehiclePreviewDialog:getConditionDescription(value, conditionType)
     end
 end
 
-UsedPlus.logInfo("UsedVehiclePreviewDialog loaded")
+UsedPlus.logInfo("UsedVehiclePreviewDialog loaded (v2.7.0 - tiered inspection system)")

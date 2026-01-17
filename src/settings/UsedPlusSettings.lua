@@ -59,6 +59,19 @@ UsedPlusSettings.DEFAULTS = {
     enableBUEIntegration = true,     -- v2.6.2: Toggle BuyUsedEquipment integration (hides Search button)
     enableELSIntegration = true,     -- v2.6.2: Toggle EnhancedLoanSystem integration (disables loans)
 
+    -- === SHOP BEHAVIOR (v2.7.0) ===
+    -- v2.7.0: Override shop Buy/Lease buttons to show UnifiedPurchaseDialog
+    -- When true (default): Clicking Buy/Lease opens our enhanced dialog
+    -- When false: Buy/Lease use vanilla behavior; use Finance button for our features
+    -- Disable if you have conflicts with other mods that also override Buy/Lease
+    overrideShopBuyLease = true,
+
+    -- v2.7.0: Override RVB's Repair button to show UsedPlus partial repair dialog
+    -- When true (default): RVB's Repair button opens our RepairDialog
+    -- When false: RVB handles repair natively; use Map > "Repair Vehicle" for our features
+    -- Only applies when Real Vehicle Breakdowns (RVB) is installed
+    overrideRVBRepair = true,
+
     -- === MONEY & RATES (5) ===
     baseInterestRate = 0.08,        -- 8% (used for all financing: vehicles, land, cash loans)
     baseTradeInPercent = 55,        -- 55%

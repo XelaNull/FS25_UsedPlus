@@ -29,6 +29,7 @@ FinanceCalculations.MINIMUM_AMOUNTS = {
     CASH_LOAN = 1000,         -- Secured loans can be smaller
     REPAIR_FINANCE = 500,     -- Emergency repairs need accessibility
     LAND_FINANCE = 10000,     -- Land purchases are always significant
+    USED_SEARCH = 10000,      -- v2.7.0: Only show "Search Used" for items $10k+ (no used market for cheap tools)
 }
 
 --[[

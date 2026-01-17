@@ -131,6 +131,17 @@ function LeaseDeal:processMonthlyPayment()
     self.monthsPaid = self.monthsPaid + 1
     self.missedPayments = 0
 
+    -- Record on-time payment to PaymentTracker (builds credit score!)
+    if PaymentTracker then
+        PaymentTracker.recordPayment(
+            self.farmId,
+            self.id or "unknown",
+            PaymentTracker.STATUS_ON_TIME,
+            self.monthlyPayment,
+            "lease"
+        )
+    end
+
     -- Update remaining obligation for UI
     self.currentBalance = self:calculateRemainingObligation()
 
