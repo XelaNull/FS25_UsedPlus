@@ -22,7 +22,7 @@
   - [Selling Your Equipment](#selling-your-equipment)
   - [Land Leasing](#land-leasing)
   - [Payment Options](#payment-options)
-  - [Repair & Repaint](#repair--repaint)
+  - [Partial Repair & Repaint](#partial-repair--repaint)
   - [Vehicle DNA](#vehicle-dna-workhorses--lemons)
   - [Malfunctions](#hydraulic-malfunctions)
 - [Settings & Configuration](#settings--configuration)
@@ -95,7 +95,7 @@ But real farmers don't work that way. They finance. They lease. They trade in ol
 | **Agent-Based Sales** | Sell equipment through agents for better returns |
 | **Land Leasing** | Lease fields you can't afford, buyout later |
 | **Flexible Payments** | Skip, minimum, standard, extra, or custom |
-| **Partial Repair** | Fix 25%, 50%, 75% - finance repair costs |
+| **Partial Repair & Repaint** | Fix or repaint 25%, 50%, 75% - finance costs, customize paint pricing |
 | **Vehicle DNA** | Hidden quality determines long-term reliability |
 | **Malfunctions** | Real hydraulic failures from neglected maintenance |
 
@@ -228,14 +228,17 @@ Not every month is a good month.
 
 ---
 
-### Repair & Repaint
+### Partial Repair & Repaint
 
-Why fully repair a tractor you're selling?
+Why fully repair a tractor you're selling next month?
 
 - **Quick buttons:** 25%, 50%, 75%, 100%
-- **Real-time cost preview**
-- **Finance repairs** - spread costs over time
-- **Separate dialogs** - fix engine without touching paint
+- **Real-time cost preview** as you adjust
+- **Finance repairs** - spread large repair costs over time
+- **Separate dialogs** - fix mechanical damage without touching paint (or vice versa)
+- **Customizable paint costs** - adjust the Paint Cost Multiplier in Settings (0.25x to 2.0x) if you find repainting too cheap or expensive
+
+> **Tip:** Access repair from the map by clicking your vehicle, or at any workshop/dealer.
 
 ---
 
