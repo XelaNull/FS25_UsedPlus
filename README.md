@@ -490,6 +490,8 @@ These mods were studied for our pattern documentation, helping us understand FS2
 
 ### Special Thanks
 
+- **w33zl** for [BuyUsedEquipment](https://www.farming-simulator.com/mod.php?mod_id=312631) - the agent-based used equipment search system that pioneered the "search → wait → notification → purchase" flow in FS25. Our entire **Used Vehicle Marketplace** architecture was built studying this mod's async search queue, probabilistic depreciation, and shop integration patterns.
+
 - **w33zl** for MobileServiceKit - the portable toolbox that became the foundation for UsedPlus's **Field Service Kit** system. The 3D model, i3d structure, and hand tool mechanics were adapted directly from this excellent mod. Our diagnosis minigame and consumable kit mechanics are built on top of w33zl's solid foundation.
 
 - **Gian FS** for the Fuel Barrel placeable - the 3D model and structure served as the foundation for our **Oil Barrel** oil service point.
@@ -528,7 +530,7 @@ If you build something using UsedPlus patterns, a simple credit like *"Patterns 
 
 ## Version
 
-**Current:** 2.6.0
+**Current:** 2.6.2
 **Game Version:** Farming Simulator 25
 
 ---
