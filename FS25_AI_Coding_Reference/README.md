@@ -136,12 +136,11 @@ Created by [@Dukefarming](https://github.com/Dukefarming) — raw Lua source fro
 | [animals.md](advanced/animals.md) | Husbandry integration | 📚 |
 | [production-patterns.md](advanced/production-patterns.md) | Multi-input production | 📚 |
 
-### Pitfalls & Future
+### Pitfalls
 
 | Document | Description |
 |----------|-------------|
 | [what-doesnt-work.md](pitfalls/what-doesnt-work.md) | 17 common mistakes and fixes |
-| [PATTERNS_TO_EXPLORE.md](PATTERNS_TO_EXPLORE.md) | 10 patterns for future exploration |
 
 ---
 
