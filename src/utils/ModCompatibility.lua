@@ -1,16 +1,150 @@
 --[[
     ModCompatibility.lua - Cross-Mod Integration Utility
+    v2.6.2 - All integrations now have settings toggles for failsafe
 
-    Detects and integrates with popular vehicle maintenance mods:
-    - Real Vehicle Breakdowns (RVB) by MathiasHun
-    - Use Up Your Tyres (UYT) by 50keda
+    ============================================================================
+    INTEGRATION LEVELS - What each mod integration actually does:
+    ============================================================================
 
-    Philosophy: "Symptoms Before Failure"
-    - UsedPlus provides the JOURNEY (gradual degradation, symptoms, warnings)
-    - RVB/UYT provide the DESTINATION (catastrophic failures, visual wear)
-    - Together they create a seamless realistic experience
+    INTEGRATED MODS (Enhanced cooperation - deep data sharing):
+    ----------------------------------------------------------------------------
 
-    v1.8.0 - Initial implementation
+    1. REAL VEHICLE BREAKDOWNS (RVB) by MathiasHun
+       Integration Level: DEEP
+       Setting: enableRVBIntegration (default: true)
+
+       What UsedPlus does WITH RVB:
+       - Reads RVB part health (ENGINE, THERMOSTAT, GENERATOR, BATTERY, etc.)
+       - Syncs UsedPlus reliability values FROM RVB part data
+       - Defers catastrophic failures TO RVB (UsedPlus only does symptoms)
+       - OBD Scanner shows RVB part status with fault indicators
+       - Used vehicle listings pre-generate RVB part conditions
+       - Vehicle DNA affects RVB part lifetimes (workhorses last longer)
+
+       What UsedPlus does WITHOUT RVB:
+       - Uses native UsedPlus reliability tracking
+       - Handles its own symptom + failure triggers
+       - OBD Scanner shows UsedPlus reliability percentages only
+
+       Functions that check rvbInstalled:
+       - getEngineReliability(), getElectricalReliability()
+       - shouldDeferEngineFailure(), shouldDeferElectricalFailure()
+       - getRVBPartLife(), isRVBPartFailed(), isRVBPartPrefault()
+       - getOBDDiagnosticData(), initializeRVBPartsFromListing()
+       - applyDNAToRVBLifetimes(), applyRVBRepairDegradation()
+
+    2. USE YOUR TYRES (UYT) by 50keda
+       Integration Level: DEEP
+       Setting: enableUYTIntegration (default: true)
+
+       What UsedPlus does WITH UYT:
+       - Reads UYT tire wear per wheel
+       - Syncs UsedPlus tire condition FROM UYT wear data
+       - Defers flat tire events TO UYT/RVB
+       - Syncs tire replacement TO UYT (resets wear tracking)
+       - Quality tires get UYT life bonus, retreads start with wear
+       - OBD Scanner shows UYT tire condition per wheel
+
+       What UsedPlus does WITHOUT UYT:
+       - Uses native UsedPlus tire tracking
+       - Handles its own flat tire triggers
+       - OBD Scanner shows UsedPlus tire data only
+
+       Functions that check uytInstalled:
+       - getUYTTireWear(), getUYTTireCondition(), getUYTMaxTireWear()
+       - shouldDeferTireFailure(), hasUYTTires()
+       - syncTireConditionFromUYT(), syncTireReplacementWithUYT()
+       - applyInitialUYTWear(), getWorstUYTTireWear()
+
+    COMPATIBLE MODS (Feature deferral - avoids conflicts):
+    ----------------------------------------------------------------------------
+
+    3. ADVANCEDMAINTENANCE (AM)
+       Integration Level: CHAIN
+       Setting: enableAMIntegration (default: true)
+
+       What UsedPlus does WITH AM:
+       - Chains to AM's engine damage check in canEngineRun()
+       - If AM says engine can't run (damage too high), UsedPlus respects that
+       - Both maintenance systems work together without conflicts
+
+       What UsedPlus does WITHOUT AM:
+       - Uses only UsedPlus reliability checks for engine operation
+
+       Functions that check advancedMaintenanceInstalled:
+       - getAdvancedMaintenanceChain() - returns AM's damage check function
+
+       Used in:
+       - UsedPlusMaintenance.lua:839 (canEngineRun chains to AM)
+
+    4. HIREPURCHASING (HP)
+       Integration Level: UI HIDE
+       Setting: enableHPIntegration (default: true)
+
+       What UsedPlus does WITH HP:
+       - HIDES UsedPlus Finance button in shop (HP handles financing)
+       - Displays HP lease data in Finance Manager for unified view
+       - Can read HP lease terms and settlement costs
+       - UsedPlus retains: marketplace, maintenance, leasing, used search
+
+       What UsedPlus does WITHOUT HP:
+       - Shows UsedPlus Finance button in shop
+       - Full UsedPlus financing system active
+
+       Functions that check hirePurchasingInstalled:
+       - shouldShowFinanceButton() - returns false when HP installed
+       - getHPLeases() - reads HP lease data for display
+
+    5. BUYUSEDEQUIPMENT (BUE)
+       Integration Level: UI HIDE
+       Setting: enableBUEIntegration (default: true)
+
+       What UsedPlus does WITH BUE:
+       - HIDES UsedPlus Search button in shop (BUE handles used search)
+       - Does NOT initialize UsedVehicleManager (avoids duplicate listings)
+       - UsedPlus retains: financing, maintenance, agent sales
+
+       What UsedPlus does WITHOUT BUE:
+       - Shows UsedPlus Search button in shop
+       - Full UsedPlus used vehicle marketplace active
+
+       Functions that check buyUsedEquipmentInstalled:
+       - shouldShowSearchButton() - returns false when BUE installed
+       - shouldInitUsedVehicleManager() - returns false when BUE installed
+
+    6. ENHANCEDLOANSYSTEM (ELS)
+       Integration Level: FEATURE DISABLE
+       Setting: enableELSIntegration (default: true)
+
+       What UsedPlus does WITH ELS:
+       - DISABLES UsedPlus loan creation (Take Loan button hidden)
+       - Displays ELS loan data in Finance Manager for unified view
+       - Can make payments on ELS loans through our UI
+       - UsedPlus retains: marketplace, maintenance, leasing
+
+       What UsedPlus does WITHOUT ELS:
+       - Shows Take Loan button in Finance Manager
+       - Full UsedPlus loan system active
+
+       Functions that check enhancedLoanSystemInstalled:
+       - shouldEnableLoanSystem() - returns false when ELS installed
+       - shouldShowTakeLoanOption() - returns false when ELS installed
+       - getELSLoans() - reads ELS loan data for display
+       - payELSLoan() - makes payments on ELS loans
+
+    ============================================================================
+    SETTINGS FAILSAFE (v2.6.2)
+    ============================================================================
+
+    All integrations can be disabled via Settings > Game Settings > Mod Compatibility.
+    Settings only appear if the corresponding mod is detected.
+
+    Disabling an integration means:
+    - ModCompatibility.xxxInstalled = false (even though mod is loaded)
+    - UsedPlus behaves as if the mod isn't present
+    - Useful if integration causes issues or player prefers standalone behavior
+
+    ============================================================================
 ]]
 
 ModCompatibility = {}
@@ -25,6 +159,14 @@ ModCompatibility.advancedMaintenanceInstalled = false
 ModCompatibility.hirePurchasingInstalled = false
 ModCompatibility.buyUsedEquipmentInstalled = false
 ModCompatibility.enhancedLoanSystemInstalled = false
+
+-- v2.6.2: Raw detection flags (for UI display - shows toggle even when disabled)
+ModCompatibility.rvbDetected = false
+ModCompatibility.uytDetected = false
+ModCompatibility.amDetected = false
+ModCompatibility.hpDetected = false
+ModCompatibility.bueDetected = false
+ModCompatibility.elsDetected = false
 
 ModCompatibility.initialized = false
 
@@ -56,30 +198,60 @@ function ModCompatibility.init()
     -- ========================================================================
 
     -- Detect Real Vehicle Breakdowns
-    ModCompatibility.rvbInstalled = g_currentMission ~= nil and
-                                    g_currentMission.vehicleBreakdowns ~= nil
+    local rvbDetected = g_currentMission ~= nil and g_currentMission.vehicleBreakdowns ~= nil
 
-    -- Detect Use Up Your Tyres
-    ModCompatibility.uytInstalled = UseYourTyres ~= nil
+    -- Detect Use Your Tyres
+    local uytDetected = UseYourTyres ~= nil
+
+    -- v2.6.2: Check integration settings (failsafe switches)
+    -- If setting is OFF, treat as not installed even if mod is detected
+    local rvbSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableRVBIntegration") ~= false
+    local uytSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableUYTIntegration") ~= false
+
+    -- Combine detection with setting
+    ModCompatibility.rvbInstalled = rvbDetected and rvbSettingEnabled
+    ModCompatibility.uytInstalled = uytDetected and uytSettingEnabled
+
+    -- Store raw detection for UI display
+    ModCompatibility.rvbDetected = rvbDetected
+    ModCompatibility.uytDetected = uytDetected
 
     -- ========================================================================
     -- COMPATIBLE MODS (Feature deferral for coexistence)
     -- ========================================================================
 
     -- Detect AdvancedMaintenance - checks specialization registry
-    ModCompatibility.advancedMaintenanceInstalled = ModCompatibility.checkAdvancedMaintenanceInstalled()
+    local amDetected = ModCompatibility.checkAdvancedMaintenanceInstalled()
 
     -- Detect HirePurchasing - checks for HP-specific leaseDeals table
     -- Note: vanilla may have LeasingOptions but not leaseDeals
-    ModCompatibility.hirePurchasingInstalled = g_currentMission ~= nil and
-                                                g_currentMission.LeasingOptions ~= nil and
-                                                g_currentMission.LeasingOptions.leaseDeals ~= nil
+    local hpDetected = g_currentMission ~= nil and
+                       g_currentMission.LeasingOptions ~= nil and
+                       g_currentMission.LeasingOptions.leaseDeals ~= nil
 
     -- Detect BuyUsedEquipment - checks for global namespace
-    ModCompatibility.buyUsedEquipmentInstalled = BuyUsedEquipment ~= nil
+    local bueDetected = BuyUsedEquipment ~= nil
 
     -- Detect EnhancedLoanSystem - checks for loan manager
-    ModCompatibility.enhancedLoanSystemInstalled = g_els_loanManager ~= nil
+    local elsDetected = g_els_loanManager ~= nil
+
+    -- v2.6.2: Check integration settings for compatible mods
+    local amSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableAMIntegration") ~= false
+    local hpSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableHPIntegration") ~= false
+    local bueSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableBUEIntegration") ~= false
+    local elsSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableELSIntegration") ~= false
+
+    -- Combine detection with settings
+    ModCompatibility.advancedMaintenanceInstalled = amDetected and amSettingEnabled
+    ModCompatibility.hirePurchasingInstalled = hpDetected and hpSettingEnabled
+    ModCompatibility.buyUsedEquipmentInstalled = bueDetected and bueSettingEnabled
+    ModCompatibility.enhancedLoanSystemInstalled = elsDetected and elsSettingEnabled
+
+    -- Store raw detection for UI display
+    ModCompatibility.amDetected = amDetected
+    ModCompatibility.hpDetected = hpDetected
+    ModCompatibility.bueDetected = bueDetected
+    ModCompatibility.elsDetected = elsDetected
 
     -- ========================================================================
     -- LOG DETECTION RESULTS
@@ -88,41 +260,65 @@ function ModCompatibility.init()
     UsedPlus.logInfo("=== ModCompatibility Detection Results ===")
 
     -- Integrated mods (full cooperation)
-    if ModCompatibility.rvbInstalled then
-        UsedPlus.logInfo("  [INTEGRATED] Real Vehicle Breakdowns DETECTED")
-        UsedPlus.logInfo("    -> UsedPlus provides 'symptoms before failure'")
-        UsedPlus.logInfo("    -> Final failure triggers deferred to RVB")
+    if ModCompatibility.rvbDetected then
+        if ModCompatibility.rvbInstalled then
+            UsedPlus.logInfo("  [INTEGRATED] Real Vehicle Breakdowns DETECTED")
+            UsedPlus.logInfo("    -> UsedPlus provides 'symptoms before failure'")
+            UsedPlus.logInfo("    -> Final failure triggers deferred to RVB")
+        else
+            UsedPlus.logInfo("  [DISABLED] Real Vehicle Breakdowns detected but INTEGRATION DISABLED in settings")
+        end
     end
 
-    if ModCompatibility.uytInstalled then
-        UsedPlus.logInfo("  [INTEGRATED] Use Up Your Tyres DETECTED")
-        UsedPlus.logInfo("    -> Tire condition synced from UYT wear data")
-        UsedPlus.logInfo("    -> Flat tire triggers deferred to UYT/RVB")
+    if ModCompatibility.uytDetected then
+        if ModCompatibility.uytInstalled then
+            UsedPlus.logInfo("  [INTEGRATED] Use Up Your Tyres DETECTED")
+            UsedPlus.logInfo("    -> Tire condition synced from UYT wear data")
+            UsedPlus.logInfo("    -> Flat tire triggers deferred to UYT/RVB")
+        else
+            UsedPlus.logInfo("  [DISABLED] Use Up Your Tyres detected but INTEGRATION DISABLED in settings")
+        end
     end
 
     -- Compatible mods (feature deferral)
-    if ModCompatibility.advancedMaintenanceInstalled then
-        UsedPlus.logInfo("  [COMPATIBLE] AdvancedMaintenance DETECTED")
-        UsedPlus.logInfo("    -> UsedPlus will chain to AM's engine damage checks")
-        UsedPlus.logInfo("    -> Both maintenance systems work together")
+    if ModCompatibility.amDetected then
+        if ModCompatibility.advancedMaintenanceInstalled then
+            UsedPlus.logInfo("  [COMPATIBLE] AdvancedMaintenance DETECTED")
+            UsedPlus.logInfo("    -> UsedPlus will chain to AM's engine damage checks")
+            UsedPlus.logInfo("    -> Both maintenance systems work together")
+        else
+            UsedPlus.logInfo("  [DISABLED] AdvancedMaintenance detected but INTEGRATION DISABLED in settings")
+        end
     end
 
-    if ModCompatibility.hirePurchasingInstalled then
-        UsedPlus.logInfo("  [COMPATIBLE] HirePurchasing DETECTED")
-        UsedPlus.logInfo("    -> UsedPlus Finance button HIDDEN (HP handles financing)")
-        UsedPlus.logInfo("    -> UsedPlus retains: marketplace, maintenance, leasing")
+    if ModCompatibility.hpDetected then
+        if ModCompatibility.hirePurchasingInstalled then
+            UsedPlus.logInfo("  [COMPATIBLE] HirePurchasing DETECTED")
+            UsedPlus.logInfo("    -> UsedPlus Finance button HIDDEN (HP handles financing)")
+            UsedPlus.logInfo("    -> UsedPlus retains: marketplace, maintenance, leasing")
+        else
+            UsedPlus.logInfo("  [DISABLED] HirePurchasing detected but INTEGRATION DISABLED in settings")
+        end
     end
 
-    if ModCompatibility.buyUsedEquipmentInstalled then
-        UsedPlus.logInfo("  [COMPATIBLE] BuyUsedEquipment DETECTED")
-        UsedPlus.logInfo("    -> UsedPlus Search button HIDDEN (BUE handles used search)")
-        UsedPlus.logInfo("    -> UsedPlus retains: financing, maintenance, agent sales")
+    if ModCompatibility.bueDetected then
+        if ModCompatibility.buyUsedEquipmentInstalled then
+            UsedPlus.logInfo("  [COMPATIBLE] BuyUsedEquipment DETECTED")
+            UsedPlus.logInfo("    -> UsedPlus Search button HIDDEN (BUE handles used search)")
+            UsedPlus.logInfo("    -> UsedPlus retains: financing, maintenance, agent sales")
+        else
+            UsedPlus.logInfo("  [DISABLED] BuyUsedEquipment detected but INTEGRATION DISABLED in settings")
+        end
     end
 
-    if ModCompatibility.enhancedLoanSystemInstalled then
-        UsedPlus.logInfo("  [COMPATIBLE] EnhancedLoanSystem DETECTED")
-        UsedPlus.logInfo("    -> UsedPlus loan features DISABLED (ELS handles loans)")
-        UsedPlus.logInfo("    -> UsedPlus retains: marketplace, maintenance, leasing")
+    if ModCompatibility.elsDetected then
+        if ModCompatibility.enhancedLoanSystemInstalled then
+            UsedPlus.logInfo("  [COMPATIBLE] EnhancedLoanSystem DETECTED")
+            UsedPlus.logInfo("    -> UsedPlus loan features DISABLED (ELS handles loans)")
+            UsedPlus.logInfo("    -> UsedPlus retains: marketplace, maintenance, leasing")
+        else
+            UsedPlus.logInfo("  [DISABLED] EnhancedLoanSystem detected but INTEGRATION DISABLED in settings")
+        end
     end
 
     -- Special combined modes
@@ -144,6 +340,58 @@ function ModCompatibility.init()
     UsedPlus.logInfo("==========================================")
 
     ModCompatibility.initialized = true
+end
+
+--[[
+    Refresh integration settings (call when settings change)
+    v2.6.2: Allows runtime toggling of all mod integrations
+]]
+function ModCompatibility.refreshIntegrationSettings()
+    if not ModCompatibility.initialized then return end
+
+    -- Get current settings
+    local rvbSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableRVBIntegration") ~= false
+    local uytSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableUYTIntegration") ~= false
+    local amSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableAMIntegration") ~= false
+    local hpSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableHPIntegration") ~= false
+    local bueSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableBUEIntegration") ~= false
+    local elsSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableELSIntegration") ~= false
+
+    -- Store old values
+    local oldRVB = ModCompatibility.rvbInstalled
+    local oldUYT = ModCompatibility.uytInstalled
+    local oldAM = ModCompatibility.advancedMaintenanceInstalled
+    local oldHP = ModCompatibility.hirePurchasingInstalled
+    local oldBUE = ModCompatibility.buyUsedEquipmentInstalled
+    local oldELS = ModCompatibility.enhancedLoanSystemInstalled
+
+    -- Update installed flags (detection AND setting)
+    ModCompatibility.rvbInstalled = ModCompatibility.rvbDetected and rvbSettingEnabled
+    ModCompatibility.uytInstalled = ModCompatibility.uytDetected and uytSettingEnabled
+    ModCompatibility.advancedMaintenanceInstalled = ModCompatibility.amDetected and amSettingEnabled
+    ModCompatibility.hirePurchasingInstalled = ModCompatibility.hpDetected and hpSettingEnabled
+    ModCompatibility.buyUsedEquipmentInstalled = ModCompatibility.bueDetected and bueSettingEnabled
+    ModCompatibility.enhancedLoanSystemInstalled = ModCompatibility.elsDetected and elsSettingEnabled
+
+    -- Log changes
+    if oldRVB ~= ModCompatibility.rvbInstalled then
+        UsedPlus.logInfo(ModCompatibility.rvbInstalled and "RVB Integration ENABLED" or "RVB Integration DISABLED")
+    end
+    if oldUYT ~= ModCompatibility.uytInstalled then
+        UsedPlus.logInfo(ModCompatibility.uytInstalled and "UYT Integration ENABLED" or "UYT Integration DISABLED")
+    end
+    if oldAM ~= ModCompatibility.advancedMaintenanceInstalled then
+        UsedPlus.logInfo(ModCompatibility.advancedMaintenanceInstalled and "AM Integration ENABLED" or "AM Integration DISABLED")
+    end
+    if oldHP ~= ModCompatibility.hirePurchasingInstalled then
+        UsedPlus.logInfo(ModCompatibility.hirePurchasingInstalled and "HP Integration ENABLED" or "HP Integration DISABLED")
+    end
+    if oldBUE ~= ModCompatibility.buyUsedEquipmentInstalled then
+        UsedPlus.logInfo(ModCompatibility.buyUsedEquipmentInstalled and "BUE Integration ENABLED" or "BUE Integration DISABLED")
+    end
+    if oldELS ~= ModCompatibility.enhancedLoanSystemInstalled then
+        UsedPlus.logInfo(ModCompatibility.enhancedLoanSystemInstalled and "ELS Integration ENABLED" or "ELS Integration DISABLED")
+    end
 end
 
 --[[
@@ -735,7 +983,7 @@ function ModCompatibility.applyOBDRepairToRVB(vehicle, system, hoursReduction, c
                 part.damaged = false
             end
 
-            UsedPlus.logInfoDebug(string.format(
+            UsedPlus.logDebug(string.format(
                 "OBD repair applied to RVB %s: hours reduced by %d, faults cleared: %s",
                 partKey, hoursReduction, tostring(clearFaults)))
         end

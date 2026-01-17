@@ -928,12 +928,15 @@ function UsedPlusAPI.fireEvent(eventName, ...)
     local subs = UsedPlusAPI.subscribers[eventName]
     if not subs then return end
 
+    -- Capture varargs into a table (Lua 5.1 doesn't allow ... in nested functions)
+    local args = {...}
+
     for _, sub in ipairs(subs) do
         local success, err = pcall(function()
             if sub.context then
-                sub.callback(sub.context, ...)
+                sub.callback(sub.context, unpack(args))
             else
-                sub.callback(...)
+                sub.callback(unpack(args))
             end
         end)
 

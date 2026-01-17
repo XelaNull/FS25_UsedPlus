@@ -2,6 +2,7 @@
     FS25_UsedPlus - Used Vehicle Search Data Class
 
     v1.5.0 REDESIGN: Multi-Find Agent Model
+    v2.6.0: Added seller personality and negotiation system
 
     UsedVehicleSearch represents an active search with a vehicle broker/agent.
 
@@ -152,6 +153,94 @@ UsedVehicleSearch.QUALITY_TIERS = {
 }
 
 --[[
+    v2.6.0: Seller personality types for negotiation system
+    v2.6.2: DNA-DRIVEN personality system - seller knows what they have!
+
+    NEW: Personality is now DETERMINED by vehicle DNA (workhorseLemonScale)
+    - Lemon sellers KNOW they have problems, desperate to unload
+    - Workhorse sellers KNOW they have gold, won't budge
+
+    DNA → Personality Mapping:
+    - DNA 0.00-0.20: desperate (seller knows it's cursed)
+    - DNA 0.20-0.40: motivated (seller suspects issues)
+    - DNA 0.40-0.60: reasonable (seller doesn't know either way)
+    - DNA 0.60-0.80: firm (seller knows it runs well)
+    - DNA 0.80-1.00: immovable (seller knows it's a workhorse - WON'T NEGOTIATE)
+]]
+UsedVehicleSearch.SELLER_PERSONALITIES = {
+    desperate = {
+        name = "desperate",
+        dnaRange = {0.00, 0.20},     -- Catastrophic/Terrible lemons
+        acceptThreshold = 0.60,      -- Accepts offers at 60% of asking!
+        counterThreshold = 0.70,     -- Counters at 70%
+        toleranceBonus = 0.15,       -- Very tolerant of lowballs (+15%)
+        walkAwayChance = 0.05,       -- Only 5% chance to walk away even when insulted
+        whisperHint = "desperate_seller"
+    },
+    motivated = {
+        name = "motivated",
+        dnaRange = {0.20, 0.40},     -- Poor/Below Average
+        acceptThreshold = 0.72,      -- Accepts at 72%
+        counterThreshold = 0.82,     -- Counters at 82%
+        toleranceBonus = 0.08,       -- Somewhat tolerant (+8%)
+        walkAwayChance = 0.15,       -- 15% walk away on insult
+        whisperHint = "upgrading"
+    },
+    reasonable = {
+        name = "reasonable",
+        dnaRange = {0.40, 0.60},     -- Average vehicles
+        acceptThreshold = 0.85,      -- Accepts at 85%
+        counterThreshold = 0.92,     -- Counters at 92%
+        toleranceBonus = 0.00,       -- Baseline tolerance
+        walkAwayChance = 0.35,       -- 35% walk away on insult
+        whisperHint = "standard"
+    },
+    firm = {
+        name = "firm",
+        dnaRange = {0.60, 0.80},     -- Good/Above Average
+        acceptThreshold = 0.92,      -- Accepts at 92%
+        counterThreshold = 0.97,     -- Counters at 97%
+        toleranceBonus = -0.05,      -- Less tolerant of lowballs (-5%)
+        walkAwayChance = 0.60,       -- 60% walk away on insult
+        whisperHint = "knows_value"
+    },
+    immovable = {
+        name = "immovable",
+        dnaRange = {0.80, 1.00},     -- Excellent/Legendary workhorses
+        acceptThreshold = 0.98,      -- Only accepts at 98%+ (basically full price)
+        counterThreshold = 1.00,     -- Won't counter - just reject
+        toleranceBonus = -0.15,      -- Very easily insulted (-15%)
+        walkAwayChance = 0.90,       -- 90% walk away on ANY lowball
+        whisperHint = "knows_value"  -- "This seller knows exactly what they have"
+    }
+}
+
+--[[
+    v2.6.2: DNA thresholds for personality determination
+    These define when a seller is considered to have each personality
+]]
+UsedVehicleSearch.DNA_PERSONALITY_THRESHOLDS = {
+    {maxDNA = 0.20, personality = "desperate"},
+    {maxDNA = 0.40, personality = "motivated"},
+    {maxDNA = 0.60, personality = "reasonable"},
+    {maxDNA = 0.80, personality = "firm"},
+    {maxDNA = 1.00, personality = "immovable"}
+}
+
+--[[
+    v2.6.0: Whisper types for mechanic intel hints
+    Priority order determines which whisper is shown when multiple apply
+]]
+UsedVehicleSearch.WHISPER_TYPES = {
+    desperate_seller = {priority = 1, key = "usedplus_whisper_desperate_seller"},
+    listed_long = {priority = 2, key = "usedplus_whisper_listed_long"},
+    upgrading = {priority = 3, key = "usedplus_whisper_upgrading"},
+    knows_value = {priority = 4, key = "usedplus_whisper_knows_value"},
+    just_listed = {priority = 5, key = "usedplus_whisper_just_listed"},
+    standard = {priority = 6, key = "usedplus_whisper_standard"}
+}
+
+--[[
     Get credit score fee modifier for a farm
     @param farmId - Farm ID to check credit for
     @return modifier (negative = discount, positive = surcharge)
@@ -168,6 +257,81 @@ function UsedVehicleSearch.getCreditFeeModifier(farmId)
         end
     end
     return 0.20  -- Default to worst tier
+end
+
+--[[
+    v2.6.2: Generate seller personality based on vehicle DNA
+    Sellers KNOW what they have - lemons get desperate sellers, workhorses get immovable sellers
+
+    @param workhorseLemonScale - Vehicle DNA (0.0 = lemon, 1.0 = workhorse)
+    @return personality name string ("desperate", "motivated", "reasonable", "firm", "immovable")
+]]
+function UsedVehicleSearch.generateSellerPersonalityFromDNA(workhorseLemonScale)
+    local dna = workhorseLemonScale or 0.5  -- Default to average if not provided
+
+    -- Find matching personality based on DNA thresholds
+    for _, threshold in ipairs(UsedVehicleSearch.DNA_PERSONALITY_THRESHOLDS) do
+        if dna <= threshold.maxDNA then
+            UsedPlus.logDebug(string.format("DNA %.2f -> personality: %s", dna, threshold.personality))
+            return threshold.personality
+        end
+    end
+
+    return "reasonable"  -- Fallback (should never reach here)
+end
+
+--[[
+    v2.6.0: Generate seller personality for a listing (LEGACY - random)
+    DEPRECATED in v2.6.2 - use generateSellerPersonalityFromDNA() instead
+    Kept for backwards compatibility with saves that don't have DNA yet
+    @return personality name string
+]]
+function UsedVehicleSearch.generateSellerPersonality()
+    -- Legacy random distribution for migration
+    math.random()
+    local roll = math.random()
+
+    if roll < 0.10 then return "desperate"
+    elseif roll < 0.35 then return "motivated"
+    elseif roll < 0.75 then return "reasonable"
+    else return "firm"
+    end
+end
+
+--[[
+    v2.6.0: Generate whisper type based on listing characteristics
+    Priority-based selection considering personality, time on market, etc.
+    @param listing - The listing data table
+    @return whisper type string
+]]
+function UsedVehicleSearch.generateWhisperType(listing)
+    local personality = listing.sellerPersonality or "reasonable"
+    local daysOnMarket = listing.daysOnMarket or 0
+
+    -- Priority-based whisper selection
+    if personality == "desperate" then
+        return "desperate_seller"
+    elseif daysOnMarket > 14 then
+        return "listed_long"
+    elseif personality == "motivated" then
+        return "upgrading"
+    elseif personality == "firm" then
+        return "knows_value"
+    elseif daysOnMarket < 3 then
+        return "just_listed"
+    else
+        return "standard"
+    end
+end
+
+--[[
+    v2.6.0: Get seller personality configuration
+    @param personalityName - Name of the personality
+    @return personality config table or default
+]]
+function UsedVehicleSearch.getSellerPersonalityConfig(personalityName)
+    return UsedVehicleSearch.SELLER_PERSONALITIES[personalityName] or
+           UsedVehicleSearch.SELLER_PERSONALITIES.reasonable
 end
 
 --[[
@@ -254,7 +418,8 @@ function UsedVehicleSearch:calculateSearchParams()
 
     -- Get global success modifier from settings (default 75% = 1.0 multiplier)
     -- E.g., 90% setting = 1.2 multiplier, 60% setting = 0.8 multiplier
-    local settingsPercent = UsedPlusSettings and UsedPlusSettings:get("searchSuccessPercent") or 75
+    -- v2.6.2: Fixed to use renamed setting (was searchSuccessPercent)
+    local settingsPercent = UsedPlusSettings and UsedPlusSettings:get("baseSearchSuccessPercent") or 75
     local globalModifier = settingsPercent / 75
 
     -- Apply: base chance × global modifier + quality modifier
@@ -561,6 +726,9 @@ function UsedVehicleSearch:generateFoundVehicleDetails()
     math.random()  -- Dry run for better randomness
     local expirationMonths = math.random() < 0.70 and 3 or 2
 
+    -- v2.6.0: Generate seller personality for negotiation
+    local sellerPersonality = UsedVehicleSearch.generateSellerPersonality()
+
     -- Create listing data with ID
     local listingData = {
         id = listingId,
@@ -572,6 +740,7 @@ function UsedVehicleSearch:generateFoundVehicleDetails()
         basePrice = basePrice,
         commissionAmount = commissionAmount,
         askingPrice = askingPrice,
+        price = askingPrice,              -- v2.6.0: Compatibility field (same as askingPrice)
         qualityLevel = self.qualityLevel,
         qualityName = qualityTier.name,
         foundMonth = self.monthsElapsed,
@@ -579,13 +748,25 @@ function UsedVehicleSearch:generateFoundVehicleDetails()
 
         -- v2.1.0: RVB/UYT compatible data for holistic inspection
         rvbPartsData = rvbPartsData,       -- Engine, Thermostat, Generator, Battery, Starter, GlowPlug
-        tireConditions = tireConditions     -- Per-wheel conditions (FL, FR, RL, RR)
+        tireConditions = tireConditions,   -- Per-wheel conditions (FL, FR, RL, RR)
+
+        -- v2.6.0: Negotiation system data
+        sellerPersonality = sellerPersonality,  -- "desperate", "motivated", "reasonable", "firm"
+        daysOnMarket = 0,                        -- Incremented each day listing exists
+        whisperType = nil,                       -- Generated on first inspection
+        negotiationLocked = false,               -- True if seller walked away
+        negotiationLockExpires = 0               -- Game time when lock expires
     }
+
+    -- Generate whisper type based on listing characteristics
+    listingData.whisperType = UsedVehicleSearch.generateWhisperType(listingData)
 
     -- Add to portfolio immediately
     table.insert(self.foundListings, listingData)
     UsedPlus.logDebug(string.format("  Added to portfolio (now %d/%d, expires in %d months)",
         #self.foundListings, self.maxListings, expirationMonths))
+    UsedPlus.logDebug(string.format("  Seller personality: %s, Whisper: %s",
+        sellerPersonality, listingData.whisperType))
 
     return listingData
 end
@@ -925,6 +1106,13 @@ function UsedVehicleSearch:saveListingToXML(xmlFile, key, listing)
         xmlFile:setFloat(tireKey .. "#RL", listing.tireConditions.RL or 1.0)
         xmlFile:setFloat(tireKey .. "#RR", listing.tireConditions.RR or 1.0)
     end
+
+    -- v2.6.0: Save negotiation data
+    xmlFile:setString(key .. "#sellerPersonality", listing.sellerPersonality or "reasonable")
+    xmlFile:setInt(key .. "#daysOnMarket", listing.daysOnMarket or 0)
+    xmlFile:setString(key .. "#whisperType", listing.whisperType or "standard")
+    xmlFile:setBool(key .. "#negotiationLocked", listing.negotiationLocked or false)
+    xmlFile:setInt(key .. "#negotiationLockExpires", listing.negotiationLockExpires or 0)
 end
 
 --[[
@@ -1088,6 +1276,18 @@ function UsedVehicleSearch:loadListingFromXML(xmlFile, key)
             RL = xmlFile:getFloat(tireKey .. "#RL", 1.0),
             RR = xmlFile:getFloat(tireKey .. "#RR", 1.0)
         }
+    end
+
+    -- v2.6.0: Load negotiation data (with defaults for migration)
+    listing.sellerPersonality = xmlFile:getString(key .. "#sellerPersonality", "reasonable")
+    listing.daysOnMarket = xmlFile:getInt(key .. "#daysOnMarket", 0)
+    listing.whisperType = xmlFile:getString(key .. "#whisperType", nil)
+    listing.negotiationLocked = xmlFile:getBool(key .. "#negotiationLocked", false)
+    listing.negotiationLockExpires = xmlFile:getInt(key .. "#negotiationLockExpires", 0)
+
+    -- Generate whisper type if missing (migration from older save)
+    if listing.whisperType == nil or listing.whisperType == "" then
+        listing.whisperType = UsedVehicleSearch.generateWhisperType(listing)
     end
 
     return listing

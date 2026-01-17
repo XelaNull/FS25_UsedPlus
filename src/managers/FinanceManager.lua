@@ -62,6 +62,10 @@ function FinanceManager:getStatistics(farmId)
             totalSavingsFromUsed = 0,  -- basePrice - usedPrice when purchasing used
             usedPurchases = 0,         -- Count of used vehicles purchased
 
+            -- Inspection statistics
+            inspectionsPurchased = 0,  -- Count of inspections purchased
+            totalInspectionFees = 0,   -- Total spent on inspections
+
             -- Vehicle Sale statistics
             salesListed = 0,
             salesCompleted = 0,
@@ -72,7 +76,14 @@ function FinanceManager:getStatistics(farmId)
             dealsCreated = 0,
             dealsCompleted = 0,
             totalAmountFinanced = 0,
-            totalInterestPaid = 0
+            totalInterestPaid = 0,
+
+            -- v2.6.0: Negotiation statistics
+            negotiationsAttempted = 0,      -- Total offers made
+            negotiationsWon = 0,            -- Accepted at offered price
+            negotiationsCountered = 0,      -- Accepted at counter price
+            negotiationsRejected = 0,       -- Walked away or paid full
+            totalNegotiationSavings = 0     -- Money saved through negotiation
         }
     end
     return self.statisticsByFarm[farmId]
@@ -168,7 +179,7 @@ end
     The vanilla game handles its normal interest payment - we just add the principal acceleration.
 ]]
 function FinanceManager:processVanillaLoanExtraPayments()
-    local vanillaInterestRate = 0.10  -- Vanilla uses ~10% APY
+    local vanillaInterestRate = 0.04  -- Vanilla uses ~4% APY ($833/mo on $250k)
 
     -- Process for each farm that has a vanilla loan multiplier set
     for farmId, multiplier in pairs(self.vanillaLoanMultipliers) do
@@ -763,6 +774,11 @@ function FinanceManager:saveToXMLFile(missionInfo)
             PaymentTracker.saveToXMLFile(xmlFile, "usedPlus.paymentTracker")
         end
 
+        -- Save FarmExtension data (vanilla loan tracking flags)
+        if FarmExtension and FarmExtension.saveToXMLFile then
+            FarmExtension.saveToXMLFile(xmlFile, "usedPlus.farmExtension")
+        end
+
         -- Save statistics per farm
         local statsIndex = 0
         for farmId, stats in pairs(self.statisticsByFarm) do
@@ -775,6 +791,8 @@ function FinanceManager:saveToXMLFile(missionInfo)
             xmlFile:setFloat(statsKey .. "#totalSearchFees", stats.totalSearchFees or 0)
             xmlFile:setFloat(statsKey .. "#totalSavingsFromUsed", stats.totalSavingsFromUsed or 0)
             xmlFile:setInt(statsKey .. "#usedPurchases", stats.usedPurchases or 0)
+            xmlFile:setInt(statsKey .. "#inspectionsPurchased", stats.inspectionsPurchased or 0)
+            xmlFile:setFloat(statsKey .. "#totalInspectionFees", stats.totalInspectionFees or 0)
             xmlFile:setInt(statsKey .. "#salesListed", stats.salesListed or 0)
             xmlFile:setInt(statsKey .. "#salesCompleted", stats.salesCompleted or 0)
             xmlFile:setInt(statsKey .. "#salesCancelled", stats.salesCancelled or 0)
@@ -783,6 +801,12 @@ function FinanceManager:saveToXMLFile(missionInfo)
             xmlFile:setInt(statsKey .. "#dealsCompleted", stats.dealsCompleted or 0)
             xmlFile:setFloat(statsKey .. "#totalAmountFinanced", stats.totalAmountFinanced or 0)
             xmlFile:setFloat(statsKey .. "#totalInterestPaid", stats.totalInterestPaid or 0)
+            -- v2.6.0: Negotiation statistics
+            xmlFile:setInt(statsKey .. "#negotiationsAttempted", stats.negotiationsAttempted or 0)
+            xmlFile:setInt(statsKey .. "#negotiationsWon", stats.negotiationsWon or 0)
+            xmlFile:setInt(statsKey .. "#negotiationsCountered", stats.negotiationsCountered or 0)
+            xmlFile:setInt(statsKey .. "#negotiationsRejected", stats.negotiationsRejected or 0)
+            xmlFile:setFloat(statsKey .. "#totalNegotiationSavings", stats.totalNegotiationSavings or 0)
             statsIndex = statsIndex + 1
         end
 
@@ -867,6 +891,11 @@ function FinanceManager:loadFromXMLFile(missionInfo)
             PaymentTracker.loadFromXMLFile(xmlFile, "usedPlus.paymentTracker")
         end
 
+        -- Load FarmExtension data (vanilla loan tracking flags)
+        if FarmExtension and FarmExtension.loadFromXMLFile then
+            FarmExtension.loadFromXMLFile(xmlFile, "usedPlus.farmExtension")
+        end
+
         -- Load statistics per farm
         xmlFile:iterate("usedPlus.statistics.farm", function(_, statsKey)
             local farmId = xmlFile:getInt(statsKey .. "#farmId")
@@ -879,6 +908,8 @@ function FinanceManager:loadFromXMLFile(missionInfo)
                 stats.totalSearchFees = xmlFile:getFloat(statsKey .. "#totalSearchFees", 0)
                 stats.totalSavingsFromUsed = xmlFile:getFloat(statsKey .. "#totalSavingsFromUsed", 0)
                 stats.usedPurchases = xmlFile:getInt(statsKey .. "#usedPurchases", 0)
+                stats.inspectionsPurchased = xmlFile:getInt(statsKey .. "#inspectionsPurchased", 0)
+                stats.totalInspectionFees = xmlFile:getFloat(statsKey .. "#totalInspectionFees", 0)
                 stats.salesListed = xmlFile:getInt(statsKey .. "#salesListed", 0)
                 stats.salesCompleted = xmlFile:getInt(statsKey .. "#salesCompleted", 0)
                 stats.salesCancelled = xmlFile:getInt(statsKey .. "#salesCancelled", 0)
@@ -887,6 +918,12 @@ function FinanceManager:loadFromXMLFile(missionInfo)
                 stats.dealsCompleted = xmlFile:getInt(statsKey .. "#dealsCompleted", 0)
                 stats.totalAmountFinanced = xmlFile:getFloat(statsKey .. "#totalAmountFinanced", 0)
                 stats.totalInterestPaid = xmlFile:getFloat(statsKey .. "#totalInterestPaid", 0)
+                -- v2.6.0: Negotiation statistics
+                stats.negotiationsAttempted = xmlFile:getInt(statsKey .. "#negotiationsAttempted", 0)
+                stats.negotiationsWon = xmlFile:getInt(statsKey .. "#negotiationsWon", 0)
+                stats.negotiationsCountered = xmlFile:getInt(statsKey .. "#negotiationsCountered", 0)
+                stats.negotiationsRejected = xmlFile:getInt(statsKey .. "#negotiationsRejected", 0)
+                stats.totalNegotiationSavings = xmlFile:getFloat(statsKey .. "#totalNegotiationSavings", 0)
             end
         end)
 

@@ -12,6 +12,12 @@
 CreditReportDialog = {}
 local CreditReportDialog_mt = Class(CreditReportDialog, MessageDialog)
 
+-- Month name abbreviations for date display
+CreditReportDialog.MONTH_NAMES = {
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+}
+
 --[[
      Constructor
 ]]
@@ -19,6 +25,24 @@ function CreditReportDialog.new(target, custom_mt, i18n)
     local self = MessageDialog.new(target, custom_mt or CreditReportDialog_mt)
     self.i18n = i18n or g_i18n
     return self
+end
+
+--[[
+    Format date as "Mon YY" (e.g., "Jan 01")
+    Uses currentPeriod (1-12) and currentYear
+]]
+function CreditReportDialog:formatDate()
+    local env = g_currentMission.environment
+    local period = env.currentPeriod or 1
+    local year = env.currentYear or 1
+
+    -- Clamp period to valid range
+    period = math.max(1, math.min(12, period))
+
+    local monthName = CreditReportDialog.MONTH_NAMES[period] or "Jan"
+    local yearStr = string.format("%02d", year % 100)  -- Last 2 digits
+
+    return monthName .. " " .. yearStr
 end
 
 --[[
@@ -32,10 +56,83 @@ function CreditReportDialog.isCreditSystemEnabled()
 end
 
 --[[
+    Bind all GUI elements by ID
+    Called once when dialog first opens to cache element references
+]]
+function CreditReportDialog:bindElements()
+    if self.elementsBound then
+        return  -- Already bound
+    end
+
+    -- Helper to safely get element by ID
+    local function getElement(id)
+        local element = self:getDescendantById(id)
+        if not element then
+            UsedPlus.logDebug("CreditReportDialog: Element not found: " .. id)
+        end
+        return element
+    end
+
+    -- Header elements
+    self.farmNameText = getElement("farmNameText")
+    self.reportDateText = getElement("reportDateText")
+
+    -- Containers for visibility toggle
+    self.creditContentContainer = getElement("creditContentContainer")
+    self.disabledMessageContainer = getElement("disabledMessageContainer")
+
+    -- Credit Score section
+    self.scoreValueText = getElement("scoreValueText")
+    self.ratingText = getElement("ratingText")
+    self.scoreRangeText = getElement("scoreRangeText")
+    self.interestImpactText = getElement("interestImpactText")
+    self.scoreTrendText = getElement("scoreTrendText")
+
+    -- Factors section
+    self.factorPaymentText = getElement("factorPaymentText")
+    self.factorUtilizationText = getElement("factorUtilizationText")
+    self.factorAgeText = getElement("factorAgeText")
+    self.factorMixText = getElement("factorMixText")
+    self.factorInquiriesText = getElement("factorInquiriesText")
+
+    -- Account Summary section
+    self.openAccountsText = getElement("openAccountsText")
+    self.closedAccountsText = getElement("closedAccountsText")
+    self.totalBalanceText = getElement("totalBalanceText")
+    self.netWorthText = getElement("netWorthText")
+
+    -- Active Accounts section
+    self.accountLine1Text = getElement("accountLine1Text")
+    self.accountLine2Text = getElement("accountLine2Text")
+    self.accountLine3Text = getElement("accountLine3Text")
+
+    -- Payment History section
+    self.onTimePaymentsText = getElement("onTimePaymentsText")
+    self.missedPaymentsText = getElement("missedPaymentsText")
+    self.currentStreakText = getElement("currentStreakText")
+    self.longestStreakText = getElement("longestStreakText")
+
+    -- Histogram section
+    self.histogramText = getElement("histogramText")
+    self.histogramLegendText = getElement("histogramLegendText")
+
+    -- Tips section
+    self.tipText1 = getElement("tipText1")
+    self.tipText2 = getElement("tipText2")
+    self.tipText3 = getElement("tipText3")
+
+    self.elementsBound = true
+    UsedPlus.logDebug("CreditReportDialog: Elements bound successfully")
+end
+
+--[[
      Called when dialog opens
 ]]
 function CreditReportDialog:onOpen()
     CreditReportDialog:superClass().onOpen(self)
+
+    -- Bind elements on first open
+    self:bindElements()
 
     -- v2.0.0: Check if credit system is enabled
     local creditEnabled = CreditReportDialog.isCreditSystemEnabled()
@@ -90,12 +187,9 @@ function CreditReportDialog:updateHeader()
         self.farmNameText:setText(farmName)
     end
 
-    -- Report date (current in-game date)
+    -- Report date (current in-game date) - Format: "Report Date: Mon YY"
     if self.reportDateText then
-        local currentDay = g_currentMission.environment.currentDay or 1
-        local currentMonth = g_currentMission.environment.currentMonth or 1
-        local currentYear = g_currentMission.environment.currentYear or 2025
-        local dateStr = string.format("%02d/%02d/%d", currentMonth, currentDay, currentYear)
+        local dateStr = self:formatDate()
         self.reportDateText:setText("Report Date: " .. dateStr)
     end
 end
@@ -285,12 +379,21 @@ end
 
 --[[
      Update accounts section showing open and closed accounts
+     Includes UsedPlus deals + vanilla bank loan in outstanding balance
 ]]
 function CreditReportDialog:updateAccountsSection()
     local openCount = 0
     local closedCount = 0
     local totalBalance = 0
 
+    -- Include vanilla bank loan in total balance
+    local vanillaLoan = self.farm.loan or 0
+    if vanillaLoan > 0 then
+        openCount = openCount + 1  -- Count vanilla loan as an open account
+        totalBalance = totalBalance + vanillaLoan
+    end
+
+    -- Add UsedPlus finance deals
     if g_financeManager then
         local deals = g_financeManager:getDealsForFarm(self.farmId)
         if deals then
@@ -315,18 +418,101 @@ function CreditReportDialog:updateAccountsSection()
         self.closedAccountsText:setText(tostring(closedCount))
     end
 
-    -- Total outstanding balance
+    -- Total outstanding balance (includes vanilla loan)
     if self.totalBalanceText then
         self.totalBalanceText:setText(g_i18n:formatMoney(totalBalance, 0, true, true))
+    end
+
+    -- Net worth section (NEW)
+    self:updateNetWorthSection()
+end
+
+--[[
+    Update net worth section showing total assets
+    Assets = farmland value + vehicle value
+]]
+function CreditReportDialog:updateNetWorthSection()
+    local totalAssets = 0
+    local farmlandValue = 0
+    local vehicleValue = 0
+
+    UsedPlus.logDebug("CreditReportDialog: Calculating net worth for farmId=" .. tostring(self.farmId))
+
+    -- Calculate farmland value
+    if g_farmlandManager then
+        local farmlands = g_farmlandManager:getOwnedFarmlandIdsByFarmId(self.farmId)
+        if farmlands then
+            UsedPlus.logDebug("CreditReportDialog: Found " .. #farmlands .. " farmlands")
+            for _, farmlandId in ipairs(farmlands) do
+                local farmland = g_farmlandManager:getFarmlandById(farmlandId)
+                if farmland then
+                    farmlandValue = farmlandValue + (farmland.price or 0)
+                end
+            end
+        else
+            UsedPlus.logDebug("CreditReportDialog: No farmlands found")
+        end
+    end
+
+    -- Calculate vehicle value
+    if g_currentMission.vehicles then
+        local vehicleCount = 0
+        for _, vehicle in ipairs(g_currentMission.vehicles) do
+            if vehicle.ownerFarmId == self.farmId then
+                -- Use getSellPrice if available, otherwise estimate from storeItem
+                local value = 0
+                if vehicle.getSellPrice then
+                    value = vehicle:getSellPrice()
+                elseif vehicle.storeItem then
+                    value = vehicle.storeItem.price or 0
+                end
+                vehicleValue = vehicleValue + value
+                vehicleCount = vehicleCount + 1
+            end
+        end
+        UsedPlus.logDebug("CreditReportDialog: Found " .. vehicleCount .. " vehicles worth " .. vehicleValue)
+    end
+
+    totalAssets = farmlandValue + vehicleValue
+    UsedPlus.logDebug("CreditReportDialog: Net worth = " .. totalAssets .. " (land=" .. farmlandValue .. ", vehicles=" .. vehicleValue .. ")")
+
+    -- Update net worth display
+    if self.netWorthText then
+        self.netWorthText:setText(g_i18n:formatMoney(totalAssets, 0, true, true))
+        UsedPlus.logDebug("CreditReportDialog: Set netWorthText to " .. g_i18n:formatMoney(totalAssets, 0, true, true))
+    else
+        UsedPlus.logDebug("CreditReportDialog: WARNING - netWorthText element is nil!")
+    end
+
+    -- Update individual components if elements exist
+    if self.farmlandValueText then
+        self.farmlandValueText:setText(g_i18n:formatMoney(farmlandValue, 0, true, true))
+    end
+    if self.vehicleValueText then
+        self.vehicleValueText:setText(g_i18n:formatMoney(vehicleValue, 0, true, true))
     end
 end
 
 --[[
      Update active accounts detail section
      Shows up to 3 most recent active accounts with start dates
+     Includes vanilla bank loan if present
 ]]
 function CreditReportDialog:updateActiveAccountsSection()
     local accounts = {}
+
+    -- Include vanilla bank loan if it exists
+    local vanillaLoan = self.farm.loan or 0
+    if vanillaLoan > 0 then
+        table.insert(accounts, {
+            name = "Bank Credit Line",
+            typeLabel = "Bank Loan",
+            startDate = "Active",
+            balance = vanillaLoan,
+            createdYear = 9999,  -- Sort to top as "most important"
+            createdMonth = 1
+        })
+    end
 
     -- Collect all active accounts from finance manager
     if g_financeManager then
@@ -350,10 +536,12 @@ function CreditReportDialog:updateActiveAccountsSection()
                         itemName = itemName:sub(1, 15) .. "..."
                     end
 
-                    -- Format start date (Month/Year)
+                    -- Format start date using month names
                     local month = deal.createdMonth or 1
-                    local year = deal.createdYear or 2025
-                    local startDate = string.format("%02d/%d", month, year)
+                    local year = deal.createdYear or 1
+                    month = math.max(1, math.min(12, month))
+                    local monthName = CreditReportDialog.MONTH_NAMES[month] or "Jan"
+                    local startDate = string.format("%s %02d", monthName, year % 100)
 
                     -- Format balance
                     local balance = deal.currentBalance or 0
@@ -406,18 +594,28 @@ end
      Update payment history section with stats
 ]]
 function CreditReportDialog:updatePaymentHistorySection()
+    UsedPlus.logDebug("CreditReportDialog: Updating payment history section")
+
     if not PaymentTracker then
+        UsedPlus.logDebug("CreditReportDialog: PaymentTracker not available")
         return
     end
 
     local stats = PaymentTracker.getStats(self.farmId)
+    UsedPlus.logDebug("CreditReportDialog: PaymentTracker stats = " .. tostring(stats ~= nil))
+
     if not stats then
+        UsedPlus.logDebug("CreditReportDialog: No stats, setting defaults")
         -- No history yet
         if self.onTimePaymentsText then
             self.onTimePaymentsText:setText("0")
+        else
+            UsedPlus.logDebug("CreditReportDialog: WARNING - onTimePaymentsText is nil")
         end
         if self.missedPaymentsText then
             self.missedPaymentsText:setText("0")
+        else
+            UsedPlus.logDebug("CreditReportDialog: WARNING - missedPaymentsText is nil")
         end
         if self.currentStreakText then
             self.currentStreakText:setText("N/A")
@@ -428,10 +626,17 @@ function CreditReportDialog:updatePaymentHistorySection()
         return
     end
 
+    UsedPlus.logDebug("CreditReportDialog: Stats - onTime=" .. tostring(stats.onTimePayments) ..
+        ", missed=" .. tostring(stats.missedPayments) ..
+        ", total=" .. tostring(stats.totalPayments) ..
+        ", streak=" .. tostring(stats.currentStreak))
+
     -- On-time payments
     if self.onTimePaymentsText then
         self.onTimePaymentsText:setText(tostring(stats.onTimePayments or 0))
         self.onTimePaymentsText:setTextColor(0.3, 0.9, 0.3, 1)
+    else
+        UsedPlus.logDebug("CreditReportDialog: WARNING - onTimePaymentsText is nil")
     end
 
     -- Missed payments
@@ -472,11 +677,13 @@ end
 
 --[[
      Update payment histogram display
-     Shows a visual representation of payment breakdown
-     Since we don't track individual payment dates, show proportional bars
+     Shows a visual representation of payment breakdown using ASCII bar chart
 ]]
 function CreditReportDialog:updatePaymentHistogram(stats)
+    UsedPlus.logDebug("CreditReportDialog: Updating payment histogram")
+
     if not self.histogramText then
+        UsedPlus.logDebug("CreditReportDialog: WARNING - histogramText is nil!")
         return
     end
 
@@ -485,32 +692,58 @@ function CreditReportDialog:updatePaymentHistogram(stats)
     local missed = stats.missedPayments or 0
     local late = stats.latePayments or 0
 
+    UsedPlus.logDebug("CreditReportDialog: Histogram data - total=" .. total .. ", onTime=" .. onTime .. ", missed=" .. missed .. ", late=" .. late)
+
     if total == 0 then
         self.histogramText:setText("No payment history yet")
         if self.histogramLegendText then
-            self.histogramLegendText:setText("Start making payments to build your history")
+            self.histogramLegendText:setText("Make payments to build credit history")
         end
+        UsedPlus.logDebug("CreditReportDialog: No payment history to display")
         return
     end
 
-    -- Build proportional bar (12 characters total)
-    local barLength = 12
-    local onTimeCount = math.floor((onTime / total) * barLength + 0.5)
-    local missedCount = math.floor((missed / total) * barLength + 0.5)
-    local lateCount = barLength - onTimeCount - missedCount
+    -- Calculate percentages
+    local onTimePercent = math.floor((onTime / total) * 100 + 0.5)
+    local missedPercent = math.floor((missed / total) * 100 + 0.5)
+    local latePercent = 100 - onTimePercent - missedPercent
 
-    -- Ensure at least 1 char for each non-zero category
-    if onTime > 0 and onTimeCount == 0 then onTimeCount = 1 end
-    if missed > 0 and missedCount == 0 then missedCount = 1 end
+    -- Build ASCII progress bar (20 chars wide)
+    local barLength = 20
+    local onTimeChars = math.floor((onTime / total) * barLength + 0.5)
+    local missedChars = math.floor((missed / total) * barLength + 0.5)
+    local lateChars = barLength - onTimeChars - missedChars
 
-    -- Build the bar: █ = on-time (green in display), ░ = missed
-    local histogramStr = string.rep("█", onTimeCount) .. string.rep("▒", lateCount) .. string.rep("░", missedCount)
+    -- Ensure minimums for non-zero values
+    if onTime > 0 and onTimeChars == 0 then onTimeChars = 1 end
+    if missed > 0 and missedChars == 0 then missedChars = 1 end
+    if late > 0 and lateChars == 0 then lateChars = 1 end
 
-    self.histogramText:setText(histogramStr)
+    -- Build bar using ASCII: + = on-time, - = late, X = missed
+    local bar = "[" ..
+        string.rep("+", onTimeChars) ..
+        string.rep("-", lateChars) ..
+        string.rep("X", missedChars) ..
+    "]"
 
-    -- Legend with actual counts
+    -- Summary text with the bar
+    local summaryText = string.format("%s  %d%% On-Time", bar, onTimePercent)
+    self.histogramText:setText(summaryText)
+    UsedPlus.logDebug("CreditReportDialog: Histogram bar = '" .. summaryText .. "'")
+
+    -- Legend showing counts
     if self.histogramLegendText then
-        self.histogramLegendText:setText(string.format("█=%d on-time  ▒=%d late  ░=%d missed", onTime, late, missed))
+        local legendParts = {}
+        if onTime > 0 then
+            table.insert(legendParts, string.format("+%d on-time", onTime))
+        end
+        if late > 0 then
+            table.insert(legendParts, string.format("-%d late", late))
+        end
+        if missed > 0 then
+            table.insert(legendParts, string.format("X%d missed", missed))
+        end
+        self.histogramLegendText:setText(table.concat(legendParts, "  "))
     end
 end
 

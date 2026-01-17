@@ -49,6 +49,16 @@ UsedPlusSettings.DEFAULTS = {
     enablePartialRepair = true,      -- v2.0.0: Toggle partial repair shop integration
     enablePartialRepaint = true,     -- v2.0.0: Toggle partial repaint shop integration
 
+    -- === CROSS-MOD INTEGRATION (v2.6.2) ===
+    -- Integrated mods (enhanced cooperation)
+    enableRVBIntegration = true,     -- v2.6.2: Toggle Real Vehicle Breakdowns integration
+    enableUYTIntegration = true,     -- v2.6.2: Toggle Use Your Tyres integration
+    -- Compatible mods (feature deferral)
+    enableAMIntegration = true,      -- v2.6.2: Toggle AdvancedMaintenance integration
+    enableHPIntegration = true,      -- v2.6.2: Toggle HirePurchasing integration (hides Finance button)
+    enableBUEIntegration = true,     -- v2.6.2: Toggle BuyUsedEquipment integration (hides Search button)
+    enableELSIntegration = true,     -- v2.6.2: Toggle EnhancedLoanSystem integration (disables loans)
+
     -- === MONEY & RATES (5) ===
     baseInterestRate = 0.08,        -- 8% (used for all financing: vehicles, land, cash loans)
     baseTradeInPercent = 55,        -- 55%

@@ -120,6 +120,13 @@ end
     @param mode - "repair" or "repaint"
 ]]
 function RepairFinanceDialog:setData(vehicle, farmId, repairCost, repairPercent, repaintPercent, mode)
+    -- v2.6.2: Check master repair system toggle
+    if UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+        UsedPlus.logDebug("RepairFinanceDialog: Repair system disabled in settings, canceling")
+        self:close()
+        return
+    end
+
     self.vehicle = vehicle
     self.farmId = farmId
     self.repairCost = repairCost

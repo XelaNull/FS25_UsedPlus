@@ -197,20 +197,38 @@ function FieldServiceKitDialog:displaySystemSelection(vehicleName, maintSpec)
         end
     end
 
-    -- Update reliability displays
+    -- v2.7.0: Get seized component status
+    local seized = self:getSeizedComponents()
+
+    -- Update reliability displays (with seizure indicators)
     if self.engineRelText ~= nil then
-        self.engineRelText:setText(string.format("%d%%", engineRel))
-        self:setReliabilityColor(self.engineRelText, engineRel)
+        if seized.engine then
+            self.engineRelText:setText("SEIZED!")
+            self.engineRelText:setTextColor(1, 0.1, 0.1, 1)  -- Bright red
+        else
+            self.engineRelText:setText(string.format("%d%%", engineRel))
+            self:setReliabilityColor(self.engineRelText, engineRel)
+        end
     end
 
     if self.electricalRelText ~= nil then
-        self.electricalRelText:setText(string.format("%d%%", elecRel))
-        self:setReliabilityColor(self.electricalRelText, elecRel)
+        if seized.electrical then
+            self.electricalRelText:setText("SEIZED!")
+            self.electricalRelText:setTextColor(1, 0.1, 0.1, 1)  -- Bright red
+        else
+            self.electricalRelText:setText(string.format("%d%%", elecRel))
+            self:setReliabilityColor(self.electricalRelText, elecRel)
+        end
     end
 
     if self.hydraulicRelText ~= nil then
-        self.hydraulicRelText:setText(string.format("%d%%", hydRel))
-        self:setReliabilityColor(self.hydraulicRelText, hydRel)
+        if seized.hydraulic then
+            self.hydraulicRelText:setText("SEIZED!")
+            self.hydraulicRelText:setTextColor(1, 0.1, 0.1, 1)  -- Bright red
+        else
+            self.hydraulicRelText:setText(string.format("%d%%", hydRel))
+            self:setReliabilityColor(self.hydraulicRelText, hydRel)
+        end
     end
 
     -- v2.1.0: Display scanner readout hints for the actual failed system
@@ -676,20 +694,36 @@ end
 
 --[[
     System selection button handlers
+    v2.7.0: Modified to check for seizures first - offers repair instead of diagnosis if seized
 ]]
 function FieldServiceKitDialog:onEngineClick()
+    -- v2.7.0: Check for engine seizure first
+    if self:checkAndOfferSeizureRepair("engine") then
+        return  -- Seizure repair dialog shown
+    end
+
     self.selectedSystem = DiagnosisData.SYSTEM_ENGINE
     self.currentStep = FieldServiceKitDialog.STEP_DIAGNOSIS
     self:updateDisplay()
 end
 
 function FieldServiceKitDialog:onElectricalClick()
+    -- v2.7.0: Check for electrical seizure first
+    if self:checkAndOfferSeizureRepair("electrical") then
+        return  -- Seizure repair dialog shown
+    end
+
     self.selectedSystem = DiagnosisData.SYSTEM_ELECTRICAL
     self.currentStep = FieldServiceKitDialog.STEP_DIAGNOSIS
     self:updateDisplay()
 end
 
 function FieldServiceKitDialog:onHydraulicClick()
+    -- v2.7.0: Check for hydraulic seizure first
+    if self:checkAndOfferSeizureRepair("hydraulic") then
+        return  -- Seizure repair dialog shown
+    end
+
     self.selectedSystem = DiagnosisData.SYSTEM_HYDRAULIC
     self.currentStep = FieldServiceKitDialog.STEP_DIAGNOSIS
     self:updateDisplay()
@@ -889,4 +923,176 @@ end
 function FieldServiceKitDialog:close()
     UsedPlus.logInfo("FieldServiceKitDialog: Closing dialog")
     g_gui:closeDialogByName("FieldServiceKitDialog")
+end
+
+-- ===========================================================================
+-- v2.7.0: SEIZURE REPAIR SYSTEM
+-- OBD Scanner can detect and repair seized components
+-- ===========================================================================
+
+--[[
+    Check if vehicle has any seized components
+    @return table - {engine=bool, hydraulic=bool, electrical=bool}
+]]
+function FieldServiceKitDialog:getSeizedComponents()
+    local result = {engine = false, hydraulic = false, electrical = false}
+
+    if self.vehicle == nil then return result end
+
+    local maintSpec = self.vehicle.spec_usedPlusMaintenance
+    if maintSpec == nil then return result end
+
+    result.engine = maintSpec.engineSeized or false
+    result.hydraulic = maintSpec.hydraulicsSeized or false
+    result.electrical = maintSpec.electricalSeized or false
+
+    return result
+end
+
+--[[
+    Check if vehicle has ANY seized component
+    @return boolean
+]]
+function FieldServiceKitDialog:hasAnySeizure()
+    local seized = self:getSeizedComponents()
+    return seized.engine or seized.hydraulic or seized.electrical
+end
+
+--[[
+    Calculate repair cost for a seized component
+    @param component - "engine", "hydraulic", or "electrical"
+    @return number - Cost in currency
+]]
+function FieldServiceKitDialog:getSeizureRepairCost(component)
+    if self.vehicle == nil then return 0 end
+
+    -- Get vehicle price
+    local storeItem = g_storeManager:getItemByXMLFilename(self.vehicle.configFileName)
+    local vehiclePrice = 50000  -- Default fallback
+    if storeItem ~= nil then
+        vehiclePrice = storeItem.price or 50000
+    end
+
+    -- Cost = 5% of vehicle price per component (configurable)
+    local costMult = UsedPlusMaintenance.CONFIG.seizureRepairCostMult or 0.05
+    return math.floor(vehiclePrice * costMult)
+end
+
+--[[
+    Repair a seized component
+    @param component - "engine", "hydraulic", or "electrical"
+    @return boolean - True if repair succeeded
+]]
+function FieldServiceKitDialog:repairSeizedComponent(component)
+    if self.vehicle == nil then return false end
+
+    local maintSpec = self.vehicle.spec_usedPlusMaintenance
+    if maintSpec == nil then return false end
+
+    -- Check player has enough money
+    local cost = self:getSeizureRepairCost(component)
+    local farm = g_farmManager:getFarmById(g_currentMission:getFarmId())
+    if farm == nil then return false end
+
+    if farm.money < cost then
+        -- Not enough money
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_repair_no_money") or "Not enough money for repair!",
+            3000
+        )
+        return false
+    end
+
+    -- Deduct cost
+    g_currentMission:addMoney(-cost, g_currentMission:getFarmId(), MoneyType.VEHICLE_RUNNING_COSTS, true)
+
+    -- Clear the seizure
+    UsedPlusMaintenance.clearSeizure(self.vehicle, component)
+
+    -- Restore reliability to at least minimum threshold
+    local minReliability = UsedPlusMaintenance.CONFIG.seizureRepairMinReliability or 0.30
+
+    if component == "engine" then
+        maintSpec.engineReliability = math.max(maintSpec.engineReliability, minReliability)
+    elseif component == "hydraulic" then
+        maintSpec.hydraulicReliability = math.max(maintSpec.hydraulicReliability, minReliability)
+    elseif component == "electrical" then
+        maintSpec.electricalReliability = math.max(maintSpec.electricalReliability, minReliability)
+    end
+
+    -- Show success message
+    local componentName = g_i18n:getText("usedplus_component_" .. component) or component
+    local message = string.format(
+        g_i18n:getText("usedplus_seizure_repaired") or "%s repaired! Reliability restored to %d%%",
+        componentName,
+        math.floor(minReliability * 100)
+    )
+    g_currentMission:showBlinkingWarning(message, 3000)
+
+    UsedPlus.logInfo(string.format("Seizure repair: %s repaired for $%d, reliability set to %.0f%%",
+        component, cost, minReliability * 100))
+
+    return true
+end
+
+--[[
+    Modified system click handler that checks for seizure first
+    If component is seized, offers repair instead of diagnosis
+    @param component - "engine", "hydraulic", or "electrical"
+    @return boolean - True if seized (repair offered), false to proceed with normal diagnosis
+]]
+function FieldServiceKitDialog:checkAndOfferSeizureRepair(component)
+    local seized = self:getSeizedComponents()
+
+    local isSeized = false
+    if component == "engine" then
+        isSeized = seized.engine
+    elseif component == "hydraulic" then
+        isSeized = seized.hydraulic
+    elseif component == "electrical" then
+        isSeized = seized.electrical
+    end
+
+    if not isSeized then
+        return false  -- Not seized, proceed with normal diagnosis
+    end
+
+    -- Component is seized - offer repair
+    local cost = self:getSeizureRepairCost(component)
+    local componentName = g_i18n:getText("usedplus_component_" .. component) or component
+
+    -- Show confirmation dialog
+    local title = g_i18n:getText("usedplus_seizure_detected") or "COMPONENT SEIZED"
+    local text = string.format(
+        g_i18n:getText("usedplus_seizure_repair_confirm") or
+        "%s is seized and requires emergency repair.\n\nRepair cost: %s\n\nProceed with repair?",
+        componentName,
+        g_i18n:formatMoney(cost, 0, true, true)
+    )
+
+    -- Store component for callback
+    self.pendingSeizureRepair = component
+
+    g_gui:showYesNoDialog({
+        text = text,
+        title = title,
+        callback = self.onSeizureRepairConfirm,
+        target = self
+    })
+
+    return true  -- Seizure repair offered
+end
+
+--[[
+    Callback for seizure repair confirmation dialog
+]]
+function FieldServiceKitDialog:onSeizureRepairConfirm(yes)
+    if yes and self.pendingSeizureRepair ~= nil then
+        local success = self:repairSeizedComponent(self.pendingSeizureRepair)
+        if success then
+            -- Consume kit and close dialog
+            self:consumeAndClose()
+        end
+    end
+    self.pendingSeizureRepair = nil
 end

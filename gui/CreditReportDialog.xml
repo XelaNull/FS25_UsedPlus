@@ -86,8 +86,9 @@
 
             <!-- ACCOUNT SUMMARY SECTION -->
             <!-- Position: +190px centers a 385px element in right half of 800px container -->
+            <!-- Extended height to include Net Worth row -->
             <GuiElement profile="crAccountSection" position="190px -95px">
-                <Bitmap profile="crAccountSectionBg" position="0px 0px"/>
+                <Bitmap profile="crAccountSectionBgExtended" position="0px 0px"/>
                 <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionAccount"/>
 
                 <!-- Labels at -80px, Values at +80px - centered in 385px section -->
@@ -99,11 +100,14 @@
 
                 <Text profile="crLabel" position="-80px -76px" text="$l10n_usedplus_cr_outstandingBalance"/>
                 <Text profile="crValueDebt" id="totalBalanceText" position="80px -76px" text=""/>
+
+                <Text profile="crLabel" position="-80px -98px" text="Net Worth:"/>
+                <Text profile="crValueGood" id="netWorthText" position="80px -98px" text=""/>
             </GuiElement>
 
             <!-- ACTIVE ACCOUNTS SECTION -->
-            <!-- After Account Summary (105px) + 8px gap = -95 - 105 - 8 = -208 -->
-            <GuiElement profile="crActiveSection" position="190px -208px">
+            <!-- After Account Summary (127px) + 8px gap = -95 - 127 - 8 = -230 -->
+            <GuiElement profile="crActiveSection" position="190px -230px">
                 <Bitmap profile="crActiveSectionBg" position="0px 0px"/>
                 <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionActive"/>
 
@@ -113,8 +117,8 @@
             </GuiElement>
 
             <!-- PAYMENT HISTORY SECTION -->
-            <!-- After Active (90px) + 8px gap = -208 - 90 - 8 = -306 -->
-            <GuiElement profile="crPaymentSection" position="190px -306px">
+            <!-- After Active (90px) + 8px gap = -230 - 90 - 8 = -328 -->
+            <GuiElement profile="crPaymentSection" position="190px -328px">
                 <Bitmap profile="crPaymentSectionBg" position="0px 0px"/>
                 <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionPayment"/>
 
@@ -133,8 +137,8 @@
             </GuiElement>
 
             <!-- 12-MONTH HISTORY (Histogram) SECTION -->
-            <!-- After Payment (128px) + 8px gap = -306 - 128 - 8 = -442 -->
-            <GuiElement profile="crHistogramSection" position="190px -442px">
+            <!-- After Payment (128px) + 8px gap = -328 - 128 - 8 = -464 -->
+            <GuiElement profile="crHistogramSection" position="190px -464px">
                 <Bitmap profile="crHistogramSectionBg" position="0px 0px"/>
                 <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_section12Month"/>
 
@@ -143,8 +147,8 @@
             </GuiElement>
 
             <!-- TIPS TO IMPROVE SECTION -->
-            <!-- After Histogram (78px) + 8px gap = -442 - 78 - 8 = -528 -->
-            <GuiElement profile="crTipsSection" position="190px -528px">
+            <!-- After Histogram (78px) + 8px gap = -464 - 78 - 8 = -550 -->
+            <GuiElement profile="crTipsSection" position="190px -550px">
                 <Bitmap profile="crTipsSectionBg" position="0px 0px"/>
                 <Text profile="crTipsSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionTips"/>
 
@@ -194,8 +198,9 @@
         </Profile>
 
         <!-- Right Column Sections (385px wide) - padding increased for better spacing -->
+        <!-- Extended height to include Net Worth row (105 + 22 = 127px) -->
         <Profile name="crAccountSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="385px 105px"/>
+            <size value="385px 127px"/>
         </Profile>
 
         <Profile name="crActiveSection" extends="emptyPanel" with="anchorTopCenter">
@@ -236,6 +241,12 @@
         <!-- Account Summary: Standard dark blue -->
         <Profile name="crAccountSectionBg" extends="baseReference" with="anchorTopCenter">
             <size value="385px 105px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <!-- Account Summary Extended (includes Net Worth row) -->
+        <Profile name="crAccountSectionBgExtended" extends="baseReference" with="anchorTopCenter">
+            <size value="385px 127px"/>
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 

@@ -180,8 +180,10 @@ function SaleListingDetailsDialog:updateDisplay()
     UIHelper.Element.setText(self.vanillaSellText, UIHelper.Text.formatMoney(vanillaSell))
 
     if self.tradeInValueText then
-        -- Trade-in is roughly 50-65% of vanilla
-        local tradeInEstimate = math.floor(vanillaSell * 0.575)  -- Midpoint of 50-65%
+        -- v2.6.2: Use baseTradeInPercent setting instead of hardcoded 50%
+        local basePercent = (UsedPlusSettings and UsedPlusSettings:get("baseTradeInPercent") or 55) / 100
+        local midPercent = basePercent + 0.075  -- Midpoint of base to base+15%
+        local tradeInEstimate = math.floor(vanillaSell * midPercent)
         self.tradeInValueText:setText(UIHelper.Text.formatMoney(tradeInEstimate))
     end
 

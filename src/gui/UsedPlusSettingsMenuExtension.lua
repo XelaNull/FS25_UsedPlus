@@ -218,6 +218,63 @@ function UsedPlusSettingsMenuExtension:addSettingsElements(frame)
         g_i18n:getText("usedplus_setting_bankInterest_desc") or "Earn monthly interest on positive cash balances"
     )
 
+    -- v2.6.2: NEW - Mod Compatibility section
+    UsedPlusSettingsMenuExtension:addSectionHeader(frame, g_i18n:getText("usedplus_settings_compatibility") or "Mod Compatibility")
+
+    -- RVB Integration toggle (only show if RVB detected)
+    if ModCompatibility and ModCompatibility.rvbDetected then
+        frame.usedplus_rvbIntegrationToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+            frame, "onRVBIntegrationToggleChanged",
+            g_i18n:getText("usedplus_setting_rvbIntegration") or "RVB Integration",
+            g_i18n:getText("usedplus_setting_rvbIntegration_desc") or "Enable Real Vehicle Breakdowns integration (symptom sharing, deferred failures)"
+        )
+    end
+
+    -- UYT Integration toggle (only show if UYT detected)
+    if ModCompatibility and ModCompatibility.uytDetected then
+        frame.usedplus_uytIntegrationToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+            frame, "onUYTIntegrationToggleChanged",
+            g_i18n:getText("usedplus_setting_uytIntegration") or "UYT Integration",
+            g_i18n:getText("usedplus_setting_uytIntegration_desc") or "Enable Use Your Tyres integration (tire wear sync)"
+        )
+    end
+
+    -- AM Integration toggle (only show if AM detected)
+    if ModCompatibility and ModCompatibility.amDetected then
+        frame.usedplus_amIntegrationToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+            frame, "onAMIntegrationToggleChanged",
+            g_i18n:getText("usedplus_setting_amIntegration") or "AM Integration",
+            g_i18n:getText("usedplus_setting_amIntegration_desc") or "Enable AdvancedMaintenance integration (chains engine damage checks)"
+        )
+    end
+
+    -- HP Integration toggle (only show if HP detected)
+    if ModCompatibility and ModCompatibility.hpDetected then
+        frame.usedplus_hpIntegrationToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+            frame, "onHPIntegrationToggleChanged",
+            g_i18n:getText("usedplus_setting_hpIntegration") or "HP Integration",
+            g_i18n:getText("usedplus_setting_hpIntegration_desc") or "Enable HirePurchasing integration (hides Finance button, HP handles financing)"
+        )
+    end
+
+    -- BUE Integration toggle (only show if BUE detected)
+    if ModCompatibility and ModCompatibility.bueDetected then
+        frame.usedplus_bueIntegrationToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+            frame, "onBUEIntegrationToggleChanged",
+            g_i18n:getText("usedplus_setting_bueIntegration") or "BUE Integration",
+            g_i18n:getText("usedplus_setting_bueIntegration_desc") or "Enable BuyUsedEquipment integration (hides Search button, BUE handles used search)"
+        )
+    end
+
+    -- ELS Integration toggle (only show if ELS detected)
+    if ModCompatibility and ModCompatibility.elsDetected then
+        frame.usedplus_elsIntegrationToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
+            frame, "onELSIntegrationToggleChanged",
+            g_i18n:getText("usedplus_setting_elsIntegration") or "ELS Integration",
+            g_i18n:getText("usedplus_setting_elsIntegration_desc") or "Enable EnhancedLoanSystem integration (disables loans, ELS handles them)"
+        )
+    end
+
     -- Economic parameters
     -- v2.0.0: Updated tooltip to clarify what interest rate applies to
     frame.usedplus_interestRate = UsedPlusSettingsMenuExtension:addMultiTextOption(
@@ -493,6 +550,12 @@ function UsedPlusSettingsMenuExtension:updateSettingsUI(frame)
     setChecked(frame.usedplus_partialRepaintToggle, "enablePartialRepaint") -- v2.0.0
     setChecked(frame.usedplus_farmlandDifficultyToggle, "enableFarmlandDifficultyScaling") -- v2.0.0
     setChecked(frame.usedplus_bankInterestToggle, "enableBankInterest") -- v2.0.0
+    setChecked(frame.usedplus_rvbIntegrationToggle, "enableRVBIntegration") -- v2.6.2
+    setChecked(frame.usedplus_uytIntegrationToggle, "enableUYTIntegration") -- v2.6.2
+    setChecked(frame.usedplus_amIntegrationToggle, "enableAMIntegration") -- v2.6.2
+    setChecked(frame.usedplus_hpIntegrationToggle, "enableHPIntegration") -- v2.6.2
+    setChecked(frame.usedplus_bueIntegrationToggle, "enableBUEIntegration") -- v2.6.2
+    setChecked(frame.usedplus_elsIntegrationToggle, "enableELSIntegration") -- v2.6.2
 
     -- Update economic parameters
     setState(frame.usedplus_interestRate, ranges.interestRateValues, "baseInterestRate")
@@ -620,6 +683,72 @@ end
 function UsedPlusSettingsMenuExtension:onBankInterestToggleChanged(state)
     if UsedPlusSettings then
         UsedPlusSettings:set("enableBankInterest", state == BinaryOptionElement.STATE_RIGHT)
+    end
+end
+
+-- v2.6.2: NEW - RVB Integration toggle
+function UsedPlusSettingsMenuExtension:onRVBIntegrationToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("enableRVBIntegration", state == BinaryOptionElement.STATE_RIGHT)
+        -- Refresh ModCompatibility flags
+        if ModCompatibility and ModCompatibility.refreshIntegrationSettings then
+            ModCompatibility.refreshIntegrationSettings()
+        end
+    end
+end
+
+-- v2.6.2: NEW - UYT Integration toggle
+function UsedPlusSettingsMenuExtension:onUYTIntegrationToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("enableUYTIntegration", state == BinaryOptionElement.STATE_RIGHT)
+        -- Refresh ModCompatibility flags
+        if ModCompatibility and ModCompatibility.refreshIntegrationSettings then
+            ModCompatibility.refreshIntegrationSettings()
+        end
+    end
+end
+
+-- v2.6.2: NEW - AM Integration toggle
+function UsedPlusSettingsMenuExtension:onAMIntegrationToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("enableAMIntegration", state == BinaryOptionElement.STATE_RIGHT)
+        -- Refresh ModCompatibility flags
+        if ModCompatibility and ModCompatibility.refreshIntegrationSettings then
+            ModCompatibility.refreshIntegrationSettings()
+        end
+    end
+end
+
+-- v2.6.2: NEW - HP Integration toggle
+function UsedPlusSettingsMenuExtension:onHPIntegrationToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("enableHPIntegration", state == BinaryOptionElement.STATE_RIGHT)
+        -- Refresh ModCompatibility flags
+        if ModCompatibility and ModCompatibility.refreshIntegrationSettings then
+            ModCompatibility.refreshIntegrationSettings()
+        end
+    end
+end
+
+-- v2.6.2: NEW - BUE Integration toggle
+function UsedPlusSettingsMenuExtension:onBUEIntegrationToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("enableBUEIntegration", state == BinaryOptionElement.STATE_RIGHT)
+        -- Refresh ModCompatibility flags
+        if ModCompatibility and ModCompatibility.refreshIntegrationSettings then
+            ModCompatibility.refreshIntegrationSettings()
+        end
+    end
+end
+
+-- v2.6.2: NEW - ELS Integration toggle
+function UsedPlusSettingsMenuExtension:onELSIntegrationToggleChanged(state)
+    if UsedPlusSettings then
+        UsedPlusSettings:set("enableELSIntegration", state == BinaryOptionElement.STATE_RIGHT)
+        -- Refresh ModCompatibility flags
+        if ModCompatibility and ModCompatibility.refreshIntegrationSettings then
+            ModCompatibility.refreshIntegrationSettings()
+        end
     end
 end
 

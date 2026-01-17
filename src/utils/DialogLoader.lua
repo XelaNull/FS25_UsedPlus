@@ -267,6 +267,15 @@ function DialogLoader.registerAll()
         DialogLoader.register("RepossessionDialog", RepossessionDialog, "gui/RepossessionDialog.xml")
     end
 
+    -- v2.6.0: Negotiation dialogs
+    if NegotiationDialog then
+        DialogLoader.register("NegotiationDialog", NegotiationDialog, "gui/NegotiationDialog.xml")
+    end
+
+    if SellerResponseDialog then
+        DialogLoader.register("SellerResponseDialog", SellerResponseDialog, "gui/SellerResponseDialog.xml")
+    end
+
     UsedPlus.logInfo("DialogLoader: Registered all dialogs")
 end
 

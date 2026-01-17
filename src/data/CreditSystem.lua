@@ -373,6 +373,12 @@ CreditScore.MIN_CREDIT_FOR_FINANCING = {
     @return canFinance (boolean), minRequired (number), currentScore (number), message (string)
 ]]
 function CreditScore.canFinance(farmId, financeType)
+    -- v2.6.2: When credit system is disabled, bypass ALL credit checks
+    local creditEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Credit")
+    if not creditEnabled then
+        return true, 0, 0, ""  -- Always allowed when credit disabled
+    end
+
     local currentScore = CreditScore.calculate(farmId)
     local minRequired = CreditScore.MIN_CREDIT_FOR_FINANCING[financeType]
 
@@ -709,6 +715,16 @@ function PaymentTracker.getStats(farmId)
 end
 
 --[[
+    Get payment history for a farm
+    @param farmId - Farm ID
+    @return Array of payment records
+]]
+function PaymentTracker.getPaymentHistory(farmId)
+    local data = PaymentTracker.getFarmData(farmId)
+    return data.payments or {}
+end
+
+--[[
     Get on-time payment rate as percentage
 ]]
 function PaymentTracker.getOnTimeRate(farmId)
@@ -861,6 +877,11 @@ CreditHistory.EVENT_TYPES = {
     -- Vehicle lease events
     LEASE_TERMINATED_EARLY = { name = "Lease Terminated Early", change = -40 },
     LEASE_BUYOUT = { name = "Lease Buyout", change = 10 },
+    LEASED_VEHICLE_REPOSSESSED = { name = "Leased Vehicle Repossessed", change = -150 },  -- Devastating!
+
+    -- Repossession events (severe - these are catastrophic for credit)
+    VEHICLE_REPOSSESSED = { name = "Vehicle Repossessed", change = -175 },  -- Catastrophic!
+    LOAN_DEFAULTED = { name = "Loan Defaulted", change = -200 },            -- Maximum penalty!
 
     -- Payment configuration events
     PAYMENT_SKIPPED = { name = "Payment Skipped", change = -50 },    -- Same as missed

@@ -196,6 +196,29 @@ UsedPlusMaintenance.CONFIG = {
     -- "multiplicative" = reliability * fluid factors compound (more extreme at low values)
     fluidCalculationMode = "multiplicative",
 
+    -- v2.7.0: Progressive Malfunction Frequency Enhancement
+    -- More aggressive curve makes low reliability vehicles ACTUALLY struggle
+    -- Exponent controls curve steepness (higher = more dramatic at low reliability)
+    -- Multiplier controls max failure rate at 0% reliability
+    progressiveFailureExponent = 2.0,         -- Quadratic curve (was 1.5)
+    progressiveFailureMultiplier = 0.025,     -- Max ~2.5% per second at 0% reliability (was 0.008)
+
+    -- v2.7.0: Seizure Escalation System
+    -- When a malfunction triggers below the threshold, roll a die:
+    -- - PASS: Normal temporary malfunction (current behavior)
+    -- - FAIL: Permanent seizure requiring repair
+    -- Threshold is DNA-variable: lemons seize at higher reliability, workhorses much lower
+    enableSeizureEscalation = true,           -- Master toggle for seizure system
+    seizureBaseThreshold = 0.40,              -- Lemon (DNA 0.0) seizure zone starts at 40% reliability
+    seizureDNAReduction = 0.30,               -- Workhorse (DNA 1.0) reduces threshold by 30% to 10%
+    seizureMinChance = 0.05,                  -- 5% seizure chance at threshold
+    seizureMaxChance = 0.50,                  -- 50% seizure chance at 0% reliability
+    seizureLemonPenalty = 0.20,               -- Lemons get +20% seizure chance on top
+
+    -- Seizure repair settings
+    seizureRepairCostMult = 0.05,             -- 5% of vehicle price per seized component
+    seizureRepairMinReliability = 0.30,       -- OBD Scanner repair restores to at least 30%
+
     -- v1.7.0: Tire System Settings
     enableTireWear = true,
     tireWearRatePerKm = 0.001,            -- 0.1% condition loss per km
@@ -722,7 +745,32 @@ function UsedPlusMaintenance.initSpecialization()
     -- v2.4.0: Hydraulic Surge Event (only cooldown matters for persistence)
     schemaSavegame:register(XMLValueType.FLOAT, key .. ".hydraulicSurgeCooldownEnd", "Cooldown timer end time", 0)
 
-    UsedPlus.logDebug("UsedPlusMaintenance schema registration complete (v2.4.0 with hydraulic surge)")
+    -- v2.7.0: Seizure Escalation System (permanent component failures)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".engineSeized", "Engine seized (won't start)", false)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".hydraulicsSeized", "Hydraulics seized (implements frozen)", false)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".electricalSeized", "Electrical seized (systems dead)", false)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".engineSeizedTime", "When engine seizure occurred", 0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".hydraulicsSeizedTime", "When hydraulic seizure occurred", 0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".electricalSeizedTime", "When electrical seizure occurred", 0)
+
+    -- v2.1.0: RVB/UYT Deferred Sync Flags (prevents schema validation errors)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".rvbDataSynced", "Whether RVB data has been synced to vehicle", false)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".tireDataSynced", "Whether UYT tire data has been synced to vehicle", false)
+
+    -- v2.1.0: Stored RVB Parts Data (for deferred sync when RVB not installed at purchase)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedRvbData.ENGINE", "Stored RVB engine life", 1.0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedRvbData.BATTERY", "Stored RVB battery life", 1.0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedRvbData.THERMOSTAT", "Stored RVB thermostat life", 1.0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedRvbData.GENERATOR", "Stored RVB generator life", 1.0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedRvbData.SELFSTARTER", "Stored RVB selfstarter life", 1.0)
+
+    -- v2.1.0: Stored Tire Conditions (for deferred sync when UYT not installed at purchase)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedTireConditions.FL", "Stored tire condition front-left", 1.0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedTireConditions.FR", "Stored tire condition front-right", 1.0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedTireConditions.RL", "Stored tire condition rear-left", 1.0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".storedTireConditions.RR", "Stored tire condition rear-right", 1.0)
+
+    UsedPlus.logDebug("UsedPlusMaintenance schema registration complete (v2.7.1 with deferred sync paths)")
 end
 
 --[[
@@ -765,6 +813,11 @@ function UsedPlusMaintenance:getCanMotorRun(superFunc)
     local spec = self.spec_usedPlusMaintenance
     if spec == nil then
         return superFunc(self)
+    end
+
+    -- v2.7.0: Seized engine cannot run at all (requires repair)
+    if spec.engineSeized then
+        return false
     end
 
     -- Check if in stall recovery period
@@ -1318,6 +1371,15 @@ function UsedPlusMaintenance:onLoad(savegame)
     spec.reducedTurningActive = false     -- True when steering is limited
     spec.reducedTurningEndTime = 0        -- When effect clears
 
+    -- v2.7.0: Seizure Escalation System
+    -- Permanent component failures that require repair (not just cooldown)
+    spec.engineSeized = false             -- Engine won't start at all
+    spec.hydraulicsSeized = false         -- Implements frozen in place
+    spec.electricalSeized = false         -- No lights, PTO, or implement power
+    spec.engineSeizedTime = 0             -- When engine seizure occurred
+    spec.hydraulicsSeizedTime = 0         -- When hydraulic seizure occurred
+    spec.electricalSeizedTime = 0         -- When electrical seizure occurred
+
     UsedPlus.logTrace("UsedPlusMaintenance onLoad complete for: " .. tostring(self:getName()))
 end
 
@@ -1414,6 +1476,14 @@ function UsedPlusMaintenance:onPostLoad(savegame)
 
         -- v2.4.0: Load hydraulic surge cooldown (surge active state not persisted - too transient)
         spec.hydraulicSurgeCooldownEnd = xmlFile:getValue(key .. ".hydraulicSurgeCooldownEnd", spec.hydraulicSurgeCooldownEnd) or 0
+
+        -- v2.7.0: Load seizure state (with nil guards for old savegames)
+        spec.engineSeized = xmlFile:getValue(key .. ".engineSeized", spec.engineSeized) or false
+        spec.hydraulicsSeized = xmlFile:getValue(key .. ".hydraulicsSeized", spec.hydraulicsSeized) or false
+        spec.electricalSeized = xmlFile:getValue(key .. ".electricalSeized", spec.electricalSeized) or false
+        spec.engineSeizedTime = xmlFile:getValue(key .. ".engineSeizedTime", spec.engineSeizedTime) or 0
+        spec.hydraulicsSeizedTime = xmlFile:getValue(key .. ".hydraulicsSeizedTime", spec.hydraulicsSeizedTime) or 0
+        spec.electricalSeizedTime = xmlFile:getValue(key .. ".electricalSeizedTime", spec.electricalSeizedTime) or 0
 
         -- v2.1.0: Load RVB/UYT deferred sync data
         spec.rvbDataSynced = xmlFile:getValue(key .. ".rvbDataSynced", spec.rvbDataSynced) or false
@@ -1531,6 +1601,14 @@ function UsedPlusMaintenance:saveToXMLFile(xmlFile, key, usedModNames)
 
     -- v2.4.0: Save hydraulic surge cooldown (active state not saved - too transient)
     xmlFile:setValue(key .. ".hydraulicSurgeCooldownEnd", spec.hydraulicSurgeCooldownEnd or 0)
+
+    -- v2.7.0: Save seizure state (permanent failures requiring repair)
+    xmlFile:setValue(key .. ".engineSeized", spec.engineSeized or false)
+    xmlFile:setValue(key .. ".hydraulicsSeized", spec.hydraulicsSeized or false)
+    xmlFile:setValue(key .. ".electricalSeized", spec.electricalSeized or false)
+    xmlFile:setValue(key .. ".engineSeizedTime", spec.engineSeizedTime or 0)
+    xmlFile:setValue(key .. ".hydraulicsSeizedTime", spec.hydraulicsSeizedTime or 0)
+    xmlFile:setValue(key .. ".electricalSeizedTime", spec.electricalSeizedTime or 0)
 
     -- v2.1.0: Save RVB/UYT deferred sync data
     xmlFile:setValue(key .. ".rvbDataSynced", spec.rvbDataSynced)
@@ -1669,6 +1747,11 @@ function UsedPlusMaintenance:onReadStream(streamId, connection)
     spec.reducedTurningActive = streamReadBool(streamId)
     spec.reducedTurningEndTime = streamReadFloat32(streamId)
 
+    -- v2.7.0: Seizure escalation (permanent component failures)
+    spec.engineSeized = streamReadBool(streamId)
+    spec.hydraulicsSeized = streamReadBool(streamId)
+    spec.electricalSeized = streamReadBool(streamId)
+
     UsedPlus.logTrace("UsedPlusMaintenance onReadStream complete")
 end
 
@@ -1770,6 +1853,11 @@ function UsedPlusMaintenance:onWriteStream(streamId, connection)
     streamWriteFloat32(streamId, spec.implementDragEndTime or 0)
     streamWriteBool(streamId, spec.reducedTurningActive or false)
     streamWriteFloat32(streamId, spec.reducedTurningEndTime or 0)
+
+    -- v2.7.0: Seizure escalation (permanent component failures)
+    streamWriteBool(streamId, spec.engineSeized or false)
+    streamWriteBool(streamId, spec.hydraulicsSeized or false)
+    streamWriteBool(streamId, spec.electricalSeized or false)
 
     UsedPlus.logTrace("UsedPlusMaintenance onWriteStream complete")
 end
@@ -2925,6 +3013,9 @@ function UsedPlusMaintenance.checkImplementSurge(vehicle, implement, hydraulicRe
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
 
+    -- v2.7.0: Skip if hydraulics are seized (implements already locked)
+    if spec.hydraulicsSeized then return end
+
     local config = UsedPlusMaintenance.CONFIG
 
     -- Only affects lowered implements
@@ -2941,6 +3032,15 @@ function UsedPlusMaintenance.checkImplementSurge(vehicle, implement, hydraulicRe
     local surgeChance = baseChance * fluidMultiplier
 
     if math.random() < surgeChance then
+        -- v2.7.0: SEIZURE ESCALATION CHECK
+        -- When hydraulic malfunction triggers, roll for permanent seizure
+        if UsedPlusMaintenance.rollForSeizure(vehicle, "hydraulic") then
+            -- ESCALATE to permanent seizure!
+            UsedPlusMaintenance.seizeComponent(vehicle, "hydraulic")
+            return  -- Don't do temporary surge
+        end
+
+        -- === Existing temporary surge code (unchanged) ===
         -- Surge! Lift the implement
         if implement.setLoweredAll then
             implement:setLoweredAll(false)
@@ -2967,6 +3067,9 @@ function UsedPlusMaintenance.checkImplementDrop(vehicle, implement, hydraulicRel
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
 
+    -- v2.7.0: Skip if hydraulics are seized (implements already locked)
+    if spec.hydraulicsSeized then return end
+
     local config = UsedPlusMaintenance.CONFIG
 
     -- Only affects raised implements
@@ -2983,6 +3086,15 @@ function UsedPlusMaintenance.checkImplementDrop(vehicle, implement, hydraulicRel
     local dropChance = baseChance * fluidMultiplier
 
     if math.random() < dropChance then
+        -- v2.7.0: SEIZURE ESCALATION CHECK
+        -- When hydraulic malfunction triggers, roll for permanent seizure
+        if UsedPlusMaintenance.rollForSeizure(vehicle, "hydraulic") then
+            -- ESCALATE to permanent seizure!
+            UsedPlusMaintenance.seizeComponent(vehicle, "hydraulic")
+            return  -- Don't do temporary drop
+        end
+
+        -- === Existing temporary drop code (unchanged) ===
         -- Drop! Lower the implement suddenly
         if implement.setLoweredAll then
             implement:setLoweredAll(true)
@@ -3012,6 +3124,9 @@ end
 function UsedPlusMaintenance.checkPTOToggle(vehicle, implement, electricalReliability)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
+
+    -- v2.7.0: Skip if electrical is seized (already permanently dead)
+    if spec.electricalSeized then return end
 
     local config = UsedPlusMaintenance.CONFIG
 
@@ -3149,17 +3264,22 @@ function UsedPlusMaintenance.calculateFailureProbability(vehicle, failureType, r
         end
     end
 
-    -- v1.5.1 REBALANCED: Low reliability = MUCH higher failure rates
-    -- Previous formula was too gentle - 10% reliability only had 0.017% stall chance per second
-    -- New formula makes low reliability vehicles ACTUALLY struggle
-
-    -- 1. BASE CHANCE FROM RELIABILITY (dramatically increased!)
-    -- 100% reliability = virtually no failures (0.001% per second)
-    -- 50% reliability = occasional failures (0.1% per second = ~6% per minute)
-    -- 10% reliability = frequent failures (0.5% per second = ~25% per minute)
-    -- 0% reliability = constant failures (0.8% per second = ~40% per minute)
-    local reliabilityFactor = math.pow(1 - reliability, 1.5)  -- Less aggressive curve, but higher base
-    local baseChance = 0.00001 + (reliabilityFactor * 0.008)  -- 0.001% to 0.8% per second
+    -- v2.7.0 ENHANCED: Progressive Malfunction Frequency
+    -- More aggressive curve at low reliability - makes worn vehicles REALLY struggle
+    -- Previous formula (v1.5.1) was still too gentle for the "nearly undrivable" experience
+    --
+    -- NEW formula creates dramatic frequency increase:
+    -- 100% reliability = virtually no failures (0.001% per second) - unchanged
+    -- 70% reliability = starting to feel it (~0.08% per second = ~5% per minute)
+    -- 50% reliability = noticeably worse (~0.25% per second = ~14% per minute)
+    -- 30% reliability = frequent problems (~0.75% per second = ~36% per minute)
+    -- 10% reliability = constant issues (~1.6% per second = ~62% per minute)
+    -- 0% reliability = nearly undrivable (~2.5% per second = ~78% per minute)
+    local config = UsedPlusMaintenance.CONFIG
+    local exponent = config.progressiveFailureExponent or 2.0
+    local multiplier = config.progressiveFailureMultiplier or 0.025
+    local reliabilityFactor = math.pow(1 - reliability, exponent)  -- Quadratic curve (was 1.5)
+    local baseChance = 0.00001 + (reliabilityFactor * multiplier)  -- 0.001% to 2.5% per second
 
     -- 2. DAMAGE MULTIPLIER (amplifies base chance, doesn't gate it)
     -- 0% damage = 1x multiplier (no change)
@@ -3205,6 +3325,9 @@ function UsedPlusMaintenance.checkEngineStall(vehicle)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
 
+    -- v2.7.0: Skip if engine is seized (already permanently dead)
+    if spec.engineSeized then return end
+
     -- Cooldown check (prevent stalling every frame)
     if spec.stallCooldown > 0 then
         return
@@ -3228,6 +3351,257 @@ function UsedPlusMaintenance.checkEngineStall(vehicle)
     end
 end
 
+-- ===========================================================================
+-- v2.7.0: SEIZURE ESCALATION SYSTEM
+-- When a malfunction triggers below the threshold, roll a die:
+-- - PASS: Normal temporary malfunction (current behavior)
+-- - FAIL: Permanent seizure requiring repair
+-- ===========================================================================
+
+--[[
+    Get the DNA-variable seizure threshold for this vehicle
+    Lemons have a HIGH threshold (seizure zone starts early)
+    Workhorses have a LOW threshold (seizure zone starts very late)
+    @param vehicle - The vehicle to check
+    @return number - Reliability threshold below which seizure can occur (0.0-1.0)
+]]
+function UsedPlusMaintenance.getSeizureThreshold(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return 0.25 end  -- Default if no spec
+
+    local config = UsedPlusMaintenance.CONFIG
+    local dna = spec.workhorseLemonScale or 0.5
+
+    -- DNA 0.0 (lemon):     threshold = 0.40 (seizure zone starts at 40%)
+    -- DNA 0.5 (average):   threshold = 0.25 (seizure zone starts at 25%)
+    -- DNA 1.0 (workhorse): threshold = 0.10 (seizure zone starts at 10%)
+    local baseThreshold = config.seizureBaseThreshold or 0.40
+    local dnaReduction = dna * (config.seizureDNAReduction or 0.30)
+
+    return baseThreshold - dnaReduction
+end
+
+--[[
+    Roll the seizure die when a malfunction triggers
+    Should ONLY be called when a malfunction has already been rolled/triggered
+    @param vehicle - The vehicle experiencing malfunction
+    @param component - "engine", "hydraulic", or "electrical"
+    @return true if this malfunction should escalate to permanent seizure
+]]
+function UsedPlusMaintenance.rollForSeizure(vehicle, component)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return false end
+
+    local config = UsedPlusMaintenance.CONFIG
+
+    -- Check if seizure system is enabled
+    if not config.enableSeizureEscalation then
+        return false
+    end
+
+    -- Get component reliability
+    local reliability
+    if component == "engine" then
+        reliability = spec.engineReliability or 1.0
+    elseif component == "hydraulic" then
+        reliability = spec.hydraulicReliability or 1.0
+    elseif component == "electrical" then
+        reliability = spec.electricalReliability or 1.0
+    else
+        return false
+    end
+
+    -- Get DNA-variable threshold
+    local threshold = UsedPlusMaintenance.getSeizureThreshold(vehicle)
+
+    -- Only roll die if below threshold
+    if reliability >= threshold then
+        return false  -- Normal temporary malfunction, no seizure risk
+    end
+
+    -- Calculate seizure chance based on how far below threshold
+    -- At threshold: 5% chance
+    -- Halfway to 0: ~25% chance
+    -- At 0%: 50% chance
+    local depth = (threshold - reliability) / threshold  -- 0.0 to 1.0
+    local minChance = config.seizureMinChance or 0.05
+    local maxChance = config.seizureMaxChance or 0.50
+    local seizureChance = minChance + (depth * (maxChance - minChance))
+
+    -- DNA penalty: lemons have higher seizure chance
+    local dna = spec.workhorseLemonScale or 0.5
+    local lemonPenalty = (1 - dna) * (config.seizureLemonPenalty or 0.20)
+    seizureChance = seizureChance + lemonPenalty
+
+    -- Cap at 70% max (always some hope!)
+    seizureChance = math.min(seizureChance, 0.70)
+
+    -- Roll the die!
+    local roll = math.random()
+    local seized = roll < seizureChance
+
+    UsedPlus.logDebug(string.format(
+        "Seizure roll for %s %s: reliability=%.1f%%, threshold=%.1f%%, chance=%.1f%%, roll=%.3f, result=%s",
+        vehicle:getName(), component, reliability * 100, threshold * 100, seizureChance * 100, roll, tostring(seized)))
+
+    return seized
+end
+
+--[[
+    Stop AI worker if active on this vehicle
+    Called when a severe malfunction (like seizure) occurs
+    @param vehicle - The vehicle to stop AI on
+]]
+function UsedPlusMaintenance.stopAIOnFailure(vehicle)
+    local rootVehicle = vehicle:getRootVehicle()
+    if rootVehicle and rootVehicle.getIsAIActive and rootVehicle:getIsAIActive() then
+        if rootVehicle.stopCurrentAIJob then
+            local errorMessage = nil
+            if AIMessageErrorVehicleBroken and AIMessageErrorVehicleBroken.new then
+                errorMessage = AIMessageErrorVehicleBroken.new()
+            end
+            rootVehicle:stopCurrentAIJob(errorMessage)
+            UsedPlus.logDebug(string.format("AI worker stopped on %s due to seizure", vehicle:getName()))
+        end
+    end
+end
+
+--[[
+    Seize a component permanently (requires repair to fix)
+    @param vehicle - The vehicle to seize
+    @param component - "engine", "hydraulic", or "electrical"
+]]
+function UsedPlusMaintenance.seizeComponent(vehicle, component)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return end
+
+    local currentTime = g_currentMission.time or 0
+
+    if component == "engine" then
+        spec.engineSeized = true
+        spec.engineSeizedTime = currentTime
+
+        -- Stop motor immediately
+        if vehicle.stopMotor then
+            vehicle:stopMotor()
+        end
+
+        -- Show critical warning
+        if UsedPlusMaintenance.shouldShowWarning(vehicle) then
+            g_currentMission:showBlinkingWarning(
+                g_i18n:getText("usedplus_engine_seized") or "ENGINE SEIZED! Repair required!",
+                5000
+            )
+        end
+
+        -- Stop AI
+        UsedPlusMaintenance.stopAIOnFailure(vehicle)
+
+    elseif component == "hydraulic" then
+        spec.hydraulicsSeized = true
+        spec.hydraulicsSeizedTime = currentTime
+
+        if UsedPlusMaintenance.shouldShowWarning(vehicle) then
+            g_currentMission:showBlinkingWarning(
+                g_i18n:getText("usedplus_hydraulics_seized") or "HYDRAULICS SEIZED! Implements locked!",
+                5000
+            )
+        end
+
+    elseif component == "electrical" then
+        spec.electricalSeized = true
+        spec.electricalSeizedTime = currentTime
+
+        -- Turn off all electrical systems
+        if vehicle.deactivateLights then
+            vehicle:deactivateLights()
+        end
+
+        if UsedPlusMaintenance.shouldShowWarning(vehicle) then
+            g_currentMission:showBlinkingWarning(
+                g_i18n:getText("usedplus_electrical_seized") or "ELECTRICAL FAILURE! Systems dead!",
+                5000
+            )
+        end
+
+        UsedPlusMaintenance.stopAIOnFailure(vehicle)
+    end
+
+    -- Record failure for DNA tracking
+    spec.failureCount = (spec.failureCount or 0) + 1
+
+    UsedPlus.logInfo(string.format("SEIZURE: %s component has seized on %s",
+        component, vehicle:getName()))
+
+    -- Mark dirty for network sync
+    if vehicle.raiseDirtyFlags and spec.dirtyFlag then
+        vehicle:raiseDirtyFlags(spec.dirtyFlag)
+    end
+end
+
+--[[
+    Clear seizure state for a component (after repair)
+    @param vehicle - The vehicle to repair
+    @param component - "engine", "hydraulic", "electrical", or "all"
+]]
+function UsedPlusMaintenance.clearSeizure(vehicle, component)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return end
+
+    if component == "engine" or component == "all" then
+        spec.engineSeized = false
+        spec.engineSeizedTime = 0
+    end
+
+    if component == "hydraulic" or component == "all" then
+        spec.hydraulicsSeized = false
+        spec.hydraulicsSeizedTime = 0
+    end
+
+    if component == "electrical" or component == "all" then
+        spec.electricalSeized = false
+        spec.electricalSeizedTime = 0
+    end
+
+    UsedPlus.logDebug(string.format("Seizure cleared for %s on %s", component, vehicle:getName()))
+
+    -- Mark dirty for network sync
+    if vehicle.raiseDirtyFlags and spec.dirtyFlag then
+        vehicle:raiseDirtyFlags(spec.dirtyFlag)
+    end
+end
+
+--[[
+    Get list of seized components for a vehicle
+    @param vehicle - The vehicle to check
+    @return table - Array of seized component names
+]]
+function UsedPlusMaintenance.getSeizedComponents(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return {} end
+
+    local seized = {}
+    if spec.engineSeized then table.insert(seized, "engine") end
+    if spec.hydraulicsSeized then table.insert(seized, "hydraulic") end
+    if spec.electricalSeized then table.insert(seized, "electrical") end
+    return seized
+end
+
+--[[
+    Check if vehicle has any seized components
+    @param vehicle - The vehicle to check
+    @return boolean - True if any component is seized
+]]
+function UsedPlusMaintenance.hasAnySeizure(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return false end
+    return spec.engineSeized or spec.hydraulicsSeized or spec.electricalSeized
+end
+
+-- ===========================================================================
+-- END SEIZURE ESCALATION SYSTEM
+-- ===========================================================================
+
 --[[
     Actually perform the engine stall
     Stops the motor and notifies the player
@@ -3238,6 +3612,18 @@ function UsedPlusMaintenance.triggerEngineStall(vehicle, isFirstStart)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
 
+    -- v2.7.0: SEIZURE ESCALATION CHECK
+    -- When malfunction triggers, roll for permanent seizure vs temporary stall
+    -- First-start stalls don't escalate (give player a chance)
+    if not isFirstStart then
+        if UsedPlusMaintenance.rollForSeizure(vehicle, "engine") then
+            -- ESCALATE to permanent seizure!
+            UsedPlusMaintenance.seizeComponent(vehicle, "engine")
+            return  -- Don't do temporary stall
+        end
+    end
+
+    -- === Existing temporary stall code (unchanged) ===
     -- Stop the motor
     if vehicle.stopMotor then
         vehicle:stopMotor()
@@ -3545,6 +3931,9 @@ function UsedPlusMaintenance.checkHydraulicDrift(vehicle, dt)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
 
+    -- v2.7.0: Skip if hydraulics are seized (implements already locked)
+    if spec.hydraulicsSeized then return end
+
     -- v1.8.0: Use ModCompatibility to get hydraulic reliability
     -- Note: RVB doesn't have hydraulic parts, so this will use native UsedPlus reliability
     -- This is a UNIQUE UsedPlus feature that complements RVB!
@@ -3671,6 +4060,9 @@ function UsedPlusMaintenance.checkImplementCutout(vehicle, dt)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
 
+    -- v2.7.0: Skip if electrical is seized (already permanently dead)
+    if spec.electricalSeized then return end
+
     -- Handle active cutout
     if spec.isCutout then
         if g_currentMission.time >= spec.cutoutEndTime then
@@ -3726,6 +4118,15 @@ function UsedPlusMaintenance.triggerImplementCutout(vehicle)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
 
+    -- v2.7.0: SEIZURE ESCALATION CHECK
+    -- When malfunction triggers, roll for permanent seizure vs temporary cutout
+    if UsedPlusMaintenance.rollForSeizure(vehicle, "electrical") then
+        -- ESCALATE to permanent seizure!
+        UsedPlusMaintenance.seizeComponent(vehicle, "electrical")
+        return  -- Don't do temporary cutout
+    end
+
+    -- === Existing temporary cutout code (unchanged) ===
     spec.isCutout = true
     spec.cutoutEndTime = g_currentMission.time + UsedPlusMaintenance.CONFIG.cutoutDurationMs
     spec.failureCount = (spec.failureCount or 0) + 1

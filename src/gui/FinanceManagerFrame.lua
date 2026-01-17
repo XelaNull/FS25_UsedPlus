@@ -370,8 +370,8 @@ function FinanceManagerFrame:updateFinancesSection(farmId, farm)
         -- - Player borrows/repays in $5k increments anytime
         -- - Interest accrues on outstanding balance
         -- - No fixed term, no maturity date, no scheduled payments
-        -- Interest rate is ~10% APY in vanilla
-        local vanillaInterestRate = 0.10
+        -- Interest rate is ~4% APY in vanilla ($833/mo on $250k loan)
+        local vanillaInterestRate = 0.04
         local monthlyInterestCost = math.floor(vanillaLoanAmount * vanillaInterestRate / 12)
 
         -- Get stored payment multiplier for this farm's vanilla loan

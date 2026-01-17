@@ -255,10 +255,20 @@ function FieldServiceKit:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- Pattern from: OilServicePoint.lua which works correctly
     self:raiseActive()
 
-    -- Handle consumed kit - make invisible and stop all processing
+    -- Handle consumed kit - hide immediately, store player position for movement detection
     if spec.pendingDeletion then
         -- Clear flag first to prevent multiple processing
         spec.pendingDeletion = false
+        spec.awaitingDeletion = true
+
+        -- Store player position when consumed (they're in a menu)
+        if g_localPlayer ~= nil then
+            if g_localPlayer.getPosition ~= nil then
+                spec.consumedPlayerX, spec.consumedPlayerY, spec.consumedPlayerZ = g_localPlayer:getPosition()
+            elseif g_localPlayer.rootNode ~= nil then
+                spec.consumedPlayerX, spec.consumedPlayerY, spec.consumedPlayerZ = getWorldTranslation(g_localPlayer.rootNode)
+            end
+        end
 
         -- If this was the nearest scanner, clear it
         if FieldServiceKit.nearestScanner == self then
@@ -266,13 +276,77 @@ function FieldServiceKit:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSe
             FieldServiceKit.updateGlobalActionEvent()
         end
 
-        -- Hide the kit visually instead of deleting (safer)
+        -- Hide the kit visually immediately
         if self.rootNode ~= nil then
             setVisibility(self.rootNode, false)
         end
 
-        UsedPlus.logInfo("FieldServiceKit: Kit consumed and hidden")
+        UsedPlus.logInfo("FieldServiceKit: Kit consumed and hidden, waiting for player movement to delete")
         return
+    end
+
+    -- Check if player has moved at all since consumption (confirms they exited the menu)
+    if spec.awaitingDeletion then
+        -- Initialize deletion timer on first check
+        if spec.deletionTimer == nil then
+            spec.deletionTimer = 5000  -- 5 second delay before deletion
+        end
+
+        -- Count down the timer
+        spec.deletionTimer = spec.deletionTimer - dt
+
+        -- Only delete after timer expires (gives time for UI to fully close)
+        if spec.deletionTimer <= 0 and not spec.deletionStarted then
+            spec.deletionStarted = true  -- Prevent multiple deletion attempts
+            UsedPlus.logInfo("FieldServiceKit: Deletion timer expired, scheduling removal")
+
+            -- Remove from global instances list first
+            for i = #FieldServiceKit.instances, 1, -1 do
+                if FieldServiceKit.instances[i] == self then
+                    table.remove(FieldServiceKit.instances, i)
+                    break
+                end
+            end
+
+            -- Use addUpdateable for safe delayed deletion
+            -- This ensures we're not deleting during an active update cycle
+            if g_currentMission ~= nil then
+                g_currentMission:addUpdateable({
+                    timeRemaining = 100,  -- Small extra delay
+                    vehicle = self,
+                    update = function(obj, dt)
+                        obj.timeRemaining = obj.timeRemaining - dt
+                        if obj.timeRemaining <= 0 then
+                            UsedPlus.logInfo("FieldServiceKit: Executing safe removal")
+                            local vehicle = obj.vehicle
+
+                            -- Try multiple removal methods
+                            pcall(function()
+                                -- First remove from mission's vehicle list
+                                if g_currentMission.removeVehicle then
+                                    g_currentMission:removeVehicle(vehicle)
+                                    UsedPlus.logInfo("FieldServiceKit: removeVehicle called")
+                                end
+                            end)
+
+                            pcall(function()
+                                -- Then call delete on the vehicle itself
+                                if vehicle.delete then
+                                    vehicle:delete()
+                                    UsedPlus.logInfo("FieldServiceKit: delete() called")
+                                end
+                            end)
+
+                            g_currentMission:removeUpdateable(obj)
+                        end
+                    end
+                })
+            end
+
+            return
+        end
+
+        return  -- Don't process anything else while awaiting deletion
     end
 
     if spec.isConsumed then

@@ -158,6 +158,15 @@ function WorkshopScreenExtension:hookSellButton(screen)
     screen.sellButton.onClickCallback = function(button, ...)
         UsedPlus.logDebug(">>> Sell button callback intercepted <<<")
 
+        -- v2.6.2: Check if vehicle sale system is enabled
+        if UsedPlusSettings and UsedPlusSettings:get("enableVehicleSaleSystem") == false then
+            UsedPlus.logDebug("Vehicle sale system disabled, using vanilla sell")
+            if originalCallback then
+                return originalCallback(button, ...)
+            end
+            return
+        end
+
         local vehicle = screen.vehicle
         if vehicle then
             local farmId = g_currentMission:getFarmId()
@@ -209,6 +218,28 @@ function WorkshopScreenExtension:hookSellButton(screen)
 end
 
 --[[
+    Check if a vehicle is an OBD Scanner (Field Service Kit)
+    These should not appear in workshop screens
+]]
+function WorkshopScreenExtension.isOBDScanner(vehicle)
+    if vehicle == nil then
+        return false
+    end
+
+    -- Check for our specialization
+    if vehicle.spec_fieldServiceKit ~= nil then
+        return true
+    end
+
+    -- Also check vehicle type name as backup
+    if vehicle.typeName ~= nil and string.find(vehicle.typeName, "fieldServiceKit") then
+        return true
+    end
+
+    return false
+end
+
+--[[
     Called when vehicle is set/changed
     THIS is where we need to create the button since onOpen doesn't fire
 ]]
@@ -216,6 +247,15 @@ function WorkshopScreenExtension.onSetVehicle(screen, vehicle)
     if vehicle then
         UsedPlus.logDebug(string.format("WorkshopScreenExtension: Vehicle set to %s",
             vehicle:getName() or "unknown"))
+
+        -- v2.5.2: Skip OBD Scanner - it's a consumable, not repairable/customizable
+        -- Don't add our buttons (Inspect, custom Sell) for OBD Scanners
+        -- But don't close the workshop - let player navigate to another vehicle
+        if WorkshopScreenExtension.isOBDScanner(vehicle) then
+            UsedPlus.logDebug("WorkshopScreenExtension: Skipping buttons for OBD Scanner (consumable item)")
+            -- Just return without adding buttons - player can use prev/next to switch vehicles
+            return
+        end
 
         -- Log screen properties to find buttons
         WorkshopScreenExtension:logProperties(screen, "WorkshopScreen instance")
@@ -369,9 +409,9 @@ function WorkshopScreenExtension:tryCreateTiresButton(screen, sourceButton, pare
         WorkshopScreenExtension:onTiresClick(screen)
     end
 
-    -- Try to set input action
+    -- Try to set input action (T key)
     if tiresButton.inputActionName ~= nil then
-        tiresButton.inputActionName = "MENU_EXTRA_2"
+        tiresButton.inputActionName = "USEDPLUS_TIRES"
     end
 
     screen.usedPlusTiresButton = tiresButton

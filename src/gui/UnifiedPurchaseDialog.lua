@@ -23,9 +23,9 @@ UnifiedPurchaseDialog.MODE_TEXTS = {"Buy with Cash", "Finance", "Lease"}
 
 -- Term options
 UnifiedPurchaseDialog.FINANCE_TERMS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20}  -- Years (1-year increments)
--- Lease terms in months - standard lease options (1-5 years)
+-- Lease terms in months: 3, 6, 9 months (short-term), then 1-5 years
 -- Vehicle leases beyond 5 years don't make financial sense - just buy it!
-UnifiedPurchaseDialog.LEASE_TERMS = {12, 24, 36, 48, 60}
+UnifiedPurchaseDialog.LEASE_TERMS = {3, 6, 9, 12, 24, 36, 48, 60}
 UnifiedPurchaseDialog.DOWN_PAYMENT_OPTIONS = {0, 5, 10, 15, 20, 25, 30, 40, 50}  -- Percent
 UnifiedPurchaseDialog.CASH_BACK_OPTIONS = {0, 500, 1000, 2500, 5000, 10000}
 
@@ -85,8 +85,8 @@ function UnifiedPurchaseDialog.new(target, custom_mt)
     self.financeDownIndex = 3  -- Default 10%
     self.financeCashBackIndex = 1  -- Default $0
 
-    -- Lease parameters (LEASE_TERMS is in months: index 3 = 36 months = 3 years)
-    self.leaseTermIndex = 3  -- Default 3 years (36 months)
+    -- Lease parameters (LEASE_TERMS is in months: index 6 = 36 months = 3 years)
+    self.leaseTermIndex = 6  -- Default 3 years (36 months) in {3,6,9,12,24,36,48,60}
     self.leaseDownIndex = 3  -- Default 10%
 
     -- Credit data
@@ -316,36 +316,44 @@ end
     Better credit = higher trade-in offer (dealers trust you more for financing)
 
     Trade-in value hierarchy (must be LESS than agent sales!):
-    - Trade-In: 50-65% of sell price (instant, convenient)
+    - Trade-In: baseTradeInPercent to baseTradeInPercent+15% (instant, convenient)
     - Local Agent: 60-75% (1-2 months wait)
     - Regional Agent: 75-90% (2-4 months wait)
     - National Agent: 90-100% (3-6 months wait)
 
-    Credit impact on trade-in (50-65% range):
-    - 800-850: Exceptional -> 65% of sell price
-    - 740-799: Very Good   -> 61% of sell price
-    - 670-739: Good        -> 57% of sell price
-    - 580-669: Fair        -> 53% of sell price
-    - 300-579: Poor        -> 50% of sell price
+    v2.6.2: Now uses baseTradeInPercent setting (default 55%)
+    Credit adds bonus on top (up to +15% for excellent credit):
+    - 800-850: Exceptional -> base + 15%
+    - 740-799: Very Good   -> base + 11%
+    - 670-739: Good        -> base + 7%
+    - 580-669: Fair        -> base + 3%
+    - 300-579: Poor        -> base + 0%
 
     Condition (damage + wear) further reduces value by up to 30%
 ]]
 function UnifiedPurchaseDialog:getCreditTradeInMultiplier()
     local score = self.creditScore or 650
 
-    -- Trade-in ranges from 50% (poor credit) to 65% (excellent credit) of sell price
-    -- This ensures trade-in is ALWAYS less than even Local Agent (60-75%)
+    -- v2.6.2: Use baseTradeInPercent setting instead of hardcoded 50%
+    -- Credit bonus adds 0-15% on top based on credit score
+    local basePercent = (UsedPlusSettings and UsedPlusSettings:get("baseTradeInPercent") or 55) / 100
+    local maxBonus = 0.15  -- Excellent credit adds up to 15%
+
+    -- Calculate credit bonus: poor credit = 0, excellent credit = maxBonus
+    local creditBonus = 0
     if score >= 800 then
-        return 0.65  -- Exceptional credit: best trade-in (65%)
+        creditBonus = maxBonus           -- Exceptional: full 15% bonus
     elseif score >= 740 then
-        return 0.61  -- Very good credit (61%)
+        creditBonus = maxBonus * 0.73    -- Very good: 11% bonus
     elseif score >= 670 then
-        return 0.57  -- Good credit (57%)
+        creditBonus = maxBonus * 0.47    -- Good: 7% bonus
     elseif score >= 580 then
-        return 0.53  -- Fair credit (53%)
+        creditBonus = maxBonus * 0.20    -- Fair: 3% bonus
     else
-        return 0.50  -- Poor credit: minimum trade-in (50%)
+        creditBonus = 0                  -- Poor: no bonus
     end
+
+    return basePercent + creditBonus
 end
 
 --[[
@@ -367,7 +375,7 @@ function UnifiedPurchaseDialog:loadEligibleTradeIns()
 
     local farmId = g_currentMission:getFarmId()
 
-    -- Get credit-based trade-in multiplier (returns 0.50 to 0.65)
+    -- Get credit-based trade-in multiplier (returns baseTradeInPercent to baseTradeInPercent+15%)
     local creditMultiplier = self:getCreditTradeInMultiplier()
 
     for _, vehicle in pairs(g_currentMission.vehicleSystem.vehicles) do
@@ -488,10 +496,55 @@ end
 
 --[[
     Mode selector changed
+    v2.6.2: Validates mode against settings and credit score
 ]]
 function UnifiedPurchaseDialog:onModeChanged()
     if self.modeSelector then
-        self.currentMode = self.modeSelector:getState()
+        local newMode = self.modeSelector:getState()
+
+        -- v2.6.2: Check if Finance mode is allowed
+        if newMode == UnifiedPurchaseDialog.MODE_FINANCE then
+            if not self.financeSystemEnabled then
+                -- Finance system disabled in settings
+                g_gui:showInfoDialog({
+                    title = g_i18n:getText("usedplus_finance_disabled_title") or "Feature Disabled",
+                    text = g_i18n:getText("usedplus_finance_disabled_msg") or "Vehicle financing is disabled in UsedPlus settings."
+                })
+                self.modeSelector:setState(self.currentMode)  -- Revert to previous mode
+                return
+            elseif not self.canFinance then
+                -- Credit score too low
+                g_gui:showInfoDialog({
+                    title = g_i18n:getText("usedplus_credit_required") or "Credit Required",
+                    text = string.format(g_i18n:getText("usedplus_finance_credit_msg") or "Financing requires a credit score of %d or higher.", self.financeMinScore or 550)
+                })
+                self.modeSelector:setState(self.currentMode)
+                return
+            end
+        end
+
+        -- v2.6.2: Check if Lease mode is allowed
+        if newMode == UnifiedPurchaseDialog.MODE_LEASE then
+            if not self.leaseSystemEnabled then
+                -- Lease system disabled in settings
+                g_gui:showInfoDialog({
+                    title = g_i18n:getText("usedplus_lease_disabled_title") or "Feature Disabled",
+                    text = g_i18n:getText("usedplus_lease_disabled_msg") or "Vehicle leasing is disabled in UsedPlus settings."
+                })
+                self.modeSelector:setState(self.currentMode)
+                return
+            elseif not self.canLease then
+                -- Credit score too low
+                g_gui:showInfoDialog({
+                    title = g_i18n:getText("usedplus_credit_required") or "Credit Required",
+                    text = string.format(g_i18n:getText("usedplus_lease_credit_msg") or "Leasing requires a credit score of %d or higher.", self.leaseMinScore or 600)
+                })
+                self.modeSelector:setState(self.currentMode)
+                return
+            end
+        end
+
+        self.currentMode = newMode
     end
 
     self:updateSectionVisibility()
@@ -577,7 +630,9 @@ function UnifiedPurchaseDialog:onTradeInVehicleChanged()
 
             -- Update credit impact display
             if self.tradeInCreditText then
-                local creditPct = math.floor((item.creditMultiplier or 0.50) * 100)
+                -- v2.6.2: Use baseTradeInPercent as fallback instead of hardcoded 50%
+                local baseFallback = (UsedPlusSettings and UsedPlusSettings:get("baseTradeInPercent") or 55) / 100
+                local creditPct = math.floor((item.creditMultiplier or baseFallback) * 100)
                 local condPct = math.floor((item.conditionMultiplier or 1.0) * 100)
                 self.tradeInCreditText:setText(string.format("Credit: %d%% | Cond: %d%%", creditPct, condPct))
             end
@@ -812,6 +867,7 @@ end
 --[[
     Update mode selector texts to show which options are unavailable
     Adds visual indicators for credit-locked options
+    v2.6.2: Now checks settings system for Finance/Lease toggles
 ]]
 function UnifiedPurchaseDialog:updateModeSelectorTexts()
     if not self.modeSelector then return end
@@ -819,21 +875,33 @@ function UnifiedPurchaseDialog:updateModeSelectorTexts()
     -- v2.1.2: Preserve current state - setTexts() resets state to 1
     local currentState = self.currentMode or 1
 
+    -- v2.6.2: Check settings for Finance/Lease system toggles
+    local financeSystemEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Finance")
+    local leaseSystemEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Lease")
+
+    -- Store for mode validation
+    self.financeSystemEnabled = financeSystemEnabled
+    self.leaseSystemEnabled = leaseSystemEnabled
+
     local texts = {}
 
     -- Cash is always available
     table.insert(texts, g_i18n:getText("usedplus_mode_cash"))
 
-    -- Finance - show lock indicator if unavailable
-    if self.canFinance then
+    -- Finance - check system enabled first, then credit score
+    if not financeSystemEnabled then
+        table.insert(texts, g_i18n:getText("usedplus_mode_finance_disabled") or "Finance (Disabled)")
+    elseif self.canFinance then
         table.insert(texts, g_i18n:getText("usedplus_mode_finance"))
     else
         local template = g_i18n:getText("usedplus_mode_financeCredit")
         table.insert(texts, string.format(template, self.financeMinScore or 550))
     end
 
-    -- Lease - show lock indicator if unavailable
-    if self.canLease then
+    -- Lease - check system enabled first, then credit score
+    if not leaseSystemEnabled then
+        table.insert(texts, g_i18n:getText("usedplus_mode_lease_disabled") or "Lease (Disabled)")
+    elseif self.canLease then
         table.insert(texts, g_i18n:getText("usedplus_mode_lease"))
     else
         local template = g_i18n:getText("usedplus_mode_leaseCredit")
@@ -843,6 +911,14 @@ function UnifiedPurchaseDialog:updateModeSelectorTexts()
     self.modeSelector:setTexts(texts)
 
     -- v2.1.2: Restore state after setTexts() resets it
+    -- v2.6.2: But redirect to Cash if current mode is disabled
+    if currentState == UnifiedPurchaseDialog.MODE_FINANCE and not financeSystemEnabled then
+        currentState = UnifiedPurchaseDialog.MODE_CASH
+    elseif currentState == UnifiedPurchaseDialog.MODE_LEASE and not leaseSystemEnabled then
+        currentState = UnifiedPurchaseDialog.MODE_CASH
+    end
+
+    self.currentMode = currentState
     self.modeSelector:setState(currentState)
 end
 

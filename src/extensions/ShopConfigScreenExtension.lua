@@ -198,7 +198,7 @@ function ShopConfigScreenExtension.applyCustomizations(self, storeItem)
         local parent = buyButton.parent
         self.usedPlusTiresButton = buyButton:clone(parent)
         self.usedPlusTiresButton.name = "usedPlusTiresButton"
-        self.usedPlusTiresButton.inputActionName = "MENU_EXTRA_3"
+        self.usedPlusTiresButton.inputActionName = "USEDPLUS_TIRES"
         self.usedPlusTiresButton:setText(g_i18n:getText("usedplus_button_tires") or "Tires")
         self.usedPlusTiresButton:setVisible(false)  -- Hidden by default, shown for owned vehicles
 

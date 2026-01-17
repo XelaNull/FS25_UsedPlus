@@ -216,6 +216,7 @@
         <e k="usedplus_credit_poor" v="Poor" />
 
         <!--  Equipment Condition Tiers -->
+        <e k="usedplus_condition_critical" v="Critical" />
         <e k="usedplus_condition_poor" v="Poor" />
         <e k="usedplus_condition_any" v="Any" />
         <e k="usedplus_condition_fair" v="Fair" />
@@ -253,6 +254,7 @@
         <e k="input_USEDPLUS_SEARCH_USED" v="Search Used Equipment" />
         <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Inspect Vehicle" />
         <e k="input_USEDPLUS_ACTIVATE_OBD" v="Use OBD Scanner" />
+        <e k="input_USEDPLUS_TIRES" v="Tire Service" />
 
         <!--  Tooltips for Finance Dialog -->
         <e k="usedplus_finance_loanTerm_tooltip" v="Spread payments over 1-20 years. Longer terms = smaller monthly payments but more total interest paid." />
@@ -1025,8 +1027,8 @@
         <e k="usedplus_button_tires" v="Tires" />
         <e k="usedplus_button_fluids" v="Fluids" />
 
-        <!-- Repair Dialog -->
-        <e k="usedplus_rp_title" v="Vehicle Service" />
+        <!-- Repair Dialog (uses usedplus_rp_* for legacy compatibility, NOT usedplus_repair_*) -->
+        <!-- Note: usedplus_rp_title removed - code uses usedplus_repair_title instead -->
         <e k="usedplus_rp_sectionStatus" v="VEHICLE STATUS" />
         <e k="usedplus_rp_mechanical" v="Mechanical:" />
         <e k="usedplus_rp_paint" v="Paint:" />
@@ -1524,10 +1526,7 @@
         <e k="usedplus_tire_normal" v="Normal" />
         <e k="usedplus_tire_quality" v="Quality" />
 
-        <!-- v1.7.0: Fluids Dialog Labels -->
-        <e k="usedplus_fluids_title" v="FLUID SERVICE" />
-        <e k="usedplus_fluids_oil" v="Engine Oil" />
-        <e k="usedplus_fluids_hydraulic" v="Hydraulic Fluid" />
+        <!-- v1.7.0: Fluids Dialog Labels (duplicates removed - kept in v1.7.0 Fluids Service Dialog section) -->
         <e k="usedplus_fluids_level" v="Level:" />
         <e k="usedplus_fluids_status" v="Status:" />
         <e k="usedplus_fluids_statusOk" v="OK" />
@@ -1541,14 +1540,11 @@
         <e k="usedplus_fluids_fullChange" v="Full Change" />
         <e k="usedplus_fluids_cost" v="Cost:" />
 
-        <!-- v1.7.0: Tires Dialog Labels -->
-        <e k="usedplus_tires_title" v="TIRE SERVICE" />
+        <!-- v1.7.0: Tires Dialog Labels (duplicates removed - kept in v1.7.0 Tires Service Dialog section) -->
         <e k="usedplus_tires_condition" v="Condition:" />
-        <e k="usedplus_tires_quality" v="Quality:" />
         <e k="usedplus_tires_traction" v="Traction:" />
         <e k="usedplus_tires_flatTire" v="FLAT TIRE" />
         <e k="usedplus_tires_replace" v="Replace Tires" />
-        <e k="usedplus_tires_selectQuality" v="Select Quality:" />
         <e k="usedplus_tires_retreadDesc" v="Budget option - lower traction, higher failure risk" />
         <e k="usedplus_tires_normalDesc" v="Standard tires - balanced performance" />
         <e k="usedplus_tires_qualityDesc" v="Premium tires - better traction, lower failure risk" />
@@ -1626,7 +1622,7 @@
         <e k="usedplus_oil_refillComplete" v="Oil refilled - Cost: %s" />
         <e k="usedplus_hydraulic_refillComplete" v="Hydraulic fluid refilled - Cost: %s" />
         <e k="usedplus_oil_refillCompleteStorage" v="Oil refilled from storage" />
-        <e k="usedplus_hydraulic_refillCompleteStorage" v="Hydraulic fluid refilled from storage" />
+        <!-- usedplus_hydraulic_refillCompleteStorage moved to line below with format string -->
         <e k="usedplus_oil_notEnoughStorage" v="Not enough oil in storage" />
         <e k="usedplus_hydraulic_notEnoughStorage" v="Not enough hydraulic fluid in storage" />
         <e k="usedplus_oil_alreadyFull" v="Engine oil already full" />
@@ -1854,6 +1850,21 @@
         <e k="usedplus_setting_bankInterestRate" v="Interest Rate (APY)" />
         <e k="usedplus_setting_bankInterestRate_desc" v="Annual interest rate on cash. 1% = $10,000 annual on $1M balance" />
 
+        <!-- v2.6.2: Mod Compatibility Settings -->
+        <e k="usedplus_settings_compatibility" v="Mod Compatibility" />
+        <e k="usedplus_setting_rvbIntegration" v="RVB Integration" />
+        <e k="usedplus_setting_rvbIntegration_desc" v="Enable Real Vehicle Breakdowns integration. Disable if experiencing issues with RVB." />
+        <e k="usedplus_setting_uytIntegration" v="UYT Integration" />
+        <e k="usedplus_setting_uytIntegration_desc" v="Enable Use Your Tyres integration. Disable if experiencing issues with UYT." />
+        <e k="usedplus_setting_amIntegration" v="AM Integration" />
+        <e k="usedplus_setting_amIntegration_desc" v="Enable AdvancedMaintenance integration. Chains engine damage checks between mods." />
+        <e k="usedplus_setting_hpIntegration" v="HP Integration" />
+        <e k="usedplus_setting_hpIntegration_desc" v="Enable HirePurchasing integration. Hides UsedPlus Finance button (HP handles financing)." />
+        <e k="usedplus_setting_bueIntegration" v="BUE Integration" />
+        <e k="usedplus_setting_bueIntegration_desc" v="Enable BuyUsedEquipment integration. Hides UsedPlus Search button (BUE handles used search)." />
+        <e k="usedplus_setting_elsIntegration" v="ELS Integration" />
+        <e k="usedplus_setting_elsIntegration_desc" v="Enable EnhancedLoanSystem integration. Disables UsedPlus loans (ELS handles them)." />
+
         <!-- Section Headers -->
         <e k="usedplus_settings_toggles" v="Feature Toggles" />
         <e k="usedplus_settings_money" v="Money &amp; Rates" />
@@ -1943,6 +1954,112 @@
         <e k="usedplus_grade_fair" v="Fair" />
         <e k="usedplus_grade_poor" v="Poor" />
         <e k="usedplus_grade_critical" v="Critical" />
+
+        <!-- ============================================== -->
+        <!-- v2.6.0: NEGOTIATION SYSTEM                     -->
+        <!-- ============================================== -->
+
+        <!-- Buttons -->
+        <e k="usedplus_button_makeOffer" v="Make Offer" />
+
+        <!-- Negotiation Dialog -->
+        <e k="usedplus_neg_title" v="MAKE AN OFFER" />
+        <e k="usedplus_neg_sectionVehicle" v="VEHICLE" />
+        <e k="usedplus_neg_sectionWhisper" v="MECHANIC'S WHISPER" />
+        <e k="usedplus_neg_sectionOffer" v="YOUR OFFER" />
+        <e k="usedplus_neg_askingPrice" v="Asking Price:" />
+        <e k="usedplus_neg_yourOffer" v="Your Offer:" />
+        <e k="usedplus_neg_savings" v="Savings:" />
+        <e k="usedplus_neg_sendOffer" v="Send Offer" />
+
+        <!-- Mechanic Seller Whispers (Twist #2) -->
+        <e k="usedplus_whisper_desperate_seller" v="Between you and me... they seem pretty eager to sell. Might be in a tough spot." />
+        <e k="usedplus_whisper_listed_long" v="Between you and me... I've seen this rig listed for a while now. Seller might be motivated." />
+        <e k="usedplus_whisper_upgrading" v="Between you and me... heard they're upgrading to bigger equipment. Could be flexible." />
+        <e k="usedplus_whisper_knows_value" v="Between you and me... they've priced it fair and know exactly what it's worth." />
+        <e k="usedplus_whisper_just_listed" v="Between you and me... just hit the market. Might not be in a rush to deal." />
+        <e k="usedplus_whisper_standard" v="Between you and me... seems like a straightforward seller. Worth making an offer." />
+
+        <!-- Weather Whispers (Twist #3) -->
+        <e k="usedplus_whisper_weather_storm" v="Plus, with that storm rolling in, they might want to close quick." />
+        <e k="usedplus_whisper_weather_rain" v="Rain's keeping everyone cooped up... good time to push for a deal." />
+        <e k="usedplus_whisper_weather_hail" v="That hail's got folks worried about their gear sitting out." />
+        <e k="usedplus_whisper_weather_snow" v="Snow falling... off-season always makes sellers more flexible." />
+        <e k="usedplus_whisper_weather_perfect" v="Beautiful day like this though... don't expect any favors." />
+
+        <!-- Seller Response Dialog -->
+        <e k="usedplus_sr_titleAccept" v="OFFER ACCEPTED!" />
+        <e k="usedplus_sr_titleCounter" v="COUNTER OFFER" />
+        <e k="usedplus_sr_titleReject" v="OFFER REJECTED" />
+        <e k="usedplus_sr_titleWalkaway" v="SELLER WALKED AWAY" />
+        <e k="usedplus_sr_yourOffer" v="Your Offer:" />
+        <e k="usedplus_sr_counterOffer" v="Counter Offer:" />
+        <e k="usedplus_sr_sellerPrice" v="Seller's Price:" />
+        <e k="usedplus_sr_completePurchase" v="Complete Purchase" />
+        <e k="usedplus_sr_acceptCounter" v="Accept Counter" />
+        <e k="usedplus_sr_standFirm" v="Stand Firm" />
+        <e k="usedplus_sr_walkAway" v="Walk Away" />
+        <e k="usedplus_sr_payFullPrice" v="Pay Full Price" />
+
+        <!-- Seller Responses -->
+        <e k="usedplus_response_accepted" v="Deal! You've got yourself a %s." />
+        <e k="usedplus_response_counter" v="I can't go that low, but I'll meet you partway. How about %s?" />
+        <e k="usedplus_response_rejected" v="Sorry, but I can't accept that. My price is firm at %s." />
+        <e k="usedplus_response_walkaway" v="I think we're too far apart. Come back if you change your mind." />
+
+        <!-- Stand Firm Outcomes -->
+        <e k="usedplus_standfirm_success" v="Alright, alright... you drive a hard bargain. I'll take it." />
+        <e k="usedplus_standfirm_hold" v="Look, %s is as low as I can go. Take it or leave it." />
+        <e k="usedplus_standfirm_walkaway" v="I don't think we're going to agree. Maybe another time." />
+
+        <!-- Negotiation Lock (after seller walks away) -->
+        <e k="usedplus_negotiation_locked_title" v="Seller Unavailable" />
+        <e k="usedplus_negotiation_locked" v="Seller is unavailable. Try again in %d minutes." />
+        <e k="usedplus_negotiation_locked_hint" v="They might cool off after a bit..." />
+
+        <!-- Negotiation - Cash Validation -->
+        <e k="usedplus_insufficient_funds" v="Insufficient Funds" />
+        <e k="usedplus_insufficient_funds_offer" v="You cannot afford this offer. Used vehicle purchases are cash only." />
+        <e k="usedplus_insufficient_funds_shortfall" v="You need %s more to complete this purchase." />
+        <e k="usedplus_insufficient_funds_balance" v="Current balance: %s" />
+
+        <!-- v2.6.2: Seller Walkaway (permanent loss) -->
+        <e k="usedplus_walkaway_title" v="SELLER WALKED AWAY" />
+        <e k="usedplus_walkaway_message" v="Your offer insulted the seller. They've refused to do business with you and this vehicle is no longer available." />
+        <e k="usedplus_walkaway_workhorse" v="This seller knows exactly what they have - a machine that's been nothing but reliable. They won't entertain lowball offers." />
+        <e k="usedplus_seller_immovable_hint" v="This seller knows exactly what they have. Don't expect any negotiation room." />
+
+        <!-- v2.6.2: Settings-based mode disabled messages -->
+        <e k="usedplus_mode_finance_disabled" v="Finance (Disabled)" />
+        <e k="usedplus_mode_lease_disabled" v="Lease (Disabled)" />
+        <e k="usedplus_finance_disabled_title" v="Feature Disabled" />
+        <e k="usedplus_finance_disabled_msg" v="Vehicle financing is disabled in UsedPlus settings." />
+        <e k="usedplus_lease_disabled_title" v="Feature Disabled" />
+        <e k="usedplus_lease_disabled_msg" v="Vehicle leasing is disabled in UsedPlus settings." />
+        <e k="usedplus_land_finance_disabled_msg" v="Land financing is disabled in UsedPlus settings." />
+        <e k="usedplus_land_lease_disabled_msg" v="Land leasing is disabled in UsedPlus settings." />
+        <e k="usedplus_land_modeFinance_disabled" v="Finance (Disabled)" />
+        <e k="usedplus_land_modeLease_disabled" v="Lease (Disabled)" />
+
+        <!-- ============================================== -->
+        <!-- v2.7.0: SEIZURE ESCALATION SYSTEM              -->
+        <!-- ============================================== -->
+
+        <!-- Seizure Warning Messages -->
+        <e k="usedplus_engine_seized" v="ENGINE SEIZED! Repair required before vehicle will start." />
+        <e k="usedplus_hydraulics_seized" v="HYDRAULICS SEIZED! Implements are locked in place." />
+        <e k="usedplus_electrical_seized" v="ELECTRICAL FAILURE! All systems are dead." />
+
+        <!-- Component Names (for repair dialogs) -->
+        <e k="usedplus_component_engine" v="Engine" />
+        <e k="usedplus_component_hydraulic" v="Hydraulics" />
+        <e k="usedplus_component_electrical" v="Electrical System" />
+
+        <!-- OBD Scanner Seizure Repair -->
+        <e k="usedplus_seizure_detected" v="COMPONENT SEIZED" />
+        <e k="usedplus_seizure_repair_confirm" v="%s is seized and requires emergency repair.\n\nRepair cost: %s\n\nProceed with repair?" />
+        <e k="usedplus_seizure_repaired" v="%s repaired! Reliability restored to %d%%" />
+        <e k="usedplus_repair_no_money" v="Not enough money for repair!" />
 
     </elements>
 </l10n>

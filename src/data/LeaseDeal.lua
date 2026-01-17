@@ -159,8 +159,15 @@ function LeaseDeal:handleMissedPayment()
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_INFO,
             string.format("Missed lease payment for %s. (1st warning)", self.itemName))
     elseif self.missedPayments == 2 then
-        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format("FINAL WARNING: Missed lease payment for %s! One more = REPOSSESSION!", self.itemName))
+        local warningMsg = string.format("FINAL WARNING: Missed lease payment for %s! One more = REPOSSESSION!", self.itemName)
+        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
+
+        -- Show popup dialog to ensure player sees this critical warning
+        g_gui:showInfoDialog({
+            title = "FINAL WARNING - LEASE DEFAULT IMMINENT",
+            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your vehicle will be repossessed.",
+            buttonAction = ButtonDialog.YES
+        })
     elseif self.missedPayments >= 3 then
         self:repossessVehicle()
     end
@@ -188,9 +195,22 @@ function LeaseDeal:repossessVehicle()
         CreditHistory.recordEvent(self.farmId, "LEASED_VEHICLE_REPOSSESSED", self.itemName)
     end
 
-    -- Send critical notification
-    g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-        string.format("LEASE VEHICLE REPOSSESSED: %s has been taken due to non-payment!", self.itemName))
+    -- Calculate remaining lease obligation for display
+    local remainingObligation = self:calculateRemainingObligation() or 0
+
+    -- Show RepossessionDialog instead of just a banner
+    if RepossessionDialog and RepossessionDialog.showVehicleRepossession then
+        RepossessionDialog.showVehicleRepossession(
+            self.itemName .. " (Leased)",  -- Mark as lease in name
+            self.baseCost,                  -- Original vehicle value
+            self.missedPayments,
+            remainingObligation             -- Remaining lease obligation
+        )
+    else
+        -- Fallback to notification if dialog not available
+        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
+            string.format("LEASE VEHICLE REPOSSESSED: %s has been taken due to non-payment!", self.itemName))
+    end
 end
 
 --[[

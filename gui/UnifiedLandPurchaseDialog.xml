@@ -137,7 +137,10 @@
                 <Text profile="lpTotalLabel" position="190px -110px" text="$l10n_usedplus_lp_dueToday"/>
                 <Text profile="lpTotalValue" id="leaseDueTodayText" position="190px -133px" text=""/>
 
-                <Text profile="lpCreditNote" id="leaseCreditText" position="190px -165px" text=""/>
+                <Text profile="lpTotalLabel" position="190px -155px" text="$l10n_usedplus_lp_totalLeaseCost"/>
+                <Text profile="lpTotalValueLease" id="leaseTotalText" position="190px -173px" text=""/>
+
+                <Text profile="lpCreditNote" id="leaseCreditText" position="190px -188px" text=""/>
 
                 <!-- Buyout info and signing bonus at bottom -->
                 <Text profile="lpBuyoutInfo" id="leaseBuyoutText" position="0px -200px" text=""/>
@@ -312,6 +315,13 @@
             <textSize value="15px"/>
             <textBold value="true"/>
             <textColor value="1 0.85 0.2 1"/>
+        </Profile>
+
+        <Profile name="lpTotalValueLease" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="180px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.75 0.3 1"/>
         </Profile>
 
         <Profile name="lpInterestRate" extends="fs25_textDefault" with="anchorTopCenter">

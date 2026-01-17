@@ -463,6 +463,16 @@ end
     @param frame - The InGameMenuVehiclesFrame instance
 ]]
 function InGameMenuVehiclesFrameExtension:onClickSellOverride(frame)
+    -- v2.6.2: Check if vehicle sale system is enabled
+    if UsedPlusSettings and UsedPlusSettings:get("enableVehicleSaleSystem") == false then
+        UsedPlus.logDebug("Vehicle sale system disabled, falling back to vanilla")
+        -- Call original vanilla sell function if available
+        if self.originalOnClickSell then
+            self.originalOnClickSell(frame)
+        end
+        return
+    end
+
     -- Get selected vehicle
     local vehicle = frame:getSelectedVehicle()
     if vehicle == nil then

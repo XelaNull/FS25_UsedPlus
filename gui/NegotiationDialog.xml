@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    NegotiationDialog.xml
+    v2.6.0: Used vehicle negotiation offer dialog
+    Shows mechanic's whisper intel and offer percentage selection
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 520px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+            <!-- Title -->
+            <Text profile="negTitle" id="titleText" position="0px -25px" text="$l10n_usedplus_neg_title"/>
+
+            <!-- ========== SECTION 1: Vehicle Info ========== -->
+            <GuiElement profile="negSectionContainer" position="0px -60px">
+                <Bitmap profile="negSectionBg" position="0px 0px"/>
+                <Text profile="negSectionHeader" position="0px -5px" text="$l10n_usedplus_neg_sectionVehicle"/>
+
+                <!-- Two-column layout: Image left, Info right -->
+                <GuiElement position="0px -28px">
+                    <!-- Vehicle Image (left) -->
+                    <Bitmap profile="negVehicleImage" id="vehicleImage" position="-185px 75px"/>
+
+                    <!-- Vehicle Info (right) -->
+                    <Text profile="negVehicleName" id="vehicleNameText" position="120px -5px" text=""/>
+
+                    <!-- Asking Price -->
+                    <Text profile="negLabel" position="70px -35px" text="$l10n_usedplus_neg_askingPrice"/>
+                    <Text profile="negPriceValue" id="askingPriceText" position="180px -35px" text="$0"/>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== SECTION 2: Mechanic's Whisper ========== -->
+            <GuiElement profile="negWhisperSection" position="0px -210px">
+                <Bitmap profile="negWhisperBg" position="0px 0px"/>
+                <Text profile="negSectionHeader" position="0px -5px" text="$l10n_usedplus_neg_sectionWhisper"/>
+
+                <!-- Whisper Icon (speech bubble indicator) -->
+                <Bitmap profile="negWhisperIconBg" position="-280px -40px"/>
+                <Text profile="negWhisperIconText" position="-280px -47px" text="&quot;"/>
+
+                <!-- Whisper Text (two lines possible) -->
+                <Text profile="negWhisperText" id="whisperText1" position="0px -35px" text=""/>
+                <Text profile="negWhisperSubtext" id="whisperText2" position="0px -58px" text=""/>
+            </GuiElement>
+
+            <!-- ========== SECTION 3: Your Offer ========== -->
+            <GuiElement profile="negOfferSection" position="0px -310px">
+                <Bitmap profile="negOfferBg" position="0px 0px"/>
+                <Text profile="negSectionHeader" position="0px -5px" text="$l10n_usedplus_neg_sectionOffer"/>
+
+                <!-- Offer Percentage Buttons (3-layer pattern: Bg + Hit + Text) -->
+                <GuiElement profile="negButtonRow" position="0px -38px">
+                    <!-- 70% Button -->
+                    <Bitmap profile="negQuickBtnBg" id="btn70Bg" position="-250px 0px"/>
+                    <Button profile="negQuickBtnHit" id="btn70" position="-250px 0px" onClick="onClickOffer70"/>
+                    <Text profile="negQuickBtnText" id="btn70Text" position="-250px -5px" text="70%"/>
+
+                    <!-- 80% Button -->
+                    <Bitmap profile="negQuickBtnBg" id="btn80Bg" position="-150px 0px"/>
+                    <Button profile="negQuickBtnHit" id="btn80" position="-150px 0px" onClick="onClickOffer80"/>
+                    <Text profile="negQuickBtnText" id="btn80Text" position="-150px -5px" text="80%"/>
+
+                    <!-- 85% Button -->
+                    <Bitmap profile="negQuickBtnBg" id="btn85Bg" position="-50px 0px"/>
+                    <Button profile="negQuickBtnHit" id="btn85" position="-50px 0px" onClick="onClickOffer85"/>
+                    <Text profile="negQuickBtnText" id="btn85Text" position="-50px -5px" text="85%"/>
+
+                    <!-- 90% Button -->
+                    <Bitmap profile="negQuickBtnBg" id="btn90Bg" position="50px 0px"/>
+                    <Button profile="negQuickBtnHit" id="btn90" position="50px 0px" onClick="onClickOffer90"/>
+                    <Text profile="negQuickBtnText" id="btn90Text" position="50px -5px" text="90%"/>
+
+                    <!-- 95% Button -->
+                    <Bitmap profile="negQuickBtnBg" id="btn95Bg" position="150px 0px"/>
+                    <Button profile="negQuickBtnHit" id="btn95" position="150px 0px" onClick="onClickOffer95"/>
+                    <Text profile="negQuickBtnText" id="btn95Text" position="150px -5px" text="95%"/>
+
+                    <!-- 100% Button (highlighted as full price) -->
+                    <Bitmap profile="negQuickBtnBgFull" id="btn100Bg" position="250px 0px"/>
+                    <Button profile="negQuickBtnHit" id="btn100" position="250px 0px" onClick="onClickOffer100"/>
+                    <Text profile="negQuickBtnText" id="btn100Text" position="250px -5px" text="100%"/>
+                </GuiElement>
+
+                <!-- Selected indicator -->
+                <Text profile="negLabel" position="-200px -75px" text="$l10n_usedplus_neg_yourOffer"/>
+                <Text profile="negOfferAmount" id="offerAmountText" position="-80px -75px" text="$0"/>
+
+                <!-- Savings indicator -->
+                <Text profile="negLabel" position="50px -75px" text="$l10n_usedplus_neg_savings"/>
+                <Text profile="negSavingsAmount" id="savingsText" position="130px -75px" text="$0"/>
+            </GuiElement>
+
+        </GuiElement>
+
+        <!-- Button Box -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button id="sendOfferButton" profile="buttonOK" text="$l10n_usedplus_neg_sendOffer" onClick="onClickSendOffer"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button id="cancelButton" profile="buttonBack" text="$l10n_button_cancel" onClick="onClickCancel"/>
+        </BoxLayout>
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== TITLE ========== -->
+        <Profile name="negTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 30px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.8 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== SECTION CONTAINERS ========== -->
+        <Profile name="negSectionContainer" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 135px"/>
+        </Profile>
+
+        <Profile name="negWhisperSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 90px"/>
+        </Profile>
+
+        <Profile name="negOfferSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 100px"/>
+        </Profile>
+
+        <!-- ========== SECTION BACKGROUNDS ========== -->
+        <Profile name="negSectionBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 135px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+
+        <Profile name="negWhisperBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 90px"/>
+            <imageColor value="0.10 0.08 0.06 0.95"/>
+        </Profile>
+
+        <Profile name="negOfferBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 100px"/>
+            <imageColor value="0.06 0.10 0.08 0.95"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER ========== -->
+        <Profile name="negSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="640px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO ========== -->
+        <Profile name="negVehicleImage" extends="baseReference" with="anchorTopCenter">
+            <size value="180px 180px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <Profile name="negVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="300px 26px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="negLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="110px 20px"/>
+            <textSize value="13px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="negPriceValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 22px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- ========== WHISPER SECTION ========== -->
+        <!-- Whisper icon background (circular indicator) -->
+        <Profile name="negWhisperIconBg" extends="baseReference" with="anchorTopCenter">
+            <size value="36px 36px"/>
+            <imageColor value="0.15 0.12 0.08 0.9"/>
+        </Profile>
+
+        <!-- Whisper icon text (quotation mark) -->
+        <Profile name="negWhisperIconText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="36px 30px"/>
+            <textSize value="28px"/>
+            <textBold value="true"/>
+            <textColor value="0.9 0.7 0.4 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="negWhisperText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="540px 22px"/>
+            <textSize value="13px"/>
+            <textItalic value="true"/>
+            <textColor value="0.95 0.9 0.8 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="negWhisperSubtext" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="540px 20px"/>
+            <textSize value="12px"/>
+            <textItalic value="true"/>
+            <textColor value="0.8 0.75 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== OFFER SECTION ========== -->
+        <!-- Button row container -->
+        <Profile name="negButtonRow" extends="emptyPanel" with="anchorTopCenter">
+            <size value="600px 36px"/>
+        </Profile>
+
+        <!-- Standard button background -->
+        <Profile name="negQuickBtnBg" extends="baseReference" with="anchorTopCenter">
+            <size value="85px 32px"/>
+            <imageColor value="0.15 0.15 0.18 1"/>
+        </Profile>
+
+        <!-- Selected button background (green highlight) -->
+        <Profile name="negQuickBtnBgSelected" extends="baseReference" with="anchorTopCenter">
+            <size value="85px 32px"/>
+            <imageColor value="0.15 0.35 0.20 1"/>
+        </Profile>
+
+        <!-- 100% button background (slightly different - full price indicator) -->
+        <Profile name="negQuickBtnBgFull" extends="baseReference" with="anchorTopCenter">
+            <size value="85px 32px"/>
+            <imageColor value="0.18 0.15 0.12 1"/>
+        </Profile>
+
+        <!-- Invisible hit target for buttons -->
+        <Profile name="negQuickBtnHit" extends="emptyPanel" with="anchorTopCenter">
+            <size value="85px 32px"/>
+            <isFocusable value="true"/>
+        </Profile>
+
+        <!-- Button text label -->
+        <Profile name="negQuickBtnText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="85px 20px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <Profile name="negOfferAmount" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 22px"/>
+            <textSize value="16px"/>
+            <textBold value="true"/>
+            <textColor value="0.3 1 0.5 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <Profile name="negSavingsAmount" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="150px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.3 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

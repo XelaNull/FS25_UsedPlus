@@ -31,7 +31,7 @@
             </GuiElement>
 
             <!-- ===== SECTION 2: MECHANICAL STATUS ===== -->
-            <GuiElement profile="mrSectionMech" position="0px -183px">
+            <GuiElement profile="mrSectionMech" position="0px -193px">
                 <Bitmap profile="mrSectionBgMech" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionMechanical"/>
 
@@ -60,7 +60,7 @@
             </GuiElement>
 
             <!-- ===== SECTION 3: MECHANIC'S ASSESSMENT (NEW) ===== -->
-            <GuiElement profile="mrSectionQuote" position="0px -303px">
+            <GuiElement profile="mrSectionQuote" position="0px -313px">
                 <Bitmap profile="mrSectionBgQuote" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionMechanic"/>
 
@@ -68,7 +68,7 @@
             </GuiElement>
 
             <!-- ===== SECTION 4: SERVICE HISTORY (compact) ===== -->
-            <GuiElement profile="mrSectionHistory" position="0px -368px">
+            <GuiElement profile="mrSectionHistory" position="0px -378px">
                 <Bitmap profile="mrSectionBgHistory" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionService"/>
 
@@ -87,7 +87,7 @@
             </GuiElement>
 
             <!-- ===== SECTION 5: STATUS NOTES ===== -->
-            <GuiElement profile="mrSectionNotes" position="0px -458px">
+            <GuiElement profile="mrSectionNotes" position="0px -468px">
                 <Bitmap profile="mrSectionBgNotes" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionStatus"/>
 
@@ -106,7 +106,7 @@
     <GUIProfiles>
         <!-- ========== SECTION CONTAINERS ========== -->
         <Profile name="mrSectionVehicle" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 105px"/>
+            <size value="660px 115px"/>
         </Profile>
 
         <Profile name="mrSectionMech" extends="emptyPanel" with="anchorTopCenter">
@@ -127,7 +127,7 @@
 
         <!-- ========== SECTION BACKGROUNDS ========== -->
         <Profile name="mrSectionBgVehicle" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 105px"/>
+            <size value="660px 115px"/>
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 

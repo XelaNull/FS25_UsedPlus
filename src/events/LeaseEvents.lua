@@ -91,6 +91,12 @@ function LeaseVehicleEvent:run(connection)
         return
     end
 
+    -- v2.6.2: Validate lease system is enabled
+    if UsedPlusSettings and UsedPlusSettings:get("enableLeaseSystem") == false then
+        UsedPlus.logWarn("LeaseVehicleEvent rejected: Lease system disabled in settings")
+        return
+    end
+
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
         return

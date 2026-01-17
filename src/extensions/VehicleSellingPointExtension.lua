@@ -376,6 +376,13 @@ function VehicleSellingPointExtension.hookShowYesNoDialog()
             UsedPlus.logTrace("Detected REPAINT dialog (German)")
         end
 
+        -- v2.6.2: Master toggle check - if repair system disabled, don't intercept ANY repair dialogs
+        if (isRepair or isRepaint) and UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+            UsedPlus.logTrace("Repair system disabled in settings, using vanilla dialog")
+            isRepair = false
+            isRepaint = false
+        end
+
         -- v2.0.0: Check if partial repair/repaint is enabled in settings
         -- If disabled, don't intercept - let vanilla handle it
         if isRepair and UsedPlusSettings and UsedPlusSettings:get("enablePartialRepair") == false then
@@ -554,7 +561,8 @@ function VehicleSellingPointExtension.hookAllDialogs()
             end
 
             -- Intercept SellItemDialog (ESC -> Vehicles -> Sell)
-            if name == "SellItemDialog" then
+            -- v2.6.2: Only intercept if vehicle sale system is enabled
+            if name == "SellItemDialog" and (not UsedPlusSettings or UsedPlusSettings:get("enableVehicleSaleSystem") ~= false) then
                 UsedPlus.logDebug("Intercepting SellItemDialog - showing UsedPlus SellVehicleDialog instead")
 
                 -- Try to get the vehicle from various sources
@@ -752,6 +760,13 @@ function VehicleSellingPointExtension.hookAllDialogs()
                     end
                     if string.find(textLower, "lackieren") or string.find(textLower, "lackierung") then
                         isRepaint = true
+                    end
+
+                    -- v2.6.2: Master toggle check - if repair system disabled, don't intercept ANY repair dialogs
+                    if (isRepair or isRepaint) and UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+                        UsedPlus.logTrace("Repair system disabled in settings, using vanilla dialog")
+                        isRepair = false
+                        isRepaint = false
                     end
 
                     -- v2.0.0: Check if partial repair/repaint is enabled in settings

@@ -243,6 +243,16 @@ function RepairVehicleEvent.execute(vehicleId, farmId, repairPercent, repaintPer
         end
     end
 
+    -- v2.7.0: Workshop repair clears all seizures
+    -- Any repair work at a proper workshop fixes seized components
+    if repairPercent > 0 and UsedPlusMaintenance and UsedPlusMaintenance.clearSeizure then
+        local hadSeizures = UsedPlusMaintenance.hasAnySeizure(vehicle)
+        if hadSeizures then
+            UsedPlusMaintenance.clearSeizure(vehicle, "all")
+            UsedPlus.logDebug("Workshop repair: All seizures cleared")
+        end
+    end
+
     UsedPlus.logDebug(string.format("Repair completed: %s, repairs applied: %s, cost: $%d, financed: %s",
         vehicleName, tostring(repairsApplied), totalCost, tostring(isFinanced)))
 

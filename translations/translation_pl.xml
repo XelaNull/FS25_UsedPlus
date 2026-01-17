@@ -121,6 +121,9 @@
         <e k="usedplus_manager_noDeals" v="Brak aktywnych transakcji finansowych i leasingowych." eh="880134fe" />
         <e k="usedplus_manager_helpText" v="Sfinansuj pojazdy ze sklepu (klawisz F). Wyszukaj używany sprzęt (klawisz V). Płatności są automatycznie potrącane co miesiąc." eh="ea889bec" />
         <e k="usedplus_vanillaLoan" v="Kredyt Bankowy (Waniliowy)" eh="ae4b0f92" />
+    <e k="usedplus_loanOpen" v="[EN] Open" eh="c3bf447e" />
+    <e k="usedplus_loanNoTerm" v="[EN] No Term" eh="8dbfc606" />
+    <e k="usedplus_loanInterestOnly" v="[EN] Interest" eh="920beb5d" />
 
         <!--  Finance Detail Frame -->
         <e k="usedplus_detail_dealInfo" v="Informacje o ofercie" eh="442669bc" />
@@ -211,6 +214,7 @@
         <e k="usedplus_credit_good" v="Dobry" eh="0c6ad70b" />
         <e k="usedplus_credit_fair" v="Przeciętny" eh="f7f20cf0" />
         <e k="usedplus_credit_poor" v="Słaby" eh="0e94d017" />
+    <e k="usedplus_condition_critical" v="[EN] Critical" eh="278d01e5" />
 
         <!--  Equipment Condition Tiers -->
         <e k="usedplus_condition_poor" v="Słaby" eh="0e94d017" />
@@ -250,6 +254,7 @@
         <e k="input_USEDPLUS_SEARCH_USED" v="Szukaj używanego sprzętu" eh="77397317" />
         <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Sprawdź pojazd" eh="c06f09f1" />
         <e k="input_USEDPLUS_ACTIVATE_OBD" v="Użyj skanera OBD" eh="9666e26b" />
+        <e k="input_USEDPLUS_TIRES" v="Serwis opon" eh="b0234f4e" />
 
         <!--  Tooltips for Finance Dialog -->
         <e k="usedplus_finance_loanTerm_tooltip" v="Rozłóż płatności na 1-20 lat. Dłuższe terminy = mniejsze raty miesięczne, ale więcej odsetek całkowitych." eh="e1170142" />
@@ -928,7 +933,7 @@
         <e k="usedplus_la_info" v="Płatności pobierane automatycznie co miesiąc. Terminowe płatności poprawiają zdolność kredytową!" eh="78d04eb6" />
 
         <!-- Repossession Dialog -->
-        <e k="usedplus_rp_title" v="POWIADOMIENIE O PRZEJĘCIU" eh="40546bfb" />
+        <e k="usedplus_rp_title" v="POWIADOMIENIE O PRZEJĘCIU" eh="0654d371" />
         <e k="usedplus_rp_sectionTaken" v="AKTYWO PRZEJĘTE" eh="30ef7a0c" />
         <e k="usedplus_rp_value" v="Wartość:" eh="acdb802b" />
         <e k="usedplus_rp_sectionReason" v="SZCZEGÓŁY ZALEGŁOŚCI" eh="e361d8c2" />
@@ -1022,8 +1027,8 @@
         <e k="usedplus_button_tires" v="Opony" eh="3fe2c06a" />
         <e k="usedplus_button_fluids" v="Płyny" eh="c599fed9" />
 
-        <!-- Repair Dialog -->
-        <e k="usedplus_rp_title" v="Serwis pojazdów" eh="40546bfb" />
+        <!-- Repair Dialog (uses usedplus_rp_* for legacy compatibility) -->
+        <!-- Note: usedplus_rp_title removed - code uses usedplus_repair_title instead -->
         <e k="usedplus_rp_sectionStatus" v="STATUS POJAZDU" eh="41898172" />
         <e k="usedplus_rp_mechanical" v="Mechanika:" eh="80061faf" />
         <e k="usedplus_rp_paint" v="Lakier:" eh="d65951a4" />
@@ -1495,6 +1500,7 @@
 
         <!-- v1.7.0: Fuel Leak Warning -->
         <e k="usedplus_warning_fuelLeak" v="Ostrzeżenie: Wykryto wyciek paliwa! Zużycie paliwa znacząco wzrosło." eh="6654d01e" />
+    <e k="usedplus_warning_hydraulicSurge" v="[EN] POWER STEERING LOSS - Vehicle pulling %s!" eh="a8d164f9" />
 
         <!-- v1.7.0: Tire Quality Names -->
         <e k="usedplus_tire_retread" v="Bieżnikowany" eh="bcf7f101" />
@@ -1526,6 +1532,7 @@
         <e k="usedplus_tires_flatTire" v="PRZEBITA OPONA" eh="6e87cc30" />
         <e k="usedplus_tires_replace" v="Wymień opony" eh="3a0d1434" />
         <e k="usedplus_tires_selectQuality" v="Wybierz jakość:" eh="46aef69c" />
+    <e k="usedplus_tires_selectAbove" v="[EN] Select above" eh="cf957b6f" />
         <e k="usedplus_tires_retreadDesc" v="Opcja budżetowa - niższa trakcja, wyższe ryzyko awarii" eh="f277d077" />
         <e k="usedplus_tires_normalDesc" v="Standardowe opony - zrównoważona wydajność" eh="df677172" />
         <e k="usedplus_tires_qualityDesc" v="Opony premium - lepsza trakcja, niższe ryzyko awarii" eh="69e595ca" />
@@ -1557,12 +1564,14 @@
         <e k="usedplus_tires_normalInfo" v="100% trakcji, wartość bazowa" eh="c5306480" />
         <e k="usedplus_tires_qualityInfo" v="110% trakcji, 0,5x awaria" eh="0017aa0f" />
         <e k="usedplus_tires_selectedTire" v="Wybrana opona:" eh="83200a19" />
+    <e k="usedplus_tires_selectedQuality" v="[EN] Selected Quality:" eh="c8df8c6c" />
         <e k="usedplus_tires_totalCost" v="Koszt całkowity:" eh="a131af32" />
         <e k="usedplus_tires_selectOne" v="Wybierz oponę..." eh="b97fd8a1" />
         <e k="usedplus_tires_infoText" v="Nowe opony przywracają 100% stanu. Bieżnikowane to regenerowane opony." eh="3196a18f" />
         <e k="usedplus_tires_flatWarning" v="PRZEBITA OPONA - Wymiana wymagana!" eh="1f8d653d" />
         <e k="usedplus_tires_selectFirst" v="Proszę najpierw wybrać jakość opony." eh="41ebcf2f" />
         <e k="usedplus_tires_replaced" v="Opony wymienione: %s" eh="b2a5385c" />
+    <e k="usedplus_tires_conditionUYT" v="[EN] Tire Wear (UYT):" eh="27375886" />
 
         <!-- v1.7.0: Fluids Service Dialog -->
         <e k="usedplus_fluids_title" v="Serwis płynów" eh="7eb767c6" />
@@ -1785,6 +1794,8 @@
         <e k="usedplus_fsk_hint_hyd_actuator" v="Odnotowano degradację czasu cyklu siłownika" eh="78638bc2" />
         <e k="usedplus_fsk_hint_hyd_flow" v="Nieregularności przepływu w obwodach pomocniczych" eh="36d131ee" />
         <e k="usedplus_fsk_hint_hyd_temp" v="Zarejestrowane ostrzeżenia o temperaturze płynu hydraulicznego" eh="cfc27131" />
+    <e k="usedplus_settings_header" v="[EN] UsedPlus Settings" eh="3ac65cdc" />
+    <e k="usedplus_settings_requiresAdmin" v="[EN] Only the server admin can change settings." eh="e036f8a5" />
 
         <!-- ===== SETTINGS v2.0.0 ===== -->
         <!-- Preset selector -->
@@ -1821,6 +1832,24 @@
         <e k="usedplus_setting_bankInterest_desc" v="Zarabiaj odsetki od dodatniego salda (miesięcznie, jak konto oszczędnościowe)" eh="8e706865" />
         <e k="usedplus_setting_bankInterestRate" v="Stopa Procentowa (roczna)" eh="798c19e6" />
         <e k="usedplus_setting_bankInterestRate_desc" v="Roczna stopa procentowa od gotówki. 1% = 10 000 zł rocznie przy 1M zł salda" eh="80e4314a" />
+    <e k="usedplus_settings_compatibility" v="[EN] Mod Compatibility" eh="5581e454" />
+    <e k="usedplus_setting_rvbIntegration" v="[EN] RVB Integration" eh="c95f0d09" />
+    <e k="usedplus_setting_rvbIntegration_desc" v="[EN] Enable Real Vehicle Breakdowns integration. Disable if experiencing issues with RVB." eh="991f2898" />
+    <e k="usedplus_setting_uytIntegration" v="[EN] UYT Integration" eh="3953e8cd" />
+    <e k="usedplus_setting_uytIntegration_desc" v="[EN] Enable Use Your Tyres integration. Disable if experiencing issues with UYT." eh="1a39015f" />
+    <e k="usedplus_setting_amIntegration" v="[EN] AM Integration" eh="64b0aea5" />
+    <e k="usedplus_setting_amIntegration_desc" v="[EN] Enable AdvancedMaintenance integration. Chains engine damage checks between mods." eh="27967992" />
+    <e k="usedplus_setting_hpIntegration" v="[EN] HP Integration" eh="3f302093" />
+    <e k="usedplus_setting_hpIntegration_desc" v="[EN] Enable HirePurchasing integration. Hides UsedPlus Finance button (HP handles financing)." eh="a17d2bc4" />
+    <e k="usedplus_setting_bueIntegration" v="[EN] BUE Integration" eh="5cf334ff" />
+    <e k="usedplus_setting_bueIntegration_desc" v="[EN] Enable BuyUsedEquipment integration. Hides UsedPlus Search button (BUE handles used search)." eh="0216f3ab" />
+    <e k="usedplus_setting_elsIntegration" v="[EN] ELS Integration" eh="1b5ac55a" />
+    <e k="usedplus_setting_elsIntegration_desc" v="[EN] Enable EnhancedLoanSystem integration. Disables UsedPlus loans (ELS handles them)." eh="1594da56" />
+    <e k="usedplus_settings_toggles" v="[EN] Feature Toggles" eh="2aa7da8d" />
+    <e k="usedplus_settings_money" v="[EN] Money &amp;amp; Rates" eh="e0d1b0db" />
+    <e k="usedplus_settings_risk" v="[EN] Forgiveness &amp;amp; Risk" eh="c57ae16a" />
+    <e k="usedplus_settings_marketplace" v="[EN] Marketplace" eh="675e31b9" />
+    <e k="usedplus_settings_condition" v="[EN] Condition &amp;amp; Quality" eh="0ada4be1" />
 
         <!-- Money and rates -->
         <e k="usedplus_setting_interestRate" v="Stopa Procentowa Finansowania" eh="ec5e55f4" />
@@ -1886,18 +1915,114 @@
         <e k="usedplus_preset_lite_desc" v="Tylko finansowanie i leasing - bez dodatków" eh="e3952520" />
         <e k="usedplus_preset_apply" v="Zastosuj" eh="9639e32c" />
         <e k="usedplus_preset_reset" v="Przywróć domyślne" eh="6795975d" />
+    <e k="usedplus_hydraulic_system" v="[EN] Hydraulic System" eh="2f6e031e" />
+    <e k="usedplus_maintenance_grade" v="[EN] Maintenance" eh="10d0de28" />
+    <e k="usedplus_service_history" v="[EN] History" eh="16d2b386" />
+    <e k="usedplus_mechanic_says" v="[EN] Mechanic" eh="64eb6697" />
+    <e k="usedplus_mechanic_assessment" v="[EN] MECHANIC'S ASSESSMENT" eh="ed0defaa" />
+    <e k="usedplus_grade_excellent" v="[EN] Excellent" eh="fcc2d28a" />
+    <e k="usedplus_grade_good" v="[EN] Good" eh="0c6ad70b" />
+    <e k="usedplus_grade_fair" v="[EN] Fair" eh="f7f20cf0" />
+    <e k="usedplus_grade_poor" v="[EN] Poor" eh="0e94d017" />
+    <e k="usedplus_grade_critical" v="[EN] Critical" eh="278d01e5" />
 
         <!-- v2.5.0: Advanced Hydraulic Malfunctions -->
-        <e k="usedplus_warning_runaway" v="ENGINE RUNAWAY! Governor failure - TURN OFF ENGINE!" eh="b5041aa9" />
-        <e k="usedplus_runaway_end_engineOff" v="Engine stopped - runaway ended safely." eh="14fd2da3" />
-        <e k="usedplus_runaway_end_crash" v="Impact detected - runaway ended." eh="0354e555" />
-        <e k="usedplus_runaway_end_damage" v="Vehicle damaged - runaway ended." eh="ad34ca1f" />
-        <e k="usedplus_runaway_end_fluids" v="Fluids restored - governor recovered." eh="7baa9445" />
-        <e k="usedplus_warning_stuckDown" v="HYDRAULIC LIFT FAILURE - Implement cannot raise!" eh="8c1e0f84" />
-        <e k="usedplus_warning_stuckUp" v="HYDRAULIC VALVE FAILURE - Implement cannot lower!" eh="b353bdf9" />
-        <e k="usedplus_warning_implementPull" v="IMPLEMENT DRAG - Pulling %s!" eh="9542214f" />
-        <e k="usedplus_warning_implementDrag" v="HYDRAULIC STRAIN - Speed reduced!" eh="4202b7ec" />
-        <e k="usedplus_warning_reducedTurning" v="POWER STEERING WEAK - Turning limited!" eh="a9794a39" />
+        <e k="usedplus_warning_runaway" v="SILNIK SZALEJE! Awaria regulatora - WYŁĄCZ SILNIK!" eh="b5041aa9" />
+        <e k="usedplus_runaway_end_engineOff" v="Silnik wyłączony - szaleństwo zakończone." eh="14fd2da3" />
+        <e k="usedplus_runaway_end_crash" v="Wykryto zderzenie - szaleństwo zakończone." eh="0354e555" />
+        <e k="usedplus_runaway_end_damage" v="Pojazd uszkodzony - szaleństwo zakończone." eh="ad34ca1f" />
+        <e k="usedplus_runaway_end_fluids" v="Płyny uzupełnione - regulator przywrócony." eh="7baa9445" />
+        <e k="usedplus_warning_stuckDown" v="AWARIA PODNOŚNIKA - Narzędzie nie może się podnieść!" eh="8c1e0f84" />
+        <e k="usedplus_warning_stuckUp" v="AWARIA ZAWORU - Narzędzie nie może się opuścić!" eh="b353bdf9" />
+        <e k="usedplus_warning_implementPull" v="NARZĘDZIE CIĄGNIE - Kierunek %s!" eh="9542214f" />
+        <e k="usedplus_warning_implementDrag" v="PRZECIĄŻENIE HYDRAULIKI - Prędkość zmniejszona!" eh="4202b7ec" />
+        <e k="usedplus_warning_reducedTurning" v="SŁABY WSPOMAGACZ - Skręt ograniczony!" eh="a9794a39" />
+
+        <!-- v2.6.0: Negotiation System -->
+        <e k="usedplus_button_makeOffer" v="Złóż ofertę" eh="4b779fa1" />
+
+        <!-- Negotiation Dialog -->
+        <e k="usedplus_neg_title" v="ZŁÓŻ OFERTĘ" eh="a91f8bed" />
+        <e k="usedplus_neg_sectionVehicle" v="POJAZD" eh="e9fa318f" />
+        <e k="usedplus_neg_sectionWhisper" v="RADA MECHANIKA" eh="29e2cd4f" />
+        <e k="usedplus_neg_sectionOffer" v="TWOJA OFERTA" eh="0b3b396e" />
+        <e k="usedplus_neg_askingPrice" v="Cena wywoławcza:" eh="c515d94e" />
+        <e k="usedplus_neg_yourOffer" v="Twoja oferta:" eh="4e018663" />
+        <e k="usedplus_neg_savings" v="Oszczędność:" eh="f3815936" />
+        <e k="usedplus_neg_sendOffer" v="Wyślij ofertę" eh="1afbee68" />
+
+        <!-- Mechanic Seller Whispers -->
+        <e k="usedplus_whisper_desperate_seller" v="Między nami... wydaje się bardzo chętny do sprzedaży. Może ma kłopoty." eh="7250e321" />
+        <e k="usedplus_whisper_listed_long" v="Między nami... ta maszyna jest na sprzedaż od dawna. Sprzedawca może być zmotywowany." eh="d05ae609" />
+        <e k="usedplus_whisper_upgrading" v="Między nami... słyszałem, że przechodzi na większy sprzęt. Może być elastyczny." eh="e3972bc6" />
+        <e k="usedplus_whisper_knows_value" v="Między nami... dobrze wycenił i dokładnie wie, ile to warte." eh="8acefc9c" />
+        <e k="usedplus_whisper_just_listed" v="Między nami... dopiero co wystawiony. Pewnie się nie spieszy." eh="b113b9e6" />
+        <e k="usedplus_whisper_standard" v="Między nami... wydaje się prosty sprzedawca. Warto złożyć ofertę." eh="b00693e0" />
+
+        <!-- Weather Whispers -->
+        <e k="usedplus_whisper_weather_storm" v="A z tą burzą nadchodzącą, może chcieć szybko zamknąć." eh="25a637f5" />
+        <e k="usedplus_whisper_weather_rain" v="Deszcz trzyma wszystkich w środku... dobry moment na negocjacje." eh="1b825b89" />
+        <e k="usedplus_whisper_weather_hail" v="Grad niepokoi ludzi o ich sprzęt na zewnątrz." eh="023b34f7" />
+        <e k="usedplus_whisper_weather_snow" v="Przy tym śniegu... martwy sezon czyni sprzedawców bardziej elastycznymi." eh="bcdab6d9" />
+        <e k="usedplus_whisper_weather_perfect" v="Przy takiej pięknej pogodzie jednak... nie licz na prezenty." eh="bf201d88" />
+
+        <!-- Seller Response Dialog -->
+        <e k="usedplus_sr_titleAccept" v="OFERTA PRZYJĘTA!" eh="c36f802f" />
+        <e k="usedplus_sr_titleCounter" v="KONTROFERTA" eh="544441c8" />
+        <e k="usedplus_sr_titleReject" v="OFERTA ODRZUCONA" eh="2b54c509" />
+        <e k="usedplus_sr_titleWalkaway" v="SPRZEDAWCA ODSZEDŁ" eh="d4da1912" />
+        <e k="usedplus_sr_yourOffer" v="Twoja oferta:" eh="4e018663" />
+        <e k="usedplus_sr_counterOffer" v="Kontroferta:" eh="768065b8" />
+        <e k="usedplus_sr_sellerPrice" v="Cena sprzedawcy:" eh="1402265a" />
+        <e k="usedplus_sr_completePurchase" v="Zakończ zakup" eh="e1c9f521" />
+        <e k="usedplus_sr_acceptCounter" v="Przyjmij kontrofertę" eh="fdbaf6cf" />
+        <e k="usedplus_sr_standFirm" v="Stój przy swojej" eh="3b35ba7f" />
+        <e k="usedplus_sr_walkAway" v="Odejdź" eh="5218f5e2" />
+        <e k="usedplus_sr_payFullPrice" v="Zapłać pełną cenę" eh="1d0533bd" />
+
+        <!-- Seller Responses -->
+        <e k="usedplus_response_accepted" v="Umowa stoi! Masz teraz %s." eh="e1b388b0" />
+        <e k="usedplus_response_counter" v="Nie mogę zejść tak nisko, ale ustępuję trochę. Co powiesz na %s?" eh="6da9eb6a" />
+        <e k="usedplus_response_rejected" v="Przykro mi, ale nie mogę tego zaakceptować. Moja cena to %s." eh="d99f0b95" />
+        <e k="usedplus_response_walkaway" v="Chyba jesteśmy za daleko. Wróć, jeśli zmienisz zdanie." eh="c73a083b" />
+
+        <!-- Stand Firm Outcomes -->
+        <e k="usedplus_standfirm_success" v="No dobra, dobra... twardo negocjujesz. Biorę to." eh="0953e50a" />
+        <e k="usedplus_standfirm_hold" v="Słuchaj, %s to moje ostatnie słowo. Bierz lub zostaw." eh="2d81ca38" />
+        <e k="usedplus_standfirm_walkaway" v="Nie sądzę, że się dogadamy. Może innym razem." eh="2d8a7003" />
+
+        <!-- Negotiation Lock -->
+        <e k="usedplus_negotiation_locked_title" v="Sprzedawca niedostępny" eh="00a519f4" />
+        <e k="usedplus_negotiation_locked" v="Sprzedawca jest niedostępny. Spróbuj ponownie za %d minut." eh="938f0f62" />
+        <e k="usedplus_negotiation_locked_hint" v="Może się uspokoi po chwili..." eh="1c8c51e6" />
+    <e k="usedplus_insufficient_funds" v="[EN] Insufficient Funds" eh="68c8a940" />
+    <e k="usedplus_insufficient_funds_offer" v="[EN] You cannot afford this offer. Used vehicle purchases are cash only." eh="1c7f7913" />
+    <e k="usedplus_insufficient_funds_shortfall" v="[EN] You need %s more to complete this purchase." eh="d40315cf" />
+    <e k="usedplus_insufficient_funds_balance" v="[EN] Current balance: %s" eh="b9522f76" />
+    <e k="usedplus_walkaway_title" v="[EN] SELLER WALKED AWAY" eh="d4da1912" />
+    <e k="usedplus_walkaway_message" v="[EN] Your offer insulted the seller. They've refused to do business with you and this vehicle is no longer available." eh="3ef90ec2" />
+    <e k="usedplus_walkaway_workhorse" v="[EN] This seller knows exactly what they have - a machine that's been nothing but reliable. They won't entertain lowball offers." eh="dd4d6411" />
+    <e k="usedplus_seller_immovable_hint" v="[EN] This seller knows exactly what they have. Don't expect any negotiation room." eh="afe11ced" />
+    <e k="usedplus_mode_finance_disabled" v="[EN] Finance (Disabled)" eh="a7fe11df" />
+    <e k="usedplus_mode_lease_disabled" v="[EN] Lease (Disabled)" eh="2c3f5a31" />
+    <e k="usedplus_finance_disabled_title" v="[EN] Feature Disabled" eh="e4c783e8" />
+    <e k="usedplus_finance_disabled_msg" v="[EN] Vehicle financing is disabled in UsedPlus settings." eh="fffb70a6" />
+    <e k="usedplus_lease_disabled_title" v="[EN] Feature Disabled" eh="e4c783e8" />
+    <e k="usedplus_lease_disabled_msg" v="[EN] Vehicle leasing is disabled in UsedPlus settings." eh="bd7f5b24" />
+    <e k="usedplus_land_finance_disabled_msg" v="[EN] Land financing is disabled in UsedPlus settings." eh="0335547a" />
+    <e k="usedplus_land_lease_disabled_msg" v="[EN] Land leasing is disabled in UsedPlus settings." eh="f875a63d" />
+    <e k="usedplus_land_modeFinance_disabled" v="[EN] Finance (Disabled)" eh="a7fe11df" />
+    <e k="usedplus_land_modeLease_disabled" v="[EN] Lease (Disabled)" eh="2c3f5a31" />
+    <e k="usedplus_engine_seized" v="[EN] ENGINE SEIZED! Repair required before vehicle will start." eh="c22e256a" />
+    <e k="usedplus_hydraulics_seized" v="[EN] HYDRAULICS SEIZED! Implements are locked in place." eh="dd09718c" />
+    <e k="usedplus_electrical_seized" v="[EN] ELECTRICAL FAILURE! All systems are dead." eh="84b7514a" />
+    <e k="usedplus_component_engine" v="[EN] Engine" eh="7bfa3072" />
+    <e k="usedplus_component_hydraulic" v="[EN] Hydraulics" eh="1de58ed3" />
+    <e k="usedplus_component_electrical" v="[EN] Electrical System" eh="7a1b3240" />
+    <e k="usedplus_seizure_detected" v="[EN] COMPONENT SEIZED" eh="9def01dd" />
+    <e k="usedplus_seizure_repair_confirm" v="[EN] %s is seized and requires emergency repair.\n\nRepair cost: %s\n\nProceed with repair?" eh="bf702608" />
+    <e k="usedplus_seizure_repaired" v="[EN] %s repaired! Reliability restored to %d%%" eh="323fa338" />
+    <e k="usedplus_repair_no_money" v="[EN] Not enough money for repair!" eh="0c0a7c19" />
 
     </elements>
 </l10n>

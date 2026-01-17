@@ -511,9 +511,15 @@ function FinanceDeal:handleMissedLandPayment()
             string.format("Missed land payment for %s! Interest of %s added. (1st warning)",
                 self.itemName, g_i18n:formatMoney(monthlyInterest, 0, true, true)))
     elseif self.missedPayments == threshold - 1 then
-        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format("FINAL WARNING: Missed land payment for %s! One more = SEIZURE!",
-                self.itemName))
+        local warningMsg = string.format("FINAL WARNING: Missed land payment for %s! One more = SEIZURE!", self.itemName)
+        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
+
+        -- Show popup dialog to ensure player sees this critical warning
+        g_gui:showInfoDialog({
+            title = "FINAL WARNING - LAND SEIZURE IMMINENT",
+            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your land will be seized.",
+            buttonAction = ButtonDialog.YES
+        })
     elseif self.missedPayments >= threshold then
         self:seizeLand()
     end
@@ -541,9 +547,15 @@ function FinanceDeal:handleMissedVehiclePayment()
             string.format("Missed payment for %s. Interest of %s added to balance. (1st warning)",
                 self.itemName, g_i18n:formatMoney(monthlyInterest, 0, true, true)))
     elseif self.missedPayments == threshold - 1 then
-        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format("FINAL WARNING: Missed payment for %s. One more missed payment will result in repossession!",
-                self.itemName))
+        local warningMsg = string.format("FINAL WARNING: Missed payment for %s. One more missed payment will result in repossession!", self.itemName)
+        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
+
+        -- Show popup dialog to ensure player sees this critical warning
+        g_gui:showInfoDialog({
+            title = "FINAL WARNING - VEHICLE REPOSSESSION IMMINENT",
+            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your vehicle will be repossessed.",
+            buttonAction = ButtonDialog.YES
+        })
     elseif self.missedPayments >= threshold then
         self:repossessVehicle()
     end
@@ -723,6 +735,13 @@ function FinanceDeal:handleMissedLoanPayment()
             or "FINAL WARNING: Missed loan payment! One more missed payment will result in loan default!"
 
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
+
+        -- Show popup dialog to ensure player sees this critical warning
+        g_gui:showInfoDialog({
+            title = "FINAL WARNING - LOAN DEFAULT IMMINENT",
+            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or face repossession.",
+            buttonAction = ButtonDialog.YES
+        })
 
     elseif self.missedPayments >= 3 then
         self:repossessCollateral()

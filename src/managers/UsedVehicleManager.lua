@@ -413,6 +413,27 @@ function UsedVehicleManager:generateUsedVehicleListingFromData(search, listingDa
     local commissionAmount = math.floor(basePrice * commissionPercent)
     local askingPrice = basePrice + commissionAmount
 
+    -- v2.6.2: DNA-DRIVEN SELLER PERSONALITY
+    -- The seller KNOWS what they have! Lemons = desperate, Workhorses = immovable
+    -- Weather modifiers are applied ON TOP of DNA-based behavior in NegotiationDialog
+    local sellerPersonality = listingData.sellerPersonality or "reasonable"
+    if usedPlusData and usedPlusData.workhorseLemonScale then
+        local dna = usedPlusData.workhorseLemonScale
+        sellerPersonality = UsedVehicleSearch.generateSellerPersonalityFromDNA(dna)
+        UsedPlus.logDebug(string.format("DNA %.2f -> Seller personality: %s (overriding %s)",
+            dna, sellerPersonality, listingData.sellerPersonality or "none"))
+    end
+
+    -- Regenerate whisper based on new personality
+    local whisperType = listingData.whisperType
+    if sellerPersonality ~= listingData.sellerPersonality then
+        -- Personality changed, update whisper hint
+        local personalityConfig = UsedVehicleSearch.SELLER_PERSONALITIES[sellerPersonality]
+        if personalityConfig then
+            whisperType = personalityConfig.whisperHint or "standard"
+        end
+    end
+
     -- Create full listing object
     local fullListing = {
         id = listingData.id,
@@ -442,6 +463,15 @@ function UsedVehicleManager:generateUsedVehicleListingFromData(search, listingDa
         rvbPartsData = listingData.rvbPartsData,
         tireConditions = listingData.tireConditions,
 
+        -- v2.6.0: Negotiation system fields
+        sellerPersonality = sellerPersonality,        -- DNA-driven personality
+        daysOnMarket = listingData.daysOnMarket or 0,
+        whisperType = whisperType or "standard",
+        negotiationLocked = listingData.negotiationLocked or false,
+        negotiationLockExpires = listingData.negotiationLockExpires or 0,
+        foundMonth = listingData.foundMonth or 0,
+        expirationMonths = listingData.expirationMonths or 3,
+
         -- Metadata
         generationName = listingData.generationName or "Unknown",
         qualityLevel = listingData.qualityLevel or search.qualityLevel,
@@ -453,6 +483,8 @@ function UsedVehicleManager:generateUsedVehicleListingFromData(search, listingDa
     UsedPlus.logDebug(string.format("Generated full listing %s: %s (base $%d + $%d commission = $%d asking)",
         fullListing.id, fullListing.storeItemName,
         fullListing.basePrice, fullListing.commissionAmount, fullListing.askingPrice))
+    UsedPlus.logDebug(string.format("  DNA: %.2f, Personality: %s, Whisper: %s",
+        usedPlusData and usedPlusData.workhorseLemonScale or 0.5, sellerPersonality, whisperType))
 
     return fullListing
 end

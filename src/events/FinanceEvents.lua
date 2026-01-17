@@ -104,6 +104,12 @@ function FinanceVehicleEvent:readStream(streamId, connection)
 end
 
 function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePrice, downPayment, termYears, cashBack, configurations)
+    -- v2.6.2: Validate finance system is enabled
+    if UsedPlusSettings and UsedPlusSettings:get("enableFinanceSystem") == false then
+        UsedPlus.logWarn("FinanceVehicleEvent rejected: Finance system disabled in settings")
+        return
+    end
+
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
         return
@@ -367,6 +373,12 @@ function TakeLoanEvent:readStream(streamId, connection)
 end
 
 function TakeLoanEvent.execute(farmId, loanAmount, termYears, interestRate, monthlyPayment, collateralItems)
+    -- v2.6.2: Validate finance system is enabled (loans are part of finance)
+    if UsedPlusSettings and UsedPlusSettings:get("enableFinanceSystem") == false then
+        UsedPlus.logWarn("TakeLoanEvent rejected: Finance system disabled in settings")
+        return false
+    end
+
     collateralItems = collateralItems or {}
 
     UsedPlus.logDebug(string.format("TakeLoanEvent.execute: farmId=%d, amount=$%.0f, term=%d years, collateral=%d items",

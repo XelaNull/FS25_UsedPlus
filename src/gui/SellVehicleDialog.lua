@@ -436,15 +436,23 @@ end
 --[[
      Update comparison display (trade-in alternative only)
      Note: Vanilla instant sell removed from display since it's disabled
+     v2.6.2: Now uses baseTradeInPercent setting instead of hardcoded values
 ]]
 function SellVehicleDialog:updateComparisonDisplay()
-    -- Trade-in comparison (50-65% of vanilla sell)
-    local tradeInMin = math.floor(self.vanillaSellPrice * 0.50)
-    local tradeInMax = math.floor(self.vanillaSellPrice * 0.65)
+    -- v2.6.2: Use baseTradeInPercent setting instead of hardcoded 50%
+    local basePercent = (UsedPlusSettings and UsedPlusSettings:get("baseTradeInPercent") or 55) / 100
+    local maxPercent = basePercent + 0.15  -- Credit bonus adds up to 15%
+
+    local tradeInMin = math.floor(self.vanillaSellPrice * basePercent)
+    local tradeInMax = math.floor(self.vanillaSellPrice * maxPercent)
+    local minPctDisplay = math.floor(basePercent * 100)
+    local maxPctDisplay = math.floor(maxPercent * 100)
+
     UIHelper.Element.setText(self.tradeInCompareText,
-        string.format("%s - %s (50-65%%)",
+        string.format("%s - %s (%d-%d%%)",
             UIHelper.Text.formatMoney(tradeInMin),
-            UIHelper.Text.formatMoney(tradeInMax)))
+            UIHelper.Text.formatMoney(tradeInMax),
+            minPctDisplay, maxPctDisplay))
 end
 
 --[[

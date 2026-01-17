@@ -210,19 +210,36 @@ function LandLeaseDeal:handleMissedPayment()
                 self.landName)
         )
     elseif self.missedPayments == 2 then
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format("WARNING: 2nd missed payment for %s. One more and you may lose the land!",
-                self.landName)
-        )
+        local warningMsg = string.format("FINAL WARNING: 2nd missed payment for %s. One more and you WILL lose the land!", self.landName)
+        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
+
+        -- Show popup dialog to ensure player sees this critical warning
+        g_gui:showInfoDialog({
+            title = "FINAL WARNING - LAND LEASE DEFAULT IMMINENT",
+            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your land lease will be terminated.",
+            buttonAction = ButtonDialog.YES
+        })
     elseif self.missedPayments >= 3 then
         -- 3 missed payments = immediate expiration
+        local remainingBalance = self:calculateRemainingCost() or 0
         self:expireLease()
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format("Land lease TERMINATED due to non-payment! %s has been reclaimed.",
-                self.landName)
-        )
+
+        -- Show RepossessionDialog instead of just a banner
+        if RepossessionDialog and RepossessionDialog.showLandSeizure then
+            RepossessionDialog.showLandSeizure(
+                self.landName .. " (Land Lease)",
+                self.landPrice,
+                self.missedPayments,
+                remainingBalance
+            )
+        else
+            -- Fallback to notification if dialog not available
+            g_currentMission:addIngameNotification(
+                FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
+                string.format("Land lease TERMINATED due to non-payment! %s has been reclaimed.",
+                    self.landName)
+            )
+        end
     end
 end
 

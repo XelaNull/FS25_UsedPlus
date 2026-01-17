@@ -216,6 +216,12 @@ end
     Uses RVB's calculated repair cost
 ]]
 function RVBWorkshopIntegration:hookRepairButton(dialog)
+    -- v2.6.2: Don't hook repair button if repair system is disabled
+    if UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Repair system disabled, not hooking repair button")
+        return
+    end
+
     if dialog == nil then
         return
     end
@@ -262,6 +268,13 @@ end
     Shows our RepairDialog in MODE_REPAIR with RVB's calculated cost
 ]]
 function RVBWorkshopIntegration:onRVBRepairButtonClick(dialog)
+    -- v2.6.2: Check master repair system toggle
+    if UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Repair system disabled, falling back to RVB default")
+        -- Don't intercept - let original RVB behavior happen
+        return
+    end
+
     local vehicle = dialog and dialog.vehicle
     if vehicle == nil then
         UsedPlus.logDebug("RVBWorkshopIntegration: No vehicle for repair")
@@ -310,6 +323,12 @@ end
 ]]
 function RVBWorkshopIntegration:injectRepaintButton(dialog)
     UsedPlus.logDebug("RVBWorkshopIntegration:injectRepaintButton called")
+
+    -- v2.6.2: Don't inject repaint button if repair system is disabled
+    if UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Repair system disabled, not adding repaint button")
+        return
+    end
 
     if dialog == nil then
         UsedPlus.logDebug("RVBWorkshopIntegration: dialog is nil")
@@ -413,10 +432,8 @@ function RVBWorkshopIntegration:injectRepaintButton(dialog)
         end
     end
 
-    -- Reorder elements to place Repaint after Repair, before Back
-    -- The buttonsBox has: Reset, sep, Battery, sep, Inspect, sep, Service, sep, Repair, sep, Back
-    -- We want: Reset, sep, Battery, sep, Inspect, sep, Service, sep, Repair, sep, Repaint, sep, Back
-    self:reorderRepaintButton(dialog)
+    -- Note: Final button reordering is done in injectTiresButton after all buttons added
+    -- Order will be: ..., Repair, Repaint, Tires, Back
 
     -- Update button state based on vehicle
     self:updateRepaintButtonState(dialog)
@@ -546,6 +563,12 @@ end
     Shows our RepairDialog in MODE_REPAINT
 ]]
 function RVBWorkshopIntegration:onRepaintButtonClick(dialog)
+    -- v2.6.2: Check master repair system toggle
+    if UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Repair system disabled, repaint button should not be shown")
+        return
+    end
+
     local vehicle = dialog and dialog.vehicle
     if vehicle == nil then
         UsedPlus.logDebug("RVBWorkshopIntegration: No vehicle for repaint")
@@ -635,6 +658,9 @@ function RVBWorkshopIntegration:injectTiresButton(dialog)
     tiresButton.name = "usedPlusTiresButton"
     tiresButton:setText(g_i18n:getText("usedplus_button_tires") or "Tires")
 
+    -- Set keybind (T key)
+    tiresButton.inputActionName = "USEDPLUS_TIRES"
+
     -- Set click callback
     tiresButton.onClickCallback = function()
         RVBWorkshopIntegration:onTiresButtonClick(dialog)
@@ -646,12 +672,73 @@ function RVBWorkshopIntegration:injectTiresButton(dialog)
     -- Update button state based on vehicle
     self:updateTiresButtonState(dialog)
 
+    -- Reorder buttons to achieve: ..., Repair, Back, Tires, Repaint
+    -- User wants Back FIRST, then Tires, then Repaint
+    self:reorderUsedPlusButtons(dialog)
+
     -- Refresh the layout
     if buttonsBox.invalidateLayout then
         buttonsBox:invalidateLayout()
     end
 
     UsedPlus.logInfo("RVBWorkshopIntegration: Added Tires button to RVB Workshop dialog")
+end
+
+--[[
+    Reorder UsedPlus buttons to achieve order: ..., Repair, Repaint, Tires, Back
+    Called after both Repaint and Tires buttons are added
+]]
+function RVBWorkshopIntegration:reorderUsedPlusButtons(dialog)
+    local buttonsBox = dialog.buttonsBox
+    if buttonsBox == nil or buttonsBox.elements == nil then
+        return
+    end
+
+    local tiresButton = dialog.usedPlusTiresButton
+    local repaintButton = dialog.usedPlusRepaintButton
+    local backButton = dialog.okButton  -- Back button has id="okButton" in RVB
+
+    -- Find Back button if not found via dialog.okButton
+    if backButton == nil then
+        for _, element in ipairs(buttonsBox.elements) do
+            if element.id == "okButton" or
+               (element.getText and element:getText() == g_i18n:getText("button_back")) then
+                backButton = element
+                break
+            end
+        end
+    end
+
+    if backButton == nil then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Could not find Back button for reordering")
+        return
+    end
+
+    -- Remove our buttons and Back from the list (we'll re-add in correct order)
+    local elementsToRemove = {tiresButton, repaintButton, backButton}
+    for _, btn in ipairs(elementsToRemove) do
+        if btn then
+            for i = #buttonsBox.elements, 1, -1 do
+                if buttonsBox.elements[i] == btn then
+                    table.remove(buttonsBox.elements, i)
+                    break
+                end
+            end
+        end
+    end
+
+    -- Re-add in desired order: Repaint, Tires, Back (Back stays at end)
+    if repaintButton then
+        table.insert(buttonsBox.elements, repaintButton)
+    end
+    if tiresButton then
+        table.insert(buttonsBox.elements, tiresButton)
+    end
+    if backButton then
+        table.insert(buttonsBox.elements, backButton)
+    end
+
+    UsedPlus.logDebug("RVBWorkshopIntegration: Reordered buttons to Repaint, Tires, Back")
 end
 
 --[[
@@ -691,10 +778,12 @@ function RVBWorkshopIntegration:onTiresButtonClick(dialog)
 
     UsedPlus.logDebug(string.format("RVBWorkshopIntegration: Tires clicked for %s", vehicle:getName()))
 
-    -- Play click sound
-    if g_soundPlayer then
-        g_soundPlayer:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
-    end
+    -- Play click sound (safely)
+    pcall(function()
+        if g_gui and g_gui.playSample then
+            g_gui:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
+        end
+    end)
 
     -- Close RVB dialog first
     if dialog.close then
@@ -969,8 +1058,13 @@ function RVBWorkshopIntegration:injectUsedPlusData(dialog)
         return
     end
 
-    -- Prepare our data rows
-    local usedPlusData = self:collectUsedPlusData(vehicle, spec)
+    -- v2.5.2: Inject Hydraulic System into diagnostics panel (right side)
+    -- This displays it like an RVB part with status bar
+    local hydraulicOnRightSide = self:injectHydraulicDiagnosticV2(dialog, vehicle, spec)
+
+    -- Prepare our data rows (left side - maintenance grade, history, etc.)
+    -- If hydraulic injection to right side failed, include it on left side as fallback
+    local usedPlusData = self:collectUsedPlusData(vehicle, spec, not hydraulicOnRightSide)
 
     if #usedPlusData == 0 then
         UsedPlus.logDebug("RVBWorkshopIntegration: No UsedPlus data to inject")
@@ -1055,10 +1149,411 @@ function RVBWorkshopIntegration:injectUsedPlusData(dialog)
 end
 
 --[[
-    Collect UsedPlus data for display
-    Returns array of {label, value, [color]} tuples
+    v2.5.2: Inject Hydraulic System into RVB's diagnostics panel (right side)
+
+    APPROACH: Instead of cloning elements directly into SmoothList (which corrupts
+    internal state), we inject our data into RVB's parts table BEFORE they populate
+    the list. Then RVB creates our row with proper internal state management.
+
+    This is called from our hooked updateScreen, but we need to inject BEFORE
+    RVB builds the list. So we use a two-phase approach:
+    1. Inject fake hydraulic part data into spec_faultData.parts
+    2. Mark it for cleanup after RVB processes it
 ]]
-function RVBWorkshopIntegration:collectUsedPlusData(vehicle, spec)
+function RVBWorkshopIntegration:injectHydraulicDiagnosticV2(dialog, vehicle, spec)
+    if dialog == nil or vehicle == nil or spec == nil then
+        return false
+    end
+
+    -- Only inject once per dialog update
+    if dialog.usedPlusHydraulicInjected then
+        return true
+    end
+
+    -- Get hydraulic data
+    local hydraulicReliability = spec.hydraulicReliability or 1.0
+    local hydraulicPct = math.floor(hydraulicReliability * 100)
+
+    -- Try to find RVB's diagnosticsList and understand its structure
+    local diagnosticsList = dialog.diagnosticsList
+    if diagnosticsList == nil then
+        UsedPlus.logDebug("RVBWorkshopIntegration: diagnosticsList not found")
+        return false
+    end
+
+    -- Log list properties to understand structure
+    UsedPlus.logDebug("RVBWorkshopIntegration: Analyzing diagnosticsList structure...")
+    local numericProps = {}
+    local functionProps = {}
+    for k, v in pairs(diagnosticsList) do
+        if type(v) == "number" then
+            numericProps[k] = v
+        elseif type(v) == "function" then
+            table.insert(functionProps, k)
+        end
+    end
+
+    -- Log numeric properties (likely include item counts)
+    for k, v in pairs(numericProps) do
+        UsedPlus.logDebug(string.format("  [number] %s = %d", k, v))
+    end
+
+    -- Log function names (looking for add/update methods)
+    UsedPlus.logDebug("  [functions] " .. table.concat(functionProps, ", "))
+
+    -- Check if list has a dataSource
+    if diagnosticsList.dataSource then
+        UsedPlus.logDebug("RVBWorkshopIntegration: List has dataSource - trying wrapper approach")
+        return self:injectViaDataSource(dialog, diagnosticsList, hydraulicReliability)
+    end
+
+    -- Check if list has elements we can clone from
+    if diagnosticsList.elements and #diagnosticsList.elements > 0 then
+        UsedPlus.logDebug(string.format("RVBWorkshopIntegration: List has %d elements", #diagnosticsList.elements))
+        return self:injectViaCloneWithStateUpdate(dialog, diagnosticsList, hydraulicReliability)
+    end
+
+    UsedPlus.logDebug("RVBWorkshopIntegration: No viable injection method found")
+    return false
+end
+
+--[[
+    Approach 1: Wrap the data source to include our hydraulic item
+]]
+function RVBWorkshopIntegration:injectViaDataSource(dialog, diagnosticsList, hydraulicReliability)
+    local originalDataSource = diagnosticsList.dataSource
+
+    -- Create wrapper that adds our item
+    local wrapper = {}
+    setmetatable(wrapper, {__index = originalDataSource})
+
+    -- Override getNumberOfItemsInSection
+    if originalDataSource.getNumberOfItemsInSection then
+        wrapper.getNumberOfItemsInSection = function(self, list, section)
+            local count = originalDataSource:getNumberOfItemsInSection(list, section)
+            return count + 1
+        end
+    end
+
+    -- Override populateCellForItemInSection
+    if originalDataSource.populateCellForItemInSection then
+        wrapper.populateCellForItemInSection = function(self, list, section, index, cell)
+            local originalCount = originalDataSource:getNumberOfItemsInSection(list, section)
+
+            if index > originalCount then
+                -- This is our hydraulic item
+                RVBWorkshopIntegration:populateHydraulicCell(cell, hydraulicReliability)
+            else
+                -- Original item
+                originalDataSource:populateCellForItemInSection(list, section, index, cell)
+            end
+        end
+    end
+
+    -- Set wrapper and reload
+    diagnosticsList:setDataSource(wrapper)
+    if diagnosticsList.reloadData then
+        diagnosticsList:reloadData()
+    end
+
+    dialog.usedPlusHydraulicInjected = true
+    UsedPlus.logInfo("RVBWorkshopIntegration: Injected hydraulic via data source wrapper")
+    return true
+end
+
+--[[
+    Approach 2: Clone element and update internal state
+]]
+function RVBWorkshopIntegration:injectViaCloneWithStateUpdate(dialog, diagnosticsList, hydraulicReliability)
+    local templateRow = diagnosticsList.elements[1]
+
+    -- Remember state before
+    local elementsBefore = #diagnosticsList.elements
+
+    -- Clone the row
+    local success, hydraulicRow = pcall(function()
+        return templateRow:clone(diagnosticsList)
+    end)
+
+    if not success or hydraulicRow == nil then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Clone failed")
+        return false
+    end
+
+    -- Populate the row
+    self:populateHydraulicCell(hydraulicRow, hydraulicReliability)
+
+    -- Update internal state - try multiple property names
+    local stateUpdated = false
+    local propsToUpdate = {
+        "numItems", "itemCount", "totalItemCount", "numberOfItems",
+        "listItemCount", "numSections", "totalDataCount"
+    }
+
+    for _, prop in ipairs(propsToUpdate) do
+        if diagnosticsList[prop] ~= nil and type(diagnosticsList[prop]) == "number" then
+            local oldVal = diagnosticsList[prop]
+            diagnosticsList[prop] = oldVal + 1
+            UsedPlus.logDebug(string.format("Updated %s: %d -> %d", prop, oldVal, oldVal + 1))
+            stateUpdated = true
+        end
+    end
+
+    -- Try calling update/refresh methods
+    local methodsToTry = {
+        "updateItemPositions", "buildItemList", "updateContentSize",
+        "invalidateLayout", "updateAbsolutePosition", "layoutItems"
+    }
+
+    for _, method in ipairs(methodsToTry) do
+        if diagnosticsList[method] and type(diagnosticsList[method]) == "function" then
+            pcall(function()
+                diagnosticsList[method](diagnosticsList)
+                UsedPlus.logDebug(string.format("Called %s()", method))
+            end)
+        end
+    end
+
+    dialog.usedPlusHydraulicInjected = true
+
+    local elementsAfter = #diagnosticsList.elements
+    UsedPlus.logInfo(string.format(
+        "RVBWorkshopIntegration: Injected hydraulic via clone (elements: %d -> %d, state updated: %s)",
+        elementsBefore, elementsAfter, tostring(stateUpdated)))
+
+    return true
+end
+
+--[[
+    Populate a diagnostics row cell with hydraulic data
+]]
+function RVBWorkshopIntegration:populateHydraulicCell(cell, hydraulicReliability)
+    local hydraulicPct = math.floor(hydraulicReliability * 100)
+
+    -- Determine condition text and color
+    local conditionText = "Unknown"
+    local conditionColor = {1, 1, 1, 1}
+
+    if hydraulicPct >= 80 then
+        conditionText = g_i18n:getText("usedplus_condition_good") or "Good"
+        conditionColor = {0.3, 1.0, 0.4, 1}
+    elseif hydraulicPct >= 60 then
+        conditionText = g_i18n:getText("usedplus_condition_fair") or "Fair"
+        conditionColor = {1.0, 0.85, 0.2, 1}
+    elseif hydraulicPct >= 40 then
+        conditionText = g_i18n:getText("usedplus_condition_poor") or "Poor"
+        conditionColor = {1.0, 0.6, 0.2, 1}
+    else
+        conditionText = g_i18n:getText("usedplus_condition_critical") or "Critical"
+        conditionColor = {1.0, 0.4, 0.4, 1}
+    end
+
+    cell:setVisible(true)
+
+    -- Part name
+    local partName = cell:getDescendantByName("partName")
+    if partName then
+        partName:setText(g_i18n:getText("usedplus_hydraulic_system") or "HYDRAULIC SYSTEM")
+    end
+
+    -- Percentage
+    local partPercent = cell:getDescendantByName("partPercent")
+    if partPercent then
+        partPercent:setText(string.format("%d%%", hydraulicPct))
+        if partPercent.setTextColor then
+            partPercent:setTextColor(unpack(conditionColor))
+        end
+    end
+
+    -- Condition text
+    local partCondition = cell:getDescendantByName("partCondition")
+    if partCondition then
+        partCondition:setText(conditionText)
+        if partCondition.setTextColor then
+            partCondition:setTextColor(unpack(conditionColor))
+        end
+    end
+
+    -- Status bar
+    local partBar = cell:getDescendantByName("partBar")
+    if partBar then
+        if partBar.setSize then
+            local bgWidth = 176  -- From RVB profile
+            local fillWidth = math.floor(bgWidth * hydraulicReliability)
+            partBar:setSize(fillWidth, nil)
+        end
+        if partBar.setImageColor then
+            partBar:setImageColor(nil, unpack(conditionColor))
+        end
+    end
+
+    -- Hide repair toggle (we handle this separately)
+    local checkPart = cell:getDescendantByName("checkPart")
+    if checkPart then
+        checkPart:setVisible(false)
+    end
+
+    -- Hide action row
+    for _, child in ipairs(cell.elements or {}) do
+        if child.profile and string.find(tostring(child.profile), "actionRow") then
+            child:setVisible(false)
+            break
+        end
+    end
+end
+
+--[[
+    DEPRECATED: Original injection approach that corrupted SmoothList state
+]]
+function RVBWorkshopIntegration:injectHydraulicDiagnostic(dialog, vehicle, spec)
+    if dialog == nil or vehicle == nil or spec == nil then
+        return false
+    end
+
+    -- Only inject once per dialog update
+    if dialog.usedPlusHydraulicInjected then
+        return true
+    end
+
+    -- Get the diagnostics list
+    local diagnosticsList = dialog.diagnosticsList
+    if diagnosticsList == nil then
+        UsedPlus.logDebug("RVBWorkshopIntegration: diagnosticsList not found")
+        return false
+    end
+
+    -- Find the template row - RVB names it "orderRowTemplate"
+    local templateRow = nil
+    if diagnosticsList.elements and #diagnosticsList.elements > 0 then
+        -- Use first existing row as template
+        templateRow = diagnosticsList.elements[1]
+    end
+
+    if templateRow == nil then
+        UsedPlus.logDebug("RVBWorkshopIntegration: No template row found in diagnosticsList - skipping right-side injection")
+        return false
+    end
+
+    -- Clone the template row
+    local success, hydraulicRow = pcall(function()
+        return templateRow:clone(diagnosticsList)
+    end)
+
+    if not success or hydraulicRow == nil then
+        UsedPlus.logDebug("RVBWorkshopIntegration: Failed to clone diagnostics row for Hydraulics")
+        return
+    end
+
+    -- Get hydraulic data
+    local hydraulicReliability = spec.hydraulicReliability or 1.0
+    local hydraulicPct = math.floor(hydraulicReliability * 100)
+
+    -- Determine condition text and color based on percentage
+    local conditionText = "Unknown"
+    local conditionColor = {1, 1, 1, 1}  -- White default
+
+    if hydraulicPct >= 80 then
+        conditionText = g_i18n:getText("usedplus_condition_good") or "Good"
+        conditionColor = {0.3, 1.0, 0.4, 1}  -- Green
+    elseif hydraulicPct >= 60 then
+        conditionText = g_i18n:getText("usedplus_condition_fair") or "Fair"
+        conditionColor = {1.0, 0.85, 0.2, 1}  -- Yellow
+    elseif hydraulicPct >= 40 then
+        conditionText = g_i18n:getText("usedplus_condition_poor") or "Poor"
+        conditionColor = {1.0, 0.6, 0.2, 1}  -- Orange
+    else
+        conditionText = g_i18n:getText("usedplus_condition_critical") or "Critical"
+        conditionColor = {1.0, 0.4, 0.4, 1}  -- Red
+    end
+
+    -- Populate the row elements
+    hydraulicRow:setVisible(true)
+
+    -- Set part name
+    local partName = hydraulicRow:getDescendantByName("partName")
+    if partName then
+        partName:setText(g_i18n:getText("usedplus_hydraulic_system") or "HYDRAULIC SYSTEM")
+    end
+
+    -- Set percentage text
+    local partPercent = hydraulicRow:getDescendantByName("partPercent")
+    if partPercent then
+        partPercent:setText(string.format("%d%%", hydraulicPct))
+        if partPercent.setTextColor then
+            partPercent:setTextColor(unpack(conditionColor))
+        end
+    end
+
+    -- Set condition text
+    local partCondition = hydraulicRow:getDescendantByName("partCondition")
+    if partCondition then
+        partCondition:setText(conditionText)
+        if partCondition.setTextColor then
+            partCondition:setTextColor(unpack(conditionColor))
+        end
+    end
+
+    -- Set status bar fill (width based on percentage)
+    local partBar = hydraulicRow:getDescendantByName("partBar")
+    if partBar then
+        -- The bar width is controlled as a percentage of the background
+        -- RVB uses setSize or similar - try percentage-based width
+        local barWidth = hydraulicReliability  -- 0.0 to 1.0
+        if partBar.setSize then
+            -- Get current size and adjust width
+            local bgBar = hydraulicRow:getDescendantByName("timePlayed")
+            if bgBar then
+                local bgWidth = 176  -- From profile: rvb_statusBarBackground size="176px 6px"
+                local fillWidth = math.floor(bgWidth * barWidth)
+                partBar:setSize(fillWidth, nil)
+            end
+        end
+
+        -- Also try setting image color to match condition
+        if partBar.setImageColor then
+            partBar:setImageColor(nil, unpack(conditionColor))
+        end
+    end
+
+    -- Hide the repair toggle for Hydraulics (we handle repair through our system)
+    local checkPart = hydraulicRow:getDescendantByName("checkPart")
+    if checkPart then
+        checkPart:setVisible(false)
+    end
+    local actionRow = nil
+    for _, child in ipairs(hydraulicRow.elements or {}) do
+        if child.profile and string.find(child.profile, "actionRow") then
+            actionRow = child
+            break
+        end
+    end
+    if actionRow then
+        actionRow:setVisible(false)
+    end
+
+    -- Mark as injected
+    dialog.usedPlusHydraulicInjected = true
+
+    -- Refresh the list layout
+    if diagnosticsList.invalidateLayout then
+        diagnosticsList:invalidateLayout()
+    end
+
+    UsedPlus.logInfo(string.format("RVBWorkshopIntegration: Added Hydraulic System to diagnostics panel (%d%%)",
+        hydraulicPct))
+
+    return true
+end
+
+--[[
+    Collect UsedPlus data for display on LEFT SIDE (settingsBox)
+    Returns array of {label, value, [color]} tuples
+
+    NOTE: We tried moving Hydraulics to RVB's diagnosticsList (right side) but
+    SmoothList's internal state gets corrupted, causing mouseEvent errors.
+    Hydraulics stays on the left side with other UsedPlus data.
+]]
+function RVBWorkshopIntegration:collectUsedPlusData(vehicle, spec, includeHydraulic)
     local data = {}
 
     -- Color constants (R, G, B, A)
@@ -1075,16 +1570,20 @@ function RVBWorkshopIntegration:collectUsedPlusData(vehicle, spec)
         else return COLOR_RED end
     end
 
-    -- 1. Hydraulic System (unique to UsedPlus - RVB doesn't track this)
+    -- Get hydraulic reliability for grade calculation
     local hydraulicReliability = spec.hydraulicReliability or 1.0
-    local hydraulicPct = math.floor(hydraulicReliability * 100)
-    table.insert(data, {
-        g_i18n:getText("usedplus_hydraulic_system") or "Hydraulic System",
-        string.format("%d%%", hydraulicPct),
-        getConditionColor(hydraulicPct)
-    })
 
-    -- 2. Maintenance Grade (our overall assessment)
+    -- Hydraulic System - unique to UsedPlus, RVB doesn't track this
+    if includeHydraulic then
+        local hydraulicPct = math.floor(hydraulicReliability * 100)
+        table.insert(data, {
+            g_i18n:getText("usedplus_hydraulic_system") or "Hydraulic System",
+            string.format("%d%%", hydraulicPct),
+            getConditionColor(hydraulicPct)
+        })
+    end
+
+    -- 1. Maintenance Grade (our overall assessment)
     local grade = "Unknown"
     local gradeColor = COLOR_YELLOW
 
@@ -1163,6 +1662,7 @@ end
 --[[
     Inject Mechanic's Assessment as a centered display section
     Creates a visually distinct area with header + quote
+    Includes horizontal rule separator above
 ]]
 function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, templateRow, colorTable, alternating)
     local vehicle = dialog.vehicle
@@ -1201,6 +1701,33 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         quoteColor = {0.95, 0.6, 0.55, 1}  -- Reddish for lemons
     end
 
+    -- Row 0: Horizontal rule separator (centered, 80% width visual)
+    local separatorRow = templateRow:clone(settingsBox)
+    if separatorRow then
+        separatorRow:setVisible(true)
+        local color = colorTable[alternating]
+        if color then
+            separatorRow:setImageColor(nil, unpack(color))
+        end
+
+        local label = separatorRow:getDescendantByName("label")
+        local value = separatorRow:getDescendantByName("value")
+
+        if label then
+            -- Create centered horizontal rule using ASCII dashes
+            -- (Unicode box-drawing chars not supported by game font)
+            label:setText("     ---------------------------------     ")
+            if label.setTextColor then
+                label:setTextColor(0.5, 0.5, 0.5, 1)  -- Gray color for rule
+            end
+        end
+        if value then
+            value:setText("")
+        end
+
+        alternating = not alternating
+    end
+
     -- Row 1: Header "MECHANIC'S ASSESSMENT" - centered
     local headerRow = templateRow:clone(settingsBox)
     if headerRow then
@@ -1214,17 +1741,14 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         local value = headerRow:getDescendantByName("value")
 
         if label then
-            label:setText(g_i18n:getText("usedplus_mechanic_assessment") or "MECHANIC'S ASSESSMENT")
+            -- Center with spaces for visual centering in label column
+            label:setText("       " .. (g_i18n:getText("usedplus_mechanic_assessment") or "MECHANIC'S ASSESSMENT"))
             -- Style as centered header
             if label.setTextColor then
                 label:setTextColor(0.9, 0.8, 0.5, 1)  -- Gold header color
             end
             if label.setTextBold then
                 label:setTextBold(true)
-            end
-            -- Center the text by adjusting alignment if possible
-            if label.setTextAlignment then
-                label:setTextAlignment(RenderText.ALIGN_CENTER)
             end
         end
         if value then
@@ -1247,14 +1771,10 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         local value = quoteRow:getDescendantByName("value")
 
         if label then
-            -- Format as quote with quotation marks
-            label:setText(string.format('"%s"', mechanicQuote))
+            -- Format as quote with quotation marks, add leading spaces for centering
+            label:setText(string.format('    "%s"', mechanicQuote))
             if label.setTextColor then
                 label:setTextColor(unpack(quoteColor))
-            end
-            -- Center the quote text
-            if label.setTextAlignment then
-                label:setTextAlignment(RenderText.ALIGN_CENTER)
             end
         end
         if value then

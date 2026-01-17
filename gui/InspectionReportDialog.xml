@@ -155,7 +155,7 @@
 
         <!-- Button Box - Three options -->
         <BoxLayout profile="fs25_dialogButtonBox">
-            <Button id="buyButton" profile="buttonOK" text="$l10n_usedplus_button_purchase" onClick="onClickBuy"/>
+            <Button id="buyButton" profile="buttonOK" text="$l10n_usedplus_button_makeOffer" onClick="onClickBuy"/>
             <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
             <Button id="declineButton" profile="buttonCancel" text="$l10n_usedplus_button_decline" onClick="onClickDecline"/>
             <Bitmap profile="fs25_dialogButtonBoxSeparator"/>

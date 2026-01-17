@@ -44,7 +44,7 @@
 
                     <!-- Current Tire Info -->
                     <Text profile="tiresStatusLabel" position="70px -30px" text="$l10n_usedplus_tires_currentQuality"/>
-                    <Text profile="tiresQualityValue" id="currentQualityText" position="220px -30px" text=""/>
+                    <Text profile="tiresQualityValue" id="currentQualityText" position="195px -30px" text=""/>
 
                     <!-- v2.3.0: Condition label with ID for UYT mode text change -->
                     <Text profile="tiresStatusLabel" id="conditionLabel" position="70px -52px" text="$l10n_usedplus_tires_currentCondition"/>

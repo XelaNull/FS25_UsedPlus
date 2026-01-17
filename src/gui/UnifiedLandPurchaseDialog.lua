@@ -22,8 +22,8 @@ UnifiedLandPurchaseDialog.MODE_LEASE = 3
 
 -- Term options for land
 UnifiedLandPurchaseDialog.FINANCE_TERMS = {5, 10, 15, 20}  -- Years (max 20)
--- Lease terms in MONTHS: 1-12 months individually, then 2-5 years
-UnifiedLandPurchaseDialog.LEASE_TERMS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 24, 36, 48, 60}
+-- Lease terms in MONTHS: 3, 6, 9 months (sub-year), then 1-5 years
+UnifiedLandPurchaseDialog.LEASE_TERMS = {3, 6, 9, 12, 24, 36, 48, 60}
 UnifiedLandPurchaseDialog.DOWN_PAYMENT_OPTIONS = {0, 5, 10, 15, 20, 25, 30, 40, 50}  -- Percent (for finance)
 
 --[[
@@ -109,7 +109,7 @@ function UnifiedLandPurchaseDialog.new(target, custom_mt)
     self.financeDownIndex = 5  -- Default 20%
 
     -- Lease parameters
-    self.leaseTermIndex = 12  -- Default 1 year (12 months)
+    self.leaseTermIndex = 4  -- Default 1 year (12 months) - index 4 in LEASE_TERMS {3,6,9,12,...}
 
     -- Credit data
     self.creditScore = 650
@@ -126,11 +126,15 @@ function UnifiedLandPurchaseDialog:onGuiSetupFinished()
     UnifiedLandPurchaseDialog:superClass().onGuiSetupFinished(self)
 
     -- Setup mode selector with localized texts
+    -- v2.6.2: Check settings for Finance/Lease toggles and show disabled status
     if self.modeSelector then
+        local financeSystemEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Finance")
+        local leaseSystemEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Lease")
+
         local modeTexts = {
             g_i18n:getText("usedplus_land_modeCash"),
-            g_i18n:getText("usedplus_land_modeFinance"),
-            g_i18n:getText("usedplus_land_modeLease")
+            financeSystemEnabled and g_i18n:getText("usedplus_land_modeFinance") or (g_i18n:getText("usedplus_land_modeFinance_disabled") or "Finance (Disabled)"),
+            leaseSystemEnabled and g_i18n:getText("usedplus_land_modeLease") or (g_i18n:getText("usedplus_land_modeLease_disabled") or "Lease (Disabled)")
         }
         self.modeSelector:setTexts(modeTexts)
         self.modeSelector:setState(1)  -- Default to Cash
@@ -318,10 +322,41 @@ end
 
 --[[
     Mode selector changed
+    v2.6.2: Validates mode against settings
 ]]
 function UnifiedLandPurchaseDialog:onModeChanged()
     if self.modeSelector then
-        self.currentMode = self.modeSelector:getState()
+        local newMode = self.modeSelector:getState()
+
+        -- v2.6.2: Check settings for Finance/Lease toggles
+        local financeSystemEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Finance")
+        local leaseSystemEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Lease")
+
+        -- v2.6.2: Check if Finance mode is allowed
+        if newMode == UnifiedLandPurchaseDialog.MODE_FINANCE then
+            if not financeSystemEnabled then
+                g_gui:showInfoDialog({
+                    title = g_i18n:getText("usedplus_finance_disabled_title") or "Feature Disabled",
+                    text = g_i18n:getText("usedplus_land_finance_disabled_msg") or "Land financing is disabled in UsedPlus settings."
+                })
+                self.modeSelector:setState(self.currentMode)
+                return
+            end
+        end
+
+        -- v2.6.2: Check if Lease mode is allowed
+        if newMode == UnifiedLandPurchaseDialog.MODE_LEASE then
+            if not leaseSystemEnabled then
+                g_gui:showInfoDialog({
+                    title = g_i18n:getText("usedplus_lease_disabled_title") or "Feature Disabled",
+                    text = g_i18n:getText("usedplus_land_lease_disabled_msg") or "Land leasing is disabled in UsedPlus settings."
+                })
+                self.modeSelector:setState(self.currentMode)
+                return
+            end
+        end
+
+        self.currentMode = newMode
     end
 
     self:updateSectionVisibility()

@@ -258,6 +258,88 @@ Emergency repair system for disabled vehicles in the field.
 * Trade-in available when purchasing (takes your old vehicle)
 * Savings tracked in lifetime statistics
 
+### Price Negotiation (v2.6.0, updated v2.6.1)
+After inspecting a used vehicle, you can negotiate the price instead of paying full asking price!
+
+**The Three Twists:**
+1. **Mechanic's Assessment** - Inspection report shows vehicle condition
+2. **Mechanic's Whisper** - Your mechanic shares intel about the SELLER's psychology
+3. **Weather Window** - Bad weather makes sellers more willing to deal!
+
+**Offer System:**
+* Select your offer percentage (70%, 80%, 85%, 90%, 95%, or 100%)
+* Lower offers save more money but risk rejection
+* Seller may Accept, Counter, or Reject your offer
+* **Cash only!** Used vehicle purchases require full payment upfront
+
+**Seller Personalities (v2.6.1 - now with tolerance!):**
+| Type | Accept At | Tolerance | Frequency | Behavior |
+|------|-----------|-----------|-----------|----------|
+| **Desperate** | 65% | +8% | 10% | Very forgiving of lowballs |
+| **Motivated** | 75% | +4% | 25% | Somewhat tolerant |
+| **Reasonable** | 85% | 0% | 40% | Standard expectations |
+| **Firm** | 92% | -5% | 25% | Easily insulted by lowballs |
+
+**v2.6.1 Rejection Risk System - Lowballing Has Consequences!**
+
+The further below the seller's threshold you offer, the higher your rejection risk:
+
+| Gap Below Threshold | Risk Level | What Happens |
+|---------------------|------------|--------------|
+| 0-5% | Safe | Always counter - reasonable negotiation |
+| 5-10% | Low Risk | Usually counter, 0-30% rejection chance |
+| 10-15% | Medium Risk | 50/50 counter vs reject |
+| 15-20% | High Risk | Usually reject, only 0-30% counter chance |
+| >20% | Extreme Risk | **Always reject - seller is insulted!** |
+
+**Example: Offering 70% to different sellers**
+| Seller | Threshold | Raw Gap | Tolerance | Adjusted Gap | Result |
+|--------|-----------|---------|-----------|--------------|--------|
+| Desperate | 65% | -5% | +8% | -13% | **Accept!** |
+| Motivated | 75% | 5% | +4% | 1% | Safe counter |
+| Reasonable | 85% | 15% | 0% | 15% | High risk (mostly reject) |
+| Firm | 92% | 22% | -5% | 27% | **Always reject!** |
+
+**Factors That Improve Your Chances:**
+* Days on market: +0.3% acceptance per day listed (max +10%)
+* Vehicle damage > 20%: +5% acceptance
+* Operating hours > 5000: +3% acceptance
+* Bad weather (rain, storm, hail): +3% to +12% acceptance
+
+**Weather Modifiers:**
+| Weather | Modifier | Seller Psychology |
+|---------|----------|-------------------|
+| Hail | +12% | Fear of outdoor equipment damage |
+| Storm | +8% | Urgency to close deal |
+| Rain | +5% | Stuck inside, reflective mood |
+| Snow | +5% | Off-season blues |
+| Fog | +3% | Gloomy outlook |
+| Cloudy | +2% | Slightly contemplative |
+| Clear/Sunny | 0% to -3% | Optimistic, no rush |
+
+**Counter Offers:**
+* If your offer is close but not quite enough, seller will counter
+* Accept the counter, Stand Firm (risky!), or Walk Away
+* "Stand Firm" outcomes: 30% accept, 50% hold, 20% walk away
+
+**Negotiation Lock:**
+* If seller walks away, listing is locked for 1 game hour
+* Shows "Seller is unavailable" until cooldown expires
+* Strategic risk: push too hard and lose access temporarily
+
+**Strategic Tips:**
+* Read the mechanic's whisper to identify seller personality!
+* Wait for bad weather to improve your odds
+* Don't lowball firm sellers - they won't budge
+* Long-listed vehicles = more desperate sellers
+* Damaged/high-hour vehicles = sellers want them gone
+
+**Mechanic's Whisper Examples:**
+* *"Between you and me... they seem pretty eager to sell. Might be in a tough spot."* (Desperate seller - lowball away!)
+* *"Between you and me... I've seen this rig listed for a while now."* (Long listing - more flexible)
+* *"Between you and me... they've priced it fair and know exactly what it's worth."* (Firm seller - stay above 90%!)
+* *"Plus, with that storm rolling in, they might want to close quick."* (Weather bonus active)
+
 ---
 
 ## VEHICLE SELLING
@@ -299,7 +381,7 @@ Emergency repair system for disabled vehicles in the field.
 * Total debt and monthly payment obligations
 * Quick access to deal details and payment options
 
-### 30 Custom Dialogs
+### 32 Custom Dialogs
 * Comprehensive UI for all finance, maintenance, and marketplace features
 * Consistent styling matching FS25 native interface
 * Full keyboard and controller navigation support
@@ -380,6 +462,8 @@ Emergency repair system for disabled vehicles in the field.
 * Finance deals created and completed
 * Total amount financed over time
 * Total interest paid
+* Negotiations attempted, won, countered, rejected (v2.6.0)
+* Total savings from negotiation (v2.6.0)
 
 ---
 

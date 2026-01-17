@@ -1,5 +1,6 @@
 --[[
     FS25_UsedPlus - Inspection Report Dialog
+    v2.6.0: Integrated with negotiation system
 
     Shows detailed inspection report for used vehicles before purchase.
     Reveals hidden reliability scores that player paid to inspect.
@@ -11,7 +12,7 @@
     - v2.1.0: Show RVB parts breakdown when data available
     - v2.1.0: Show UYT tire conditions when data available
     - Display inspector notes based on condition
-    - Allow player to proceed with purchase or cancel
+    - v2.6.0: "Make Offer" button opens NegotiationDialog instead of direct purchase
 ]]
 
 InspectionReportDialog = {}
@@ -27,6 +28,7 @@ function InspectionReportDialog.new(target, customMt)
     local self = ScreenElement.new(target, customMt or InspectionReportDialog_mt)
 
     self.listing = nil
+    self.search = nil  -- v2.6.0: For negotiation flow
     self.onPurchaseCallback = nil
     self.callbackTarget = nil
     self.isBackAllowed = true
@@ -316,31 +318,76 @@ function InspectionReportDialog:close()
 end
 
 --[[
-    Button handler: Purchase - buy the vehicle
+    Button handler: Make Offer - opens negotiation dialog
+    v2.6.0: Changed from direct purchase to negotiation flow
 ]]
 function InspectionReportDialog:onClickBuy()
-    UsedPlus.logDebug("InspectionReportDialog: onClickBuy called")
+    UsedPlus.logDebug("InspectionReportDialog: onClickBuy (Make Offer) called")
 
     local listing = self.listing
+    if listing == nil then
+        UsedPlus.logWarn("InspectionReportDialog: No listing available!")
+        return
+    end
+
+    -- Check if negotiation is locked (seller walked away)
+    if listing.negotiationLocked then
+        local currentTime = 0
+        if g_currentMission and g_currentMission.environment then
+            currentTime = g_currentMission.environment.dayTime or 0
+        end
+
+        if currentTime < (listing.negotiationLockExpires or 0) then
+            -- Still locked - show message
+            local remainingMs = (listing.negotiationLockExpires or 0) - currentTime
+            local remainingMins = math.ceil(remainingMs / 60000)
+            g_gui:showInfoDialog({
+                title = g_i18n:getText("usedplus_negotiation_locked_title") or "Seller Unavailable",
+                text = string.format(g_i18n:getText("usedplus_negotiation_locked") or "Seller is unavailable. Try again in %d minutes.", remainingMins)
+            })
+            return
+        else
+            -- Lock expired
+            listing.negotiationLocked = false
+            listing.negotiationLockExpires = 0
+        end
+    end
+
+    -- Store current state for callback
     local callback = self.onPurchaseCallback
     local target = self.callbackTarget
+    local search = self.search
 
+    -- Close this dialog
     self:close()
 
-    UsedPlus.logDebug(string.format("InspectionReportDialog: callback=%s, target=%s, listing=%s",
-        tostring(callback), tostring(target), tostring(listing and listing.storeItemName)))
+    -- Create callback function for negotiation completion
+    local negotiationCallback = function(negotiationTarget, completedListing, finalPrice)
+        -- This callback is called when negotiation completes with purchase
+        UsedPlus.logDebug(string.format("Negotiation callback: finalPrice=$%d", finalPrice or 0))
 
-    if callback then
-        if target then
-            UsedPlus.logDebug("InspectionReportDialog: Calling callback with target")
-            callback(target, true, listing)
-        else
-            UsedPlus.logDebug("InspectionReportDialog: Calling callback without target")
-            callback(true, listing)
+        if finalPrice and completedListing then
+            -- Update listing price to the negotiated amount
+            completedListing.price = finalPrice
+
+            -- Call original callback to complete purchase
+            if callback then
+                if target then
+                    callback(target, true, completedListing)
+                else
+                    callback(true, completedListing)
+                end
+            end
         end
-    else
-        UsedPlus.logWarn("InspectionReportDialog: No callback set!")
     end
+
+    -- Open NegotiationDialog via DialogLoader
+    DialogLoader.show("NegotiationDialog", "setData",
+        listing,
+        search,
+        negotiationCallback,
+        self
+    )
 end
 
 --[[
@@ -407,6 +454,13 @@ function InspectionReportDialog:displayIntegratedRVBData(listing)
     local rvbData = listing.rvbPartsData
     local hasRvbData = rvbData ~= nil and next(rvbData) ~= nil
 
+    -- Debug logging to diagnose blank RVB section
+    UsedPlus.logDebug(string.format("displayIntegratedRVBData: hasRvbData=%s, rvbData=%s",
+        tostring(hasRvbData), tostring(rvbData ~= nil and "exists" or "nil")))
+    UsedPlus.logDebug(string.format("  engineSubComponentsContainer=%s, electricalSubComponentsContainer=%s",
+        tostring(self.engineSubComponentsContainer ~= nil),
+        tostring(self.electricalSubComponentsContainer ~= nil)))
+
     -- Hide the old separate RVB section (if it exists in XML)
     if self.rvbSectionContainer then
         self.rvbSectionContainer:setVisible(false)
@@ -415,12 +469,15 @@ function InspectionReportDialog:displayIntegratedRVBData(listing)
     -- Show/hide the integrated sub-component elements
     if self.engineSubComponentsContainer then
         self.engineSubComponentsContainer:setVisible(hasRvbData)
+        UsedPlus.logDebug("  Set engineSubComponentsContainer visible=" .. tostring(hasRvbData))
     end
     if self.electricalSubComponentsContainer then
         self.electricalSubComponentsContainer:setVisible(hasRvbData)
+        UsedPlus.logDebug("  Set electricalSubComponentsContainer visible=" .. tostring(hasRvbData))
     end
 
     if not hasRvbData then
+        UsedPlus.logDebug("  No RVB data - returning early")
         return
     end
 
@@ -555,4 +612,4 @@ function InspectionReportDialog:getConditionColor(condition)
     end
 end
 
-UsedPlus.logInfo("InspectionReportDialog loaded (v2.1.0 - RVB/UYT holistic inspection)")
+UsedPlus.logInfo("InspectionReportDialog loaded (v2.6.0 - negotiation integration)")

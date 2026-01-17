@@ -38,7 +38,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 2: Visible Condition ========== -->
-            <GuiElement profile="uvpSectionContainerTall" position="0px -195px">
+            <GuiElement profile="uvpSectionContainerTall" position="0px -210px">
                 <Bitmap profile="uvpSectionBgTall" position="0px 0px"/>
                 <Text profile="uvpSectionHeader" position="0px -5px" text="$l10n_usedplus_uvp_sectionCondition"/>
 
@@ -58,7 +58,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 3: Warning Box (Not Inspected) ========== -->
-            <GuiElement profile="uvpWarningSection" id="warningBg" position="0px -310px">
+            <GuiElement profile="uvpWarningSection" id="warningBg" position="0px -325px">
                 <Bitmap profile="uvpWarningBg" position="0px 0px"/>
                 <Text profile="uvpWarningIcon" id="warningIcon" position="-280px -28px" text="!"/>
                 <Text profile="uvpWarningTitle" id="warningText" position="0px -18px" text="$l10n_usedplus_uvp_warningTitle"/>
@@ -66,7 +66,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 3 ALT: Already Inspected Box (hidden by default) ========== -->
-            <GuiElement profile="uvpInspectedSection" id="inspectedSection" position="0px -310px" visible="false">
+            <GuiElement profile="uvpInspectedSection" id="inspectedSection" position="0px -325px" visible="false">
                 <Bitmap profile="uvpInspectedBg" position="0px 0px"/>
                 <Text profile="uvpInspectedIcon" position="-280px -28px" text="OK"/>
                 <Text profile="uvpInspectedText" id="inspectedText" position="0px -28px" text="$l10n_usedplus_uvp_inspectedText"/>
@@ -96,7 +96,7 @@
 
         <!-- ========== SECTION CONTAINERS ========== -->
         <Profile name="uvpSectionContainer" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 120px"/>
+            <size value="660px 135px"/>
         </Profile>
 
         <Profile name="uvpSectionContainerTall" extends="emptyPanel" with="anchorTopCenter">
@@ -113,7 +113,7 @@
 
         <!-- ========== SECTION BACKGROUNDS ========== -->
         <Profile name="uvpSectionBg" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 120px"/>
+            <size value="660px 135px"/>
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 

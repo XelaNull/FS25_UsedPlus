@@ -88,6 +88,13 @@ end
     @param rvbRepairCost - Optional: RVB's calculated repair cost (used when called from RVB Workshop)
 ]]
 function RepairDialog:setVehicle(vehicle, farmId, mode, rvbRepairCost)
+    -- v2.6.2: Check master repair system toggle
+    if UsedPlusSettings and UsedPlusSettings:get("enableRepairSystem") == false then
+        UsedPlus.logDebug("RepairDialog: Repair system disabled in settings, canceling")
+        self:close()
+        return
+    end
+
     self.vehicle = vehicle
     self.farmId = farmId
     self.mode = mode or RepairDialog.MODE_BOTH
