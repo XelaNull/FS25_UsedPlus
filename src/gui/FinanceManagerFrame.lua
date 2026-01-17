@@ -285,12 +285,39 @@ end
 function FinanceManagerFrame:onFrameOpen()
     FinanceManagerFrame:superClass().onFrameOpen(self)
     FinanceManagerFrame.instance = self  -- Store instance for external refresh
+
+    -- v2.7.0: Track current farm and subscribe to money changes for reactive UI
+    local farm = g_farmManager:getFarmByUserId(g_currentMission.playerUserId)
+    self.currentFarmId = farm and farm.farmId or nil
+
+    -- Subscribe to MONEY_CHANGED for real-time affordability updates
+    if g_messageCenter then
+        g_messageCenter:subscribe(MessageType.MONEY_CHANGED, self.onMoneyChanged, self)
+    end
+
     self:setMenuButtonInfoDirty()
     self:updateDisplay()
 end
 
 function FinanceManagerFrame:onFrameClose()
     FinanceManagerFrame:superClass().onFrameClose(self)
+
+    -- v2.7.0: Unsubscribe from money changes when frame closes
+    if g_messageCenter then
+        g_messageCenter:unsubscribe(MessageType.MONEY_CHANGED, self)
+    end
+    self.currentFarmId = nil
+end
+
+--[[
+    v2.7.0: Handle money changes - refresh display for real-time affordability updates
+    This is triggered by any money change (sales, purchases, loan payments, etc.)
+]]
+function FinanceManagerFrame:onMoneyChanged(farmId, newBalance)
+    -- Only refresh if this is our farm and frame is visible
+    if farmId == self.currentFarmId then
+        self:updateDisplay()
+    end
 end
 
 --[[

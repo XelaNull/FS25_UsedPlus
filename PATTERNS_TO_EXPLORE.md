@@ -42,29 +42,30 @@ These patterns were gathered during our 150+ mod analysis but weren't needed for
 **Source:** `docs/patterns/message-center.md` (lines 68-85)
 **Reference Mod:** SeasonalPrices, EnhancedLoanSystem
 
-**Current State:** Finance Manager doesn't auto-refresh when money changes
+**Status:** ✅ IMPLEMENTED (v2.7.0)
 
-**Opportunity:** Reactive UI updates when player's money changes:
-- Auto-refresh affordability indicators in Finance Manager
-- Update "Can Afford" badges on deal listings
-- Refresh down payment max calculations
+**Implementation:**
+- FinanceManagerFrame subscribes to MONEY_CHANGED on open, unsubscribes on close
+- Automatically refreshes display when player's money changes
+- Filters by farmId to only react to own farm's changes
 
-**Implementation Notes:**
 ```lua
--- In FinanceManagerFrame:init()
-g_messageCenter:subscribe(MessageType.MONEY_CHANGED, self.onMoneyChanged, self)
+function FinanceManagerFrame:onFrameOpen()
+    g_messageCenter:subscribe(MessageType.MONEY_CHANGED, self.onMoneyChanged, self)
+end
 
-function FinanceManagerFrame:onMoneyChanged(farmId, amount)
+function FinanceManagerFrame:onFrameClose()
+    g_messageCenter:unsubscribe(MessageType.MONEY_CHANGED, self)
+end
+
+function FinanceManagerFrame:onMoneyChanged(farmId, newBalance)
     if farmId == self.currentFarmId then
-        self:refreshAffordabilityIndicators()
+        self:updateDisplay()
     end
 end
 ```
 
-**Benefit:** Real-time feedback without manual refresh
-
-**Files to Modify:**
-- `src/gui/FinanceManagerFrame.lua` - Subscribe and handle MONEY_CHANGED
+**Benefit:** Real-time feedback - Finance Manager updates automatically when payments are made, sales complete, etc.
 
 ---
 
@@ -265,7 +266,7 @@ end
 | Pattern | Effort | Value | Priority | Target Version |
 |---------|--------|-------|----------|----------------|
 | Quick Buttons | LOW | HIGH | 1 | v2.7.0 |
-| MONEY_CHANGED | LOW | MEDIUM | 2 | v2.7.0 |
+| MONEY_CHANGED | LOW | MEDIUM | ✅ DONE | v2.7.0 |
 | Utils.prependedFunction | LOW | MEDIUM | 3 | v2.7.x |
 | HUD Overlay | MEDIUM | HIGH | 4 | v2.8.0 |
 | Animations | MEDIUM | MEDIUM | 5 | v3.0.0 |
