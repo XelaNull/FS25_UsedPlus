@@ -36,10 +36,12 @@ The resource lives in my mod's GitHub repository (the mod itself isn't released 
 
 **What I'd like to do:**
 
-Post a text post sharing the resource with the community, including:
-- What's covered (dialogs, events, managers, pitfalls, etc.)
-- Links to two other complementary community resources I discovered
-- The GitHub link to the documentation
+Post a text post sharing the resource with the community. I've drafted what the post would look like:
+
+- **The coding reference:** https://github.com/XelaNull/FS25_UsedPlus/tree/master/FS25_AI_Coding_Reference
+- **My draft post:** https://github.com/XelaNull/FS25_UsedPlus/blob/master/FS25_AI_Coding_Reference/REDDIT.md
+
+The post would cover what's in the notes, link to two other complementary community resources I discovered, and keep a humble tone (it's my first FS25 mod, just sharing what I learned).
 
 **My questions:**
 
