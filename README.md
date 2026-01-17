@@ -369,7 +369,7 @@ local externalId = UsedPlusAPI.registerExternalDeal("MyMod", loanId, farmId, {
 UsedPlusAPI.reportExternalPayment(externalId, 2500)  -- Builds credit!
 ```
 
-Full documentation: `docs/mod-api.md`
+Full documentation: [docs/mod-api.md](docs/mod-api.md)
 
 ---
 
