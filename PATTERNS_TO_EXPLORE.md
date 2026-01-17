@@ -38,38 +38,7 @@ These patterns were gathered during our 150+ mod analysis but weren't needed for
 
 ---
 
-### 2. MONEY_CHANGED Subscription
-**Source:** `docs/patterns/message-center.md` (lines 68-85)
-**Reference Mod:** SeasonalPrices, EnhancedLoanSystem
-
-**Status:** ✅ IMPLEMENTED (v2.7.0)
-
-**Implementation:**
-- FinanceManagerFrame subscribes to MONEY_CHANGED on open, unsubscribes on close
-- Automatically refreshes display when player's money changes
-- Filters by farmId to only react to own farm's changes
-
-```lua
-function FinanceManagerFrame:onFrameOpen()
-    g_messageCenter:subscribe(MessageType.MONEY_CHANGED, self.onMoneyChanged, self)
-end
-
-function FinanceManagerFrame:onFrameClose()
-    g_messageCenter:unsubscribe(MessageType.MONEY_CHANGED, self)
-end
-
-function FinanceManagerFrame:onMoneyChanged(farmId, newBalance)
-    if farmId == self.currentFarmId then
-        self:updateDisplay()
-    end
-end
-```
-
-**Benefit:** Real-time feedback - Finance Manager updates automatically when payments are made, sales complete, etc.
-
----
-
-### 3. Utils.prependedFunction()
+### 2. Utils.prependedFunction()
 **Source:** `docs/patterns/extensions.md` (lines 45-62)
 **Reference Mod:** HirePurchasing
 
@@ -103,7 +72,7 @@ ShopController.buyItem = Utils.prependedFunction(ShopController.buyItem,
 
 ## Medium Effort Features
 
-### 4. HUD Overlay Framework
+### 3. HUD Overlay Framework
 **Source:** `docs/advanced/hud-framework.md`
 **Reference Mod:** AnimalsDisplay (FS25_Mods_Extracted/AnimalsDisplay/)
 
@@ -130,7 +99,7 @@ ShopController.buyItem = Utils.prependedFunction(ShopController.buyItem,
 
 ---
 
-### 5. Animation Patterns for Placeables
+### 4. Animation Patterns for Placeables
 **Source:** `docs/advanced/animations.md`
 **Reference Mod:** betterLights, BarnWithShelter, AutomaticCarWash
 
@@ -161,37 +130,9 @@ ShopController.buyItem = Utils.prependedFunction(ShopController.buyItem,
 
 ---
 
-### 6. Game Time Jump Handling
-**Source:** `docs/patterns/async-operations.md` (lines 439-448)
-**Reference Mod:** BuyUsedEquipment original implementation
-
-**Status:** ✅ IMPLEMENTED (v2.7.0)
-
-**Implementation:**
-All three managers now detect and handle time jumps from sleep, fast-forward, or save/load:
-
-- **UsedVehicleManager**: Tracks `lastProcessedDay`, processes multiple days of search rolls (capped at 30)
-- **VehicleSaleManager**: Tracks `totalProcessedHours`, processes multiple hours of TTL/TTS (capped at 720 = 30 days)
-- **FinanceManager**: Tracks `lastProcessedPeriod`, processes multiple months of payments (capped at 12)
-
-```lua
--- Example from UsedVehicleManager
-local daysJumped = currentDay - lastProcessedDay
-if daysJumped > 1 then
-    UsedPlus.logDebug(string.format("TIME_JUMP: Processing %d days", daysJumped))
-    for dayIteration = 1, math.min(daysJumped, 30) do
-        self:processSearchesForFarm(farmId, farm)
-    end
-end
-```
-
-**Benefit:** Robust time handling - searches expire correctly, payments are collected, sales progress even after time skips
-
----
-
 ## Lower Priority / Scope Creep Warning
 
-### 7. OptionSlider Pattern
+### 5. OptionSlider Pattern
 **Source:** `docs/patterns/gui-dialogs.md` (lines 355-370)
 **Reference Mod:** (Documented but unreliable per CLAUDE.md)
 
@@ -205,7 +146,7 @@ end
 
 ---
 
-### 8. Production Patterns for OilServicePoint
+### 6. Production Patterns for OilServicePoint
 **Source:** `docs/advanced/production-patterns.md`
 **Reference Mod:** LiquidFertilizer, Dryer
 
@@ -222,7 +163,7 @@ end
 
 ---
 
-### 9. TextInput Custom Validation
+### 7. TextInput Custom Validation
 **Source:** `docs/patterns/gui-dialogs.md` (lines 224-288)
 **Reference Mod:** Custom implementations
 
@@ -241,7 +182,7 @@ end
 
 ## Research Needed
 
-### 10. Vehicle Specializations
+### 8. Vehicle Specializations
 **Source:** `docs/advanced/vehicles.md`
 **Reference Mod:** 164+ community vehicle mods
 
@@ -260,12 +201,10 @@ end
 
 | Pattern | Effort | Value | Priority | Target Version |
 |---------|--------|-------|----------|----------------|
-| Quick Buttons | LOW | HIGH | 1 | v2.7.0 |
-| MONEY_CHANGED | LOW | MEDIUM | ✅ DONE | v2.7.0 |
-| Utils.prependedFunction | LOW | MEDIUM | 3 | v2.7.x |
-| HUD Overlay | MEDIUM | HIGH | 4 | v2.8.0 |
-| Animations | MEDIUM | MEDIUM | 5 | v3.0.0 |
-| Time Jump Handling | MEDIUM | MEDIUM | ✅ DONE | v2.7.0 |
+| Quick Buttons | LOW | HIGH | 1 | v2.7.x |
+| Utils.prependedFunction | LOW | MEDIUM | 2 | v2.7.x |
+| HUD Overlay | MEDIUM | HIGH | 3 | v2.8.0 |
+| Animations | MEDIUM | MEDIUM | 4 | v3.0.0 |
 | OptionSlider | LOW | UNKNOWN | - | Needs Testing |
 | Production Patterns | HIGH | LOW | - | Not Recommended |
 | Custom TextInput | LOW | LOW | - | As Needed |
@@ -277,7 +216,7 @@ end
 
 1. **Before starting a new feature:** Check if a pattern here could help
 2. **When planning a version:** Pick 1-2 patterns from priority list
-3. **After implementing:** Move pattern to CHANGELOG and update docs with validation status
+3. **After implementing:** Remove pattern from this document
 4. **If pattern doesn't work:** Document why in `docs/pitfalls/what-doesnt-work.md`
 
 ---
