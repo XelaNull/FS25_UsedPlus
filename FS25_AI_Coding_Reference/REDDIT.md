@@ -2,9 +2,11 @@
 
 Hey all,
 
-I've been working on my first FS25 mod and kept running into the same issues - GUI coordinates being backwards from what I expected, functions that don't exist, patterns that silently fail. So I started writing things down.
+I've been working on my first FS25 mod using Claude AI as my coding partner. We kept running into the same issues - GUI coordinates being backwards from what we expected, functions that don't exist, patterns that silently fail. So we started writing things down.
 
-Ended up with a small collection of notes I'm calling the **[FS25 AI Coding Reference](https://github.com/XelaNull/FS25_UsedPlus/tree/master/FS25_AI_Coding_Reference)**. Figured I'd share it in case it saves someone else some headaches.
+Ended up with a collection of notes called the **[FS25 AI Coding Reference](https://github.com/XelaNull/FS25_UsedPlus/tree/master/FS25_AI_Coding_Reference)**. It was created by AI, for AI - structured specifically so AI coding assistants can reference it when helping with FS25 mods. But due to its structured nature, it turns out to be pretty useful for us humans too. :)
+
+Figured I'd share it in case it saves someone else some headaches.
 
 ## What's in it
 
