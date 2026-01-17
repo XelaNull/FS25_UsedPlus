@@ -21,3 +21,7 @@ desktop.ini
 # Windows reserved device names (accidental redirect artifacts)
 nul
 NUL
+
+# Translation sync state (auto-generated)
+.translation-sync.json
+translations/.translation-sync.json
