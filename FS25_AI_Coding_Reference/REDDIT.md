@@ -6,7 +6,7 @@ I've been working on my first FS25 mod using Claude AI as my coding partner. We 
 
 Ended up with a collection of notes called the **[FS25 AI Coding Reference](https://github.com/XelaNull/FS25_UsedPlus/tree/master/FS25_AI_Coding_Reference)**. It was created by AI, for AI - structured specifically so AI coding assistants can reference it when helping with FS25 mods. But due to its structured nature, it turns out to be pretty useful for us humans too. :)
 
-Figured I'd share it in case it saves someone else some headaches.
+Figured I'd share it in case it saves someone else some headaches or gives them an easier path to creating their own FS25 mod.
 
 ## What's in it
 
