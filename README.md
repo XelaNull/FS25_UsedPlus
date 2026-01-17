@@ -67,6 +67,51 @@ Want a cheap tractor fast? Go local - but accept higher risk and unknown conditi
 
 ---
 
+### Negotiate Like a Pro (v2.6.0, improved in v2.6.1)
+
+Found a used tractor through your agent? **Don't just pay asking price - negotiate!**
+
+After inspecting the vehicle, you'll now see **"Make Offer"** instead of "Purchase." This opens the negotiation dialog where you can choose your offer (70-100%).
+
+**v2.6.1: Lowballing Now Has REAL Consequences!**
+
+| Gap Below Threshold | Risk | What Happens |
+|---------------------|------|--------------|
+| Within 5% | Safe | Seller always counters |
+| 5-10% below | Low | Usually counter, some rejection |
+| 10-15% below | Medium | 50/50 counter vs reject |
+| 15-20% below | High | Usually reject |
+| >20% below | **INSULTED** | Always reject! |
+
+**Seller Personalities Matter:**
+- **Desperate** (+8% tolerance): Go ahead and lowball
+- **Motivated** (+4%): Room to negotiate
+- **Reasonable** (baseline): Play it safe
+- **Firm** (-5% tolerance): **Don't even try 70%!**
+
+*Pro tip: A firm seller (92% threshold) + your 70% offer = 27% gap = ALWAYS rejected!*
+
+**The Three Twists That Make It Interesting:**
+
+1. **Mechanic's Whisper** - Your mechanic leans in with intel about the seller:
+   - *"They seem pretty eager to sell..."* → Desperate! Go low!
+   - *"They've priced it fair and know exactly what it's worth"* → Firm! Stay above 90%!
+
+2. **Weather Affects Deals** - Bad weather makes sellers anxious!
+   - Hail: +12% acceptance (gear sitting outside = motivation)
+   - Storm: +8% acceptance (urgency to close)
+   - Rain/Snow: +5% acceptance (stuck inside, reflective mood)
+   - Perfect sunny day: -3% acceptance (everyone's optimistic)
+
+3. **Stand Firm Gamble** - If they counter, you can push back:
+   - 30% chance they cave and accept your original offer
+   - 50% chance they hold at their counter
+   - 20% chance they walk away (listing locked for 1 hour!)
+
+**The Magic Moment:** You check the mechanic's whisper - seller seems motivated. Storm coming in the weather forecast. You wait. Storm hits. You open negotiation, mechanic whispers *"Plus with that storm rolling in, they might want to close quick."* Combined with the weather bonus and seller personality, your 75% offer is only 1% below threshold. Seller accepts. You just saved $20,000 by being smart AND patient.
+
+---
+
 ### Sell Smart, Not Fast
 
 Vanilla FS25 instant-sell gives you pennies on the dollar. UsedPlus **replaces it entirely** with realistic agent-based sales:
@@ -233,6 +278,7 @@ When a buyer makes an offer on your equipment, you'll see it here. Lease expirin
 - **Credit Scoring** - 300-850 FICO-style, affects rates and loan limits
 - **Used Equipment Search** - 3-tier agent system with realistic wait times
 - **Agent-Based Sales** - Replace instant-sell with patient, profitable marketplace
+- **Price Negotiation (v2.6.1)** - Negotiate used vehicle prices with risk-based rejection system, weather modifiers, and personality-aware sellers
 - **Land Leasing** - 1/3/5/10 year terms with buyout option
 - **Land Financing** - Lower rates for real estate
 - **General Cash Loans** - Borrow against collateral when you need liquidity
@@ -248,6 +294,7 @@ When a buyer makes an offer on your equipment, you'll see it here. Lease expirin
 - **Fluid-Malfunction Interaction (v2.5.2)** - Low fluid makes ALL related malfunctions worse
 - **Admin Console Commands** - For testing and emergencies
 - **Full Multiplayer Support** - All features work in co-op
+- **Public API for Mod Developers** - UsedPlusAPI allows external mods to query credit scores, vehicle DNA, and register deals with our credit bureau
 
 ---
 
@@ -302,6 +349,55 @@ UsedPlus automatically detects and **deeply integrates** with popular mods:
 
 **All popular financial and maintenance mods are now deeply integrated!** See **COMPATIBILITY.md** for technical details.
 
+### For Mod Developers: UsedPlusAPI
+
+**Want your mod to integrate with UsedPlus?** We provide a comprehensive public API!
+
+```lua
+-- Check if UsedPlus is available
+if UsedPlusAPI and UsedPlusAPI.isReady() then
+    -- Query credit score (300-850)
+    local score = UsedPlusAPI.getCreditScore(farmId)
+
+    -- Get vehicle DNA (0.0 lemon → 1.0 workhorse)
+    local dna = UsedPlusAPI.getVehicleDNA(vehicle)
+
+    -- Check financing eligibility
+    local canFinance, minScore = UsedPlusAPI.canFinance(farmId, "VEHICLE_FINANCE")
+end
+```
+
+**Credit Bureau API** - Register your mod's loans with our credit system:
+
+```lua
+-- Register your loan with UsedPlus credit bureau
+local externalId = UsedPlusAPI.registerExternalDeal("MyFinanceMod", loanId, farmId, {
+    dealType = "loan",
+    itemName = "Equipment Loan",
+    originalAmount = 50000,
+    monthlyPayment = 2500,
+})
+
+-- Report payments (affects credit score!)
+UsedPlusAPI.reportExternalPayment(externalId, 2500)   -- +5 credit score
+UsedPlusAPI.reportExternalDefault(externalId, false)  -- -25 credit score
+```
+
+**Event Subscriptions:**
+```lua
+UsedPlusAPI.subscribe("onCreditScoreChanged", function(farmId, old, new)
+    print("Credit changed: " .. old .. " -> " .. new)
+end)
+```
+
+**Full API Documentation:** See `FS25_AI_Coding_Reference/patterns/mod-api.md` for complete documentation including:
+- Credit System API (scores, ratings, history)
+- Vehicle DNA API (workhorse/lemon queries)
+- Maintenance State API (fluids, reliability, malfunctions)
+- Finance Deals API (query active deals, debt, assets)
+- Credit Bureau API (register external deals!)
+- Event Subscription API (8 subscribable events)
+
 ### Best Experience Setup
 Run UsedPlus with these mods for the ultimate financial and maintenance experience:
 - **Real Vehicle Breakdowns + Use Up Your Tyres** - Deep integration with Workhorse/Lemon DNA system:
@@ -339,7 +435,7 @@ The human author (Max) provided vision, direction, testing, and feedback - but d
 
 This mod was built using a custom **FS25 Modding Reference** - 25 documentation files (~8,500 lines) compiled by studying 164+ community mods. This documentation taught Claude and Samantha how FS25 modding works: patterns for dialogs, events, managers, extensions, and more.
 
-The reference docs live in `docs/` and `CLAUDE.md` - feel free to use them for your own AI-assisted modding projects.
+The reference docs live in `FS25_AI_Coding_Reference/` (27 files, 9,800+ lines) - feel free to use them for your own AI-assisted modding projects.
 
 #### The Collaboration Model
 
@@ -432,7 +528,7 @@ If you build something using UsedPlus patterns, a simple credit like *"Patterns 
 
 ## Version
 
-**Current:** 2.5.2
+**Current:** 2.6.0
 **Game Version:** Farming Simulator 25
 
 ---
