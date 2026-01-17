@@ -11,7 +11,7 @@
 > **Battle-tested patterns for Farming Simulator 2025 mod development**
 
 Built by the **UsedPlus** team with **Claude AI** assistance.
-Validated against a production mod with **83 Lua files** and **30+ custom dialogs**.
+Validated against an in-development mod with **83 Lua files** and **30+ custom dialogs**.
 
 ---
 
@@ -89,7 +89,7 @@ Created by [@Dukefarming](https://github.com/Dukefarming) — raw Lua source fro
 
 | Badge | Meaning |
 |:-----:|---------|
-| ✅ | **Validated** — Used in production UsedPlus code |
+| ✅ | **Validated** — Used in UsedPlus codebase |
 | ⚠️ | **Partial** — Some aspects validated, use carefully |
 | 📚 | **Reference** — Extracted from source mods, not validated |
 
