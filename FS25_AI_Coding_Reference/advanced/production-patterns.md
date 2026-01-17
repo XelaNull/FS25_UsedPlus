@@ -6,6 +6,19 @@ Based on patterns from: LiquidFertilizer, Dryer, AutomaticWater
 
 ---
 
+## Related API Documentation
+
+> 📖 For production APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| ProductionChainManager | [ProductionChainManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Misc/ProductionChainManager.md) | Production chain management |
+| FillTypeManager | [FillTypeManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/FillTypes/FillTypeManager.md) | Fill types and categories |
+| FillUnit | [FillUnit.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/FillUnit.md) | Fill storage specialization |
+| Silo | [Silo.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/Silo.md) | Silo specialization |
+
+---
+
 > ⚠️ **REFERENCE ONLY - NOT VALIDATED IN FS25_UsedPlus**
 >
 > These production patterns were extracted from community mods but are **NOT used in UsedPlus**.

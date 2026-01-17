@@ -6,6 +6,28 @@ Based on patterns from: UsedPlus, BuyUsedEquipment, HirePurchasing, Employment, 
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete function signatures and source code, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Gui | [Gui.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/Gui.md) | Main GUI controller - `loadGui()`, `showDialog()`, `closeDialog()` |
+| GuiElement | [GuiElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/GuiElement.md) | Base element class - positioning, sizing, callbacks |
+| ScreenElement | [ScreenElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/ScreenElement.md) | Screen/dialog base - `onOpen()`, `onClose()`, navigation |
+| DialogElement | [DialogElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/DialogElement.md) | Dialog-specific functionality |
+| YesNoDialog | [YesNoDialog.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/YesNoDialog.md) | Yes/No confirmation dialog |
+| ButtonElement | [ButtonElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/ButtonElement.md) | Clickable buttons - `onClick`, states |
+| TextElement | [TextElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/TextElement.md) | Text display - `setText()`, formatting |
+| TextInputElement | [TextInputElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/TextInputElement.md) | Text input fields - validation, events |
+| MultiTextOptionElement | [MultiTextOptionElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/MultiTextOptionElement.md) | Dropdown selector - `setTexts()`, `setState()` |
+| BoxLayoutElement | [BoxLayoutElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/BoxLayoutElement.md) | Horizontal/vertical layouts |
+| FocusManager | [FocusManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/FocusManager.md) | Keyboard/controller navigation |
+| BitmapElement | [BitmapElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/BitmapElement.md) | Image display |
+| GuiProfile | [GuiProfile.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/GuiProfile.md) | Profile system - extends, traits |
+
+---
+
 ## Validation Status Legend
 
 | Badge | Meaning |

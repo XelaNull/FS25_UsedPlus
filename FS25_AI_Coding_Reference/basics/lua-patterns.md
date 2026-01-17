@@ -6,6 +6,20 @@ Based on patterns from: 164+ working community mods
 
 ---
 
+## Related API Documentation
+
+> 📖 For utility APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Utils | [Utils.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Utils/Utils.md) | `appendedFunction()`, `overwrittenFunction()`, etc. |
+| Math Engine | [Math/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Math) | Math utilities |
+| String Engine | [String/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/String) | String utilities |
+
+**Note:** FS25 uses **Luau** (Lua 5.1 compatible). See [pitfalls/what-doesnt-work.md](../pitfalls/what-doesnt-work.md) for limitations.
+
+---
+
 > ⚠️ **PARTIALLY VALIDATED IN FS25_UsedPlus**
 >
 > Most patterns validated, some are reference-only from other mods.

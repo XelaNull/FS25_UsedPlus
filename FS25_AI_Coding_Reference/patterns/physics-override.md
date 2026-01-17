@@ -6,6 +6,18 @@ Based on patterns from: Batch 1 Analysis
 
 ---
 
+## Related API Documentation
+
+> 📖 For physics/vehicle APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Topic | API Reference | Description |
+|-------|---------------|-------------|
+| Physics Engine | [Physics/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Physics) | Low-level physics functions |
+| Vehicle | [Vehicle/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Vehicles) | Vehicle class, motor, wheels |
+| VehicleMotor | [VehicleMotor.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Vehicles/VehicleMotor.md) | Engine properties |
+
+---
+
 ## Overview
 
 Override physics properties safely without corrupting vehicle state:

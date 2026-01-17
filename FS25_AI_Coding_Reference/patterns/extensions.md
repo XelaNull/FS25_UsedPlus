@@ -6,6 +6,23 @@ Based on patterns from: HirePurchasing, BuyUsedEquipment, EnhancedLoanSystem
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete function signatures, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Utils | [Utils.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Utils/Utils.md) | `appendedFunction()`, `prependedFunction()`, `overwrittenFunction()` |
+| TypeManager | [TypeManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specialization/TypeManager.md) | Vehicle type registration |
+| SpecializationManager | [SpecializationManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specialization/SpecializationManager.md) | Specialization registration |
+
+**Commonly Extended Classes:**
+- [Farm.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Farms/Farm.md) - Per-farm data
+- [InGameMenu.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/InGameMenu.md) - Menu tabs
+- [ShopConfigScreen.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Shop/ShopConfigScreen.md) - Shop customization
+
+---
+
 ## Overview
 
 FS25 mods extend game behavior by:

@@ -6,6 +6,23 @@ Based on patterns from: 164+ working community mods
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete vehicle APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Vehicle | [Vehicles/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Vehicles) | Base vehicle class |
+| VehicleMotor | [VehicleMotor.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Vehicles/VehicleMotor.md) | Engine/motor system |
+| Specializations | [Specializations/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Specializations) | 150+ specialization classes |
+| Attachable | [Attachable.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/Attachable.md) | Implement attachment |
+| Drivable | [Drivable.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/Drivable.md) | Player-controllable |
+| Fillable | [Fillable.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/Fillable.md) | Fill volumes |
+
+**Also see:** [Raw dataS source](https://github.com/Dukefarming/FS25-lua-scripting) for Vehicle.lua (192KB), VehicleMotor.lua (108KB)
+
+---
+
 > ⚠️ **REFERENCE ONLY - NOT VALIDATED IN FS25_UsedPlus**
 >
 > These patterns were extracted from community mods during our 150+ mod analysis

@@ -6,6 +6,18 @@ Based on hard-won experience from UsedPlus development.
 
 ---
 
+## Related API Documentation
+
+> 📖 **Verify before using!** Check the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC) to confirm function signatures and availability.
+
+**Key Reference Links:**
+- [Gui.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/Gui.md) - Dialog/GUI API (no `showYesNoDialog`!)
+- [Utils.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Utils/Utils.md) - Utility functions
+- [XML Engine](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/XML) - XML parsing functions
+- [Raw dataS source](https://github.com/Dukefarming/FS25-lua-scripting) - See how Giants implements things
+
+---
+
 > ✅ **100% VALIDATED FROM USEDPLUS DEVELOPMENT**
 >
 > Every pitfall documented here was encountered and solved during UsedPlus development.

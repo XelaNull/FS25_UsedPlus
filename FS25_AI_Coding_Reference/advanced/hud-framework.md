@@ -6,6 +6,20 @@ Based on patterns from: AnimalsDisplay, HUD System mods
 
 ---
 
+## Related API Documentation
+
+> 📖 For HUD APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| HUDElement | [HUDElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/HUDElement.md) | Base HUD element |
+| HUDDisplayElement | [HUDDisplayElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/HUDDisplayElement.md) | Display components |
+| HUDTextDisplay | [HUDTextDisplay.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/HUDTextDisplay.md) | Text overlays |
+| InfoDisplay | [InfoDisplay.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/InfoDisplay.md) | Info panels |
+| Overlay | [Overlay.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/Overlay.md) | Screen overlays |
+
+---
+
 > ⚠️ **REFERENCE ONLY - NOT VALIDATED IN FS25_UsedPlus**
 >
 > These patterns were extracted from community mods but are **NOT used in UsedPlus**.

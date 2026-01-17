@@ -6,6 +6,19 @@ Based on patterns from: AutomaticCarWash, AutomaticWater
 
 ---
 
+## Related API Documentation
+
+> 📖 For trigger APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Triggers | [Triggers/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Triggers) | All trigger classes |
+| Physics Triggers | [Physics/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Physics) | `addTrigger()`, callbacks |
+| LoadTrigger | [LoadTrigger.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Triggers/LoadTrigger.md) | Fill loading triggers |
+| UnloadTrigger | [UnloadTrigger.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Triggers/UnloadTrigger.md) | Unloading triggers |
+
+---
+
 > ✅ **VALIDATED IN FS25_UsedPlus**
 >
 > Trigger patterns are fully validated in the UsedPlus codebase.

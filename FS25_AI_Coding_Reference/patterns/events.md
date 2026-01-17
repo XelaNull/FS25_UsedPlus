@@ -6,6 +6,24 @@ Based on patterns from: UsedPlus, BuyUsedEquipment, HirePurchasing, EnhancedLoan
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete function signatures and source code, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Events (folder) | [Events/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Events) | 200+ event class examples |
+| Network Engine | [Network/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Network) | Low-level network functions |
+| StreamRead | [streamRead functions](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Network) | `streamReadInt32()`, `streamReadString()`, etc. |
+| StreamWrite | [streamWrite functions](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Network) | `streamWriteInt32()`, `streamWriteString()`, etc. |
+
+**Example Events (Reference):**
+- [VehicleSellEvent.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Events/VehicleSellEvent.md) - Vehicle sale pattern
+- [MoneyChangeEvent.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Events/MoneyChangeEvent.md) - Money transactions
+- [SetFarmlandStateEvent.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Events/SetFarmlandStateEvent.md) - Land state changes
+
+---
+
 ## Validation Status Legend
 
 | Badge | Meaning |

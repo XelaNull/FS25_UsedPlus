@@ -6,6 +6,19 @@ Based on patterns from: EnhancedLoanSystem, BuyUsedEquipment, SeasonalPrices
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete function signatures, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| MessageCenter | [Instances/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Instances) | `subscribe()`, `publish()`, `unsubscribe()` |
+| Environment | [Environment.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Misc/Environment.md) | Time/weather state |
+
+**Note:** MessageType constants are defined in the game but not separately documented. Common types: `HOUR_CHANGED`, `DAY_CHANGED`, `PERIOD_CHANGED`, `YEAR_CHANGED`, `MONEY_CHANGED`, `MINUTE_CHANGED`
+
+---
+
 ## Overview
 
 The Message Center provides pub/sub functionality for game events:

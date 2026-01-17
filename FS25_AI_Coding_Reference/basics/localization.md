@@ -6,6 +6,14 @@ Based on patterns from: 164+ working community mods
 
 ---
 
+## Related API Documentation
+
+> 📖 For localization API, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+**Key Global:** `g_i18n` - Use `g_i18n:getText("key")` to retrieve translations
+
+---
+
 > ✅ **FULLY VALIDATED IN FS25_UsedPlus**
 >
 > All localization patterns are validated in the UsedPlus codebase with 500+ translation keys.

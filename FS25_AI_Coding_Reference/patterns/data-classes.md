@@ -6,6 +6,18 @@ Based on patterns from: HirePurchasing, BuyUsedEquipment, EnhancedLoanSystem
 
 ---
 
+## Related API Documentation
+
+> 📖 For serialization functions, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Topic | API Reference | Description |
+|-------|---------------|-------------|
+| XML Read/Write | [XML/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/XML) | `getXMLInt()`, `setXMLString()`, etc. |
+| Network Stream | [Network/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Network) | `streamReadInt32()`, `streamWriteFloat32()`, etc. |
+| Class System | [Data/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Data) | Base data structures |
+
+---
+
 ## Overview
 
 Data classes are standalone Lua classes that:

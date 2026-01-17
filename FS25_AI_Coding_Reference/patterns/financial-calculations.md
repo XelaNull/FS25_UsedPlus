@@ -6,6 +6,20 @@ Based on patterns from: HirePurchasing, EnhancedLoanSystem, BuyUsedEquipment
 
 ---
 
+## Related API Documentation
+
+> 📖 For economy-related APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Topic | API Reference | Description |
+|-------|---------------|-------------|
+| Economy | [Economy/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Economy) | EconomyManager, prices |
+| Farm Finance | [Farm.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Farms/Farm.md) | `changeMoney()`, `getLoan()` |
+| Money Events | [MoneyChangeEvent.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Events/MoneyChangeEvent.md) | Network money sync |
+
+**Note:** Most financial calculations are pure math formulas, not game API calls.
+
+---
+
 ## Overview
 
 Financial mods need real-world formulas for:

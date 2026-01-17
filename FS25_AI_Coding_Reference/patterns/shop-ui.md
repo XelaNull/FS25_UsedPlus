@@ -6,6 +6,20 @@ Based on patterns from: HirePurchasing, BuyUsedEquipment
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete function signatures, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| StoreManager | [StoreManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Shop/StoreManager.md) | Store item access (`g_storeManager`) |
+| BuyVehicleData | [BuyVehicleData.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Shop/BuyVehicleData.md) | Vehicle purchase data |
+| BrandManager | [BrandManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Shop/BrandManager.md) | Brand/manufacturer data |
+| ShopCategoriesFrame | [ShopCategoriesFrame.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/ShopCategoriesFrame.md) | Shop category UI |
+| ShopItemsFrame | [ShopItemsFrame.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/ShopItemsFrame.md) | Shop items list UI |
+
+---
+
 ## Overview
 
 Common shop UI modifications:

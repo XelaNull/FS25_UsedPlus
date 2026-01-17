@@ -6,6 +6,19 @@ Based on patterns from: FarmVehicleShop, benchesPack, FS25_Dryer, FS25_liquidfer
 
 ---
 
+## Related API Documentation
+
+> 📖 For placeable APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Placeables | [Placeables/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Placeables) | Placeable classes |
+| Placeable Specializations | [Specializations/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Specializations) | Search "Placeable*" |
+| ProductionChainManager | [ProductionChainManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Misc/ProductionChainManager.md) | Production systems |
+| Triggers | [Triggers/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Triggers) | Trigger classes |
+
+---
+
 > ⚠️ **PARTIALLY VALIDATED IN FS25_UsedPlus**
 >
 > Core specialization patterns are validated. Production patterns are reference-only.

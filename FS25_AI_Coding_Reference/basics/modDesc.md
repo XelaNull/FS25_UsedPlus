@@ -6,6 +6,14 @@ Based on patterns from: 164+ working community mods
 
 ---
 
+## Related Resources
+
+> 📖 For raw modDesc examples, see the [FS25-lua-scripting repo](https://github.com/Dukefarming/FS25-lua-scripting) - includes `modDesc.xml` template
+
+**Official Documentation:** [GIANTS Developer Network](https://gdn.giants-software.com/documentation.php) - Modding Tutorials
+
+---
+
 > ✅ **FULLY VALIDATED IN FS25_UsedPlus**
 >
 > All modDesc.xml patterns in this document are validated by the UsedPlus codebase.

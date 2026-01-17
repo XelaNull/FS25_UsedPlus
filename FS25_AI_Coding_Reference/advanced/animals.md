@@ -6,6 +6,19 @@ Based on patterns from: AnimalsDisplay, AutomaticWater_Animals_Greenhouses
 
 ---
 
+## Related API Documentation
+
+> 📖 For animal APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Animals | [Animals/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Animals) | Animal system classes |
+| PlaceableHusbandryAnimals | [PlaceableHusbandryAnimals.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/PlaceableHusbandryAnimals.md) | Animal housing |
+| AnimalLoadingTrigger | [AnimalLoadingTrigger.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Triggers/AnimalLoadingTrigger.md) | Animal transport |
+| AnimalScreen | [AnimalScreen.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/AnimalScreen.md) | Animal management UI |
+
+---
+
 > ⚠️ **REFERENCE ONLY - NOT VALIDATED IN FS25_UsedPlus**
 >
 > These patterns were extracted from community mods but are **NOT used in UsedPlus**.

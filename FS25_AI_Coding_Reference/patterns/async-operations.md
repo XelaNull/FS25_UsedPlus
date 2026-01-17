@@ -6,6 +6,22 @@ Based on patterns from: BuyUsedEquipment, UsedPlus
 
 ---
 
+## Related API Documentation
+
+> 📖 For time/mission APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Topic | API Reference | Description |
+|-------|---------------|-------------|
+| Environment | [Environment.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Misc/Environment.md) | `g_currentMission.environment` time data |
+| Mission | (use `g_currentMission`) | `currentDay`, `time` properties |
+
+**Key Globals:**
+- `g_currentMission.time` - Current time in ms
+- `g_currentMission.environment.currentDay` - Current day number
+- Subscribe to `MessageType.HOUR_CHANGED` for hourly processing
+
+---
+
 ## Overview
 
 Many mod features need delayed execution:

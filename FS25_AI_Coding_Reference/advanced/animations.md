@@ -6,6 +6,19 @@ Based on patterns from: betterLights, BarnWithShelter, AutomaticCarWash
 
 ---
 
+## Related API Documentation
+
+> 📖 For animation APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Animation Engine | [Animation/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Animation) | Low-level animation functions |
+| AnimatedVehicle | [AnimatedVehicle.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/AnimatedVehicle.md) | Vehicle animations |
+| AnimationManager | [AnimationManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Animation/AnimationManager.md) | Animation management |
+| AnimationElement | [AnimationElement.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/GUI/AnimationElement.md) | GUI animations |
+
+---
+
 > ⚠️ **REFERENCE ONLY - NOT VALIDATED IN FS25_UsedPlus**
 >
 > These animation patterns were extracted from community mods but are **NOT used in UsedPlus**.

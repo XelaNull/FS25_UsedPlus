@@ -6,6 +6,24 @@ Based on patterns from: UsedPlus, BuyUsedEquipment, HirePurchasing, EnhancedLoan
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete function signatures and source code, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| AbstractManager | [AbstractManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Misc/AbstractManager.md) | Base manager pattern |
+| FarmManager | [FarmManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Farms/FarmManager.md) | Farm data access (`g_farmManager`) |
+| StoreManager | [StoreManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Shop/StoreManager.md) | Shop/store items (`g_storeManager`) |
+| FillTypeManager | [FillTypeManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/FillTypes/FillTypeManager.md) | Fill types (`g_fillTypeManager`) |
+| MissionManager | [MissionManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Missions/MissionManager.md) | Contract missions |
+| FarmlandManager | [FarmlandManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Economy/FarmlandManager.md) | Land ownership |
+| ProductionChainManager | [ProductionChainManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Misc/ProductionChainManager.md) | Production chains |
+
+**See also:** [40 manager classes](https://github.com/umbraprior/FS25-Community-LUADOC/search?q=Manager) in the Community LUADOC
+
+---
+
 ## Validation Status Legend
 
 | Badge | Meaning |

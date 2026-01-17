@@ -6,6 +6,19 @@ Based on patterns from: bresselUndLadeShovel, community equipment mods
 
 ---
 
+## Related API Documentation
+
+> 📖 For configuration APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| ConfigurationManager | [ConfigurationManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Configurations/ConfigurationManager.md) | Configuration system |
+| Configurations | [Configurations/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Configurations) | Configuration classes |
+| AttacherJoints | [AttacherJoints.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/AttacherJoints.md) | Attacher configuration |
+| Attachable | [Attachable.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Specializations/Attachable.md) | Attachment system |
+
+---
+
 ## Overview
 
 Equipment configurations allow:

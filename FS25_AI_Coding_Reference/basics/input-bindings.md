@@ -6,6 +6,17 @@ Based on patterns from: 164+ working community mods
 
 ---
 
+## Related API Documentation
+
+> 📖 For input APIs, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Input Engine | [Input/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/Input) | Low-level input handling |
+| InputBinding | [Input/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/script/Input) | Script-level input binding |
+
+---
+
 > ✅ **FULLY VALIDATED IN FS25_UsedPlus**
 >
 > Input binding patterns are validated in UsedPlus with 5 custom actions.

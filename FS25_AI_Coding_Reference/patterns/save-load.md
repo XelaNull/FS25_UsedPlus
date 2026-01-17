@@ -6,6 +6,19 @@ Based on patterns from: BuyUsedEquipment, EnhancedLoanSystem, HirePurchasing
 
 ---
 
+## Related API Documentation
+
+> 📖 For complete function signatures, see the [FS25 Community LUADOC](https://github.com/umbraprior/FS25-Community-LUADOC)
+
+| Class | API Reference | Description |
+|-------|---------------|-------------|
+| Farm | [Farm.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Farms/Farm.md) | `saveToXMLFile()`, `loadFromXMLFile()` |
+| FarmManager | [FarmManager.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Farms/FarmManager.md) | Farm access (`g_farmManager`) |
+| XML Engine | [XML/](https://github.com/umbraprior/FS25-Community-LUADOC/tree/main/docs/engine/XML) | `getXMLInt()`, `setXMLInt()`, etc. |
+| Utils | [Utils.md](https://github.com/umbraprior/FS25-Community-LUADOC/blob/main/docs/script/Utils/Utils.md) | File path utilities |
+
+---
+
 ## Overview
 
 FS25 mods can persist data by:
