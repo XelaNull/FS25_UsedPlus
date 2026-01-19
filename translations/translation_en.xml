@@ -802,6 +802,7 @@
         <e k="usedplus_button_close" v="Close" />
         <e k="usedplus_button_confirm" v="Confirm" />
         <e k="usedplus_button_cancel" v="Cancel" />
+        <e k="usedplus_button_later" v="Later" />
         <e k="usedplus_button_takeLoan" v="Take Loan" />
         <e k="usedplus_button_payOff" v="Pay Off" />
 
@@ -1042,6 +1043,7 @@
         <e k="usedplus_uvp_damage" v="Damage:" />
         <e k="usedplus_uvp_wear" v="Wear:" />
         <e k="usedplus_uvp_warningTitle" v="Hidden mechanical condition unknown" />
+        <e k="usedplus_uvp_selectTier" v="Select inspection level:" />
         <e k="usedplus_uvp_inspectPrompt" v="Pay for professional inspection" />
         <e k="usedplus_uvp_inspectedText" v="Vehicle has been inspected - view report" />
         <e k="usedplus_button_buyAsIs" v="Buy As-Is" />
@@ -1802,6 +1804,7 @@
         <e k="usedplus_fsk_tire_plug" v="PLUG" />
         <e k="usedplus_fsk_tire_plug_desc" v="Better emergency repair" />
         <e k="usedplus_fsk_tire_plug_result" v="Restores to 50% condition" />
+        <e k="usedplus_fsk_tires_ok" v="All tires OK - No repair needed" />
 
         <!-- v2.1.0: Scanner Readout Hints (Step 1 hints to deduce failed system) -->
         <e k="usedplus_fsk_scanner_readout" v="OBD SCANNER READOUT" />
@@ -2097,16 +2100,50 @@
         <e k="usedplus_hydraulics_seized" v="HYDRAULICS SEIZED! Implements are locked in place." />
         <e k="usedplus_electrical_seized" v="ELECTRICAL FAILURE! All systems are dead." />
 
-        <!-- Component Names (for repair dialogs) -->
-        <e k="usedplus_component_engine" v="Engine" />
-        <e k="usedplus_component_hydraulic" v="Hydraulics" />
-        <e k="usedplus_component_electrical" v="Electrical System" />
-
         <!-- OBD Scanner Seizure Repair -->
         <e k="usedplus_seizure_detected" v="COMPONENT SEIZED" />
         <e k="usedplus_seizure_repair_confirm" v="%s is seized and requires emergency repair.\n\nRepair cost: %s\n\nProceed with repair?" />
         <e k="usedplus_seizure_repaired" v="%s repaired! Reliability restored to %d%%" />
         <e k="usedplus_repair_no_money" v="Not enough money for repair!" />
+
+        <!-- ============================================== -->
+        <!-- v2.7.1: ADDITIONAL MISSING TRANSLATIONS        -->
+        <!-- ============================================== -->
+
+        <!-- General Warnings/Errors -->
+        <e k="usedplus_warning_notEnoughMoney" v="Not enough money!" />
+
+        <!-- Finance Deal Messages -->
+        <e k="usedplus_notification_landSeized" v="LAND SEIZED: %s has been taken due to non-payment!" />
+        <e k="usedplus_error_paymentTooLow" v="Payment amount is below the minimum required." />
+        <e k="usedplus_error_paymentTooHigh" v="Payment amount exceeds the remaining balance." />
+        <e k="usedplus_success_paymentMade" v="Payment processed successfully!" />
+
+        <!-- Lease Deal Messages -->
+        <e k="usedplus_error_cannotAffordTermination" v="Not enough money to pay the lease termination fee." />
+
+        <!-- Credit Requirements -->
+        <e k="usedplus_credit_required" v="Credit Required" />
+        <e k="usedplus_finance_credit_msg" v="Financing requires a credit score of %d or higher." />
+        <e k="usedplus_lease_credit_msg" v="Leasing requires a credit score of %d or higher." />
+
+        <!-- Purchase Errors -->
+        <e k="usedplus_error_purchaseFailed" v="Purchase failed - game API not available." />
+
+        <!-- Finance Calculations -->
+        <e k="usedplus_error_negativeDownPayment" v="Down payment cannot be negative." />
+        <e k="usedplus_error_downPaymentTooHigh" v="Down payment cannot exceed the purchase price." />
+        <e k="usedplus_error_invalidTerm" v="Invalid loan term." />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="Down payment cannot exceed the lease price." />
+        <e k="usedplus_error_leaseTermInvalid" v="Invalid lease term." />
+
+        <!-- Depreciation Formatting -->
+        <e k="usedplus_age_oneYear" v="1 year old" />
+        <e k="usedplus_age_years" v="%d years old" />
+        <e k="usedplus_hours" v="%d hours" />
+
+        <!-- Loan Notifications -->
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="Bank loan paid off!" />
 
     </elements>
 </l10n>

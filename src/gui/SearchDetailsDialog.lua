@@ -11,7 +11,7 @@
     - Expected pricing and savings
     - Quality selection impact
 
-    TODO: Full portfolio browser with per-vehicle Inspect/Buy/Decline buttons
+    Note: Full portfolio browser is available in VehiclePortfolioDialog.lua
 ]]
 
 SearchDetailsDialog = {}
