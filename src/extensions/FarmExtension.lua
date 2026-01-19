@@ -37,9 +37,8 @@ function FarmExtension:init()
     -- Subscribe to period (month) change for finance payments
     if g_messageCenter then
         g_messageCenter:subscribe(MessageType.PERIOD_CHANGED, FarmExtension.onPeriodChanged, FarmExtension)
-        g_messageCenter:subscribe(MessageType.HOUR_CHANGED, FarmExtension.onHourChanged, FarmExtension)
 
-        UsedPlus.logDebug("FarmExtension subscribed to PERIOD_CHANGED and HOUR_CHANGED")
+        UsedPlus.logDebug("FarmExtension subscribed to PERIOD_CHANGED")
     end
 
     FarmExtension.initialized = true
@@ -631,7 +630,6 @@ end
 function FarmExtension:delete()
     if g_messageCenter then
         g_messageCenter:unsubscribe(MessageType.PERIOD_CHANGED, FarmExtension)
-        g_messageCenter:unsubscribe(MessageType.HOUR_CHANGED, FarmExtension)
         UsedPlus.logDebug("FarmExtension unsubscribed from events")
     end
 
