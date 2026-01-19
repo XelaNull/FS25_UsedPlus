@@ -39,7 +39,7 @@ function NetworkSecurity.validateFarmOwnership(connection, claimedFarmId)
         if g_currentMission.userManager then
             local user = g_currentMission.userManager:getUserByConnection(connection)
             if user then
-                local userFarmId = user:getFarmId and user:getFarmId() or nil
+                local userFarmId = user.getFarmId and user:getFarmId() or nil
                 if userFarmId and userFarmId == claimedFarmId then
                     return true, nil
                 end

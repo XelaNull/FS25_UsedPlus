@@ -146,9 +146,9 @@ function OilServicePoint:onLoad(savegame)
     -- Load from savegame
     if savegame ~= nil and savegame.xmlFile ~= nil then
         local key = savegame.key .. ".oilServicePoint"
-        spec.currentFluidStorage = savegame.xmlFile:getValue(key .. "#currentFluidStorage", 0)
+        spec.currentFluidStorage = savegame.xmlFile:getValue(key .. "#currentFluidStorage", 0) or 0
         spec.currentFluidType = savegame.xmlFile:getValue(key .. "#currentFluidType", nil)
-        if spec.currentFluidStorage > 0 and spec.currentFluidType then
+        if spec.currentFluidStorage and spec.currentFluidStorage > 0 and spec.currentFluidType then
             UsedPlus.logDebug(string.format("OilServicePoint: Loaded %.1fL of %s from savegame",
                 spec.currentFluidStorage, spec.currentFluidType))
         end
