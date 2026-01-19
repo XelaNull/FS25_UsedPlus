@@ -246,12 +246,12 @@ end
     Debug console command
 ]]
 function BankInterestManager:consoleCommandStatus()
-    print(self:getStatusText())
+    UsedPlus.logInfo(self:getStatusText())
 
     if self:isEnabled() then
         local rate = self:getInterestRate()
-        print(string.format("  Annual rate: %.2f%%", rate * 100))
-        print(string.format("  Monthly rate: %.4f%%", (rate / 12) * 100))
+        UsedPlus.logInfo(string.format("  Annual rate: %.2f%%", rate * 100))
+        UsedPlus.logInfo(string.format("  Monthly rate: %.4f%%", (rate / 12) * 100))
 
         -- Show per-farm stats
         local farms = g_farmManager.farmIdToFarm
@@ -259,7 +259,7 @@ function BankInterestManager:consoleCommandStatus()
             for farmId, farm in pairs(farms) do
                 if farmId > 0 then
                     local stats = self:getStatistics(farmId)
-                    print(string.format(
+                    UsedPlus.logInfo(string.format(
                         "  Farm %d: balance=%s, monthly=%s, total earned=%s",
                         farmId,
                         g_i18n:formatMoney(stats.currentBalance),

@@ -12,7 +12,7 @@
 <placeable type="usedPlusOilServicePoint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../shared/xml/schema/placeable.xsd">
     <storeData>
         <name>$l10n_usedplus_oilTank_name</name>
-        <image>placeables/OilTank.dds</image>
+        <image>placeables/store_OilTank.dds</image>
         <functions>
             <function>$l10n_usedplus_oilTank_function</function>
         </functions>

@@ -796,6 +796,7 @@
         <e k="usedplus_button_close" v="Schließen" eh="d3d2e617" />
         <e k="usedplus_button_confirm" v="Bestätigen" eh="70d9be9b" />
         <e k="usedplus_button_cancel" v="Stornieren" eh="ea478870" />
+        <e k="usedplus_button_later" v="Später" />
         <e k="usedplus_button_takeLoan" v="Nehmen Sie einen Kredit auf" eh="40fe67fa" />
         <e k="usedplus_button_payOff" v="Auszahlen" eh="416ff954" />
 

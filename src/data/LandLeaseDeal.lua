@@ -225,11 +225,7 @@ function LandLeaseDeal:handleMissedPayment()
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
 
         -- Show popup dialog to ensure player sees this critical warning
-        g_gui:showInfoDialog({
-            title = "FINAL WARNING - LAND LEASE DEFAULT IMMINENT",
-            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your land lease will be terminated.",
-            buttonAction = ButtonDialog.YES
-        })
+        InfoDialog.show(warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your land lease will be terminated.")
     elseif self.missedPayments >= 3 then
         -- 3 missed payments = immediate expiration
         local remainingBalance = self:calculateRemainingCost() or 0

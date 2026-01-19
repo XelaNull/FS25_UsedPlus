@@ -39,36 +39,36 @@
                 <!-- Diagnose Component (top-left) -->
                 <GuiElement profile="fskModeBox" position="-165px -70px">
                     <Bitmap profile="fskModeBoxBg" id="modeDiagnoseBg" position="0px 0px"/>
-                    <Button profile="fskModeBtn" id="modeDiagnoseButton" text="" onClick="onModeDiagnoseClick" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeDiagnoseButton" onClick="onModeDiagnoseClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
                     <Text profile="fskModeIcon" position="0px -15px" text="🔧"/>
-                    <Text profile="fskModeLabel" position="0px -48px" text="Diagnose Component"/>
+                    <Text profile="fskModeLabel" id="modeDiagnoseLabel" position="0px -48px" text="Diagnose Component"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="Skill-based repair minigame"/>
                 </GuiElement>
 
                 <!-- Locate Malfunctions (top-right) -->
                 <GuiElement profile="fskModeBox" position="165px -70px">
                     <Bitmap profile="fskModeBoxBgWarning" id="modeMalfunctionsBg" position="0px 0px"/>
-                    <Button profile="fskModeBtn" id="modeMalfunctionsButton" text="" onClick="onModeMalfunctionsClick" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeMalfunctionsButton" onClick="onModeMalfunctionsClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
                     <Text profile="fskModeIcon" position="0px -15px" text="⚠"/>
-                    <Text profile="fskModeLabel" position="0px -48px" text="Locate Malfunctions"/>
+                    <Text profile="fskModeLabel" id="modeMalfunctionsLabel" position="0px -48px" text="Locate Malfunctions"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="View active issues"/>
                 </GuiElement>
 
                 <!-- Tire Service (bottom-left) -->
                 <GuiElement profile="fskModeBox" position="-165px -175px">
                     <Bitmap profile="fskModeBoxBg" id="modeTireServiceBg" position="0px 0px"/>
-                    <Button profile="fskModeBtn" id="modeTireServiceButton" text="" onClick="onModeTireServiceClick" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeTireServiceButton" onClick="onModeTireServiceClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
                     <Text profile="fskModeIcon" position="0px -15px" text="🛞"/>
-                    <Text profile="fskModeLabel" position="0px -48px" text="Tire Service"/>
+                    <Text profile="fskModeLabel" id="modeTireServiceLabel" position="0px -48px" text="Tire Service"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="Repair flat tire"/>
                 </GuiElement>
 
                 <!-- RVB System Analysis (bottom-right) - hidden if RVB not installed -->
                 <GuiElement profile="fskModeBox" id="modeRVBBox" position="165px -175px">
                     <Bitmap profile="fskModeBoxBgTech" id="modeRVBBg" position="0px 0px"/>
-                    <Button profile="fskModeBtn" id="modeRVBButton" text="" onClick="onModeRVBClick" position="0px 0px"/>
+                    <Button profile="fskModeBtn" id="modeRVBButton" onClick="onModeRVBClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
                     <Text profile="fskModeIcon" position="0px -15px" text="📊"/>
-                    <Text profile="fskModeLabel" position="0px -48px" text="RVB System Analysis"/>
+                    <Text profile="fskModeLabel" id="modeRVBLabel" position="0px -48px" text="RVB System Analysis"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="View RVB component life"/>
                 </GuiElement>
 
@@ -265,21 +265,65 @@
             <GuiElement profile="fskStepContainer" id="tireRepairContainer" position="0px -55px" visible="false">
 
                 <Text profile="fskSystemName" position="0px 0px" text="$l10n_usedplus_fsk_tire_repair_title"/>
-                <Text profile="fskInstruction" position="0px -28px" text="$l10n_usedplus_fsk_tire_choose"/>
 
-                <!-- Patch option (triple-element pattern) -->
-                <Bitmap profile="fskTireBtnBg" id="patchBtnBg" position="-160px -70px"/>
-                <Button profile="fskTireBtnHit" id="patchButton" text="" onClick="onTirePatchClick" position="-160px -70px"/>
-                <Text profile="fskTireOptionTitle" position="-160px -90px" text="$l10n_usedplus_fsk_tire_patch"/>
-                <Text profile="fskTireOptionDesc" position="-160px -115px" text="$l10n_usedplus_fsk_tire_patch_desc"/>
-                <Text profile="fskTireOptionResult" position="-160px -140px" text="$l10n_usedplus_fsk_tire_patch_result"/>
+                <!-- Vehicle and Tire Status Section -->
+                <GuiElement profile="fskTireStatusSection" position="0px -25px">
+                    <Bitmap profile="fskTireStatusBg" position="0px 0px"/>
 
-                <!-- Plug option (triple-element pattern) -->
-                <Bitmap profile="fskTireBtnBg" id="plugBtnBg" position="160px -70px"/>
-                <Button profile="fskTireBtnHit" id="plugButton" text="" onClick="onTirePlugClick" position="160px -70px"/>
-                <Text profile="fskTireOptionTitle" position="160px -90px" text="$l10n_usedplus_fsk_tire_plug"/>
-                <Text profile="fskTireOptionDesc" position="160px -115px" text="$l10n_usedplus_fsk_tire_plug_desc"/>
-                <Text profile="fskTireOptionResult" position="160px -140px" text="$l10n_usedplus_fsk_tire_plug_result"/>
+                    <!-- Vehicle Image (left side) -->
+                    <Bitmap profile="fskTireVehicleImage" id="tireVehicleImage" position="-200px -55px"/>
+
+                    <!-- Tire diagram (right side) - 2x2 grid showing FL/FR/RL/RR -->
+                    <Text profile="fskTireDiagramLabel" position="100px -15px" text="TIRE STATUS"/>
+
+                    <!-- Front Left -->
+                    <GuiElement profile="fskTireSlot" position="40px -40px">
+                        <Bitmap profile="fskTireSlotBg" id="tireFLBg" position="0px 0px"/>
+                        <Text profile="fskTireSlotLabel" position="0px -5px" text="FL"/>
+                        <Text profile="fskTireSlotValue" id="tireFLText" position="0px -22px" text=""/>
+                    </GuiElement>
+
+                    <!-- Front Right -->
+                    <GuiElement profile="fskTireSlot" position="160px -40px">
+                        <Bitmap profile="fskTireSlotBg" id="tireFRBg" position="0px 0px"/>
+                        <Text profile="fskTireSlotLabel" position="0px -5px" text="FR"/>
+                        <Text profile="fskTireSlotValue" id="tireFRText" position="0px -22px" text=""/>
+                    </GuiElement>
+
+                    <!-- Rear Left -->
+                    <GuiElement profile="fskTireSlot" position="40px -85px">
+                        <Bitmap profile="fskTireSlotBg" id="tireRLBg" position="0px 0px"/>
+                        <Text profile="fskTireSlotLabel" position="0px -5px" text="RL"/>
+                        <Text profile="fskTireSlotValue" id="tireRLText" position="0px -22px" text=""/>
+                    </GuiElement>
+
+                    <!-- Rear Right -->
+                    <GuiElement profile="fskTireSlot" position="160px -85px">
+                        <Bitmap profile="fskTireSlotBg" id="tireRRBg" position="0px 0px"/>
+                        <Text profile="fskTireSlotLabel" position="0px -5px" text="RR"/>
+                        <Text profile="fskTireSlotValue" id="tireRRText" position="0px -22px" text=""/>
+                    </GuiElement>
+                </GuiElement>
+
+                <!-- Status message (shown when no flat tire) -->
+                <Text profile="fskTireStatusMsg" id="tireStatusMsg" position="0px -160px" text="" visible="false"/>
+
+                <!-- Instruction (only shown when flat tire exists) -->
+                <Text profile="fskInstruction" id="tireInstructionText" position="0px -160px" text="$l10n_usedplus_fsk_tire_choose"/>
+
+                <!-- Patch option (triple-element pattern with hover) -->
+                <Bitmap profile="fskTireBtnBg" id="patchBtnBg" position="-160px -190px"/>
+                <Button profile="fskTireBtnHit" id="patchButton" onClick="onTirePatchClick" onHighlight="onTireBtnHighlight" onHighlightRemove="onTireBtnUnhighlight" position="-160px -190px"/>
+                <Text profile="fskTireOptionTitle" id="patchTitle" position="-160px -210px" text="$l10n_usedplus_fsk_tire_patch"/>
+                <Text profile="fskTireOptionDesc" id="patchDesc" position="-160px -235px" text="$l10n_usedplus_fsk_tire_patch_desc"/>
+                <Text profile="fskTireOptionResult" id="patchResult" position="-160px -260px" text="$l10n_usedplus_fsk_tire_patch_result"/>
+
+                <!-- Plug option (triple-element pattern with hover) -->
+                <Bitmap profile="fskTireBtnBg" id="plugBtnBg" position="160px -190px"/>
+                <Button profile="fskTireBtnHit" id="plugButton" onClick="onTirePlugClick" onHighlight="onTireBtnHighlight" onHighlightRemove="onTireBtnUnhighlight" position="160px -190px"/>
+                <Text profile="fskTireOptionTitle" id="plugTitle" position="160px -210px" text="$l10n_usedplus_fsk_tire_plug"/>
+                <Text profile="fskTireOptionDesc" id="plugDesc" position="160px -235px" text="$l10n_usedplus_fsk_tire_plug_desc"/>
+                <Text profile="fskTireOptionResult" id="plugResult" position="160px -260px" text="$l10n_usedplus_fsk_tire_plug_result"/>
             </GuiElement>
 
             <!-- ========== STEP 5: MALFUNCTIONS LIST (v2.7.0) ========== -->
@@ -667,6 +711,53 @@
             <size value="500px 16px"/>
             <textSize value="10px"/>
             <textColor value="0.7 0.7 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== TIRE STATUS SECTION (v2.7.1) ========== -->
+        <Profile name="fskTireStatusSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="660px 130px"/>
+        </Profile>
+        <Profile name="fskTireStatusBg" extends="baseReference" with="anchorTopCenter">
+            <size value="660px 130px"/>
+            <imageColor value="0.08 0.08 0.12 0.9"/>
+        </Profile>
+        <Profile name="fskTireVehicleImage" extends="baseReference" with="anchorTopCenter">
+            <size value="140px 90px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+        <Profile name="fskTireDiagramLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="200px 18px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskTireSlot" extends="emptyPanel" with="anchorTopCenter">
+            <size value="100px 40px"/>
+        </Profile>
+        <Profile name="fskTireSlotBg" extends="baseReference" with="anchorTopCenter">
+            <size value="100px 40px"/>
+            <imageColor value="0.15 0.15 0.18 0.9"/>
+        </Profile>
+        <Profile name="fskTireSlotLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="90px 14px"/>
+            <textSize value="10px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskTireSlotValue" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="90px 16px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="fskTireStatusMsg" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 20px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.4 1 0.5 1"/>
             <textAlignment value="center"/>
         </Profile>
 

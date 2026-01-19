@@ -305,7 +305,28 @@ end
 function FinanceDeal:setPaymentMode(mode, customAmount)
     self.paymentMode = mode
     if mode == FinanceDeal.PAYMENT_MODE.CUSTOM then
-        self.configuredPayment = customAmount or self.monthlyPayment
+        -- v2.7.2 SECURITY: Enforce payment bounds and prevent invalid amounts
+        local minPayment = 100  -- $100 minimum
+        -- Maximum payment is either the payoff amount or 10x monthly payment (whichever is greater)
+        -- This prevents absurdly high values while allowing legitimate large payments
+        local payoffAmount = self:getPayoffAmount()
+        local maxPayment = math.max(payoffAmount, (self.monthlyPayment or 1000) * 10, 1000000)
+
+        local safeAmount = customAmount or self.monthlyPayment
+
+        -- Check for NaN, Infinity, or values outside valid range
+        if safeAmount == nil or safeAmount ~= safeAmount or safeAmount == math.huge or safeAmount == -math.huge then
+            safeAmount = math.max(minPayment, self.monthlyPayment or minPayment)
+            UsedPlus.logWarn(string.format("[SECURITY] Custom payment was invalid, set to: $%.2f", safeAmount))
+        elseif safeAmount < minPayment then
+            safeAmount = math.max(minPayment, self.monthlyPayment or minPayment)
+            UsedPlus.logWarn(string.format("[SECURITY] Custom payment below minimum, adjusted to: $%.2f", safeAmount))
+        elseif safeAmount > maxPayment then
+            safeAmount = maxPayment
+            UsedPlus.logWarn(string.format("[SECURITY] Custom payment exceeded maximum, capped to: $%.2f", safeAmount))
+        end
+
+        self.configuredPayment = safeAmount
     end
 end
 
@@ -527,11 +548,7 @@ function FinanceDeal:handleMissedLandPayment()
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
 
         -- Show popup dialog to ensure player sees this critical warning
-        g_gui:showInfoDialog({
-            title = "FINAL WARNING - LAND SEIZURE IMMINENT",
-            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your land will be seized.",
-            buttonAction = ButtonDialog.YES
-        })
+        InfoDialog.show(warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your land will be seized.")
     elseif self.missedPayments >= threshold then
         self:seizeLand()
     end
@@ -563,11 +580,7 @@ function FinanceDeal:handleMissedVehiclePayment()
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
 
         -- Show popup dialog to ensure player sees this critical warning
-        g_gui:showInfoDialog({
-            title = "FINAL WARNING - VEHICLE REPOSSESSION IMMINENT",
-            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your vehicle will be repossessed.",
-            buttonAction = ButtonDialog.YES
-        })
+        InfoDialog.show(warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your vehicle will be repossessed.")
     elseif self.missedPayments >= threshold then
         self:repossessVehicle()
     end
@@ -749,11 +762,7 @@ function FinanceDeal:handleMissedLoanPayment()
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
 
         -- Show popup dialog to ensure player sees this critical warning
-        g_gui:showInfoDialog({
-            title = "FINAL WARNING - LOAN DEFAULT IMMINENT",
-            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or face repossession.",
-            buttonAction = ButtonDialog.YES
-        })
+        InfoDialog.show(warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or face repossession.")
 
     elseif self.missedPayments >= 3 then
         self:repossessCollateral()
@@ -933,6 +942,12 @@ end
 function FinanceDeal:makePayment(amount)
     local farm = g_farmManager:getFarmById(self.farmId)
 
+    -- v2.7.2 SECURITY: Validate monthlyPayment to prevent division by zero
+    if self.monthlyPayment == nil or self.monthlyPayment <= 0 then
+        UsedPlus.logError("[SECURITY] Invalid monthlyPayment in deal, cannot process payment")
+        return false, "Invalid deal configuration"
+    end
+
     -- Validate amount
     if amount < self.monthlyPayment then
         return false, g_i18n:getText("usedplus_error_paymentTooLow")
@@ -948,6 +963,7 @@ function FinanceDeal:makePayment(amount)
     end
 
     -- Calculate how many months this payment covers
+    -- v2.7.2 SECURITY: Safe division (monthlyPayment validated above)
     local numMonths = math.floor(amount / self.monthlyPayment)
 
     -- Process each month's interest/principal split

@@ -33,6 +33,18 @@ UnifiedPurchaseDialog.TERM_CREDIT_REQUIREMENTS = {
     {maxYears = 10, minCredit = 650},  -- Fair credit for medium-term
     {maxYears = 15, minCredit = 700},  -- Good credit for long-term
 }
+
+-- v2.7.1: Credit requirements for down payment options
+-- Better credit = access to lower down payment options
+-- This prevents new players with no credit history from getting 0% down
+UnifiedPurchaseDialog.DOWN_PAYMENT_CREDIT_REQUIREMENTS = {
+    {minDown = 25, minCredit = 300},   -- Very poor credit: 25%+ down required
+    {minDown = 20, minCredit = 600},   -- Poor credit: 20%+ down required
+    {minDown = 10, minCredit = 650},   -- Fair credit: 10%+ down required
+    {minDown = 5, minCredit = 700},    -- Good credit: 5%+ down required
+    {minDown = 0, minCredit = 750},    -- Excellent credit: 0% down available
+}
+
 -- Lease terms in months: 3, 6, 9 months (short-term), then 1-5 years
 -- Vehicle leases beyond 5 years don't make financial sense - just buy it!
 UnifiedPurchaseDialog.LEASE_TERMS = {3, 6, 9, 12, 24, 36, 48, 60}
@@ -40,11 +52,40 @@ UnifiedPurchaseDialog.DOWN_PAYMENT_OPTIONS = {0, 5, 10, 15, 20, 25, 30, 40, 50} 
 UnifiedPurchaseDialog.CASH_BACK_OPTIONS = {0, 500, 1000, 2500, 5000, 10000}
 
 --[[
-    Get available down payment options based on settings minimum
+    v2.7.1: Get minimum required down payment based on credit score
+    Better credit = lower minimum down payment
+    @param creditScore - Player's current credit score (300-850)
+    @return minPercent - Minimum down payment percentage required
+]]
+function UnifiedPurchaseDialog.getMinDownPaymentForCredit(creditScore)
+    local minDown = 25  -- Default: worst credit requires 25% down
+    for _, tier in ipairs(UnifiedPurchaseDialog.DOWN_PAYMENT_CREDIT_REQUIREMENTS) do
+        if creditScore >= tier.minCredit then
+            minDown = tier.minDown
+        end
+    end
+    return minDown
+end
+
+--[[
+    Get available down payment options based on settings minimum AND credit score
+    v2.7.1: Now filters by credit score in addition to settings
+    @param creditScore - Player's current credit score (300-850), optional
     @return filtered table of down payment percentages
 ]]
-function UnifiedPurchaseDialog.getDownPaymentOptions()
-    local minPercent = UsedPlusSettings and UsedPlusSettings:get("minDownPaymentPercent") or 0
+function UnifiedPurchaseDialog.getDownPaymentOptions(creditScore)
+    -- Get the absolute minimum from settings
+    local settingsMin = UsedPlusSettings and UsedPlusSettings:get("minDownPaymentPercent") or 0
+
+    -- Get the credit-based minimum (if credit score provided)
+    local creditMin = 0
+    if creditScore then
+        creditMin = UnifiedPurchaseDialog.getMinDownPaymentForCredit(creditScore)
+    end
+
+    -- Use the higher of the two minimums
+    local minPercent = math.max(settingsMin, creditMin)
+
     local options = {}
     for _, pct in ipairs(UnifiedPurchaseDialog.DOWN_PAYMENT_OPTIONS) do
         if pct >= minPercent then
@@ -60,12 +101,13 @@ end
 
 --[[
     Get the actual down payment percentage for a given dropdown index
-    Uses filtered options from settings
+    Uses filtered options from settings and credit score
     @param index - Dropdown index (1-based)
+    @param creditScore - Optional credit score for filtering
     @return percentage value
 ]]
-function UnifiedPurchaseDialog.getDownPaymentPercent(index)
-    local options = UnifiedPurchaseDialog.getDownPaymentOptions()
+function UnifiedPurchaseDialog.getDownPaymentPercent(index, creditScore)
+    local options = UnifiedPurchaseDialog.getDownPaymentOptions(creditScore)
     return options[index] or options[1] or 0
 end
 
@@ -311,6 +353,9 @@ function UnifiedPurchaseDialog:calculateCreditParameters()
 
     -- v2.7.0: Update term options based on credit score
     self:updateTermOptionsForCredit()
+
+    -- v2.7.1: Update down payment options based on credit score
+    self:updateDownPaymentOptionsForCredit()
 end
 
 --[[
@@ -359,6 +404,68 @@ function UnifiedPurchaseDialog:updateTermOptionsForCredit()
         self.financeTermIndex = #availableTerms
     end
     self.financeTermSlider:setState(self.financeTermIndex)
+end
+
+--[[
+    Update down payment slider options based on credit score
+    v2.7.1: Lower down payments require better credit
+    - Very Poor (<600): 25%+ down required
+    - Poor (600-649): 20%+ down required
+    - Fair (650-699): 10%+ down required
+    - Good (700-749): 5%+ down required
+    - Excellent (750+): 0% down available
+]]
+function UnifiedPurchaseDialog:updateDownPaymentOptionsForCredit()
+    -- Update finance down payment slider
+    if self.financeDownSlider then
+        local availableOptions = UnifiedPurchaseDialog.getDownPaymentOptions(self.creditScore)
+        local minDown = UnifiedPurchaseDialog.getMinDownPaymentForCredit(self.creditScore)
+
+        -- Store available options for later lookup
+        self.availableFinanceDownOptions = availableOptions
+
+        -- Build texts for available options
+        local texts = {}
+        for _, pct in ipairs(availableOptions) do
+            table.insert(texts, pct .. "%")
+        end
+
+        -- Log what's available
+        if minDown > 0 then
+            UsedPlus.logDebug(string.format("Credit %d requires minimum %d%% down payment. Available options: %s",
+                self.creditScore, minDown, table.concat(texts, ", ")))
+        end
+
+        self.financeDownSlider:setTexts(texts)
+
+        -- Ensure current selection is valid
+        if self.financeDownIndex > #availableOptions then
+            self.financeDownIndex = 1  -- Reset to minimum (first option)
+        end
+        self.financeDownSlider:setState(self.financeDownIndex)
+    end
+
+    -- Update lease down payment slider (same logic)
+    if self.leaseDownSlider then
+        local availableOptions = UnifiedPurchaseDialog.getDownPaymentOptions(self.creditScore)
+
+        -- Store available options
+        self.availableLeaseDownOptions = availableOptions
+
+        -- Build texts
+        local texts = {}
+        for _, pct in ipairs(availableOptions) do
+            table.insert(texts, pct .. "%")
+        end
+
+        self.leaseDownSlider:setTexts(texts)
+
+        -- Ensure current selection is valid
+        if self.leaseDownIndex > #availableOptions then
+            self.leaseDownIndex = 1  -- Reset to minimum
+        end
+        self.leaseDownSlider:setState(self.leaseDownIndex)
+    end
 end
 
 --[[
@@ -608,18 +715,12 @@ function UnifiedPurchaseDialog:onModeChanged()
         if newMode == UnifiedPurchaseDialog.MODE_FINANCE then
             if not self.financeSystemEnabled then
                 -- Finance system disabled in settings
-                g_gui:showInfoDialog({
-                    title = g_i18n:getText("usedplus_finance_disabled_title") or "Feature Disabled",
-                    text = g_i18n:getText("usedplus_finance_disabled_msg") or "Vehicle financing is disabled in UsedPlus settings."
-                })
+                InfoDialog.show(g_i18n:getText("usedplus_finance_disabled_msg") or "Vehicle financing is disabled in UsedPlus settings.")
                 self.modeSelector:setState(self.currentMode)  -- Revert to previous mode
                 return
             elseif not self.canFinance then
                 -- Credit score too low
-                g_gui:showInfoDialog({
-                    title = g_i18n:getText("usedplus_credit_required") or "Credit Required",
-                    text = string.format(g_i18n:getText("usedplus_finance_credit_msg") or "Financing requires a credit score of %d or higher.", self.financeMinScore or 550)
-                })
+                InfoDialog.show(string.format(g_i18n:getText("usedplus_finance_credit_msg") or "Financing requires a credit score of %d or higher.", self.financeMinScore or 550))
                 self.modeSelector:setState(self.currentMode)
                 return
             end
@@ -629,18 +730,12 @@ function UnifiedPurchaseDialog:onModeChanged()
         if newMode == UnifiedPurchaseDialog.MODE_LEASE then
             if not self.leaseSystemEnabled then
                 -- Lease system disabled in settings
-                g_gui:showInfoDialog({
-                    title = g_i18n:getText("usedplus_lease_disabled_title") or "Feature Disabled",
-                    text = g_i18n:getText("usedplus_lease_disabled_msg") or "Vehicle leasing is disabled in UsedPlus settings."
-                })
+                InfoDialog.show(g_i18n:getText("usedplus_lease_disabled_msg") or "Vehicle leasing is disabled in UsedPlus settings.")
                 self.modeSelector:setState(self.currentMode)
                 return
             elseif not self.canLease then
                 -- Credit score too low
-                g_gui:showInfoDialog({
-                    title = g_i18n:getText("usedplus_credit_required") or "Credit Required",
-                    text = string.format(g_i18n:getText("usedplus_lease_credit_msg") or "Leasing requires a credit score of %d or higher.", self.leaseMinScore or 600)
-                })
+                InfoDialog.show(string.format(g_i18n:getText("usedplus_lease_credit_msg") or "Leasing requires a credit score of %d or higher.", self.leaseMinScore or 600))
                 self.modeSelector:setState(self.currentMode)
                 return
             end
@@ -797,7 +892,7 @@ function UnifiedPurchaseDialog:updateCashBackOptions()
     end
 
     -- Calculate down payment amount (percentage of vehicle price, using filtered options)
-    local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
+    local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex, self.creditScore)
     local downPaymentAmount = self.vehiclePrice * (downPct / 100)
 
     -- Calculate max allowed cash back: 50% of (down payment + trade-in)
@@ -1056,7 +1151,7 @@ end
 ]]
 function UnifiedPurchaseDialog:updateFinanceDisplay()
     local termYears = self:getSelectedTermYears()
-    local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
+    local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex, self.creditScore)
     -- Use filtered cash back options (limited by down payment + trade-in)
     local cashBack = (self.validCashBackOptions and self.validCashBackOptions[self.financeCashBackIndex]) or 0
 
@@ -1125,7 +1220,7 @@ function UnifiedPurchaseDialog:updateLeaseDisplay()
     -- LEASE_TERMS now stores months directly
     local termMonths = UnifiedPurchaseDialog.LEASE_TERMS[self.leaseTermIndex] or 12
     local termYears = termMonths / 12  -- For residual value calculation
-    local capReductionPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.leaseDownIndex)
+    local capReductionPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.leaseDownIndex, self.creditScore)
 
     -- Calculate residual value first (what vehicle is worth at end of lease)
     local residualValue = FinanceCalculations.calculateResidualValue(self.vehiclePrice, termYears)
@@ -1261,7 +1356,7 @@ function UnifiedPurchaseDialog:buildConfirmationMessage()
     elseif self.currentMode == UnifiedPurchaseDialog.MODE_FINANCE then
         -- Finance purchase
         local termYears = self:getSelectedTermYears()
-        local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
+        local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex, self.creditScore)
         local cashBack = (self.validCashBackOptions and self.validCashBackOptions[self.financeCashBackIndex]) or 0
         local downPayment = self.vehiclePrice * (downPct / 100)
         local amountFinanced = self.vehiclePrice - self.tradeInValue - downPayment + cashBack
@@ -1285,7 +1380,7 @@ function UnifiedPurchaseDialog:buildConfirmationMessage()
         -- Lease
         local termMonths = UnifiedPurchaseDialog.LEASE_TERMS[self.leaseTermIndex] or 36
         local termYears = termMonths / 12
-        local capReductionPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.leaseDownIndex)
+        local capReductionPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.leaseDownIndex, self.creditScore)
         local residualValue = FinanceCalculations.calculateResidualValue(self.vehiclePrice, termYears)
         local capReduction = self.vehiclePrice * (capReductionPct / 100)
         local capitalizedCost = math.max(residualValue, self.vehiclePrice - self.tradeInValue - capReduction)
@@ -1501,7 +1596,7 @@ function UnifiedPurchaseDialog:executeFinancePurchase()
 
     -- Calculate finance parameters
     local termYears = self:getSelectedTermYears()
-    local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
+    local downPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.financeDownIndex, self.creditScore)
     -- Use filtered cash back options (limited by down payment + trade-in)
     local cashBack = (self.validCashBackOptions and self.validCashBackOptions[self.financeCashBackIndex]) or 0
 
@@ -1590,7 +1685,7 @@ function UnifiedPurchaseDialog:executeLeasePurchase()
     -- Calculate lease parameters (LEASE_TERMS stores months directly)
     local termMonths = UnifiedPurchaseDialog.LEASE_TERMS[self.leaseTermIndex] or 36
     local termYears = termMonths / 12
-    local capReductionPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.leaseDownIndex)
+    local capReductionPct = UnifiedPurchaseDialog.getDownPaymentPercent(self.leaseDownIndex, self.creditScore)
 
     -- Cap reduction as percentage of vehicle price
     local capReduction = self.vehiclePrice * (capReductionPct / 100)

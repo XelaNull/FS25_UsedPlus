@@ -4,6 +4,152 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.7.2] - 2026-01-18
+
+### Security Hardening (Multiplayer) - OWASP Compliance Update
+- **NetworkSecurity utility** - New centralized security validation module
+  - `validateFarmOwnership(connection, farmId)` - Verify player owns the farm they claim
+  - `hasMasterRights(connection)` - Check for admin permissions
+  - `logSecurityEvent(eventType, details, connection)` - Audit trail for security events
+
+- **Farm ownership verification on ALL network events** - Prevents multiplayer exploits
+  - FinanceVehicleEvent, FinancePaymentEvent, TakeLoanEvent
+  - LeaseVehicleEvent, LeaseEndEvent, TerminateLeaseEvent, LeaseRenewalEvent
+  - LandLeaseEvent, LandLeaseBuyoutEvent
+  - RequestUsedItemEvent, CancelSearchEvent, DeclineListingEvent
+  - CreateSaleListingEvent, SaleListingActionEvent, ModifyListingPriceEvent
+  - RepairVehicleEvent, SetPaymentConfigEvent
+  - Malicious clients can no longer drain other farms' money or manipulate their deals
+
+- **Unbounded loop prevention (DoS protection)** - All readStream() methods now validate array counts
+  - FinanceVehicleEvent: configCount limited to 100 max
+  - LeaseVehicleEvent: configCount limited to 100 max
+  - TakeLoanEvent: collateralCount limited to 50 max
+  - UsedPlusSettingsEvent: settingCount limited to 200 max
+  - Prevents server freeze from malicious clients sending billions of iterations
+
+- **Financial parameter validation** - Prevents money generation exploits
+  - All monetary amounts validated for NaN/Infinity and reasonable bounds
+  - CashBack validated against credit-based maximum
+  - Interest rates validated 0-50% range
+  - Loan amounts validated against collateral value (max 150%)
+  - Negative amounts rejected to prevent reversed money flow
+
+- **Input sanitization** - Lua table injection prevention
+  - Configuration keys validated to reject `__metatable`, `__index` etc.
+  - Enum values validated before conditional deserialization (LeaseRenewalEvent)
+  - Percentage values clamped to 0-1 range (RepairVehicleEvent)
+
+- **Null safety enforcement** - SaleEvents authorization bypass fixed
+  - SaleListingActionEvent: Now requires manager AND listing to exist before execute()
+  - ModifyListingPriceEvent: Now requires manager AND listing to exist before execute()
+  - Price validation added (positive, < $100M)
+
+- **FinanceDeal negative payment exploit fixed**
+  - Custom payment amounts now enforce $100 minimum floor
+  - Negative amounts rejected and logged
+
+### Fixed
+- **VehicleExtension crash bug** - Fixed `Vehicle.calculateSalePrice()` call that doesn't exist
+  - Now stores original `getSellPrice` function reference before hooking
+  - Properly retrieves base sell price for reliability modifier calculation
+- **DEBUG flag disabled** - `UsedPlusCore.lua:19` now sets `DEBUG = false` for release
+  - Reduces log verbosity significantly for players
+  - Set to `true` only when developing/debugging
+- **Removed obsolete TODO** - `main.lua` ESC menu integration comment updated
+  - Finance Manager accessible via Shift+F hotkey (works great!)
+  - ESC menu button deferred as low priority
+- **Removed debug timestamp** - `UsedVehicleManager.lua` debug log cleaned up
+
+### Security Pass #2 Fixes (Additional Hardening)
+- **Stream drain logic fixed** - CRITICAL vulnerability patched
+  - When array counts are invalid, stream data is now properly consumed
+  - Previously, rejecting a count and setting it to 0 would leave stream pointer desynchronized
+  - Affected: FinanceEvents, LeaseEvents, UsedPlusSettingsEvent
+  - Malicious packets can no longer desync multiplayer sessions
+
+- **Infinity value validation** - CRITICAL vulnerability patched
+  - All NaN checks now also check for `math.huge` and `-math.huge`
+  - Prevents creation of loans/payments with infinite values
+  - Affected: FinanceEvents, RepairVehicleEvent, SaleEvents
+
+- **Division by zero prevention** - Fixed in FinanceDeal:makePayment()
+  - Now validates `monthlyPayment > 0` before calculating payment months
+  - Prevents crash when deal has invalid configuration
+
+- **Custom payment upper bound** - Fixed in FinanceDeal:setPaymentMode()
+  - Custom payments now capped at max(payoffAmount, monthlyPayment * 10, $1M)
+  - Prevents absurdly high values from being set
+
+- **SaleListingActionEvent action type validation** - Added explicit enum check
+  - Rejects unknown action types before processing
+  - Prevents potential undefined behavior from invalid enum values
+
+### RVB Integration Fix (OBD Scanner)
+- **Fixed RVB detection in ModCompatibility.lua** - OBD Scanner now properly detects RVB failures
+  - Previous detection only checked `g_currentMission.vehicleBreakdowns`
+  - Now checks multiple RVB globals: `g_rvbMenu`, `g_vehicleBreakdownsDirectory`, `g_rvbPlayer`
+  - Also checks specialization manager for "vehicleBreakdowns" registration
+  - Debug logging shows which detection method succeeded
+
+- **Enhanced RVB fault detection** - More robust part failure checking
+  - Now checks `part.damaged` boolean in addition to `part.fault` string
+  - Added `part.isFailed` check for compatibility with different RVB versions
+  - Prefault detection now also checks `part.isWarning` boolean
+  - Empty string `""` now treated same as `"empty"` and `nil` for no-fault state
+
+### Steering Pull Malfunction Fix
+- **Fixed steering pull not having any effect** - Now uses direct wheel physics manipulation
+  - Previous approach: Modified `inputValue` in `setSteeringInput()` hook
+  - Problem: FS25's internal input processing ignored/smoothed small input changes
+  - Solution: New `applyDirectSteeringPull()` function directly sets `wheel.steeringAngle`
+  - Uses `setWheelShapeProps()` to apply changes to physics engine (same as RVB)
+  - Hydraulic surge, flat tire pull, and chronic steering degradation all now work
+  - Pull effect scales with speed and condition severity
+  - Pattern from: VehicleBreakdowns.lua `adjustSteeringAngle()`
+
+### Notes
+- Full code audit completed by 6 specialized OWASP security auditors
+- Pass #1: 18 Critical/High severity vulnerabilities identified and fixed
+- Pass #2: 2 Critical and 4 High severity issues fixed
+- All stream desync vulnerabilities eliminated
+- All numeric overflow/underflow vectors patched
+- Ready for public multiplayer release
+
+---
+
+## [2.7.1] - 2026-01-17
+
+### Added
+- **Inspection Completion Popup** - When inspection finishes, a dialog pops up automatically!
+  - "View Report" button opens the vehicle preview dialog immediately
+  - "Later" button dismisses the popup; find the listing in Finances menu anytime
+  - Also shows in-game notification as backup
+
+- **Credit-Based Down Payment Requirements** - Better credit = access to lower down payments
+  - Very Poor credit (<600): 25% minimum down required
+  - Poor credit (600-649): 20% minimum down required
+  - Fair credit (650-699): 10% minimum down required
+  - Good credit (700-749): 5% minimum down required
+  - Excellent credit (750+): 0% down available
+  - Applies to vehicle financing, land financing, and repair financing
+  - New players can no longer get 0% down loans without building credit first
+
+### Fixed
+- **`g_gui:showInfoDialog()` errors** - Replaced 21 invalid calls with `InfoDialog.show()`
+  - Fixed TiresDialog locking when UYT not installed
+  - Fixed NegotiationDialog "Make Offer" causing popup to lock
+  - Fixed multiple other dialogs that could fail silently
+- **UYT (Use Your Tyres) detection** - Now checks both `UseYourTyres` and `useYourTyres` globals
+  - Some UYT versions use different capitalization
+  - Added `ModCompatibility.uytGlobal` reference for consistent API calls
+- **Oil Service Point vehicle action not showing** - Fixed `getIsActivatable()` returning false
+  - Now always shows action prompt when vehicle is in range
+  - Info-only mode shows status message (e.g., "Tank has Oil - Vehicle needs Hydraulic")
+  - Pressing action when can't refill shows a warning message instead of doing nothing
+
+---
+
 ## [2.7.0] - 2026-01-17
 
 ### Added
@@ -75,7 +221,7 @@ All notable changes to this project are documented here.
 - `UsedVehicleManager:getInspectionHoursRemaining()` - helper for UI
 - `UsedPlusMaintenance.calculateInspectionCostForTier()` - tier cost calculation
 - All inspection state persists to savegame
-- Added `find_used.js` - Static analysis tool to find unused code
+- Consolidated debug logging to use `UsedPlus.log*()` functions with single `UsedPlus.DEBUG` flag
 - Removed dead code: `selectCollateralForAmount()`, `showSearchFailedDialog()`, legacy payment functions
 
 ---

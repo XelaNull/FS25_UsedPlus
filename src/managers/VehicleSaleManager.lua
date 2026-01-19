@@ -936,9 +936,14 @@ end
 ]]
 function VehicleSaleManager:loadFromXMLFile(missionInfo)
     local savegameDirectory = missionInfo.savegameDirectory
-    if savegameDirectory == nil then return end
+    if savegameDirectory == nil then
+        UsedPlus.logWarn("VehicleSaleManager.loadFromXMLFile: No savegame directory")
+        return
+    end
 
     local filePath = savegameDirectory .. "/usedPlusSales.xml"
+    UsedPlus.logInfo(string.format("Loading sale data from: %s", filePath))
+
     local xmlFile = XMLFile.loadIfExists("usedPlusSalesXML", filePath, "usedPlusSales")
 
     if xmlFile ~= nil then
@@ -948,14 +953,25 @@ function VehicleSaleManager:loadFromXMLFile(missionInfo)
         -- v2.7.0: Load total processed hours for time jump detection
         self.totalProcessedHours = xmlFile:getInt("usedPlusSales#totalProcessedHours", 0)
 
+        UsedPlus.logDebug(string.format("  nextListingId=%d, totalProcessedHours=%d",
+            self.nextListingId, self.totalProcessedHours))
+
+        local farmCount = 0
+        local listingCount = 0
+
         -- Load listings
         xmlFile:iterate("usedPlusSales.farms.farm", function(_, farmKey)
             local farmId = xmlFile:getInt(farmKey .. "#farmId")
             local farm = g_farmManager:getFarmById(farmId)
+            farmCount = farmCount + 1
+
+            UsedPlus.logDebug(string.format("  Processing farm %d from XML (found: %s)",
+                farmId, tostring(farm ~= nil)))
 
             if farm then
                 if farm.vehicleSaleListings == nil then
                     farm.vehicleSaleListings = {}
+                    UsedPlus.logDebug(string.format("    Initialized vehicleSaleListings for farm %d", farmId))
                 end
 
                 -- Load listings
@@ -963,21 +979,30 @@ function VehicleSaleManager:loadFromXMLFile(missionInfo)
                     local listing = setmetatable({}, {__index = VehicleSaleListing})
                     if listing:loadFromXMLFile(xmlFile, listingKey) then
                         table.insert(farm.vehicleSaleListings, listing)
+                        listingCount = listingCount + 1
 
                         -- Re-register active listings
                         if listing:isActive() or listing.status == VehicleSaleListing.STATUS.OFFER_PENDING then
                             self.activeListings[listing.id] = listing
                         end
+
+                        UsedPlus.logInfo(string.format("    Loaded sale listing: %s (%s) status=%s",
+                            listing.id, listing.vehicleName or "Unknown", listing.status or "unknown"))
+                    else
+                        UsedPlus.logWarn(string.format("    Failed to load sale listing from %s", listingKey))
                     end
                 end)
+            else
+                UsedPlus.logError(string.format("  FARM %d NOT FOUND - sale listings will be lost!", farmId))
             end
         end)
 
         xmlFile:delete()
 
-        UsedPlus.logDebug(string.format("Loaded %d sale listings from savegame", self:getTotalListingCount()))
+        UsedPlus.logInfo(string.format("VehicleSaleManager: Loaded %d sale listings from %d farms",
+            listingCount, farmCount))
     else
-        UsedPlus.logDebug("No saved sale data found (new game)")
+        UsedPlus.logInfo("No saved sale data found (new game or first run)")
     end
 end
 

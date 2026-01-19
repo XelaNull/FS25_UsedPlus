@@ -76,10 +76,26 @@ function LeaseVehicleEvent:readStream(streamId, connection)
 
     self.configurations = {}
     local configCount = streamReadInt32(streamId)
-    for i = 1, configCount do
+
+    -- v2.7.2 SECURITY: Prevent unbounded loop DoS attack
+    -- CRITICAL: We must ALWAYS consume the stream data, even if count is invalid
+    -- Otherwise the stream pointer gets out of sync and causes packet corruption
+    local MAX_CONFIGS = 100
+    local isValidCount = (configCount >= 0 and configCount <= MAX_CONFIGS)
+    if not isValidCount then
+        UsedPlus.logWarn(string.format("[SECURITY] Invalid configCount rejected: %d (max %d) - draining stream", configCount, MAX_CONFIGS))
+    end
+
+    -- Always read the exact number of items declared in the stream
+    -- Only store them if the count was valid
+    local safeCount = math.max(0, math.min(configCount, MAX_CONFIGS * 2))  -- Cap at 2x max to prevent extreme DoS
+    for i = 1, safeCount do
         local configName = streamReadString(streamId)
         local configValue = streamReadInt32(streamId)
-        self.configurations[configName] = configValue
+        -- v2.7.2 SECURITY: Only store if count was valid and key is safe
+        if isValidCount and configName and not configName:match("^__") and configName ~= "" then
+            self.configurations[configName] = configValue
+        end
     end
 
     self:run(connection)
@@ -88,6 +104,15 @@ end
 function LeaseVehicleEvent:run(connection)
     if not connection:getIsServer() then
         UsedPlus.logError("LeaseVehicleEvent must run on server")
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("LEASE_REJECTED",
+            string.format("Unauthorized lease attempt for farmId %d: %s", self.farmId, errorMsg or "unknown"),
+            connection)
         return
     end
 
@@ -311,6 +336,16 @@ function LeaseEndEvent:run(connection)
         return
     end
 
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, deal.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("LEASE_END_REJECTED",
+            string.format("Unauthorized lease end attempt for deal %s (farmId %d): %s",
+                self.dealId, deal.farmId, errorMsg or "unknown"),
+            connection)
+        return
+    end
+
     if deal.dealType ~= 2 then
         UsedPlus.logError(string.format("Deal %s is not a lease", self.dealId))
         return
@@ -441,6 +476,16 @@ end
 function TerminateLeaseEvent:run(connection)
     if not connection:getIsServer() then
         UsedPlus.logError("TerminateLeaseEvent must run on server")
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("TERMINATE_LEASE_REJECTED",
+            string.format("Unauthorized lease termination attempt for farmId %d: %s",
+                self.farmId, errorMsg or "unknown"),
+            connection)
         return
     end
 
@@ -617,6 +662,25 @@ function LeaseRenewalEvent:readStream(streamId, connection)
     self.action = streamReadInt32(streamId)
     self.data = {}
 
+    -- v2.7.2 SECURITY: Validate action is one of the valid values
+    local validActions = {
+        LeaseRenewalEvent.ACTION_RETURN,
+        LeaseRenewalEvent.ACTION_BUYOUT,
+        LeaseRenewalEvent.ACTION_RENEW
+    }
+    local isValidAction = false
+    for _, validAction in ipairs(validActions) do
+        if self.action == validAction then
+            isValidAction = true
+            break
+        end
+    end
+    if not isValidAction then
+        UsedPlus.logError(string.format("[SECURITY] Invalid lease renewal action: %d", self.action))
+        -- Set to a safe default (return) and continue to drain stream
+        self.action = LeaseRenewalEvent.ACTION_RETURN
+    end
+
     -- Deserialize data based on action
     if self.action == LeaseRenewalEvent.ACTION_RETURN then
         self.data.depositRefund = streamReadFloat32(streamId)
@@ -647,6 +711,16 @@ function LeaseRenewalEvent:run(connection)
     local deal = g_financeManager:getDealById(self.dealId)
     if deal == nil then
         UsedPlus.logError(string.format("Deal %s not found", self.dealId))
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, deal.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("LEASE_RENEWAL_REJECTED",
+            string.format("Unauthorized lease renewal attempt for deal %s (farmId %d): %s",
+                self.dealId, deal.farmId, errorMsg or "unknown"),
+            connection)
         return
     end
 

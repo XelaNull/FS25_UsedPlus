@@ -221,7 +221,9 @@ function TakeLoanDialog:calculateCollateral(farm)
                 local sellPrice = vehicle:getSellPrice() or 0
                 local collateralValue = math.floor(sellPrice * 0.5)
 
-                if collateralValue > 0 then
+                -- v2.7.1: Only include items worth at least $10k as collateral
+                local MIN_COLLATERAL_VALUE = 10000
+                if collateralValue >= MIN_COLLATERAL_VALUE then
                     -- Get vehicle name and category using consolidated utilities
                     local storeItem = g_storeManager:getItemByXMLFilename(vehicle.configFileName)
                     local vehicleName = UIHelper.Vehicle.getFullName(storeItem)
@@ -262,7 +264,9 @@ function TakeLoanDialog:calculateCollateral(farm)
                     if not isExcluded then
                         local collateralValue = math.floor((farmland.price or 0) * 0.6)
 
-                        if collateralValue > 0 then
+                        -- v2.7.1: Only include items worth at least $10k as collateral
+                        local MIN_COLLATERAL_VALUE = 10000
+                        if collateralValue >= MIN_COLLATERAL_VALUE then
                             table.insert(self.eligibleAssets, {
                                 type = "land",
                                 id = farmland.id,

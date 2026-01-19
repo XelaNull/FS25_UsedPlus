@@ -174,11 +174,7 @@ function LeaseDeal:handleMissedPayment()
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, warningMsg)
 
         -- Show popup dialog to ensure player sees this critical warning
-        g_gui:showInfoDialog({
-            title = "FINAL WARNING - LEASE DEFAULT IMMINENT",
-            text = warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your vehicle will be repossessed.",
-            buttonAction = ButtonDialog.YES
-        })
+        InfoDialog.show(warningMsg .. "\n\nYour next payment is due soon. Ensure sufficient funds are available or your vehicle will be repossessed.")
     elseif self.missedPayments >= 3 then
         self:repossessVehicle()
     end

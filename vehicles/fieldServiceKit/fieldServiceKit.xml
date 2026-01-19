@@ -69,6 +69,14 @@
         vehicleTriggerNode="vehicleTrigger"
     />
 
+    <!-- TestRunner compliance: foliageBending, wearable, washable -->
+    <foliageBending>
+        <bendingNode minX="-0.25" maxX="0.25" minZ="-0.25" maxZ="0.25" yOffset="0.0"/>
+    </foliageBending>
+
+    <wearable wearDuration="480" workMultiplier="5" fieldMultiplier="2"/>
+    <washable dirtDuration="90" washDuration="1" workMultiplier="4" fieldMultiplier="2"/>
+
     <i3dMappings>
         <i3dMapping id="toolBoxWorkshopMainComponent" node="0" />
         <i3dMapping id="dynamicMountTrigger" node="0>0|0" />

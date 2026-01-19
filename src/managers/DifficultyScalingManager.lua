@@ -219,16 +219,16 @@ end
     Debug console command
 ]]
 function DifficultyScalingManager:consoleCommandStatus()
-    print(self:getStatusText())
+    UsedPlus.logInfo(self:getStatusText())
 
     if UsedPlusSettings and UsedPlusSettings:get("enableFarmlandDifficultyScaling") then
         local difficulty = self:getCurrentDifficulty()
         local basePricePerHa = g_farmlandManager and g_farmlandManager.pricePerHa or 0
         local adjustedPrice = self:getAdjustedPricePerHa()
 
-        print(string.format("  Base price/ha: %s", g_i18n:formatMoney(basePricePerHa)))
-        print(string.format("  Adjusted price/ha: %s", g_i18n:formatMoney(adjustedPrice)))
-        print(string.format("  Multiplier: %.2f", self:getMultiplier(difficulty)))
+        UsedPlus.logInfo(string.format("  Base price/ha: %s", g_i18n:formatMoney(basePricePerHa)))
+        UsedPlus.logInfo(string.format("  Adjusted price/ha: %s", g_i18n:formatMoney(adjustedPrice)))
+        UsedPlus.logInfo(string.format("  Multiplier: %.2f", self:getMultiplier(difficulty)))
     end
 end
 

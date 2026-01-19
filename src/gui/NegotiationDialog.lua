@@ -573,13 +573,12 @@ end
     Send Offer button click
 ]]
 function NegotiationDialog:onClickSendOffer()
+    UsedPlus.logDebug("NegotiationDialog:onClickSendOffer() CALLED")
+
     -- Validate player can afford their offer (used vehicles are cash only!)
     local canAfford, errorMsg = self:canAffordAmount(self.offerAmount)
     if not canAfford then
-        g_gui:showInfoDialog({
-            title = g_i18n:getText("usedplus_insufficient_funds") or "Insufficient Funds",
-            text = errorMsg or "You cannot afford this offer."
-        })
+        InfoDialog.show(errorMsg or "You cannot afford this offer.")
         return
     end
 
@@ -617,10 +616,9 @@ function NegotiationDialog:onClickSendOffer()
         self:close()
 
         -- Show special walkaway dialog
-        g_gui:showInfoDialog({
-            title = g_i18n:getText("usedplus_walkaway_title") or "SELLER WALKED AWAY",
-            text = g_i18n:getText("usedplus_walkaway_message") or "Your offer insulted the seller. They've refused to do business with you and this vehicle is no longer available."
-        })
+        InfoDialog.show(
+            g_i18n:getText("usedplus_walkaway_message") or "Your offer insulted the seller. They've refused to do business with you and this vehicle is no longer available."
+        )
         return
     end
 
@@ -698,6 +696,7 @@ end
     Cancel button click
 ]]
 function NegotiationDialog:onClickCancel()
+    UsedPlus.logDebug("NegotiationDialog:onClickCancel() CALLED")
     self:close()
 end
 

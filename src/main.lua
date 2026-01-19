@@ -123,6 +123,9 @@ Mission00.loadMission00Finished = Utils.appendedFunction(
 
         UsedPlus.instance:initialize()
 
+        -- v2.7.1: NOW load savegame data (managers exist now!)
+        UsedPlus.loadSavegameData()
+
         -- v1.8.0: Initialize cross-mod compatibility (RVB, UYT detection)
         ModCompatibility.init()
 
@@ -248,7 +251,7 @@ function UsedPlus.addShopMenuPage(frame, pageName, uvs, predicateFunc, insertAft
     UsedPlus.logTrace("  Registered page")
 
     -- Add tab icon
-    local iconFileName = Utils.getFilename("icon.dds", UsedPlus.MOD_DIR)
+    local iconFileName = Utils.getFilename("icon_UsedPlus.dds", UsedPlus.MOD_DIR)
     g_shopMenu:addPageTab(g_shopMenu[pageName], iconFileName, GuiUtils.getUVs(uvs))
     UsedPlus.logTrace("  Added icon tab")
 
@@ -324,7 +327,7 @@ function UsedPlus.addInGameMenuPage(frame, pageName, uvs, position, predicateFun
     UsedPlus.logTrace("  Page registered")
 
     -- Add tab icon
-    local iconFileName = Utils.getFilename("icon.dds", UsedPlus.MOD_DIR)
+    local iconFileName = Utils.getFilename("icon_UsedPlus.dds", UsedPlus.MOD_DIR)
     inGameMenu:addPageTab(inGameMenu[pageName], iconFileName, GuiUtils.getUVs(uvs))
     UsedPlus.logTrace("  Tab icon added")
 
@@ -345,6 +348,8 @@ function UsedPlus.addInGameMenuPage(frame, pageName, uvs, position, predicateFun
 end
 
 -- Hook savegame load (load mod data from savegame)
+-- IMPORTANT: This fires BEFORE managers are created in Mission00.loadMission00Finished
+-- We store the missionInfo and load data later in loadSavegameData()
 FSBaseMission.loadItemsFinished = Utils.appendedFunction(
     FSBaseMission.loadItemsFinished,
     function(mission, missionInfo, missionDynamicInfo)
@@ -358,22 +363,49 @@ FSBaseMission.loadItemsFinished = Utils.appendedFunction(
             UsedPlus.logInfo("Settings system initialized")
         end
 
-        if g_financeManager then
-            g_financeManager:loadFromXMLFile(missionInfo)
-        end
-
-        if g_usedVehicleManager then
-            g_usedVehicleManager:loadFromXMLFile(missionInfo)
-        end
-
-        -- NEW - Load vehicle sale listings
-        if g_vehicleSaleManager then
-            g_vehicleSaleManager:loadFromXMLFile(missionInfo)
-        end
-
-        UsedPlus.logInfo("Savegame data loaded")
+        -- v2.7.1: Store missionInfo for later loading (managers don't exist yet!)
+        -- The actual data loading happens in loadMission00Finished after managers are created
+        UsedPlus.pendingMissionInfo = missionInfo
+        UsedPlus.logDebug("Stored missionInfo for deferred savegame loading")
     end
 )
+
+--[[
+    Load savegame data after managers are created
+    Called from Mission00.loadMission00Finished after initialize()
+]]
+function UsedPlus.loadSavegameData()
+    local missionInfo = UsedPlus.pendingMissionInfo
+    if missionInfo == nil then
+        UsedPlus.logDebug("No pending missionInfo, skipping savegame load (new game?)")
+        return
+    end
+
+    UsedPlus.logInfo("Loading savegame data (deferred)...")
+
+    if g_financeManager then
+        g_financeManager:loadFromXMLFile(missionInfo)
+    else
+        UsedPlus.logWarn("g_financeManager is nil, cannot load finance data!")
+    end
+
+    if g_usedVehicleManager then
+        g_usedVehicleManager:loadFromXMLFile(missionInfo)
+    else
+        UsedPlus.logWarn("g_usedVehicleManager is nil, cannot load used vehicle data!")
+    end
+
+    if g_vehicleSaleManager then
+        g_vehicleSaleManager:loadFromXMLFile(missionInfo)
+    else
+        UsedPlus.logWarn("g_vehicleSaleManager is nil, cannot load sale data!")
+    end
+
+    UsedPlus.logInfo("Savegame data loaded successfully")
+
+    -- Clear the stored missionInfo
+    UsedPlus.pendingMissionInfo = nil
+end
 
 -- Hook savegame save (save mod data to savegame)
 FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(
@@ -487,11 +519,9 @@ end
 
 --[[
     ESC Menu Integration
-    TODO: Add Finance Manager button to in-game menu
-    For now, use Shift+F hotkey to access Finance Manager
+    v2.7.2: Finance Manager accessible via Shift+F hotkey
+    ESC menu button integration deferred (low priority since hotkey works well)
 ]]
--- ESC menu integration disabled temporarily - needs further investigation
--- User can access Finance Manager via Shift+F hotkey
 
 --[[
     Cleanup on mission unload
@@ -577,7 +607,7 @@ function UsedPlus.consoleCommandAddMoney(self, amountStr)
     farm:changeBalance(amount, MoneyType.OTHER)
 
     local action = amount >= 0 and "added to" or "removed from"
-    print(string.format("[UsedPlus] %s %s farm (new balance: %s)",
+    UsedPlus.logInfo(string.format("%s %s farm (new balance: %s)",
         g_i18n:formatMoney(math.abs(amount), 0, true, true),
         action,
         g_i18n:formatMoney(farm.money, 0, true, true)))
@@ -618,7 +648,7 @@ function UsedPlus.consoleCommandSetMoney(self, amountStr)
     local difference = amount - currentMoney
     farm:changeBalance(difference, MoneyType.OTHER)
 
-    print(string.format("[UsedPlus] Farm money set to %s (was %s)",
+    UsedPlus.logInfo(string.format("Farm money set to %s (was %s)",
         g_i18n:formatMoney(amount, 0, true, true),
         g_i18n:formatMoney(currentMoney, 0, true, true)))
 
@@ -655,13 +685,13 @@ function UsedPlus.consoleCommandSetCredit(self, action)
     local debt = CreditScore.calculateDebt(farm)
     local ratio = assets > 0 and (debt / assets * 100) or 0
 
-    print("[UsedPlus] === Credit Score Report ===")
-    print(string.format("  Score: %d (%s)", score, rating))
-    print(string.format("  Interest Adjustment: %+.1f%%", adjustment))
-    print(string.format("  Total Assets: %s", g_i18n:formatMoney(assets, 0, true, true)))
-    print(string.format("  Total Debt: %s", g_i18n:formatMoney(debt, 0, true, true)))
-    print(string.format("  Debt-to-Asset Ratio: %.1f%%", ratio))
-    print("[UsedPlus] ===========================")
+    UsedPlus.logInfo("=== Credit Score Report ===")
+    UsedPlus.logInfo(string.format("  Score: %d (%s)", score, rating))
+    UsedPlus.logInfo(string.format("  Interest Adjustment: %+.1f%%", adjustment))
+    UsedPlus.logInfo(string.format("  Total Assets: %s", g_i18n:formatMoney(assets, 0, true, true)))
+    UsedPlus.logInfo(string.format("  Total Debt: %s", g_i18n:formatMoney(debt, 0, true, true)))
+    UsedPlus.logInfo(string.format("  Debt-to-Asset Ratio: %.1f%%", ratio))
+    UsedPlus.logInfo("===========================")
 
     return string.format("Credit Score: %d (%s) | Interest: %+.1f%% | Debt Ratio: %.1f%%",
         score, rating, adjustment, ratio)
@@ -701,7 +731,7 @@ function UsedPlus.consoleCommandPayoffAll(self)
         end
     end
 
-    print(string.format("[UsedPlus] Paid off %d deals, total: %s",
+    UsedPlus.logInfo(string.format("Paid off %d deals, total: %s",
         paidCount, g_i18n:formatMoney(totalPaid, 0, true, true)))
 
     return string.format("Paid off %d deals (%s total)", paidCount,
@@ -721,7 +751,7 @@ if UsedPlus.DEBUG then
         local score = CreditScore.calculate(farmId)
         local rating, level = CreditScore.getRating(score)
 
-        print(string.format("[UsedPlus] Credit Score: %d (%s)", score, rating))
+        UsedPlus.logInfo(string.format("Credit Score: %d (%s)", score, rating))
 
         return string.format("Credit Score: %d (%s)", score, rating)
     end
@@ -731,7 +761,7 @@ if UsedPlus.DEBUG then
 
     function UsedPlus:consoleCommandListDeals()
         if g_financeManager == nil then
-            print("[UsedPlus] FinanceManager not initialized")
+            UsedPlus.logWarn("FinanceManager not initialized")
             return "FinanceManager not initialized"
         end
 
@@ -739,13 +769,13 @@ if UsedPlus.DEBUG then
         local deals = g_financeManager:getDealsForFarm(farmId)
 
         if #deals == 0 then
-            print("[UsedPlus] No active deals for farm " .. farmId)
+            UsedPlus.logInfo("No active deals for farm " .. farmId)
             return "No active deals"
         end
 
-        print(string.format("[UsedPlus] Active deals for farm %d:", farmId))
+        UsedPlus.logInfo(string.format("Active deals for farm %d:", farmId))
         for i, deal in ipairs(deals) do
-            print(string.format("  %d. %s - $%.2f balance, %d/%d months",
+            UsedPlus.logInfo(string.format("  %d. %s - $%.2f balance, %d/%d months",
                 i, deal.itemName, deal.currentBalance, deal.monthsPaid, deal.termMonths))
         end
 
@@ -757,7 +787,7 @@ if UsedPlus.DEBUG then
 
     function UsedPlus:consoleCommandListSearches()
         if g_usedVehicleManager == nil then
-            print("[UsedPlus] UsedVehicleManager not initialized")
+            UsedPlus.logWarn("UsedVehicleManager not initialized")
             return "UsedVehicleManager not initialized"
         end
 
@@ -765,13 +795,13 @@ if UsedPlus.DEBUG then
         local farm = g_farmManager:getFarmById(farmId)
 
         if farm.usedVehicleSearches == nil or #farm.usedVehicleSearches == 0 then
-            print("[UsedPlus] No active searches for farm " .. farmId)
+            UsedPlus.logInfo("No active searches for farm " .. farmId)
             return "No active searches"
         end
 
-        print(string.format("[UsedPlus] Active searches for farm %d:", farmId))
+        UsedPlus.logInfo(string.format("Active searches for farm %d:", farmId))
         for i, search in ipairs(farm.usedVehicleSearches) do
-            print(string.format("  %d. %s - %s, TTL: %d hours",
+            UsedPlus.logInfo(string.format("  %d. %s - %s, TTL: %d hours",
                 i, search.storeItemName, search:getTierName(), search.ttl))
         end
 

@@ -16,7 +16,7 @@ UsedPlus = {}
 -- Mod metadata
 UsedPlus.MOD_NAME = "FS25_UsedPlus"
 UsedPlus.MOD_DIR = g_currentModDirectory
-UsedPlus.DEBUG = true  -- Set to false for release
+UsedPlus.DEBUG = false  -- v2.7.2: Disabled for release (set to true for development)
 
 -- Log levels control what gets printed
 UsedPlus.LOG_LEVEL = {

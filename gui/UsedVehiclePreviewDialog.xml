@@ -61,8 +61,24 @@
             <GuiElement profile="uvpWarningSection" id="warningBg" position="0px -325px">
                 <Bitmap profile="uvpWarningBg" position="0px 0px"/>
                 <Text profile="uvpWarningIcon" id="warningIcon" position="-280px -28px" text="!"/>
-                <Text profile="uvpWarningTitle" id="warningText" position="0px -18px" text="$l10n_usedplus_uvp_warningTitle"/>
-                <Text profile="uvpWarningSubtext" id="inspectPrompt" position="0px -45px" text=""/>
+                <Text profile="uvpWarningTitle" id="warningText" position="0px -10px" text="$l10n_usedplus_uvp_warningTitle"/>
+                <Text profile="uvpWarningSubtext" id="inspectPrompt" position="0px -30px" text="$l10n_usedplus_uvp_selectTier"/>
+
+                <!-- Tier selection buttons (v2.7.0 - 3-layer pattern: Bitmap + Button + Text) -->
+                <!-- Quick Tier -->
+                <Bitmap profile="uvpTierBtnBg" id="tierQuickBg" position="-210px -55px"/>
+                <Button profile="uvpTierBtnHit" id="tierQuickButton" onClick="onClickTierQuick" onHighlight="onTierBtnHighlight" onHighlightRemove="onTierBtnUnhighlight" position="-210px -55px"/>
+                <Text profile="uvpTierBtnText" id="tierQuickText" position="-210px -65px" text=""/>
+
+                <!-- Standard Tier -->
+                <Bitmap profile="uvpTierBtnBg" id="tierStandardBg" position="0px -55px"/>
+                <Button profile="uvpTierBtnHit" id="tierStandardButton" onClick="onClickTierStandard" onHighlight="onTierBtnHighlight" onHighlightRemove="onTierBtnUnhighlight" position="0px -55px"/>
+                <Text profile="uvpTierBtnText" id="tierStandardText" position="0px -65px" text=""/>
+
+                <!-- Comprehensive Tier -->
+                <Bitmap profile="uvpTierBtnBg" id="tierComprehensiveBg" position="210px -55px"/>
+                <Button profile="uvpTierBtnHit" id="tierComprehensiveButton" onClick="onClickTierComprehensive" onHighlight="onTierBtnHighlight" onHighlightRemove="onTierBtnUnhighlight" position="210px -55px"/>
+                <Text profile="uvpTierBtnText" id="tierComprehensiveText" position="210px -65px" text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 3 ALT: Inspection In Progress (v2.7.0) ========== -->
@@ -111,7 +127,7 @@
         </Profile>
 
         <Profile name="uvpWarningSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 75px"/>
+            <size value="660px 95px"/>
         </Profile>
 
         <Profile name="uvpInspectedSection" extends="emptyPanel" with="anchorTopCenter">
@@ -130,7 +146,7 @@
         </Profile>
 
         <Profile name="uvpWarningBg" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 75px"/>
+            <size value="660px 95px"/>
             <imageColor value="0.18 0.10 0.06 0.95"/>
         </Profile>
 
@@ -215,6 +231,26 @@
             <size value="500px 20px"/>
             <textSize value="12px"/>
             <textColor value="0.85 0.85 0.85 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- Tier selection buttons (3-layer pattern: Bitmap + Button + Text) -->
+        <!-- Visible background -->
+        <Profile name="uvpTierBtnBg" extends="baseReference" with="anchorTopCenter">
+            <size value="195px 28px"/>
+            <imageColor value="0.12 0.15 0.12 1"/>
+        </Profile>
+        <!-- Invisible hit target -->
+        <Profile name="uvpTierBtnHit" extends="emptyPanel" with="anchorTopCenter">
+            <size value="195px 28px"/>
+            <isFocusable value="true"/>
+        </Profile>
+        <!-- Text label -->
+        <Profile name="uvpTierBtnText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="185px 20px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
             <textAlignment value="center"/>
         </Profile>
 

@@ -97,6 +97,17 @@ function CreateSaleListingEvent:run(connection)
         UsedPlus.logError("CreateSaleListingEvent must run on server")
         return
     end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("CREATE_SALE_LISTING_REJECTED",
+            string.format("Unauthorized create sale listing attempt for farmId %d, vehicle %d: %s",
+                self.farmId, self.vehicleId, errorMsg or "unknown"),
+            connection)
+        return
+    end
+
     CreateSaleListingEvent.execute(self.farmId, self.vehicleId, self.saleTier)
 end
 
@@ -200,6 +211,41 @@ function SaleListingActionEvent:run(connection)
         UsedPlus.logError("SaleListingActionEvent must run on server")
         return
     end
+
+    -- v2.7.2 SECURITY: Validate action type is one of the known values
+    local validActions = {
+        [SaleListingActionEvent.ACTION_ACCEPT] = true,
+        [SaleListingActionEvent.ACTION_DECLINE] = true,
+        [SaleListingActionEvent.ACTION_CANCEL] = true
+    }
+    if not validActions[self.actionType] then
+        UsedPlus.logError(string.format("[SECURITY] Invalid action type: %s", tostring(self.actionType)))
+        return
+    end
+
+    -- v2.7.2 SECURITY: Require VehicleSaleManager and listing to exist
+    if g_vehicleSaleManager == nil then
+        UsedPlus.logError("[SECURITY] VehicleSaleManager not available")
+        return
+    end
+
+    local listing = g_vehicleSaleManager:getListingById(self.listingId)
+    if listing == nil then
+        -- Listing not found - could be already processed or invalid ID
+        UsedPlus.logWarn(string.format("[SECURITY] Listing %s not found", self.listingId))
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, listing.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("SALE_ACTION_REJECTED",
+            string.format("Unauthorized sale action %d for listing %s (farmId %d): %s",
+                self.actionType, self.listingId, listing.farmId, errorMsg or "unknown"),
+            connection)
+        return
+    end
+
     SaleListingActionEvent.execute(self.listingId, self.actionType)
 end
 
@@ -271,6 +317,40 @@ function ModifyListingPriceEvent:run(connection)
         UsedPlus.logError("ModifyListingPriceEvent must run on server")
         return
     end
+
+    -- v2.7.2 SECURITY: Helper to check for NaN and Infinity values
+    local function isInvalidNumber(v)
+        return v == nil or v ~= v or v == math.huge or v == -math.huge
+    end
+
+    -- v2.7.2 SECURITY: Validate price is positive and reasonable (including infinity check)
+    if isInvalidNumber(self.newPrice) or self.newPrice <= 0 or self.newPrice > 100000000 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid price: %s", tostring(self.newPrice)))
+        return
+    end
+
+    -- v2.7.2 SECURITY: Require VehicleSaleManager and listing to exist
+    if g_vehicleSaleManager == nil then
+        UsedPlus.logError("[SECURITY] VehicleSaleManager not available")
+        return
+    end
+
+    local listing = g_vehicleSaleManager:getListingById(self.listingId)
+    if listing == nil then
+        UsedPlus.logWarn(string.format("[SECURITY] Listing %s not found", self.listingId))
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, listing.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("MODIFY_PRICE_REJECTED",
+            string.format("Unauthorized price modify for listing %s (farmId %d): %s",
+                self.listingId, listing.farmId, errorMsg or "unknown"),
+            connection)
+        return
+    end
+
     ModifyListingPriceEvent.execute(self.listingId, self.newPrice)
 end
 

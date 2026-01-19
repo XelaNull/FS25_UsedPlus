@@ -153,6 +153,7 @@ ModCompatibility = {}
 -- Integrated mods (enhanced cooperation)
 ModCompatibility.rvbInstalled = false
 ModCompatibility.uytInstalled = false
+ModCompatibility.uytGlobal = nil  -- Reference to actual UYT global (UseYourTyres or useYourTyres)
 
 -- Formerly conflicting mods (now compatible)
 ModCompatibility.advancedMaintenanceInstalled = false
@@ -197,11 +198,53 @@ function ModCompatibility.init()
     -- INTEGRATED MODS (Enhanced cooperation)
     -- ========================================================================
 
-    -- Detect Real Vehicle Breakdowns
-    local rvbDetected = g_currentMission ~= nil and g_currentMission.vehicleBreakdowns ~= nil
+    -- Detect Real Vehicle Breakdowns (check multiple possible globals)
+    -- v2.7.2: Fixed detection - RVB uses g_rvbMenu, g_vehicleBreakdownsDirectory, etc.
+    -- not just g_currentMission.vehicleBreakdowns
+    local rvbDetected = false
 
-    -- Detect Use Your Tyres
-    local uytDetected = UseYourTyres ~= nil
+    -- Method 1: Check g_currentMission.vehicleBreakdowns (original check)
+    if g_currentMission ~= nil and g_currentMission.vehicleBreakdowns ~= nil then
+        rvbDetected = true
+        UsedPlus.logDebug("RVB detected via g_currentMission.vehicleBreakdowns")
+    end
+
+    -- Method 2: Check g_rvbMenu global (RVB settings menu instance)
+    if not rvbDetected and g_rvbMenu ~= nil then
+        rvbDetected = true
+        UsedPlus.logDebug("RVB detected via g_rvbMenu")
+    end
+
+    -- Method 3: Check g_vehicleBreakdownsDirectory global
+    if not rvbDetected and g_vehicleBreakdownsDirectory ~= nil then
+        rvbDetected = true
+        UsedPlus.logDebug("RVB detected via g_vehicleBreakdownsDirectory")
+    end
+
+    -- Method 4: Check g_rvbPlayer global
+    if not rvbDetected and g_rvbPlayer ~= nil then
+        rvbDetected = true
+        UsedPlus.logDebug("RVB detected via g_rvbPlayer")
+    end
+
+    -- Method 5: Check specialization manager for "vehicleBreakdowns"
+    if not rvbDetected and g_specializationManager ~= nil then
+        local rvbSpec = g_specializationManager:getSpecializationByName("vehicleBreakdowns")
+        if rvbSpec ~= nil then
+            rvbDetected = true
+            UsedPlus.logDebug("RVB detected via specialization manager")
+        end
+    end
+
+    -- Detect Use Your Tyres (check multiple possible global names)
+    -- Store reference to whichever global exists
+    if UseYourTyres ~= nil then
+        ModCompatibility.uytGlobal = UseYourTyres
+    elseif useYourTyres ~= nil then
+        ModCompatibility.uytGlobal = useYourTyres
+    end
+    local uytDetected = ModCompatibility.uytGlobal ~= nil or
+        (g_specializationManager ~= nil and g_specializationManager:getSpecializationByName("useYourTyres") ~= nil)
 
     -- v2.6.2: Check integration settings (failsafe switches)
     -- If setting is OFF, treat as not installed even if mod is detected
@@ -451,6 +494,11 @@ end
     @param vehicle - The vehicle to check
     @param partKey - RVB part key
     @return boolean - true if part has failed
+
+    v2.7.2: Enhanced detection - checks multiple fault indicators:
+    - part.fault (string: nil/"empty" = no fault, other string = fault)
+    - part.damaged (boolean: true = damaged)
+    - part.isFailed (boolean: some RVB versions use this)
 ]]
 function ModCompatibility.isRVBPartFailed(vehicle, partKey)
     if not ModCompatibility.rvbInstalled then return false end
@@ -462,7 +510,23 @@ function ModCompatibility.isRVBPartFailed(vehicle, partKey)
     end
 
     local part = rvb.parts[partKey]
-    return part.fault ~= nil and part.fault ~= "empty"
+
+    -- Check string fault state (RVB uses "empty" or nil for no fault)
+    if part.fault ~= nil and part.fault ~= "empty" and part.fault ~= "" then
+        return true
+    end
+
+    -- Check boolean damaged state
+    if part.damaged == true then
+        return true
+    end
+
+    -- Check alternative isFailed boolean (some RVB versions)
+    if part.isFailed == true then
+        return true
+    end
+
+    return false
 end
 
 --[[
@@ -470,6 +534,10 @@ end
     @param vehicle - The vehicle to check
     @param partKey - RVB part key
     @return boolean - true if part is in prefault
+
+    v2.7.2: Enhanced detection - checks multiple prefault indicators:
+    - part.prefault (string: nil/"empty" = no prefault, other string = warning)
+    - part.isWarning (boolean: some RVB versions use this)
 ]]
 function ModCompatibility.isRVBPartPrefault(vehicle, partKey)
     if not ModCompatibility.rvbInstalled then return false end
@@ -481,7 +549,18 @@ function ModCompatibility.isRVBPartPrefault(vehicle, partKey)
     end
 
     local part = rvb.parts[partKey]
-    return part.prefault ~= nil and part.prefault ~= "empty"
+
+    -- Check string prefault state (RVB uses "empty" or nil for no warning)
+    if part.prefault ~= nil and part.prefault ~= "empty" and part.prefault ~= "" then
+        return true
+    end
+
+    -- Check alternative isWarning boolean (some RVB versions)
+    if part.isWarning == true then
+        return true
+    end
+
+    return false
 end
 
 --[[
@@ -603,12 +682,13 @@ end
 ]]
 function ModCompatibility.getUYTTireWear(vehicle, wheelIndex)
     if not ModCompatibility.uytInstalled then return 0 end
-    if not UseYourTyres then return 0 end
+    local uyt = ModCompatibility.uytGlobal
+    if not uyt then return 0 end
     if vehicle == nil or not vehicle.spec_wheels then return 0 end
 
     local wheel = vehicle.spec_wheels.wheels[wheelIndex]
-    if wheel and UseYourTyres.getWearAmount then
-        return UseYourTyres.getWearAmount(wheel) or 0
+    if wheel and uyt.getWearAmount then
+        return uyt.getWearAmount(wheel) or 0
     end
 
     return 0
@@ -650,9 +730,10 @@ end
 ]]
 function ModCompatibility.getUYTReplacementCost(vehicle)
     if not ModCompatibility.uytInstalled then return 0 end
-    if not UseYourTyres or not UseYourTyres.getTyresPrice then return 0 end
+    local uyt = ModCompatibility.uytGlobal
+    if not uyt or not uyt.getTyresPrice then return 0 end
 
-    return UseYourTyres.getTyresPrice(vehicle) or 0
+    return uyt.getTyresPrice(vehicle) or 0
 end
 
 --[[
@@ -741,7 +822,8 @@ function ModCompatibility.syncTireReplacementWithUYT(vehicle, tireQuality)
     end
 
     -- Get UYT replacement price and trigger their reset event
-    local price = UseYourTyres.getTyresPrice and UseYourTyres.getTyresPrice(vehicle, false) or 0
+    local uyt = ModCompatibility.uytGlobal
+    local price = uyt and uyt.getTyresPrice and uyt.getTyresPrice(vehicle, false) or 0
 
     -- Try to send UYT's replacement event first (this resets to 0)
     local resetSuccessful = false
@@ -1583,7 +1665,8 @@ function ModCompatibility.initializeTiresFromListing(vehicle, tireConditions)
     end
 
     -- If UYT is installed, try to set tire wear there too
-    if ModCompatibility.uytInstalled and UseYourTyres then
+    local uyt = ModCompatibility.uytGlobal
+    if ModCompatibility.uytInstalled and uyt then
         -- UYT stores wear (inverse of condition) per wheel
         if vehicle.spec_wheels and vehicle.spec_wheels.wheels then
             local wheelCount = #vehicle.spec_wheels.wheels
@@ -1595,8 +1678,8 @@ function ModCompatibility.initializeTiresFromListing(vehicle, tireConditions)
                 local wear = 1.0 - condition
 
                 -- Try to set UYT wear if the API is available
-                if wheel and UseYourTyres.setWearAmount then
-                    UseYourTyres.setWearAmount(wheel, wear)
+                if wheel and uyt.setWearAmount then
+                    uyt.setWearAmount(wheel, wear)
                     UsedPlus.logDebug(string.format("  UYT wheel %d: Set wear to %.0f%%",
                         i, wear * 100))
                 end
@@ -1826,4 +1909,4 @@ function ModCompatibility.applyRVBBreakdownDegradation(vehicle, partKey)
         totalDegradation * 100, partKey or "unknown", vehicle:getName(), dna))
 end
 
-UsedPlus.logInfo("ModCompatibility utility loaded (v2.2.0 - RVB/UYT Used Vehicle Integration + DNA Degradation)")
+UsedPlus.logInfo("ModCompatibility utility loaded (v2.7.2 - Fixed RVB detection + enhanced fault checking)")

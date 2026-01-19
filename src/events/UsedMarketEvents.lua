@@ -160,6 +160,17 @@ function RequestUsedItemEvent:run(connection)
         UsedPlus.logError("RequestUsedItemEvent must run on server")
         return
     end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("USED_SEARCH_REJECTED",
+            string.format("Unauthorized used search attempt for farmId %d: %s",
+                self.farmId, errorMsg or "unknown"),
+            connection)
+        return
+    end
+
     RequestUsedItemEvent.execute(
         self.farmId, self.storeItemIndex, self.storeItemName,
         self.basePrice, self.searchLevel, self.qualityLevel
@@ -333,6 +344,22 @@ function CancelSearchEvent:run(connection)
         UsedPlus.logError("CancelSearchEvent must run on server")
         return
     end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    if g_usedVehicleManager then
+        local search = g_usedVehicleManager:getSearchById(self.searchId)
+        if search then
+            local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, search.farmId)
+            if not isAuthorized then
+                NetworkSecurity.logSecurityEvent("CANCEL_SEARCH_REJECTED",
+                    string.format("Unauthorized cancel search attempt for search %s (farmId %d): %s",
+                        self.searchId, search.farmId, errorMsg or "unknown"),
+                    connection)
+                return
+            end
+        end
+    end
+
     CancelSearchEvent.execute(self.searchId)
 end
 
@@ -436,6 +463,22 @@ function DeclineListingEvent:run(connection)
         UsedPlus.logError("DeclineListingEvent must run on server")
         return
     end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    if g_usedVehicleManager then
+        local search = g_usedVehicleManager:getSearchById(self.searchId)
+        if search then
+            local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, search.farmId)
+            if not isAuthorized then
+                NetworkSecurity.logSecurityEvent("DECLINE_LISTING_REJECTED",
+                    string.format("Unauthorized decline listing attempt for search %s (farmId %d): %s",
+                        self.searchId, search.farmId, errorMsg or "unknown"),
+                    connection)
+                return
+            end
+        end
+    end
+
     DeclineListingEvent.execute(self.searchId, self.listingId)
 end
 

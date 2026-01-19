@@ -61,6 +61,7 @@
                     <!-- Row 0 (at top of container, highest Y) - Click to select -->
                     <GuiElement id="financeRow0" position="0px 324px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow0Bg" imageColor="0.1 0.1 0.1 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow0Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick0" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow0Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow0Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow0Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -72,6 +73,7 @@
                     <!-- Row 1 -->
                     <GuiElement id="financeRow1" position="0px 288px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow1Bg" imageColor="0.12 0.12 0.12 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow1Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick1" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow1Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow1Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow1Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -83,6 +85,7 @@
                     <!-- Row 2 -->
                     <GuiElement id="financeRow2" position="0px 252px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow2Bg" imageColor="0.1 0.1 0.1 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow2Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick2" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow2Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow2Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow2Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -94,6 +97,7 @@
                     <!-- Row 3 -->
                     <GuiElement id="financeRow3" position="0px 216px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow3Bg" imageColor="0.12 0.12 0.12 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow3Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick3" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow3Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow3Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow3Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -105,6 +109,7 @@
                     <!-- Row 4 -->
                     <GuiElement id="financeRow4" position="0px 180px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow4Bg" imageColor="0.1 0.1 0.1 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow4Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick4" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow4Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow4Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow4Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -116,6 +121,7 @@
                     <!-- Row 5 -->
                     <GuiElement id="financeRow5" position="0px 144px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow5Bg" imageColor="0.12 0.12 0.12 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow5Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick5" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow5Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow5Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow5Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -127,6 +133,7 @@
                     <!-- Row 6 -->
                     <GuiElement id="financeRow6" position="0px 108px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow6Bg" imageColor="0.1 0.1 0.1 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow6Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick6" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow6Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow6Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow6Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -138,6 +145,7 @@
                     <!-- Row 7 -->
                     <GuiElement id="financeRow7" position="0px 72px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow7Bg" imageColor="0.12 0.12 0.12 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow7Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick7" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow7Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow7Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow7Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -149,6 +157,7 @@
                     <!-- Row 8 -->
                     <GuiElement id="financeRow8" position="0px 36px" size="600px 36px" visible="false">
                         <Bitmap profile="baseReference" id="financeRow8Bg" imageColor="0.1 0.1 0.1 1" size="600px 36px"/>
+                        <Button profile="fmfRowHit" id="financeRow8Hit" position="0px 0px" size="600px 36px" onClick="onFinanceRowClick8" onHighlight="onFinanceRowHighlight" onHighlightRemove="onFinanceRowUnhighlight"/>
                         <Text profile="fs25_textDefault" id="financeRow8Type" text="" position="5px 10px" textSize="12px" textColor="0.5 0.8 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow8Item" text="" position="65px 10px" textSize="12px" textColor="1 1 1 1"/>
                         <Text profile="fs25_textDefault" id="financeRow8Balance" text="" position="185px 10px" textSize="12px" textColor="1 0.8 0.2 1"/>
@@ -259,6 +268,7 @@
                         <!-- Row 0 (at top, below header) -->
                         <GuiElement id="searchRow0" position="0px 97px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow0Bg" imageColor="0.1 0.1 0.1 1" size="500px 24px"/>
+                            <Button profile="fmfRowHit" id="searchRow0Hit" position="0px 0px" size="420px 24px" onClick="onSearchRowClick0" onHighlight="onSearchRowHighlight" onHighlightRemove="onSearchRowUnhighlight"/>
                             <Text profile="fs25_textDefault" id="searchRow0Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
                             <Text profile="fs25_textDefault" id="searchRow0Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
                             <Text profile="fs25_textDefault" id="searchRow0Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
@@ -277,6 +287,7 @@
                         <!-- Row 1 -->
                         <GuiElement id="searchRow1" position="0px 73px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow1Bg" imageColor="0.12 0.12 0.12 1" size="500px 24px"/>
+                            <Button profile="fmfRowHit" id="searchRow1Hit" position="0px 0px" size="420px 24px" onClick="onSearchRowClick1" onHighlight="onSearchRowHighlight" onHighlightRemove="onSearchRowUnhighlight"/>
                             <Text profile="fs25_textDefault" id="searchRow1Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
                             <Text profile="fs25_textDefault" id="searchRow1Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
                             <Text profile="fs25_textDefault" id="searchRow1Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
@@ -295,6 +306,7 @@
                         <!-- Row 2 -->
                         <GuiElement id="searchRow2" position="0px 49px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow2Bg" imageColor="0.1 0.1 0.1 1" size="500px 24px"/>
+                            <Button profile="fmfRowHit" id="searchRow2Hit" position="0px 0px" size="420px 24px" onClick="onSearchRowClick2" onHighlight="onSearchRowHighlight" onHighlightRemove="onSearchRowUnhighlight"/>
                             <Text profile="fs25_textDefault" id="searchRow2Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
                             <Text profile="fs25_textDefault" id="searchRow2Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
                             <Text profile="fs25_textDefault" id="searchRow2Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
@@ -313,6 +325,7 @@
                         <!-- Row 3 -->
                         <GuiElement id="searchRow3" position="0px 25px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow3Bg" imageColor="0.12 0.12 0.12 1" size="500px 24px"/>
+                            <Button profile="fmfRowHit" id="searchRow3Hit" position="0px 0px" size="420px 24px" onClick="onSearchRowClick3" onHighlight="onSearchRowHighlight" onHighlightRemove="onSearchRowUnhighlight"/>
                             <Text profile="fs25_textDefault" id="searchRow3Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
                             <Text profile="fs25_textDefault" id="searchRow3Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
                             <Text profile="fs25_textDefault" id="searchRow3Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
@@ -331,6 +344,7 @@
                         <!-- Row 4 -->
                         <GuiElement id="searchRow4" position="0px 1px" size="500px 24px" visible="false">
                             <Bitmap profile="baseReference" id="searchRow4Bg" imageColor="0.1 0.1 0.1 1" size="500px 24px"/>
+                            <Button profile="fmfRowHit" id="searchRow4Hit" position="0px 0px" size="420px 24px" onClick="onSearchRowClick4" onHighlight="onSearchRowHighlight" onHighlightRemove="onSearchRowUnhighlight"/>
                             <Text profile="fs25_textDefault" id="searchRow4Item" text="" position="5px 5px" textSize="11px" textColor="1 1 1 1"/>
                             <Text profile="fs25_textDefault" id="searchRow4Price" text="" position="130px 5px" textSize="11px" textColor="1 0.8 0.2 1"/>
                             <Text profile="fs25_textDefault" id="searchRow4Tier" text="" position="215px 5px" textSize="11px" textColor="0.5 0.8 1 1"/>
@@ -566,6 +580,11 @@
 
         <!-- Invisible focusable button - receives clicks and controller focus -->
         <Profile name="financeActionBtn" extends="emptyPanel">
+            <isFocusable value="true"/>
+        </Profile>
+
+        <!-- v2.7.1: Row hover hit target - invisible focusable element for hover effects -->
+        <Profile name="fmfRowHit" extends="emptyPanel">
             <isFocusable value="true"/>
         </Profile>
 

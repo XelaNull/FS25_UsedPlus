@@ -1,246 +1,93 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
-<modDesc descVersion="104">
+<modDesc descVersion="105">
     <!--
          modDesc.xml is the entry point for all FS25 mods
          This file defines metadata, localization, GUI, and script loading order
          Order of script loading is CRITICAL - dependencies must load first
     -->
 
-    <author>FS25 Modding Community</author>
-    <version>2.6.3.0</version>
+    <author>UsedPlus Team</author>
+    <version>2.7.2.0</version>
 
     <title>
-        <en>UsedPlus - Finance & Marketplace System</en>
-        <de>UsedPlus - Finanzierungs- und Marktsystem</de>
+        <en>UsedPlus - Finance &amp; Marketplace System</en>
+        <de>UsedPlus - Finanzierungs- Und Marktsystem</de>
     </title>
 
     <description>
         <en><![CDATA[
-UsedPlus adds comprehensive financing, leasing, and used vehicle marketplace to FS25.
+UsedPlus adds comprehensive financing, leasing, and a used vehicle marketplace to Farming Simulator 25.
 
-Features:
-- Finance vehicles, equipment, and land (1-30 years)
-- Dynamic credit scoring based on assets/debt ratio
-- Lease vehicles with flexible terms (1-5 years)
-- Search for used equipment (3-tier system)
-- Negotiate prices with smart seller AI (weather affects deals!)
-- Realistic interest rate calculations
-- ESC menu finance manager (Ctrl+F)
+FINANCE SYSTEM
+- Finance vehicles, equipment, and land with 1-30 year terms
+- Dynamic credit scoring (300-850) based on payment history and debt ratio
+- Interest rates adjust based on your credit score
+- Take general cash loans against your farm's collateral
+
+LEASING
+- Lease vehicles with flexible 1-5 year terms
+- Buyout options at end of lease
+- Land leasing with markup rates by term length
+
+USED VEHICLE MARKETPLACE
+- Search for used equipment through 3 agent tiers (Local/Regional/National)
+- Inspect vehicles before purchase to reveal hidden condition
+- Negotiate prices with AI sellers (weather affects deals!)
+- Sell your vehicles through agents for better prices than trade-in
+
+MAINTENANCE & REPAIR
+- Partial repair system (1-100%) at any workshop
+- Field Service Kit for emergency roadside repairs
+- OBD Scanner with diagnosis minigame
+- Integration with RVB and UYT mods
+
+ADDITIONAL FEATURES
+- ESC menu Finance Manager (Shift+F)
+- Trade-in system with condition-based values
 - Full multiplayer support
+- 10 language translations
+- Configurable settings for all systems
 
-Changelog:
-v2.6.0.0 (2026-01-14) - NEGOTIATION SYSTEM
-  - NEW: "Make Offer" replaces "Purchase" on inspection reports
-  - NEW: NegotiationDialog with offer percentage selection (70-100%)
-  - NEW: Mechanic's Whisper - intel about seller psychology
-  - NEW: Weather affects negotiation (storms = better deals!)
-  - NEW: Seller personalities (Desperate/Motivated/Reasonable/Firm)
-  - NEW: SellerResponseDialog with Accept/Counter/Reject outcomes
-  - NEW: "Stand Firm" gamble when countered
-  - NEW: Negotiation lock if seller walks away (1 hour cooldown)
-  - NEW: Statistics tracking (attempts, wins, savings)
-
-v1.3.0.0 (2025-11-28) - UNIFIED PURCHASE DIALOG
-  - NEW: Unified Purchase Dialog - Single dialog for Buy Cash, Finance, Lease
-  - NEW: Mode selector switches between purchase methods without closing dialog
-  - NEW: Integrated Trade-In support for ALL purchase modes
-  - NEW: Trade-in vehicle dropdown with condition and value display
-  - NEW: Search Used keybind (U key) in shop
-  - IMPROVED: Buy button in shop now opens UnifiedPurchaseDialog
-  - IMPROVED: Lease button in shop now opens UnifiedPurchaseDialog in Lease mode
-  - IMPROVED: Trade-in value applies to down payment in Finance/Lease modes
-  - IMPROVED: Cash back option available in Finance mode
-  - IMPROVED: Cleaner UX with fewer dialogs and more options in one place
-
-v1.2.0.0 (2025-11-27) - LAND LEASING & PAYMENT CONFIGURATION
-  - NEW: Land Leasing - Lease farmland with 1/3/5/10 year terms
-  - NEW: Land lease markup rates (20%/15%/10%/5% by term length)
-  - NEW: Buyout option with progress-based discounts
-  - NEW: 3-strike missed payment system for land (seizure on 3rd miss)
-  - NEW: Configurable loan payments (Skip/Minimum/Standard/Extra/Custom)
-  - NEW: Payment Configuration dialog in Finance Manager
-  - NEW: Negative amortization when payments fall below interest
-  - NEW: Term recalculation for extra payment impact preview
-  - NEW: 15 new credit score event types for leasing/payments
-  - NEW: Land lease expiration warnings (3mo, 1mo, final)
-  - IMPROVED: FinanceManagerFrame shows land leases with type label
-  - IMPROVED: Terminate lease now handles both vehicle and land leases
-
-v1.1.0.0 (2025-11-27) - USED VEHICLE MARKETPLACE
-  - NEW: Agent-based vehicle sales (replaces vanilla instant-sell)
-  - NEW: Three agent tiers: Local (60-75%), Regional (75-90%), National (90-100%)
-  - NEW: Time-based sales (1-6 months depending on tier)
-  - NEW: Accept/Decline offers when buyers are found
-  - NEW: Trade-In now shows vehicle condition (repair/paint levels)
-  - NEW: Trade-In value reduced to 50-65% (lowest return option)
-  - NEW: Condition affects trade-in value (damage/wear multipliers)
-  - NEW: Full multiplayer support with network events
-  - Value hierarchy: Trade-In < Local Agent < Regional < National
-
-v1.0.13.0 (2025-11-27) - Take Loan & Dashboard Fix
-  - FIXED: Take Loan button no longer requires double-click
-  - FIXED: White boxes removed from Take Loan dialog
-  - FIXED: Dashboard no longer crashes game (converted to MessageDialog pattern)
-  - FIXED: Accept Loan crash - replaced os.time() with FS25-compatible time
-  - FIXED: Replaced slider with MultiTextOption dropdowns (standard FS25 pattern)
-  - IMPROVED: Loan amount and term selection now use dropdown menus
-  - IMPROVED: Dashboard displays credit score, debt ratio, and obligations
-
-v1.0.12.0 (2025-11-26) - Trade-In Dialog Fix
-  - FIXED: Trade-In dialog XML structure causing game freeze
-  - FIXED: Trade-In button keybind now shows properly (uses Enter key)
-  - NEW: Clickable vehicle list in Trade-In dialog
-  - NEW: Auto-selects first eligible vehicle
-
-v1.0.11.0 (2025-11-26) - Separate Repair/Repaint Dialogs
-  - NEW: Separate dialogs for repair and repaint operations
-  - NEW: Repair dialog now replaces game's Yes/No dialog entirely
-  - NEW: Mode-aware display (shows only relevant options)
-  - FIXED: White boxes in dialog (button profile fix)
-  - IMPROVED: Hooks g_gui:showYesNoDialog for cleaner intercept
-
-v1.0.10.0 (2025-11-26) - Workshop Repair Integration
-  - NEW: Custom repair dialog now intercepts game's workshop repair
-  - NEW: When repairing at dealer, UsedPlus dialog opens instead
-  - NEW: Partial repair (1-100%) available at all workshops
-  - NEW: Finance repair costs directly from workshop
-  - FIXED: processSearchQueue error in FarmExtension
-
-v1.0.9.0 (2025-11-26) - Tier 1 Features
-  - NEW: Credit Score History - Track score changes over time
-  - NEW: Payment behavior affects credit (+5 on time, -25 missed, +50 payoff)
-  - NEW: Trade-In System - Trade vehicles during purchase
-  - NEW: 85% trade-in value with 10% same-brand bonus
-  - NEW: Financial Dashboard - Comprehensive overview screen
-  - NEW: Debt-to-asset ratio meter with status colors
-  - NEW: Upcoming payments list
-  - NEW: Credit history timeline showing recent events
-
-v1.0.8.0 (2025-11-26) - Admin Console Commands
-  - NEW: upAddMoney <amount> - Add/remove money (admin only)
-  - NEW: upSetMoney <amount> - Set exact farm balance (admin only)
-  - NEW: upSetCredit - Display detailed credit score report
-  - NEW: upPayoffAll - Pay off all finance deals instantly
-  - Pattern from MoneyCommandMod with 3-tier admin check
-  - Commands work in single-player and multiplayer (admin only)
-
-v1.0.7.0 (2025-11-26) - General Loan System
-  - NEW: Take out general cash loans from ESC Finance Manager
-  - NEW: Collateral-based lending (50% vehicles, 60% land)
-  - NEW: Credit score affects max loan amount and interest rate
-  - NEW: Annuity-based repayment with real financial math
-  - NEW: Quick amount buttons (25%, 50%, 75%, MAX)
-  - NEW: Term selection from 1-30 years
-  - Credit multipliers: Excellent 120%, Good 100%, Fair 75%, Poor 50%
-
-v1.0.6.0 (2025-11-26) - Partial Repair System
-  - NEW: Partial repair dialog for vehicles (map context menu)
-  - NEW: Slider control for fine-grained repair percentage (1-100%)
-  - NEW: Separate controls for mechanical repair and repaint
-  - NEW: Real-time cost preview as slider moves
-  - NEW: Quick buttons for 25%, 50%, 75%, 100% repair
-  - NEW: Option to finance repair costs
-  - FIXED: Credit score default changed from 999 to realistic 650
-
-v1.0.5.0 (2025-11-22) - Custom Dialog Implementation
-  - FIXED: Rewrote dialogs using working MessageDialog pattern
-  - FIXED: Changed from DialogElement to MessageDialog base class
-  - FIXED: Added required GUI XML structure (newLayer, dialogFullscreenBg)
-  - FIXED: Used only standard FS25 profiles (fs25_dialogBg, etc.)
-  - FIXED: Shop dialogs now load dynamically on first use
-  - Finance and Search Used dialogs should now open properly
-
-v1.0.4.0 (2025-11-22) - Shop Integration Fix
-  - FIXED: Shop buttons now use proper button cloning pattern
-  - FIXED: Changed hotkey from Ctrl+F to Shift+F (conflict resolution)
-  - FIXED: Shop integration now hooks setStoreItem (working pattern)
-  - Finance/Lease/Search buttons now appear in vehicle shop
-  - Buttons use F/C/V keys respectively when in shop
-
-v1.0.3.0 (2025-11-22) - UX Improvements
-  - Added 36 tooltips across all GUI screens
-  - Explanations for all financial terms
-  - Guidance on credit score, interest rates, payments
-  - Help text for complex concepts (residual value, balloon payment)
-  - Tooltips in English and German
-  - Major UX improvement for new users
-
-v1.0.2.0 (2025-11-22) - Critical Bug Fixes
-  - FIXED: Removed references to non-existent files
-  - FIXED: Added 32 debug guards for clean production logs
-  - FIXED: Added 16 missing localization keys
-  - Improved pattern compliance to 85/100
-
-v1.0.1.0 (2025-11-22) - ESC Menu Integration
-  - Added Finance Manager to ESC in-game menu
-  - Added Ctrl+F hotkey to open Finance Manager
-  - Fixed input action registration
-
-v1.0.0.0 (2025-11-22) - Initial release
-  - Finance system with credit scoring
-  - Used vehicle search with probabilistic depreciation
-  - Lease system with balloon payments
-  - Land financing with lower rates
-  - Complete network synchronization
-  - 33 files, 178 patterns implemented
+See CHANGELOG.md for version history.
         ]]></en>
         <de><![CDATA[
-UsedPlus fügt umfassende Finanzierung, Leasing und Gebrauchtfahrzeugmarkt zu FS25 hinzu.
+UsedPlus fügt umfassende Finanzierung, Leasing und einen Gebrauchtfahrzeugmarkt zu Farming Simulator 25 hinzu.
 
-Funktionen:
-- Fahrzeuge, Geräte und Land finanzieren (1-30 Jahre)
-- Dynamische Bonitätsbewertung basierend auf Vermögen/Schulden
-- Fahrzeuge leasen mit flexiblen Konditionen (1-5 Jahre)
-- Gebrauchte Geräte suchen (lokal oder national)
-- Preise mit intelligentem Verkäufer-KI verhandeln (Wetter beeinflusst Deals!)
-- Realistische Zinsberechnungen
-- ESC-Menü Finanzmanager
+FINANZSYSTEM
+- Fahrzeuge, Geräte und Land mit 1-30 Jahren Laufzeit finanzieren
+- Dynamische Bonitätsbewertung (300-850) basierend auf Zahlungsverhalten
+- Zinssätze passen sich der Kreditwürdigkeit an
+- Allgemeine Kredite gegen Sicherheiten aufnehmen
+
+LEASING
+- Fahrzeuge mit flexiblen 1-5 Jahres-Konditionen leasen
+- Kaufoptionen am Ende der Leasingzeit
+- Landpacht mit gestaffelten Aufschlägen
+
+GEBRAUCHTFAHRZEUGMARKT
+- Gebrauchte Geräte über 3 Agentenstufen suchen
+- Fahrzeuge vor dem Kauf inspizieren
+- Preise mit KI-Verkäufern verhandeln (Wetter beeinflusst Deals!)
+- Fahrzeuge über Agenten verkaufen für bessere Preise
+
+WARTUNG & REPARATUR
+- Teilreparatursystem (1-100%) in jeder Werkstatt
+- Pannenset für Notfall-Reparaturen
+- OBD-Scanner mit Diagnose-Minispiel
+- Integration mit RVB und UYT Mods
+
+WEITERE FUNKTIONEN
+- ESC-Menü Finanzmanager (Umschalt+F)
+- Inzahlungnahme mit zustandsbasierten Werten
 - Vollständige Multiplayer-Unterstützung
+- 10 Sprachübersetzungen
+- Konfigurierbare Einstellungen
 
-Änderungsprotokoll:
-v1.0.5.0 (2025-11-22) - Benutzerdefinierte Dialoge implementiert
-  - BEHOBEN: Dialoge mit funktionierendem MessageDialog-Muster neu geschrieben
-  - BEHOBEN: Von DialogElement zu MessageDialog-Basisklasse gewechselt
-  - BEHOBEN: Erforderliche GUI-XML-Struktur hinzugefügt
-  - BEHOBEN: Nur Standard-FS25-Profile verwendet
-  - BEHOBEN: Shop-Dialoge werden jetzt dynamisch geladen
-  - Finanzierungs- und Suchdialoge sollten jetzt richtig öffnen
-
-v1.0.4.0 (2025-11-22) - Shop-Integration behoben
-  - BEHOBEN: Shop-Buttons verwenden jetzt richtiges Muster
-  - BEHOBEN: Hotkey von Strg+F zu Umschalt+F geändert
-  - BEHOBEN: Shop-Integration verwendet jetzt setStoreItem
-  - Finanzierung/Leasing/Suche-Buttons erscheinen im Shop
-  - Buttons verwenden F/C/V-Tasten im Shop
-
-v1.0.3.0 (2025-11-22) - UX-Verbesserungen
-  - 36 Tooltips über alle GUI-Bildschirme hinzugefügt
-  - Erklärungen für alle Finanzbegriffe
-  - Anleitungen zu Kreditwürdigkeit, Zinsen, Zahlungen
-  - Hilfetext für komplexe Konzepte (Restwert, Ballonzahlung)
-  - Tooltips auf Englisch und Deutsch
-  - Große UX-Verbesserung für neue Benutzer
-
-v1.0.2.0 (2025-11-22) - Kritische Fehlerbehebungen
-  - BEHOBEN: Nicht existierende Dateireferenzen entfernt
-  - BEHOBEN: 32 Debug-Schutzmaßnahmen für saubere Logs
-  - BEHOBEN: 16 fehlende Lokalisierungsschlüssel hinzugefügt
-
-v1.0.1.0 (2025-11-22) - ESC-Menü-Integration
-  - Finanzmanager zum ESC-Menü hinzugefügt
-  - Strg+F-Hotkey zum Öffnen des Finanzmanagers
-
-v1.0.0.0 (2025-11-22) - Erstveröffentlichung
-  - Finanzsystem mit Bonitätsbewertung
-  - Gebrauchtfahrzeugsuche mit Wertverlust
-  - Leasingsystem mit Restwert
-  - Landfinanzierung mit niedrigeren Zinsen
-  - Vollständige Netzwerksynchronisation
-  - 33 Dateien, 178 Muster implementiert
+Siehe CHANGELOG.md für Versionshistorie.
         ]]></de>
     </description>
 
-    <iconFilename>icon.dds</iconFilename>
+    <iconFilename>icon_UsedPlus.dds</iconFilename>
     <multiplayer supported="true"/>
 
     <!--
@@ -330,9 +177,21 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
         <sourceFile filename="src/utils/UsedPlusUI.lua"/>     <!--  UI component system -->
         <sourceFile filename="src/utils/DialogLoader.lua"/>   <!--  Centralized dialog loading -->
         <sourceFile filename="src/utils/UsedPlusAPI.lua"/>    <!--  v2.5.2: Public API for external mod integration -->
+        <sourceFile filename="src/utils/NetworkSecurity.lua"/> <!--  v2.7.2: Multiplayer security validation -->
 
-        <!-- Vehicle Specialization - Maintenance System (Phase 1) -->
-        <!-- IMPORTANT: Specialization must load BEFORE register file -->
+        <!-- Vehicle Specialization - Maintenance System (v2.7.2 Modular) -->
+        <!-- IMPORTANT: Modules must load BEFORE core spec, core BEFORE register -->
+        <!-- Modules attach functions to UsedPlusMaintenance namespace -->
+        <sourceFile filename="src/specializations/maintenance/MaintenanceConfig.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceWarnings.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceSpeed.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceTires.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceFluids.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceReliability.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceEngine.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceSteering.lua"/>
+        <sourceFile filename="src/specializations/maintenance/MaintenanceHydraulics.lua"/>
+        <!-- Core specialization (uses functions from modules above) -->
         <sourceFile filename="src/specializations/UsedPlusMaintenance.lua"/>
         <sourceFile filename="src/specializations/UsedPlusMaintenanceRegister.lua"/>
 
@@ -348,6 +207,14 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
 
         <!-- Manager classes (depend on data classes, utils, events) -->
         <sourceFile filename="src/managers/FinanceManager.lua"/>
+        <!-- UsedVehicleManager Modules (v2.7.2 Modular) -->
+        <!-- IMPORTANT: Modules must load BEFORE core manager -->
+        <!-- Modules attach functions to UsedVehicleManager namespace -->
+        <sourceFile filename="src/managers/usedvehicle/VehicleSearchSystem.lua"/>
+        <sourceFile filename="src/managers/usedvehicle/VehicleSpawning.lua"/>
+        <sourceFile filename="src/managers/usedvehicle/VehicleInspection.lua"/>
+        <sourceFile filename="src/managers/usedvehicle/VehiclePersistence.lua"/>
+        <!-- Core manager (uses functions from modules above) -->
         <sourceFile filename="src/managers/UsedVehicleManager.lua"/>
         <sourceFile filename="src/managers/VehicleSaleManager.lua"/>  <!--  Agent-based vehicle sales -->
         <sourceFile filename="src/managers/DifficultyScalingManager.lua"/>  <!--  v2.0.0: Farmland difficulty scaling (GMNGjoy pattern) -->
@@ -357,6 +224,13 @@ v1.0.0.0 (2025-11-22) - Erstveröffentlichung
         <sourceFile filename="src/gui/LeaseEndDialog.lua"/>  <!--  Lease end options -->
         <sourceFile filename="src/gui/LeaseRenewalDialog.lua"/>  <!--  Lease renewal/buyout/return dialog -->
         <sourceFile filename="src/gui/UsedSearchDialog.lua"/>
+        <!-- FinanceManagerFrame Panels (v2.7.2 Modular) -->
+        <!-- IMPORTANT: Panels must load BEFORE core frame -->
+        <!-- Panels attach functions to FinanceManagerFrame namespace -->
+        <sourceFile filename="src/gui/financepanels/FinancesPanel.lua"/>
+        <sourceFile filename="src/gui/financepanels/SearchesPanel.lua"/>
+        <sourceFile filename="src/gui/financepanels/SalesPanel.lua"/>
+        <!-- Core frame (uses functions from panel modules) -->
         <sourceFile filename="src/gui/FinanceManagerFrame.lua"/>
         <sourceFile filename="src/gui/FinanceDetailFrame.lua"/>
         <sourceFile filename="src/gui/RepairDialog.lua"/>

@@ -24,6 +24,10 @@ VehicleExtension = {}
 function VehicleExtension:init()
     UsedPlus.logDebug("Initializing VehicleExtension")
 
+    -- v2.7.2: Store reference to original getSellPrice before hooking
+    -- This allows sell() to get base price without finance deduction
+    VehicleExtension.originalGetSellPrice = Vehicle.getSellPrice
+
     -- Hook vehicle sell validation
     Vehicle.getSellPrice = Utils.overwrittenFunction(
         Vehicle.getSellPrice,
@@ -96,8 +100,23 @@ function VehicleExtension.sell(self, superFunc, noEventSend)
     if self.financeDealId then
         local deal = g_financeManager:getDealById(self.financeDealId)
         if deal then
-            -- Get sell price
-            local baseSellPrice = Vehicle.calculateSalePrice(self)
+            -- v2.7.2: Get base sell price using stored original function
+            -- (Cannot use self:getSellPrice() as our hook deducts finance balance)
+            local baseSellPrice = 0
+            if VehicleExtension.originalGetSellPrice then
+                baseSellPrice = VehicleExtension.originalGetSellPrice(self)
+            else
+                -- Fallback: use hooked version and add back balance
+                baseSellPrice = self:getSellPrice() + deal.currentBalance
+            end
+
+            -- Apply reliability modifier if enabled (matches getSellPrice hook)
+            if UsedPlusMaintenance and UsedPlusMaintenance.CONFIG.enableResaleModifier then
+                local reliabilityData = UsedPlusMaintenance.getReliabilityData(self)
+                if reliabilityData and reliabilityData.resaleModifier then
+                    baseSellPrice = math.floor(baseSellPrice * reliabilityData.resaleModifier)
+                end
+            end
 
             -- Check if sale proceeds cover remaining balance
             if baseSellPrice < deal.currentBalance then

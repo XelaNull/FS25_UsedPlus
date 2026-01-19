@@ -27,10 +27,18 @@ UnifiedLandPurchaseDialog.LEASE_TERMS = {3, 6, 9, 12, 24, 36, 48, 60}
 UnifiedLandPurchaseDialog.DOWN_PAYMENT_OPTIONS = {0, 5, 10, 15, 20, 25, 30, 40, 50}  -- Percent (for finance)
 
 --[[
-    Get available down payment options based on settings minimum
+    Get available down payment options based on settings minimum AND credit score
+    v2.7.1: Now uses UnifiedPurchaseDialog's credit-based filtering
+    @param creditScore - Player's credit score (optional)
     @return filtered table of down payment percentages
 ]]
-function UnifiedLandPurchaseDialog.getDownPaymentOptions()
+function UnifiedLandPurchaseDialog.getDownPaymentOptions(creditScore)
+    -- Delegate to UnifiedPurchaseDialog's credit-aware function
+    if UnifiedPurchaseDialog and UnifiedPurchaseDialog.getDownPaymentOptions then
+        return UnifiedPurchaseDialog.getDownPaymentOptions(creditScore)
+    end
+
+    -- Fallback if UnifiedPurchaseDialog not loaded
     local minPercent = UsedPlusSettings and UsedPlusSettings:get("minDownPaymentPercent") or 0
     local options = {}
     for _, pct in ipairs(UnifiedLandPurchaseDialog.DOWN_PAYMENT_OPTIONS) do
@@ -38,7 +46,6 @@ function UnifiedLandPurchaseDialog.getDownPaymentOptions()
             table.insert(options, pct)
         end
     end
-    -- Ensure at least one option exists
     if #options == 0 then
         options = {minPercent}
     end
@@ -47,11 +54,13 @@ end
 
 --[[
     Get the actual down payment percentage for a given dropdown index
+    v2.7.1: Now supports credit-based filtering
     @param index - Dropdown index (1-based)
+    @param creditScore - Player's credit score (optional)
     @return percentage value
 ]]
-function UnifiedLandPurchaseDialog.getDownPaymentPercent(index)
-    local options = UnifiedLandPurchaseDialog.getDownPaymentOptions()
+function UnifiedLandPurchaseDialog.getDownPaymentPercent(index, creditScore)
+    local options = UnifiedLandPurchaseDialog.getDownPaymentOptions(creditScore)
     return options[index] or options[1] or 0
 end
 
@@ -307,6 +316,38 @@ function UnifiedLandPurchaseDialog:calculateCreditParameters()
         self.creditAdjustment = 0
         self.creditModifierPct = 0
     end
+
+    -- v2.7.1: Update down payment options based on credit score
+    self:updateDownPaymentOptionsForCredit()
+end
+
+--[[
+    Update down payment slider options based on credit score
+    v2.7.1: Lower down payments require better credit
+]]
+function UnifiedLandPurchaseDialog:updateDownPaymentOptionsForCredit()
+    if not self.financeDownSlider then
+        return
+    end
+
+    local availableOptions = UnifiedLandPurchaseDialog.getDownPaymentOptions(self.creditScore)
+
+    -- Store available options for later lookup
+    self.availableFinanceDownOptions = availableOptions
+
+    -- Build texts for available options
+    local texts = {}
+    for _, pct in ipairs(availableOptions) do
+        table.insert(texts, pct .. "%")
+    end
+
+    self.financeDownSlider:setTexts(texts)
+
+    -- Ensure current selection is valid
+    if self.financeDownIndex > #availableOptions then
+        self.financeDownIndex = 1  -- Reset to minimum
+    end
+    self.financeDownSlider:setState(self.financeDownIndex)
 end
 
 --[[
@@ -335,10 +376,7 @@ function UnifiedLandPurchaseDialog:onModeChanged()
         -- v2.6.2: Check if Finance mode is allowed
         if newMode == UnifiedLandPurchaseDialog.MODE_FINANCE then
             if not financeSystemEnabled then
-                g_gui:showInfoDialog({
-                    title = g_i18n:getText("usedplus_finance_disabled_title") or "Feature Disabled",
-                    text = g_i18n:getText("usedplus_land_finance_disabled_msg") or "Land financing is disabled in UsedPlus settings."
-                })
+                InfoDialog.show(g_i18n:getText("usedplus_land_finance_disabled_msg") or "Land financing is disabled in UsedPlus settings.")
                 self.modeSelector:setState(self.currentMode)
                 return
             end
@@ -347,10 +385,7 @@ function UnifiedLandPurchaseDialog:onModeChanged()
         -- v2.6.2: Check if Lease mode is allowed
         if newMode == UnifiedLandPurchaseDialog.MODE_LEASE then
             if not leaseSystemEnabled then
-                g_gui:showInfoDialog({
-                    title = g_i18n:getText("usedplus_lease_disabled_title") or "Feature Disabled",
-                    text = g_i18n:getText("usedplus_land_lease_disabled_msg") or "Land leasing is disabled in UsedPlus settings."
-                })
+                InfoDialog.show(g_i18n:getText("usedplus_land_lease_disabled_msg") or "Land leasing is disabled in UsedPlus settings.")
                 self.modeSelector:setState(self.currentMode)
                 return
             end
@@ -489,7 +524,7 @@ end
 ]]
 function UnifiedLandPurchaseDialog:updateFinanceDisplay()
     local termYears = UnifiedLandPurchaseDialog.FINANCE_TERMS[self.financeTermIndex] or 15
-    local downPct = UnifiedLandPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
+    local downPct = UnifiedLandPurchaseDialog.getDownPaymentPercent(self.financeDownIndex, self.creditScore)
 
     local downPayment = self.landPrice * (downPct / 100)
     local amountFinanced = self.landPrice - downPayment
@@ -757,7 +792,7 @@ function UnifiedLandPurchaseDialog:executeFinancePurchase()
 
     -- Calculate finance parameters (using filtered options from settings)
     local termYears = UnifiedLandPurchaseDialog.FINANCE_TERMS[self.financeTermIndex] or 15
-    local downPct = UnifiedLandPurchaseDialog.getDownPaymentPercent(self.financeDownIndex)
+    local downPct = UnifiedLandPurchaseDialog.getDownPaymentPercent(self.financeDownIndex, self.creditScore)
     local downPayment = self.landPrice * (downPct / 100)
 
     -- Check if player can afford down payment

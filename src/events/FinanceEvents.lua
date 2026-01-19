@@ -94,10 +94,26 @@ function FinanceVehicleEvent:readStream(streamId, connection)
 
     self.configurations = {}
     local configCount = streamReadInt32(streamId)
-    for i = 1, configCount do
+
+    -- v2.7.2 SECURITY: Prevent unbounded loop DoS attack
+    -- CRITICAL: We must ALWAYS consume the stream data, even if count is invalid
+    -- Otherwise the stream pointer gets out of sync and causes packet corruption
+    local MAX_CONFIGS = 100
+    local isValidCount = (configCount >= 0 and configCount <= MAX_CONFIGS)
+    if not isValidCount then
+        UsedPlus.logWarn(string.format("[SECURITY] Invalid configCount rejected: %d (max %d) - draining stream", configCount, MAX_CONFIGS))
+    end
+
+    -- Always read the exact number of items declared in the stream
+    -- Only store them if the count was valid
+    local safeCount = math.max(0, math.min(configCount, MAX_CONFIGS * 2))  -- Cap at 2x max to prevent extreme DoS
+    for i = 1, safeCount do
         local configKey = streamReadString(streamId)
         local configValue = streamReadInt32(streamId)
-        self.configurations[configKey] = configValue
+        -- v2.7.2 SECURITY: Only store if count was valid and key is safe
+        if isValidCount and configKey and not configKey:match("^__") and configKey ~= "" then
+            self.configurations[configKey] = configValue
+        end
     end
 
     self:run(connection)
@@ -112,6 +128,41 @@ function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePri
 
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
+        return
+    end
+
+    -- v2.7.2 SECURITY: Validate all financial parameters
+    -- Check for NaN, Infinity, and invalid values
+    -- Note: value ~= value catches NaN, math.abs check catches infinity
+    local function isInvalidNumber(v)
+        return v == nil or v ~= v or v == math.huge or v == -math.huge
+    end
+
+    if isInvalidNumber(basePrice) or basePrice <= 0 or basePrice > 100000000 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid basePrice: %s", tostring(basePrice)))
+        return
+    end
+    if isInvalidNumber(downPayment) or downPayment < 0 or downPayment > basePrice then
+        UsedPlus.logError(string.format("[SECURITY] Invalid downPayment: %s", tostring(downPayment)))
+        return
+    end
+    if termYears == nil or termYears < 1 or termYears > 30 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid termYears: %s (must be 1-30)", tostring(termYears)))
+        return
+    end
+    if isInvalidNumber(cashBack) or cashBack < 0 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid cashBack: %s", tostring(cashBack)))
+        return
+    end
+
+    -- v2.7.2 SECURITY: Validate cashBack doesn't exceed maximum allowed
+    local creditScore = CreditScore.getScore(farmId)
+    local maxCashBack = 0
+    if CreditScore.getMaxCashBack then
+        maxCashBack = CreditScore.getMaxCashBack(basePrice, downPayment, creditScore)
+    end
+    if cashBack > maxCashBack then
+        UsedPlus.logError(string.format("[SECURITY] CashBack $%.0f exceeds maximum allowed $%.0f", cashBack, maxCashBack))
         return
     end
 
@@ -142,6 +193,15 @@ end
 function FinanceVehicleEvent:run(connection)
     if not connection:getIsServer() then
         UsedPlus.logError("FinanceVehicleEvent must run on server")
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("FINANCE_REJECTED",
+            string.format("Unauthorized finance attempt for farmId %d: %s", self.farmId, errorMsg or "unknown"),
+            connection)
         return
     end
 
@@ -200,6 +260,15 @@ end
 function FinancePaymentEvent:run(connection)
     if not connection:getIsServer() then
         UsedPlus.logError("FinancePaymentEvent must run on server")
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("PAYMENT_REJECTED",
+            string.format("Unauthorized payment attempt for farmId %d: %s", self.farmId, errorMsg or "unknown"),
+            connection)
         return
     end
 
@@ -357,7 +426,17 @@ function TakeLoanEvent:readStream(streamId, connection)
     self.collateralItems = {}
     local collateralCount = streamReadInt32(streamId)
 
-    for i = 1, collateralCount do
+    -- v2.7.2 SECURITY: Prevent unbounded loop DoS and memory exhaustion
+    -- CRITICAL: We must ALWAYS consume the stream data, even if count is invalid
+    local MAX_COLLATERAL = 50
+    local isValidCount = (collateralCount >= 0 and collateralCount <= MAX_COLLATERAL)
+    if not isValidCount then
+        UsedPlus.logWarn(string.format("[SECURITY] Invalid collateralCount rejected: %d (max %d) - draining stream", collateralCount, MAX_COLLATERAL))
+    end
+
+    -- Always read the exact number of items declared in the stream
+    local safeCount = math.max(0, math.min(collateralCount, MAX_COLLATERAL * 2))
+    for i = 1, safeCount do
         local item = {
             vehicleId = streamReadString(streamId),
             objectId = streamReadInt32(streamId),
@@ -366,7 +445,10 @@ function TakeLoanEvent:readStream(streamId, connection)
             value = streamReadFloat32(streamId),
             farmId = self.farmId  -- Use event's farmId
         }
-        table.insert(self.collateralItems, item)
+        -- v2.7.2 SECURITY: Only store if count was valid and value is reasonable
+        if isValidCount and item.value and item.value > 0 and item.value < 100000000 then
+            table.insert(self.collateralItems, item)
+        end
     end
 
     self:run(connection)
@@ -390,14 +472,44 @@ function TakeLoanEvent.execute(farmId, loanAmount, termYears, interestRate, mont
         return false
     end
 
-    if loanAmount <= 0 then
-        UsedPlus.logError("TakeLoanEvent - Invalid loan amount")
+    -- v2.7.2 SECURITY: Comprehensive loan parameter validation
+    -- Helper to check for NaN and Infinity values
+    local function isInvalidNumber(v)
+        return v == nil or v ~= v or v == math.huge or v == -math.huge
+    end
+
+    if isInvalidNumber(loanAmount) or loanAmount <= 0 or loanAmount > 50000000 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid loan amount: %s", tostring(loanAmount)))
         return false
     end
 
     if termYears < 1 or termYears > 30 then
-        UsedPlus.logError(string.format("TakeLoanEvent - Invalid term: %d years", termYears))
+        UsedPlus.logError(string.format("[SECURITY] Invalid term: %d years (must be 1-30)", termYears))
         return false
+    end
+
+    -- v2.7.2 SECURITY: Validate interest rate is reasonable (0% to 50%)
+    if isInvalidNumber(interestRate) or interestRate < 0 or interestRate > 0.50 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid interest rate: %s (must be 0-50%%)", tostring(interestRate)))
+        return false
+    end
+
+    -- v2.7.2 SECURITY: Validate monthly payment is positive and bounded
+    if isInvalidNumber(monthlyPayment) or monthlyPayment <= 0 or monthlyPayment > 10000000 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid monthly payment: %s", tostring(monthlyPayment)))
+        return false
+    end
+
+    -- v2.7.2 SECURITY: Validate loan doesn't exceed collateral value (if collateral required)
+    if collateralItems and #collateralItems > 0 then
+        local collateralValue = 0
+        for _, item in ipairs(collateralItems) do
+            collateralValue = collateralValue + (item.value or 0)
+        end
+        if loanAmount > collateralValue * 1.5 then
+            UsedPlus.logError(string.format("[SECURITY] Loan $%.0f exceeds 150%% of collateral value $%.0f", loanAmount, collateralValue))
+            return false
+        end
     end
 
     local timeComponent = 0
@@ -458,6 +570,16 @@ end
 function TakeLoanEvent:run(connection)
     if not connection:getIsServer() then
         UsedPlus.logError("TakeLoanEvent must run on server")
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("LOAN_REJECTED",
+            string.format("Unauthorized loan attempt for farmId %d ($%.0f): %s",
+                self.farmId, self.loanAmount, errorMsg or "unknown"),
+            connection)
         return
     end
 

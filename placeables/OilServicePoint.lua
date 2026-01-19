@@ -318,17 +318,22 @@ function OilServicePoint:onUpdate(dt)
     local spec = self.spec_oilServicePoint
     if spec == nil then return end
 
+    -- v2.7.1: Safety check - ensure onLoad has completed initialization
+    if spec.updateInterval == nil then
+        return
+    end
+
     -- Keep requesting updates
     self:raiseActive()
 
     -- Throttle updates
-    spec.activationTimer = spec.activationTimer + dt
+    spec.activationTimer = (spec.activationTimer or 0) + dt
     if spec.activationTimer < spec.updateInterval then
         return
     end
     spec.activationTimer = 0
 
-    -- Debug: log every few seconds (using logInfo to ensure visibility)
+    -- Trace-level debug: log every few seconds (only visible when DEBUG=true and log level includes TRACE)
     spec.debugTimer = (spec.debugTimer or 0) + spec.updateInterval
     if spec.debugTimer >= 3000 then
         spec.debugTimer = 0
@@ -392,7 +397,7 @@ function OilServicePoint:onUpdate(dt)
             tankInfo = string.format("%.0fL %s", spec.currentFluidStorage, spec.currentFluidType)
         end
 
-        UsedPlus.logInfo(string.format("OilServicePoint DEBUG: isInVehicle=%s (%s), playerInRange=%s, vehicleInRange=%s, dist=%s, tank=%s, %s, acts=[purchase=%s, veh=%s]",
+        UsedPlus.logTrace(string.format("OilServicePoint: isInVehicle=%s (%s), playerInRange=%s, vehicleInRange=%s, dist=%s, tank=%s, %s, acts=[purchase=%s, veh=%s]",
             tostring(isInVehicle),
             vehicleName,
             tostring(playerInRange),
@@ -1022,28 +1027,35 @@ function FluidRefillActivatable:getIsActivatable()
         return false
     end
 
-    -- If no fluid type or can't activate, still show but don't allow activation
-    if self.fluidType == nil or not self.canActivate then
-        return false
-    end
-
     -- Check vehicle still in range
     local vehicleInRange = self.servicePoint:getVehicleInRange()
     if vehicleInRange ~= self.vehicle then
         return false
     end
 
-    -- Check if vehicle still needs this fluid type
-    if self.fluidType == "oil" then
-        return self.servicePoint:canRefillOil(self.vehicle)
-    elseif self.fluidType == "hydraulic" then
-        return self.servicePoint:canRefillHydraulic(self.vehicle)
-    end
+    -- v2.7.1: Always show prompt when vehicle is in range
+    -- Even if we can't refill (info-only mode), show the status message
+    return true
+end
 
-    return false
+--[[
+    v2.7.1: Get the text to display for this activatable
+    Shows different text based on whether action is available
+]]
+function FluidRefillActivatable:getActivateText()
+    return self.activateText or "Service Vehicle"
 end
 
 function FluidRefillActivatable:run()
+    -- v2.7.1: Only perform action if canActivate is true
+    if not self.canActivate then
+        -- Info-only mode - show a message explaining why
+        if self.activateText then
+            g_currentMission:showBlinkingWarning(self.activateText, 2000)
+        end
+        return
+    end
+
     if self.fluidType == "oil" then
         self.servicePoint:refillOil(self.vehicle)
     elseif self.fluidType == "hydraulic" then
@@ -1056,4 +1068,4 @@ function FluidRefillActivatable:getDistance(x, y, z)
 end
 
 
-UsedPlus.logInfo("OilServicePoint.lua loaded (v1.9.3 - custom dialog UX)")
+UsedPlus.logInfo("OilServicePoint.lua loaded (v2.7.1 - fixed vehicle action visibility)")

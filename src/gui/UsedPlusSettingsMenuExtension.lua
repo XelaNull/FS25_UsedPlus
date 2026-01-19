@@ -93,7 +93,7 @@ function UsedPlusSettingsMenuExtension:onFrameOpen()
         return
     end
 
-    print("[UsedPlus] onFrameOpen: Adding settings elements...")
+    UsedPlus.logDebug("[Settings] onFrameOpen: Adding settings elements...")
 
     -- Match ELS pattern exactly - direct calls, no pcall wrapper
     UsedPlusSettingsMenuExtension:addSettingsElements(self)
@@ -108,7 +108,7 @@ function UsedPlusSettingsMenuExtension:onFrameOpen()
     -- Update UI to reflect current settings
     UsedPlusSettingsMenuExtension:updateSettingsUI(self)
 
-    print("[UsedPlus] onFrameOpen: Settings menu setup complete")
+    UsedPlus.logDebug("[Settings] onFrameOpen: Settings menu setup complete")
 end
 
 --[[
@@ -117,13 +117,13 @@ end
 function UsedPlusSettingsMenuExtension:addSettingsElements(frame)
     local ranges = UsedPlusSettingsMenuExtension.ranges
 
-    print("[UsedPlus] addSettingsElements: Starting...")
-    print("[UsedPlus] addSettingsElements: frame = " .. tostring(frame))
-    print("[UsedPlus] addSettingsElements: gameSettingsLayout = " .. tostring(frame.gameSettingsLayout))
+    UsedPlus.logDebug("[Settings] addSettingsElements: Starting...")
+    UsedPlus.logDebug("[Settings] addSettingsElements: frame = " .. tostring(frame))
+    UsedPlus.logDebug("[Settings] addSettingsElements: gameSettingsLayout = " .. tostring(frame.gameSettingsLayout))
 
     -- Single section header (like ELS pattern)
     UsedPlusSettingsMenuExtension:addSectionHeader(frame, g_i18n:getText("usedplus_settings_header") or "UsedPlus Settings")
-    print("[UsedPlus] addSettingsElements: Section header added")
+    UsedPlus.logDebug("[Settings] addSettingsElements: Section header added")
 
     -- Preset selector
     frame.usedplus_presetOption = UsedPlusSettingsMenuExtension:addMultiTextOption(
@@ -131,16 +131,16 @@ function UsedPlusSettingsMenuExtension:addSettingsElements(frame)
         g_i18n:getText("usedplus_setting_preset") or "Quick Preset",
         g_i18n:getText("usedplus_setting_preset_desc") or "Apply a preset configuration"
     )
-    print("[UsedPlus] addSettingsElements: Preset option added = " .. tostring(frame.usedplus_presetOption))
+    UsedPlus.logDebug("[Settings] addSettingsElements: Preset option added = " .. tostring(frame.usedplus_presetOption))
 
     -- System toggles
-    print("[UsedPlus] addSettingsElements: About to add finance toggle...")
+    UsedPlus.logDebug("[Settings] addSettingsElements: About to add finance toggle...")
     frame.usedplus_financeToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
         frame, "onFinanceToggleChanged",
         g_i18n:getText("usedplus_setting_finance") or "Vehicle/Land Financing",
         g_i18n:getText("usedplus_setting_finance_desc") or "Enable financing for purchases"
     )
-    print("[UsedPlus] addSettingsElements: Finance toggle added = " .. tostring(frame.usedplus_financeToggle))
+    UsedPlus.logDebug("[Settings] addSettingsElements: Finance toggle added = " .. tostring(frame.usedplus_financeToggle))
 
     frame.usedplus_leaseToggle = UsedPlusSettingsMenuExtension:addBinaryOption(
         frame, "onLeaseToggleChanged",
@@ -400,7 +400,7 @@ function UsedPlusSettingsMenuExtension:addSettingsElements(frame)
         g_i18n:getText("usedplus_setting_bankInterestRate_desc") or "Annual interest rate on positive cash balances"
     )
 
-    print("[UsedPlus] addSettingsElements: ALL ELEMENTS ADDED SUCCESSFULLY!")
+    UsedPlus.logDebug("[Settings] addSettingsElements: ALL ELEMENTS ADDED SUCCESSFULLY!")
 end
 
 --[[
@@ -460,26 +460,26 @@ end
     Add a binary option (Yes/No toggle) to the settings layout
 ]]
 function UsedPlusSettingsMenuExtension:addBinaryOption(frame, callbackName, title, tooltip)
-    print("[UsedPlus] addBinaryOption: Creating for '" .. tostring(title) .. "'")
+    UsedPlus.logDebug("[Settings] addBinaryOption: Creating for '" .. tostring(title) .. "'")
 
     local bitMap = BitmapElement.new()
-    print("[UsedPlus] addBinaryOption: BitmapElement created")
+    UsedPlus.logDebug("[Settings] addBinaryOption: BitmapElement created")
 
     local bitMapProfile = g_gui:getProfile("fs25_multiTextOptionContainer")
-    print("[UsedPlus] addBinaryOption: Container profile = " .. tostring(bitMapProfile))
+    UsedPlus.logDebug("[Settings] addBinaryOption: Container profile = " .. tostring(bitMapProfile))
     bitMap:loadProfile(bitMapProfile, true)
-    print("[UsedPlus] addBinaryOption: Container profile loaded")
+    UsedPlus.logDebug("[Settings] addBinaryOption: Container profile loaded")
 
     local binaryOption = BinaryOptionElement.new()
-    print("[UsedPlus] addBinaryOption: BinaryOptionElement created")
+    UsedPlus.logDebug("[Settings] addBinaryOption: BinaryOptionElement created")
     binaryOption.useYesNoTexts = true
     local binaryOptionProfile = g_gui:getProfile("fs25_settingsBinaryOption")
-    print("[UsedPlus] addBinaryOption: Binary profile = " .. tostring(binaryOptionProfile))
+    UsedPlus.logDebug("[Settings] addBinaryOption: Binary profile = " .. tostring(binaryOptionProfile))
     binaryOption:loadProfile(binaryOptionProfile, true)
-    print("[UsedPlus] addBinaryOption: Binary profile loaded")
+    UsedPlus.logDebug("[Settings] addBinaryOption: Binary profile loaded")
     binaryOption.target = UsedPlusSettingsMenuExtension
     binaryOption:setCallback("onClickCallback", callbackName)
-    print("[UsedPlus] addBinaryOption: Callback set")
+    UsedPlus.logDebug("[Settings] addBinaryOption: Callback set")
 
     local titleElement = TextElement.new()
     local titleProfile = g_gui:getProfile("fs25_settingsMultiTextOptionTitle")
@@ -499,12 +499,12 @@ function UsedPlusSettingsMenuExtension:addBinaryOption(frame, callbackName, titl
     binaryOption:onGuiSetupFinished()
     titleElement:onGuiSetupFinished()
     tooltipElement:onGuiSetupFinished()
-    print("[UsedPlus] addBinaryOption: Elements setup finished")
+    UsedPlus.logDebug("[Settings] addBinaryOption: Elements setup finished")
 
     frame.gameSettingsLayout:addElement(bitMap)
-    print("[UsedPlus] addBinaryOption: Added to layout")
+    UsedPlus.logDebug("[Settings] addBinaryOption: Added to layout")
     bitMap:onGuiSetupFinished()
-    print("[UsedPlus] addBinaryOption: Complete for '" .. tostring(title) .. "'")
+    UsedPlus.logDebug("[Settings] addBinaryOption: Complete for '" .. tostring(title) .. "'")
 
     return binaryOption
 end

@@ -348,10 +348,7 @@ function SellerResponseDialog:onClickPrimary()
     -- Validate player can afford the final price (used vehicles are cash only!)
     local canAfford, errorMsg = self:canAffordAmount(finalPrice)
     if not canAfford then
-        g_gui:showInfoDialog({
-            title = g_i18n:getText("usedplus_insufficient_funds") or "Insufficient Funds",
-            text = errorMsg or "You cannot afford this purchase."
-        })
+        InfoDialog.show(errorMsg or "You cannot afford this purchase.")
         return
     end
 
@@ -520,10 +517,7 @@ function SellerResponseDialog:handleStandFirmWalkaway()
     end
 
     -- Show info dialog
-    g_gui:showInfoDialog({
-        title = g_i18n:getText("usedplus_sr_titleWalkaway") or "SELLER WALKED AWAY",
-        text = g_i18n:getText("usedplus_standfirm_walkaway") or "I don't think we're going to agree. Maybe another time."
-    })
+    InfoDialog.show(g_i18n:getText("usedplus_standfirm_walkaway") or "I don't think we're going to agree. Maybe another time.")
 end
 
 --[[

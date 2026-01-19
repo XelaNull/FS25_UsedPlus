@@ -198,24 +198,25 @@ function FieldServiceKitDialog:displayModeSelection(vehicleName, maintSpec)
     if self.hasFlatTire then malfunctionCount = malfunctionCount + 1 end
 
     -- Update mode button labels based on current state
-    if self.modeDiagnoseButton ~= nil then
-        self.modeDiagnoseButton:setText(g_i18n:getText("usedplus_fsk_mode_diagnose") or "Diagnose Component")
+    -- v2.7.1: Use Text labels instead of Button elements to avoid duplicate text
+    if self.modeDiagnoseLabel ~= nil then
+        self.modeDiagnoseLabel:setText(g_i18n:getText("usedplus_fsk_mode_diagnose") or "Diagnose Component")
     end
 
-    if self.modeMalfunctionsButton ~= nil then
+    if self.modeMalfunctionsLabel ~= nil then
         local malfText = g_i18n:getText("usedplus_fsk_mode_malfunctions") or "Locate Malfunctions"
         if malfunctionCount > 0 then
             malfText = malfText .. string.format(" (%d)", malfunctionCount)
         end
-        self.modeMalfunctionsButton:setText(malfText)
+        self.modeMalfunctionsLabel:setText(malfText)
     end
 
-    if self.modeTireServiceButton ~= nil then
+    if self.modeTireServiceLabel ~= nil then
         local tireText = g_i18n:getText("usedplus_fsk_mode_tire") or "Tire Service"
         if self.hasFlatTire then
             tireText = tireText .. " (!)"
         end
-        self.modeTireServiceButton:setText(tireText)
+        self.modeTireServiceLabel:setText(tireText)
         -- Disable if no flat tire (optional - could allow tire inspection even without flat)
         -- For now, keep enabled to allow future "inspect tires" feature
     end
@@ -709,9 +710,109 @@ end
 
 --[[
     Display tire repair options
+    v2.7.1: Shows tire status with percentages, only enables repair if flat tire exists
 ]]
 function FieldServiceKitDialog:displayTireRepair()
     self:setStepVisibility(FieldServiceKitDialog.STEP_TIRE_REPAIR)
+
+    -- Get tire conditions from vehicle
+    local maintSpec = self.vehicle.spec_usedPlusMaintenance
+    local tireConditions = {1.0, 1.0, 1.0, 1.0}  -- Default to 100%
+    local hasFlatTire = false
+
+    if maintSpec ~= nil and maintSpec.tireConditions ~= nil then
+        for i = 1, 4 do
+            tireConditions[i] = maintSpec.tireConditions[i] or 1.0
+            if tireConditions[i] <= 0.01 then
+                hasFlatTire = true
+            end
+        end
+    end
+
+    -- Update tire slot displays (FL, FR, RL, RR)
+    local tireSlots = {
+        { text = self.tireFLText, bg = self.tireFLBg, condition = tireConditions[1] },
+        { text = self.tireFRText, bg = self.tireFRBg, condition = tireConditions[2] },
+        { text = self.tireRLText, bg = self.tireRLBg, condition = tireConditions[3] },
+        { text = self.tireRRText, bg = self.tireRRBg, condition = tireConditions[4] }
+    }
+
+    for _, slot in ipairs(tireSlots) do
+        if slot.text ~= nil then
+            local pct = math.floor(slot.condition * 100)
+            if pct <= 1 then
+                slot.text:setText("FLAT!")
+                slot.text:setTextColor(1, 0.2, 0.2, 1)  -- Red
+            elseif pct <= 25 then
+                slot.text:setText(pct .. "%")
+                slot.text:setTextColor(1, 0.5, 0.2, 1)  -- Orange
+            elseif pct <= 50 then
+                slot.text:setText(pct .. "%")
+                slot.text:setTextColor(1, 0.8, 0.2, 1)  -- Yellow
+            else
+                slot.text:setText(pct .. "%")
+                slot.text:setTextColor(0.4, 1, 0.5, 1)  -- Green
+            end
+        end
+
+        -- Color the background based on condition
+        if slot.bg ~= nil then
+            if slot.condition <= 0.01 then
+                slot.bg:setImageColor(nil, 0.3, 0.1, 0.1, 0.95)  -- Dark red
+            elseif slot.condition <= 0.25 then
+                slot.bg:setImageColor(nil, 0.25, 0.15, 0.1, 0.95)  -- Dark orange
+            elseif slot.condition <= 0.5 then
+                slot.bg:setImageColor(nil, 0.25, 0.2, 0.1, 0.95)  -- Dark yellow
+            else
+                slot.bg:setImageColor(nil, 0.15, 0.15, 0.18, 0.9)  -- Normal dark
+            end
+        end
+    end
+
+    -- Set vehicle image if available
+    if self.tireVehicleImage ~= nil and self.vehicle ~= nil then
+        local storeItem = g_storeManager:getItemByXMLFilename(self.vehicle.configFileName)
+        if storeItem ~= nil and storeItem.imageFilename ~= nil then
+            self.tireVehicleImage:setImageFilename(storeItem.imageFilename)
+        end
+    end
+
+    -- Show/hide repair options based on flat tire status
+    local showRepairOptions = hasFlatTire
+    local showStatusMsg = not hasFlatTire
+
+    -- Patch button elements
+    if self.patchBtnBg ~= nil then self.patchBtnBg:setVisible(showRepairOptions) end
+    if self.patchButton ~= nil then
+        self.patchButton:setVisible(showRepairOptions)
+        self.patchButton:setDisabled(not hasFlatTire)
+    end
+    if self.patchTitle ~= nil then self.patchTitle:setVisible(showRepairOptions) end
+    if self.patchDesc ~= nil then self.patchDesc:setVisible(showRepairOptions) end
+    if self.patchResult ~= nil then self.patchResult:setVisible(showRepairOptions) end
+
+    -- Plug button elements
+    if self.plugBtnBg ~= nil then self.plugBtnBg:setVisible(showRepairOptions) end
+    if self.plugButton ~= nil then
+        self.plugButton:setVisible(showRepairOptions)
+        self.plugButton:setDisabled(not hasFlatTire)
+    end
+    if self.plugTitle ~= nil then self.plugTitle:setVisible(showRepairOptions) end
+    if self.plugDesc ~= nil then self.plugDesc:setVisible(showRepairOptions) end
+    if self.plugResult ~= nil then self.plugResult:setVisible(showRepairOptions) end
+
+    -- Instruction text (only shown when flat tire exists)
+    if self.tireInstructionText ~= nil then
+        self.tireInstructionText:setVisible(showRepairOptions)
+    end
+
+    -- Status message (shown when no flat tire)
+    if self.tireStatusMsg ~= nil then
+        self.tireStatusMsg:setVisible(showStatusMsg)
+        if showStatusMsg then
+            self.tireStatusMsg:setText(g_i18n:getText("usedplus_fsk_tires_ok") or "All tires OK - No repair needed")
+        end
+    end
 end
 
 --[[
@@ -1157,6 +1258,91 @@ function FieldServiceKitDialog:onDiagBtnUnhighlight(element)
         local bg = self[bgId]
         if bg ~= nil then
             -- Normal color (matches fskDiagBtnBg profile)
+            bg:setImageColor(nil, 0.12, 0.12, 0.16, 1)
+        end
+    end
+end
+
+--[[
+    v2.7.1: Hover effect handlers for mode selection buttons
+    Changes background color when mouse hovers over button
+]]
+function FieldServiceKitDialog:onModeBtnHighlight(element)
+    if element ~= nil and element.id ~= nil then
+        -- Map button ID to background ID
+        local bgMapping = {
+            modeDiagnoseButton = "modeDiagnoseBg",
+            modeMalfunctionsButton = "modeMalfunctionsBg",
+            modeTireServiceButton = "modeTireServiceBg",
+            modeRVBButton = "modeRVBBg"
+        }
+        local bgId = bgMapping[element.id]
+        local bg = self[bgId]
+        if bg ~= nil then
+            -- Highlight color: lighter version of each box type
+            if element.id == "modeMalfunctionsButton" then
+                bg:setImageColor(nil, 0.28, 0.22, 0.12, 0.95)  -- Lighter warning orange
+            elseif element.id == "modeRVBButton" then
+                bg:setImageColor(nil, 0.16, 0.20, 0.28, 0.95)  -- Lighter tech blue
+            else
+                bg:setImageColor(nil, 0.20, 0.28, 0.20, 0.95)  -- Lighter green
+            end
+        end
+    end
+end
+
+function FieldServiceKitDialog:onModeBtnUnhighlight(element)
+    if element ~= nil and element.id ~= nil then
+        -- Map button ID to background ID
+        local bgMapping = {
+            modeDiagnoseButton = "modeDiagnoseBg",
+            modeMalfunctionsButton = "modeMalfunctionsBg",
+            modeTireServiceButton = "modeTireServiceBg",
+            modeRVBButton = "modeRVBBg"
+        }
+        local bgId = bgMapping[element.id]
+        local bg = self[bgId]
+        if bg ~= nil then
+            -- Restore normal colors matching XML profiles
+            if element.id == "modeMalfunctionsButton" then
+                bg:setImageColor(nil, 0.18, 0.14, 0.08, 0.9)  -- fskModeBoxBgWarning
+            elseif element.id == "modeRVBButton" then
+                bg:setImageColor(nil, 0.10, 0.12, 0.16, 0.9)  -- fskModeBoxBgTech
+            else
+                bg:setImageColor(nil, 0.12, 0.15, 0.12, 0.9)  -- fskModeBoxBg
+            end
+        end
+    end
+end
+
+--[[
+    v2.7.1: Hover effect handlers for tire repair buttons
+]]
+function FieldServiceKitDialog:onTireBtnHighlight(element)
+    if element ~= nil and element.id ~= nil then
+        local bgMapping = {
+            patchButton = "patchBtnBg",
+            plugButton = "plugBtnBg"
+        }
+        local bgId = bgMapping[element.id]
+        local bg = self[bgId]
+        if bg ~= nil then
+            -- Highlight color: lighter blue
+            bg:setImageColor(nil, 0.22, 0.28, 0.38, 1)
+        end
+    end
+end
+
+function FieldServiceKitDialog:onTireBtnUnhighlight(element)
+    if element ~= nil and element.id ~= nil then
+        local bgMapping = {
+            patchButton = "patchBtnBg",
+            plugButton = "plugBtnBg"
+        }
+        local bgId = bgMapping[element.id]
+        local bg = self[bgId]
+        if bg ~= nil then
+            -- Restore normal color (matches fskTireBtnBg profile)
             bg:setImageColor(nil, 0.12, 0.12, 0.16, 1)
         end
     end

@@ -127,6 +127,32 @@ end
     Execute business logic
 ]]
 function RepairVehicleEvent.execute(vehicleId, farmId, repairPercent, repaintPercent, totalCost, isFinanced, termMonths, monthlyPayment, downPayment)
+    -- v2.7.2 SECURITY: Helper to check for NaN and Infinity values
+    local function isInvalidNumber(v)
+        return v == nil or v ~= v or v == math.huge or v == -math.huge
+    end
+
+    -- v2.7.2 SECURITY: Clamp percentage values to valid 0-1 range
+    -- Prevents negative, >100%, NaN, or infinity values that could corrupt vehicle state
+    if isInvalidNumber(repairPercent) then repairPercent = 0 end
+    if isInvalidNumber(repaintPercent) then repaintPercent = 0 end
+    repairPercent = math.max(0, math.min(1, repairPercent))
+    repaintPercent = math.max(0, math.min(1, repaintPercent))
+
+    -- v2.7.2 SECURITY: Validate cost values (including infinity check)
+    if isInvalidNumber(totalCost) or totalCost < 0 or totalCost > 10000000 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid totalCost: %s", tostring(totalCost)))
+        return false
+    end
+    if isInvalidNumber(downPayment) or downPayment < 0 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid downPayment: %s", tostring(downPayment)))
+        return false
+    end
+    if monthlyPayment ~= nil and (isInvalidNumber(monthlyPayment) or monthlyPayment < 0) then
+        UsedPlus.logError(string.format("[SECURITY] Invalid monthlyPayment: %s", tostring(monthlyPayment)))
+        return false
+    end
+
     -- Get vehicle from network ID
     local vehicle = NetworkUtil.getObject(vehicleId)
     if vehicle == nil then
@@ -290,6 +316,16 @@ end
 function RepairVehicleEvent:run(connection)
     if not connection:getIsServer() then
         UsedPlus.logError("RepairVehicleEvent must run on server")
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("REPAIR_REJECTED",
+            string.format("Unauthorized repair attempt for farmId %d, vehicle %s: %s",
+                self.farmId, tostring(self.vehicleId), errorMsg or "unknown"),
+            connection)
         return
     end
 

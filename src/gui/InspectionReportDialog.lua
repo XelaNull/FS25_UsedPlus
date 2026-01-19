@@ -367,10 +367,7 @@ function InspectionReportDialog:onClickBuy()
             -- Still locked - show message
             local remainingMs = (listing.negotiationLockExpires or 0) - currentTime
             local remainingMins = math.ceil(remainingMs / 60000)
-            g_gui:showInfoDialog({
-                title = g_i18n:getText("usedplus_negotiation_locked_title") or "Seller Unavailable",
-                text = string.format(g_i18n:getText("usedplus_negotiation_locked") or "Seller is unavailable. Try again in %d minutes.", remainingMins)
-            })
+            InfoDialog.show(string.format(g_i18n:getText("usedplus_negotiation_locked") or "Seller is unavailable. Try again in %d minutes.", remainingMins))
             return
         else
             -- Lock expired

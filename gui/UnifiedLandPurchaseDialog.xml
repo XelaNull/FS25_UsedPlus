@@ -33,10 +33,10 @@
                 <Text profile="lpLandName" id="landNameText" position="-50px -30px" text=""/>
 
                 <Text profile="lpDetailLabel" position="-200px -55px" text="$l10n_usedplus_lp_size"/>
-                <Text profile="lpLandSize" id="landSizeText" position="-50px -55px" text=""/>
+                <Text profile="lpLandSize" id="landSizeText" position="-75px -55px" text=""/>
 
                 <Text profile="lpDetailLabel" position="-200px -80px" text="$l10n_usedplus_lp_perHa"/>
-                <Text profile="lpPricePerHa" id="landPricePerHaText" position="-50px -80px" text=""/>
+                <Text profile="lpPricePerHa" id="landPricePerHaText" position="-75px -80px" text=""/>
 
                 <!-- Right Column: Price Breakdown (label:value on same line) -->
                 <!-- Shifted left for better centering (was 60/200, now 100/250) -->

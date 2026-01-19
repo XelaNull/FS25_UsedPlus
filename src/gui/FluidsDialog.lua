@@ -344,17 +344,13 @@ function FluidsDialog:onConfirm()
     end
 
     if #servicesPerformed == 0 then
-        g_gui:showInfoDialog({
-            text = g_i18n:getText("usedplus_fluids_selectFirst") or "Please select at least one service."
-        })
+        InfoDialog.show(g_i18n:getText("usedplus_fluids_selectFirst") or "Please select at least one service.")
         return
     end
 
     -- Check if player can afford it
     if g_currentMission:getMoney(self.farmId) < totalCost then
-        g_gui:showInfoDialog({
-            text = g_i18n:getText("usedplus_error_insufficientFunds") or "Insufficient funds!"
-        })
+        InfoDialog.show(g_i18n:getText("usedplus_error_insufficientFunds") or "Insufficient funds!")
         return
     end
 
@@ -378,10 +374,8 @@ function FluidsDialog:onConfirm()
     self:close()
 
     -- Show confirmation
-    g_gui:showInfoDialog({
-        text = string.format(g_i18n:getText("usedplus_fluids_refilled") or "Fluids refilled: %s",
-            table.concat(servicesPerformed, ", "))
-    })
+    InfoDialog.show(string.format(g_i18n:getText("usedplus_fluids_refilled") or "Fluids refilled: %s",
+        table.concat(servicesPerformed, ", ")))
 end
 
 --[[

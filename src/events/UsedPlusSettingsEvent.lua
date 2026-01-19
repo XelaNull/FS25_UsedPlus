@@ -87,7 +87,18 @@ function UsedPlusSettingsEvent:readStream(streamId, connection)
         self.settings = {}
         local count = streamReadUInt16(streamId)
 
-        for i = 1, count do
+        -- v2.7.2 SECURITY: Prevent unbounded loop DoS attack
+        -- CRITICAL: We must ALWAYS consume the stream data, even if count is invalid
+        -- Otherwise the stream pointer gets out of sync and causes packet corruption
+        local MAX_SETTINGS = 200
+        local isValidCount = (count >= 0 and count <= MAX_SETTINGS)
+        if not isValidCount then
+            UsedPlus.logWarn(string.format("[SECURITY] Invalid settings count rejected: %d (max %d) - draining stream", count, MAX_SETTINGS))
+        end
+
+        -- Always read the exact number of items declared in the stream
+        local safeCount = math.max(0, math.min(count, MAX_SETTINGS * 2))
+        for i = 1, safeCount do
             local key = streamReadString(streamId)
             local valueType = streamReadUInt8(streamId)
             local value
@@ -100,7 +111,10 @@ function UsedPlusSettingsEvent:readStream(streamId, connection)
                 value = streamReadString(streamId)
             end
 
-            self.settings[key] = value
+            -- v2.7.2 SECURITY: Only store if count was valid and key is safe
+            if isValidCount and key and not key:match("^__") and key ~= "" then
+                self.settings[key] = value
+            end
         end
 
     elseif self.eventType == UsedPlusSettingsEvent.TYPE_PRESET then

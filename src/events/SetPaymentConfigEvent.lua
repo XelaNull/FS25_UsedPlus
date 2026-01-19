@@ -132,6 +132,21 @@ function SetPaymentConfigEvent:run(connection)
         return
     end
 
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    if g_financeManager then
+        local deal = g_financeManager:getDealById(self.dealId)
+        if deal then
+            local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, deal.farmId)
+            if not isAuthorized then
+                NetworkSecurity.logSecurityEvent("PAYMENT_CONFIG_REJECTED",
+                    string.format("Unauthorized payment config change for deal %s (farmId %d): %s",
+                        self.dealId, deal.farmId, errorMsg or "unknown"),
+                    connection)
+                return
+            end
+        end
+    end
+
     -- Delegate to static execute method
     SetPaymentConfigEvent.execute(self.dealId, self.paymentMode, self.customAmount, self.multiplier)
 end

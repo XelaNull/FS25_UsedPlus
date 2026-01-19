@@ -65,6 +65,16 @@ function LandLeaseEvent:run(connection)
         return
     end
 
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("LAND_LEASE_REJECTED",
+            string.format("Unauthorized land lease attempt for farmId %d, farmland %d: %s",
+                self.farmId, self.farmlandId, errorMsg or "unknown"),
+            connection)
+        return
+    end
+
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
         return
@@ -193,6 +203,16 @@ function LandLeaseBuyoutEvent:run(connection)
     local deal = g_financeManager:getDealById(self.dealId)
     if deal == nil then
         UsedPlus.logError(string.format("Land lease deal %s not found", self.dealId))
+        return
+    end
+
+    -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, deal.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("LAND_BUYOUT_REJECTED",
+            string.format("Unauthorized land buyout attempt for deal %s (farmId %d): %s",
+                self.dealId, deal.farmId, errorMsg or "unknown"),
+            connection)
         return
     end
 

@@ -117,16 +117,16 @@
                         <GuiElement type="BoxLayout" profile="sliderContainer">
                             <GuiElement type="Text" profile="sliderLabel" text="$l10n_usedplus_detail_paymentAmount" />
                             <GuiElement type="SliderElement" profile="sliderHorizontal" id="paymentSlider"
-                                minValue="1" maxValue="100" stepSize="1" onChange="onPaymentAmountChanged" />
+                                minValue="1" maxValue="100" stepSize="1" onChange="onPaymentSliderChanged" />
                             <GuiElement type="Text" profile="sliderValue" id="paymentAmount" text="" />
                         </GuiElement>
 
                         <!--  Quick select buttons -->
                         <GuiElement type="BoxLayout" profile="quickSelectRow">
-                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick1Month" onClick="onQuick1Month" />
-                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick6Months" onClick="onQuick6Months" />
-                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick1Year" onClick="onQuick1Year" />
-                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quickPayOff" onClick="onQuickPayOff" />
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick1Month" onClick="onButton1Month" />
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick6Months" onClick="onButton6Months" />
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quick1Year" onClick="onButton1Year" />
+                            <GuiElement type="Button" profile="buttonQuick" text="$l10n_usedplus_fd_quickPayOff" onClick="onButtonPayoff" />
                         </GuiElement>
 
                         <!--  Payment summary -->

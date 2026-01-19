@@ -64,10 +64,18 @@ function RepairFinanceDialog.isCreditSystemEnabled()
 end
 
 --[[
-    Get available down payment options based on settings minimum
+    Get available down payment options based on settings minimum AND credit score
+    v2.7.1: Now uses UnifiedPurchaseDialog's credit-based filtering
+    @param creditScore - Player's credit score (optional)
     @return filtered table of down payment percentages
 ]]
-function RepairFinanceDialog.getDownPaymentOptions()
+function RepairFinanceDialog.getDownPaymentOptions(creditScore)
+    -- Delegate to UnifiedPurchaseDialog's credit-aware function
+    if UnifiedPurchaseDialog and UnifiedPurchaseDialog.getDownPaymentOptions then
+        return UnifiedPurchaseDialog.getDownPaymentOptions(creditScore)
+    end
+
+    -- Fallback if UnifiedPurchaseDialog not loaded
     local minPercent = UsedPlusSettings and UsedPlusSettings:get("minDownPaymentPercent") or 0
     local options = {}
     for _, pct in ipairs(RepairFinanceDialog.DOWN_PAYMENT_OPTIONS) do
@@ -75,7 +83,6 @@ function RepairFinanceDialog.getDownPaymentOptions()
             table.insert(options, pct)
         end
     end
-    -- Ensure at least one option exists
     if #options == 0 then
         options = {minPercent}
     end
@@ -84,11 +91,13 @@ end
 
 --[[
     Get the actual down payment percentage for a given dropdown index
+    v2.7.1: Now supports credit-based filtering
     @param index - Dropdown index (1-based)
+    @param creditScore - Player's credit score (optional)
     @return percentage value
 ]]
-function RepairFinanceDialog.getDownPaymentPercent(index)
-    local options = RepairFinanceDialog.getDownPaymentOptions()
+function RepairFinanceDialog.getDownPaymentPercent(index, creditScore)
+    local options = RepairFinanceDialog.getDownPaymentOptions(creditScore)
     return options[index] or options[1] or 0
 end
 
@@ -180,8 +189,37 @@ function RepairFinanceDialog:setData(vehicle, farmId, repairCost, repairPercent,
         self.creditScore = 650  -- Default
     end
 
+    -- v2.7.1: Update down payment options based on credit score
+    self:updateDownPaymentOptionsForCredit()
+
     self.isDataSet = true
     self:updatePreview()
+end
+
+--[[
+    Update down payment slider options based on credit score
+    v2.7.1: Lower down payments require better credit
+]]
+function RepairFinanceDialog:updateDownPaymentOptionsForCredit()
+    if not self.downPaymentSlider then
+        return
+    end
+
+    local availableOptions = RepairFinanceDialog.getDownPaymentOptions(self.creditScore)
+
+    -- Store available options for later lookup
+    self.availableDownOptions = availableOptions
+
+    -- Build texts for available options
+    local texts = {}
+    for _, pct in ipairs(availableOptions) do
+        table.insert(texts, pct .. "%")
+    end
+
+    self.downPaymentSlider:setTexts(texts)
+
+    -- Reset to first option (minimum required)
+    self.downPaymentSlider:setState(1)
 end
 
 --[[
@@ -255,7 +293,7 @@ function RepairFinanceDialog:updatePreview()
     end
 
     -- Get down payment percent from filtered options (convert from 0-100 to 0-1)
-    local downPaymentPct = RepairFinanceDialog.getDownPaymentPercent(downPaymentIndex)
+    local downPaymentPct = RepairFinanceDialog.getDownPaymentPercent(downPaymentIndex, self.creditScore)
     self.downPaymentPercent = downPaymentPct / 100
 
     -- Calculate down payment amount

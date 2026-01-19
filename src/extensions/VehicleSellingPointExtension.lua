@@ -32,13 +32,13 @@ VehicleSellingPointExtension.bypassInterception = false
 
 -- Debug flags
 VehicleSellingPointExtension.DEBUG_PASSTHROUGH_ALL = false  -- Set to true to disable all interception
-VehicleSellingPointExtension.DEBUG_VERBOSE = true  -- Enable verbose logging
 
 --[[
-    Debug helper to log GUI state
+    Debug helper to log GUI state (uses UsedPlus.logTrace for verbose output)
 ]]
 function VehicleSellingPointExtension.logGuiState(context)
-    if not VehicleSellingPointExtension.DEBUG_VERBOSE then return end
+    -- Skip if DEBUG is disabled (logTrace won't output anyway, but save the work)
+    if not UsedPlus.DEBUG then return end
 
     local stateInfo = {}
 
@@ -112,7 +112,7 @@ function VehicleSellingPointExtension.logGuiState(context)
         table.insert(stateInfo, "g_gui=nil!")
     end
 
-    UsedPlus.logDebug(string.format("[GUI STATE @ %s] %s", context, table.concat(stateInfo, " | ")))
+    UsedPlus.logTrace(string.format("[GUI STATE @ %s] %s", context, table.concat(stateInfo, " | ")))
 end
 
 --[[

@@ -199,21 +199,14 @@ function UsedVehiclePreviewDialog:updateInspectionSections(inspectionState)
     if self.warningBg then self.warningBg:setVisible(showWarning) end
     if self.warningIcon then self.warningIcon:setVisible(showWarning) end
     if self.warningText then self.warningText:setVisible(showWarning) end
+    if self.inspectPrompt then self.inspectPrompt:setVisible(showWarning) end
 
-    -- Tier selection (not inspected) - show cost summary
-    if self.inspectPrompt and showWarning then
-        self.inspectPrompt:setVisible(true)
-        -- Show tier range instead of single price
-        local minCost = self.tierCosts[1] and self.tierCosts[1].cost or 0
-        local maxCost = self.tierCosts[3] and self.tierCosts[3].cost or 0
-        local promptText = string.format(
-            g_i18n:getText("usedplus_preview_inspectionRange") or "Inspection options: %s - %s",
-            g_i18n:formatMoney(minCost, 0, true, true),
-            g_i18n:formatMoney(maxCost, 0, true, true)
-        )
-        self.inspectPrompt:setText(promptText)
-    elseif self.inspectPrompt then
-        self.inspectPrompt:setVisible(false)
+    -- v2.7.0: Update tier button text with costs and times
+    if showWarning then
+        self:updateTierButtons()
+    else
+        -- Hide all tier button elements when not in "none" state (3-layer pattern)
+        self:hideTierButtons()
     end
 
     -- Progress section (inspection pending)
@@ -245,6 +238,105 @@ function UsedVehiclePreviewDialog:updateInspectionSections(inspectionState)
 end
 
 --[[
+    v2.7.0: Update tier button text with costs and duration
+    Uses 3-layer pattern: Bitmap (bg) + Button (hit) + Text (label)
+]]
+function UsedVehiclePreviewDialog:updateTierButtons()
+    -- 3-layer elements for each tier
+    local tierButtons = {
+        { bg = self.tierQuickBg, button = self.tierQuickButton, text = self.tierQuickText, index = 1 },
+        { bg = self.tierStandardBg, button = self.tierStandardButton, text = self.tierStandardText, index = 2 },
+        { bg = self.tierComprehensiveBg, button = self.tierComprehensiveButton, text = self.tierComprehensiveText, index = 3 }
+    }
+
+    for _, tierData in ipairs(tierButtons) do
+        local tierInfo = self.tierCosts[tierData.index]
+
+        if tierInfo then
+            -- Format: "Quick $1,234 (~2h)"
+            local buttonText = string.format("%s %s (~%dh)",
+                tierInfo.name,
+                g_i18n:formatMoney(tierInfo.cost, 0, true, true),
+                tierInfo.durationHours
+            )
+
+            -- Set text on the Text element (NOT the Button!)
+            if tierData.text then
+                tierData.text:setText(buttonText)
+                tierData.text:setVisible(true)
+            end
+
+            -- Show background and button hit area
+            if tierData.bg then tierData.bg:setVisible(true) end
+            if tierData.button then tierData.button:setVisible(true) end
+        else
+            -- Hide all 3 elements
+            if tierData.bg then tierData.bg:setVisible(false) end
+            if tierData.button then tierData.button:setVisible(false) end
+            if tierData.text then tierData.text:setVisible(false) end
+        end
+    end
+end
+
+--[[
+    v2.7.0: Hide all tier button elements (3-layer pattern)
+]]
+function UsedVehiclePreviewDialog:hideTierButtons()
+    -- Hide all 9 elements (3 tiers × 3 elements each)
+    if self.tierQuickBg then self.tierQuickBg:setVisible(false) end
+    if self.tierQuickButton then self.tierQuickButton:setVisible(false) end
+    if self.tierQuickText then self.tierQuickText:setVisible(false) end
+
+    if self.tierStandardBg then self.tierStandardBg:setVisible(false) end
+    if self.tierStandardButton then self.tierStandardButton:setVisible(false) end
+    if self.tierStandardText then self.tierStandardText:setVisible(false) end
+
+    if self.tierComprehensiveBg then self.tierComprehensiveBg:setVisible(false) end
+    if self.tierComprehensiveButton then self.tierComprehensiveButton:setVisible(false) end
+    if self.tierComprehensiveText then self.tierComprehensiveText:setVisible(false) end
+end
+
+--[[
+    v2.7.0: Tier button hover handler - highlight background
+]]
+function UsedVehiclePreviewDialog:onTierBtnHighlight(element)
+    -- Get the corresponding background element by ID
+    local bgElement = nil
+    if element == self.tierQuickButton then
+        bgElement = self.tierQuickBg
+    elseif element == self.tierStandardButton then
+        bgElement = self.tierStandardBg
+    elseif element == self.tierComprehensiveButton then
+        bgElement = self.tierComprehensiveBg
+    end
+
+    -- Lighten the background color on hover
+    if bgElement then
+        bgElement:setImageColor(GuiUtils.getColorArray("0.20 0.25 0.20 1"))
+    end
+end
+
+--[[
+    v2.7.0: Tier button unhighlight handler - restore background
+]]
+function UsedVehiclePreviewDialog:onTierBtnUnhighlight(element)
+    -- Get the corresponding background element by ID
+    local bgElement = nil
+    if element == self.tierQuickButton then
+        bgElement = self.tierQuickBg
+    elseif element == self.tierStandardButton then
+        bgElement = self.tierStandardBg
+    elseif element == self.tierComprehensiveButton then
+        bgElement = self.tierComprehensiveBg
+    end
+
+    -- Restore the original background color
+    if bgElement then
+        bgElement:setImageColor(GuiUtils.getColorArray("0.12 0.15 0.12 1"))
+    end
+end
+
+--[[
     v2.7.0: Update button states based on inspection state
 ]]
 function UsedVehiclePreviewDialog:updateButtons(inspectionState)
@@ -253,17 +345,16 @@ function UsedVehiclePreviewDialog:updateButtons(inspectionState)
         if inspectionState == "complete" then
             -- Show "View Report" button
             self.inspectButton:setText(g_i18n:getText("usedplus_preview_viewReport") or "View Report")
+            self.inspectButton:setDisabled(false)
             self.inspectButton:setVisible(true)
         elseif inspectionState == "pending" then
-            -- Disable inspect button while in progress
+            -- Show disabled "In Progress" button
             self.inspectButton:setText(g_i18n:getText("usedplus_preview_inProgress") or "In Progress...")
             self.inspectButton:setDisabled(true)
             self.inspectButton:setVisible(true)
         else
-            -- Show "Request Inspection" - clicking opens tier selection
-            self.inspectButton:setText(g_i18n:getText("usedplus_preview_requestInspection") or "Request Inspection")
-            self.inspectButton:setDisabled(false)
-            self.inspectButton:setVisible(true)
+            -- Hide button when "none" state - tier buttons are shown instead
+            self.inspectButton:setVisible(false)
         end
     end
 end
@@ -290,7 +381,8 @@ end
 
 --[[
     Button handler: Inspect button clicked
-    v2.7.0: Opens tier selection dialog if not inspected
+    v2.7.0: Only shown when inspection is complete (to view report)
+    Tier buttons handle the initial tier selection
 ]]
 function UsedVehiclePreviewDialog:onClickInspect()
     local listing = self.listing
@@ -308,10 +400,8 @@ function UsedVehiclePreviewDialog:onClickInspect()
             g_i18n:getText("usedplus_inspection_alreadyPending") or "Inspection already in progress!",
             3000
         )
-    else
-        -- Not inspected - open tier selection dialog
-        self:showTierSelectionDialog()
     end
+    -- "none" state is handled by tier buttons directly
 end
 
 --[[
@@ -410,18 +500,50 @@ function UsedVehiclePreviewDialog:requestInspectionTier(tierIndex)
 end
 
 --[[
-    v2.7.0: Tier button handlers (if using dedicated buttons)
+    v2.7.0: Tier button handlers - show confirmation before requesting
 ]]
 function UsedVehiclePreviewDialog:onClickTierQuick()
-    self:requestInspectionTier(1)
+    self:confirmTierSelection(1)
 end
 
 function UsedVehiclePreviewDialog:onClickTierStandard()
-    self:requestInspectionTier(2)
+    self:confirmTierSelection(2)
 end
 
 function UsedVehiclePreviewDialog:onClickTierComprehensive()
-    self:requestInspectionTier(3)
+    self:confirmTierSelection(3)
+end
+
+--[[
+    v2.7.0: Show confirmation dialog before requesting inspection
+]]
+function UsedVehiclePreviewDialog:confirmTierSelection(tierIndex)
+    local tierInfo = self.tierCosts[tierIndex]
+    if tierInfo == nil then
+        UsedPlus.logError("Invalid tier index: " .. tostring(tierIndex))
+        return
+    end
+
+    -- Build confirmation text with proper line breaks
+    -- Note: XML translations use literal \n which must be converted to actual newlines
+    local template = g_i18n:getText("usedplus_confirmInspection") or "Request %s inspection for %s?\n\nReady in ~%d hours."
+    local confirmText = string.format(template,
+        tierInfo.name,
+        g_i18n:formatMoney(tierInfo.cost, 0, true, true),
+        tierInfo.durationHours
+    )
+    -- Convert literal \n to actual newlines (XML doesn't interpret \n as escape sequence)
+    confirmText = confirmText:gsub("\\n", "\n")
+
+    YesNoDialog.show(
+        function(target, yes)
+            if yes then
+                self:requestInspectionTier(tierIndex)
+            end
+        end,
+        self,
+        confirmText
+    )
 end
 
 --[[

@@ -409,9 +409,7 @@ end
 ]]
 function TiresDialog:onConfirm()
     if self.selectedQuality == nil then
-        g_gui:showInfoDialog({
-            text = g_i18n:getText("usedplus_tires_selectFirst") or "Please select a tire quality first."
-        })
+        InfoDialog.show(g_i18n:getText("usedplus_tires_selectFirst") or "Please select a tire quality first.")
         return
     end
 
@@ -419,9 +417,7 @@ function TiresDialog:onConfirm()
 
     -- Check if player can afford it
     if g_currentMission:getMoney(self.farmId) < cost then
-        g_gui:showInfoDialog({
-            text = g_i18n:getText("usedplus_error_insufficientFunds") or "Insufficient funds!"
-        })
+        InfoDialog.show(g_i18n:getText("usedplus_error_insufficientFunds") or "Insufficient funds!")
         return
     end
 
@@ -447,10 +443,10 @@ function TiresDialog:onConfirm()
     self:close()
 
     -- Show confirmation
-    g_gui:showInfoDialog({
-        text = string.format(g_i18n:getText("usedplus_tires_replaced") or "Tires replaced: %s",
+    InfoDialog.show(
+        string.format(g_i18n:getText("usedplus_tires_replaced") or "Tires replaced: %s",
             self:getQualityName(self.selectedQuality))
-    })
+    )
 end
 
 --[[
