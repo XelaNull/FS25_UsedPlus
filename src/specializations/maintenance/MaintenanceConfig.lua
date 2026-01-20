@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 -- Configuration defaults
 UsedPlusMaintenance.CONFIG = {
     -- Feature toggles

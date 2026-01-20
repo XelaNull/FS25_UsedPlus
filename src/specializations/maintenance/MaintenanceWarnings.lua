@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 --[[
     v1.6.0: Check if warnings should be shown for this vehicle
     Warnings should ONLY show when:

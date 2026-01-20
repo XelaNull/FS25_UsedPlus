@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 --[[
     v1.6.0: Update steering pull surge timer and trigger surge events
     Called every 1 second from onUpdate periodic checks

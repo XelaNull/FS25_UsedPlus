@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 --[[
     Check for engine stall
     Stalling more likely with high damage + low reliability + high load

@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 --[[
     v2.5.2: Calculate fluid multiplier for malfunction CHANCE
     @param fluidLevel - Current fluid level (0.0-1.0)

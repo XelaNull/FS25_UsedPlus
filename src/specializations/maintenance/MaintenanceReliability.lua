@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 --[[
     Generate workhorse/lemon scale for a NEW vehicle (purchased from dealership)
     Bell curve centered at 0.6 (slightly workhorse-biased)

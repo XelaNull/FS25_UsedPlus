@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 --[[
     Calculate speed limit factor based on reliability, damage, and conditions
     Updates spec.maxSpeedFactor which is used by getCanMotorRun speed governor

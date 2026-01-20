@@ -5,6 +5,9 @@
     Extracted from UsedPlusMaintenance.lua for modularity
 ]]
 
+-- Ensure UsedPlusMaintenance table exists (modules load before main spec)
+UsedPlusMaintenance = UsedPlusMaintenance or {}
+
 --[[
     v2.4.0: Check for hydraulic surge event (time-limited hard steering pull)
     Called every 1 second from onUpdate periodic checks
