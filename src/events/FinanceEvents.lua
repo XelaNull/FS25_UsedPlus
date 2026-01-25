@@ -123,12 +123,12 @@ function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePri
     -- v2.6.2: Validate finance system is enabled
     if UsedPlusSettings and UsedPlusSettings:get("enableFinanceSystem") == false then
         UsedPlus.logWarn("FinanceVehicleEvent rejected: Finance system disabled in settings")
-        return
+        return false, "usedplus_mp_error_disabled"
     end
 
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
-        return
+        return false, "usedplus_mp_error_manager"
     end
 
     -- v2.7.2 SECURITY: Validate all financial parameters
@@ -140,19 +140,19 @@ function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePri
 
     if isInvalidNumber(basePrice) or basePrice <= 0 or basePrice > 100000000 then
         UsedPlus.logError(string.format("[SECURITY] Invalid basePrice: %s", tostring(basePrice)))
-        return
+        return false, "usedplus_mp_error_invalid_params"
     end
     if isInvalidNumber(downPayment) or downPayment < 0 or downPayment > basePrice then
         UsedPlus.logError(string.format("[SECURITY] Invalid downPayment: %s", tostring(downPayment)))
-        return
+        return false, "usedplus_mp_error_invalid_params"
     end
     if termYears == nil or termYears < 1 or termYears > 30 then
         UsedPlus.logError(string.format("[SECURITY] Invalid termYears: %s (must be 1-30)", tostring(termYears)))
-        return
+        return false, "usedplus_mp_error_invalid_params"
     end
     if isInvalidNumber(cashBack) or cashBack < 0 then
         UsedPlus.logError(string.format("[SECURITY] Invalid cashBack: %s", tostring(cashBack)))
-        return
+        return false, "usedplus_mp_error_invalid_params"
     end
 
     -- v2.7.2 SECURITY: Validate cashBack doesn't exceed maximum allowed
@@ -163,20 +163,20 @@ function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePri
     end
     if cashBack > maxCashBack then
         UsedPlus.logError(string.format("[SECURITY] CashBack $%.0f exceeds maximum allowed $%.0f", cashBack, maxCashBack))
-        return
+        return false, "usedplus_mp_error_invalid_params"
     end
 
     local farm = g_farmManager:getFarmById(farmId)
     if farm == nil then
         UsedPlus.logError(string.format("Farm %d not found", farmId))
-        return
+        return false, "usedplus_mp_error_invalid_params"
     end
 
     local netCost = downPayment - cashBack
     if farm.money < netCost then
         UsedPlus.logError(string.format("Insufficient funds for down payment ($%.2f required, $%.2f available)",
             netCost, farm.money))
-        return
+        return false, "usedplus_mp_error_insufficient_funds"
     end
 
     local deal = g_financeManager:createFinanceDeal(
@@ -185,8 +185,10 @@ function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePri
 
     if deal then
         UsedPlus.logDebug(string.format("Finance deal created successfully: %s (ID: %s)", itemName, deal.id))
+        return true, "usedplus_mp_success_financed"
     else
         UsedPlus.logError(string.format("Failed to create finance deal for %s", itemName))
+        return false, "usedplus_mp_error_failed"
     end
 end
 
@@ -202,13 +204,16 @@ function FinanceVehicleEvent:run(connection)
         NetworkSecurity.logSecurityEvent("FINANCE_REJECTED",
             string.format("Unauthorized finance attempt for farmId %d: %s", self.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
-    FinanceVehicleEvent.execute(
+    -- v2.8.0: Capture result and send response to client
+    local success, msgKey = FinanceVehicleEvent.execute(
         self.farmId, self.itemType, self.itemId, self.itemName,
         self.basePrice, self.downPayment, self.termYears, self.cashBack, self.configurations
     )
+    TransactionResponseEvent.sendToClient(connection, self.farmId, success, msgKey)
 end
 
 --============================================================================
@@ -269,39 +274,46 @@ function FinancePaymentEvent:run(connection)
         NetworkSecurity.logSecurityEvent("PAYMENT_REJECTED",
             string.format("Unauthorized payment attempt for farmId %d: %s", self.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_manager")
         return
     end
 
     local deal = g_financeManager:getDealById(self.dealId)
     if deal == nil then
         UsedPlus.logError(string.format("Deal %s not found", self.dealId))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_deal_not_found")
         return
     end
 
     if deal.farmId ~= self.farmId then
         UsedPlus.logError(string.format("Farm %d does not own deal %s", self.farmId, self.dealId))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
     local farm = g_farmManager:getFarmById(self.farmId)
     if farm == nil then
         UsedPlus.logError(string.format("Farm %d not found", self.farmId))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_invalid_params")
         return
     end
 
     if farm.money < self.paymentAmount then
         UsedPlus.logError(string.format("Insufficient funds for payment ($%.2f required, $%.2f available)",
             self.paymentAmount, farm.money))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_insufficient_funds")
         return
     end
 
     if self.paymentAmount <= 0 then
         UsedPlus.logError(string.format("Invalid payment amount: $%.2f", self.paymentAmount))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_invalid_params")
         return
     end
 
@@ -314,6 +326,7 @@ function FinancePaymentEvent:run(connection)
 
         if farm.money < totalCost then
             UsedPlus.logError(string.format("Insufficient funds for payoff with penalty ($%.2f required)", totalCost))
+            TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_insufficient_funds")
             return
         end
 
@@ -335,6 +348,9 @@ function FinancePaymentEvent:run(connection)
 
         UsedPlus.logDebug(string.format("Deal %s paid off: $%.2f (penalty: $%.2f)", deal.id, payoffAmount, penalty))
 
+        -- v2.8.0: Send response to multiplayer client
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_payment")
+
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_OK,
             string.format(g_i18n:getText("usedplus_notification_dealPaidOff"), deal.itemName)
@@ -351,6 +367,9 @@ function FinancePaymentEvent:run(connection)
 
         UsedPlus.logDebug(string.format("Payment processed for %s: $%.2f (principal: $%.2f, interest: $%.2f)",
             deal.id, self.paymentAmount, principalPortion, interestPortion))
+
+        -- v2.8.0: Send response to multiplayer client
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_payment")
 
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_OK,
@@ -580,12 +599,142 @@ function TakeLoanEvent:run(connection)
             string.format("Unauthorized loan attempt for farmId %d ($%.0f): %s",
                 self.farmId, self.loanAmount, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
-    TakeLoanEvent.execute(self.farmId, self.loanAmount, self.termYears, self.interestRate, self.monthlyPayment, self.collateralItems)
+    -- v2.8.0: Capture result and send response to client
+    local success = TakeLoanEvent.execute(self.farmId, self.loanAmount, self.termYears, self.interestRate, self.monthlyPayment, self.collateralItems)
+    if success then
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_loan")
+    else
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_failed")
+    end
+end
+
+--============================================================================
+-- VANILLA LOAN PAYMENT EVENT
+-- Network event for paying down vanilla farm.loan (Credit Line)
+--============================================================================
+
+VanillaLoanPaymentEvent = {}
+local VanillaLoanPaymentEvent_mt = Class(VanillaLoanPaymentEvent, Event)
+
+InitEventClass(VanillaLoanPaymentEvent, "VanillaLoanPaymentEvent")
+
+function VanillaLoanPaymentEvent.emptyNew()
+    local self = Event.new(VanillaLoanPaymentEvent_mt)
+    return self
+end
+
+function VanillaLoanPaymentEvent.new(farmId, paymentAmount)
+    local self = VanillaLoanPaymentEvent.emptyNew()
+    self.farmId = farmId
+    self.paymentAmount = paymentAmount
+    return self
+end
+
+function VanillaLoanPaymentEvent.sendToServer(farmId, paymentAmount)
+    if g_server ~= nil then
+        -- Single-player or server: execute directly
+        VanillaLoanPaymentEvent.execute(farmId, paymentAmount)
+    else
+        -- Multiplayer client: send to server
+        g_client:getServerConnection():sendEvent(
+            VanillaLoanPaymentEvent.new(farmId, paymentAmount)
+        )
+    end
+end
+
+function VanillaLoanPaymentEvent:writeStream(streamId, connection)
+    streamWriteInt32(streamId, self.farmId)
+    streamWriteFloat32(streamId, self.paymentAmount)
+end
+
+function VanillaLoanPaymentEvent:readStream(streamId, connection)
+    self.farmId = streamReadInt32(streamId)
+    self.paymentAmount = streamReadFloat32(streamId)
+    self:run(connection)
+end
+
+function VanillaLoanPaymentEvent.execute(farmId, paymentAmount)
+    -- Get the farm
+    local farm = g_farmManager:getFarmById(farmId)
+    if not farm then
+        UsedPlus.logError(string.format("VanillaLoanPaymentEvent - Farm %d not found", farmId))
+        return false, "usedplus_mp_error_farm_not_found"
+    end
+
+    -- Validate loan exists
+    local currentLoan = farm.loan or 0
+    if currentLoan <= 0 then
+        UsedPlus.logDebug("VanillaLoanPaymentEvent - No vanilla loan balance to pay")
+        return false, "usedplus_mp_error_no_loan"
+    end
+
+    -- Validate payment amount
+    if paymentAmount <= 0 then
+        UsedPlus.logError(string.format("VanillaLoanPaymentEvent - Invalid payment amount: %.2f", paymentAmount))
+        return false, "usedplus_mp_error_invalid_params"
+    end
+
+    -- Validate sufficient funds
+    if farm.money < paymentAmount then
+        UsedPlus.logError(string.format("VanillaLoanPaymentEvent - Insufficient funds: need $%.2f, have $%.2f",
+            paymentAmount, farm.money))
+        return false, "usedplus_mp_error_insufficient_funds"
+    end
+
+    -- Calculate actual payment (in case loan changed since client request)
+    local actualPayment = math.min(paymentAmount, currentLoan)
+
+    -- Process the payment
+    g_currentMission:addMoney(-actualPayment, farmId, MoneyType.OTHER, true, true)
+    farm.loan = currentLoan - actualPayment
+
+    UsedPlus.logDebug(string.format("Vanilla loan payment: $%.0f, remaining balance: $%.0f", actualPayment, farm.loan))
+
+    -- Show notification (this will only display on server/single-player)
+    local paidStr = g_i18n:formatMoney(actualPayment, 0, true, true)
+    if farm.loan <= 0 then
+        g_currentMission:addIngameNotification(
+            FSBaseMission.INGAME_NOTIFICATION_OK,
+            string.format("Loan paid off! Total paid: %s", paidStr)
+        )
+    else
+        local newBalanceStr = g_i18n:formatMoney(farm.loan, 0, true, true)
+        g_currentMission:addIngameNotification(
+            FSBaseMission.INGAME_NOTIFICATION_OK,
+            string.format("Payment processed: %s. Remaining balance: %s", paidStr, newBalanceStr)
+        )
+    end
+
+    return true, "usedplus_mp_success_payment"
+end
+
+function VanillaLoanPaymentEvent:run(connection)
+    -- Only execute on server
+    if not connection:getIsServer() then
+        UsedPlus.logError("VanillaLoanPaymentEvent must run on server")
+        return
+    end
+
+    -- v2.8.0: Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("VANILLA_LOAN_PAYMENT_REJECTED",
+            string.format("Unauthorized vanilla loan payment attempt for farmId %d: %s",
+                self.farmId, errorMsg or "unknown"),
+            connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
+        return
+    end
+
+    -- Execute the payment and send response to client
+    local success, msgKey = VanillaLoanPaymentEvent.execute(self.farmId, self.paymentAmount)
+    TransactionResponseEvent.sendToClient(connection, self.farmId, success, msgKey)
 end
 
 --============================================================================
 
-UsedPlus.logInfo("FinanceEvents loaded (FinanceVehicleEvent, FinancePaymentEvent, TakeLoanEvent)")
+UsedPlus.logInfo("FinanceEvents loaded (FinanceVehicleEvent, FinancePaymentEvent, TakeLoanEvent, VanillaLoanPaymentEvent)")

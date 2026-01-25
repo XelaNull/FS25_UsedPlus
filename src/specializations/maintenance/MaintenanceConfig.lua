@@ -93,8 +93,9 @@ UsedPlusMaintenance.CONFIG = {
     steeringPullSurgeMultiplier = 1.5,    -- Pull is 50% stronger during surge
 
     -- v1.6.0: Engine misfiring settings (worn engine stutters/hiccups)
+    -- v2.8.0 REBALANCED: Lowered threshold so misfires start at worse condition
     enableMisfiring = true,
-    misfireThreshold = 0.6,               -- Misfires start below 60% engine reliability
+    misfireThreshold = 0.45,              -- Misfires start below 45% engine reliability (was 0.6)
     misfireCheckIntervalMs = 500,         -- Check for misfire every 500ms
     misfireMaxChancePerCheck = 0.15,      -- Max 15% chance per check at 0% reliability
     misfireDurationMin = 100,             -- Minimum 100ms per misfire
@@ -103,8 +104,9 @@ UsedPlusMaintenance.CONFIG = {
     misfireBurstCount = 3,                -- Up to 3 misfires in a burst
 
     -- v1.6.0: Engine overheating settings (worn engine builds heat)
+    -- v2.8.0 REBALANCED: Lowered threshold so overheating starts at worse condition
     enableOverheating = true,
-    overheatThreshold = 0.5,              -- Overheating effects start below 50% engine reliability
+    overheatThreshold = 0.35,             -- Overheating effects start below 35% engine reliability (was 0.5)
     overheatHeatRateBase = 0.002,         -- Base heat gain per second when running
     overheatHeatRateLoad = 0.008,         -- Additional heat per second at full load
     overheatCoolRateOff = 0.015,          -- Cool rate when engine off
@@ -115,13 +117,15 @@ UsedPlusMaintenance.CONFIG = {
     overheatCooldownMs = 20000,           -- Minimum 20 second cooldown after overheat
 
     -- v1.6.0: Implement surge settings (implements randomly lift)
+    -- v2.8.0 REBALANCED: Lowered thresholds so problems start at worse condition
     enableImplementSurge = true,
-    implementSurgeThreshold = 0.4,        -- Surge starts below 40% hydraulic reliability
+    implementSurgeThreshold = 0.30,       -- Surge starts below 30% hydraulic reliability (was 0.4)
     implementSurgeChance = 0.002,         -- 0.2% chance per check when lowered
 
     -- v1.6.0: Implement drop settings (implements suddenly drop)
+    -- v2.8.0 REBALANCED: Lowered threshold
     enableImplementDrop = true,
-    implementDropThreshold = 0.35,        -- Drop starts below 35% hydraulic reliability
+    implementDropThreshold = 0.25,        -- Drop starts below 25% hydraulic reliability (was 0.35)
     implementDropChance = 0.001,          -- 0.1% chance per check when raised
 
     -- v1.6.0: PTO toggle settings (power randomly turns on/off)
@@ -135,8 +139,9 @@ UsedPlusMaintenance.CONFIG = {
     hitchFailureChance = 0.0001,          -- 0.01% chance per check (VERY rare)
 
     -- v2.4.0: Hydraulic surge event (temporary hard steering pull - "oh crap" moment)
+    -- v2.8.0 REBALANCED: Lowered threshold
     enableHydraulicSurge = true,
-    hydraulicSurgeThreshold = 0.6,        -- Can trigger below 60% hydraulic reliability
+    hydraulicSurgeThreshold = 0.45,       -- Can trigger below 45% hydraulic reliability (was 0.6)
     hydraulicSurgeBaseChance = 0.005,     -- 0.5% chance per second check
     hydraulicSurgeDurationMin = 5000,     -- Minimum 5 seconds
     hydraulicSurgeDurationMax = 15000,    -- Maximum 15 seconds
@@ -200,8 +205,13 @@ UsedPlusMaintenance.CONFIG = {
     fluidCalculationMode = "multiplicative",
 
     -- v2.7.0: Progressive Malfunction Frequency Enhancement
-    progressiveFailureExponent = 2.0,         -- Quadratic curve (was 1.5)
-    progressiveFailureMultiplier = 0.025,     -- Max ~2.5% per second at 0% reliability (was 0.008)
+    -- v2.8.0 REBALANCED (GitHub Issue #1): Reduced frequency, flatter curve
+    progressiveFailureExponent = 1.5,         -- Flatter curve for more gradual degradation (was 2.0)
+    progressiveFailureMultiplier = 0.008,     -- ~3x less frequent failures (was 0.025)
+
+    -- v2.8.0 REBALANCED: Global malfunction cooldown and field work protection
+    globalMalfunctionCooldown = 45,           -- Seconds between ANY malfunction (prevents cascade)
+    fieldWorkProtectionMultiplier = 0.3,      -- 70% less failures during active field work
 
     -- v2.7.0: Seizure Escalation System
     enableSeizureEscalation = true,           -- Master toggle for seizure system
@@ -221,6 +231,7 @@ UsedPlusMaintenance.CONFIG = {
     -- v1.7.0: Tire System Settings
     enableTireWear = true,
     tireWearRatePerKm = 0.001,            -- 0.1% condition loss per km
+    tireWearDistanceBase = 240000,        -- 240km for full tire lifecycle (matches UYT default)
     tireWarnThreshold = 0.3,              -- Warn when tires below 30%
     tireCriticalThreshold = 0.15,         -- Critical warning below 15%
 
@@ -291,7 +302,7 @@ UsedPlusMaintenance.CONFIG = {
 
     -- v1.7.0: Hydraulic Fluid System Settings
     enableHydraulicFluidSystem = true,
-    hydraulicFluidDepletionPerAction = 0.002, -- 0.2% per hydraulic action
+    hydraulicFluidDepletionPerAction = 0.0001, -- 0.01% per second of hydraulic use (~3 hours active use to empty)
     hydraulicFluidWarnThreshold = 0.25,   -- Warn when below 25%
     hydraulicFluidCriticalThreshold = 0.10, -- Critical warning below 10%
     hydraulicFluidLowDamageMultiplier = 2.0, -- 2x hydraulic wear when low
@@ -393,18 +404,45 @@ UsedPlusMaintenance.INSPECTOR_QUOTES = {
 }
 
 --[[
-    Quality Tier → DNA Distribution Correlation (v1.4.0)
-    Higher quality tiers bias toward workhorses, lower toward lemons
+    v2.8.0: DNA Tier Modifiers (replaces hard-clamped QUALITY_DNA_RANGES)
+
+    Uses base triangular roll (0.0-1.0, centered at 0.5) + tier modifier.
+    ALL modifiers are POSITIVE - higher tiers shift distribution right.
+
+    This allows:
+    - Workhorses (>0.80) to appear at ANY quality tier (just rarer at Poor)
+    - Lemons (<0.30) to appear at ANY quality tier (just rarer at Excellent)
+    - "Diamond in the rough" scenario: finding workhorse at Poor (~10% chance)
+    - Meaningful Excellent advantage without guaranteed safety (~20% workhorse)
+
+    Expected outcomes (triangular base + modifier):
+    | Tier      | Modifier | Center | Workhorse (>0.80) | Lemon (<0.30) |
+    |-----------|----------|--------|-------------------|---------------|
+    | Poor      | +0.02    | 0.52   | ~10%              | ~16%          |
+    | Any       | +0.04    | 0.54   | ~12%              | ~14%          |
+    | Fair      | +0.06    | 0.56   | ~14%              | ~12%          |
+    | Good      | +0.09    | 0.59   | ~17%              | ~9%           |
+    | Excellent | +0.12    | 0.62   | ~20%              | ~7%           |
 
     Order: 1=Any, 2=Poor, 3=Fair, 4=Good, 5=Excellent
     Must match UsedSearchDialog.QUALITY_TIERS order!
 ]]
+UsedPlusMaintenance.DNA_TIER_MODIFIERS = {
+    [1] = 0.04,   -- Any:       center 0.54, ~12% workhorse, ~14% lemon
+    [2] = 0.02,   -- Poor:      center 0.52, ~10% workhorse, ~16% lemon
+    [3] = 0.06,   -- Fair:      center 0.56, ~14% workhorse, ~12% lemon
+    [4] = 0.09,   -- Good:      center 0.59, ~17% workhorse, ~9% lemon
+    [5] = 0.12,   -- Excellent: center 0.62, ~20% workhorse, ~7% lemon
+}
+
+-- DEPRECATED: Legacy ranges kept for reference only (v1.4.0 - v2.7.x)
+-- Use DNA_TIER_MODIFIERS instead for actual DNA generation
 UsedPlusMaintenance.QUALITY_DNA_RANGES = {
-    [1] = { min = 0.00, max = 0.85, avg = 0.40 },  -- Any: Wide variance
-    [2] = { min = 0.00, max = 0.70, avg = 0.30 },  -- Poor: High lemon risk (~45%)
-    [3] = { min = 0.15, max = 0.85, avg = 0.50 },  -- Fair: Balanced
-    [4] = { min = 0.30, max = 0.95, avg = 0.60 },  -- Good: Quality bias (~5% lemon, ~20% workhorse)
-    [5] = { min = 0.50, max = 1.00, avg = 0.75 },  -- Excellent: Workhorse bias (~0% lemon, ~40% workhorse)
+    [1] = { min = 0.00, max = 0.85, avg = 0.40 },  -- Any (deprecated)
+    [2] = { min = 0.00, max = 0.70, avg = 0.30 },  -- Poor (deprecated)
+    [3] = { min = 0.15, max = 0.85, avg = 0.50 },  -- Fair (deprecated)
+    [4] = { min = 0.30, max = 0.95, avg = 0.60 },  -- Good (deprecated)
+    [5] = { min = 0.50, max = 1.00, avg = 0.75 },  -- Excellent (deprecated)
 }
 
 --[[

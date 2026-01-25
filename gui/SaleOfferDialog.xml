@@ -107,7 +107,7 @@
         <BoxLayout profile="fs25_dialogButtonBox">
             <Button profile="buttonOK" id="acceptButton" text="$l10n_usedplus_so_acceptOffer" onClick="onClickAccept"/>
             <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
-            <Button profile="buttonBack" id="declineButton" text="$l10n_usedplus_so_keepWaitingBtn" onClick="onClickDecline"/>
+            <Button profile="soKeepWaitingBtn" id="declineButton" text="$l10n_usedplus_so_keepWaitingBtn" onClick="onClickDecline"/>
         </BoxLayout>
 
     </GuiElement>
@@ -264,6 +264,12 @@
             <textSize value="14px"/>
             <textBold value="true"/>
             <textColor value="1 0.5 0.2 1"/>
+        </Profile>
+
+        <!-- v2.8.0: Keep Waiting button - wider to prevent text truncation -->
+        <Profile name="soKeepWaitingBtn" extends="buttonBack">
+            <size value="200px 50px"/>
+            <textTruncation value="false"/>
         </Profile>
     </GUIProfiles>
 </GUI>

@@ -628,6 +628,36 @@
         <e k="usedplus_lease_amountTooSmall" v="Valor muito pequeno para locação. Mínimo: %s" eh="3e2012e8" />
         <e k="usedplus_repair_amountTooSmall" v="Custo de reparo muito pequeno para financiar. Mínimo: %s" eh="446dd4cd" />
         <e k="usedplus_land_amountTooSmall" v="Preço do terreno muito baixo para financiamento. Mínimo: %s" eh="b4e8480c" />
+        <e k="usedplus_mp_error_unauthorized" v="Ação não autorizada para sua fazenda" eh="343a024c" />
+        <e k="usedplus_mp_error_disabled" v="Este recurso está desabilitado nas configurações" eh="d3f06efd" />
+        <e k="usedplus_mp_error_manager" v="Sistema não inicializado. Tente novamente." eh="53daf785" />
+        <e k="usedplus_mp_error_invalid_params" v="Parâmetros inválidos" eh="a79fae6b" />
+        <e k="usedplus_mp_error_insufficient_funds" v="Fundos insuficientes" eh="55f90c96" />
+        <e k="usedplus_mp_error_failed" v="Transação falhou" eh="3f864e37" />
+        <e k="usedplus_mp_error_farm_not_found" v="Fazenda não encontrada" eh="a13cd50e" />
+        <e k="usedplus_mp_error_deal_not_found" v="Contrato não encontrado" eh="f85a8ec8" />
+        <e k="usedplus_mp_error_land_not_found" v="Terreno não encontrado" eh="db02fd36" />
+        <e k="usedplus_mp_error_land_owned" v="Este terreno já possui dono" eh="7175cfeb" />
+        <e k="usedplus_mp_error_already_leased" v="Você já tem um arrendamento neste terreno" eh="25394947" />
+        <e k="usedplus_mp_error_invalid_deal_type" v="Tipo de contrato inválido" eh="e9926aa4" />
+        <e k="usedplus_mp_error_deal_not_active" v="Contrato não está ativo" eh="4f8a3c97" />
+        <e k="usedplus_mp_error_repair_failed" v="Reparo falhou" eh="e25882fc" />
+        <e k="usedplus_mp_error_search_failed" v="Busca falhou" eh="a4d17776" />
+        <e k="usedplus_mp_success_financed" v="Veículo financiado com sucesso!" eh="e0a11202" />
+        <e k="usedplus_mp_success_leased" v="Veículo alugado com sucesso!" eh="f73065ee" />
+        <e k="usedplus_mp_success_loan" v="Empréstimo aprovado!" eh="96d2eb36" />
+        <e k="usedplus_mp_success_payment" v="Pagamento processado!" eh="fffcd9ab" />
+        <e k="usedplus_mp_success_land_leased" v="Terreno arrendado com sucesso!" eh="4815779c" />
+        <e k="usedplus_mp_success_land_buyout" v="Terreno comprado com sucesso!" eh="9de4a0f4" />
+        <e k="usedplus_mp_success_listed" v="Veículo anunciado para venda!" eh="1178dfe3" />
+        <e k="usedplus_mp_success_sale_action" v="Ação de venda concluída!" eh="f4473f61" />
+        <e k="usedplus_mp_success_price_modified" v="Preço atualizado!" eh="3778ab16" />
+        <e k="usedplus_mp_success_repair" v="Reparo concluído!" eh="9e6d62a2" />
+        <e k="usedplus_mp_success_search_started" v="Busca iniciada!" eh="f10690d3" />
+        <e k="usedplus_mp_success_lease_ended" v="Locação encerrada com sucesso!" eh="71efe46d" />
+        <e k="usedplus_mp_success_lease_terminated" v="Locação rescindida!" eh="2ac6c824" />
+        <e k="usedplus_mp_success_lease_renewed" v="Locação renovada!" eh="30c5a4dd" />
+        <e k="usedplus_mp_success_lease_buyout" v="Compra da locação concluída!" eh="b76c5d41" />
 
         <!-- Mode Selector Options -->
         <e k="usedplus_mode_cash" v="Compre com dinheiro" eh="01dc9cc3" />
@@ -796,6 +826,7 @@
         <e k="usedplus_button_close" v="Fechar" eh="d3d2e617" />
         <e k="usedplus_button_confirm" v="Confirmar" eh="70d9be9b" />
         <e k="usedplus_button_cancel" v="Cancelar" eh="ea478870" />
+        <e k="usedplus_button_later" v="Mais tarde" eh="61057a0c" />
         <e k="usedplus_button_takeLoan" v="Tomar empréstimo" eh="40fe67fa" />
         <e k="usedplus_button_payOff" v="Pague" eh="416ff954" />
 
@@ -917,8 +948,8 @@
         <e k="usedplus_tl_yourRate" v="Sua taxa de juros:" eh="6387ae1b" />
         <e k="usedplus_tl_sectionCollateral" v="SELECIONAR GARANTIA" eh="fdb2d731" />
         <e k="usedplus_tl_collateralHelp" v="Clique para alternar ativos como garantia (apenas ativos sem ônus são exibidos)" eh="618ea809" />
-        <e k="usedplus_tl_prev" v="◄ Ant" eh="bddeed69" />
-        <e k="usedplus_tl_next" v="Próx ►" eh="4b0a535a" />
+        <e k="usedplus_tl_prev" v="&lt; Ant" eh="bddeed69" />
+        <e k="usedplus_tl_next" v="Próx &gt;" eh="4b0a535a" />
         <e k="usedplus_tl_selected" v="Selecionado:" eh="e8418a9e" />
         <e k="usedplus_tl_existingDebt" v="Dívida existente:" eh="e7d0c3fb" />
         <e k="usedplus_tl_maxLoan" v="EMPRÉSTIMO MÁXIMO:" eh="f2517379" />
@@ -1036,6 +1067,7 @@
         <e k="usedplus_uvp_damage" v="Dano:" eh="5a50c456" />
         <e k="usedplus_uvp_wear" v="Desgaste:" eh="0f25ac5c" />
         <e k="usedplus_uvp_warningTitle" v="Condição mecânica oculta desconhecida" eh="d2e42691" />
+        <e k="usedplus_uvp_selectTier" v="Selecione o nível de inspeção:" eh="c3d4dde6" />
         <e k="usedplus_uvp_inspectPrompt" v="Pague pela inspeção profissional" eh="2c3e76c2" />
         <e k="usedplus_uvp_inspectedText" v="Veículo foi inspecionado - ver relatório" eh="9015cd17" />
         <e k="usedplus_button_buyAsIs" v="Comprar como está" eh="43e49e70" />
@@ -1524,9 +1556,6 @@
         <e k="usedplus_tire_quality" v="Qualidade" eh="571094bb" />
 
         <!-- v1.7.0: Fluids Dialog Labels -->
-        <e k="usedplus_fluids_title" v="SERVIÇO FLUIDOS" eh="7eb767c6" />
-        <e k="usedplus_fluids_oil" v="Óleo do motor" eh="2e69df59" />
-        <e k="usedplus_fluids_hydraulic" v="Fluido hidráulico" eh="fda2bff7" />
         <e k="usedplus_fluids_level" v="Nível:" eh="07ad8151" />
         <e k="usedplus_fluids_status" v="Status:" eh="24a23d78" />
         <e k="usedplus_fluids_statusOk" v="OK" eh="e0aa021e" />
@@ -1541,9 +1570,7 @@
         <e k="usedplus_fluids_cost" v="Custo:" eh="69edde90" />
 
         <!-- v1.7.0: Tires Dialog Labels -->
-        <e k="usedplus_tires_title" v="SERVIÇO PNEUS" eh="b0234f4e" />
         <e k="usedplus_tires_condition" v="Doença:" eh="ed51222f" />
-        <e k="usedplus_tires_quality" v="Qualidade:" eh="571094bb" />
         <e k="usedplus_tires_traction" v="Tração:" eh="8d38bce1" />
         <e k="usedplus_tires_flatTire" v="PNEU FURADO" eh="6e87cc30" />
         <e k="usedplus_tires_replace" v="Trocar pneus" eh="3a0d1434" />
@@ -1564,6 +1591,9 @@
         <e k="usedplus_mr_fuelLeak" v="Vazamento de combustível:" eh="caf0d1a8" />
         <e k="usedplus_mr_yes" v="Sim" eh="93cba074" />
         <e k="usedplus_mr_no" v="Não" eh="bafd7322" />
+        <e k="usedplus_info_oil_level" v="Nível de Óleo" eh="a6d699fb" />
+        <e k="usedplus_info_hydraulic_level" v="Fluido Hidráulico" eh="f9c4d7d9" />
+        <e k="usedplus_info_tire_condition" v="Pneus" eh="3fe2c06a" />
 
         <!-- v1.7.0: Tires Service Dialog -->
         <e k="usedplus_tires_title" v="Serviço de pneus" eh="b0234f4e" />
@@ -1623,7 +1653,6 @@
         <e k="usedplus_oil_refillComplete" v="Óleo reabastecido - Custo: %s" eh="0dff6e72" />
         <e k="usedplus_hydraulic_refillComplete" v="Fluido hidráulico reabastecido - Custo: %s" eh="2d22bcb4" />
         <e k="usedplus_oil_refillCompleteStorage" v="Óleo reabastecido do armazenamento" eh="2d3715a7" />
-        <e k="usedplus_hydraulic_refillCompleteStorage" v="Fluido hidráulico reabastecido do armazenamento" eh="8290045e" />
         <e k="usedplus_oil_notEnoughStorage" v="Óleo insuficiente no armazenamento" eh="4cf5955b" />
         <e k="usedplus_hydraulic_notEnoughStorage" v="Fluido hidráulico insuficiente no armazenamento" eh="a1a0eb52" />
         <e k="usedplus_oil_alreadyFull" v="Óleo do motor já cheio" eh="9474e86e" />
@@ -1768,6 +1797,9 @@
         <e k="usedplus_fsk_temp_repair" v="REPARO TEMPORÁRIO DE CAMPO" eh="b3bc3876" />
         <e k="usedplus_fsk_temp_repair_desc" v="Este é um reparo de emergência. Visite uma oficina adequada para serviço completo." eh="648457f5" />
         <e k="usedplus_fsk_kit_consumed" v="Scanner OBD esgotado." eh="b2ea1455" />
+        <e k="usedplus_fsk_onetime_title" v="SERVIÇO DE CAMPO CONCLUÍDO" eh="4336e84b" />
+        <e k="usedplus_fsk_onetime_desc" v="Diagnósticos adicionais neste sistema requerem equipamento de oficina" eh="38988277" />
+        <e k="usedplus_fsk_kit_consumed_onetime" v="Scanner OBD consumido. Todos os ajustes possíveis em campo foram feitos neste sistema." eh="4ae3775f" />
         <e k="usedplus_fsk_cannot_cancel" v="Reparo em andamento - não é possível cancelar nesta etapa." eh="6172d2ec" />
         <e k="usedplus_fsk_noVehicle" v="Nenhum veículo detectado no alcance. Aproxime o scanner de um veículo." eh="e89e127f" />
 
@@ -1781,6 +1813,7 @@
         <e k="usedplus_fsk_tire_plug" v="PLUGUE" eh="c18d6117" />
         <e k="usedplus_fsk_tire_plug_desc" v="Melhor reparo de emergência" eh="b3aa3113" />
         <e k="usedplus_fsk_tire_plug_result" v="Restaura para 50% condição" eh="98bf223c" />
+        <e k="usedplus_fsk_tires_ok" v="Todos os pneus OK - Reparo não necessário" eh="e070fe8d" />
 
         <!-- v2.1.0: Scanner Readout Hints (Step 1 hints to deduce failed system) -->
         <e k="usedplus_fsk_scanner_readout" v="LEITURA DO SCANNER OBD" eh="e81cab15" />
@@ -1844,6 +1877,8 @@
         <e k="usedplus_setting_tirewear_desc" v="Habilitar degradação realista de pneus" eh="0a955572" />
         <e k="usedplus_setting_malfunctions" v="Avarias" eh="97801e8a" />
         <e k="usedplus_setting_malfunctions_desc" v="Habilitar avarias aleatórias e falhas de componentes" eh="fbbe01f9" />
+        <e k="usedplus_setting_malfunctionFrequency" v="Frequência de Avarias" eh="6bf458c7" />
+        <e k="usedplus_setting_malfunctionFrequency_desc" v="Frequência das avarias. 100% = normal, 50% = metade, 200% = dobro" eh="4ab011c4" />
         <e k="usedplus_setting_partialRepair" v="Reparo Parcial" eh="dc6b627a" />
         <e k="usedplus_setting_partialRepair_desc" v="Habilitar reparos parciais na oficina (desabilitar esconde botão de reparo)" eh="84fe180c" />
         <e k="usedplus_setting_partialRepaint" v="Pintura Parcial" eh="3fca656d" />
@@ -2051,10 +2086,39 @@
     <e k="usedplus_malfunction_seized" v="TRAVADO" eh="cdceb6dd" />
     <e k="usedplus_malfunction_leak" v="VAZANDO" eh="2ec9e171" />
     <e k="usedplus_malfunction_flat" v="FURADO" eh="f88a77e3" />
+        <e k="usedplus_fsk_diagnosis_exhausted" v="Este sistema já recebeu serviço de campo. Reparos adicionais requerem equipamento de oficina." eh="79b71f1e" />
     <e k="usedplus_seizure_detected" v="COMPONENTE TRAVADO" eh="9def01dd" />
     <e k="usedplus_seizure_repair_confirm" v="%s está travado e requer reparo de emergência.\n\nCusto do reparo: %s\n\nProsseguir com o reparo?" eh="bf702608" />
     <e k="usedplus_seizure_repaired" v="%s reparado! Confiabilidade restaurada para %d%%" eh="323fa338" />
     <e k="usedplus_repair_no_money" v="Dinheiro insuficiente para reparo!" eh="0c0a7c19" />
+        <e k="usedplus_warning_notEnoughMoney" v="Dinheiro insuficiente!" eh="48f194d4" />
+        <e k="usedplus_notification_landSeized" v="TERRENO CONFISCADO: %s foi tomado por falta de pagamento!" eh="1c095ac6" />
+        <e k="usedplus_error_paymentTooLow" v="Valor do pagamento abaixo do mínimo exigido." eh="4f83eda0" />
+        <e k="usedplus_error_paymentTooHigh" v="Valor do pagamento excede o saldo restante." eh="091a9776" />
+        <e k="usedplus_success_paymentMade" v="Pagamento processado com sucesso!" eh="b12aba7d" />
+        <e k="usedplus_error_cannotAffordTermination" v="Dinheiro insuficiente para pagar a taxa de rescisão da locação." eh="64ed9e67" />
+        <e k="usedplus_credit_required" v="Crédito Necessário" eh="cefa86b5" />
+        <e k="usedplus_finance_credit_msg" v="Financiamento requer pontuação de crédito de %d ou superior." eh="7d3d6778" />
+        <e k="usedplus_lease_credit_msg" v="Locação requer pontuação de crédito de %d ou superior." eh="c86cbfc5" />
+        <e k="usedplus_error_purchaseFailed" v="Compra falhou - API do jogo indisponível." eh="c02a7002" />
+        <e k="usedplus_error_negativeDownPayment" v="Entrada não pode ser negativa." eh="0634f8d8" />
+        <e k="usedplus_error_downPaymentTooHigh" v="Entrada não pode exceder o preço de compra." eh="6bd926ef" />
+        <e k="usedplus_error_invalidTerm" v="Prazo de empréstimo inválido." eh="49e90a5b" />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="Entrada não pode exceder o valor da locação." eh="5e32ae97" />
+        <e k="usedplus_error_leaseTermInvalid" v="Prazo de locação inválido." eh="7f3c3523" />
+        <e k="usedplus_age_oneYear" v="1 ano de uso" eh="086d4f5c" />
+        <e k="usedplus_age_years" v="%d anos de uso" eh="afdf2194" />
+        <e k="usedplus_hours" v="%d horas" eh="4e8d5e54" />
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="Empréstimo bancário quitado!" eh="a6f2a43b" />
+        <e k="usedplus_mp_success_vehicle_purchased" v="Veículo comprado com sucesso!" eh="b5beec4f" />
+        <e k="usedplus_mp_success_trade_in" v="Troca concluída com sucesso!" eh="0a59b49a" />
+        <e k="usedplus_mp_success_field_repair" v="Reparo de campo concluído!" eh="06239aac" />
+        <e k="usedplus_mp_success_fluids_refilled" v="Fluidos reabastecidos com sucesso!" eh="9597cd1d" />
+        <e k="usedplus_mp_success_tires_replaced" v="Pneus substituídos com sucesso!" eh="5224fbbe" />
+        <e k="usedplus_mp_success_land_purchased" v="Terreno comprado com sucesso!" eh="9de4a0f4" />
+        <e k="usedplus_mp_error_purchase_failed" v="Compra falhou. Tente novamente." eh="42d7ddab" />
+        <e k="usedplus_mp_error_vehicle_not_found" v="Veículo não encontrado." eh="02c84e79" />
+        <e k="usedplus_mp_error_no_loan" v="Sem saldo de empréstimo a pagar." eh="5668e12f" />
 
     </elements>
 </l10n>

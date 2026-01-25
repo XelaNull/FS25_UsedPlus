@@ -1175,13 +1175,74 @@ function FieldServiceKitDialog:displayRVBAnalysis()
 end
 
 --[[
+    v2.8.0: Check if OBD diagnosis is available for a component
+    Each system can only be diagnosed ONCE for a reliability boost (prevents spam exploit)
+    Seizure repair is separate and always allowed
+    @param component - "engine", "electrical", or "hydraulic"
+    @return boolean - True if diagnosis is available, false if already used
+]]
+function FieldServiceKitDialog:isOBDDiagnosisAvailable(component)
+    if self.vehicle == nil then return false end
+
+    local maintSpec = self.vehicle.spec_usedPlusMaintenance
+    if maintSpec == nil then return true end  -- No tracking = allow
+
+    local obdUsed = maintSpec.obdDiagnosesUsed
+    if obdUsed == nil then return true end  -- No tracking = allow
+
+    if component == "engine" then
+        return not obdUsed.engine
+    elseif component == "electrical" then
+        return not obdUsed.electrical
+    elseif component == "hydraulic" then
+        return not obdUsed.hydraulic
+    end
+
+    return true
+end
+
+--[[
+    v2.8.0: Mark OBD diagnosis as used for a component
+    @param component - "engine", "electrical", or "hydraulic"
+]]
+function FieldServiceKitDialog:markOBDDiagnosisUsed(component)
+    if self.vehicle == nil then return end
+
+    local maintSpec = self.vehicle.spec_usedPlusMaintenance
+    if maintSpec == nil then return end
+
+    maintSpec.obdDiagnosesUsed = maintSpec.obdDiagnosesUsed or {}
+
+    if component == "engine" then
+        maintSpec.obdDiagnosesUsed.engine = true
+    elseif component == "electrical" then
+        maintSpec.obdDiagnosesUsed.electrical = true
+    elseif component == "hydraulic" then
+        maintSpec.obdDiagnosesUsed.hydraulic = true
+    end
+
+    UsedPlus.logInfo(string.format("OBD diagnosis marked as used: %s", component))
+end
+
+--[[
     System selection button handlers
     v2.7.0: Modified to check for seizures first - offers repair instead of diagnosis if seized
+    v2.8.0: Added check for one-time diagnosis limit
 ]]
 function FieldServiceKitDialog:onEngineClick()
-    -- v2.7.0: Check for engine seizure first
+    -- v2.7.0: Check for engine seizure first (seizure repair is always allowed)
     if self:checkAndOfferSeizureRepair("engine") then
         return  -- Seizure repair dialog shown
+    end
+
+    -- v2.8.0: Check if diagnosis boost already used (one-time per system)
+    if not self:isOBDDiagnosisAvailable("engine") then
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_fsk_diagnosis_exhausted") or
+            "Engine already diagnosed - OBD boost exhausted. Shop repair available.",
+            4000
+        )
+        return
     end
 
     self.selectedSystem = DiagnosisData.SYSTEM_ENGINE
@@ -1190,9 +1251,19 @@ function FieldServiceKitDialog:onEngineClick()
 end
 
 function FieldServiceKitDialog:onElectricalClick()
-    -- v2.7.0: Check for electrical seizure first
+    -- v2.7.0: Check for electrical seizure first (seizure repair is always allowed)
     if self:checkAndOfferSeizureRepair("electrical") then
         return  -- Seizure repair dialog shown
+    end
+
+    -- v2.8.0: Check if diagnosis boost already used (one-time per system)
+    if not self:isOBDDiagnosisAvailable("electrical") then
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_fsk_diagnosis_exhausted") or
+            "Electrical already diagnosed - OBD boost exhausted. Shop repair available.",
+            4000
+        )
+        return
     end
 
     self.selectedSystem = DiagnosisData.SYSTEM_ELECTRICAL
@@ -1201,9 +1272,19 @@ function FieldServiceKitDialog:onElectricalClick()
 end
 
 function FieldServiceKitDialog:onHydraulicClick()
-    -- v2.7.0: Check for hydraulic seizure first
+    -- v2.7.0: Check for hydraulic seizure first (seizure repair is always allowed)
     if self:checkAndOfferSeizureRepair("hydraulic") then
         return  -- Seizure repair dialog shown
+    end
+
+    -- v2.8.0: Check if diagnosis boost already used (one-time per system)
+    if not self:isOBDDiagnosisAvailable("hydraulic") then
+        g_currentMission:showBlinkingWarning(
+            g_i18n:getText("usedplus_fsk_diagnosis_exhausted") or
+            "Hydraulics already diagnosed - OBD boost exhausted. Shop repair available.",
+            4000
+        )
+        return
     end
 
     self.selectedSystem = DiagnosisData.SYSTEM_HYDRAULIC
@@ -1351,6 +1432,8 @@ end
 --[[
     Apply the repair based on diagnosis choice
     v1.8.0: Also applies repairs to RVB parts when RVB is installed
+    v2.8.0: Fixed exploit - now respects maxReliabilityCeiling and has OBD-specific cap
+            OBD = field repair, can restore up to 80% (shop repair needed for higher)
 ]]
 function FieldServiceKitDialog:applyRepair(diagnosisIndex)
     self.selectedDiagnosis = diagnosisIndex
@@ -1367,9 +1450,16 @@ function FieldServiceKitDialog:applyRepair(diagnosisIndex)
     -- Apply repair to vehicle
     local maintSpec = self.vehicle.spec_usedPlusMaintenance
     if maintSpec ~= nil then
+        -- v2.8.0: OBD Scanner is field repair - cannot restore to 100%
+        -- Cap at 80% OR the vehicle's maxReliabilityCeiling, whichever is lower
+        -- This prevents exploit of buying multiple kits to restore to 100%
+        local OBD_MAX_RESTORE = 0.80  -- Field repair can only restore to 80%
+        local vehicleCeiling = maintSpec.maxReliabilityCeiling or 1.0
+        local effectiveCap = math.min(OBD_MAX_RESTORE, vehicleCeiling)
+
         -- Apply reliability boost to the ACTUAL failed system (not player's guess)
         if self.actualFailedSystem == DiagnosisData.SYSTEM_ENGINE then
-            maintSpec.engineReliability = math.min(1.0, maintSpec.engineReliability + self.repairResult.reliabilityBoost)
+            maintSpec.engineReliability = math.min(effectiveCap, maintSpec.engineReliability + self.repairResult.reliabilityBoost)
 
             -- v2.7.0: Engine repair can also fix fuel leaks (good/perfect outcome only)
             if maintSpec.hasFuelLeak and self.repairResult.outcome ~= DiagnosisData.OUTCOME_FAILED then
@@ -1379,10 +1469,13 @@ function FieldServiceKitDialog:applyRepair(diagnosisIndex)
                 end
             end
         elseif self.actualFailedSystem == DiagnosisData.SYSTEM_ELECTRICAL then
-            maintSpec.electricalReliability = math.min(1.0, maintSpec.electricalReliability + self.repairResult.reliabilityBoost)
+            maintSpec.electricalReliability = math.min(effectiveCap, maintSpec.electricalReliability + self.repairResult.reliabilityBoost)
         elseif self.actualFailedSystem == DiagnosisData.SYSTEM_HYDRAULIC then
-            maintSpec.hydraulicReliability = math.min(1.0, maintSpec.hydraulicReliability + self.repairResult.reliabilityBoost)
+            maintSpec.hydraulicReliability = math.min(effectiveCap, maintSpec.hydraulicReliability + self.repairResult.reliabilityBoost)
         end
+
+        UsedPlus.logDebug(string.format("OBD repair cap: %.0f%% (vehicle ceiling: %.0f%%, OBD max: %.0f%%)",
+            effectiveCap * 100, vehicleCeiling * 100, OBD_MAX_RESTORE * 100))
 
         -- If vehicle was disabled, restore to functional (barely)
         if maintSpec.isDisabled then
@@ -1423,6 +1516,18 @@ function FieldServiceKitDialog:applyRepair(diagnosisIndex)
             self.actualFailedSystem,
             self.repairResult.reliabilityBoost * 100,
             self.repairResult.outcome))
+
+        -- v2.8.0: Mark diagnosis as used (one-time per system)
+        -- Uses selectedSystem (what player chose to work on), not actualFailedSystem
+        local componentMap = {
+            [DiagnosisData.SYSTEM_ENGINE] = "engine",
+            [DiagnosisData.SYSTEM_ELECTRICAL] = "electrical",
+            [DiagnosisData.SYSTEM_HYDRAULIC] = "hydraulic"
+        }
+        local component = componentMap[self.selectedSystem]
+        if component then
+            self:markOBDDiagnosisUsed(component)
+        end
     end
 
     -- Move to results step
@@ -1576,7 +1681,7 @@ function FieldServiceKitDialog:repairSeizedComponent(component)
     if farm == nil then return false end
 
     if farm.money < cost then
-        -- Not enough money
+        -- Not enough money (client-side validation for immediate user feedback)
         g_currentMission:showBlinkingWarning(
             g_i18n:getText("usedplus_repair_no_money") or "Not enough money for repair!",
             3000
@@ -1584,25 +1689,18 @@ function FieldServiceKitDialog:repairSeizedComponent(component)
         return false
     end
 
-    -- Deduct cost
-    g_currentMission:addMoney(-cost, g_currentMission:getFarmId(), MoneyType.VEHICLE_RUNNING_COSTS, true)
+    -- v2.8.0: Use network event for multiplayer synchronization
+    -- Event handles: money deduction, seizure clearing, reliability restoration, and syncs to all clients
+    FieldRepairEvent.sendToServer(
+        g_currentMission:getFarmId(),
+        self.vehicle.id,
+        component,
+        cost
+    )
 
-    -- Clear the seizure
-    UsedPlusMaintenance.clearSeizure(self.vehicle, component)
-
-    -- Restore reliability to at least minimum threshold
-    local minReliability = UsedPlusMaintenance.CONFIG.seizureRepairMinReliability or 0.30
-
-    if component == "engine" then
-        maintSpec.engineReliability = math.max(maintSpec.engineReliability, minReliability)
-    elseif component == "hydraulic" then
-        maintSpec.hydraulicReliability = math.max(maintSpec.hydraulicReliability, minReliability)
-    elseif component == "electrical" then
-        maintSpec.electricalReliability = math.max(maintSpec.electricalReliability, minReliability)
-    end
-
-    -- Show success message
+    -- Show success message (event handles the actual repair on server)
     local componentName = g_i18n:getText("usedplus_component_" .. component) or component
+    local minReliability = UsedPlusMaintenance.CONFIG.seizureRepairMinReliability or 0.30
     local message = string.format(
         g_i18n:getText("usedplus_seizure_repaired") or "%s repaired! Reliability restored to %d%%",
         componentName,
@@ -1610,8 +1708,8 @@ function FieldServiceKitDialog:repairSeizedComponent(component)
     )
     g_currentMission:showBlinkingWarning(message, 3000)
 
-    UsedPlus.logInfo(string.format("Seizure repair: %s repaired for $%d, reliability set to %.0f%%",
-        component, cost, minReliability * 100))
+    UsedPlus.logInfo(string.format("Seizure repair requested: %s for $%d (sent to server)",
+        component, cost))
 
     return true
 end

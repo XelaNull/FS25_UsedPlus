@@ -458,26 +458,66 @@ Comprehensive reliability and maintenance system for vehicles.
 
 ### 15. Field Service Kit
 
-**Status:** ✅ FULLY IMPLEMENTED (v2.7.0 Multi-Mode)
+**Status:** ✅ FULLY IMPLEMENTED (v2.8.0 Balanced)
 
-Portable emergency repair system with OBD diagnostic capabilities.
+Portable emergency repair system with OBD diagnostic capabilities. Designed as a **tactical tool** for field emergencies, not a replacement for workshop repair.
 
 #### Kit Tiers
 
-| Tier | Price | Reliability Boost | Diagnosis Accuracy |
-|------|-------|-------------------|-------------------|
-| **Basic** | $5,000 | 15-25% | Standard readings |
-| **Professional** | $12,000 | 20-35% | Enhanced readings |
-| **Master** | $25,000 | 30-50% | Complete diagnostics |
+| Tier | Price | Reliability Multiplier | Diagnosis Accuracy |
+|------|-------|------------------------|-------------------|
+| **Basic** | $5,000 | 1.0x | Standard readings |
+| **Professional** | $12,000 | 1.25x | Enhanced readings |
+| **Master** | $25,000 | 1.5x | Complete diagnostics |
 
 #### OBD Scanner Modes (v2.7.0)
 
 | Mode | Function |
 |------|----------|
-| **Diagnose Component** | Original diagnostic minigame for engine/electrical/hydraulic |
+| **Diagnose Component** | Diagnostic minigame for engine/electrical/hydraulic (ONE-TIME per system) |
 | **Locate Malfunctions** | Quick view of all active malfunctions |
 | **Tire Service** | Per-wheel inspection and repair options |
 | **RVB System Analysis** | Detailed RVB part inspection (only visible when RVB installed) |
+
+#### Reliability Restoration Limits (v2.8.0)
+
+The OBD Scanner is **field repair equipment** with intentional limitations to prevent exploit:
+
+| Constraint | Limit | Rationale |
+|------------|-------|-----------|
+| **One-Time Diagnosis** | Each system (engine, electrical, hydraulic) can only receive ONE diagnostic boost per vehicle | Prevents spam-buying kits for unlimited restoration |
+| **Field Repair Cap** | Maximum 80% reliability | Field repairs can't match workshop quality |
+| **Vehicle Ceiling** | Respects `maxReliabilityCeiling` | Aging equipment has permanent degradation |
+| **Effective Cap** | `min(80%, vehicleCeiling)` | Uses whichever is lower |
+
+**Seizure repair is separate** - fixing a seized component does NOT consume the diagnostic boost (it's emergency repair for a critical failure).
+
+#### Diagnosis Boost Amounts
+
+| Outcome | Base Boost | With Master Kit (1.5x) |
+|---------|------------|------------------------|
+| **Perfect** (right system + right diagnosis) | 8-15% | 12-22.5% |
+| **Good** (right system + wrong diagnosis) | 4-8% | 6-12% |
+| **Poor** (wrong system) | 1-3% | 1.5-4.5% |
+
+*All boosts capped at 25% maximum per diagnosis.*
+
+#### Example Scenarios
+
+```
+New Tractor (vehicle ceiling: 100%)
+├── Engine reliability: 45%
+├── OBD diagnoses engine (perfect) → +15% = 60% (capped at 80%)
+├── Try to diagnose engine again → "Already diagnosed - OBD boost exhausted"
+├── Engine seizes later → OBD CAN fix seizure (separate mechanic)
+└── Want reliability above 80%? → Shop repair required
+
+Old Tractor (vehicle ceiling: 65% due to age/wear)
+├── Engine reliability: 40%
+├── OBD diagnoses engine (perfect) → +15% = 55% (capped at 65%)
+├── Even perfect diagnosis can't exceed 65%
+└── Vehicle needs replacement eventually
+```
 
 #### Gameplay Flow
 1. Player buys Field Service Kit from shop
@@ -486,16 +526,18 @@ Portable emergency repair system with OBD diagnostic capabilities.
 4. **Mode Selection**: Choose diagnostic mode
 5. **Diagnose Component**:
    - System Selection: Engine, Electrical, or Hydraulic
+   - If already diagnosed: Shows "boost exhausted" warning
    - OBD Diagnostic Reading: 3 codes/readings displayed
    - Diagnosis Choice: Pick from 4 possible diagnoses
-   - Outcome: Correct diagnosis = better repair outcome
+   - Outcome: Correct diagnosis = better repair (up to 80% cap)
 6. Kit is consumed regardless of outcome (single use)
 
 #### Technical Implementation
 - `DiagnosisData.lua` - Scenario definitions, outcome calculations
 - `FieldServiceKit.lua` - Vehicle specialization (hand tool)
-- `FieldServiceKitDialog.lua` - Multi-step diagnostic dialog with mode selection
+- `FieldServiceKitDialog.lua` - Multi-step diagnostic dialog with mode selection, one-time tracking
 - `fieldServiceKit.xml` - Store item definition
+- `UsedPlusMaintenance.lua` - Tracks `obdDiagnosesUsed` per vehicle (persisted)
 
 ---
 

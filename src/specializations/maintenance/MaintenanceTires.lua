@@ -11,6 +11,9 @@ UsedPlusMaintenance = UsedPlusMaintenance or {}
 --[[
     Track distance traveled per-frame for tire wear calculation
     Uses 3D position delta to measure actual distance moved
+
+    v2.8.0: Also tracks per-wheel distances for unified tire tracking
+    This ensures ALL vehicles have tire wear tracked, regardless of UYT support
 ]]
 function UsedPlusMaintenance.trackDistanceTraveled(vehicle, dt)
     local spec = vehicle.spec_usedPlusMaintenance
@@ -30,6 +33,26 @@ function UsedPlusMaintenance.trackDistanceTraveled(vehicle, dt)
         -- Only count if moving (ignore tiny movements/jitter)
         if distance > 0.01 then
             spec.distanceTraveled = (spec.distanceTraveled or 0) + distance
+
+            -- v2.8.0: Track per-wheel distances (for unified tire tracking)
+            -- Initialize per-wheel tracking if needed
+            if not spec.wheelDistances then
+                spec.wheelDistances = {}
+                spec.wheelConditions = {}
+                local wheelCount = 4  -- Track up to 4 wheels
+                if vehicle.spec_wheels and vehicle.spec_wheels.wheels then
+                    wheelCount = math.min(#vehicle.spec_wheels.wheels, 4)
+                end
+                for i = 1, wheelCount do
+                    spec.wheelDistances[i] = 0
+                    spec.wheelConditions[i] = spec.tireCondition or 1.0
+                end
+            end
+
+            -- Update per-wheel distances (all wheels travel same distance for now)
+            for i = 1, #spec.wheelDistances do
+                spec.wheelDistances[i] = spec.wheelDistances[i] + distance
+            end
         end
     end
 
@@ -81,6 +104,19 @@ function UsedPlusMaintenance.applyTireWear(vehicle)
 
         -- Apply wear to UsedPlus tire condition
         spec.tireCondition = math.max(0, (spec.tireCondition or 1.0) - wearAmount)
+
+        -- v2.8.0: Update per-wheel conditions based on per-wheel distances
+        -- This provides native tire tracking even when UYT doesn't support the vehicle
+        if spec.wheelDistances and spec.wheelConditions then
+            local baseDistance = config.tireWearDistanceBase or 240000  -- 240km default
+            for i = 1, #spec.wheelDistances do
+                -- Calculate wear from distance traveled
+                local wheelWear = math.min(1.0, spec.wheelDistances[i] / baseDistance)
+                -- Apply quality and DNA multipliers to per-wheel wear
+                local adjustedWear = wheelWear * totalWearMult
+                spec.wheelConditions[i] = math.max(0, 1.0 - adjustedWear)
+            end
+        end
 
         -- v2.3.0: Apply wear multiplier to UYT if installed
         if ModCompatibility.uytInstalled then
@@ -166,6 +202,9 @@ function UsedPlusMaintenance.checkTireMalfunctions(vehicle)
     -- Skip if already have flat tire
     if spec.hasFlatTire then return end
 
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     -- v2.3.0: Determine effective tire condition for flat tire check
     -- When UYT is installed, use UYT's worst tire wear to influence probability
     -- This creates a unified experience where UYT wear affects flat tire chance
@@ -208,6 +247,9 @@ function UsedPlusMaintenance.checkTireMalfunctions(vehicle)
             spec.flatTireSide = math.random() < 0.5 and -1 or 1  -- Random left or right
             spec.hasShownFlatTireWarning = true
             spec.failureCount = (spec.failureCount or 0) + 1
+
+            -- v2.8.0: Record malfunction time for global cooldown
+            UsedPlusMaintenance.recordMalfunctionTime(vehicle)
 
             local sideText = spec.flatTireSide < 0 and "left" or "right"
             UsedPlusMaintenance.showWarning(vehicle, g_i18n:getText("usedplus_warning_flatTire"))
@@ -398,6 +440,14 @@ function UsedPlusMaintenance.setTireQuality(vehicle, quality)
 
     -- v2.3.0: Reset UYT distance tracking for accurate wear multiplier application
     spec.uytPreviousDistances = {}
+
+    -- v2.8.0: Reset per-wheel distances and conditions
+    if spec.wheelDistances then
+        for i = 1, #spec.wheelDistances do
+            spec.wheelDistances[i] = 0
+            spec.wheelConditions[i] = 1.0  -- New tires = 100% condition
+        end
+    end
 
     -- v2.3.0: Sync tire replacement to UYT (resets their distance counters)
     -- Pass quality so retreads can start with pre-existing wear (reconditioned casings)

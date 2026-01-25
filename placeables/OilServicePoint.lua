@@ -81,6 +81,15 @@ function OilServicePoint.registerXMLPaths(schema, basePath)
     schema:setXMLSpecializationType()
 end
 
+--[[
+    v2.8.0: Register savegame XML paths
+    These are separate from the placeable XML paths - FS25 validates savegame XML strictly!
+]]
+function OilServicePoint.registerSavegameXMLPaths(schema, basePath)
+    schema:register(XMLValueType.FLOAT, basePath .. ".oilServicePoint#currentFluidStorage", "Current fluid storage level in liters")
+    schema:register(XMLValueType.STRING, basePath .. ".oilServicePoint#currentFluidType", "Current fluid type (oil or hydraulic)")
+end
+
 function OilServicePoint:onLoad(savegame)
     local spec = self.spec_oilServicePoint
     if spec == nil then
@@ -1068,4 +1077,18 @@ function FluidRefillActivatable:getDistance(x, y, z)
 end
 
 
-UsedPlus.logInfo("OilServicePoint.lua loaded (v2.7.1 - fixed vehicle action visibility)")
+--[[
+    v2.8.0: Register savegame XML paths at load time
+    This MUST happen before savegames are loaded to avoid schema validation errors
+
+    IMPORTANT: Placeable savegame paths include mod name and spec name:
+    placeables.placeable(?).{MOD_NAME}.{SPEC_NAME}.{custom_path}
+]]
+if Placeable and Placeable.xmlSchemaSavegame then
+    -- Full path includes mod name and spec name as the game structures it
+    local savegameBasePath = "placeables.placeable(?).FS25_UsedPlus.OilServicePoint"
+    OilServicePoint.registerSavegameXMLPaths(Placeable.xmlSchemaSavegame, savegameBasePath)
+    UsedPlus.logDebug("OilServicePoint: Registered savegame XML paths at " .. savegameBasePath)
+end
+
+UsedPlus.logInfo("OilServicePoint.lua loaded (v2.8.0 - fixed savegame schema)")

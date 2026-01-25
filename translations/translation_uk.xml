@@ -628,6 +628,36 @@
         <e k="usedplus_lease_amountTooSmall" v="Замала сума для лізингу. Мінімум: %s" eh="3e2012e8" />
         <e k="usedplus_repair_amountTooSmall" v="Вартість ремонту занадто мала для фінансування. Мінімум: %s" eh="446dd4cd" />
         <e k="usedplus_land_amountTooSmall" v="Ціна землі занадто мала для фінансування. Мінімум: %s" eh="b4e8480c" />
+        <e k="usedplus_mp_error_unauthorized" v="Дія не дозволена для вашої ферми" eh="343a024c" />
+        <e k="usedplus_mp_error_disabled" v="Цю функцію вимкнено в налаштуваннях" eh="d3f06efd" />
+        <e k="usedplus_mp_error_manager" v="Систему не ініціалізовано. Спробуйте ще раз." eh="53daf785" />
+        <e k="usedplus_mp_error_invalid_params" v="Невірні параметри" eh="a79fae6b" />
+        <e k="usedplus_mp_error_insufficient_funds" v="Недостатньо коштів" eh="55f90c96" />
+        <e k="usedplus_mp_error_failed" v="Транзакція не вдалася" eh="3f864e37" />
+        <e k="usedplus_mp_error_farm_not_found" v="Ферму не знайдено" eh="a13cd50e" />
+        <e k="usedplus_mp_error_deal_not_found" v="Угоду не знайдено" eh="f85a8ec8" />
+        <e k="usedplus_mp_error_land_not_found" v="Землю не знайдено" eh="db02fd36" />
+        <e k="usedplus_mp_error_land_owned" v="Ця земля вже має власника" eh="7175cfeb" />
+        <e k="usedplus_mp_error_already_leased" v="Ви вже орендуєте цю землю" eh="25394947" />
+        <e k="usedplus_mp_error_invalid_deal_type" v="Невірний тип угоди" eh="e9926aa4" />
+        <e k="usedplus_mp_error_deal_not_active" v="Угода неактивна" eh="4f8a3c97" />
+        <e k="usedplus_mp_error_repair_failed" v="Ремонт не вдався" eh="e25882fc" />
+        <e k="usedplus_mp_error_search_failed" v="Пошук не вдався" eh="a4d17776" />
+        <e k="usedplus_mp_success_financed" v="Техніку успішно профінансовано!" eh="e0a11202" />
+        <e k="usedplus_mp_success_leased" v="Техніку успішно взято в лізинг!" eh="f73065ee" />
+        <e k="usedplus_mp_success_loan" v="Кредит схвалено!" eh="96d2eb36" />
+        <e k="usedplus_mp_success_payment" v="Платіж оброблено!" eh="fffcd9ab" />
+        <e k="usedplus_mp_success_land_leased" v="Землю успішно орендовано!" eh="4815779c" />
+        <e k="usedplus_mp_success_land_buyout" v="Землю успішно придбано!" eh="9de4a0f4" />
+        <e k="usedplus_mp_success_listed" v="Техніку виставлено на продаж!" eh="1178dfe3" />
+        <e k="usedplus_mp_success_sale_action" v="Продаж завершено!" eh="f4473f61" />
+        <e k="usedplus_mp_success_price_modified" v="Ціну оновлено!" eh="3778ab16" />
+        <e k="usedplus_mp_success_repair" v="Ремонт завершено!" eh="9e6d62a2" />
+        <e k="usedplus_mp_success_search_started" v="Пошук розпочато!" eh="f10690d3" />
+        <e k="usedplus_mp_success_lease_ended" v="Оренду успішно завершено!" eh="71efe46d" />
+        <e k="usedplus_mp_success_lease_terminated" v="Оренду розірвано!" eh="2ac6c824" />
+        <e k="usedplus_mp_success_lease_renewed" v="Оренду продовжено!" eh="30c5a4dd" />
+        <e k="usedplus_mp_success_lease_buyout" v="Викуп оренди завершено!" eh="b76c5d41" />
 
         <!-- Mode Selector Options -->
         <e k="usedplus_mode_cash" v="Купуйте готівкою" eh="01dc9cc3" />
@@ -796,6 +826,7 @@
         <e k="usedplus_button_close" v="Закрити" eh="d3d2e617" />
         <e k="usedplus_button_confirm" v="Підтвердити" eh="70d9be9b" />
         <e k="usedplus_button_cancel" v="Скасувати" eh="ea478870" />
+        <e k="usedplus_button_later" v="Пізніше" eh="61057a0c" />
         <e k="usedplus_button_takeLoan" v="Взяти позику" eh="40fe67fa" />
         <e k="usedplus_button_payOff" v="Погасити" eh="416ff954" />
 
@@ -917,8 +948,8 @@
         <e k="usedplus_tl_yourRate" v="Ваша відсоткова ставка:" eh="6387ae1b" />
         <e k="usedplus_tl_sectionCollateral" v="ОБРАТИ ЗАСТАВУ" eh="fdb2d731" />
         <e k="usedplus_tl_collateralHelp" v="Натисніть для перемикання активів як застави (показані лише вільні активи)" eh="618ea809" />
-        <e k="usedplus_tl_prev" v="◄ Попер" eh="bddeed69" />
-        <e k="usedplus_tl_next" v="Далі ►" eh="4b0a535a" />
+        <e k="usedplus_tl_prev" v="&lt; Попер" eh="bddeed69" />
+        <e k="usedplus_tl_next" v="Далі &gt;" eh="4b0a535a" />
         <e k="usedplus_tl_selected" v="Вибрано:" eh="e8418a9e" />
         <e k="usedplus_tl_existingDebt" v="Наявний борг:" eh="e7d0c3fb" />
         <e k="usedplus_tl_maxLoan" v="МАКСИМАЛЬНА ПОЗИКА:" eh="f2517379" />
@@ -1036,6 +1067,7 @@
         <e k="usedplus_uvp_damage" v="Пошкодження:" eh="5a50c456" />
         <e k="usedplus_uvp_wear" v="Знос:" eh="0f25ac5c" />
         <e k="usedplus_uvp_warningTitle" v="Прихований механічний стан невідомий" eh="d2e42691" />
+        <e k="usedplus_uvp_selectTier" v="Оберіть рівень огляду:" eh="c3d4dde6" />
         <e k="usedplus_uvp_inspectPrompt" v="Оплатити професійний огляд" eh="2c3e76c2" />
         <e k="usedplus_uvp_inspectedText" v="Транспорт було оглянуто - переглянути звіт" eh="9015cd17" />
         <e k="usedplus_button_buyAsIs" v="Купити як є" eh="43e49e70" />
@@ -1524,9 +1556,6 @@
         <e k="usedplus_tire_quality" v="Якість" eh="571094bb" />
 
         <!-- v1.7.0: Fluids Dialog Labels -->
-        <e k="usedplus_fluids_title" v="ОБСЛУГОВУВАННЯ РІДИН" eh="7eb767c6" />
-        <e k="usedplus_fluids_oil" v="Моторна олива" eh="2e69df59" />
-        <e k="usedplus_fluids_hydraulic" v="Гідравлічна рідина" eh="fda2bff7" />
         <e k="usedplus_fluids_level" v="Рівень:" eh="07ad8151" />
         <e k="usedplus_fluids_status" v="Статус:" eh="24a23d78" />
         <e k="usedplus_fluids_statusOk" v="ОК" eh="e0aa021e" />
@@ -1541,9 +1570,7 @@
         <e k="usedplus_fluids_cost" v="Вартість:" eh="69edde90" />
 
         <!-- v1.7.0: Tires Dialog Labels -->
-        <e k="usedplus_tires_title" v="ШИНОМОНТАЖ" eh="b0234f4e" />
         <e k="usedplus_tires_condition" v="Стан:" eh="ed51222f" />
-        <e k="usedplus_tires_quality" v="Якість:" eh="571094bb" />
         <e k="usedplus_tires_traction" v="Зчеплення:" eh="8d38bce1" />
         <e k="usedplus_tires_flatTire" v="СПУЩЕНА ШИНА" eh="6e87cc30" />
         <e k="usedplus_tires_replace" v="Замінити шини" eh="3a0d1434" />
@@ -1564,6 +1591,9 @@
         <e k="usedplus_mr_fuelLeak" v="Витік палива:" eh="caf0d1a8" />
         <e k="usedplus_mr_yes" v="так" eh="93cba074" />
         <e k="usedplus_mr_no" v="немає" eh="bafd7322" />
+        <e k="usedplus_info_oil_level" v="Рівень оливи" eh="a6d699fb" />
+        <e k="usedplus_info_hydraulic_level" v="Гідравлічна рідина" eh="f9c4d7d9" />
+        <e k="usedplus_info_tire_condition" v="Шини" eh="3fe2c06a" />
 
         <!-- v1.7.0: Tires Service Dialog -->
         <e k="usedplus_tires_title" v="Шиномонтаж" eh="b0234f4e" />
@@ -1623,7 +1653,6 @@
         <e k="usedplus_oil_refillComplete" v="Оливу долито - Вартість: %s" eh="0dff6e72" />
         <e k="usedplus_hydraulic_refillComplete" v="Гідравлічну рідину долито - Вартість: %s" eh="2d22bcb4" />
         <e k="usedplus_oil_refillCompleteStorage" v="Оливу долито зі складу" eh="2d3715a7" />
-        <e k="usedplus_hydraulic_refillCompleteStorage" v="Гідравлічну рідину долито зі складу" eh="8290045e" />
         <e k="usedplus_oil_notEnoughStorage" v="Недостатньо оливи на складі" eh="4cf5955b" />
         <e k="usedplus_hydraulic_notEnoughStorage" v="Недостатньо гідравлічної рідини на складі" eh="a1a0eb52" />
         <e k="usedplus_oil_alreadyFull" v="Моторна олива вже повна" eh="9474e86e" />
@@ -1768,6 +1797,9 @@
         <e k="usedplus_fsk_temp_repair" v="ТИМЧАСОВИЙ ПОЛЬОВИЙ РЕМОНТ" eh="b3bc3876" />
         <e k="usedplus_fsk_temp_repair_desc" v="Це екстрений ремонт. Відвідайте належну майстерню для повного обслуговування." eh="648457f5" />
         <e k="usedplus_fsk_kit_consumed" v="OBD-сканер використано." eh="b2ea1455" />
+        <e k="usedplus_fsk_onetime_title" v="ПОЛЬОВЕ ОБСЛУГОВУВАННЯ ЗАВЕРШЕНО" eh="4336e84b" />
+        <e k="usedplus_fsk_onetime_desc" v="Подальша діагностика цієї системи потребує обладнання майстерні" eh="38988277" />
+        <e k="usedplus_fsk_kit_consumed_onetime" v="OBD-сканер використано. Усі можливі польові налаштування для цієї системи виконано." eh="4ae3775f" />
         <e k="usedplus_fsk_cannot_cancel" v="Ремонт у процесі - неможливо скасувати на цьому етапі." eh="6172d2ec" />
         <e k="usedplus_fsk_noVehicle" v="Транспортний засіб не виявлено в радіусі. Піднесіть сканер ближче до транспорту." eh="e89e127f" />
 
@@ -1781,6 +1813,7 @@
         <e k="usedplus_fsk_tire_plug" v="РОЗ'ЄМ" eh="c18d6117" />
         <e k="usedplus_fsk_tire_plug_desc" v="Кращий екстрений ремонт" eh="b3aa3113" />
         <e k="usedplus_fsk_tire_plug_result" v="Відновлює до 50% стану" eh="98bf223c" />
+        <e k="usedplus_fsk_tires_ok" v="Усі шини справні - ремонт не потрібен" eh="e070fe8d" />
 
         <!-- v2.1.0: Scanner Readout Hints (Step 1 hints to deduce failed system) -->
         <e k="usedplus_fsk_scanner_readout" v="ДАНІ СКАНЕРА OBD" eh="e81cab15" />
@@ -1844,6 +1877,8 @@
         <e k="usedplus_setting_tirewear_desc" v="Увімкнути реалістичний знос шин" eh="0a955572" />
         <e k="usedplus_setting_malfunctions" v="Поломки" eh="97801e8a" />
         <e k="usedplus_setting_malfunctions_desc" v="Увімкнути випадкові поломки та відмови компонентів" eh="fbbe01f9" />
+        <e k="usedplus_setting_malfunctionFrequency" v="Частота поломок" eh="6bf458c7" />
+        <e k="usedplus_setting_malfunctionFrequency_desc" v="Як часто виникають поломки. 100% = нормально, 50% = вдвічі рідше, 200% = вдвічі частіше" eh="4ab011c4" />
         <e k="usedplus_setting_partialRepair" v="Частковий Ремонт" eh="dc6b627a" />
         <e k="usedplus_setting_partialRepair_desc" v="Увімкнути частковий ремонт у майстерні (вимкнення приховує кнопку ремонту)" eh="84fe180c" />
         <e k="usedplus_setting_partialRepaint" v="Часткове Фарбування" eh="3fca656d" />
@@ -2051,10 +2086,39 @@
     <e k="usedplus_malfunction_seized" v="ЗАКЛИНИЛО" eh="cdceb6dd" />
     <e k="usedplus_malfunction_leak" v="ВИТІК" eh="2ec9e171" />
     <e k="usedplus_malfunction_flat" v="СПУЩЕНО" eh="f88a77e3" />
+        <e k="usedplus_fsk_diagnosis_exhausted" v="Ця система вже пройшла польове обслуговування. Подальший ремонт потребує обладнання майстерні." eh="79b71f1e" />
     <e k="usedplus_seizure_detected" v="КОМПОНЕНТ ЗАКЛИНИЛО" eh="9def01dd" />
     <e k="usedplus_seizure_repair_confirm" v="%s заклинило і потребує аварійного ремонту.\n\nВартість ремонту: %s\n\nПродовжити ремонт?" eh="bf702608" />
     <e k="usedplus_seizure_repaired" v="%s відремонтовано! Надійність відновлено до %d%%" eh="323fa338" />
     <e k="usedplus_repair_no_money" v="Недостатньо грошей для ремонту!" eh="0c0a7c19" />
+        <e k="usedplus_warning_notEnoughMoney" v="Недостатньо грошей!" eh="48f194d4" />
+        <e k="usedplus_notification_landSeized" v="ЗЕМЛЮ КОНФІСКОВАНО: %s вилучено за несплату!" eh="1c095ac6" />
+        <e k="usedplus_error_paymentTooLow" v="Сума платежу нижча за мінімальну." eh="4f83eda0" />
+        <e k="usedplus_error_paymentTooHigh" v="Сума платежу перевищує залишок боргу." eh="091a9776" />
+        <e k="usedplus_success_paymentMade" v="Платіж успішно оброблено!" eh="b12aba7d" />
+        <e k="usedplus_error_cannotAffordTermination" v="Недостатньо грошей для сплати штрафу за розірвання оренди." eh="64ed9e67" />
+        <e k="usedplus_credit_required" v="Потрібен кредитний рейтинг" eh="cefa86b5" />
+        <e k="usedplus_finance_credit_msg" v="Для фінансування потрібен кредитний рейтинг %d або вище." eh="7d3d6778" />
+        <e k="usedplus_lease_credit_msg" v="Для лізингу потрібен кредитний рейтинг %d або вище." eh="c86cbfc5" />
+        <e k="usedplus_error_purchaseFailed" v="Покупка не вдалася - API гри недоступне." eh="c02a7002" />
+        <e k="usedplus_error_negativeDownPayment" v="Перший внесок не може бути від'ємним." eh="0634f8d8" />
+        <e k="usedplus_error_downPaymentTooHigh" v="Перший внесок не може перевищувати ціну покупки." eh="6bd926ef" />
+        <e k="usedplus_error_invalidTerm" v="Невірний термін позики." eh="49e90a5b" />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="Перший внесок не може перевищувати вартість оренди." eh="5e32ae97" />
+        <e k="usedplus_error_leaseTermInvalid" v="Невірний термін оренди." eh="7f3c3523" />
+        <e k="usedplus_age_oneYear" v="1 рік" eh="086d4f5c" />
+        <e k="usedplus_age_years" v="%d років" eh="afdf2194" />
+        <e k="usedplus_hours" v="%d годин" eh="4e8d5e54" />
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="Банківський кредит погашено!" eh="a6f2a43b" />
+        <e k="usedplus_mp_success_vehicle_purchased" v="Техніку успішно придбано!" eh="b5beec4f" />
+        <e k="usedplus_mp_success_trade_in" v="Обмін успішно завершено!" eh="0a59b49a" />
+        <e k="usedplus_mp_success_field_repair" v="Польовий ремонт завершено!" eh="06239aac" />
+        <e k="usedplus_mp_success_fluids_refilled" v="Рідини успішно долито!" eh="9597cd1d" />
+        <e k="usedplus_mp_success_tires_replaced" v="Шини успішно замінено!" eh="5224fbbe" />
+        <e k="usedplus_mp_success_land_purchased" v="Землю успішно придбано!" eh="9de4a0f4" />
+        <e k="usedplus_mp_error_purchase_failed" v="Покупка не вдалася. Спробуйте ще раз." eh="42d7ddab" />
+        <e k="usedplus_mp_error_vehicle_not_found" v="Техніку не знайдено." eh="02c84e79" />
+        <e k="usedplus_mp_error_no_loan" v="Немає залишку позики для сплати." eh="5668e12f" />
 
     </elements>
 </l10n>

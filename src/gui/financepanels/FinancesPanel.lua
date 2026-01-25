@@ -166,8 +166,14 @@ function FinanceManagerFrame:updateFinancesSection(farmId, farm)
     end
 
     -- v1.8.1: Add ELS loans if EnhancedLoanSystem is installed
-    if ModCompatibility.enhancedLoanSystemInstalled then
+    -- v2.8.0: Always try to get ELS loans - getELSLoans() handles late-binding detection
+    --         This fixes case where ELS loads before our init() but we miss it
+    if ModCompatibility.enhancedLoanSystemInstalled or g_els_loanManager ~= nil then
         local elsLoans = ModCompatibility.getELSLoans(farmId)
+        UsedPlus.logDebug(string.format("FinancesPanel: ELS check - installed=%s, g_els_loanManager=%s, loans found=%d",
+            tostring(ModCompatibility.enhancedLoanSystemInstalled),
+            tostring(g_els_loanManager ~= nil),
+            #elsLoans))
         for _, pseudoDeal in ipairs(elsLoans) do
             if rowIndex < FinanceManagerFrame.MAX_FINANCE_ROWS then
                 table.insert(self.activeDeals, pseudoDeal)
@@ -1256,6 +1262,7 @@ function FinanceManagerFrame:processVanillaLoanPayment(amount)
         return
     end
 
+    -- Client-side validation for immediate feedback
     if farm.money < amount then
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
@@ -1275,29 +1282,17 @@ function FinanceManagerFrame:processVanillaLoanPayment(amount)
 
     local actualPayment = math.min(amount, currentLoan)
 
-    g_currentMission:addMoney(-actualPayment, farm.farmId, MoneyType.OTHER, true, true)
-    farm.loan = currentLoan - actualPayment
+    -- v2.8.0: Use network event for multiplayer synchronization
+    -- The server will validate funds, process payment, update farm.loan, and show notification
+    VanillaLoanPaymentEvent.sendToServer(farm.farmId, actualPayment)
 
-    local paidStr = g_i18n:formatMoney(actualPayment, 0, true, true)
-    local newBalanceStr = g_i18n:formatMoney(farm.loan, 0, true, true)
-
-    if farm.loan <= 0 then
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_OK,
-            string.format("Loan paid off! Total paid: %s", paidStr)
-        )
-    else
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_OK,
-            string.format("Payment processed: %s. Remaining balance: %s", paidStr, newBalanceStr)
-        )
-    end
-
+    -- Clear pending state
     self.pendingVanillaLoan = nil
     self.pendingVanillaFarm = nil
     self.pendingVanillaPaymentAmount = nil
     self.pendingVanillaPaymentOptions = nil
 
+    -- Update display (values will sync from server in multiplayer)
     self:updateDisplay()
 end
 

@@ -7,7 +7,7 @@
     -->
 
     <author>UsedPlus Team</author>
-    <version>2.7.2.0</version>
+    <version>2.9.0.0</version>
 
     <title>
         <en>UsedPlus - Finance &amp; Marketplace System</en>
@@ -97,6 +97,12 @@ Siehe CHANGELOG.md für Versionshistorie.
     <l10n filenamePrefix="translations/translation"/>
 
     <!--
+         Custom fill types for Service Truck restoration system
+         USEDPLUS_SPAREPARTS: Consumed during long-term vehicle restoration
+    -->
+    <fillTypes filename="data/fillTypes.xml"/>
+
+    <!--
          Input actions for opening finance manager from ESC or in-game
          Pattern from: EnhancedLoanSystem, BuyUsedEquipment
     -->
@@ -161,6 +167,7 @@ Siehe CHANGELOG.md für Versionshistorie.
         <sourceFile filename="src/data/UsedVehicleSearch.lua"/>
         <sourceFile filename="src/data/VehicleSaleListing.lua"/>  <!--  Agent-based vehicle sales -->
         <sourceFile filename="src/data/DiagnosisData.lua"/>       <!--  v1.8.0: Field Service Kit diagnosis data -->
+        <sourceFile filename="src/data/RestorationData.lua"/>    <!--  v2.9.0: Service Truck restoration scenarios -->
 
         <!-- Settings system (load before managers) -->
         <sourceFile filename="src/settings/SettingsPresets.lua"/>    <!--  v1.4.0: Preset configurations -->
@@ -171,6 +178,7 @@ Siehe CHANGELOG.md für Versionshistorie.
         <sourceFile filename="src/utils/DepreciationCalculations.lua"/>
         <sourceFile filename="src/utils/ConfigurationDetector.lua"/>
         <sourceFile filename="src/utils/TradeInCalculations.lua"/>
+        <sourceFile filename="src/utils/CollateralUtils.lua"/>  <!-- Collateral/loan value calculations -->
 
         <!-- UI utilities (depend on utils, used by GUI) -->
         <sourceFile filename="src/utils/UIHelper.lua"/>       <!--  Centralized UI formatting -->
@@ -196,11 +204,15 @@ Siehe CHANGELOG.md für Versionshistorie.
         <sourceFile filename="src/specializations/UsedPlusMaintenanceRegister.lua"/>
 
         <!-- Network events (depend on data classes) - CONSOLIDATED -->
+        <sourceFile filename="src/events/TransactionResponseEvent.lua"/>  <!-- v2.8.0: Universal response for multiplayer feedback -->
         <sourceFile filename="src/events/FinanceEvents.lua"/>    <!-- FinanceVehicleEvent, FinancePaymentEvent, TakeLoanEvent -->
         <sourceFile filename="src/events/LeaseEvents.lua"/>      <!-- LeaseVehicleEvent, LeaseEndEvent, TerminateLeaseEvent -->
         <sourceFile filename="src/events/LandEvents.lua"/>       <!-- LandLeaseEvent, LandLeaseBuyoutEvent -->
         <sourceFile filename="src/events/SaleEvents.lua"/>       <!-- CreateSaleListingEvent, SaleListingActionEvent -->
         <sourceFile filename="src/events/UsedMarketEvents.lua"/> <!-- RequestUsedItemEvent, UsedItemFoundEvent -->
+        <sourceFile filename="src/events/MaintenanceEvents.lua"/> <!-- v2.8.0: FieldRepairEvent, RefillFluidsEvent, ReplaceTiresEvent -->
+        <sourceFile filename="src/events/RestorationEvents.lua"/> <!-- v2.9.0: Service Truck restoration sync events -->
+        <sourceFile filename="src/events/ServiceTruckDiscoveryEvent.lua"/> <!-- v2.9.0: Service Truck discovery MP sync -->
         <sourceFile filename="src/events/RepairVehicleEvent.lua"/>
         <sourceFile filename="src/events/SetPaymentConfigEvent.lua"/>  <!-- Payment configuration sync -->
         <sourceFile filename="src/events/UsedPlusSettingsEvent.lua"/>  <!--  v1.4.0: Settings sync event -->
@@ -219,6 +231,7 @@ Siehe CHANGELOG.md für Versionshistorie.
         <sourceFile filename="src/managers/VehicleSaleManager.lua"/>  <!--  Agent-based vehicle sales -->
         <sourceFile filename="src/managers/DifficultyScalingManager.lua"/>  <!--  v2.0.0: Farmland difficulty scaling (GMNGjoy pattern) -->
         <sourceFile filename="src/managers/BankInterestManager.lua"/>  <!--  v2.0.0: Bank interest on cash (Evan Kirsch pattern) -->
+        <sourceFile filename="src/managers/ServiceTruckDiscovery.lua"/>  <!--  v2.9.0: Service Truck discovery system -->
 
         <!-- GUI screens (depend on managers) -->
         <sourceFile filename="src/gui/LeaseEndDialog.lua"/>  <!--  Lease end options -->
@@ -258,6 +271,8 @@ Siehe CHANGELOG.md für Versionshistorie.
         <sourceFile filename="src/gui/SearchExpiredDialog.lua"/>       <!--  v1.5.1: Search expiration with renewal option -->
         <sourceFile filename="src/gui/SaleExpiredDialog.lua"/>          <!--  v1.5.1: No buyer found dialog -->
         <sourceFile filename="src/gui/FieldServiceKitDialog.lua"/>    <!--  v1.8.0: Field Service Kit dialog -->
+        <sourceFile filename="src/gui/ServiceTruckDialog.lua"/>     <!--  v2.9.0: Service Truck restoration dialog -->
+        <sourceFile filename="src/gui/ServiceTruckDiscoveryDialog.lua"/>  <!--  v2.9.0: Service Truck discovery popup -->
         <sourceFile filename="src/gui/FluidPurchaseDialog.lua"/>    <!--  v1.9.3: Fluid purchase dialog -->
         <sourceFile filename="src/gui/RepossessionDialog.lua"/>    <!--  v1.9.8: Repossession notification dialog -->
         <sourceFile filename="src/gui/NegotiationDialog.lua"/>    <!--  v2.6.0: Used vehicle negotiation dialog -->
@@ -275,23 +290,29 @@ Siehe CHANGELOG.md für Versionshistorie.
         <sourceFile filename="src/extensions/InGameMenuVehiclesFrameExtension.lua"/>  <!--  Hook ESC Vehicles Sell button -->
         <sourceFile filename="src/extensions/WorkshopScreenExtension.lua"/>  <!--  Hook Workshop Inspect button -->
         <sourceFile filename="src/extensions/RVBWorkshopIntegration.lua"/>  <!--  v2.1.0: RVB Workshop cross-mod integration -->
+        <sourceFile filename="src/extensions/VehicleInfoExtension.lua"/>  <!--  v2.8.0: Oil/Hydraulic fluid in vehicle info box -->
         <sourceFile filename="src/extensions/FinanceMenuExtension.lua"/>  <!--  Disable vanilla borrow, require credit-based loans -->
 
         <!-- Main entry point (MUST be last - depends on everything) -->
         <sourceFile filename="src/main.lua"/>
     </extraSourceFiles>
 
-    <!-- Vehicle Specializations - Hand Tools -->
+    <!-- Vehicle Specializations - Hand Tools & Service Vehicles -->
     <specializations>
         <specialization name="FieldServiceKit" className="FieldServiceKit" filename="vehicles/FieldServiceKit.lua"/>
+        <specialization name="ServiceTruck" className="ServiceTruck" filename="vehicles/ServiceTruck.lua"/>
     </specializations>
 
-    <!-- Vehicle Types - Portable Tools -->
+    <!-- Vehicle Types - Portable Tools & Service Vehicles -->
     <!-- Field Service Kit: Uses parent="base" like MobileServiceKit pattern -->
+    <!-- Service Truck: Uses parent="carFillable" for driveable vehicle with fill units -->
     <!-- Specializations within same mod do NOT need mod prefix -->
     <vehicleTypes>
         <type name="usedPlusFieldServiceKit" parent="base" filename="$dataS/scripts/vehicles/Vehicle.lua">
             <specialization name="FieldServiceKit"/>
+        </type>
+        <type name="usedPlusServiceTruck" parent="carFillable" filename="$dataS/scripts/vehicles/Vehicle.lua">
+            <specialization name="ServiceTruck"/>
         </type>
     </vehicleTypes>
 
@@ -307,9 +328,11 @@ Siehe CHANGELOG.md für Versionshistorie.
         </type>
     </placeableTypes>
 
-    <!-- Placeables & Hand Tools -->
+    <!-- Placeables, Hand Tools & Service Vehicles -->
     <storeItems>
         <storeItem xmlFilename="placeables/OilTank.xml"/>
         <storeItem xmlFilename="vehicles/fieldServiceKit/fieldServiceKit.xml"/>  <!--  v1.8.0: Field Service Kit -->
+        <storeItem xmlFilename="vehicles/serviceTruck/serviceTruck.xml"/>        <!--  v2.9.0: Service Truck -->
+        <storeItem xmlFilename="vehicles/sparePartsPallet/sparePartsPallet.xml"/> <!--  v2.9.0: Spare Parts Pallet -->
     </storeItems>
 </modDesc>

@@ -4,6 +4,241 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.9.0] - 2026-01-25
+
+### Added - Service Truck System
+A driveable service truck that performs **long-term vehicle restoration**, including the unique ability to restore the reliability ceiling that degrades on lemons.
+
+**IMPORTANT: Discovery System**
+The Service Truck is NOT available in the shop! It must be **discovered** through National Agent transactions:
+
+**Prerequisites (ALL required):**
+- 3+ OBD Scanner uses (you understand the basic repair system)
+- 700+ credit score (you're a serious customer)
+- Own a vehicle with reliability ceiling < 90% (you've felt the pain)
+
+**Discovery Flow:**
+1. Complete any National Agent transaction (buy or sell)
+2. If prerequisites met: 20% chance agent mentions "a connection"
+3. Special opportunity dialog shows: retiring mechanic's service truck
+4. **CASH ONLY** - $67,500 (10% connection discount)
+5. Accept now or decline (saved to Finance Manager for 30 days)
+6. Pity timer: guaranteed discovery after 10 eligible transactions
+
+**Why Gated?**
+- Players must EARN the endgame tool
+- Prevents trivializing the ceiling degradation mechanic
+- Creates a meaningful "aha!" moment when discovered
+- Triple gate: skill (OBD uses) + credit (700+) + wealth ($67,500 cash)
+
+**New Files:**
+- `vehicles/ServiceTruck.lua` - Main specialization (~750 lines)
+- `vehicles/serviceTruck/serviceTruck.xml` - Vehicle definition (hidden from shop)
+- `vehicles/sparePartsPallet/sparePartsPallet.xml` - Purchasable spare parts pallet ($500)
+- `src/data/RestorationData.lua` - Diagnostic scenarios and restoration parameters
+- `src/gui/ServiceTruckDialog.lua` - Inspection minigame and status dialog
+- `src/gui/ServiceTruckDiscoveryDialog.lua` - Discovery opportunity popup
+- `gui/ServiceTruckDialog.xml` - Dialog UI definition
+- `gui/ServiceTruckDiscoveryDialog.xml` - Discovery popup UI
+- `src/events/RestorationEvents.lua` - Restoration multiplayer sync
+- `src/events/ServiceTruckDiscoveryEvent.lua` - Discovery/purchase MP sync
+- `src/managers/ServiceTruckDiscovery.lua` - Discovery prerequisites and state tracking
+- `data/fillTypes.xml` - Custom USEDPLUS_SPAREPARTS fill type
+
+**Key Features:**
+| Feature | Description |
+|---------|-------------|
+| **Ceiling Restoration** | Only way to restore degraded reliability ceiling (unique!) |
+| **Long-term Process** | 1% reliability per game hour, 0.25% ceiling per hour |
+| **Resource Consumption** | Diesel (5L/hr), Oil (0.5L/hr), Hydraulic (0.5L/hr), Spare Parts (2/hr) |
+| **Target Immobilization** | Vehicle wheels hidden, engine locked during restoration |
+| **Inspection Minigame** | Pass diagnostic quiz to start restoration |
+| **48-Hour Cooldown** | Failed inspection = 48 game-hour cooldown per component |
+| **Full Multiplayer** | Server-authoritative with progress sync events |
+
+**Service Truck vs OBD Scanner:**
+| Aspect | OBD Scanner | Service Truck |
+|--------|-------------|---------------|
+| Item Type | Hand tool ($5,000) | Driveable vehicle ($67,500-$75,000) |
+| Availability | Always in shop | **Must be discovered** |
+| Duration | Instant | Hours/days |
+| Max Restoration | 80% cap | 100% possible |
+| Ceiling Repair | No | **YES** |
+| Payment | Cash/Finance/Lease | **CASH ONLY** |
+
+**Spare Parts System:**
+- Buy spare parts pallets from shop ($500 for 100 parts)
+- Place within 5m of service truck
+- Truck auto-consumes 2 parts per game hour
+- No parts = work pauses (no damage, just stopped)
+
+**Credits:**
+- Vehicle model: **Canada FS** (GMC C7000 Service 81-89 v1.0)
+
+### Changed
+- `modDesc.xml` - Added fill types, ServiceTruck specialization, vehicle type, store items
+- `UsedPlusMaintenance.lua` - Added restoration state tracking (isBeingRestored, cooldowns)
+- `VehicleSpawning.lua` - Hook for National Agent purchase discovery trigger
+- `VehicleSaleManager.lua` - Hook for National Agent sale discovery trigger
+- `main.lua` - Save/load hooks for ServiceTruckDiscovery state
+
+---
+
+## [2.8.0] - 2026-01-24
+
+### Fixed - Multiplayer Synchronization (GitHub Issue #1 Part 3)
+Complete audit and fix of all actions that bypassed network events. Previously, many operations worked in single-player but silently failed on dedicated servers because they called managers directly instead of using network events.
+
+**New Network Events Created:**
+- `PurchaseUsedVehicleEvent` - Used vehicle purchases from agent search results
+- `TradeInVehicleEvent` - Trade-in vehicle deletion with proper credit
+- `PurchaseLandCashEvent` - Land cash purchases with ownership transfer
+- `VanillaLoanPaymentEvent` - Vanilla farm.loan payments
+- `MaintenanceEvents.lua` (new file):
+  - `FieldRepairEvent` - Field service kit seizure repairs
+  - `RefillFluidsEvent` - Oil/hydraulic fluid refills
+  - `ReplaceTiresEvent` - Tire replacement with quality tiers
+
+**Dialogs Fixed:**
+- `VehiclePortfolioDialog` - Used vehicle purchase now uses `PurchaseUsedVehicleEvent`
+- `UnifiedLandPurchaseDialog` - Cash/Finance/Lease land purchases now use proper events
+- `UnifiedPurchaseDialog` - Trade-in now uses `TradeInVehicleEvent`
+- `DealDetailsDialog` - Early payoff now uses `FinancePaymentEvent`
+- `FieldServiceKitDialog` - Seizure repairs now use `FieldRepairEvent`
+- `FluidsDialog` - Fluid refills now use `RefillFluidsEvent`
+- `TiresDialog` - Tire replacement now uses `ReplaceTiresEvent`
+- `FinancesPanel` - Vanilla loan payment now uses `VanillaLoanPaymentEvent`
+
+**Extensions Fixed:**
+- `InGameMenuVehiclesFrameExtension` - Sale listing creation uses `CreateSaleListingEvent`
+- `VehicleSellingPointExtension` - Sale listing creation uses `CreateSaleListingEvent`
+
+**Enhanced Existing Events:**
+- `CreateSaleListingEvent` - Now supports dual-tier system (agentTier + priceTier)
+- `LandLeaseEvent` - Now accepts termMonths, securityDeposit, monthlyPayment parameters
+- `ReplaceTiresEvent` - Now handles quality tiers (1-3) and includes flat tire repair
+
+**Result:** Server is now authoritative for all financial transactions. Clients receive proper success/failure feedback via `TransactionResponseEvent`.
+
+### Fixed - Other
+- **Inspection Report showing RVB components when disabled** - Generator, Starter, Battery, Glow Plug were shown even with RVB integration disabled
+  - Root cause: `displayIntegratedRVBData()` only checked if listing had RVB data, not if setting was enabled
+  - Fix: Added `enableRVBIntegration` setting check before displaying sub-components
+- **Duplicate lease end dialogs** - When a lease term completed, TWO dialogs would show
+  - `LeaseDeal:completeLease()` showed `LeaseEndDialog` (2 options: Return/Buyout)
+  - `FinanceManager` also showed `LeaseRenewalDialog` (3 options: Return/Buyout/Renew)
+  - Fix: Removed dialog call from `completeLease()` - now only `LeaseRenewalDialog` shows with all 3 options
+  - Note: `LeaseEndDialog.lua` is now deprecated (kept for backwards compatibility but not used)
+
+### Added
+- **Malfunction Frequency slider** - New setting to adjust how often malfunctions occur
+  - Range: 25% to 200% (default 100%)
+  - 25% = very rare malfunctions, 200% = twice as frequent
+  - Located in Settings menu right after Malfunctions toggle
+  - Presets automatically set appropriate values (Easy: 25%, Challenging: 125%, Hardcore: 200%)
+- **Persistence debugging** - WARN-level logging throughout save/load flow
+  - Logs when FSBaseMission.loadItemsFinished hook fires with missionInfo status
+  - Logs when loadSavegameData is called with savegame directory
+  - Logs each search registration with count
+  - Logs save/load completion with counts
+  - Helps diagnose "searches disappear after save/load" issues
+
+### Changed
+- **Farm.new hook** - Now checks if data arrays already exist before initializing
+  - Prevents accidental overwriting of loaded search/listing data
+  - Logs warning if farm already has searches (indicates unexpected call order)
+
+### Fixed
+- **OBD Scanner reliability exploit** - Players could spam OBD kits to restore reliability to 100%
+  - **One-time diagnosis per system**: Each component (engine, electrical, hydraulic) can only receive ONE diagnostic boost from OBD Scanner
+  - **80% cap**: OBD field repair cannot restore above 80% (shop repair needed for higher)
+  - **Respects vehicle ceiling**: Also capped by vehicle's `maxReliabilityCeiling` (aging/wear ceiling)
+  - **Effective cap**: min(80%, vehicleCeiling)
+  - **Seizure repair is separate**: Fixing a seized component does NOT use up the diagnostic boost - it's emergency repair
+  - Seizure repair also respects vehicle ceiling
+  - Tracking persists across save/load and syncs in multiplayer
+- **Buyer Found popup "Keep Waiting" truncation** - Button text was cut off with "..."
+  - Created custom `soKeepWaitingBtn` profile with wider size and `textTruncation="false"`
+- **Workshop shows sold vehicle** - Workshop still displayed vehicle after accepting sale offer
+  - Added `closeWorkshopIfShowingVehicle()` to close workshop/shop config screen before deleting sold vehicle
+  - Checks `g_shopConfigScreen`, `g_workshopScreen`, and `inGameMenu.pageVehicles`
+- **OBD Scanner UI improvements** - Multiple visual and UX enhancements:
+  - **Diagnose Component**: Removed reliability % display from system buttons (player must diagnose from hints - showing percentages defeated the puzzle)
+  - **Scanner Readout**: Enhanced terminal appearance with larger text (13px), better padding, and green diagnostic color scheme
+  - **Tire Service vehicle image**: Fixed stretched appearance - now uses proper 140x140 square format with `noSlice`
+  - **Tire Service layout**: Reorganized with vehicle centered above 2x2 tire grid for better visual flow
+- **OBD Scanner messaging** - Corrected confusing/inaccurate result screen text:
+  - Changed "TEMPORARY REPAIR - visit workshop for permanent fix" → "FIELD SERVICE COMPLETE"
+  - OBD fixes **reliability** (malfunction chance), workshop fixes **damage** - these are different systems!
+  - Updated "kit consumed" message: "Field-serviceable adjustments have been made to this system"
+  - Now states "Further diagnostics on this system require workshop equipment"
+- **Mechanical repair not working** - Cash payment confirmation showed "Configuration changed" but vehicle wasn't repaired and money wasn't deducted
+  - Root cause: Security validation added in v2.7.2 checked for nil values BEFORE default values were applied
+  - Optional parameters (`termMonths`, `monthlyPayment`, `downPayment`) are not passed for cash payments
+  - Validation saw nil → returned early → skipped both money deduction AND repair
+  - Fix: Moved default value assignments to top of execute() function, before validation
+- **Oil Service Tank fluid type selection** - Always purchased oil regardless of selecting Hydraulic Fluid
+  - Root cause: MultiTextOption callback was missing from XML
+  - Fix: Added `onClick="onFluidTypeChanged"` to FluidPurchaseDialog.xml
+- **Used vehicle age/hours realism** - Vehicle age is now correlated with operating hours
+  - Previously a 3800-hour vehicle could be only 1-2 years old (unrealistic!)
+  - Now calculates minimum age from hours (assumes 400-1000 hours/year usage)
+  - Vehicle age is actually APPLIED to spawned vehicles (was missing before!)
+  - FS25 stores age in months, listing age in years - now converts properly
+- **EnhancedLoanSystem (ELS) integration** - ELS loans now display correctly on UsedPlus Finance page
+  - Added late-binding detection: checks for `g_els_loanManager` at runtime, not just during init
+  - ELS converts vanilla loans in `onStartMission()` which runs after our init
+  - Finance panel now checks directly for ELS global, bypassing init-time flag
+  - Added robust method checking using `type()` instead of field lookup
+  - Wrapped ELS API calls in pcall for error handling
+  - Fixed interest rate conversion (ELS stores as %, we convert to decimal)
+  - Better loan naming: shows original loan amount in Finance list
+  - Comprehensive debug logging for troubleshooting
+
+### Changed
+- **ELS detection** - Enhanced to check multiple ELS globals (g_els_loanManager, ELS_loanManager class, ELS_loan class)
+- **VehiclePortfolioDialog exploit prevention** - Now closes any open VehiclePortfolioDialog when SearchExpiredDialog opens
+  - Prevents player from keeping "Found Vehicles" popup open after search expires to continue inspecting/buying
+- **Seller walkaway exploit fix** - When seller walks away insulted, ALL related dialogs now close
+  - Closes NegotiationDialog, InspectionReportDialog, UsedVehiclePreviewDialog, and VehiclePortfolioDialog
+  - Prevents player from making another offer after seller has walked away
+  - Listing is permanently removed so it cannot be offered on again
+
+### Technical
+- Added debug logging throughout ELS integration path for easier troubleshooting
+- Late-binding pattern allows detection even if mods load in unexpected order
+
+---
+
+## [2.7.3] - 2026-01-21
+
+### Fixed
+- **TakeLoanDialog pagination** - Page indicator now correctly shows "2/2" on page 2
+  - Fixed maxOffset calculation: changed from scrolling style to paging style
+  - Next button now properly disables on last page
+- **Inspection complete popup timing** - Dialog now shows "Complete" instead of "In Progress"
+  - Added 2-frame delay before opening preview dialog from completion notification
+  - Ensures YesNoDialog fully closes before new dialog opens
+- **View Report button not opening inspection report** - Fixed dialog instance mismatch
+  - Changed from getInstance() pattern to DialogLoader.show() for consistency
+  - Fixes both UsedVehiclePreviewDialog → InspectionReportDialog and Go Back navigation
+- **RVB Workshop Mechanic's Assessment** - Text no longer truncated
+  - Expanded label to 95% container width with centered alignment
+  - Disabled text truncation on mechanic quote
+- **RVB Workshop Repaint button** - Now properly opens Repaint dialog
+  - Fixed g_soundPlayer:playSample() API call (doesn't exist)
+  - Wrapped in pcall with g_gui:playSample() fallback
+- **Currency formatting consistency** - $ now always appears before amount
+  - New UIHelper.Text.formatMoney() uses American format ($X,XXX) throughout mod
+
+### Changed
+- **UsedSearchDialog** - "Match Quality" label renamed to "Chance to Match Quality"
+  - Removed confusing "(+8%)" modifier display from success rate
+  - Dialog height reduced from 755px to 740px
+- **UsedVehiclePreviewDialog** - Cancel button now shows "Close" when inspection is in progress/complete
+
+---
+
 ## [2.7.2] - 2026-01-18
 
 ### Security Hardening (Multiplayer) - OWASP Compliance Update

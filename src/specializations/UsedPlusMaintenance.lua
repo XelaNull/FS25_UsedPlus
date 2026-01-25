@@ -92,7 +92,13 @@ function UsedPlusMaintenance.initSpecialization()
     schemaSavegame:register(XMLValueType.INT,   key .. ".tireQuality", "Tire quality tier (1=Retread, 2=Normal, 3=Quality)", 2)
     schemaSavegame:register(XMLValueType.FLOAT, key .. ".distanceTraveled", "Distance traveled for tire wear", 0)
     schemaSavegame:register(XMLValueType.BOOL,  key .. ".hasFlatTire", "Does vehicle have a flat tire?", false)
-    schemaSavegame:register(XMLValueType.STRING, key .. ".flatTireSide", "Which side has flat tire (left/right)", "")
+    schemaSavegame:register(XMLValueType.INT,   key .. ".flatTireSide", "Which side has flat tire (-1=left, 0=none, 1=right)", 0)
+
+    -- v2.8.0: Per-wheel distance tracking (unified tire tracking - no free passes)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".wheelDistances.w1", "Wheel 1 distance traveled (m)", 0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".wheelDistances.w2", "Wheel 2 distance traveled (m)", 0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".wheelDistances.w3", "Wheel 3 distance traveled (m)", 0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".wheelDistances.w4", "Wheel 4 distance traveled (m)", 0)
 
     -- v1.7.0: Oil System
     schemaSavegame:register(XMLValueType.FLOAT, key .. ".oilLevel", "Engine oil level (0-1)", 1.0)
@@ -122,6 +128,17 @@ function UsedPlusMaintenance.initSpecialization()
     schemaSavegame:register(XMLValueType.FLOAT, key .. ".engineSeizedTime", "When engine seizure occurred", 0)
     schemaSavegame:register(XMLValueType.FLOAT, key .. ".hydraulicsSeizedTime", "When hydraulic seizure occurred", 0)
     schemaSavegame:register(XMLValueType.FLOAT, key .. ".electricalSeizedTime", "When electrical seizure occurred", 0)
+
+    -- v2.8.0: OBD Scanner diagnosis tracking (one-time boost per system)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".obdDiagnosedEngine", "OBD diagnosis used on engine", false)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".obdDiagnosedElectrical", "OBD diagnosis used on electrical", false)
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".obdDiagnosedHydraulic", "OBD diagnosis used on hydraulic", false)
+
+    -- v2.9.0: Service Truck Restoration System
+    schemaSavegame:register(XMLValueType.BOOL,  key .. ".isBeingRestored", "Is currently being restored by a service truck", false)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".restorationCooldowns.engine", "Cooldown end time for engine restoration", 0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".restorationCooldowns.electrical", "Cooldown end time for electrical restoration", 0)
+    schemaSavegame:register(XMLValueType.FLOAT, key .. ".restorationCooldowns.hydraulic", "Cooldown end time for hydraulic restoration", 0)
 
     -- v2.1.0: RVB/UYT Deferred Sync Flags (prevents schema validation errors)
     schemaSavegame:register(XMLValueType.BOOL,  key .. ".rvbDataSynced", "Whether RVB data has been synced to vehicle", false)
@@ -331,7 +348,9 @@ function UsedPlusMaintenance:setSteeringInput(superFunc, inputValue, isAnalog, d
     end
 
     -- ========== v1.7.0: FLAT TIRE STEERING PULL ==========
-    if spec.hasFlatTire and config.enableFlatTire then
+    -- v2.8.0: Also check malfunctions setting - if disabled, no flat tire effects
+    local malfunctionsEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if spec.hasFlatTire and config.enableFlatTire and malfunctionsEnabled then
         local flatTirePullStrength = config.flatTirePullStrength
         local flatSpeedFactor = 0.3
         if speed > 3 then
@@ -589,6 +608,10 @@ function UsedPlusMaintenance:onLoad(savegame)
     spec.hasShownFlatTireWarning = false
     spec.hasShownLowTractionWarning = false
 
+    -- v2.8.0: Per-wheel distance tracking (unified tire tracking)
+    spec.wheelDistances = {0, 0, 0, 0}
+    spec.wheelConditions = {1.0, 1.0, 1.0, 1.0}
+
     -- v1.7.0: Oil system state
     spec.oilLevel = 1.0
     spec.wasLowOil = false
@@ -656,6 +679,27 @@ function UsedPlusMaintenance:onLoad(savegame)
     spec.hydraulicsSeizedTime = 0
     spec.electricalSeizedTime = 0
 
+    -- v2.8.0: Global malfunction cooldown (prevents cascade failures)
+    spec.lastMalfunctionTime = 0
+
+    -- v2.8.0: OBD Scanner diagnosis tracking (one-time boost per system)
+    -- Prevents exploit of spamming OBD kits for unlimited reliability restoration
+    spec.obdDiagnosesUsed = {
+        engine = false,
+        electrical = false,
+        hydraulic = false
+    }
+
+    -- v2.9.0: Service Truck Restoration System
+    -- isBeingRestored: prevents vehicle from being driven/started during restoration
+    -- restorationCooldowns: time-based lockout after failed inspection
+    spec.isBeingRestored = false
+    spec.restorationCooldowns = {
+        engine = 0,
+        electrical = 0,
+        hydraulic = 0
+    }
+
     UsedPlus.logTrace("UsedPlusMaintenance onLoad complete for: " .. tostring(self:getName()))
 end
 
@@ -718,7 +762,22 @@ function UsedPlusMaintenance:onPostLoad(savegame)
         spec.tireQuality = xmlFile:getValue(key .. ".tireQuality", spec.tireQuality) or 2
         spec.distanceTraveled = xmlFile:getValue(key .. ".distanceTraveled", spec.distanceTraveled) or 0
         spec.hasFlatTire = xmlFile:getValue(key .. ".hasFlatTire", spec.hasFlatTire) or false
-        spec.flatTireSide = xmlFile:getValue(key .. ".flatTireSide", spec.flatTireSide) or ""
+        spec.flatTireSide = xmlFile:getValue(key .. ".flatTireSide", spec.flatTireSide) or 0
+
+        -- v2.8.0: Load per-wheel distances and recalculate conditions
+        spec.wheelDistances = spec.wheelDistances or {0, 0, 0, 0}
+        spec.wheelConditions = spec.wheelConditions or {1.0, 1.0, 1.0, 1.0}
+        spec.wheelDistances[1] = xmlFile:getValue(key .. ".wheelDistances.w1", spec.wheelDistances[1]) or 0
+        spec.wheelDistances[2] = xmlFile:getValue(key .. ".wheelDistances.w2", spec.wheelDistances[2]) or 0
+        spec.wheelDistances[3] = xmlFile:getValue(key .. ".wheelDistances.w3", spec.wheelDistances[3]) or 0
+        spec.wheelDistances[4] = xmlFile:getValue(key .. ".wheelDistances.w4", spec.wheelDistances[4]) or 0
+
+        -- Recalculate per-wheel conditions from loaded distances
+        local baseDistance = UsedPlusMaintenance.CONFIG.tireWearDistanceBase or 240000
+        for i = 1, 4 do
+            local wheelWear = math.min(1.0, spec.wheelDistances[i] / baseDistance)
+            spec.wheelConditions[i] = math.max(0, 1.0 - wheelWear)
+        end
 
         -- Apply tire quality modifiers after loading
         if spec.tireQuality == 1 then
@@ -760,6 +819,19 @@ function UsedPlusMaintenance:onPostLoad(savegame)
         spec.engineSeizedTime = xmlFile:getValue(key .. ".engineSeizedTime", spec.engineSeizedTime) or 0
         spec.hydraulicsSeizedTime = xmlFile:getValue(key .. ".hydraulicsSeizedTime", spec.hydraulicsSeizedTime) or 0
         spec.electricalSeizedTime = xmlFile:getValue(key .. ".electricalSeizedTime", spec.electricalSeizedTime) or 0
+
+        -- v2.8.0: Load OBD diagnosis tracking (one-time boost per system)
+        spec.obdDiagnosesUsed = spec.obdDiagnosesUsed or {}
+        spec.obdDiagnosesUsed.engine = xmlFile:getValue(key .. ".obdDiagnosedEngine", false)
+        spec.obdDiagnosesUsed.electrical = xmlFile:getValue(key .. ".obdDiagnosedElectrical", false)
+        spec.obdDiagnosesUsed.hydraulic = xmlFile:getValue(key .. ".obdDiagnosedHydraulic", false)
+
+        -- v2.9.0: Load Service Truck restoration cooldowns
+        spec.isBeingRestored = xmlFile:getValue(key .. ".isBeingRestored", false)
+        spec.restorationCooldowns = spec.restorationCooldowns or {}
+        spec.restorationCooldowns.engine = xmlFile:getValue(key .. ".restorationCooldowns.engine", 0)
+        spec.restorationCooldowns.electrical = xmlFile:getValue(key .. ".restorationCooldowns.electrical", 0)
+        spec.restorationCooldowns.hydraulic = xmlFile:getValue(key .. ".restorationCooldowns.hydraulic", 0)
 
         -- v2.1.0: Load RVB/UYT deferred sync data
         spec.rvbDataSynced = xmlFile:getValue(key .. ".rvbDataSynced", spec.rvbDataSynced) or false
@@ -856,6 +928,14 @@ function UsedPlusMaintenance:saveToXMLFile(xmlFile, key, usedModNames)
     xmlFile:setValue(key .. ".hasFlatTire", spec.hasFlatTire)
     xmlFile:setValue(key .. ".flatTireSide", spec.flatTireSide)
 
+    -- v2.8.0: Save per-wheel distances
+    if spec.wheelDistances then
+        xmlFile:setValue(key .. ".wheelDistances.w1", spec.wheelDistances[1] or 0)
+        xmlFile:setValue(key .. ".wheelDistances.w2", spec.wheelDistances[2] or 0)
+        xmlFile:setValue(key .. ".wheelDistances.w3", spec.wheelDistances[3] or 0)
+        xmlFile:setValue(key .. ".wheelDistances.w4", spec.wheelDistances[4] or 0)
+    end
+
     -- v1.7.0: Save oil system state
     xmlFile:setValue(key .. ".oilLevel", spec.oilLevel)
     xmlFile:setValue(key .. ".wasLowOil", spec.wasLowOil)
@@ -884,6 +964,21 @@ function UsedPlusMaintenance:saveToXMLFile(xmlFile, key, usedModNames)
     xmlFile:setValue(key .. ".engineSeizedTime", spec.engineSeizedTime or 0)
     xmlFile:setValue(key .. ".hydraulicsSeizedTime", spec.hydraulicsSeizedTime or 0)
     xmlFile:setValue(key .. ".electricalSeizedTime", spec.electricalSeizedTime or 0)
+
+    -- v2.8.0: Save OBD diagnosis tracking (one-time boost per system)
+    if spec.obdDiagnosesUsed then
+        xmlFile:setValue(key .. ".obdDiagnosedEngine", spec.obdDiagnosesUsed.engine or false)
+        xmlFile:setValue(key .. ".obdDiagnosedElectrical", spec.obdDiagnosesUsed.electrical or false)
+        xmlFile:setValue(key .. ".obdDiagnosedHydraulic", spec.obdDiagnosesUsed.hydraulic or false)
+    end
+
+    -- v2.9.0: Save Service Truck restoration cooldowns
+    xmlFile:setValue(key .. ".isBeingRestored", spec.isBeingRestored or false)
+    if spec.restorationCooldowns then
+        xmlFile:setValue(key .. ".restorationCooldowns.engine", spec.restorationCooldowns.engine or 0)
+        xmlFile:setValue(key .. ".restorationCooldowns.electrical", spec.restorationCooldowns.electrical or 0)
+        xmlFile:setValue(key .. ".restorationCooldowns.hydraulic", spec.restorationCooldowns.hydraulic or 0)
+    end
 
     -- v2.1.0: Save RVB/UYT deferred sync data
     xmlFile:setValue(key .. ".rvbDataSynced", spec.rvbDataSynced)
@@ -967,6 +1062,19 @@ function UsedPlusMaintenance:onReadStream(streamId, connection)
     spec.hasFlatTire = streamReadBool(streamId)
     spec.flatTireSide = streamReadInt8(streamId)
 
+    -- v2.8.0: Per-wheel distances
+    spec.wheelDistances = spec.wheelDistances or {0, 0, 0, 0}
+    spec.wheelConditions = spec.wheelConditions or {1.0, 1.0, 1.0, 1.0}
+    for i = 1, 4 do
+        spec.wheelDistances[i] = streamReadFloat32(streamId)
+    end
+    -- Recalculate conditions from distances
+    local baseDistance = UsedPlusMaintenance.CONFIG.tireWearDistanceBase or 240000
+    for i = 1, 4 do
+        local wheelWear = math.min(1.0, spec.wheelDistances[i] / baseDistance)
+        spec.wheelConditions[i] = math.max(0, 1.0 - wheelWear)
+    end
+
     -- Apply tire quality modifiers after reading
     if spec.tireQuality == 1 then
         spec.tireMaxTraction = UsedPlusMaintenance.CONFIG.tireRetreadTractionMult
@@ -1023,6 +1131,15 @@ function UsedPlusMaintenance:onReadStream(streamId, connection)
     spec.engineSeized = streamReadBool(streamId)
     spec.hydraulicsSeized = streamReadBool(streamId)
     spec.electricalSeized = streamReadBool(streamId)
+
+    -- v2.8.0: Global malfunction cooldown
+    spec.lastMalfunctionTime = streamReadFloat32(streamId)
+
+    -- v2.8.0: OBD diagnosis tracking (one-time boost per system)
+    spec.obdDiagnosesUsed = spec.obdDiagnosesUsed or {}
+    spec.obdDiagnosesUsed.engine = streamReadBool(streamId)
+    spec.obdDiagnosesUsed.electrical = streamReadBool(streamId)
+    spec.obdDiagnosesUsed.hydraulic = streamReadBool(streamId)
 
     UsedPlus.logTrace("UsedPlusMaintenance onReadStream complete")
 end
@@ -1083,6 +1200,11 @@ function UsedPlusMaintenance:onWriteStream(streamId, connection)
     streamWriteBool(streamId, spec.hasFlatTire)
     streamWriteInt8(streamId, spec.flatTireSide)
 
+    -- v2.8.0: Per-wheel distances
+    for i = 1, 4 do
+        streamWriteFloat32(streamId, (spec.wheelDistances and spec.wheelDistances[i]) or 0)
+    end
+
     -- v1.7.0: Oil system
     streamWriteFloat32(streamId, spec.oilLevel)
     streamWriteBool(streamId, spec.wasLowOil)
@@ -1127,6 +1249,15 @@ function UsedPlusMaintenance:onWriteStream(streamId, connection)
     streamWriteBool(streamId, spec.engineSeized or false)
     streamWriteBool(streamId, spec.hydraulicsSeized or false)
     streamWriteBool(streamId, spec.electricalSeized or false)
+
+    -- v2.8.0: Global malfunction cooldown
+    streamWriteFloat32(streamId, spec.lastMalfunctionTime or 0)
+
+    -- v2.8.0: OBD diagnosis tracking (one-time boost per system)
+    local obdUsed = spec.obdDiagnosesUsed or {}
+    streamWriteBool(streamId, obdUsed.engine or false)
+    streamWriteBool(streamId, obdUsed.electrical or false)
+    streamWriteBool(streamId, obdUsed.hydraulic or false)
 
     UsedPlus.logTrace("UsedPlusMaintenance onWriteStream complete")
 end

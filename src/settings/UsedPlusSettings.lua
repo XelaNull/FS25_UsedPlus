@@ -46,6 +46,7 @@ UsedPlusSettings.DEFAULTS = {
     enableCreditSystem = true,
     enableTireWearSystem = true,
     enableMalfunctionsSystem = true,
+    malfunctionFrequencyMultiplier = 1.0,  -- v2.8.0: Malfunction frequency (0.25=rare, 1.0=normal, 2.0=frequent)
     enablePartialRepair = true,      -- v2.0.0: Toggle partial repair shop integration
     enablePartialRepaint = true,     -- v2.0.0: Toggle partial repaint shop integration
 
@@ -437,6 +438,7 @@ function UsedPlusSettings:getSystemToggleKeys()
         "enableCreditSystem",
         "enableTireWearSystem",
         "enableMalfunctionsSystem",
+        "malfunctionFrequencyMultiplier",   -- v2.8.0
         "enablePartialRepair",              -- v2.0.0
         "enablePartialRepaint",             -- v2.0.0
         "enableFarmlandDifficultyScaling",  -- v2.0.0: GMNGjoy pattern

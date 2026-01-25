@@ -82,6 +82,10 @@ UsedPlusSettingsMenuExtension.ranges = {
     -- v2.0.0: Bank Interest Rate (APY)
     bankInterestRate = {"0%", "0.5%", "1%", "1.5%", "2%", "2.5%", "3%", "3.5%", "4%", "5%"},
     bankInterestRateValues = {0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.05},
+
+    -- v2.8.0: Malfunction Frequency multiplier
+    malfunctionFrequency = {"25%", "50%", "75%", "100%", "125%", "150%", "175%", "200%"},
+    malfunctionFrequencyValues = {0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0},
 }
 
 --[[
@@ -188,6 +192,13 @@ function UsedPlusSettingsMenuExtension:addSettingsElements(frame)
         frame, "onMalfunctionsToggleChanged",
         g_i18n:getText("usedplus_setting_malfunctions") or "Malfunctions",
         g_i18n:getText("usedplus_setting_malfunctions_desc") or "Enable random breakdowns and failures"
+    )
+
+    -- v2.8.0: Malfunction Frequency slider (only shown when malfunctions are enabled)
+    frame.usedplus_malfunctionFrequency = UsedPlusSettingsMenuExtension:addMultiTextOption(
+        frame, "onMalfunctionFrequencyChanged", ranges.malfunctionFrequency,
+        g_i18n:getText("usedplus_setting_malfunctionFrequency") or "Malfunction Frequency",
+        g_i18n:getText("usedplus_setting_malfunctionFrequency_desc") or "How often malfunctions occur. 100% = normal, 50% = half as often, 200% = twice as often"
     )
 
     -- v2.0.0: NEW - Partial Repair toggle
@@ -594,6 +605,7 @@ function UsedPlusSettingsMenuExtension:updateSettingsUI(frame)
     setState(frame.usedplus_conditionMultiplier, ranges.conditionMultiplierValues, "conditionPriceMultiplier")
     setState(frame.usedplus_brandBonus, ranges.brandBonusValues, "brandLoyaltyBonus")
     setState(frame.usedplus_bankInterestRate, ranges.bankInterestRateValues, "bankInterestRate") -- v2.0.0
+    setState(frame.usedplus_malfunctionFrequency, ranges.malfunctionFrequencyValues, "malfunctionFrequencyMultiplier") -- v2.8.0
 
     -- Preset selector defaults to first option
     if frame.usedplus_presetOption then
@@ -673,6 +685,15 @@ end
 function UsedPlusSettingsMenuExtension:onMalfunctionsToggleChanged(state)
     if UsedPlusSettings then
         UsedPlusSettings:set("enableMalfunctionsSystem", state == BinaryOptionElement.STATE_RIGHT)
+    end
+end
+
+-- v2.8.0: Malfunction Frequency slider
+function UsedPlusSettingsMenuExtension:onMalfunctionFrequencyChanged(state)
+    if UsedPlusSettings then
+        local values = UsedPlusSettingsMenuExtension.ranges.malfunctionFrequencyValues
+        local value = values[state] or 1.0
+        UsedPlusSettings:set("malfunctionFrequencyMultiplier", value)
     end
 end
 

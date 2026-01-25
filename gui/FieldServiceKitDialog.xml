@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <!--
     FS25_UsedPlus - Field Service Kit Dialog (OBD Scanner)
-    v2.3.0 - Major UX improvements
+    v2.8.0 - UI Improvements
 
-    Changes:
+    v2.8.0 Changes:
+    - Diagnose Component: Removed reliability % display (player must diagnose from hints)
+    - Scanner Readout: Enhanced terminal appearance (larger text, green diagnostic style)
+    - Tire Service: Fixed vehicle image (140x140 square, no stretch)
+    - Tire Service: Reorganized layout (vehicle centered above 2x2 tire grid)
+    - Increased dialog height to accommodate new layout
+
+    v2.3.0 Changes:
     - Triple-element button pattern (Bitmap + invisible Button + Text as siblings)
     - Hover effect on diagnosis buttons (background changes color)
     - Removed [A] [B] [C] [D] prefixes from options
@@ -15,7 +22,8 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="720px 580px">
+    <!-- v2.8.0: Increased height for redesigned tire repair layout -->
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 620px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -87,44 +95,39 @@
                     <Text profile="fskVehicleName" id="vehicleNameText" position="0px -28px" text=""/>
                 </GuiElement>
 
-                <!-- SECTION: Scanner Readout (hints for player to deduce failed system) -->
+                <!-- v2.8.0: SECTION: Scanner Readout - Enhanced terminal appearance -->
                 <GuiElement profile="fskScannerSection" position="0px -55px">
                     <Bitmap profile="fskScannerBg" position="0px 0px"/>
-                    <Text profile="fskScannerHeader" position="0px -5px" text="$l10n_usedplus_fsk_scanner_readout"/>
-                    <Text profile="fskHintText" id="scannerHint1Text" position="0px -25px" text=""/>
-                    <Text profile="fskHintText" id="scannerHint2Text" position="0px -42px" text=""/>
+                    <Text profile="fskScannerHeader" position="0px -8px" text="$l10n_usedplus_fsk_scanner_readout"/>
+                    <Text profile="fskHintText" id="scannerHint1Text" position="0px -32px" text=""/>
+                    <Text profile="fskHintText" id="scannerHint2Text" position="0px -54px" text=""/>
                 </GuiElement>
 
                 <!-- SECTION: System Selection -->
-                <GuiElement profile="fskSystemSection" position="0px -120px">
+                <GuiElement profile="fskSystemSection" position="0px -140px">
                     <Bitmap profile="fskSystemBg" position="0px 0px"/>
                     <Text profile="fskSectionHeader" position="0px -5px" text="SELECT SYSTEM TO DIAGNOSE"/>
 
                     <!-- ENGINE button (styled box with invisible click overlay) -->
-                    <GuiElement profile="fskSystemBox" position="-200px -28px">
+                    <!-- v2.8.0: Removed reliability % display - player must diagnose from hints -->
+                    <GuiElement profile="fskSystemBox" position="-200px -35px">
                         <Bitmap profile="fskSystemBoxBg" id="engineBg" position="0px 0px"/>
                         <Button profile="fskSystemBtn" id="engineButton" text="" onClick="onEngineClick" position="0px 0px"/>
-                        <Text profile="fskSystemLabel" id="engineLabel" position="0px -8px" text="ENGINE"/>
-                        <Text profile="fskSystemSub" position="0px -28px" text="$l10n_usedplus_fsk_reliability"/>
-                        <Text profile="fskReliabilityValue" id="engineRelText" position="0px -45px" text=""/>
+                        <Text profile="fskSystemLabel" id="engineLabel" position="0px -18px" text="ENGINE"/>
                     </GuiElement>
 
                     <!-- ELECTRICAL button -->
-                    <GuiElement profile="fskSystemBox" position="0px -28px">
+                    <GuiElement profile="fskSystemBox" position="0px -35px">
                         <Bitmap profile="fskSystemBoxBg" id="electricalBg" position="0px 0px"/>
                         <Button profile="fskSystemBtn" id="electricalButton" text="" onClick="onElectricalClick" position="0px 0px"/>
-                        <Text profile="fskSystemLabel" id="electricalLabel" position="0px -8px" text="ELECTRICAL"/>
-                        <Text profile="fskSystemSub" position="0px -28px" text="$l10n_usedplus_fsk_reliability"/>
-                        <Text profile="fskReliabilityValue" id="electricalRelText" position="0px -45px" text=""/>
+                        <Text profile="fskSystemLabel" id="electricalLabel" position="0px -18px" text="ELECTRICAL"/>
                     </GuiElement>
 
                     <!-- HYDRAULIC button -->
-                    <GuiElement profile="fskSystemBox" position="200px -28px">
+                    <GuiElement profile="fskSystemBox" position="200px -35px">
                         <Bitmap profile="fskSystemBoxBg" id="hydraulicBg" position="0px 0px"/>
                         <Button profile="fskSystemBtn" id="hydraulicButton" text="" onClick="onHydraulicClick" position="0px 0px"/>
-                        <Text profile="fskSystemLabel" id="hydraulicLabel" position="0px -8px" text="HYDRAULIC"/>
-                        <Text profile="fskSystemSub" position="0px -28px" text="$l10n_usedplus_fsk_reliability"/>
-                        <Text profile="fskReliabilityValue" id="hydraulicRelText" position="0px -45px" text=""/>
+                        <Text profile="fskSystemLabel" id="hydraulicLabel" position="0px -18px" text="HYDRAULIC"/>
                     </GuiElement>
                 </GuiElement>
 
@@ -249,81 +252,82 @@
                     <Text profile="fskBoostBig" id="boostText" position="260px -35px" text=""/>
                 </GuiElement>
 
-                <!-- SECTION: Temporary Repair Warning -->
+                <!-- SECTION: One-Time Diagnosis Notice (v2.8.0: Corrected messaging) -->
                 <GuiElement profile="fskTempWarningSection" position="0px -220px">
                     <Bitmap profile="fskTempWarningBg" position="0px 0px"/>
-                    <Text profile="fskTempWarningIcon" position="-290px -18px" text="⚠"/>
-                    <Text profile="fskTempWarningTitle" position="0px -10px" text="TEMPORARY REPAIR"/>
-                    <Text profile="fskTempWarningDesc" position="0px -32px" text="Field repair only - visit workshop for permanent fix"/>
+                    <Text profile="fskTempWarningIcon" position="-290px -18px" text="ℹ"/>
+                    <Text profile="fskTempWarningTitle" position="0px -10px" text="$l10n_usedplus_fsk_onetime_title"/>
+                    <Text profile="fskTempWarningDesc" position="0px -32px" text="$l10n_usedplus_fsk_onetime_desc"/>
                 </GuiElement>
 
                 <!-- Kit consumed note -->
-                <Text profile="fskConsumedText" position="0px -280px" text="$l10n_usedplus_fsk_kit_consumed"/>
+                <Text profile="fskConsumedText" position="0px -280px" text="$l10n_usedplus_fsk_kit_consumed_onetime"/>
             </GuiElement>
 
-            <!-- ========== STEP 4: TIRE REPAIR ========== -->
+            <!-- v2.8.0: STEP 4: TIRE REPAIR - Redesigned with centered vehicle above tires -->
             <GuiElement profile="fskStepContainer" id="tireRepairContainer" position="0px -55px" visible="false">
 
                 <Text profile="fskSystemName" position="0px 0px" text="$l10n_usedplus_fsk_tire_repair_title"/>
 
-                <!-- Vehicle and Tire Status Section -->
+                <!-- Vehicle and Tire Status Section (280px tall) -->
                 <GuiElement profile="fskTireStatusSection" position="0px -25px">
                     <Bitmap profile="fskTireStatusBg" position="0px 0px"/>
 
-                    <!-- Vehicle Image (left side) -->
-                    <Bitmap profile="fskTireVehicleImage" id="tireVehicleImage" position="-200px -55px"/>
+                    <!-- Tire Status Label at top -->
+                    <Text profile="fskTireDiagramLabel" position="0px -10px" text="TIRE STATUS"/>
 
-                    <!-- Tire diagram (right side) - 2x2 grid showing FL/FR/RL/RR -->
-                    <Text profile="fskTireDiagramLabel" position="100px -15px" text="TIRE STATUS"/>
+                    <!-- Vehicle Image (centered, 140x140) -->
+                    <Bitmap profile="fskTireVehicleImage" id="tireVehicleImage" position="0px -100px"/>
 
+                    <!-- Tire diagram - 2x2 grid centered below vehicle -->
                     <!-- Front Left -->
-                    <GuiElement profile="fskTireSlot" position="40px -40px">
+                    <GuiElement profile="fskTireSlot" position="-60px -185px">
                         <Bitmap profile="fskTireSlotBg" id="tireFLBg" position="0px 0px"/>
                         <Text profile="fskTireSlotLabel" position="0px -5px" text="FL"/>
                         <Text profile="fskTireSlotValue" id="tireFLText" position="0px -22px" text=""/>
                     </GuiElement>
 
                     <!-- Front Right -->
-                    <GuiElement profile="fskTireSlot" position="160px -40px">
+                    <GuiElement profile="fskTireSlot" position="60px -185px">
                         <Bitmap profile="fskTireSlotBg" id="tireFRBg" position="0px 0px"/>
                         <Text profile="fskTireSlotLabel" position="0px -5px" text="FR"/>
                         <Text profile="fskTireSlotValue" id="tireFRText" position="0px -22px" text=""/>
                     </GuiElement>
 
                     <!-- Rear Left -->
-                    <GuiElement profile="fskTireSlot" position="40px -85px">
+                    <GuiElement profile="fskTireSlot" position="-60px -235px">
                         <Bitmap profile="fskTireSlotBg" id="tireRLBg" position="0px 0px"/>
                         <Text profile="fskTireSlotLabel" position="0px -5px" text="RL"/>
                         <Text profile="fskTireSlotValue" id="tireRLText" position="0px -22px" text=""/>
                     </GuiElement>
 
                     <!-- Rear Right -->
-                    <GuiElement profile="fskTireSlot" position="160px -85px">
+                    <GuiElement profile="fskTireSlot" position="60px -235px">
                         <Bitmap profile="fskTireSlotBg" id="tireRRBg" position="0px 0px"/>
                         <Text profile="fskTireSlotLabel" position="0px -5px" text="RR"/>
                         <Text profile="fskTireSlotValue" id="tireRRText" position="0px -22px" text=""/>
                     </GuiElement>
                 </GuiElement>
 
-                <!-- Status message (shown when no flat tire) -->
-                <Text profile="fskTireStatusMsg" id="tireStatusMsg" position="0px -160px" text="" visible="false"/>
+                <!-- Status message (shown when no flat tire) - below section -->
+                <Text profile="fskTireStatusMsg" id="tireStatusMsg" position="0px -310px" text="" visible="false"/>
 
                 <!-- Instruction (only shown when flat tire exists) -->
-                <Text profile="fskInstruction" id="tireInstructionText" position="0px -160px" text="$l10n_usedplus_fsk_tire_choose"/>
+                <Text profile="fskInstruction" id="tireInstructionText" position="0px -310px" text="$l10n_usedplus_fsk_tire_choose"/>
 
                 <!-- Patch option (triple-element pattern with hover) -->
-                <Bitmap profile="fskTireBtnBg" id="patchBtnBg" position="-160px -190px"/>
-                <Button profile="fskTireBtnHit" id="patchButton" onClick="onTirePatchClick" onHighlight="onTireBtnHighlight" onHighlightRemove="onTireBtnUnhighlight" position="-160px -190px"/>
-                <Text profile="fskTireOptionTitle" id="patchTitle" position="-160px -210px" text="$l10n_usedplus_fsk_tire_patch"/>
-                <Text profile="fskTireOptionDesc" id="patchDesc" position="-160px -235px" text="$l10n_usedplus_fsk_tire_patch_desc"/>
-                <Text profile="fskTireOptionResult" id="patchResult" position="-160px -260px" text="$l10n_usedplus_fsk_tire_patch_result"/>
+                <Bitmap profile="fskTireBtnBg" id="patchBtnBg" position="-160px -340px"/>
+                <Button profile="fskTireBtnHit" id="patchButton" onClick="onTirePatchClick" onHighlight="onTireBtnHighlight" onHighlightRemove="onTireBtnUnhighlight" position="-160px -340px"/>
+                <Text profile="fskTireOptionTitle" id="patchTitle" position="-160px -360px" text="$l10n_usedplus_fsk_tire_patch"/>
+                <Text profile="fskTireOptionDesc" id="patchDesc" position="-160px -385px" text="$l10n_usedplus_fsk_tire_patch_desc"/>
+                <Text profile="fskTireOptionResult" id="patchResult" position="-160px -408px" text="$l10n_usedplus_fsk_tire_patch_result"/>
 
                 <!-- Plug option (triple-element pattern with hover) -->
-                <Bitmap profile="fskTireBtnBg" id="plugBtnBg" position="160px -190px"/>
-                <Button profile="fskTireBtnHit" id="plugButton" onClick="onTirePlugClick" onHighlight="onTireBtnHighlight" onHighlightRemove="onTireBtnUnhighlight" position="160px -190px"/>
-                <Text profile="fskTireOptionTitle" id="plugTitle" position="160px -210px" text="$l10n_usedplus_fsk_tire_plug"/>
-                <Text profile="fskTireOptionDesc" id="plugDesc" position="160px -235px" text="$l10n_usedplus_fsk_tire_plug_desc"/>
-                <Text profile="fskTireOptionResult" id="plugResult" position="160px -260px" text="$l10n_usedplus_fsk_tire_plug_result"/>
+                <Bitmap profile="fskTireBtnBg" id="plugBtnBg" position="160px -340px"/>
+                <Button profile="fskTireBtnHit" id="plugButton" onClick="onTirePlugClick" onHighlight="onTireBtnHighlight" onHighlightRemove="onTireBtnUnhighlight" position="160px -340px"/>
+                <Text profile="fskTireOptionTitle" id="plugTitle" position="160px -360px" text="$l10n_usedplus_fsk_tire_plug"/>
+                <Text profile="fskTireOptionDesc" id="plugDesc" position="160px -385px" text="$l10n_usedplus_fsk_tire_plug_desc"/>
+                <Text profile="fskTireOptionResult" id="plugResult" position="160px -408px" text="$l10n_usedplus_fsk_tire_plug_result"/>
             </GuiElement>
 
             <!-- ========== STEP 5: MALFUNCTIONS LIST (v2.7.0) ========== -->
@@ -442,9 +446,9 @@
             <textAlignment value="center"/>
         </Profile>
 
-        <!-- ========== STEP CONTAINER ========== -->
+        <!-- v2.8.0: STEP CONTAINER - increased height for tire repair layout -->
         <Profile name="fskStepContainer" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 420px"/>
+            <size value="660px 440px"/>
         </Profile>
 
         <!-- ========== VEHICLE SECTION ========== -->
@@ -456,47 +460,47 @@
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 
-        <!-- ========== SCANNER READOUT SECTION ========== -->
+        <!-- v2.8.0: SCANNER READOUT SECTION - Enhanced diagnostic terminal appearance -->
         <Profile name="fskScannerSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 58px"/>
+            <size value="660px 78px"/>
         </Profile>
         <Profile name="fskScannerBg" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 58px"/>
-            <imageColor value="0.06 0.04 0.02 0.95"/>
+            <size value="660px 78px"/>
+            <imageColor value="0.02 0.04 0.02 0.98"/>
         </Profile>
         <Profile name="fskScannerHeader" extends="fs25_textDefault" with="anchorTopCenter">
-            <size value="640px 18px"/>
-            <textSize value="11px"/>
+            <size value="640px 20px"/>
+            <textSize value="13px"/>
             <textBold value="true"/>
-            <textColor value="1 0.6 0.2 1"/>
+            <textColor value="0.2 1 0.4 1"/>
             <textAlignment value="center"/>
         </Profile>
         <Profile name="fskHintText" extends="fs25_textDefault" with="anchorTopCenter">
-            <size value="620px 15px"/>
-            <textSize value="11px"/>
-            <textColor value="1 0.9 0.6 1"/>
+            <size value="620px 18px"/>
+            <textSize value="13px"/>
+            <textColor value="0.3 1 0.5 1"/>
             <textAlignment value="center"/>
         </Profile>
 
-        <!-- ========== SYSTEM SELECTION SECTION ========== -->
+        <!-- v2.8.0: SYSTEM SELECTION SECTION - reduced height (no reliability display) -->
         <Profile name="fskSystemSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 105px"/>
+            <size value="660px 85px"/>
         </Profile>
         <Profile name="fskSystemBg" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 105px"/>
+            <size value="660px 85px"/>
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 
-        <!-- System selection boxes (styled box with invisible click overlay) -->
+        <!-- v2.8.0: System selection boxes - simplified (no reliability display) -->
         <Profile name="fskSystemBox" extends="emptyPanel" with="anchorTopCenter">
-            <size value="180px 68px"/>
+            <size value="180px 45px"/>
         </Profile>
         <Profile name="fskSystemBoxBg" extends="baseReference" with="anchorTopCenter">
-            <size value="180px 68px"/>
+            <size value="180px 45px"/>
             <imageColor value="0.12 0.15 0.12 0.9"/>
         </Profile>
         <Profile name="fskSystemBtn" extends="emptyPanel" with="anchorTopCenter">
-            <size value="180px 68px"/>
+            <size value="180px 45px"/>
             <isFocusable value="true"/>
         </Profile>
         <Profile name="fskSystemLabel" extends="fs25_textDefault" with="anchorTopCenter">
@@ -714,16 +718,17 @@
             <textAlignment value="center"/>
         </Profile>
 
-        <!-- ========== TIRE STATUS SECTION (v2.7.1) ========== -->
+        <!-- v2.8.0: TIRE STATUS SECTION - Reorganized layout (vehicle above tires) -->
         <Profile name="fskTireStatusSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 130px"/>
+            <size value="660px 280px"/>
         </Profile>
         <Profile name="fskTireStatusBg" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 130px"/>
+            <size value="660px 280px"/>
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
+        <!-- v2.8.0: Vehicle image - proper square format (smaller than other dialogs to fit layout) -->
         <Profile name="fskTireVehicleImage" extends="baseReference" with="anchorTopCenter">
-            <size value="140px 90px"/>
+            <size value="140px 140px"/>
             <imageSliceId value="noSlice"/>
         </Profile>
         <Profile name="fskTireDiagramLabel" extends="fs25_textDefault" with="anchorTopCenter">

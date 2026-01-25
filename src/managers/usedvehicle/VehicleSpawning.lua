@@ -300,6 +300,14 @@ function UsedVehicleManager:applyUsedConditionToVehicle(vehicle, listing)
         end
     end
 
+    -- v2.8.0: Apply vehicle age (FS25 stores age in months)
+    -- listing.age is in YEARS, vehicle.age is in MONTHS
+    if listing.age and listing.age > 0 then
+        local ageInMonths = listing.age * 12
+        vehicle.age = ageInMonths
+        UsedPlus.logDebug(string.format("  Set vehicle age: %d years (%d months)", listing.age, ageInMonths))
+    end
+
     -- Apply UsedPlus maintenance data (hidden reliability scores)
     if listing.usedPlusData then
         UsedPlusMaintenance.setUsedPurchaseData(vehicle, listing.usedPlusData)
@@ -307,6 +315,15 @@ function UsedVehicleManager:applyUsedConditionToVehicle(vehicle, listing)
             listing.usedPlusData.workhorseLemonScale or 0.5,
             listing.usedPlusData.engineReliability or 1,
             listing.usedPlusData.hydraulicReliability or 1))
+    end
+
+    -- After UsedPlus maintenance data applied, check for Service Truck discovery
+    -- Only trigger for National Agent purchases (qualityLevel 3)
+    if listing.qualityLevel == 3 then
+        local farmId = vehicle:getOwnerFarmId()
+        if ServiceTruckDiscovery and ServiceTruckDiscovery.onNationalAgentTransaction then
+            ServiceTruckDiscovery.onNationalAgentTransaction(farmId, "purchase")
+        end
     end
 
     -- v2.1.0: Apply RVB parts data if RVB is installed

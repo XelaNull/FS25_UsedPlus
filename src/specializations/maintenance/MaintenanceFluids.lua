@@ -121,9 +121,10 @@ function UsedPlusMaintenance.updateOilSystem(vehicle, dt)
     -- Base depletion rate (per second, converted from per hour)
     local baseRate = config.oilDepletionRatePerHour / 3600
 
-    -- Leak multiplier
+    -- v2.8.0: Leak multiplier - only apply if malfunctions enabled
     local leakMult = 1.0
-    if spec.hasOilLeak then
+    local malfunctionsEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if spec.hasOilLeak and malfunctionsEnabled then
         if spec.oilLeakSeverity == 1 then
             leakMult = config.oilLeakMinorMult
         elseif spec.oilLeakSeverity == 2 then
@@ -227,9 +228,10 @@ function UsedPlusMaintenance.updateHydraulicFluidSystem(vehicle, dt)
         end
     end
 
-    -- Leak always depletes, even without active hydraulics use
+    -- v2.8.0: Leak only depletes if malfunctions enabled
     local leakMult = 1.0
-    if spec.hasHydraulicLeak then
+    local malfunctionsEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if spec.hasHydraulicLeak and malfunctionsEnabled then
         if spec.hydraulicLeakSeverity == 1 then
             leakMult = config.hydraulicLeakMinorMult
         elseif spec.hydraulicLeakSeverity == 2 then
@@ -243,7 +245,7 @@ function UsedPlusMaintenance.updateHydraulicFluidSystem(vehicle, dt)
     local depletion = 0
     if isUsingHydraulics then
         depletion = config.hydraulicFluidDepletionPerAction * leakMult
-    elseif spec.hasHydraulicLeak then
+    elseif spec.hasHydraulicLeak and malfunctionsEnabled then
         -- Passive leak depletion (slower than active use)
         depletion = config.hydraulicFluidDepletionPerAction * 0.1 * leakMult
     end
@@ -386,7 +388,9 @@ function UsedPlusMaintenance.getFuelConsumptionMultiplier(vehicle)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return 1.0 end
 
-    if spec.hasFuelLeak then
+    -- v2.8.0: Respect malfunctions setting - if disabled, no fuel leak penalty
+    local malfunctionsEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if spec.hasFuelLeak and malfunctionsEnabled then
         return spec.fuelLeakMultiplier or 1.0
     end
 
@@ -403,6 +407,10 @@ function UsedPlusMaintenance.processFuelLeak(vehicle, dt)
     if spec == nil then return end
 
     if not spec.hasFuelLeak then return end
+
+    -- v2.8.0: Respect malfunctions setting - if disabled, no fuel leak drain
+    local malfunctionsEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if not malfunctionsEnabled then return end
 
     local config = UsedPlusMaintenance.CONFIG
 

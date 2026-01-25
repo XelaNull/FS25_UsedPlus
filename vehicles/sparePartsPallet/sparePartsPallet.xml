@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Spare Parts Pallet
+
+    A purchasable pallet of spare parts for use with the Service Truck.
+    Uses vanilla raisinBoxPallet model (12 cardboard boxes on euro pallet).
+
+    Place near Service Truck during restoration - parts are consumed automatically.
+    100 parts capacity, ~$500 purchase price.
+    48-hour restoration consumes ~96 parts.
+-->
+<vehicle type="pallet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../shared/xml/schema/vehicle.xsd">
+    <annotation>UsedPlus Spare Parts - for Service Truck restoration system</annotation>
+
+    <storeData>
+        <name>$l10n_usedplus_sparePartsPallet_name</name>
+        <image>$data/objects/pallets/raisinBoxPallet/store_raisinBoxPallet.png</image>
+        <price>500</price>
+        <lifetime>600</lifetime>
+        <category>pallets</category>
+        <brand>NONE</brand>
+        <showInStore>true</showInStore>
+        <canBeSold>true</canBeSold>
+        <financeCategory>OTHER</financeCategory>
+        <functions>
+            <function>$l10n_usedplus_sparePartsPallet_function</function>
+        </functions>
+        <specs>
+            <capacity>100</capacity>
+        </specs>
+        <storeIconRendering>
+            <settings centerIcon="true" cameraXRot="-15" cameraYRot="35"/>
+        </storeIconRendering>
+    </storeData>
+
+    <base>
+        <typeDesc>$l10n_typeDesc_pallet</typeDesc>
+        <!-- Use vanilla raisinBoxPallet model - cardboard boxes on euro pallet -->
+        <filename>$data/objects/pallets/raisinBoxPallet/raisinBoxPallet.i3d</filename>
+        <size width="1.3" length="0.9" height="0.8"/>
+        <canBeReset>false</canBeReset>
+        <components>
+            <component centerOfMass="0 0.3 0" solverIterationCount="10" mass="50"/>
+        </components>
+        <showInVehicleMenu>false</showInVehicleMenu>
+        <mapHotspot available="true" type="UNLOAD"/>
+        <input allowed="false"/>
+    </base>
+
+    <fillUnit>
+        <fillUnitConfigurations>
+            <fillUnitConfiguration>
+                <fillUnits removeVehicleIfEmpty="true">
+                    <!-- Spare parts fill unit - 100 capacity -->
+                    <fillUnit unitTextOverride="$l10n_unit_pcs" fillTypes="USEDPLUS_SPAREPARTS" capacity="100" startFillLevel="100"/>
+                </fillUnits>
+            </fillUnitConfiguration>
+        </fillUnitConfigurations>
+    </fillUnit>
+
+    <!-- Pallet aging textures for visual wear -->
+    <pallet fillUnitIndex="1" linkNode="raisinBoxPallet_component1">
+        <texture diffuse="$data/objects/pallets/shared/euroPallet/euroPalletNew_diffuse.dds"/>
+        <texture diffuse="$data/objects/pallets/shared/euroPallet/euroPalletMiddle_diffuse.dds"/>
+        <texture diffuse="$data/objects/pallets/shared/euroPallet/euroPalletOld_diffuse.dds"/>
+        <content>
+            <!-- Box visuals that hide as fill level decreases -->
+            <object node="box01" tensionBeltNode="box01Tension"/>
+            <object node="box02" tensionBeltNode="box02Tension"/>
+            <object node="box03" tensionBeltNode="box03Tension"/>
+            <object node="box04" tensionBeltNode="box04Tension"/>
+            <object node="box05" tensionBeltNode="box05Tension"/>
+            <object node="box06" tensionBeltNode="box06Tension"/>
+            <object node="box07" tensionBeltNode="box07Tension"/>
+            <object node="box08" tensionBeltNode="box08Tension"/>
+            <object node="box09" tensionBeltNode="box09Tension"/>
+            <object node="box10" tensionBeltNode="box10Tension"/>
+            <object node="box11" tensionBeltNode="box11Tension"/>
+            <object node="box12" tensionBeltNode="box12Tension"/>
+        </content>
+        <sounds>
+            <unload template="palletsFillPlastic" pitchScale="0.9"/>
+        </sounds>
+    </pallet>
+
+    <!-- Allow forklifts and loaders to pick up -->
+    <dynamicMount triggerNode="dynamicMountTrigger" triggerForceAcceleration="4" additionalMountDistance="0.6" jointTransY="0.11" jointLimitToRotY="true"/>
+
+    <!-- i3d node mappings for vanilla raisinBoxPallet model -->
+    <i3dMappings>
+        <i3dMapping id="raisinBoxPallet_component1" node="0>"/>
+        <i3dMapping id="dynamicMountTrigger" node="0>0"/>
+        <i3dMapping id="box01" node="0>2|0"/>
+        <i3dMapping id="box01Tension" node="0>2|0|0|0"/>
+        <i3dMapping id="box02" node="0>2|1"/>
+        <i3dMapping id="box02Tension" node="0>2|1|0|0"/>
+        <i3dMapping id="box03" node="0>2|2"/>
+        <i3dMapping id="box03Tension" node="0>2|2|0|0"/>
+        <i3dMapping id="box04" node="0>2|3"/>
+        <i3dMapping id="box04Tension" node="0>2|3|0|0"/>
+        <i3dMapping id="box05" node="0>2|4"/>
+        <i3dMapping id="box05Tension" node="0>2|4|0|0"/>
+        <i3dMapping id="box06" node="0>2|5"/>
+        <i3dMapping id="box06Tension" node="0>2|5|0|0"/>
+        <i3dMapping id="box07" node="0>2|6"/>
+        <i3dMapping id="box07Tension" node="0>2|6|0|0"/>
+        <i3dMapping id="box08" node="0>2|7"/>
+        <i3dMapping id="box08Tension" node="0>2|7|0|0"/>
+        <i3dMapping id="box09" node="0>2|8"/>
+        <i3dMapping id="box09Tension" node="0>2|8|0|0"/>
+        <i3dMapping id="box10" node="0>2|9"/>
+        <i3dMapping id="box10Tension" node="0>2|9|0|0"/>
+        <i3dMapping id="box11" node="0>2|10"/>
+        <i3dMapping id="box11Tension" node="0>2|10|0|0"/>
+        <i3dMapping id="box12" node="0>2|11"/>
+        <i3dMapping id="box12Tension" node="0>2|11|0|0"/>
+    </i3dMappings>
+</vehicle>

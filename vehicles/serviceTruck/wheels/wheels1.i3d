@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<i3D name="wheels1.i3d" version="1.6" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://i3d.giants.ch/schema/i3d-1.6.xsd">
+  <Asset>
+    <Export program="GIANTS Editor 64bit" version="10.0.4"/>
+  </Asset>
+
+  <Files>
+    <File fileId="24" filename="../textures/gen_wear_dirt_2.dds"/>
+    <File fileId="29" filename="front_logo.dds"/>
+    <File fileId="23" filename="wheels_specular.dds"/>
+    <File fileId="14" filename="wheels_specular_1.dds"/>
+    <File fileId="3" filename="wheels_specular_12.dds"/>
+    <File fileId="13" filename="$data/shaders/tireMudShader.xml"/>
+    <File fileId="4" filename="$data/shaders/vehicleShader.xml"/>
+    <File fileId="2" filename="$data/shared/default_normal.dds"/>
+    <File fileId="16" filename="$data/shared/detailLibrary/flat_normal.png"/>
+    <File fileId="17" filename="$data/shared/detailLibrary/metallic/scratched_diffuse.png"/>
+    <File fileId="15" filename="$data/shared/detailLibrary/metallic/scratched_specular.png"/>
+    <File fileId="22" filename="$data/shared/detailLibrary/metallic/silverScratched_diffuse.png"/>
+    <File fileId="21" filename="$data/shared/detailLibrary/metallic/silverScratched_specular.png"/>
+    <File fileId="10" filename="$data/shared/detailLibrary/nonMetallic/dirt_diffuse.png"/>
+    <File fileId="8" filename="$data/shared/detailLibrary/nonMetallic/dirt_specular.png"/>
+    <File fileId="19" filename="$data/shared/detailLibrary/nonMetallic/metal/metalPainted_diffuse.png"/>
+    <File fileId="18" filename="$data/shared/detailLibrary/nonMetallic/metal/metalPainted_specular.png"/>
+    <File fileId="12" filename="$data/shared/detailLibrary/nonMetallic/mud_normal.png"/>
+    <File fileId="26" filename="$data/shared/detailLibrary/nonMetallic/plastic/plasticPainted_diffuse.png"/>
+    <File fileId="25" filename="$data/shared/detailLibrary/nonMetallic/plastic/plasticPainted_specular.png"/>
+    <File fileId="7" filename="$data/shared/detailLibrary/nonMetallic/rubber/rubberBlack_diffuse.png"/>
+    <File fileId="6" filename="$data/shared/detailLibrary/nonMetallic/rubber/rubber_normal.png"/>
+    <File fileId="5" filename="$data/shared/detailLibrary/nonMetallic/rubber/rubber_specular.png"/>
+  </Files>
+
+
+  <Materials>
+    <Material name="metalPaintedBlackMat" materialId="5" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="18"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="19"/>
+      <CustomParameter name="colorScale" value="0.012 0.012 0.012"/>
+    </Material>
+    <Material name="metalPaintedBlackMat.002" materialId="6" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="23"/>
+      <Custommap name="detailSpecular" fileId="18"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="19"/>
+      <CustomParameter name="colorScale" value="0.012 0.012 0.012"/>
+    </Material>
+    <Material name="metalPaintedBlackMat.005" materialId="7" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="14"/>
+      <Custommap name="detailSpecular" fileId="18"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="19"/>
+      <CustomParameter name="colorScale" value="0.012 0.012 0.012"/>
+    </Material>
+    <Material name="metalPaintedMat" materialId="8" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="18"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="19"/>
+    </Material>
+    <Material name="metalPaintedMat.001" materialId="9" alphaBlending="true" customShaderId="4">
+      <Texture fileId="29"/>
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="18"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="19"/>
+    </Material>
+    <Material name="metalPaintedMat.002" materialId="11" diffuseColor="0.164706 0.00392157 0.00392157 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="14"/>
+      <Custommap name="detailSpecular" fileId="18"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="19"/>
+    </Material>
+    <Material name="metalPaintedRed" materialId="10" diffuseColor="0.109804 0 0.00392157 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="18"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="19"/>
+    </Material>
+    <Material name="mud_mat" materialId="12" customShaderId="13">
+      <Texture fileId="10"/>
+      <Normalmap fileId="12"/>
+      <Glossmap fileId="8"/>
+      <CustomParameter name="morphPos" value="-0.3297 -0.565 0.5 0.1"/>
+    </Material>
+    <Material name="PaintedBlack" materialId="14" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="25"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="26"/>
+      <CustomParameter name="colorScale" value="0.012 0.012 0.012"/>
+    </Material>
+    <Material name="plasticPaintedBlackMat" materialId="13" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="23"/>
+      <Custommap name="detailSpecular" fileId="25"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="26"/>
+      <CustomParameter name="colorScale" value="0.012 0.012 0.012"/>
+    </Material>
+    <Material name="plasticPaintedMat" materialId="15" diffuseColor="0.117647 0 0 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="25"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="26"/>
+    </Material>
+    <Material name="rim" materialId="20" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="15"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="17"/>
+      <CustomParameter name="colorScale" value="0.7379 0.7454 0.7529"/>
+    </Material>
+    <Material name="rubberBlackMat" materialId="16" diffuseColor="0.8 0.8 0.8 1" customShaderId="4" customShaderVariation="tirePressureDeformation">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="3"/>
+      <Custommap name="detailSpecular" fileId="5"/>
+      <Custommap name="detailNormal" fileId="6"/>
+      <Custommap name="detailDiffuse" fileId="7"/>
+      <CustomParameter name="porosity" value="0.5"/>
+    </Material>
+    <Material name="silverScratchedMat" materialId="17" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="24"/>
+      <Custommap name="detailSpecular" fileId="21"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="22"/>
+    </Material>
+    <Material name="silverScratchedMat.001" materialId="18" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="14"/>
+      <Custommap name="detailSpecular" fileId="21"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="22"/>
+    </Material>
+    <Material name="silverScratchedShinyMat" materialId="19" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="23"/>
+      <Custommap name="detailSpecular" fileId="15"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="17"/>
+      <CustomParameter name="colorScale" value="0.7379 0.7454 0.7529"/>
+    </Material>
+    <Material name="silverScratchedShinyMat.002" materialId="21" diffuseColor="0.8 0.8 0.8 1" customShaderId="4">
+      <Normalmap fileId="2"/>
+      <Glossmap fileId="14"/>
+      <Custommap name="detailSpecular" fileId="15"/>
+      <Custommap name="detailNormal" fileId="16"/>
+      <Custommap name="detailDiffuse" fileId="17"/>
+      <CustomParameter name="colorScale" value="0.7379 0.7454 0.7529"/>
+    </Material>
+  </Materials>
+
+
+  <Shapes externalShapesFile="wheels1.i3d.shapes">
+  </Shapes>
+
+  <Scene>
+    <TransformGroup name="tires" nodeId="37">
+      <Shape name="tire_FL" shapeId="1" clipDistance="300" nodeId="38" castsShadows="true" receiveShadows="true" materialIds="16">
+        <Shape name="mudMesh" shapeId="2" clipDistance="35" nodeId="39" castsShadows="true" receiveShadows="true" materialIds="12"/>
+      </Shape>
+    </TransformGroup>
+    <TransformGroup name="wheels_front" nodeId="40">
+      <Shape name="rim2_FR" shapeId="3" clipDistance="300" nodeId="41" castsShadows="true" receiveShadows="true" materialIds="21,7,11,18"/>
+      <Shape name="rim2_FL" shapeId="4" clipDistance="300" nodeId="42" castsShadows="true" receiveShadows="true" materialIds="21,7,11,18"/>
+      <Shape name="supersingleAlcoa_FR" shapeId="5" clipDistance="300" nodeId="43" castsShadows="true" receiveShadows="true" materialIds="6,20,17,5,14,15"/>
+      <Shape name="supersingleAlcoa_FL" shapeId="6" clipDistance="300" nodeId="44" castsShadows="true" receiveShadows="true" materialIds="6,20,17,5,14,15"/>
+      <Shape name="RImRF" shapeId="7" clipDistance="300" nodeId="45" castsShadows="true" receiveShadows="true" materialIds="5,8"/>
+      <Shape name="RImRF" shapeId="8" clipDistance="300" nodeId="46" castsShadows="true" receiveShadows="true" materialIds="5,8"/>
+      <Shape name="frontalcoa" shapeId="9" clipDistance="300" nodeId="47" castsShadows="true" receiveShadows="true" materialIds="14,5,20,10,9"/>
+      <Shape name="frontalcoa2" shapeId="10" clipDistance="300" nodeId="48" castsShadows="true" receiveShadows="true" materialIds="14,5,20,10,9"/>
+    </TransformGroup>
+    <TransformGroup name="wheeels_rear" nodeId="49">
+      <Shape name="tenHole_RL" shapeId="11" clipDistance="300" nodeId="50" castsShadows="true" receiveShadows="true" materialIds="19,6,13"/>
+      <Shape name="tenHole_RR" shapeId="12" clipDistance="300" nodeId="51" castsShadows="true" receiveShadows="true" materialIds="19,6,13"/>
+      <Shape name="RimLR" shapeId="13" clipDistance="300" nodeId="52" castsShadows="true" receiveShadows="true" materialIds="5,8"/>
+      <Shape name="RimLR" shapeId="14" clipDistance="300" nodeId="53" castsShadows="true" receiveShadows="true" materialIds="5,8"/>
+    </TransformGroup>
+  </Scene>
+
+</i3D>

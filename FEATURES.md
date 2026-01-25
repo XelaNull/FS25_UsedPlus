@@ -190,7 +190,7 @@ All v2.5.0/v2.5.2 hydraulic malfunctions are affected by hydraulic fluid level!
 
 ## FIELD SERVICE KIT
 
-Emergency repair system for disabled vehicles in the field.
+Emergency repair system for disabled vehicles in the field. Designed as a **tactical tool** - use it wisely!
 
 ### OBD Diagnostic Scanner
 * Portable diagnostic tool that connects to vehicle's OBD (On-Board Diagnostics) port
@@ -205,15 +205,31 @@ Emergency repair system for disabled vehicles in the field.
 * Correct diagnosis = better repair outcome
 * Tests your mechanical knowledge and deductive reasoning
 
+### One-Time Diagnosis Limit (v2.8.0)
+**Each system can only be diagnosed ONCE per vehicle:**
+* Engine - one diagnostic boost available
+* Electrical - one diagnostic boost available
+* Hydraulic - one diagnostic boost available
+* After use, message shows: "System already diagnosed - OBD boost exhausted"
+* Prevents exploit of spam-buying kits for unlimited restoration
+* **Seizure repair is separate** - fixing a seized component doesn't consume the diagnosis
+
+### Reliability Caps (v2.8.0)
+* **Field Repair Maximum**: 80% reliability (field repairs can't match workshop quality)
+* **Vehicle Ceiling**: Also respects the vehicle's aging ceiling (`maxReliabilityCeiling`)
+* **Effective Cap**: Uses whichever is lower - `min(80%, vehicleCeiling)`
+* **Shop repair for more**: To exceed 80%, use workshop repair services
+
 ### Kit Tiers
-* **Basic Kit** ($5,000): Standard OBD readings, 15-25% reliability restoration
-* **Professional Kit** ($12,000): Enhanced diagnostics, 20-35% reliability restoration
-* **Master Kit** ($25,000): Complete diagnostics, 30-50% reliability restoration
+* **Basic Kit** ($5,000): Standard OBD readings, 1.0x boost multiplier
+* **Professional Kit** ($12,000): Enhanced diagnostics, 1.25x boost multiplier
+* **Master Kit** ($25,000): Complete diagnostics, 1.5x boost multiplier
 
 ### Repair Outcomes
-* **Perfect Diagnosis**: Correct system + correct cause = maximum reliability boost
-* **Good Diagnosis**: Correct system + wrong cause = moderate reliability boost
-* **Poor Diagnosis**: Wrong system entirely = minimal boost, vehicle barely functional
+* **Perfect Diagnosis**: Correct system + correct cause = 8-15% boost (up to 22.5% with Master)
+* **Good Diagnosis**: Correct system + wrong cause = 4-8% boost
+* **Poor Diagnosis**: Wrong system entirely = 1-3% boost
+* All boosts capped at 25% maximum, then subject to 80%/ceiling cap
 * Vehicle is re-enabled regardless of outcome (you can limp home)
 
 ### Tire Repair Mode
@@ -225,6 +241,7 @@ Emergency repair system for disabled vehicles in the field.
 * Kit is consumed after one use, regardless of diagnosis accuracy
 * Encourages players to learn vehicle systems for better outcomes
 * Stock up on kits for long field work sessions
+* **Strategic use**: Save your one-time diagnosis for when you really need it!
 
 ---
 

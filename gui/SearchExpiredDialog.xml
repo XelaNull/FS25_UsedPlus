@@ -22,21 +22,21 @@
                 <Bitmap profile="sedSectionBg" position="0px 0px"/>
                 <Text profile="sedSectionHeader" position="0px -5px" text="SEARCH SUMMARY"/>
 
-                <!-- Vehicle Image (left side) - Standard position -->
-                <Bitmap profile="sedVehicleImage" id="vehicleImage" position="-185px 60px"/>
+                <!-- Vehicle Image (left side) - Standard position, lowered 5px -->
+                <Bitmap profile="sedVehicleImage" id="vehicleImage" position="-185px 55px"/>
 
-                <!-- Search details (right side) -->
+                <!-- Search details (right side) - values shifted right 10px -->
                 <Text profile="sedLabel" position="20px -32px" text="Searched For:"/>
-                <Text profile="sedValue" id="vehicleNameText" position="130px -32px" text=""/>
+                <Text profile="sedValue" id="vehicleNameText" position="140px -32px" text=""/>
 
                 <Text profile="sedLabel" position="20px -55px" text="Agent Tier:"/>
-                <Text profile="sedValue" id="searchTierText" position="130px -55px" text=""/>
+                <Text profile="sedValue" id="searchTierText" position="140px -55px" text=""/>
 
                 <Text profile="sedLabel" position="20px -78px" text="Quality:"/>
-                <Text profile="sedValue" id="qualityTierText" position="130px -78px" text=""/>
+                <Text profile="sedValue" id="qualityTierText" position="140px -78px" text=""/>
 
                 <Text profile="sedLabel" position="20px -101px" text="Duration:"/>
-                <Text profile="sedValue" id="durationText" position="130px -101px" text=""/>
+                <Text profile="sedValue" id="durationText" position="140px -101px" text=""/>
             </GuiElement>
 
             <!-- Results Section -->

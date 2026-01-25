@@ -12,7 +12,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="880px 760px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="880px 680px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -82,6 +82,17 @@
                 <Text profile="crFactorValue" id="factorInquiriesText" position="80px -118px" text=""/>
             </GuiElement>
 
+            <!-- TIPS TO IMPROVE SECTION (moved from right column) -->
+            <!-- After Factors (140px) + 8px gap = -321 - 140 - 8 = -469 -->
+            <GuiElement profile="crTipsSection" position="-200px -469px">
+                <Bitmap profile="crTipsSectionBgLeft" position="0px 0px"/>
+                <Text profile="crTipsSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionTips"/>
+
+                <Text profile="crTipTextLeft" id="tipText1" position="0px -28px" text="$l10n_usedplus_cr_tip1"/>
+                <Text profile="crTipTextLeft" id="tipText2" position="0px -46px" text="$l10n_usedplus_cr_tip2"/>
+                <Text profile="crTipTextLeft" id="tipText3" position="0px -64px" text="$l10n_usedplus_cr_tip3"/>
+            </GuiElement>
+
             <!-- ===== RIGHT COLUMN ===== -->
 
             <!-- ACCOUNT SUMMARY SECTION -->
@@ -146,16 +157,6 @@
                 <Text profile="crLegend" id="histogramLegendText" position="0px -52px" text=""/>
             </GuiElement>
 
-            <!-- TIPS TO IMPROVE SECTION -->
-            <!-- After Histogram (78px) + 8px gap = -464 - 78 - 8 = -550 -->
-            <GuiElement profile="crTipsSection" position="190px -550px">
-                <Bitmap profile="crTipsSectionBg" position="0px 0px"/>
-                <Text profile="crTipsSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionTips"/>
-
-                <Text profile="crTipText" id="tipText1" position="0px -28px" text="$l10n_usedplus_cr_tip1"/>
-                <Text profile="crTipText" id="tipText2" position="0px -46px" text="$l10n_usedplus_cr_tip2"/>
-                <Text profile="crTipText" id="tipText3" position="0px -64px" text="$l10n_usedplus_cr_tip3"/>
-            </GuiElement>
             </GuiElement><!-- End creditContentContainer -->
 
         </GuiElement>
@@ -215,8 +216,9 @@
             <size value="385px 78px"/>
         </Profile>
 
+        <!-- Tips section now in left column (380px wide) -->
         <Profile name="crTipsSection" extends="emptyPanel" with="anchorTopCenter">
-            <size value="385px 92px"/>
+            <size value="380px 92px"/>
         </Profile>
 
         <!-- ========== SECTION BACKGROUNDS ========== -->
@@ -268,9 +270,15 @@
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 
-        <!-- Tips: Green tint (positive/helpful) -->
+        <!-- Tips: Green tint (positive/helpful) - Right column version (unused, kept for reference) -->
         <Profile name="crTipsSectionBg" extends="baseReference" with="anchorTopCenter">
             <size value="385px 92px"/>
+            <imageColor value="0.06 0.1 0.06 0.9"/>
+        </Profile>
+
+        <!-- Tips: Green tint - Left column version (380px wide) -->
+        <Profile name="crTipsSectionBgLeft" extends="baseReference" with="anchorTopCenter">
+            <size value="380px 92px"/>
             <imageColor value="0.06 0.1 0.06 0.9"/>
         </Profile>
 
@@ -421,8 +429,17 @@
         </Profile>
 
         <!-- ========== TIPS ========== -->
+        <!-- Right column version (unused, kept for reference) -->
         <Profile name="crTipText" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="365px 16px"/>
+            <textSize value="11px"/>
+            <textColor value="0.6 0.95 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- Left column version (360px wide) -->
+        <Profile name="crTipTextLeft" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="360px 16px"/>
             <textSize value="11px"/>
             <textColor value="0.6 0.95 0.7 1"/>
             <textAlignment value="center"/>

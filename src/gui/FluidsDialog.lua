@@ -348,25 +348,31 @@ function FluidsDialog:onConfirm()
         return
     end
 
-    -- Check if player can afford it
+    -- Check if player can afford it (client-side validation for immediate feedback)
     if g_currentMission:getMoney(self.farmId) < totalCost then
         InfoDialog.show(g_i18n:getText("usedplus_error_insufficientFunds") or "Insufficient funds!")
         return
     end
 
-    -- Deduct money
-    g_currentMission:addMoney(-totalCost, self.farmId, MoneyType.VEHICLE_REPAIR, true)
-
-    -- Apply fluid refills
+    -- v2.8.0: Use network event for multiplayer synchronization
     if self.vehicle and self.vehicle.spec_usedPlusMaintenance then
-        if self.oilSelected and self.oilCost > 0 then
-            UsedPlusMaintenance.refillOil(self.vehicle)
-        end
-        if self.hydraulicSelected and self.hydraulicCost > 0 then
-            UsedPlusMaintenance.refillHydraulicFluid(self.vehicle)
+        local fluidType
+        if self.oilSelected and self.hydraulicSelected then
+            fluidType = "both"
+        elseif self.oilSelected then
+            fluidType = "oil"
+        else
+            fluidType = "hydraulic"
         end
 
-        UsedPlus.logInfo(string.format("Fluids refilled on %s: %s for %s",
+        RefillFluidsEvent.sendToServer(
+            self.farmId,
+            self.vehicle.id,
+            fluidType,
+            totalCost
+        )
+
+        UsedPlus.logInfo(string.format("Fluids refill requested for %s: %s for %s",
             self.vehicleName, table.concat(servicesPerformed, ", "), g_i18n:formatMoney(totalCost, 0, true, true)))
     end
 

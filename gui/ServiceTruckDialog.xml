@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Service Truck Dialog
+    Long-term vehicle restoration inspection minigame
+
+    v2.9.0 - Service Truck System
+
+    Steps:
+    1. Component Selection - View reliabilities, pick component to restore
+    2. Inspection - View symptoms, choose diagnosis
+    3. Results - Success allows restoration start, failure applies cooldown
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="750px 580px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="fskTitle" id="dialogTitle" position="0px -25px" text="$l10n_usedplus_serviceTruck_dialogTitle"/>
+
+            <!-- ========== STEP 1: COMPONENT SELECTION ========== -->
+            <GuiElement profile="fskStepContainer" id="componentContainer" position="0px -55px">
+
+                <!-- Vehicle Info Section -->
+                <GuiElement profile="fskVehicleSection" position="0px 0px">
+                    <Bitmap profile="fskVehicleBg" position="0px 0px"/>
+                    <Text profile="fskSectionHeader" position="0px -5px" text="TARGET VEHICLE"/>
+                    <Text profile="fskVehicleName" id="vehicleNameText" position="0px -28px" text=""/>
+                    <Text profile="fskSubtitle" id="ceilingText" position="0px -48px" text="Max Potential: 100%"/>
+                </GuiElement>
+
+                <!-- Component Buttons Section -->
+                <GuiElement profile="fskSystemSection" position="0px -75px">
+                    <Text profile="fskSectionHeader" position="0px -5px" text="SELECT COMPONENT TO RESTORE"/>
+
+                    <!-- Engine -->
+                    <GuiElement profile="fskSystemBox" position="-220px -35px">
+                        <Bitmap profile="fskSystemBg" id="engineBg" position="0px 0px"/>
+                        <Button profile="fskSystemBtn" id="engineButton" onClick="onEngineClick" position="0px 0px"/>
+                        <Text profile="fskSystemIcon" position="0px -12px" text="⚙"/>
+                        <Text profile="fskSystemLabel" position="0px -38px" text="$l10n_usedplus_component_engine"/>
+                        <Text profile="fskSystemValue" id="engineReliabilityText" position="0px -55px" text="100%"/>
+                        <Text profile="fskSystemStatus" id="engineStatusText" position="0px -72px" text=""/>
+                    </GuiElement>
+
+                    <!-- Electrical -->
+                    <GuiElement profile="fskSystemBox" position="0px -35px">
+                        <Bitmap profile="fskSystemBg" id="electricalBg" position="0px 0px"/>
+                        <Button profile="fskSystemBtn" id="electricalButton" onClick="onElectricalClick" position="0px 0px"/>
+                        <Text profile="fskSystemIcon" position="0px -12px" text="⚡"/>
+                        <Text profile="fskSystemLabel" position="0px -38px" text="$l10n_usedplus_component_electrical"/>
+                        <Text profile="fskSystemValue" id="electricalReliabilityText" position="0px -55px" text="100%"/>
+                        <Text profile="fskSystemStatus" id="electricalStatusText" position="0px -72px" text=""/>
+                    </GuiElement>
+
+                    <!-- Hydraulic -->
+                    <GuiElement profile="fskSystemBox" position="220px -35px">
+                        <Bitmap profile="fskSystemBg" id="hydraulicBg" position="0px 0px"/>
+                        <Button profile="fskSystemBtn" id="hydraulicButton" onClick="onHydraulicClick" position="0px 0px"/>
+                        <Text profile="fskSystemIcon" position="0px -12px" text="💧"/>
+                        <Text profile="fskSystemLabel" position="0px -38px" text="$l10n_usedplus_component_hydraulic"/>
+                        <Text profile="fskSystemValue" id="hydraulicReliabilityText" position="0px -55px" text="100%"/>
+                        <Text profile="fskSystemStatus" id="hydraulicStatusText" position="0px -72px" text=""/>
+                    </GuiElement>
+                </GuiElement>
+
+                <!-- Resources Section -->
+                <GuiElement profile="fskInfoSection" position="0px -195px">
+                    <Bitmap profile="fskInfoBg" position="0px 0px"/>
+                    <Text profile="fskSectionHeader" position="0px -5px" text="SERVICE TRUCK RESOURCES"/>
+
+                    <Text profile="fskLabel" position="-150px -30px" text="Diesel:"/>
+                    <Text profile="fskValue" id="dieselLevelText" position="-60px -30px" text="0L"/>
+
+                    <Text profile="fskLabel" position="20px -30px" text="Oil:"/>
+                    <Text profile="fskValue" id="oilLevelText" position="80px -30px" text="0L"/>
+
+                    <Text profile="fskLabel" position="-150px -50px" text="Hydraulic:"/>
+                    <Text profile="fskValue" id="hydraulicLevelText" position="-60px -50px" text="0L"/>
+
+                    <Text profile="fskLabel" position="20px -50px" text="Spare Parts:"/>
+                    <Text profile="fskValue" id="partsLevelText" position="120px -50px" text="0"/>
+                </GuiElement>
+
+                <!-- Info text -->
+                <Text profile="fskInfoText" position="0px -280px" text="$l10n_usedplus_serviceTruck_selectInfo"/>
+            </GuiElement>
+
+            <!-- ========== STEP 2: INSPECTION ========== -->
+            <GuiElement profile="fskStepContainer" id="inspectionContainer" position="0px -55px" visible="false">
+
+                <!-- Inspecting Header -->
+                <GuiElement profile="fskHeaderSection" position="0px 0px">
+                    <Bitmap profile="fskHeaderBg" position="0px 0px"/>
+                    <Text profile="fskHeaderTitle" id="inspectingText" position="0px -12px" text="Inspecting: Engine"/>
+                    <Text profile="fskSubtitle" id="estimatedTimeText" position="0px -32px" text="Estimated time: 48 hours"/>
+                </GuiElement>
+
+                <!-- Symptoms Section -->
+                <GuiElement profile="fskSymptomsSection" position="0px -60px">
+                    <Bitmap profile="fskTerminalBg" position="0px 0px"/>
+                    <Text profile="fskTerminalHeader" position="0px -8px" text="DIAGNOSTIC READOUT"/>
+                    <Text profile="fskTerminalText" id="symptom1Text" position="-180px -30px" text=""/>
+                    <Text profile="fskTerminalText" id="symptom2Text" position="-180px -48px" text=""/>
+                    <Text profile="fskTerminalText" id="symptom3Text" position="-180px -66px" text=""/>
+                    <Text profile="fskHintText" id="hint1Text" position="-180px -90px" text=""/>
+                    <Text profile="fskHintText" id="hint2Text" position="-180px -108px" text=""/>
+                </GuiElement>
+
+                <!-- Diagnosis Options -->
+                <GuiElement profile="fskDiagnosisSection" position="0px -195px">
+                    <Text profile="fskSectionHeader" position="0px -5px" text="SELECT DIAGNOSIS"/>
+
+                    <!-- Option 1 -->
+                    <GuiElement profile="fskDiagOption" position="-165px -35px">
+                        <Bitmap profile="fskDiagBg" id="diag1Bg" position="0px 0px"/>
+                        <Button profile="fskDiagBtn" id="diagnosisButton1" onClick="onDiagnosis1Click" position="0px 0px"/>
+                        <Text profile="fskDiagText" id="diagnosisText1" position="0px -20px" text="Option 1"/>
+                    </GuiElement>
+
+                    <!-- Option 2 -->
+                    <GuiElement profile="fskDiagOption" position="165px -35px">
+                        <Bitmap profile="fskDiagBg" id="diag2Bg" position="0px 0px"/>
+                        <Button profile="fskDiagBtn" id="diagnosisButton2" onClick="onDiagnosis2Click" position="0px 0px"/>
+                        <Text profile="fskDiagText" id="diagnosisText2" position="0px -20px" text="Option 2"/>
+                    </GuiElement>
+
+                    <!-- Option 3 -->
+                    <GuiElement profile="fskDiagOption" position="-165px -90px">
+                        <Bitmap profile="fskDiagBg" id="diag3Bg" position="0px 0px"/>
+                        <Button profile="fskDiagBtn" id="diagnosisButton3" onClick="onDiagnosis3Click" position="0px 0px"/>
+                        <Text profile="fskDiagText" id="diagnosisText3" position="0px -20px" text="Option 3"/>
+                    </GuiElement>
+
+                    <!-- Option 4 -->
+                    <GuiElement profile="fskDiagOption" position="165px -90px">
+                        <Bitmap profile="fskDiagBg" id="diag4Bg" position="0px 0px"/>
+                        <Button profile="fskDiagBtn" id="diagnosisButton4" onClick="onDiagnosis4Click" position="0px 0px"/>
+                        <Text profile="fskDiagText" id="diagnosisText4" position="0px -20px" text="Option 4"/>
+                    </GuiElement>
+                </GuiElement>
+            </GuiElement>
+
+            <!-- ========== STEP 3: RESULTS ========== -->
+            <GuiElement profile="fskStepContainer" id="resultsContainer" position="0px -55px" visible="false">
+
+                <!-- Result Banner -->
+                <GuiElement profile="fskResultSection" position="0px 0px">
+                    <Bitmap profile="fskResultBg" position="0px 0px"/>
+                    <Text profile="fskResultHeader" id="resultHeaderText" position="0px -30px" text="INSPECTION RESULT"/>
+                    <Text profile="fskResultMessage" id="resultMessageText" position="0px -70px" text=""/>
+                    <Text profile="fskResultCooldown" id="cooldownText" position="0px -100px" text="" visible="false"/>
+                </GuiElement>
+
+                <!-- Start Restoration Button (only visible on success) -->
+                <GuiElement profile="fskStartButtonBox" id="startRestorationButton" position="0px -180px" visible="false">
+                    <Bitmap profile="fskStartBtnBg" position="0px 0px"/>
+                    <Button profile="fskStartBtn" onClick="onStartRestorationClick" position="0px 0px"/>
+                    <Text profile="fskStartBtnText" position="0px -20px" text="$l10n_usedplus_serviceTruck_startRestoration"/>
+                </GuiElement>
+            </GuiElement>
+
+        </GuiElement>
+
+        <!-- Button Box -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonBack" id="backButton" onClick="onClickBack"/>
+            <Button profile="buttonOK" id="okButton" onClick="onClickOk" text="$l10n_button_close"/>
+        </BoxLayout>
+    </GuiElement>
+</GUI>

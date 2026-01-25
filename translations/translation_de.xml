@@ -72,7 +72,7 @@
         <e k="usedplus_search_duration" v="Dauer" eh="e02d2ae0" />
         <e k="usedplus_search_success" v="Erfolgsquote" eh="aac60ede" />
         <e k="usedplus_search_successChance" v="Erfolgschance" eh="7ad5b765" />
-        <e k="usedplus_search_match" v="Match-Qualität" eh="91a4fcac" />
+        <e k="usedplus_search_match" v="Chance auf Qualitätstreffer" eh="91a4fcac" />
         <!-- REMOVED: usedplus_search_matchChance - duplicate of usedplus_search_match -->
         <e k="usedplus_search_description" v="Beschreibung" eh="b5a7adde" />
         <e k="usedplus_search_descLocal" v="Suchen Sie nach Händlern in der Nähe. Garantierte 1-monatige Antwort, 2 % Kosten, 40 % Erfolgsquote." eh="1aef5e06" />
@@ -629,6 +629,41 @@
         <e k="usedplus_repair_amountTooSmall" v="Reparaturkosten zu gering, um sie zu finanzieren. Minimum: %s" eh="446dd4cd" />
         <e k="usedplus_land_amountTooSmall" v="Grundstückspreis zu gering für Finanzierung. Minimum: %s" eh="b4e8480c" />
 
+        <!-- v2.8.0: Multiplayer Transaction Response Messages -->
+        <!-- Error responses for server→client feedback in multiplayer -->
+        <e k="usedplus_mp_error_unauthorized" v="Aktion für Ihren Betrieb nicht autorisiert" />
+        <e k="usedplus_mp_error_disabled" v="Diese Funktion ist in den Einstellungen deaktiviert" />
+        <e k="usedplus_mp_error_manager" v="System nicht initialisiert. Versuchen Sie es erneut." />
+        <e k="usedplus_mp_error_invalid_params" v="Ungültige Parameter" />
+        <e k="usedplus_mp_error_insufficient_funds" v="Unzureichende Mittel" />
+        <e k="usedplus_mp_error_failed" v="Transaktion fehlgeschlagen" />
+        <e k="usedplus_mp_error_farm_not_found" v="Betrieb nicht gefunden" />
+        <e k="usedplus_mp_error_deal_not_found" v="Vertrag nicht gefunden" />
+        <e k="usedplus_mp_error_land_not_found" v="Grundstück nicht gefunden" />
+        <e k="usedplus_mp_error_land_owned" v="Dieses Grundstück ist bereits im Besitz" />
+        <e k="usedplus_mp_error_already_leased" v="Sie haben bereits einen Pachtvertrag für dieses Grundstück" />
+        <e k="usedplus_mp_error_invalid_deal_type" v="Ungültiger Vertragstyp" />
+        <e k="usedplus_mp_error_deal_not_active" v="Vertrag ist nicht aktiv" />
+        <e k="usedplus_mp_error_repair_failed" v="Reparatur fehlgeschlagen" />
+        <e k="usedplus_mp_error_search_failed" v="Suche fehlgeschlagen" />
+
+        <!-- Success responses for server→client feedback in multiplayer -->
+        <e k="usedplus_mp_success_financed" v="Fahrzeug erfolgreich finanziert!" />
+        <e k="usedplus_mp_success_leased" v="Fahrzeug erfolgreich geleast!" />
+        <e k="usedplus_mp_success_loan" v="Kredit genehmigt!" />
+        <e k="usedplus_mp_success_payment" v="Zahlung verarbeitet!" />
+        <e k="usedplus_mp_success_land_leased" v="Grundstück erfolgreich gepachtet!" />
+        <e k="usedplus_mp_success_land_buyout" v="Grundstück erfolgreich gekauft!" />
+        <e k="usedplus_mp_success_listed" v="Fahrzeug zum Verkauf gelistet!" />
+        <e k="usedplus_mp_success_sale_action" v="Verkaufsaktion abgeschlossen!" />
+        <e k="usedplus_mp_success_price_modified" v="Preis aktualisiert!" />
+        <e k="usedplus_mp_success_repair" v="Reparatur abgeschlossen!" />
+        <e k="usedplus_mp_success_search_started" v="Suche gestartet!" />
+        <e k="usedplus_mp_success_lease_ended" v="Leasing erfolgreich beendet!" />
+        <e k="usedplus_mp_success_lease_terminated" v="Leasing gekündigt!" />
+        <e k="usedplus_mp_success_lease_renewed" v="Leasing verlängert!" />
+        <e k="usedplus_mp_success_lease_buyout" v="Leasing-Übernahme abgeschlossen!" />
+
         <!-- Mode Selector Options -->
         <e k="usedplus_mode_cash" v="Kaufen Sie mit Bargeld" eh="01dc9cc3" />
         <e k="usedplus_mode_finance" v="Finanzen" eh="c482980d" />
@@ -918,8 +953,8 @@
         <e k="usedplus_tl_yourRate" v="Ihr Zinssatz:" eh="6387ae1b" />
         <e k="usedplus_tl_sectionCollateral" v="SICHERHEITEN AUSWÄHLEN" eh="fdb2d731" />
         <e k="usedplus_tl_collateralHelp" v="Klicken Sie hier, um Vermögenswerte als Sicherheit umzuschalten (es werden nur unbelastete Vermögenswerte angezeigt)." eh="618ea809" />
-        <e k="usedplus_tl_prev" v="◄ Vorher" eh="bddeed69" />
-        <e k="usedplus_tl_next" v="Weiter ►" eh="4b0a535a" />
+        <e k="usedplus_tl_prev" v="&lt; Vorher" eh="bddeed69" />
+        <e k="usedplus_tl_next" v="Weiter &gt;" eh="4b0a535a" />
         <e k="usedplus_tl_selected" v="Ausgewählt:" eh="e8418a9e" />
         <e k="usedplus_tl_existingDebt" v="Bestehende Schulden:" eh="e7d0c3fb" />
         <e k="usedplus_tl_maxLoan" v="MAXIMALES DARLEHEN:" eh="f2517379" />
@@ -1037,6 +1072,7 @@
         <e k="usedplus_uvp_damage" v="Schaden:" eh="5a50c456" />
         <e k="usedplus_uvp_wear" v="Tragen:" eh="0f25ac5c" />
         <e k="usedplus_uvp_warningTitle" v="Verborgener mechanischer Zustand unbekannt" eh="d2e42691" />
+        <e k="usedplus_uvp_selectTier" v="Inspektionsstufe wählen:" eh="c3d4dde6" />
         <e k="usedplus_uvp_inspectPrompt" v="Bezahlen Sie für eine professionelle Inspektion" eh="2c3e76c2" />
         <e k="usedplus_uvp_inspectedText" v="Fahrzeug wurde überprüft - Bericht ansehen" eh="9015cd17" />
         <e k="usedplus_button_buyAsIs" v="Kaufen Sie im Ist-Zustand" eh="43e49e70" />
@@ -1525,9 +1561,6 @@
         <e k="usedplus_tire_quality" v="Qualität" eh="571094bb" />
 
         <!-- v1.7.0: Fluids Dialog Labels -->
-        <e k="usedplus_fluids_title" v="FLÜSSIGKEITSSERVICE" eh="7eb767c6" />
-        <e k="usedplus_fluids_oil" v="Motoröl" eh="2e69df59" />
-        <e k="usedplus_fluids_hydraulic" v="Hydraulikflüssigkeit" eh="fda2bff7" />
         <e k="usedplus_fluids_level" v="Stufe:" eh="07ad8151" />
         <e k="usedplus_fluids_status" v="Status:" eh="24a23d78" />
         <e k="usedplus_fluids_statusOk" v="OK" eh="e0aa021e" />
@@ -1542,13 +1575,10 @@
         <e k="usedplus_fluids_cost" v="Kosten:" eh="69edde90" />
 
         <!-- v1.7.0: Tires Dialog Labels -->
-        <e k="usedplus_tires_title" v="REIFENSERVICE" eh="b0234f4e" />
         <e k="usedplus_tires_condition" v="Zustand:" eh="ed51222f" />
-        <e k="usedplus_tires_quality" v="Qualität:" eh="571094bb" />
         <e k="usedplus_tires_traction" v="Traktion:" eh="8d38bce1" />
         <e k="usedplus_tires_flatTire" v="PLATTER REIFEN" eh="6e87cc30" />
         <e k="usedplus_tires_replace" v="Reifen ersetzen" eh="3a0d1434" />
-        <e k="usedplus_tires_selectQuality" v="Qualität wählen:" eh="46aef69c" />
         <e k="usedplus_tires_retreadDesc" v="Budget-Option - geringere Traktion, höheres Ausfallrisiko" eh="f277d077" />
         <e k="usedplus_tires_normalDesc" v="Standard-Reifen - ausgewogene Leistung" eh="df677172" />
         <e k="usedplus_tires_qualityDesc" v="Premium-Reifen - bessere Traktion, geringeres Ausfallrisiko" eh="69e595ca" />
@@ -1564,6 +1594,9 @@
         <e k="usedplus_mr_fuelLeak" v="Kraftstoffleck:" eh="caf0d1a8" />
         <e k="usedplus_mr_yes" v="Ja" eh="93cba074" />
         <e k="usedplus_mr_no" v="NEIN" eh="bafd7322" />
+        <e k="usedplus_info_oil_level" v="Ölstand" eh="a6d699fb" />
+        <e k="usedplus_info_hydraulic_level" v="Hydraulikflüssigkeit" eh="f9c4d7d9" />
+        <e k="usedplus_info_tire_condition" v="Reifen" eh="3fe2c06a" />
 
         <!-- v1.7.0: Tires Service Dialog -->
         <e k="usedplus_tires_title" v="Reifenservice" eh="b0234f4e" />
@@ -1625,7 +1658,6 @@
         <e k="usedplus_oil_refillComplete" v="Öl nachgefüllt - Kosten: %s" eh="0dff6e72" />
         <e k="usedplus_hydraulic_refillComplete" v="Hydraulikflüssigkeit nachgefüllt - Kosten: %s" eh="2d22bcb4" />
         <e k="usedplus_oil_refillCompleteStorage" v="Öl aus Speicher nachgefüllt" eh="2d3715a7" />
-        <e k="usedplus_hydraulic_refillCompleteStorage" v="Hydraulikflüssigkeit aus Speicher nachgefüllt" eh="8290045e" />
         <e k="usedplus_oil_notEnoughStorage" v="Nicht genug Öl im Speicher" eh="4cf5955b" />
         <e k="usedplus_hydraulic_notEnoughStorage" v="Nicht genug Hydraulikflüssigkeit im Speicher" eh="a1a0eb52" />
         <e k="usedplus_oil_alreadyFull" v="Motoröl bereits voll" eh="9474e86e" />
@@ -1770,6 +1802,10 @@
         <e k="usedplus_fsk_temp_repair" v="TEMPORÄRE FELDREPARATUR" eh="b3bc3876" />
         <e k="usedplus_fsk_temp_repair_desc" v="Dies ist eine Notfallreparatur. Besuchen Sie eine richtige Werkstatt für vollständigen Service." eh="648457f5" />
         <e k="usedplus_fsk_kit_consumed" v="OBD-Scanner wurde verbraucht." eh="b2ea1455" />
+        <!-- v2.8.0: Corrected messaging - OBD fixes reliability, not damage -->
+        <e k="usedplus_fsk_onetime_title" v="FELDSERVICE ABGESCHLOSSEN" />
+        <e k="usedplus_fsk_onetime_desc" v="Weitere Diagnosen an diesem System erfordern Werkstattausrüstung" />
+        <e k="usedplus_fsk_kit_consumed_onetime" v="OBD-Scanner verbraucht. Alle feldtauglichen Einstellungen wurden an diesem System vorgenommen." />
         <e k="usedplus_fsk_cannot_cancel" v="Reparatur im Gange - kann in diesem Stadium nicht abgebrochen werden." eh="6172d2ec" />
         <e k="usedplus_fsk_noVehicle" v="Kein Fahrzeug in Reichweite erkannt. Bringen Sie den Scanner näher an ein Fahrzeug." eh="e89e127f" />
 
@@ -1783,6 +1819,7 @@
         <e k="usedplus_fsk_tire_plug" v="STECKER" eh="c18d6117" />
         <e k="usedplus_fsk_tire_plug_desc" v="Bessere Notfallreparatur" eh="b3aa3113" />
         <e k="usedplus_fsk_tire_plug_result" v="Stellt auf 50% Zustand wieder her" eh="98bf223c" />
+        <e k="usedplus_fsk_tires_ok" v="Alle Reifen OK - Keine Reparatur nötig" eh="e070fe8d" />
 
         <!-- v2.1.0: Scanner-Hinweise (Schritt 1) -->
         <e k="usedplus_fsk_scanner_readout" v="OBD-SCANNER ANZEIGE" eh="e81cab15" />
@@ -1846,6 +1883,8 @@
         <e k="usedplus_setting_tirewear_desc" v="Realistische Reifenabnutzung über Zeit aktivieren" eh="0a955572" />
         <e k="usedplus_setting_malfunctions" v="Störungen" eh="97801e8a" />
         <e k="usedplus_setting_malfunctions_desc" v="Zufällige Pannen und Komponentenausfälle aktivieren" eh="fbbe01f9" />
+        <e k="usedplus_setting_malfunctionFrequency" v="Pannenhäufigkeit" eh="6bf458c7" />
+        <e k="usedplus_setting_malfunctionFrequency_desc" v="Wie oft Pannen auftreten. 100% = normal, 50% = halb so oft, 200% = doppelt so oft" eh="4ab011c4" />
         <e k="usedplus_setting_partialRepair" v="Teilreparatur" eh="dc6b627a" />
         <e k="usedplus_setting_partialRepair_desc" v="Teilreparaturen in Werkstatt aktivieren (Deaktivierung versteckt Reparatur-Button)" eh="84fe180c" />
         <e k="usedplus_setting_partialRepaint" v="Teillackierung" eh="3fca656d" />
@@ -2061,6 +2100,42 @@
     <e k="usedplus_seizure_repair_confirm" v="%s ist blockiert und benötigt Notfallreparatur.\n\nReparaturkosten: %s\n\nMit Reparatur fortfahren?" eh="bf702608" />
     <e k="usedplus_seizure_repaired" v="%s repariert! Zuverlässigkeit auf %d%% wiederhergestellt" eh="323fa338" />
     <e k="usedplus_repair_no_money" v="Nicht genug Geld für Reparatur!" eh="0c0a7c19" />
+        <e k="usedplus_warning_notEnoughMoney" v="Nicht genug Geld!" eh="48f194d4" />
+        <e k="usedplus_notification_landSeized" v="LAND BESCHLAGNAHMT: %s wurde wegen Zahlungsausfall eingezogen!" eh="1c095ac6" />
+        <e k="usedplus_error_paymentTooLow" v="Zahlungsbetrag liegt unter dem erforderlichen Minimum." eh="4f83eda0" />
+        <e k="usedplus_error_paymentTooHigh" v="Zahlungsbetrag übersteigt den Restbetrag." eh="091a9776" />
+        <e k="usedplus_success_paymentMade" v="Zahlung erfolgreich verarbeitet!" eh="b12aba7d" />
+        <e k="usedplus_error_cannotAffordTermination" v="Nicht genug Geld für die Leasingauflösungsgebühr." eh="64ed9e67" />
+        <e k="usedplus_credit_required" v="Bonität erforderlich" eh="cefa86b5" />
+        <e k="usedplus_finance_credit_msg" v="Finanzierung erfordert eine Bonitätsbewertung von %d oder höher." eh="7d3d6778" />
+        <e k="usedplus_lease_credit_msg" v="Leasing erfordert eine Bonitätsbewertung von %d oder höher." eh="c86cbfc5" />
+        <e k="usedplus_error_purchaseFailed" v="Kauf fehlgeschlagen - Spiel-API nicht verfügbar." eh="c02a7002" />
+        <e k="usedplus_error_negativeDownPayment" v="Anzahlung kann nicht negativ sein." eh="0634f8d8" />
+        <e k="usedplus_error_downPaymentTooHigh" v="Anzahlung kann den Kaufpreis nicht übersteigen." eh="6bd926ef" />
+        <e k="usedplus_error_invalidTerm" v="Ungültige Kreditlaufzeit." eh="49e90a5b" />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="Anzahlung kann den Leasingpreis nicht übersteigen." eh="5e32ae97" />
+        <e k="usedplus_error_leaseTermInvalid" v="Ungültige Leasinglaufzeit." eh="7f3c3523" />
+        <e k="usedplus_age_oneYear" v="1 Jahr alt" eh="086d4f5c" />
+        <e k="usedplus_age_years" v="%d Jahre alt" eh="afdf2194" />
+        <e k="usedplus_hours" v="%d Stunden" eh="4e8d5e54" />
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="Bankkredit abbezahlt!" eh="a6f2a43b" />
+
+    <!-- v2.8.0: OBD diagnosis limit -->
+    <e k="usedplus_fsk_diagnosis_exhausted" v="Dieses System hat bereits Feldservice erhalten. Weitere Reparaturen erfordern Werkstattausrüstung." />
+
+    <!-- ============================================== -->
+    <!-- v2.8.0: Zusätzliche Multiplayer-Meldungen     -->
+    <!-- (Haupt-MP-Meldungen sind oben im MP-Abschnitt) -->
+    <!-- ============================================== -->
+    <e k="usedplus_mp_success_vehicle_purchased" v="Fahrzeug erfolgreich gekauft!" />
+    <e k="usedplus_mp_success_trade_in" v="Inzahlungnahme erfolgreich abgeschlossen!" />
+    <e k="usedplus_mp_success_field_repair" v="Feldreparatur abgeschlossen!" />
+    <e k="usedplus_mp_success_fluids_refilled" v="Flüssigkeiten erfolgreich nachgefüllt!" />
+    <e k="usedplus_mp_success_tires_replaced" v="Reifen erfolgreich gewechselt!" />
+    <e k="usedplus_mp_success_land_purchased" v="Land erfolgreich gekauft!" />
+    <e k="usedplus_mp_error_purchase_failed" v="Kauf fehlgeschlagen. Bitte erneut versuchen." />
+    <e k="usedplus_mp_error_vehicle_not_found" v="Fahrzeug nicht gefunden." />
+    <e k="usedplus_mp_error_no_loan" v="Kein Kreditsaldo zum Bezahlen." />
 
     </elements>
 </l10n>

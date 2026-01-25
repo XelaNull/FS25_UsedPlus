@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Service Truck for Long-Term Vehicle Restoration
+
+    Based on GMC C7000 81-89 by Canada FS (model only).
+    Custom specialization for UsedPlus restoration system.
+
+    Features:
+    - Park near damaged vehicles to begin restoration
+    - Consumes diesel, oil, and hydraulic fluid during restoration
+    - Requires spare parts pallets nearby
+    - Slowly restores reliability AND reliability ceiling
+    - Target vehicle is immobilized during restoration
+
+    v2.9.0 - Service Truck System
+-->
+<vehicle type="usedPlusServiceTruck">
+    <annotation>UsedPlus Service Truck - Long-Term Vehicle Restoration</annotation>
+
+    <storeData>
+        <name>$l10n_usedplus_serviceTruck_name</name>
+        <specs>
+            <power>250</power>
+            <maxSpeed>120</maxSpeed>
+        </specs>
+        <functions>
+            <function>$l10n_usedplus_serviceTruck_function</function>
+        </functions>
+        <image>store.dds</image>
+        <price>75000</price>
+        <dailyUpkeep>50</dailyUpkeep>
+        <lifetime>600</lifetime>
+        <rotation>0</rotation>
+        <brand>GMC</brand>
+        <category>trucks</category>
+        <!-- Hidden from shop - must be discovered through National Agent -->
+        <showInStore>false</showInStore>
+    </storeData>
+
+    <base>
+        <typeDesc>$l10n_usedplus_serviceTruck_typeDesc</typeDesc>
+        <filename>C7000.i3d</filename>
+        <size width="2.5" length="5" height="3.85"/>
+        <sounds filename="$data/vehicles/international/transtarII/sounds/transtarII.xml" volumeFactor="0.35"/>
+        <components count="1">
+            <component centerOfMass="0 0.4 0.97" solverIterationCount="10" mass="7000"/>
+        </component>
+        <schemaOverlay attacherJointPosition="0 0" name="TRUCK"/>
+        <mapHotspot type="TRUCK"/>
+    </base>
+
+    <!-- Configurations preserved from C7000 -->
+    <design2Configurations title="Bumpers">
+        <design2Configuration name="Stock1" price="0">
+            <objectChange node="0>0|14|0|3|1|0" visibilityActive="true" visibilityInactive="true"/>
+            <objectChange node="0>0|14|0|3|1|1" visibilityActive="false" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|1|2" visibilityActive="false" visibilityInactive="false"/>
+        </design2Configuration>
+        <design2Configuration name="Stock2" price="1000">
+            <objectChange node="0>0|14|0|3|1|1" visibilityActive="true" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|1|0" visibilityActive="false" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|1|2" visibilityActive="false" visibilityInactive="false"/>
+        </design2Configuration>
+        <design2Configuration name="Aftermarket" price="1000">
+            <objectChange node="0>0|14|0|3|1|2" visibilityActive="true" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|1|1" visibilityActive="false" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|1|0" visibilityActive="false" visibilityInactive="false"/>
+        </design2Configuration>
+    </design2Configurations>
+
+    <designConfigurations title="Grill">
+        <designConfiguration name="GMC" price="0">
+            <objectChange node="0>0|12|0|0|1|0" visibilityActive="true" visibilityInactive="true"/>
+            <objectChange node="0>0|14|0|3|3|0" visibilityActive="true" visibilityInactive="true"/>
+            <objectChange node="0>0|14|0|3|0|0" visibilityActive="true" visibilityInactive="false"/>
+            <objectChange node="0>0|3|0|5" visibilityActive="true" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|0|1" visibilityActive="false" visibilityInactive="false"/>
+            <objectChange node="0>0|3|0|2" visibilityActive="false" visibilityInactive="false"/>
+        </designConfiguration>
+        <designConfiguration name="Chevy" price="0">
+            <objectChange node="0>0|12|0|0|1|1" visibilityActive="true" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|0|1" visibilityActive="true" visibilityInactive="false"/>
+            <objectChange node="0>0|3|0|2" visibilityActive="true" visibilityInactive="false"/>
+            <objectChange node="0>0|12|0|0|1|0" visibilityActive="false" visibilityInactive="false"/>
+            <objectChange node="0>0|14|0|3|0|0" visibilityActive="false" visibilityInactive="false"/>
+            <objectChange node="0>0|3|0|5" visibilityActive="false" visibilityInactive="false"/>
+        </designConfiguration>
+    </designConfigurations>
+
+    <wheels>
+        <wheelConfigurations>
+            <wheelConfiguration name="Stock">
+                <wheels autoRotateBackSpeed="2.1">
+                    <wheel filename="wheels/wheels1.xml" configId="rim2Front" isLeft="true" hasTireTracks="true" hasParticles="true">
+                        <physics rotSpeed="1" restLoad="2.3" repr="wheelFrontLeft" forcePointRatio="0.4" initialCompression="35" suspTravel="0.17" spring="35" damper="40" frictionScale="2.0" yOffset="0.0125"/>
+                    </wheel>
+                    <wheel filename="wheels/wheels1.xml" configId="rim2Front" isLeft="false" hasTireTracks="true" hasParticles="true">
+                        <physics rotSpeed="1" restLoad="2.3" repr="wheelFrontRight" forcePointRatio="0.4" initialCompression="35" suspTravel="0.17" spring="35" damper="40" frictionScale="2.0" yOffset="0.0125"/>
+                    </wheel>
+                    <wheel filename="wheels/wheels1.xml" configId="dual" isLeft="true" hasTireTracks="true" hasParticles="true">
+                        <physics rotSpeed="0" restLoad="1.1" repr="wheelBackLeft" forcePointRatio="0.2" initialCompression="15" suspTravel="0.08" spring="72" damper="250" frictionScale="2.2" yOffset="-0.041"/>
+                        <additionalWheel filename="wheels/wheels1.xml" configId="dual2" isLeft="true" offset="-0.66"/>
+                    </wheel>
+                    <wheel filename="wheels/wheels1.xml" configId="dual" isLeft="false" hasTireTracks="true" hasParticles="true">
+                        <physics rotSpeed="0" restLoad="1.1" repr="wheelBackRight" forcePointRatio="0.2" initialCompression="15" suspTravel="0.08" spring="72" damper="250" frictionScale="2.2" yOffset="-0.041"/>
+                        <additionalWheel filename="wheels/wheels1.xml" configId="dual2" isLeft="false" offset="-0.67"/>
+                    </wheel>
+                </wheels>
+            </wheelConfiguration>
+        </wheelConfigurations>
+        <ackermannSteeringConfigurations>
+            <ackermannSteering rotSpeed="45" rotMax="38" rotCenterWheel1="3" rotCenterWheel2="4"/>
+        </ackermannSteeringConfigurations>
+    </wheels>
+
+    <lights>
+        <sharedLight linkNode="0>0|14|1|0" filename="$data/shared/assets/lights/lizard/rearLight20_left.xml"/>
+        <sharedLight linkNode="0>0|14|1|1" filename="$data/shared/assets/lights/lizard/rearLight20_right.xml"/>
+        <sharedLight linkNode="0>0|14|1|2" filename="$data/shared/assets/lights/lizard/rearLight20.xml"/>
+        <sharedLight linkNode="0>0|14|1|3" filename="$data/shared/assets/lights/lizard/rearLight20.xml"/>
+        <sharedLight linkNode="0>0|12|0|0|0|0|0" filename="$data/shared/assets/lights/lizard/rearLight27Orange_left.xml"/>
+        <sharedLight linkNode="0>0|12|0|0|0|0|1" filename="$data/shared/assets/lights/lizard/rearLight27Orange_right.xml"/>
+        <states>
+            <state lightTypes="0"/>
+            <state lightTypes="0 1"/>
+            <state lightTypes="0 1 2"/>
+            <state lightTypes="0 1 4"/>
+        </states>
+        <realLights>
+            <low>
+                <light node="frontLightLow" lightTypes="0"/>
+            </low>
+            <high>
+                <light node="0>0|20|2|0" lightTypes="0"/>
+                <light node="frontLightHigh" lightTypes="1"/>
+                <light node="highBeamHigh" lightTypes="2"/>
+                <light node="backLightsHigh1" lightTypes="1 4"/>
+                <light node="0>0|1|9" lightTypes="4"/>
+                <light node="0>0|1|10" lightTypes="4"/>
+                <brakeLight node="backLightsHigh1"/>
+                <turnLightLeft node="turnLightLeftFront"/>
+                <turnLightLeft node="turnLightLeftBack"/>
+                <turnLightRight node="turnLightRightFront"/>
+                <turnLightRight node="turnLightRightBack"/>
+            </high>
+        </realLights>
+    </lights>
+
+    <enterable isTabbable="true">
+        <enterReferenceNode node="main_component1"/>
+        <exitPoint node="exitPoint"/>
+        <cameras count="2">
+            <camera node="outdoorCamera1" rotatable="true" rotateNode="outdoorCameraTarget" limit="true" useWorldXZRotation="true" rotMinX="-1.4" rotMaxX="1" transMin="3.5" transMax="40" translation="0 0 5.75" rotation="-10 180 0">
+                <raycastNode node="cameraRaycastNode1"/>
+                <raycastNode node="cameraRaycastNode2"/>
+            </camera>
+            <camera node="indoorCamera1" rotatable="true" limit="true" rotMinX="-1.1" rotMaxX="0.4" transMin="0" transMax="0" useMirror="true" isInside="true" positionSmoothingParameter="0" shadowFocusBox="shadowFocusBox"/>
+        </cameras>
+        <characterNode node="player_skin" cameraMinDistance="0.35" spineRotation="-90 0 90">
+            <target ikChain="rightFoot" targetNode="player_rightFoot"/>
+            <target ikChain="leftFoot" targetNode="player_leftFoot"/>
+            <target ikChain="rightArm" targetNode="rightArm"/>
+            <target ikChain="leftArm" targetNode="leftArm"/>
+        </characterNode>
+        <characterTargetNodeModifier node="player_rightFoot" transitionTime="0.1">
+            <state node="player_rightFootGas" referenceNode="gasPedal"/>
+            <state node="player_rightFootBrake" referenceNode="brakePedal"/>
+        </characterTargetNodeModifier>
+    </enterable>
+
+    <attacherJoints>
+        <attacherJoint node="0>0|9" jointType="trailer" lowerRotLimit="10 70 50" upperRotationOffset="0" allowsJointLimitMovement="false" canTurnOnImplement="false" comboTime="1">
+            <schema position="1 0" rotation="0" invertX="false"/>
+        </attacherJoint>
+        <attacherJoint node="0>0|9" jointType="trailerLow" lowerRotLimit="10 70 50" upperRotationOffset="0" allowsJointLimitMovement="false" canTurnOnImplement="false" comboTime="1">
+            <schema position="1 0" rotation="0" invertX="false"/>
+        </attacherJoint>
+    </attacherJoints>
+
+    <connectionHoses>
+        <target attacherJointIndices="1 2" type="electric" node="electricBack" socket="electric"/>
+    </connectionHoses>
+
+    <drivable>
+        <steeringWheel node="steeringWheel" indoorRotation="540" outdoorRotation="60"/>
+        <dashboards>
+            <dashboard displayType="ROT" valueType="accelerationAxis" node="gasPedal" minRot="0 0 0" maxRot="-15 0 0" doInterpolation="true" groups="MOTOR_ACTIVE"/>
+            <dashboard displayType="ROT" valueType="decelerationAxis" node="brakePedal" minRot="0 0 0" maxRot="-15 0 0" doInterpolation="true" groups="MOTOR_ACTIVE"/>
+        </dashboards>
+    </drivable>
+
+    <licensePlates>
+        <licensePlate node="licensePlateNodeBack" position="BACK" preferedType="SQUARISH" placementArea="- 0.21 0.1 0.21"/>
+    </licensePlates>
+
+    <!-- Fill Units for Service Truck -->
+    <!-- 1: Truck fuel tank (internal) -->
+    <!-- 2: External diesel tank for refueling (original 1500L) -->
+    <!-- 3: Oil tank for restoration (NEW) -->
+    <!-- 4: Hydraulic fluid tank for restoration (NEW) -->
+    <fillUnit>
+        <fillUnitConfigurations>
+            <fillUnitConfiguration>
+                <fillUnits>
+                    <!-- Truck internal fuel -->
+                    <fillUnit unitTextOverride="$l10n_unit_literShort" showOnHud="false" showInShop="false" fillTypes="diesel" capacity="120">
+                        <dashboard displayType="ANIMATION" valueType="fillLevel" animName="loadingBarFuel" minValueAnim="0" maxValueAnim="120" groups="MOTOR_ACTIVE"/>
+                        <exactFillRootNode node="0>0|16|0"/>
+                    </fillUnit>
+                    <!-- External diesel tank -->
+                    <fillUnit unitTextOverride="$l10n_unit_literShort" showOnHud="true" showInShop="true" fillTypes="diesel" capacity="1500">
+                        <exactFillRootNode node="exactFillRootNode"/>
+                    </fillUnit>
+                    <!-- Oil tank for restoration -->
+                    <fillUnit unitTextOverride="$l10n_unit_literShort" showOnHud="true" showInShop="true" fillTypes="OIL" capacity="200" startFillLevel="200"/>
+                    <!-- Hydraulic fluid tank for restoration -->
+                    <fillUnit unitTextOverride="$l10n_unit_literShort" showOnHud="true" showInShop="true" fillTypes="HYDRAULICOIL" capacity="200" startFillLevel="200"/>
+                </fillUnits>
+            </fillUnitConfiguration>
+        </fillUnitConfigurations>
+    </fillUnit>
+
+    <!-- Fuel trigger for refueling other vehicles -->
+    <fillTriggerVehicle triggerNode="fuelTrigger" fillUnitIndex="2" litersPerSecond="30"/>
+
+    <dischargeable>
+        <dischargeableConfigurations>
+            <dischargeableConfiguration name="1">
+                <dischargeNode node="dischargeTrigger" emptySpeed="40" fillUnitIndex="2" allowAIDischarge="true">
+                    <info width="1.0" length="0.5" zOffset="0.4"/>
+                    <trigger node="dischargeTrigger"/>
+                </dischargeNode>
+            </dischargeableConfiguration>
+        </dischargeableConfigurations>
+    </dischargeable>
+
+    <motorized>
+        <consumerConfigurations>
+            <consumerConfiguration>
+                <consumer fillUnitIndex="1" usage="20" fillType="diesel"/>
+            </consumerConfiguration>
+        </consumerConfigurations>
+        <differentialConfigurations>
+            <differentialConfiguration>
+                <differentials>
+                    <differential torqueRatio="0.5" maxSpeedRatio="1.7" wheelIndex1="3" wheelIndex2="4"/>
+                </differentials>
+            </differentialConfiguration>
+        </differentialConfigurations>
+        <motorConfigurations>
+            <motorConfiguration name="C7000 3208" hp="250" price="0">
+                <motor torqueScale="0.829" minRpm="850" maxRpm="2200" maxForwardSpeed="120" maxBackwardSpeed="13" brakeForce="4.5" lowBrakeForceScale="0.1" lowBrakeForceSpeedLimit="3" dampingRateScale="0.7">
+                    <torque rpm="850" torque="0.9"/>
+                    <torque rpm="1000" torque="1.0"/>
+                    <torque rpm="1450" torque="1.0"/>
+                    <torque rpm="1900" torque="0.9"/>
+                    <torque rpm="2200" torque="0.7"/>
+                    <torque rpm="2500" torque="0.2"/>
+                </motor>
+                <transmission autoGearChangeTime="0.3" gearChangeTime="0.5" axleRatio="7" name="$l10n_info_transmission_manual">
+                    <directionChange useGear="true" changeTime="0.5"/>
+                    <forwardGear gearRatio="12.50" name="L"/>
+                    <forwardGear gearRatio="8.35" name="1"/>
+                    <forwardGear gearRatio="6.12" name="2"/>
+                    <forwardGear gearRatio="4.56" name="3"/>
+                    <forwardGear gearRatio="3.38" name="4"/>
+                    <forwardGear gearRatio="2.47" name="5"/>
+                    <forwardGear gearRatio="1.81" name="6"/>
+                    <forwardGear gearRatio="1.35" name="7"/>
+                    <forwardGear gearRatio="1.00" name="8"/>
+                    <backwardGear gearRatio="12.50" name="R1"/>
+                    <backwardGear gearRatio="6.12" name="R2"/>
+                </transmission>
+            </motorConfiguration>
+        </motorConfigurations>
+        <exhaustEffects>
+            <exhaustEffect node="exhaustParticleLeft" filename="$data/effects/exhaust/exhaust.i3d" minRpmColor="0.9 0.9 0.9 0.1" maxRpmColor="0.9 0.9 0.9 0.4" minRpmScale="0.05" maxRpmScale="0.5"/>
+            <exhaustEffect node="0>0|17" filename="$data/effects/exhaust/exhaust.i3d" minRpmColor="0.9 0.9 0.9 0.1" maxRpmColor="0.9 0.9 0.9 0.4" minRpmScale="0.05" maxRpmScale="0.5"/>
+        </exhaustEffects>
+        <dashboards>
+            <dashboard displayType="ANIMATION" valueType="rpm" animName="rpmDisplay" minValueAnim="0" maxValueAnim="4000" groups="MOTOR_ACTIVE"/>
+            <dashboard displayType="ANIMATION" valueType="speed" animName="speedDisplay" minValueAnim="0" maxValueAnim="140" groups="MOTOR_ACTIVE"/>
+            <dashboard displayType="ANIMATION" valueType="motorTemperature" animName="loadingBarTemperature" minValueAnim="0" maxValueAnim="120" groups="MOTOR_ACTIVE"/>
+        </dashboards>
+        <motorStartDuration>2500</motorStartDuration>
+    </motorized>
+
+    <animations>
+        <animation name="backDoor">
+            <part node="backDoor" startTime="0.2" endTime="1" startRot="0 0 0" endRot="-100 0 0"/>
+        </animation>
+        <animation name="rpmDisplay">
+            <part node="rpm_indicator" startTime="0" endTime="1" startRot="0 0 0" endRot="0 0 -200"/>
+        </animation>
+        <animation name="speedDisplay">
+            <part node="speed_indicator" startTime="0" endTime="1" startRot="0 0 0" endRot="0 0 -245"/>
+        </animation>
+        <animation name="loadingBarTemperature">
+            <part node="temp_indicator" startTime="0" endTime="1" startRot="0 0 0" endRot="0 0 -73"/>
+        </animation>
+        <animation name="loadingBarFuel">
+            <part node="fuel_indicator" startTime="0" endTime="1" startRot="0 0 0" endRot="0 0 -73"/>
+        </animation>
+        <animation name="Hood">
+            <part node="0>0|12|0" startTime="0.5" endTime="1.7" startRot="0 0 0" endRot="65 0 0"/>
+        </animation>
+        <animation name="door_service">
+            <part node="0>0|14|2|0|4" startTime="0.0" endTime="1.2" startRot="0 0 0" endRot="0 90 0"/>
+            <part node="0>0|14|2|0|6" startTime="0.0" endTime="1.2" startRot="0 0 0" endRot="0 0 88"/>
+            <part node="0>0|19|0|3|0" startTime="2.0" endTime="3.0" startRot="0 0 100" endRot="0 0 -10"/>
+            <part node="0>0|19|0|3|1" startTime="0.0" endTime="3.1" visibility="false"/>
+            <part node="0>0|19|0|3|1" startTime="3.1" endTime="3.2" visibility="true"/>
+            <sound template="metalOpen" startTime="0.01" direction="1" volumeScale="3.5" pitchScale="1.5" linkNode="0>0|14|2|0|4"/>
+            <sound template="metalClose" startTime="0.02" direction="-1" volumeScale="3.5" pitchScale="1.5" linkNode="0>0|14|2|0|4"/>
+        </animation>
+    </animations>
+
+    <suspensions>
+        <suspension useCharacterTorso="true" weight="90" minRotation="0 -5 -5" maxRotation="0 5 5" suspensionParametersY="7 1" suspensionParametersZ="7 1"/>
+    </suspensions>
+
+    <foldable>
+        <foldingConfigurations>
+            <foldingConfiguration>
+                <foldingParts requiresPower="false">
+                    <foldingPart animationName="backDoor" speedScale="1"/>
+                </foldingParts>
+            </foldingConfiguration>
+        </foldingConfigurations>
+    </foldable>
+
+    <cylindered>
+        <movingTool node="0>0|12|0">
+            <controls axis="AXIS_HYDRAULICATTACHER1" invertAxis="false" mouseSpeedFactor="0.4"/>
+            <rotation rotSpeed="50" rotAcceleration="160" rotMax="90" rotMin="0"/>
+        </movingTool>
+    </cylindered>
+
+    <dashboard>
+        <groups>
+            <group name="MOTOR_STARTING" isMotorStarting="true"/>
+            <group name="MOTOR_ACTIVE" isMotorStarting="true" isMotorRunning="true"/>
+        </groups>
+    </dashboard>
+
+    <ai>
+        <collisionTrigger node="aiCollisionTrigger"/>
+    </ai>
+
+    <foliageBending>
+        <bendingNode minX="-1.15" maxX="1.15" minZ="-2.8" maxZ="2.8" yOffset="0"/>
+    </foliageBending>
+
+    <!-- Service Truck Restoration Configuration -->
+    <serviceTruck>
+        <!-- Vehicle detection radius for finding restoration targets -->
+        <detectionRadius value="15.0"/>
+        <!-- Pallet detection radius for finding spare parts -->
+        <palletRadius value="5.0"/>
+        <!-- Fluid consumption rates per game hour during restoration -->
+        <consumption diesel="5.0" oil="0.5" hydraulic="0.5" parts="2.0"/>
+        <!-- Restoration rates per game hour -->
+        <restoration reliabilityPerHour="0.01" ceilingPerHour="0.0025"/>
+        <!-- Fill unit indices for fluids -->
+        <fillUnits diesel="2" oil="3" hydraulic="4"/>
+    </serviceTruck>
+
+    <wearable wearDuration="480" workMultiplier="5" fieldMultiplier="2"/>
+    <washable dirtDuration="90" washDuration="1" workMultiplier="3" fieldMultiplier="2"/>
+
+    <baseColorConfigurations title="$l10n_configuration_chassisColor" useDefaultColors="true">
+        <baseColorConfiguration materialTemplateName="SKODA_ENERGY_BLUE"/>
+        <baseColorConfiguration materialTemplateName="SKODA_STEEL_GREY"/>
+        <baseColorConfiguration materialTemplateName="SKODA_VELVET_RED_METALLIC"/>
+        <baseColorConfiguration materialTemplateName="SKODA_GRAPHITE_GREY_METALLIC"/>
+        <baseColorConfiguration materialTemplateName="SKODA_BRILLIANT_SILVER_METALLIC"/>
+        <baseColorConfiguration materialTemplateName="SKODA_RACE_BLUE_METALLIC"/>
+        <baseColorConfiguration materialTemplateName="SKODA_GOLD_BRONZE"/>
+        <baseColorConfiguration materialTemplateName="SKODA_BLACK_MAGIC"/>
+        <baseColorConfiguration materialTemplateName="SKODA_MOON_WHITE" isDefault="true"/>
+        <material materialSlotName="Paint"/>
+    </baseColorConfigurations>
+
+    <rimColorConfigurations useDefaultColors="true">
+        <rimColorConfiguration materialTemplateName="RIM_CONFIGURATION_CHROME" price="1000"/>
+        <rimColorConfiguration materialTemplateName="RIM_DEFAULT"/>
+        <rimColorConfiguration materialTemplateName="RAM_SILVER" name="Silver" isDefault="true"/>
+        <rimColorConfiguration materialTemplateName="chrome" name="$l10n_ui_colorChrome"/>
+        <rimColorConfiguration materialTemplateName="DARK_CHROME" name="Dark Chrome"/>
+        <rimColorConfiguration materialTemplateName="RIM_CONFIGURATION_BLACK"/>
+    </rimColorConfigurations>
+
+    <i3dMappings>
+        <i3dMapping id="main_component1" node="0>"/>
+        <i3dMapping id="wheelFrontLeft" node="0>0|0|0"/>
+        <i3dMapping id="wheelBackLeft" node="0>0|0|1"/>
+        <i3dMapping id="wheelFrontRight" node="0>0|0|2"/>
+        <i3dMapping id="wheelBackRight" node="0>0|0|3"/>
+        <i3dMapping id="frontLightHigh" node="0>0|1|0"/>
+        <i3dMapping id="highBeamHigh" node="0>0|1|1"/>
+        <i3dMapping id="turnLightRightBack" node="0>0|1|2"/>
+        <i3dMapping id="turnLightRightFront" node="0>0|1|3"/>
+        <i3dMapping id="turnLightLeftBack" node="0>0|1|4"/>
+        <i3dMapping id="turnLightLeftFront" node="0>0|1|5"/>
+        <i3dMapping id="backLightsHigh1" node="0>0|1|6"/>
+        <i3dMapping id="frontLightLow" node="0>0|1|7"/>
+        <i3dMapping id="outdoorCameraTarget" node="0>0|2|0"/>
+        <i3dMapping id="outdoorCamera1" node="0>0|2|0|0"/>
+        <i3dMapping id="indoorCamera1" node="0>0|2|1"/>
+        <i3dMapping id="cameraRaycastNode1" node="0>0|2|2"/>
+        <i3dMapping id="cameraRaycastNode2" node="0>0|2|3"/>
+        <i3dMapping id="cameraRaycastNode3" node="0>0|2|4"/>
+        <i3dMapping id="shadowFocusBox" node="0>0|2|5"/>
+        <i3dMapping id="steeringWheel" node="0>0|3|0"/>
+        <i3dMapping id="leftArm" node="0>0|3|0|0"/>
+        <i3dMapping id="rightArm" node="0>0|3|0|1"/>
+        <i3dMapping id="player_skin" node="0>0|4|0"/>
+        <i3dMapping id="player_rightFoot" node="0>0|4|1"/>
+        <i3dMapping id="player_leftFoot" node="0>0|4|2"/>
+        <i3dMapping id="exitPoint" node="0>0|5"/>
+        <i3dMapping id="exhaustParticleLeft" node="0>0|8"/>
+        <i3dMapping id="trailerAttacherJointBack" node="0>0|9"/>
+        <i3dMapping id="electricBack" node="0>0|10"/>
+        <i3dMapping id="rpm_indicator" node="0>0|11|1|0"/>
+        <i3dMapping id="fuel_indicator" node="0>0|11|2|0"/>
+        <i3dMapping id="temp_indicator" node="0>0|11|3|0"/>
+        <i3dMapping id="speed_indicator" node="0>0|11|4|0"/>
+        <i3dMapping id="gasPedal" node="0>0|11|5"/>
+        <i3dMapping id="player_rightFootGas" node="0>0|11|5|0"/>
+        <i3dMapping id="brakePedal" node="0>0|11|6"/>
+        <i3dMapping id="player_rightFootBrake" node="0>0|11|6|0"/>
+        <i3dMapping id="backDoor" node="0>0|12|0"/>
+        <i3dMapping id="licensePlateNodeBack" node="0>0|22"/>
+        <i3dMapping id="aiCollisionTrigger" node="0>0|13"/>
+        <i3dMapping id="fuelTrigger" node="0>0|19|1|1|0"/>
+        <i3dMapping id="dischargeTrigger" node="0>0|19|1|1|1"/>
+        <i3dMapping id="exactFillRootNode" node="0>0|19|1|1|2"/>
+    </i3dMappings>
+</vehicle>

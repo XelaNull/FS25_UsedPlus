@@ -592,21 +592,16 @@ function InGameMenuVehiclesFrameExtension:createSaleListing(vehicle, farmId, age
     -- Default priceTier if not provided (legacy compatibility)
     priceTier = priceTier or 2
 
-    -- Create listing through manager (passes agent tier, priceTier is stored in listing)
-    local listing = g_vehicleSaleManager:createSaleListing(farmId, vehicle, agentTier, priceTier)
+    -- v2.8.0: Use network event for multiplayer synchronization
+    -- This ensures the listing is created on the server and synced to all clients
+    CreateSaleListingEvent.sendToServer(farmId, vehicle.id, agentTier, priceTier)
 
-    if listing then
-        UsedPlus.logDebug(string.format("Created sale listing: %s (Agent %d, Price %d, ID: %s)",
-            listing.vehicleName, agentTier, priceTier, listing.id))
+    UsedPlus.logDebug(string.format("Sent CreateSaleListingEvent: vehicle=%d, agent=%d, price=%d",
+        vehicle.id, agentTier, priceTier))
 
-        -- Show styled confirmation dialog
-        self:showSaleListingConfirmation(vehicle, agentTier, priceTier)
-    else
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_INFO,
-            "Failed to create sale listing. Please try again."
-        )
-    end
+    -- Show styled confirmation dialog optimistically
+    -- The server will send a TransactionResponseEvent to confirm success/failure
+    self:showSaleListingConfirmation(vehicle, agentTier, priceTier)
 end
 
 --[[

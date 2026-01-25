@@ -628,6 +628,36 @@
         <e k="usedplus_lease_amountTooSmall" v="Сумма слишком мала для лизинга. Минимум: %s" eh="3e2012e8" />
         <e k="usedplus_repair_amountTooSmall" v="Стоимость ремонта слишком мала для финансирования. Минимум: %s" eh="446dd4cd" />
         <e k="usedplus_land_amountTooSmall" v="Цена земли слишком мала для финансирования. Минимум: %s" eh="b4e8480c" />
+        <e k="usedplus_mp_error_unauthorized" v="Действие не разрешено для вашей фермы" eh="343a024c" />
+        <e k="usedplus_mp_error_disabled" v="Эта функция отключена в настройках" eh="d3f06efd" />
+        <e k="usedplus_mp_error_manager" v="Система не инициализирована. Попробуйте снова." eh="53daf785" />
+        <e k="usedplus_mp_error_invalid_params" v="Неверные параметры" eh="a79fae6b" />
+        <e k="usedplus_mp_error_insufficient_funds" v="Недостаточно средств" eh="55f90c96" />
+        <e k="usedplus_mp_error_failed" v="Транзакция не удалась" eh="3f864e37" />
+        <e k="usedplus_mp_error_farm_not_found" v="Ферма не найдена" eh="a13cd50e" />
+        <e k="usedplus_mp_error_deal_not_found" v="Сделка не найдена" eh="f85a8ec8" />
+        <e k="usedplus_mp_error_land_not_found" v="Земля не найдена" eh="db02fd36" />
+        <e k="usedplus_mp_error_land_owned" v="Эта земля уже принадлежит владельцу" eh="7175cfeb" />
+        <e k="usedplus_mp_error_already_leased" v="Вы уже арендуете эту землю" eh="25394947" />
+        <e k="usedplus_mp_error_invalid_deal_type" v="Неверный тип сделки" eh="e9926aa4" />
+        <e k="usedplus_mp_error_deal_not_active" v="Сделка неактивна" eh="4f8a3c97" />
+        <e k="usedplus_mp_error_repair_failed" v="Ремонт не удался" eh="e25882fc" />
+        <e k="usedplus_mp_error_search_failed" v="Поиск не удался" eh="a4d17776" />
+        <e k="usedplus_mp_success_financed" v="Техника успешно профинансирована!" eh="e0a11202" />
+        <e k="usedplus_mp_success_leased" v="Техника успешно арендована!" eh="f73065ee" />
+        <e k="usedplus_mp_success_loan" v="Кредит одобрен!" eh="96d2eb36" />
+        <e k="usedplus_mp_success_payment" v="Платёж обработан!" eh="fffcd9ab" />
+        <e k="usedplus_mp_success_land_leased" v="Земля успешно арендована!" eh="4815779c" />
+        <e k="usedplus_mp_success_land_buyout" v="Земля успешно куплена!" eh="9de4a0f4" />
+        <e k="usedplus_mp_success_listed" v="Техника выставлена на продажу!" eh="1178dfe3" />
+        <e k="usedplus_mp_success_sale_action" v="Операция продажи завершена!" eh="f4473f61" />
+        <e k="usedplus_mp_success_price_modified" v="Цена обновлена!" eh="3778ab16" />
+        <e k="usedplus_mp_success_repair" v="Ремонт завершён!" eh="9e6d62a2" />
+        <e k="usedplus_mp_success_search_started" v="Поиск начат!" eh="f10690d3" />
+        <e k="usedplus_mp_success_lease_ended" v="Аренда успешно завершена!" eh="71efe46d" />
+        <e k="usedplus_mp_success_lease_terminated" v="Аренда расторгнута!" eh="2ac6c824" />
+        <e k="usedplus_mp_success_lease_renewed" v="Аренда продлена!" eh="30c5a4dd" />
+        <e k="usedplus_mp_success_lease_buyout" v="Выкуп аренды завершён!" eh="b76c5d41" />
 
         <!-- Mode Selector Options -->
         <e k="usedplus_mode_cash" v="Купить за наличные" eh="01dc9cc3" />
@@ -796,6 +826,7 @@
         <e k="usedplus_button_close" v="Закрывать" eh="d3d2e617" />
         <e k="usedplus_button_confirm" v="Подтверждать" eh="70d9be9b" />
         <e k="usedplus_button_cancel" v="Отмена" eh="ea478870" />
+        <e k="usedplus_button_later" v="Позже" eh="61057a0c" />
         <e k="usedplus_button_takeLoan" v="Взять кредит" eh="40fe67fa" />
         <e k="usedplus_button_payOff" v="Расплачиваться" eh="416ff954" />
 
@@ -917,8 +948,8 @@
         <e k="usedplus_tl_yourRate" v="Ваша процентная ставка:" eh="6387ae1b" />
         <e k="usedplus_tl_sectionCollateral" v="ВЫБЕРИТЕ ОБЕСПЕЧЕНИЕ" eh="fdb2d731" />
         <e k="usedplus_tl_collateralHelp" v="Нажмите, чтобы переключить активы в качестве залога (показаны только необремененные активы)" eh="618ea809" />
-        <e k="usedplus_tl_prev" v="◄ Предыдущий" eh="bddeed69" />
-        <e k="usedplus_tl_next" v="Следующий ►" eh="4b0a535a" />
+        <e k="usedplus_tl_prev" v="&lt; Предыдущий" eh="bddeed69" />
+        <e k="usedplus_tl_next" v="Следующий &gt;" eh="4b0a535a" />
         <e k="usedplus_tl_selected" v="Выбрано:" eh="e8418a9e" />
         <e k="usedplus_tl_existingDebt" v="Существующий долг:" eh="e7d0c3fb" />
         <e k="usedplus_tl_maxLoan" v="МАКСИМАЛЬНЫЙ КРЕДИТ:" eh="f2517379" />
@@ -1036,6 +1067,7 @@
         <e k="usedplus_uvp_damage" v="Повреждать:" eh="5a50c456" />
         <e k="usedplus_uvp_wear" v="Носить:" eh="0f25ac5c" />
         <e k="usedplus_uvp_warningTitle" v="Скрытое механическое состояние неизвестно" eh="d2e42691" />
+        <e k="usedplus_uvp_selectTier" v="Выберите уровень осмотра:" eh="c3d4dde6" />
         <e k="usedplus_uvp_inspectPrompt" v="Оплатить профессиональный осмотр" eh="2c3e76c2" />
         <e k="usedplus_uvp_inspectedText" v="Транспортное средство прошло техосмотр – посмотреть отчет" eh="9015cd17" />
         <e k="usedplus_button_buyAsIs" v="Купить как есть" eh="43e49e70" />
@@ -1524,9 +1556,6 @@
         <e k="usedplus_tire_quality" v="Качество" eh="571094bb" />
 
         <!-- v1.7.0: Fluids Dialog Labels -->
-        <e k="usedplus_fluids_title" v="ОБСЛУЖИВАНИЕ ЖИДКОСТЕЙ" eh="7eb767c6" />
-        <e k="usedplus_fluids_oil" v="Моторное масло" eh="2e69df59" />
-        <e k="usedplus_fluids_hydraulic" v="Гидравлическая жидкость" eh="fda2bff7" />
         <e k="usedplus_fluids_level" v="Уровень:" eh="07ad8151" />
         <e k="usedplus_fluids_status" v="Статус:" eh="24a23d78" />
         <e k="usedplus_fluids_statusOk" v="ОК" eh="e0aa021e" />
@@ -1541,9 +1570,7 @@
         <e k="usedplus_fluids_cost" v="Расходы:" eh="69edde90" />
 
         <!-- v1.7.0: Tires Dialog Labels -->
-        <e k="usedplus_tires_title" v="ШИНОМОНТАЖ" eh="b0234f4e" />
         <e k="usedplus_tires_condition" v="Состояние:" eh="ed51222f" />
-        <e k="usedplus_tires_quality" v="Качество:" eh="571094bb" />
         <e k="usedplus_tires_traction" v="Сцепление:" eh="8d38bce1" />
         <e k="usedplus_tires_flatTire" v="СПУЩЕННАЯ ШИНА" eh="6e87cc30" />
         <e k="usedplus_tires_replace" v="Заменить шины" eh="3a0d1434" />
@@ -1564,6 +1591,9 @@
         <e k="usedplus_mr_fuelLeak" v="Утечка топлива:" eh="caf0d1a8" />
         <e k="usedplus_mr_yes" v="Да" eh="93cba074" />
         <e k="usedplus_mr_no" v="Нет" eh="bafd7322" />
+        <e k="usedplus_info_oil_level" v="Уровень масла" eh="a6d699fb" />
+        <e k="usedplus_info_hydraulic_level" v="Гидравлическая жидкость" eh="f9c4d7d9" />
+        <e k="usedplus_info_tire_condition" v="Шины" eh="3fe2c06a" />
 
         <!-- v1.7.0: Tires Service Dialog -->
         <e k="usedplus_tires_title" v="Шиномонтаж" eh="b0234f4e" />
@@ -1623,7 +1653,6 @@
         <e k="usedplus_oil_refillComplete" v="Масло долито - Стоимость: %s" eh="0dff6e72" />
         <e k="usedplus_hydraulic_refillComplete" v="Гидравлическая жидкость долита - Стоимость: %s" eh="2d22bcb4" />
         <e k="usedplus_oil_refillCompleteStorage" v="Масло долито со склада" eh="2d3715a7" />
-        <e k="usedplus_hydraulic_refillCompleteStorage" v="Гидравлическая жидкость долита со склада" eh="8290045e" />
         <e k="usedplus_oil_notEnoughStorage" v="Недостаточно масла на складе" eh="4cf5955b" />
         <e k="usedplus_hydraulic_notEnoughStorage" v="Недостаточно гидравлической жидкости на складе" eh="a1a0eb52" />
         <e k="usedplus_oil_alreadyFull" v="Моторное масло уже полное" eh="9474e86e" />
@@ -1768,6 +1797,9 @@
         <e k="usedplus_fsk_temp_repair" v="ВРЕМЕННЫЙ ПОЛЕВОЙ РЕМОНТ" eh="b3bc3876" />
         <e k="usedplus_fsk_temp_repair_desc" v="Это экстренный ремонт. Посетите надлежащую мастерскую для полного обслуживания." eh="648457f5" />
         <e k="usedplus_fsk_kit_consumed" v="OBD-сканер израсходован." eh="b2ea1455" />
+        <e k="usedplus_fsk_onetime_title" v="ПОЛЕВОЙ РЕМОНТ ЗАВЕРШЁН" eh="4336e84b" />
+        <e k="usedplus_fsk_onetime_desc" v="Дальнейшая диагностика этой системы требует оборудования мастерской" eh="38988277" />
+        <e k="usedplus_fsk_kit_consumed_onetime" v="OBD-сканер израсходован. Все доступные для полевого обслуживания настройки этой системы выполнены." eh="4ae3775f" />
         <e k="usedplus_fsk_cannot_cancel" v="Ремонт в процессе - нельзя отменить на этом этапе." eh="6172d2ec" />
         <e k="usedplus_fsk_noVehicle" v="Транспортное средство не обнаружено в радиусе. Поднесите сканер ближе к транспорту." eh="e89e127f" />
 
@@ -1781,6 +1813,7 @@
         <e k="usedplus_fsk_tire_plug" v="РАЗЪЕМ" eh="c18d6117" />
         <e k="usedplus_fsk_tire_plug_desc" v="Улучшенный экстренный ремонт" eh="b3aa3113" />
         <e k="usedplus_fsk_tire_plug_result" v="Восстанавливает до 50% состояния" eh="98bf223c" />
+        <e k="usedplus_fsk_tires_ok" v="Все шины в порядке - Ремонт не нужен" eh="e070fe8d" />
 
         <!-- v2.1.0: Scanner Readout Hints (Step 1 hints to deduce failed system) -->
         <e k="usedplus_fsk_scanner_readout" v="ДАННЫЕ СКАНЕРА OBD" eh="e81cab15" />
@@ -1844,6 +1877,8 @@
         <e k="usedplus_setting_tirewear_desc" v="Включить реалистичный износ шин" eh="0a955572" />
         <e k="usedplus_setting_malfunctions" v="Поломки" eh="97801e8a" />
         <e k="usedplus_setting_malfunctions_desc" v="Включить случайные поломки и отказы компонентов" eh="fbbe01f9" />
+        <e k="usedplus_setting_malfunctionFrequency" v="Частота Поломок" eh="6bf458c7" />
+        <e k="usedplus_setting_malfunctionFrequency_desc" v="Как часто происходят поломки. 100% = норма, 50% = вдвое реже, 200% = вдвое чаще" eh="4ab011c4" />
         <e k="usedplus_setting_partialRepair" v="Частичный Ремонт" eh="dc6b627a" />
         <e k="usedplus_setting_partialRepair_desc" v="Включить частичный ремонт в мастерской (отключение скрывает кнопку ремонта)" eh="84fe180c" />
         <e k="usedplus_setting_partialRepaint" v="Частичная Покраска" eh="3fca656d" />
@@ -2051,10 +2086,39 @@
     <e k="usedplus_malfunction_seized" v="ЗАКЛИНИЛО" eh="cdceb6dd" />
     <e k="usedplus_malfunction_leak" v="УТЕЧКА" eh="2ec9e171" />
     <e k="usedplus_malfunction_flat" v="СПУЩЕНО" eh="f88a77e3" />
+        <e k="usedplus_fsk_diagnosis_exhausted" v="Эта система уже прошла полевое обслуживание. Дальнейший ремонт требует оборудования мастерской." eh="79b71f1e" />
     <e k="usedplus_seizure_detected" v="КОМПОНЕНТ ЗАКЛИНИЛО" eh="9def01dd" />
     <e k="usedplus_seizure_repair_confirm" v="%s заклинило и требуется аварийный ремонт.\n\nСтоимость ремонта: %s\n\nПродолжить ремонт?" eh="bf702608" />
     <e k="usedplus_seizure_repaired" v="%s отремонтировано! Надёжность восстановлена до %d%%" eh="323fa338" />
     <e k="usedplus_repair_no_money" v="Недостаточно денег для ремонта!" eh="0c0a7c19" />
+        <e k="usedplus_warning_notEnoughMoney" v="Недостаточно денег!" eh="48f194d4" />
+        <e k="usedplus_notification_landSeized" v="ЗЕМЛЯ ИЗЪЯТА: %s конфискована за неуплату!" eh="1c095ac6" />
+        <e k="usedplus_error_paymentTooLow" v="Сумма платежа ниже минимально необходимой." eh="4f83eda0" />
+        <e k="usedplus_error_paymentTooHigh" v="Сумма платежа превышает остаток долга." eh="091a9776" />
+        <e k="usedplus_success_paymentMade" v="Платёж успешно обработан!" eh="b12aba7d" />
+        <e k="usedplus_error_cannotAffordTermination" v="Недостаточно денег для оплаты штрафа за расторжение аренды." eh="64ed9e67" />
+        <e k="usedplus_credit_required" v="Требуется кредитный рейтинг" eh="cefa86b5" />
+        <e k="usedplus_finance_credit_msg" v="Для финансирования требуется кредитный рейтинг %d или выше." eh="7d3d6778" />
+        <e k="usedplus_lease_credit_msg" v="Для лизинга требуется кредитный рейтинг %d или выше." eh="c86cbfc5" />
+        <e k="usedplus_error_purchaseFailed" v="Покупка не удалась - игровой API недоступен." eh="c02a7002" />
+        <e k="usedplus_error_negativeDownPayment" v="Первоначальный взнос не может быть отрицательным." eh="0634f8d8" />
+        <e k="usedplus_error_downPaymentTooHigh" v="Первоначальный взнос не может превышать цену покупки." eh="6bd926ef" />
+        <e k="usedplus_error_invalidTerm" v="Неверный срок кредита." eh="49e90a5b" />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="Первоначальный взнос не может превышать стоимость аренды." eh="5e32ae97" />
+        <e k="usedplus_error_leaseTermInvalid" v="Неверный срок аренды." eh="7f3c3523" />
+        <e k="usedplus_age_oneYear" v="1 год" eh="086d4f5c" />
+        <e k="usedplus_age_years" v="%d лет" eh="afdf2194" />
+        <e k="usedplus_hours" v="%d часов" eh="4e8d5e54" />
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="Банковский кредит погашен!" eh="a6f2a43b" />
+        <e k="usedplus_mp_success_vehicle_purchased" v="Техника успешно куплена!" eh="b5beec4f" />
+        <e k="usedplus_mp_success_trade_in" v="Трейд-ин успешно завершён!" eh="0a59b49a" />
+        <e k="usedplus_mp_success_field_repair" v="Полевой ремонт завершён!" eh="06239aac" />
+        <e k="usedplus_mp_success_fluids_refilled" v="Жидкости успешно залиты!" eh="9597cd1d" />
+        <e k="usedplus_mp_success_tires_replaced" v="Шины успешно заменены!" eh="5224fbbe" />
+        <e k="usedplus_mp_success_land_purchased" v="Земля успешно куплена!" eh="9de4a0f4" />
+        <e k="usedplus_mp_error_purchase_failed" v="Покупка не удалась. Попробуйте снова." eh="42d7ddab" />
+        <e k="usedplus_mp_error_vehicle_not_found" v="Техника не найдена." eh="02c84e79" />
+        <e k="usedplus_mp_error_no_loan" v="Нет остатка по кредиту для оплаты." eh="5668e12f" />
 
     </elements>
 </l10n>

@@ -191,6 +191,7 @@ end
 
 --[[
     v2.7.1: Callback for inspection complete dialog
+    v2.7.3: Added frame delay to ensure YesNoDialog is fully closed before opening preview
     @param yes - true if user clicked "View Report", false for "Later"
 ]]
 function UsedVehicleManager:onInspectionCompleteDialogCallback(yes)
@@ -198,10 +199,31 @@ function UsedVehicleManager:onInspectionCompleteDialogCallback(yes)
         -- User wants to view the report - open UsedVehiclePreviewDialog
         local listing = self.pendingInspectionListing
         local farmId = self.pendingInspectionFarmId
+        local search = self.pendingInspectionSearch
 
         if listing then
-            UsedPlus.logDebug("User chose to view inspection report")
-            DialogLoader.show("UsedVehiclePreviewDialog", "show", listing, farmId, nil, nil)
+            UsedPlus.logDebug(string.format("User chose to view inspection report (state: %s)",
+                tostring(listing.inspectionState)))
+
+            -- v2.7.3: Use a frame delay to ensure YesNoDialog is fully closed
+            -- This prevents the preview dialog from opening while the previous dialog
+            -- is still being processed, which can cause stale state to be displayed
+            g_currentMission:addUpdateable({
+                listing = listing,
+                farmId = farmId,
+                search = search,
+                frameWait = 2,  -- Wait 2 frames to ensure clean state
+                update = function(self, dt)
+                    self.frameWait = self.frameWait - 1
+                    if self.frameWait <= 0 then
+                        g_currentMission:removeUpdateable(self)
+                        UsedPlus.logDebug(string.format("Opening preview dialog after delay (state: %s)",
+                            tostring(self.listing.inspectionState)))
+                        DialogLoader.show("UsedVehiclePreviewDialog", "show",
+                            self.listing, self.farmId, nil, nil, self.search)
+                    end
+                end
+            })
         else
             UsedPlus.logWarn("No pending inspection listing to show")
         end

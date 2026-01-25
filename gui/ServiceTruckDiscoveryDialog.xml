@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Service Truck Discovery Dialog
+    Special opportunity popup when player discovers the service truck offer
+
+    v2.9.0 - Service Truck System
+
+    Displays:
+    - Agent message about the opportunity
+    - Mechanic's quote (story element)
+    - Vehicle details and features
+    - Price with discount (original crossed out)
+    - Cash only warning
+    - 30-day expiry notice
+-->
+<GUI onOpen="onOpen" onClose="onClose" onCreate="onCreate">
+    <GuiElement profile="newLayer" />
+    <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
+
+    <GuiElement profile="dialogBg" id="dialogElement" size="650px 450px">
+        <ThreePartBitmap profile="fs25_dialogBgMiddle" />
+        <ThreePartBitmap profile="fs25_dialogBgTop" />
+        <ThreePartBitmap profile="fs25_dialogBgBottom" />
+
+        <GuiElement profile="fs25_dialogContentContainer">
+
+            <!-- Title -->
+            <Text profile="stdTitle" id="dialogTitle" position="0px -20px" text="$l10n_usedplus_serviceTruck_discoveryTitle"/>
+
+            <!-- Agent Message Section -->
+            <GuiElement profile="stdAgentSection" position="0px -50px">
+                <Bitmap profile="stdAgentBg" position="0px 0px"/>
+                <Text profile="stdAgentMessage" id="agentMessageText" position="0px -12px" text="$l10n_usedplus_serviceTruck_agentMessage"/>
+            </GuiElement>
+
+            <!-- Mechanic Quote Section -->
+            <GuiElement profile="stdQuoteSection" position="0px -90px">
+                <Bitmap profile="stdQuoteBg" position="0px 0px"/>
+                <Text profile="stdQuoteText" id="mechanicQuoteText" position="0px -18px" text="$l10n_usedplus_serviceTruck_mechanicQuote"/>
+            </GuiElement>
+
+            <!-- Vehicle Info Box -->
+            <GuiElement profile="stdVehicleInfoSection" position="0px -145px">
+                <Bitmap profile="stdVehicleInfoBg" position="0px 0px"/>
+                <Text profile="stdVehicleName" id="vehicleNameText" position="0px -12px" text="GMC C7000 Service Truck"/>
+                <Text profile="stdFeatureHeader" position="0px -35px" text="SPECIAL CAPABILITIES:"/>
+                <Text profile="stdFeatureItem" position="0px -52px" text="Long-term vehicle restoration"/>
+                <Text profile="stdFeatureItem" position="0px -68px" text="Ceiling repair capability (restore beyond 100%)"/>
+            </GuiElement>
+
+            <!-- Price Section -->
+            <GuiElement profile="stdPriceSection" position="0px -235px">
+                <Bitmap profile="stdPriceBg" position="0px 0px"/>
+
+                <!-- Original Price (crossed out) -->
+                <Text profile="stdPriceLabel" position="-120px -12px" text="Original:"/>
+                <Text profile="stdPriceOriginal" id="originalPriceText" position="0px -12px" text="$75,000"/>
+
+                <!-- Your Price (prominent) -->
+                <Text profile="stdPriceLabel" position="-120px -38px" text="YOUR PRICE:"/>
+                <Text profile="stdPriceYours" id="yourPriceText" position="30px -38px" text="$67,500"/>
+
+                <!-- Cash Only Warning -->
+                <Text profile="stdCashOnly" position="180px -38px" text="CASH ONLY"/>
+            </GuiElement>
+
+            <!-- Expiry Notice -->
+            <Text profile="stdExpiryText" id="expiryText" position="0px -310px" text="$l10n_usedplus_serviceTruck_expiryNotice"/>
+
+        </GuiElement>
+
+        <!-- Button Box -->
+        <BoxLayout profile="fs25_dialogButtonBox">
+            <Button profile="buttonBack" id="backButton" text="$l10n_button_back" onClick="onClickBack"/>
+            <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
+            <Button profile="buttonOK" id="buyButton" text="$l10n_usedplus_serviceTruck_buyNow" onClick="onClickBuy"/>
+        </BoxLayout>
+    </GuiElement>
+
+    <GUIProfiles>
+        <!-- ========== TITLE ========== -->
+        <Profile name="stdTitle" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 28px"/>
+            <textSize value="20px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== AGENT MESSAGE SECTION ========== -->
+        <Profile name="stdAgentSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="600px 32px"/>
+        </Profile>
+        <Profile name="stdAgentBg" extends="baseReference" with="anchorTopCenter">
+            <size value="600px 32px"/>
+            <imageColor value="0.08 0.12 0.15 0.9"/>
+        </Profile>
+        <Profile name="stdAgentMessage" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="580px 20px"/>
+            <textSize value="12px"/>
+            <textColor value="0.7 0.85 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== MECHANIC QUOTE SECTION ========== -->
+        <Profile name="stdQuoteSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="600px 45px"/>
+        </Profile>
+        <Profile name="stdQuoteBg" extends="baseReference" with="anchorTopCenter">
+            <size value="600px 45px"/>
+            <imageColor value="0.10 0.10 0.08 0.9"/>
+        </Profile>
+        <Profile name="stdQuoteText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="560px 36px"/>
+            <textSize value="11px"/>
+            <textColor value="0.85 0.85 0.75 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== VEHICLE INFO SECTION ========== -->
+        <Profile name="stdVehicleInfoSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="600px 82px"/>
+        </Profile>
+        <Profile name="stdVehicleInfoBg" extends="baseReference" with="anchorTopCenter">
+            <size value="600px 82px"/>
+            <imageColor value="0.06 0.08 0.12 0.95"/>
+        </Profile>
+        <Profile name="stdVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="580px 20px"/>
+            <textSize value="15px"/>
+            <textBold value="true"/>
+            <textColor value="1 1 1 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="stdFeatureHeader" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="580px 16px"/>
+            <textSize value="10px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 0.7 0.5 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+        <Profile name="stdFeatureItem" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="560px 14px"/>
+            <textSize value="11px"/>
+            <textColor value="0.7 0.9 0.7 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== PRICE SECTION ========== -->
+        <Profile name="stdPriceSection" extends="emptyPanel" with="anchorTopCenter">
+            <size value="600px 65px"/>
+        </Profile>
+        <Profile name="stdPriceBg" extends="baseReference" with="anchorTopCenter">
+            <size value="600px 65px"/>
+            <imageColor value="0.12 0.10 0.06 0.95"/>
+        </Profile>
+        <Profile name="stdPriceLabel" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.6 0.6 0.6 1"/>
+            <textAlignment value="right"/>
+        </Profile>
+        <Profile name="stdPriceOriginal" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="13px"/>
+            <textColor value="0.5 0.5 0.5 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+        <Profile name="stdPriceYours" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="120px 22px"/>
+            <textSize value="18px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.85 0.2 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+        <Profile name="stdCashOnly" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="100px 18px"/>
+            <textSize value="11px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.4 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== EXPIRY NOTICE ========== -->
+        <Profile name="stdExpiryText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="580px 18px"/>
+            <textSize value="11px"/>
+            <textColor value="1 0.7 0.3 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+    </GUIProfiles>
+</GUI>

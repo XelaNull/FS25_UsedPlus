@@ -86,16 +86,30 @@ end
 --[[
      Called when GUI elements are ready
      Element references are auto-populated by g_gui based on XML id attributes
-     No manual caching needed - removed redundant self.x = self.x patterns
+     Pagination elements need explicit binding due to deep nesting
 ]]
 function TakeLoanDialog:onGuiSetupFinished()
     TakeLoanDialog:superClass().onGuiSetupFinished(self)
-    -- UI elements automatically available via XML id attributes:
-    -- creditScoreText, creditRatingText, interestRateText
-    -- vehicleCollateralText, landCollateralText, existingDebtText, maxLoanText
-    -- loanAmountSlider (MultiTextOption), termSlider (MultiTextOption)
-    -- monthlyPaymentText, yearlyPaymentText, totalPaymentText, totalInterestText
-    -- acceptButton, cancelButton
+
+    -- Explicitly bind pagination elements (deeply nested, may not auto-bind)
+    -- Use getDescendantByName to find elements anywhere in the hierarchy
+    if self.dialogElement then
+        if not self.pageIndicatorText then
+            self.pageIndicatorText = self.dialogElement:getDescendantByName("pageIndicatorText")
+        end
+        if not self.prevPageBtn then
+            self.prevPageBtn = self.dialogElement:getDescendantByName("prevPageBtn")
+        end
+        if not self.nextPageBtn then
+            self.nextPageBtn = self.dialogElement:getDescendantByName("nextPageBtn")
+        end
+    end
+
+    -- Diagnostic logging (using logWarn so it always shows)
+    UsedPlus.logWarn(string.format("TakeLoanDialog:onGuiSetupFinished - pageIndicatorText=%s, prevPageBtn=%s, nextPageBtn=%s",
+        tostring(self.pageIndicatorText ~= nil),
+        tostring(self.prevPageBtn ~= nil),
+        tostring(self.nextPageBtn ~= nil)))
 end
 
 --[[
@@ -556,9 +570,9 @@ function TakeLoanDialog:populateAssetList()
             UIHelper.Element.setVisible(rowElement, true)
             if btnElement then UIHelper.Element.setVisible(btnElement, true) end
 
-            -- Set checkbox (☑ or ☐)
+            -- Set checkbox ([X] or [ ]) - using ASCII for game font compatibility
             if checkElement then
-                checkElement:setText(asset.selected and "☑" or "☐")
+                checkElement:setText(asset.selected and "[X]" or "[ ]")
                 -- Green when selected, gray when not
                 if asset.selected then
                     checkElement:setTextColor(0.3, 1, 0.4, 1)
@@ -567,9 +581,9 @@ function TakeLoanDialog:populateAssetList()
                 end
             end
 
-            -- Set name (with type prefix)
+            -- Set name (with type prefix) - using ASCII for game font compatibility
             if nameElement then
-                local prefix = asset.type == "land" and "🏞️ " or "🚜 "
+                local prefix = asset.type == "land" and "Land: " or ""
                 nameElement:setText(prefix .. asset.name)
             end
 
@@ -596,8 +610,14 @@ function TakeLoanDialog:populateAssetList()
     end
 
     -- Update page indicator
+    local pageText = string.format("%d / %d", currentPage, totalPages)
+    -- TEMP: Using logWarn so it always shows (remove after fix)
+    UsedPlus.logWarn(string.format("TakeLoanDialog pagination: offset=%d, page=%d/%d, text='%s'", self.pageOffset, currentPage, totalPages, pageText))
     if self.pageIndicatorText then
-        self.pageIndicatorText:setText(string.format("%d / %d", currentPage, totalPages))
+        self.pageIndicatorText:setText(pageText)
+        UsedPlus.logWarn("TakeLoanDialog: pageIndicatorText:setText() called successfully")
+    else
+        UsedPlus.logWarn("TakeLoanDialog: pageIndicatorText element is nil!")
     end
 
     -- Enable/disable pagination buttons
@@ -605,7 +625,8 @@ function TakeLoanDialog:populateAssetList()
         self.prevPageBtn:setDisabled(self.pageOffset == 0)
     end
     if self.nextPageBtn then
-        local maxOffset = math.max(0, totalAssets - self.maxDisplayRows)
+        -- For PAGING, maxOffset allows jumping by full pages
+        local maxOffset = (totalPages - 1) * self.maxDisplayRows
         self.nextPageBtn:setDisabled(self.pageOffset >= maxOffset)
     end
 end
@@ -669,10 +690,18 @@ end
     Pagination: Show next page of assets
 ]]
 function TakeLoanDialog:onNextPage()
-    local maxOffset = math.max(0, #self.eligibleAssets - self.maxDisplayRows)
+    local totalAssets = #self.eligibleAssets
+    local totalPages = math.max(1, math.ceil(totalAssets / self.maxDisplayRows))
+    -- For PAGING (not scrolling), maxOffset must allow jumping by full pages
+    local maxOffset = (totalPages - 1) * self.maxDisplayRows
+    -- TEMP: Using logWarn so it always shows
+    UsedPlus.logWarn(string.format("TakeLoanDialog:onNextPage() - current offset=%d, maxOffset=%d, totalPages=%d", self.pageOffset, maxOffset, totalPages))
     if self.pageOffset < maxOffset then
         self.pageOffset = math.min(maxOffset, self.pageOffset + self.maxDisplayRows)
+        UsedPlus.logWarn(string.format("TakeLoanDialog:onNextPage() - new offset=%d, calling populateAssetList", self.pageOffset))
         self:populateAssetList()
+    else
+        UsedPlus.logWarn("TakeLoanDialog:onNextPage() - already at last page, not advancing")
     end
 end
 

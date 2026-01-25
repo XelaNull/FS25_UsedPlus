@@ -222,23 +222,18 @@ end
 
 --[[
     Complete lease at end of term
-    Shows dialog for player to choose return or buyout
+    v2.8.0: No longer shows dialog here - FinanceManager handles that with LeaseRenewalDialog
+    which has all 3 options (Return, Buyout, Renew)
+
+    This method is kept for potential direct calls but dialog is handled by FinanceManager
 ]]
 function LeaseDeal:completeLease()
     if not g_server then return end
 
-    -- Find the leased vehicle
-    local vehicle = self:findVehicle()
-
-    -- Calculate damage penalty for display
-    local penalty = 0
-    if vehicle then
-        penalty = self:calculateDamagePenalty(vehicle)
-    end
-
-    -- Show lease end dialog for player choice
-    -- Dialog will handle return or buyout via LeaseEndEvent
-    self:showLeaseEndDialog(vehicle, penalty)
+    -- v2.8.0: Dialog is now shown by FinanceManager:showLeaseRenewalDialog()
+    -- which provides 3 options (Return, Buyout, Renew) instead of just 2
+    -- Just log the completion here
+    UsedPlus.logDebug(string.format("LeaseDeal:completeLease() called for %s - dialog handled by FinanceManager", self.itemName or "unknown"))
 end
 
 --[[

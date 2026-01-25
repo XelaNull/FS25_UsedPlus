@@ -39,7 +39,7 @@
                 <Text profile="fpSectionHeader" id="purchaseSectionHeader" position="0px -5px" text="PURCHASE"/>
 
                 <Text profile="fpLabel" id="fluidTypeLabel" position="-100px -35px" text="Fluid Type:"/>
-                <MultiTextOption profile="fpFluidDropdown" id="fluidTypeOption" position="80px -35px"/>
+                <MultiTextOption profile="fpFluidDropdown" id="fluidTypeOption" position="80px -35px" onClick="onFluidTypeChanged"/>
 
                 <Text profile="fpLabel" id="amountLabel" position="-100px -65px" text="Amount:"/>
                 <Text profile="fpAmountValue" id="amountText" position="100px -65px" text="50 L"/>

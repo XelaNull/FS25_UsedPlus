@@ -65,17 +65,45 @@ UIHelper.Text = {}
 
 --[[
     Format currency amount
+    v2.7.3: Always uses American format ($X,XXX) for consistency within mod
     @param amount - Number to format
     @param decimals - Decimal places (default 0)
-    @param showSign - Show +/- sign (default true for negative)
+    @param showSign - Show +/- sign for positive values (default false)
     @param absolute - Use absolute value for display (default true)
     @return Formatted string like "$125,000"
 ]]
 function UIHelper.Text.formatMoney(amount, decimals, showSign, absolute)
     decimals = decimals or 0
-    showSign = showSign ~= false
     absolute = absolute ~= false
-    return g_i18n:formatMoney(amount, decimals, showSign, absolute)
+
+    local value = absolute and math.abs(amount or 0) or (amount or 0)
+    local isNegative = value < 0
+    value = math.abs(value)
+
+    -- Format with decimal places
+    local formatted
+    if decimals > 0 then
+        formatted = string.format("%." .. decimals .. "f", value)
+    else
+        formatted = string.format("%d", math.floor(value + 0.5))
+    end
+
+    -- Add thousand separators (comma)
+    local k
+    while true do
+        formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", "%1,%2")
+        if k == 0 then break end
+    end
+
+    -- Build final string with $ prefix (American format for consistency)
+    local sign = ""
+    if isNegative then
+        sign = "-"
+    elseif showSign and (amount or 0) > 0 then
+        sign = "+"
+    end
+
+    return sign .. "$" .. formatted
 end
 
 --[[

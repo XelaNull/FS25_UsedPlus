@@ -2,11 +2,21 @@
 
 This folder contains all localization files for the UsedPlus mod.
 
+## Quick Start
+
+```bash
+cd translations/
+node translation_sync.js status    # See current state
+node translation_sync.js sync      # Sync all languages
+node translation_sync.js report    # Detailed breakdown
+node translation_sync.js help      # Full documentation
+```
+
 ## Files
 
 | File | Language | Code |
 |------|----------|------|
-| `translation_en.xml` | English | EN |
+| `translation_en.xml` | English (source) | EN |
 | `translation_de.xml` | German | DE |
 | `translation_fr.xml` | French | FR |
 | `translation_es.xml` | Spanish | ES |
@@ -31,69 +41,58 @@ Each translation entry uses this format:
 | `v` | Value - the translated text |
 | `eh` | English Hash - 8-character MD5 hash of the English source text |
 
-## Version Tracking with `eh` Attribute
+## How Hash-Based Sync Works
 
-The `eh` (English Hash) attribute enables tracking when translations become stale:
+The `eh` (English Hash) attribute tracks when translations become stale:
 
-1. Each entry stores a hash of its English source text
-2. When the English text changes, the hash no longer matches
-3. Running `check` identifies which entries need re-translation
+```
+English:  <e k="greeting" v="Hello World" eh="a1b2c3d4"/>
+German:   <e k="greeting" v="Hallo Welt" eh="a1b2c3d4"/>   <- Same hash = OK
+French:   <e k="greeting" v="Bonjour" eh="99999999"/>     <- Different = STALE!
+```
 
-This eliminates guesswork about which translations are current.
+When you change English text:
+1. Run `sync` - English hash auto-updates
+2. Target hashes stay the same (they reflect what was translated FROM)
+3. Hash mismatch = translation is STALE (needs re-translation)
 
-## Translation Sync Tool
+## Translation Sync Tool (v3.2.1)
 
-`translation_sync.py` manages translation versioning.
+`translation_sync.js` manages translation synchronization and validation.
 
 ### Commands
 
 ```bash
-# Check which entries are out of sync
-python translation_sync.py check
-
-# Add/update hashes to all translation files
-python translation_sync.py stamp
-
-# Generate detailed sync report
-python translation_sync.py report
+node translation_sync.js sync      # Add missing keys, update hashes
+node translation_sync.js status    # Quick table overview
+node translation_sync.js report    # Detailed lists by language
+node translation_sync.js check     # Exit code 1 if missing keys
+node translation_sync.js validate  # CI-friendly, minimal output
+node translation_sync.js help      # Full documentation
 ```
+
+### What It Detects
+
+| Symbol | Meaning | Action |
+|--------|---------|--------|
+| ✓ | Translated | Up to date, no action needed |
+| ~ | Stale | English changed, needs re-translation |
+| ? | Untranslated | Has `[EN]` prefix or matches English exactly |
+| - | Missing | Key not in target file (sync adds it) |
+| !! | Duplicate | Same key twice in file - remove one! |
+| x | Orphaned | Key in target but not English - safe to delete |
+| 💥 | Format Error | Wrong `%s`/`%d` specifiers - WILL CRASH GAME! |
+| ⚠ | Empty/Whitespace | Empty value or leading/trailing spaces |
 
 ### Example Output
 
-**check command:**
+**status command:**
 ```
-Checking translation sync status...
-
-  German      : OK
-  French      : OK
-  Spanish     : NEEDS UPDATE
-    Out of sync (3):
-      - usedplus_finance_title
-      - usedplus_lease_description
-      - usedplus_credit_tooltip
-  Italian     : OK
-  ...
-
-Total out of sync: 3 entries need re-translation
-```
-
-**report command:**
-```
-============================================================
-TRANSLATION SYNC REPORT
-============================================================
-
-English source: 1388 strings
-
-German (DE):
-  In sync:      1385
-  Out of sync:  3
-  Missing hash: 0
-  Untranslated: 0
-  --- Out of sync entries (need re-translation) ---
-    usedplus_finance_title:
-      EN: Vehicle Financing Options
-    ...
+Language            | Translated |  Stale  | Untranslated | Missing | Dups | Orphaned
+──────────────────────────────────────────────────────────────────────────────────────
+German              |       1630 |       4 |           51 |       0 |    0 |        0
+French              |       1615 |       4 |           66 |       0 |    0 |        0
+Spanish             |       1634 |       4 |           47 |       0 |    0 |        0
 ```
 
 ## Workflow
@@ -101,25 +100,40 @@ German (DE):
 ### Adding New Strings
 
 1. Add the new key to `translation_en.xml`
-2. Add the same key to all other translation files with translated values
-3. Run `python translation_sync.py stamp` to add hashes
+2. Run `node translation_sync.js sync`
+3. Script automatically adds key to all languages with `[EN]` prefix
+4. Translators update values and remove prefix
 
 ### Updating English Text
 
 1. Modify the value in `translation_en.xml`
-2. Run `python translation_sync.py check` to see affected translations
-3. Update the translations in each language file
-4. Run `python translation_sync.py stamp` to update hashes
+2. Run `node translation_sync.js sync`
+3. Script shows which translations are now STALE
+4. Update translations, hashes auto-update on next sync
 
 ### Verifying Translations
 
-Run `python translation_sync.py check` anytime to verify all translations are current.
+```bash
+node translation_sync.js status    # Quick check
+node translation_sync.js report    # See exactly which keys need work
+```
 
 ## Translation Guidelines
 
-### Context Matters
+### Placeholders (CRITICAL!)
 
-Some terms have different meanings in different contexts:
+Format specifiers MUST be preserved exactly - wrong specifiers crash the game:
+
+| Specifier | Type | Example |
+|-----------|------|---------|
+| `%s` | String | `"Hello %s"` → `"Hola %s"` |
+| `%d` | Integer | `"Count: %d"` → `"Anzahl: %d"` |
+| `%.1f` | Decimal (1 place) | `"%.1f hours"` → `"%.1f Stunden"` |
+| `%.2f` | Decimal (2 places) | `"$%.2f"` → `"%.2f €"` |
+
+The sync tool validates these automatically and reports 💥 FORMAT ERRORS.
+
+### Context Matters
 
 | English | Context | Correct Translation Approach |
 |---------|---------|------------------------------|
@@ -129,7 +143,7 @@ Some terms have different meanings in different contexts:
 
 ### Special Characters
 
-XML requires escaping these characters in values:
+XML requires escaping these characters:
 
 | Character | Escape Sequence |
 |-----------|-----------------|
@@ -140,18 +154,7 @@ XML requires escaping these characters in values:
 
 Example: `<e k="key" v="Score &lt;600 is poor" />`
 
-### Placeholders
-
-Some strings contain placeholders that must be preserved:
-
-- `%s` - String placeholder
-- `%d` - Integer placeholder
-- `%.2f` - Decimal placeholder
-- `%1$s`, `%2$s` - Ordered placeholders
-
-Example: `"Payment: %s per month"` must keep `%s` in all translations.
-
 ## Requirements
 
-- Python 3.6+
-- No external dependencies (uses only standard library)
+- Node.js (any recent version)
+- No external dependencies (uses only Node.js standard library)

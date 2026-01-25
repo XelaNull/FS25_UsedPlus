@@ -145,7 +145,9 @@ function UsedVehicleManager:registerSearch(search)
             farm.usedVehicleSearches = {}
         end
         table.insert(farm.usedVehicleSearches, search)
-        UsedPlus.logDebug(string.format("REGISTERED Search %s for farm %d", search.id, search.farmId))
+        -- v2.8.0: WARN level for persistence debugging
+        UsedPlus.logWarn(string.format("registerSearch: Added %s to farm %d (now %d searches)",
+            search.id, search.farmId, #farm.usedVehicleSearches))
     else
         UsedPlus.logError(string.format("Could not find farm %d to register search", search.farmId))
     end

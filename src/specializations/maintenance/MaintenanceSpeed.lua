@@ -45,8 +45,10 @@ function UsedPlusMaintenance.calculateSpeedLimit(vehicle)
 
     -- v1.7.0: Flat tire severely limits speed
     -- v1.8.0: Skip flat tire logic if UYT/RVB handles tires
+    -- v2.8.0: Also respect malfunctions setting
     local flatTireSpeedFactor = 1.0
-    if spec.hasFlatTire and config.enableFlatTire and not ModCompatibility.shouldDeferTireFailure() then
+    local malfunctionsEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if spec.hasFlatTire and config.enableFlatTire and malfunctionsEnabled and not ModCompatibility.shouldDeferTireFailure() then
         flatTireSpeedFactor = config.flatTireSpeedReduction  -- 0.5 = 50% max speed
     end
 

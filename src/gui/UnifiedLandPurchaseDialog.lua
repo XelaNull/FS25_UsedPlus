@@ -738,6 +738,7 @@ end
 
 --[[
     Execute cash purchase
+    v2.8.0: Uses PurchaseLandCashEvent for proper multiplayer support
 ]]
 function UnifiedLandPurchaseDialog:executeCashPurchase()
     local farmId = g_currentMission:getFarmId()
@@ -750,7 +751,7 @@ function UnifiedLandPurchaseDialog:executeCashPurchase()
         return
     end
 
-    -- Check if player can afford
+    -- Client-side validation (server will re-validate)
     if self.landPrice > farm.money then
         local shortfall = self.landPrice - farm.money
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
@@ -759,25 +760,25 @@ function UnifiedLandPurchaseDialog:executeCashPurchase()
         return
     end
 
-    -- Use game's farmland purchase system
-    if g_farmlandManager and self.farmlandId then
-        g_farmlandManager:setLandOwnership(self.farmlandId, farmId)
-        g_currentMission:addMoney(-self.landPrice, farmId, MoneyType.PROPERTY, true, true)
-
-        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_OK,
-            string.format(g_i18n:getText("usedplus_notify_landPurchased"),
-                self.landName, UIHelper.Text.formatMoney(self.landPrice)))
-    else
-        UsedPlus.logError("g_farmlandManager or farmlandId is nil")
+    -- Validate farmland ID exists
+    if not self.farmlandId then
+        UsedPlus.logError("farmlandId is nil")
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
             g_i18n:getText("usedplus_error_couldNotCompletePurchase"))
+        return
     end
+
+    -- Send purchase request to server via network event
+    -- Server handles: ownership transfer, money deduction, notifications
+    PurchaseLandCashEvent.sendToServer(farmId, self.farmlandId, self.landPrice, self.landName)
 
     self:close()
 end
 
 --[[
     Execute finance purchase
+    v2.8.0: Uses FinanceVehicleEvent for proper multiplayer support
+    The FinanceManager:createFinanceDeal() handles ownership transfer for land
 ]]
 function UnifiedLandPurchaseDialog:executeFinancePurchase()
     local farmId = g_currentMission:getFarmId()
@@ -795,7 +796,7 @@ function UnifiedLandPurchaseDialog:executeFinancePurchase()
     local downPct = UnifiedLandPurchaseDialog.getDownPaymentPercent(self.financeDownIndex, self.creditScore)
     local downPayment = self.landPrice * (downPct / 100)
 
-    -- Check if player can afford down payment
+    -- Client-side validation (server will re-validate)
     if downPayment > farm.money then
         local shortfall = downPayment - farm.money
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
@@ -804,44 +805,38 @@ function UnifiedLandPurchaseDialog:executeFinancePurchase()
         return
     end
 
-    -- Deduct down payment
-    if downPayment > 0 then
-        g_currentMission:addMoney(-downPayment, farmId, MoneyType.PROPERTY, true, true)
+    -- Validate farmland ID exists
+    if not self.farmlandId then
+        UsedPlus.logError("farmlandId is nil for finance purchase")
+        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
+            g_i18n:getText("usedplus_error_couldNotCompletePurchase"))
+        return
     end
 
-    -- Transfer land ownership
-    if g_farmlandManager and self.farmlandId then
-        g_farmlandManager:setLandOwnership(self.farmlandId, farmId)
-    end
-
-    -- Calculate amount financed
-    local amountFinanced = self.landPrice - downPayment
-
-    -- Create finance deal for land
-    if g_financeManager and FinanceDeal and amountFinanced > 0 then
-        local deal = FinanceDeal.new(
-            farmId,
-            "land",
-            "farmland_" .. tostring(self.farmlandId),
-            self.landName,
-            self.landPrice,
-            downPayment,
-            termYears * 12,
-            self.interestRate,
-            0
-        )
-        g_financeManager:addDeal(deal)
-    end
-
-    g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_OK,
-        string.format(g_i18n:getText("usedplus_notify_landFinanced"),
-            self.landName, UIHelper.Text.formatMoney(downPayment)))
+    -- Send finance request to server via network event
+    -- FinanceVehicleEvent.execute() -> FinanceManager:createFinanceDeal() handles:
+    -- - Down payment deduction
+    -- - Land ownership transfer (for itemType="land")
+    -- - Finance deal creation
+    -- - Cash back (not applicable for land, so pass 0)
+    FinanceVehicleEvent.sendToServer(
+        farmId,
+        "land",                 -- itemType
+        self.farmlandId,        -- itemId (serialized as Int32 for land)
+        self.landName,          -- itemName
+        self.landPrice,         -- basePrice
+        downPayment,            -- downPayment
+        termYears,              -- termYears
+        0,                      -- cashBack (land doesn't have cash back)
+        {}                      -- configurations (empty for land)
+    )
 
     self:close()
 end
 
 --[[
     Execute lease purchase
+    v2.8.0: Uses LandLeaseEvent for proper multiplayer support
     NEW SYSTEM: Lease based on acreage, security deposit based on credit score
 ]]
 function UnifiedLandPurchaseDialog:executeLeasePurchase()
@@ -858,18 +853,17 @@ function UnifiedLandPurchaseDialog:executeLeasePurchase()
     -- Get calculated values from updateLeaseDisplay (already computed)
     local termMonths = UnifiedLandPurchaseDialog.LEASE_TERMS[self.leaseTermIndex] or 12
     local monthlyPayment = self.calculatedMonthlyPayment or 0
-    local annualPayment = self.calculatedAnnualPayment or 0
     local securityDeposit = self.calculatedSecurityDeposit or 0
 
     -- Recalculate if needed (safety check)
     if monthlyPayment == 0 then
-        annualPayment = self:calculateAnnualLeasePayment()
+        local annualPayment = self:calculateAnnualLeasePayment()
         monthlyPayment = math.ceil(annualPayment / 12)
         -- Security deposit is credit-based (automatic)
         securityDeposit = FinanceCalculations.calculateSecurityDeposit(monthlyPayment, self.creditScore)
     end
 
-    -- Check if player can afford security deposit
+    -- Client-side validation (server will re-validate)
     if securityDeposit > farm.money then
         local shortfall = securityDeposit - farm.money
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
@@ -878,49 +872,29 @@ function UnifiedLandPurchaseDialog:executeLeasePurchase()
         return
     end
 
-    -- Deduct security deposit
-    if securityDeposit > 0 then
-        g_currentMission:addMoney(-securityDeposit, farmId, MoneyType.LEASING_COSTS, true, true)
+    -- Validate farmland ID exists
+    if not self.farmlandId then
+        UsedPlus.logError("farmlandId is nil for lease purchase")
+        g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
+            g_i18n:getText("usedplus_error_couldNotCompletePurchase"))
+        return
     end
 
-    -- Transfer land ownership (leased land still counts as owned for gameplay)
-    if g_farmlandManager and self.farmlandId then
-        g_farmlandManager:setLandOwnership(self.farmlandId, farmId)
-    end
-
-    -- Create lease deal with payment-based tracking
-    if g_financeManager and FinanceDeal then
-        -- Calculate effective annual "rate" for record keeping (not actually used for payment calc)
-        local effectiveRate = self.landPrice > 0 and (annualPayment / self.landPrice) or 0.08
-
-        local deal = FinanceDeal.new(
-            farmId,
-            "lease",
-            "farmland_" .. tostring(self.farmlandId),
-            self.landName .. " (Lease)",
-            self.landPrice,           -- Original land value (for buyout)
-            securityDeposit,          -- Security deposit paid
-            termMonths,               -- Lease term in months
-            effectiveRate,            -- Effective rate for records
-            0                         -- No cash back for leases
-        )
-        deal.dealType = 2             -- Lease type
-        deal.residualValue = self.landPrice  -- Buyout price to own
-        deal.monthlyPayment = monthlyPayment -- Monthly lease payment
-        deal.currentBalance = 0       -- No principal balance for lease
-        g_financeManager:addDeal(deal)
-    end
-
-    -- Format confirmation message
-    local depositText = securityDeposit > 0
-        and string.format(g_i18n:getText("usedplus_land_securityDeposit"), UIHelper.Text.formatMoney(securityDeposit))
-        or g_i18n:getText("usedplus_land_noDepositRequired")
-
-    g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_OK,
-        string.format(g_i18n:getText("usedplus_notify_landLeased"),
-            self.landName,
-            UIHelper.Text.formatMoney(monthlyPayment),
-            depositText))
+    -- Send lease request to server via network event
+    -- LandLeaseEvent handles:
+    -- - Security deposit deduction
+    -- - Land ownership transfer
+    -- - LandLeaseDeal creation
+    -- - Notifications
+    LandLeaseEvent.sendToServer(
+        farmId,
+        self.farmlandId,
+        self.landName,
+        self.landPrice,
+        termMonths,
+        securityDeposit,
+        monthlyPayment
+    )
 
     self:close()
 end

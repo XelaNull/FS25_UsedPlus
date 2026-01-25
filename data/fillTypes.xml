@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+    FS25_UsedPlus - Custom Fill Types
+
+    USEDPLUS_SPAREPARTS: Consumable parts used during vehicle restoration.
+    Purchased as pallets from the shop and consumed by the Service Truck.
+-->
+<map xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../shared/xml/schema/fillTypes.xsd">
+
+    <fillTypes>
+        <!-- Spare Parts for Service Truck restoration system -->
+        <fillType name="USEDPLUS_SPAREPARTS" title="$l10n_fillType_spareParts" showOnPriceTable="false" unitShort="$l10n_unit_pcs">
+            <!-- Solid material - no liquid physics -->
+            <physics massPerLiter="0.5" maxPhysicalSurfaceAngle="45" />
+            <!-- Simple box icon - we'll use a generic part icon -->
+            <image hud="$data/store/menu/hud_fill_unknown.dds" />
+            <!-- No economy - not sold at selling points -->
+            <economy pricePerLiter="5.00" />
+        </fillType>
+    </fillTypes>
+
+    <fillTypeCategories>
+        <!-- Spare parts category for easy identification -->
+        <fillTypeCategory name="USEDPLUS_RESTORATION">USEDPLUS_SPAREPARTS</fillTypeCategory>
+    </fillTypeCategories>
+
+</map>

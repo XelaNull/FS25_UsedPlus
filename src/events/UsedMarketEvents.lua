@@ -70,18 +70,18 @@ end
 function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, basePrice, searchLevel, qualityLevel)
     if g_usedVehicleManager == nil then
         UsedPlus.logError("UsedVehicleManager not initialized")
-        return
+        return false
     end
 
     local farm = g_farmManager:getFarmById(farmId)
     if farm == nil then
         UsedPlus.logError(string.format("Farm %d not found", farmId))
-        return
+        return false
     end
 
     if searchLevel < 1 or searchLevel > 3 then
         UsedPlus.logError(string.format("Invalid search level: %d", searchLevel))
-        return
+        return false
     end
 
     qualityLevel = qualityLevel or 1  -- Default to "Any Condition" (index 1 in v1.5.0)
@@ -116,7 +116,7 @@ function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, bas
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
             string.format(g_i18n:getText("usedplus_error_insufficientFunds"), g_i18n:formatMoney(retainerFee))
         )
-        return
+        return false
     end
 
     local MAX_ACTIVE_SEARCHES = 5
@@ -136,7 +136,7 @@ function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, bas
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
             string.format("Maximum %d active searches allowed.", MAX_ACTIVE_SEARCHES)
         )
-        return
+        return false
     end
 
     local search = g_usedVehicleManager:createSearchRequest(
@@ -146,12 +146,14 @@ function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, bas
     if search then
         UsedPlus.logDebug(string.format("Search request created: %s (ID: %s, retainer: $%d)",
             storeItemName, search.id, retainerFee))
+        return true
     else
         UsedPlus.logError(string.format("Failed to create search request for %s", storeItemName))
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
             g_i18n:getText("usedplus_error_searchFailed")
         )
+        return false
     end
 end
 
@@ -168,13 +170,19 @@ function RequestUsedItemEvent:run(connection)
             string.format("Unauthorized used search attempt for farmId %d: %s",
                 self.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
-    RequestUsedItemEvent.execute(
+    local success = RequestUsedItemEvent.execute(
         self.farmId, self.storeItemIndex, self.storeItemName,
         self.basePrice, self.searchLevel, self.qualityLevel
     )
+    if success then
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_search_started")
+    else
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_search_failed")
+    end
 end
 
 --============================================================================
@@ -355,12 +363,14 @@ function CancelSearchEvent:run(connection)
                     string.format("Unauthorized cancel search attempt for search %s (farmId %d): %s",
                         self.searchId, search.farmId, errorMsg or "unknown"),
                     connection)
+                TransactionResponseEvent.sendToClient(connection, search.farmId, false, "usedplus_mp_error_unauthorized")
                 return
             end
         end
     end
 
-    CancelSearchEvent.execute(self.searchId)
+    local success = CancelSearchEvent.execute(self.searchId)
+    -- success/failure is handled by manager, response optional
 end
 
 --============================================================================
@@ -474,6 +484,7 @@ function DeclineListingEvent:run(connection)
                     string.format("Unauthorized decline listing attempt for search %s (farmId %d): %s",
                         self.searchId, search.farmId, errorMsg or "unknown"),
                     connection)
+                TransactionResponseEvent.sendToClient(connection, search.farmId, false, "usedplus_mp_error_unauthorized")
                 return
             end
         end
@@ -483,5 +494,131 @@ function DeclineListingEvent:run(connection)
 end
 
 --============================================================================
+-- PURCHASE USED VEHICLE EVENT
+-- v2.7.2: Network event for completing a used vehicle purchase from search
+-- Handles money deduction and vehicle spawning via UsedVehicleManager
+--============================================================================
 
-UsedPlus.logInfo("UsedMarketEvents loaded (RequestUsedItemEvent, UsedItemFoundEvent, CancelSearchEvent, DeclineListingEvent)")
+PurchaseUsedVehicleEvent = {}
+local PurchaseUsedVehicleEvent_mt = Class(PurchaseUsedVehicleEvent, Event)
+
+InitEventClass(PurchaseUsedVehicleEvent, "PurchaseUsedVehicleEvent")
+
+function PurchaseUsedVehicleEvent.emptyNew()
+    local self = Event.new(PurchaseUsedVehicleEvent_mt)
+    return self
+end
+
+function PurchaseUsedVehicleEvent.new(farmId, searchId, listingId)
+    local self = PurchaseUsedVehicleEvent.emptyNew()
+    self.farmId = farmId
+    self.searchId = searchId
+    self.listingId = listingId
+    return self
+end
+
+--[[
+    Send purchase request to server
+    Convenience method for client-side calls
+]]
+function PurchaseUsedVehicleEvent.sendToServer(farmId, searchId, listingId)
+    if g_server ~= nil then
+        -- Single player or server - execute directly
+        PurchaseUsedVehicleEvent.execute(farmId, searchId, listingId)
+    else
+        -- Multiplayer client - send to server
+        g_client:getServerConnection():sendEvent(PurchaseUsedVehicleEvent.new(farmId, searchId, listingId))
+    end
+end
+
+function PurchaseUsedVehicleEvent:writeStream(streamId, connection)
+    streamWriteInt32(streamId, self.farmId)
+    streamWriteString(streamId, self.searchId)
+    streamWriteString(streamId, self.listingId)
+end
+
+function PurchaseUsedVehicleEvent:readStream(streamId, connection)
+    self.farmId = streamReadInt32(streamId)
+    self.searchId = streamReadString(streamId)
+    self.listingId = streamReadString(streamId)
+    self:run(connection)
+end
+
+--[[
+    Execute the purchase on server
+    Finds listing from search, completes purchase via manager
+    Returns success boolean
+]]
+function PurchaseUsedVehicleEvent.execute(farmId, searchId, listingId)
+    if g_usedVehicleManager == nil then
+        UsedPlus.logError("UsedVehicleManager not initialized for purchase")
+        return false
+    end
+
+    -- Get the search
+    local search = g_usedVehicleManager:getSearchById(searchId)
+    if search == nil then
+        UsedPlus.logError(string.format("Search %s not found for purchase", searchId))
+        return false
+    end
+
+    -- Find the listing in foundListings
+    local listing = nil
+    if search.foundListings then
+        for _, l in ipairs(search.foundListings) do
+            if l.id == listingId then
+                listing = l
+                break
+            end
+        end
+    end
+
+    if listing == nil then
+        UsedPlus.logError(string.format("Listing %s not found in search %s", listingId, searchId))
+        return false
+    end
+
+    -- Complete purchase via manager (handles money deduction and vehicle spawning)
+    local success = g_usedVehicleManager:completePurchaseFromSearch(search, listing, farmId)
+
+    if success then
+        -- Mark search as completed
+        search.status = "completed"
+        UsedPlus.logDebug(string.format("Purchase completed: listing %s from search %s for farm %d",
+            listingId, searchId, farmId))
+    else
+        UsedPlus.logError(string.format("Failed to complete purchase: listing %s from search %s",
+            listingId, searchId))
+    end
+
+    return success
+end
+
+function PurchaseUsedVehicleEvent:run(connection)
+    if not connection:getIsServer() then
+        UsedPlus.logError("PurchaseUsedVehicleEvent must run on server")
+        return
+    end
+
+    -- Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("PURCHASE_USED_VEHICLE_REJECTED",
+            string.format("Unauthorized purchase attempt for farmId %d, search %s: %s",
+                self.farmId, self.searchId, errorMsg or "unknown"),
+            connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
+        return
+    end
+
+    local success = PurchaseUsedVehicleEvent.execute(self.farmId, self.searchId, self.listingId)
+    if success then
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_vehicle_purchased")
+    else
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_purchase_failed")
+    end
+end
+
+--============================================================================
+
+UsedPlus.logInfo("UsedMarketEvents loaded (RequestUsedItemEvent, UsedItemFoundEvent, CancelSearchEvent, DeclineListingEvent, PurchaseUsedVehicleEvent)")

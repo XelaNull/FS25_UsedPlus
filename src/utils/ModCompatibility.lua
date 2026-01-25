@@ -276,7 +276,26 @@ function ModCompatibility.init()
     local bueDetected = BuyUsedEquipment ~= nil
 
     -- Detect EnhancedLoanSystem - checks for loan manager
-    local elsDetected = g_els_loanManager ~= nil
+    -- v2.8.0: Enhanced detection - check multiple ELS globals
+    local elsDetected = false
+
+    -- Method 1: Check g_els_loanManager (main global created at file load)
+    if g_els_loanManager ~= nil then
+        elsDetected = true
+        UsedPlus.logDebug("ELS detected via g_els_loanManager")
+    end
+
+    -- Method 2: Check ELS_loanManager class exists (created before instance)
+    if not elsDetected and ELS_loanManager ~= nil then
+        elsDetected = true
+        UsedPlus.logDebug("ELS detected via ELS_loanManager class")
+    end
+
+    -- Method 3: Check ELS_loan class exists
+    if not elsDetected and ELS_loan ~= nil then
+        elsDetected = true
+        UsedPlus.logDebug("ELS detected via ELS_loan class")
+    end
 
     -- v2.6.2: Check integration settings for compatible mods
     local amSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableAMIntegration") ~= false
@@ -744,6 +763,80 @@ end
 function ModCompatibility.hasUYTTires(vehicle)
     if not ModCompatibility.uytInstalled then return false end
     return vehicle.uytHasTyres == true
+end
+
+--[[
+    v2.8.0: Get unified tire condition with UYT → Native fallback
+    This ensures ALL vehicles have tire wear displayed, regardless of UYT support status.
+
+    Priority:
+    1. UYT per-wheel data (if UYT is tracking this vehicle)
+    2. UsedPlus native per-wheel tracking (ALWAYS available)
+
+    Returns: {
+        condition = 0-1 (worst tire, for display),
+        source = "UYT" | "Native",
+        perWheel = { [1]=cond, [2]=cond, ... } or nil
+    }
+
+    @param vehicle - The vehicle to check
+    @return table - Unified tire condition data
+]]
+function ModCompatibility.getUnifiedTireCondition(vehicle)
+    local result = { condition = 1.0, source = "Native", perWheel = nil }
+
+    if vehicle == nil then return result end
+
+    -- Priority 1: UYT per-wheel data (if UYT is installed AND tracking this vehicle)
+    -- Key insight: UYT sets uytHasTyres=false for "unsupported" vehicles
+    -- and then stops tracking distance. We detect this by checking uytTravelledDist
+    if ModCompatibility.uytInstalled and vehicle.uytHasTyres == true then
+        local uyt = ModCompatibility.uytGlobal
+        if uyt and uyt.getWearAmount and vehicle.spec_wheels and vehicle.spec_wheels.wheels then
+            local worstWear = 0
+            local perWheel = {}
+            local hasData = false
+
+            for i, wheel in ipairs(vehicle.spec_wheels.wheels) do
+                -- UYT only tracks if vehicle is "supported" and has traveled
+                if wheel.uytTravelledDist and wheel.uytTravelledDist > 0 then
+                    local wear = uyt.getWearAmount(wheel) or 0
+                    worstWear = math.max(worstWear, wear)
+                    perWheel[i] = 1.0 - wear  -- Convert WEAR to CONDITION
+                    hasData = true
+                end
+            end
+
+            if hasData then
+                result.condition = 1.0 - worstWear  -- Convert WEAR to CONDITION
+                result.source = "UYT"
+                result.perWheel = perWheel
+                return result
+            end
+        end
+    end
+
+    -- Priority 2: UsedPlus native per-wheel tracking (ALWAYS available)
+    -- This is the "no free passes" fallback - every vehicle gets tracked
+    local spec = vehicle.spec_usedPlusMaintenance
+    if spec then
+        if spec.wheelConditions and #spec.wheelConditions > 0 then
+            -- Use per-wheel data
+            result.perWheel = {}
+            local worst = 1.0
+            for i, cond in ipairs(spec.wheelConditions) do
+                result.perWheel[i] = cond
+                worst = math.min(worst, cond)
+            end
+            result.condition = worst
+        elseif spec.tireCondition then
+            -- Fallback to aggregate value
+            result.condition = spec.tireCondition
+        end
+        result.source = "Native"
+    end
+
+    return result
 end
 
 --============================================================================
@@ -1224,47 +1317,90 @@ end
 function ModCompatibility.getELSLoans(farmId)
     local loans = {}
 
+    -- v2.8.0: Late-binding check for ELS - handles case where detection ran too early
+    -- ELS creates g_els_loanManager at file load, but loans are converted in onStartMission
+    if g_els_loanManager ~= nil then
+        -- Update detection flag if we missed it earlier
+        if not ModCompatibility.enhancedLoanSystemInstalled then
+            UsedPlus.logDebug("ELS detected late (getELSLoans) - updating flag")
+            ModCompatibility.enhancedLoanSystemInstalled = true
+        end
+    end
+
     if not ModCompatibility.enhancedLoanSystemInstalled then
         return loans
     end
 
     -- Access ELS loan manager
-    if g_els_loanManager and g_els_loanManager.currentLoans then
-        local elsLoans = g_els_loanManager:currentLoans(farmId)
-        if elsLoans then
-            for i, loan in ipairs(elsLoans) do
-                -- Create pseudo-deal object matching UsedPlus structure
-                local monthlyPayment = 0
-                if loan.calculateAnnuity then
-                    monthlyPayment = loan:calculateAnnuity()
-                end
+    if g_els_loanManager == nil then
+        UsedPlus.logDebug("getELSLoans: g_els_loanManager is nil")
+        return loans
+    end
 
-                local totalAmount = 0
-                if loan.calculateTotalAmount then
-                    totalAmount = loan:calculateTotalAmount()
-                end
+    -- v2.8.0: Check if currentLoans method exists using type() instead of field lookup
+    if type(g_els_loanManager.currentLoans) ~= "function" then
+        UsedPlus.logDebug("getELSLoans: currentLoans method not found (type=" ..
+            tostring(type(g_els_loanManager.currentLoans)) .. ")")
+        return loans
+    end
 
-                local pseudoDeal = {
-                    id = "ELS_LOAN_" .. tostring(i),
-                    dealType = 100,  -- Special type for ELS loans
-                    itemName = "ELS Loan #" .. tostring(i),
-                    currentBalance = loan.restAmount or loan.amount or 0,
-                    originalAmount = loan.amount or 0,
-                    monthlyPayment = monthlyPayment,
-                    interestRate = loan.interest or 0,
-                    termMonths = (loan.duration or 1) * 12,
-                    monthsPaid = ((loan.duration or 1) * 12) - (loan.restDuration or 0),
-                    remainingMonths = loan.restDuration or 0,
-                    totalAmount = totalAmount,
-                    status = "active",
-                    isELSLoan = true,
-                    elsLoanRef = loan,  -- Store reference for payoff
-                    farmId = farmId,
-                }
+    -- Get ELS loans for this farm
+    local success, elsLoans = pcall(function()
+        return g_els_loanManager:currentLoans(farmId)
+    end)
 
-                table.insert(loans, pseudoDeal)
-            end
+    if not success then
+        UsedPlus.logDebug("getELSLoans: Error calling currentLoans - " .. tostring(elsLoans))
+        return loans
+    end
+
+    if elsLoans == nil or #elsLoans == 0 then
+        UsedPlus.logDebug(string.format("getELSLoans: No loans found for farm %d", farmId or 0))
+        return loans
+    end
+
+    UsedPlus.logDebug(string.format("getELSLoans: Found %d ELS loans for farm %d", #elsLoans, farmId or 0))
+
+    for i, loan in ipairs(elsLoans) do
+        -- Create pseudo-deal object matching UsedPlus structure
+        local monthlyPayment = 0
+        if type(loan.calculateAnnuity) == "function" then
+            local ok, result = pcall(function() return loan:calculateAnnuity() end)
+            if ok then monthlyPayment = result end
         end
+
+        local totalAmount = 0
+        if type(loan.calculateTotalAmount) == "function" then
+            local ok, result = pcall(function() return loan:calculateTotalAmount() end)
+            if ok then totalAmount = result end
+        end
+
+        -- v2.8.0: Better loan naming - show original amount
+        local loanAmount = loan.amount or 0
+        local loanName = string.format("ELS Loan ($%s)", g_i18n:formatMoney(loanAmount, 0, true, false) or tostring(loanAmount))
+
+        local pseudoDeal = {
+            id = "ELS_LOAN_" .. tostring(i),
+            dealType = 100,  -- Special type for ELS loans
+            itemName = loanName,
+            currentBalance = loan.restAmount or loan.amount or 0,
+            originalAmount = loan.amount or 0,
+            monthlyPayment = monthlyPayment,
+            interestRate = (loan.interest or 0) / 100,  -- v2.8.0: ELS stores as %, convert to decimal
+            termMonths = (loan.duration or 1) * 12,
+            monthsPaid = ((loan.duration or 1) * 12) - (loan.restDuration or 0),
+            remainingMonths = loan.restDuration or 0,
+            totalAmount = totalAmount,
+            status = "active",
+            isELSLoan = true,
+            elsLoanRef = loan,  -- Store reference for payoff
+            farmId = farmId,
+        }
+
+        UsedPlus.logDebug(string.format("  ELS Loan #%d: $%d balance, $%d/mo, %d mo remaining",
+            i, pseudoDeal.currentBalance, math.floor(monthlyPayment), loan.restDuration or 0))
+
+        table.insert(loans, pseudoDeal)
     end
 
     return loans

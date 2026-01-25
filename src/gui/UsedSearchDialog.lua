@@ -207,7 +207,7 @@ function UsedSearchDialog:setData(storeItem, storeItemIndex, farmId)
     end
 
     if self.itemPriceText then
-        self.itemPriceText:setText(string.format("%s %s", g_i18n:getText("usedplus_search_newPrice"), g_i18n:formatMoney(self.basePrice)))
+        self.itemPriceText:setText(string.format("%s %s", g_i18n:getText("usedplus_search_newPrice"), UIHelper.Text.formatMoney(self.basePrice)))
     end
 
     -- Set category text (human-readable) - category only, no brand (brand is in name now)
@@ -366,8 +366,6 @@ function UsedSearchDialog:updateDisplayedRates()
     end
 
     local selectedQuality = self.selectedQuality or 1  -- Default to Any (index 1)
-    local quality = UsedSearchDialog.QUALITY_TIERS[selectedQuality]
-    local successMod = quality and quality.successModifier or 0
 
     -- Update each tier's success rate display with quality modifier applied
     local prefixes = {"local", "regional", "national"}
@@ -375,12 +373,7 @@ function UsedSearchDialog:updateDisplayedRates()
         -- v1.5.0: Use monthlySuccessChance instead of successChance
         local adjustedSuccess = self:getAdjustedSuccessRate(tier.monthlySuccessChance, selectedQuality)
         local successText = UIHelper.Text.formatPercent(adjustedSuccess, true, 0) .. "/mo"
-
-        -- Add modifier indicator if not baseline
-        if successMod ~= 0 then
-            local modSign = successMod > 0 and "+" or ""
-            successText = successText .. string.format(" (%s%d%%)", modSign, math.floor(successMod * 100))
-        end
+        -- v2.7.3: Removed modifier indicator (e.g., "+8%") - total % is already shown, modifier was confusing
 
         UIHelper.Element.setText(self[prefixes[i] .. "SuccessText"], successText)
     end
@@ -587,7 +580,7 @@ function UsedSearchDialog:onStartSearch()
     if farm.money < retainerFee then
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format(g_i18n:getText("usedplus_error_insufficientFunds"), g_i18n:formatMoney(retainerFee))
+            string.format(g_i18n:getText("usedplus_error_insufficientFunds"), UIHelper.Text.formatMoney(retainerFee))
         )
         return
     end

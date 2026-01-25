@@ -23,20 +23,22 @@ function CreateSaleListingEvent.emptyNew()
     return self
 end
 
-function CreateSaleListingEvent.new(farmId, vehicleId, saleTier)
+-- v2.8.0: Updated to support separate agentTier and priceTier parameters
+function CreateSaleListingEvent.new(farmId, vehicleId, agentTier, priceTier)
     local self = CreateSaleListingEvent.emptyNew()
     self.farmId = farmId
     self.vehicleId = vehicleId
-    self.saleTier = saleTier
+    self.agentTier = agentTier
+    self.priceTier = priceTier or 2  -- Default to Market price tier
     return self
 end
 
-function CreateSaleListingEvent.sendToServer(farmId, vehicleId, saleTier)
+function CreateSaleListingEvent.sendToServer(farmId, vehicleId, agentTier, priceTier)
     if g_server ~= nil then
-        CreateSaleListingEvent.execute(farmId, vehicleId, saleTier)
+        CreateSaleListingEvent.execute(farmId, vehicleId, agentTier, priceTier)
     else
         g_client:getServerConnection():sendEvent(
-            CreateSaleListingEvent.new(farmId, vehicleId, saleTier)
+            CreateSaleListingEvent.new(farmId, vehicleId, agentTier, priceTier)
         )
     end
 end
@@ -44,17 +46,19 @@ end
 function CreateSaleListingEvent:writeStream(streamId, connection)
     streamWriteInt32(streamId, self.farmId)
     streamWriteInt32(streamId, self.vehicleId)
-    streamWriteInt8(streamId, self.saleTier)
+    streamWriteInt8(streamId, self.agentTier)
+    streamWriteInt8(streamId, self.priceTier)
 end
 
 function CreateSaleListingEvent:readStream(streamId, connection)
     self.farmId = streamReadInt32(streamId)
     self.vehicleId = streamReadInt32(streamId)
-    self.saleTier = streamReadInt8(streamId)
+    self.agentTier = streamReadInt8(streamId)
+    self.priceTier = streamReadInt8(streamId)
     self:run(connection)
 end
 
-function CreateSaleListingEvent.execute(farmId, vehicleId, saleTier)
+function CreateSaleListingEvent.execute(farmId, vehicleId, agentTier, priceTier)
     local vehicle = nil
     if g_currentMission and g_currentMission.vehicleSystem then
         for _, v in pairs(g_currentMission.vehicleSystem.vehicles) do
@@ -75,15 +79,23 @@ function CreateSaleListingEvent.execute(farmId, vehicleId, saleTier)
         return false
     end
 
-    if saleTier < 1 or saleTier > 3 then
-        UsedPlus.logError(string.format("CreateSaleListingEvent - Invalid tier: %d", saleTier))
+    -- Validate agentTier (0=Private, 1=Local, 2=Regional, 3=National)
+    if agentTier < 0 or agentTier > 3 then
+        UsedPlus.logError(string.format("CreateSaleListingEvent - Invalid agent tier: %d", agentTier))
+        return false
+    end
+
+    -- Validate priceTier (1=Quick, 2=Market, 3=Premium)
+    priceTier = priceTier or 2
+    if priceTier < 1 or priceTier > 3 then
+        UsedPlus.logError(string.format("CreateSaleListingEvent - Invalid price tier: %d", priceTier))
         return false
     end
 
     if g_vehicleSaleManager then
-        local listing = g_vehicleSaleManager:createSaleListing(farmId, vehicle, saleTier)
+        local listing = g_vehicleSaleManager:createSaleListing(farmId, vehicle, agentTier, priceTier)
         if listing then
-            UsedPlus.logDebug(string.format("CreateSaleListingEvent: Created listing %s", listing.id))
+            UsedPlus.logDebug(string.format("CreateSaleListingEvent: Created listing %s (agent=%d, price=%d)", listing.id, agentTier, priceTier))
             return true
         end
     end
@@ -105,10 +117,16 @@ function CreateSaleListingEvent:run(connection)
             string.format("Unauthorized create sale listing attempt for farmId %d, vehicle %d: %s",
                 self.farmId, self.vehicleId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
-    CreateSaleListingEvent.execute(self.farmId, self.vehicleId, self.saleTier)
+    local success = CreateSaleListingEvent.execute(self.farmId, self.vehicleId, self.agentTier, self.priceTier)
+    if success then
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_listed")
+    else
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_failed")
+    end
 end
 
 --============================================================================
@@ -243,10 +261,16 @@ function SaleListingActionEvent:run(connection)
             string.format("Unauthorized sale action %d for listing %s (farmId %d): %s",
                 self.actionType, self.listingId, listing.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, listing.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
-    SaleListingActionEvent.execute(self.listingId, self.actionType)
+    local success = SaleListingActionEvent.execute(self.listingId, self.actionType)
+    local actionName = SaleListingActionEvent.ACTION_NAMES[self.actionType] or "Action"
+    if success then
+        TransactionResponseEvent.sendToClient(connection, listing.farmId, true, "usedplus_mp_success_sale_action")
+    end
+    -- Note: execute() handles errors internally with logging
 end
 
 -- Legacy compatibility aliases
@@ -326,6 +350,7 @@ function ModifyListingPriceEvent:run(connection)
     -- v2.7.2 SECURITY: Validate price is positive and reasonable (including infinity check)
     if isInvalidNumber(self.newPrice) or self.newPrice <= 0 or self.newPrice > 100000000 then
         UsedPlus.logError(string.format("[SECURITY] Invalid price: %s", tostring(self.newPrice)))
+        TransactionResponseEvent.sendToClient(connection, 0, false, "usedplus_mp_error_invalid_params")
         return
     end
 
@@ -348,12 +373,155 @@ function ModifyListingPriceEvent:run(connection)
             string.format("Unauthorized price modify for listing %s (farmId %d): %s",
                 self.listingId, listing.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, listing.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
-    ModifyListingPriceEvent.execute(self.listingId, self.newPrice)
+    local success = ModifyListingPriceEvent.execute(self.listingId, self.newPrice)
+    if success then
+        TransactionResponseEvent.sendToClient(connection, listing.farmId, true, "usedplus_mp_success_price_modified")
+    else
+        TransactionResponseEvent.sendToClient(connection, listing.farmId, false, "usedplus_mp_error_failed")
+    end
+end
+
+--============================================================================
+-- TRADE-IN VEHICLE EVENT
+-- Network event for trading in a vehicle (delete vehicle + credit owner)
+--============================================================================
+
+TradeInVehicleEvent = {}
+local TradeInVehicleEvent_mt = Class(TradeInVehicleEvent, Event)
+
+InitEventClass(TradeInVehicleEvent, "TradeInVehicleEvent")
+
+function TradeInVehicleEvent.emptyNew()
+    local self = Event.new(TradeInVehicleEvent_mt)
+    return self
+end
+
+function TradeInVehicleEvent.new(farmId, vehicleId, tradeInValue)
+    local self = TradeInVehicleEvent.emptyNew()
+    self.farmId = farmId
+    self.vehicleId = vehicleId
+    self.tradeInValue = tradeInValue
+    return self
+end
+
+function TradeInVehicleEvent.sendToServer(farmId, vehicleId, tradeInValue)
+    if g_server ~= nil then
+        TradeInVehicleEvent.execute(farmId, vehicleId, tradeInValue)
+    else
+        g_client:getServerConnection():sendEvent(
+            TradeInVehicleEvent.new(farmId, vehicleId, tradeInValue)
+        )
+    end
+end
+
+function TradeInVehicleEvent:writeStream(streamId, connection)
+    streamWriteInt32(streamId, self.farmId)
+    streamWriteInt32(streamId, self.vehicleId)
+    streamWriteFloat32(streamId, self.tradeInValue)
+end
+
+function TradeInVehicleEvent:readStream(streamId, connection)
+    self.farmId = streamReadInt32(streamId)
+    self.vehicleId = streamReadInt32(streamId)
+    self.tradeInValue = streamReadFloat32(streamId)
+    self:run(connection)
+end
+
+function TradeInVehicleEvent.execute(farmId, vehicleId, tradeInValue)
+    -- Find the vehicle by id
+    local vehicle = nil
+    local vehicleName = "Unknown"
+    if g_currentMission and g_currentMission.vehicleSystem then
+        for _, v in pairs(g_currentMission.vehicleSystem.vehicles) do
+            if v.id == vehicleId then
+                vehicle = v
+                -- Get vehicle name for logging/history
+                if v.getName then
+                    vehicleName = v:getName()
+                elseif v.storeItem and v.storeItem.name then
+                    vehicleName = g_i18n:getText(v.storeItem.name) or v.storeItem.name
+                end
+                break
+            end
+        end
+    end
+
+    if vehicle == nil then
+        UsedPlus.logError(string.format("TradeInVehicleEvent - Vehicle %d not found", vehicleId))
+        return false, "usedplus_mp_error_vehicle_not_found"
+    end
+
+    -- Verify ownership
+    if vehicle.ownerFarmId ~= farmId then
+        UsedPlus.logError(string.format("TradeInVehicleEvent - Vehicle %d not owned by farm %d", vehicleId, farmId))
+        return false, "usedplus_mp_error_not_owner"
+    end
+
+    -- Credit the farm
+    g_currentMission:addMoney(tradeInValue, farmId, MoneyType.VEHICLE_SELL, true, true)
+
+    -- Delete the vehicle
+    if vehicle.delete then
+        vehicle:delete()
+    elseif g_currentMission.vehicleSystem and g_currentMission.vehicleSystem.removeVehicle then
+        g_currentMission.vehicleSystem:removeVehicle(vehicle)
+    else
+        UsedPlus.logError(string.format("TradeInVehicleEvent - Could not delete vehicle %d", vehicleId))
+        return false, "usedplus_mp_error_delete_failed"
+    end
+
+    -- Record credit event if CreditHistory exists
+    if CreditHistory and CreditHistory.recordEvent then
+        CreditHistory.recordEvent(farmId, "VEHICLE_TRADE_IN", vehicleName)
+    end
+
+    UsedPlus.logInfo(string.format("TradeInVehicleEvent: Traded in '%s' for $%.2f (farm %d)",
+        vehicleName, tradeInValue, farmId))
+
+    return true, nil
+end
+
+function TradeInVehicleEvent:run(connection)
+    if not connection:getIsServer() then
+        UsedPlus.logError("TradeInVehicleEvent must run on server")
+        return
+    end
+
+    -- Helper to check for NaN and Infinity values
+    local function isInvalidNumber(v)
+        return v == nil or v ~= v or v == math.huge or v == -math.huge
+    end
+
+    -- Validate tradeInValue is positive and reasonable
+    if isInvalidNumber(self.tradeInValue) or self.tradeInValue <= 0 or self.tradeInValue > 100000000 then
+        UsedPlus.logError(string.format("[SECURITY] Invalid trade-in value: %s", tostring(self.tradeInValue)))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_invalid_params")
+        return
+    end
+
+    -- Validate farm ownership to prevent multiplayer exploits
+    local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
+    if not isAuthorized then
+        NetworkSecurity.logSecurityEvent("TRADE_IN_REJECTED",
+            string.format("Unauthorized trade-in attempt for farmId %d, vehicle %d: %s",
+                self.farmId, self.vehicleId, errorMsg or "unknown"),
+            connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
+        return
+    end
+
+    local success, failureKey = TradeInVehicleEvent.execute(self.farmId, self.vehicleId, self.tradeInValue)
+    if success then
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_trade_in")
+    else
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, failureKey or "usedplus_mp_error_failed")
+    end
 end
 
 --============================================================================
 
-UsedPlus.logInfo("SaleEvents loaded (CreateSaleListingEvent, SaleListingActionEvent, ModifyListingPriceEvent)")
+UsedPlus.logInfo("SaleEvents loaded (CreateSaleListingEvent, SaleListingActionEvent, ModifyListingPriceEvent, TradeInVehicleEvent)")

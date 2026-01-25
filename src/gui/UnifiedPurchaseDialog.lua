@@ -1736,15 +1736,12 @@ function UnifiedPurchaseDialog:executeTradeIn()
     if not self.tradeInVehicle then return end
 
     local farmId = g_currentMission:getFarmId()
+    local vehicleId = self.tradeInVehicle.id
+    local tradeInValue = self.tradeInValue or 0
 
-    -- The trade-in value is already applied to the transaction
-    -- We just need to remove the vehicle
-    if self.tradeInVehicle.delete then
-        self.tradeInVehicle:delete()
-    elseif g_currentMission.vehicleSystem.removeVehicle then
-        g_currentMission.vehicleSystem:removeVehicle(self.tradeInVehicle)
-    end
-
+    -- v2.8.0: Use network event for multiplayer synchronization
+    -- Event handles: farm credit, vehicle deletion, credit history
+    TradeInVehicleEvent.sendToServer(farmId, vehicleId, tradeInValue)
 end
 
 --[[

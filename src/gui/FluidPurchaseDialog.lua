@@ -58,10 +58,8 @@ end
 function FluidPurchaseDialog:onGuiSetupFinished()
     FluidPurchaseDialog:superClass().onGuiSetupFinished(self)
 
-    -- Bind MultiTextOption callback
-    if self.fluidTypeOption ~= nil then
-        self.fluidTypeOption:setCallback("onClickCallback", self, self.onFluidTypeChanged)
-    end
+    -- v2.8.0: Callback is now bound via XML onClick attribute (not setCallback)
+    -- See FluidPurchaseDialog.xml: <MultiTextOption ... onClick="onFluidTypeChanged"/>
 end
 
 --[[

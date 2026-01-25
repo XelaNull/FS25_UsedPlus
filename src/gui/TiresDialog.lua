@@ -415,29 +415,31 @@ function TiresDialog:onConfirm()
 
     local cost = self:getCostForQuality(self.selectedQuality)
 
-    -- Check if player can afford it
+    -- Client-side validation for immediate feedback
     if g_currentMission:getMoney(self.farmId) < cost then
         InfoDialog.show(g_i18n:getText("usedplus_error_insufficientFunds") or "Insufficient funds!")
         return
     end
 
-    -- Deduct money
-    g_currentMission:addMoney(-cost, self.farmId, MoneyType.VEHICLE_REPAIR, true)
-
-    -- Apply tire replacement
-    if self.vehicle and self.vehicle.spec_usedPlusMaintenance then
-        UsedPlusMaintenance.setTireQuality(self.vehicle, self.selectedQuality)
-
-        -- v2.7.0: Tire replacement also fixes flat tires
-        if self.hasFlatTire then
-            UsedPlusMaintenance.repairFlatTire(self.vehicle)
-            UsedPlus.logInfo(string.format("Flat tire repaired on %s", self.vehicleName))
-        end
-
-        -- Log the transaction
-        UsedPlus.logInfo(string.format("Tires replaced on %s: %s for %s",
-            self.vehicleName, self:getQualityName(self.selectedQuality), g_i18n:formatMoney(cost, 0, true, true)))
+    if not self.vehicle then
+        UsedPlus.logError("TiresDialog:onConfirm - No vehicle set")
+        return
     end
+
+    -- v2.8.0: Use network event for multiplayer synchronization
+    -- Event handles: money deduction, setTireQuality, and flat tire repair
+    ReplaceTiresEvent.sendToServer(
+        self.farmId,
+        self.vehicle.id,
+        self.selectedQuality,  -- Quality tier: 1=Retread, 2=Normal, 3=Quality
+        cost
+    )
+
+    -- Log request sent (server will log actual execution)
+    UsedPlus.logDebug(string.format("TiresDialog: Sent tire replacement request - %s: %s for %s%s",
+        self.vehicleName, self:getQualityName(self.selectedQuality),
+        g_i18n:formatMoney(cost, 0, true, true),
+        self.hasFlatTire and " (includes flat repair)" or ""))
 
     -- Close dialog
     self:close()

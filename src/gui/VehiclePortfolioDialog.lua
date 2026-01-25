@@ -317,15 +317,17 @@ function VehiclePortfolioDialog:onPreviewResult(confirmed, purchasedListing, ori
         -- Player bought the vehicle - search should end
         UsedPlus.logInfo("Vehicle purchased from portfolio - completing search")
 
-        -- Mark search as completed
+        -- Mark search as completed (client-side UI state)
         if self.search then
             self.search.status = "completed"
 
-            -- Trigger the actual purchase through UsedVehicleManager
-            local manager = g_usedVehicleManager
-            if manager then
-                manager:completePurchaseFromSearch(self.search, originalListing, g_currentMission:getFarmId())
-            end
+            -- Use network event for multiplayer synchronization
+            -- Event handles: validation, finding search/listing, calling manager, response to client
+            PurchaseUsedVehicleEvent.sendToServer(
+                g_currentMission:getFarmId(),
+                self.search.id,
+                originalListing.id
+            )
         end
     else
         -- Player cancelled - mark as inspected if they paid for inspection

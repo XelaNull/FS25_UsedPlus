@@ -25,6 +25,11 @@ function UsedPlusMaintenance.checkEngineStall(vehicle)
     -- v2.7.0: Skip if engine is seized (already permanently dead)
     if spec.engineSeized then return end
 
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then
+        return
+    end
+
     -- Cooldown check (prevent stalling every frame)
     if spec.stallCooldown > 0 then
         return
@@ -68,6 +73,9 @@ function UsedPlusMaintenance.triggerEngineStall(vehicle, isFirstStart)
             return  -- Don't do temporary stall
         end
     end
+
+    -- v2.8.0: Record malfunction time for global cooldown
+    UsedPlusMaintenance.recordMalfunctionTime(vehicle)
 
     -- === Existing temporary stall code (unchanged) ===
     -- Stop the motor
@@ -188,6 +196,11 @@ function UsedPlusMaintenance.checkEngineMisfire(vehicle)
         return
     end
 
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then
+        return
+    end
+
     -- Don't start new misfire if one is active
     if spec.misfireActive then
         return
@@ -224,6 +237,9 @@ function UsedPlusMaintenance.checkEngineMisfire(vehicle)
         local severityMultiplier = UsedPlusMaintenance.getOilSeverityMultiplier(vehicle)
         local duration = math.floor(baseDuration * severityMultiplier)
         spec.misfireEndTime = (g_currentMission.time or 0) + duration
+
+        -- v2.8.0: Record malfunction time for global cooldown
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
 
         -- Check for burst mode
         if math.random() < config.misfireBurstChance then

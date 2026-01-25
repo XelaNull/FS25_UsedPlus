@@ -338,6 +338,7 @@ end
 
 --[[
     v2.7.0: Update button states based on inspection state
+    v2.7.3: Cancel button changes to "Close" when inspection is in progress/complete
 ]]
 function UsedVehiclePreviewDialog:updateButtons(inspectionState)
     -- Update inspect button text based on state
@@ -355,6 +356,17 @@ function UsedVehiclePreviewDialog:updateButtons(inspectionState)
         else
             -- Hide button when "none" state - tier buttons are shown instead
             self.inspectButton:setVisible(false)
+        end
+    end
+
+    -- v2.7.3: Update cancel button text - "Close" when inspection started, "Cancel" otherwise
+    if self.cancelButton then
+        if inspectionState == "pending" or inspectionState == "complete" then
+            -- Inspection started - user is just closing, not canceling
+            self.cancelButton:setText(g_i18n:getText("button_close") or "Close")
+        else
+            -- No inspection yet - this is truly a cancel
+            self.cancelButton:setText(g_i18n:getText("button_cancel") or "Cancel")
         end
     end
 end
@@ -391,8 +403,12 @@ function UsedVehiclePreviewDialog:onClickInspect()
     if inspectionState == "complete" then
         -- Already inspected - show the report
         self:close()
-        local inspectionDialog = InspectionReportDialog.getInstance()
-        inspectionDialog:show(listing, self.farmId, self.onInspectionComplete, self,
+        -- v2.7.3: Use DialogLoader.show() for consistency (fixes instance mismatch bug)
+        -- Note: InspectionReportDialog:show() signature:
+        -- (listing, farmId, onPurchaseCallback, callbackTarget, originalPurchaseCallback, originalCallbackTarget)
+        DialogLoader.show("InspectionReportDialog", "show",
+            listing, self.farmId,
+            self.onInspectionComplete, self,
             self.onPurchaseCallback, self.callbackTarget)
     elseif inspectionState == "pending" then
         -- In progress - do nothing (button should be disabled)

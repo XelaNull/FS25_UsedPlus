@@ -62,6 +62,12 @@ end
 function SearchExpiredDialog:onOpen()
     SearchExpiredDialog:superClass().onOpen(self)
 
+    -- v2.8.0: Close any open VehiclePortfolioDialog to prevent exploit
+    -- If player had the "Found Vehicles" popup open when search expires,
+    -- they could try to inspect/buy vehicles after the search ended
+    g_gui:closeDialogByName("VehiclePortfolioDialog")
+    UsedPlus.logDebug("SearchExpiredDialog: Closed any open VehiclePortfolioDialog")
+
     -- Assign controls and update display
     self:assignControls()
     self:updateDisplay()

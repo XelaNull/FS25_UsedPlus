@@ -561,6 +561,10 @@ function VehicleSaleManager:acceptOffer(listingId)
     local agentCommission = math.floor(grossSalePrice * (commissionPercent / 100))
     local netSalePrice = grossSalePrice - agentCommission
 
+    -- v2.8.0: Close workshop screen if it's showing the vehicle being sold
+    -- This prevents the "ghost vehicle" issue where workshop still displays sold vehicle
+    self:closeWorkshopIfShowingVehicle(vehicleId)
+
     -- Accept the offer (updates listing status)
     listing:acceptOffer()
 
@@ -595,6 +599,14 @@ function VehicleSaleManager:acceptOffer(listingId)
 
     UsedPlus.logDebug(string.format("Sale completed: %s sold for $%d (net $%d after %d%% commission)",
         vehicleName, grossSalePrice, netSalePrice, commissionPercent))
+
+    -- Check for Service Truck discovery after National Agent sale
+    -- agentTier 3 = National
+    if listing.agentTier == 3 then
+        if ServiceTruckDiscovery and ServiceTruckDiscovery.onNationalAgentTransaction then
+            ServiceTruckDiscovery.onNationalAgentTransaction(listing.farmId, "sale")
+        end
+    end
 
     return true
 end
@@ -1003,6 +1015,56 @@ function VehicleSaleManager:loadFromXMLFile(missionInfo)
             listingCount, farmCount))
     else
         UsedPlus.logInfo("No saved sale data found (new game or first run)")
+    end
+end
+
+--[[
+    v2.8.0: Close workshop/shop config screen if it's showing a specific vehicle
+    Called before deleting a sold vehicle to prevent "ghost vehicle" in UI
+    @param vehicleId - The ID of the vehicle being sold
+]]
+function VehicleSaleManager:closeWorkshopIfShowingVehicle(vehicleId)
+    if vehicleId == nil then return end
+
+    -- Check if shop config screen is open and showing this vehicle
+    if g_shopConfigScreen and g_shopConfigScreen.vehicle then
+        local screenVehicleId = tostring(g_shopConfigScreen.vehicle.id or "")
+        if screenVehicleId == tostring(vehicleId) then
+            UsedPlus.logInfo("Closing workshop - vehicle being sold")
+            -- Close the screen by changing to nil
+            if g_gui and g_gui.changeScreen then
+                g_gui:changeScreen(nil)
+            end
+            return
+        end
+    end
+
+    -- Also check workshop screen if different from shop config
+    if g_workshopScreen and g_workshopScreen.vehicle then
+        local screenVehicleId = tostring(g_workshopScreen.vehicle.id or "")
+        if screenVehicleId == tostring(vehicleId) then
+            UsedPlus.logInfo("Closing workshop screen - vehicle being sold")
+            if g_gui and g_gui.changeScreen then
+                g_gui:changeScreen(nil)
+            end
+            return
+        end
+    end
+
+    -- Check InGameMenu vehicles frame
+    if g_currentMission and g_currentMission.inGameMenu then
+        local inGameMenu = g_currentMission.inGameMenu
+        if inGameMenu.pageVehicles and inGameMenu.pageVehicles.currentVehicle then
+            local menuVehicleId = tostring(inGameMenu.pageVehicles.currentVehicle.id or "")
+            if menuVehicleId == tostring(vehicleId) then
+                UsedPlus.logInfo("Closing in-game menu - vehicle being sold")
+                -- Close the in-game menu
+                if inGameMenu.close then
+                    inGameMenu:close()
+                end
+                return
+            end
+        end
     end
 end
 

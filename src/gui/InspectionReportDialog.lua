@@ -442,9 +442,9 @@ function InspectionReportDialog:onClickGoBack()
 
     self:close()
 
-    -- Re-show the preview dialog
-    local previewDialog = UsedVehiclePreviewDialog.getInstance()
-    previewDialog:show(listing, farmId, callback, target)
+    -- v2.7.3: Use DialogLoader.show() for consistency (fixes instance mismatch bug)
+    DialogLoader.show("UsedVehiclePreviewDialog", "show",
+        listing, farmId, callback, target)
 end
 
 --[[
@@ -475,7 +475,11 @@ end
 ]]
 function InspectionReportDialog:displayIntegratedRVBData(listing)
     local rvbData = listing.rvbPartsData
-    local hasRvbData = rvbData ~= nil and next(rvbData) ~= nil
+
+    -- v2.8.0: Check if RVB integration is enabled in settings
+    -- Even if listing has RVB data, don't show it if user disabled RVB integration
+    local rvbSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableRVBIntegration") ~= false
+    local hasRvbData = rvbSettingEnabled and rvbData ~= nil and next(rvbData) ~= nil
 
     -- Debug logging to diagnose blank RVB section
     UsedPlus.logDebug(string.format("displayIntegratedRVBData: hasRvbData=%s, rvbData=%s",

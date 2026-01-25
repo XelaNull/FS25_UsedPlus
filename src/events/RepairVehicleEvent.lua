@@ -127,9 +127,16 @@ end
     Execute business logic
 ]]
 function RepairVehicleEvent.execute(vehicleId, farmId, repairPercent, repaintPercent, totalCost, isFinanced, termMonths, monthlyPayment, downPayment)
+    -- v2.8.0: Apply default values FIRST before validation
+    -- These are optional parameters that may not be passed for cash payments
+    termMonths = termMonths or 6
+    monthlyPayment = monthlyPayment or 0
+    downPayment = downPayment or 0
+
     -- v2.7.2 SECURITY: Helper to check for NaN and Infinity values
+    -- Note: No longer checks for nil since defaults are applied above
     local function isInvalidNumber(v)
-        return v == nil or v ~= v or v == math.huge or v == -math.huge
+        return v ~= v or v == math.huge or v == -math.huge
     end
 
     -- v2.7.2 SECURITY: Clamp percentage values to valid 0-1 range
@@ -148,7 +155,7 @@ function RepairVehicleEvent.execute(vehicleId, farmId, repairPercent, repaintPer
         UsedPlus.logError(string.format("[SECURITY] Invalid downPayment: %s", tostring(downPayment)))
         return false
     end
-    if monthlyPayment ~= nil and (isInvalidNumber(monthlyPayment) or monthlyPayment < 0) then
+    if isInvalidNumber(monthlyPayment) or monthlyPayment < 0 then
         UsedPlus.logError(string.format("[SECURITY] Invalid monthlyPayment: %s", tostring(monthlyPayment)))
         return false
     end
@@ -180,10 +187,6 @@ function RepairVehicleEvent.execute(vehicleId, farmId, repairPercent, repaintPer
     elseif repaintPercent > 0 then
         workType = "repaint"
     end
-
-    -- Default values if not provided
-    monthlyPayment = monthlyPayment or 0
-    downPayment = downPayment or 0
 
     -- Process payment
     if isFinanced then
@@ -326,10 +329,11 @@ function RepairVehicleEvent:run(connection)
             string.format("Unauthorized repair attempt for farmId %d, vehicle %s: %s",
                 self.farmId, tostring(self.vehicleId), errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
-    RepairVehicleEvent.execute(
+    local success = RepairVehicleEvent.execute(
         self.vehicleId,
         self.farmId,
         self.repairPercent,
@@ -340,6 +344,11 @@ function RepairVehicleEvent:run(connection)
         self.monthlyPayment,
         self.downPayment
     )
+    if success then
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_repair")
+    else
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_repair_failed")
+    end
 end
 
 UsedPlus.logInfo("RepairVehicleEvent loaded")

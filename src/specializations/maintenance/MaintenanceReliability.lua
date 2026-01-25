@@ -22,28 +22,49 @@ end
 
 --[[
     Generate workhorse/lemon scale for a USED vehicle (from used market)
-    DNA distribution is now correlated with quality tier (v1.4.0)
+
+    v2.8.0: REBALANCED - Uses positive modifier system instead of hard-clamped ranges.
+
+    The triangular distribution (sum of 2 randoms / 2) is centered at 0.5 with a
+    natural bell curve shape. Each quality tier adds a POSITIVE modifier to shift
+    the center point, making workhorses more likely at higher tiers while keeping
+    BOTH outcomes (lemon and workhorse) achievable at every tier.
+
+    Expected outcomes:
+    - Poor:      ~10% workhorse (>0.80), ~16% lemon (<0.30)
+    - Any:       ~12% workhorse, ~14% lemon
+    - Fair:      ~14% workhorse, ~12% lemon
+    - Good:      ~17% workhorse, ~9% lemon
+    - Excellent: ~20% workhorse, ~7% lemon
+
+    This enables the "diamond in the rough" scenario (finding workhorse at Poor)
+    and prevents Excellent from being a guaranteed safe bet.
 
     @param qualityLevel - Optional quality tier (1=Any, 2=Poor, 3=Fair, 4=Good, 5=Excellent)
     @return scale - DNA value 0.0 (lemon) to 1.0 (workhorse)
 ]]
 function UsedPlusMaintenance.generateUsedVehicleScale(qualityLevel)
-    -- Get DNA range for quality tier (default to "Any" if not specified)
-    local dnaRange = UsedPlusMaintenance.QUALITY_DNA_RANGES[qualityLevel]
-    if dnaRange == nil then
-        dnaRange = UsedPlusMaintenance.QUALITY_DNA_RANGES[1]  -- Default to "Any"
-    end
-
-    -- Bell curve within tier's range using sum of 2 randoms
+    -- Base roll: triangular distribution (sum of 2 randoms / 2)
+    -- Centers at 0.5, ranges 0.0-1.0, natural bell curve peaks in middle
     local r1 = math.random()
     local r2 = math.random()
-    local rangeWidth = dnaRange.max - dnaRange.min
-    local scale = dnaRange.min + ((r1 + r2) / 2) * rangeWidth
+    local baseRoll = (r1 + r2) / 2
 
-    UsedPlus.logDebug(string.format("Generated DNA: qualityLevel=%d, range=[%.2f-%.2f], result=%.3f",
-        qualityLevel or 1, dnaRange.min, dnaRange.max, scale))
+    -- Get tier modifier (default to Fair/neutral if invalid tier)
+    local modifier = UsedPlusMaintenance.DNA_TIER_MODIFIERS[qualityLevel]
+    if modifier == nil then
+        modifier = UsedPlusMaintenance.DNA_TIER_MODIFIERS[3]  -- Fair = 0.06
+    end
 
-    return math.min(1.0, math.max(0.0, scale))
+    -- Apply modifier and clamp to valid range
+    local scale = baseRoll + modifier
+    scale = math.min(1.0, math.max(0.0, scale))
+
+    UsedPlus.logDebug(string.format(
+        "Generated DNA: qualityLevel=%d, modifier=%.2f, baseRoll=%.3f, result=%.3f",
+        qualityLevel or 0, modifier, baseRoll, scale))
+
+    return scale
 end
 
 --[[
@@ -414,6 +435,109 @@ function UsedPlusMaintenance.getReliabilityData(vehicle)
 end
 
 -- ===========================================================================
+-- v2.8.0: GLOBAL MALFUNCTION COOLDOWN AND FIELD WORK PROTECTION
+-- ===========================================================================
+
+--[[
+    v2.8.0: Check if vehicle is in global malfunction cooldown period
+    Prevents cascade failures by ensuring minimum time between ANY malfunction
+    @param vehicle - The vehicle to check
+    @return boolean - True if in cooldown (should skip malfunction checks)
+]]
+function UsedPlusMaintenance.isInGlobalCooldown(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return false end
+
+    local config = UsedPlusMaintenance.CONFIG
+    local cooldown = config.globalMalfunctionCooldown or 45
+
+    -- Get current time in seconds
+    local currentTime = (g_currentMission.time or 0) / 1000
+
+    -- Check if we're within cooldown period
+    local lastMalfunctionTime = spec.lastMalfunctionTime or 0
+    if (currentTime - lastMalfunctionTime) < cooldown then
+        return true  -- Still in cooldown
+    end
+
+    return false
+end
+
+--[[
+    v2.8.0: Record that a malfunction just occurred (updates global cooldown timer)
+    Should be called by all malfunction trigger functions
+    @param vehicle - The vehicle that experienced a malfunction
+]]
+function UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+    local spec = vehicle.spec_usedPlusMaintenance
+    if not spec then return end
+
+    spec.lastMalfunctionTime = (g_currentMission.time or 0) / 1000
+
+    -- Mark dirty for network sync
+    if vehicle.raiseDirtyFlags and spec.dirtyFlag then
+        vehicle:raiseDirtyFlags(spec.dirtyFlag)
+    end
+end
+
+--[[
+    v2.8.0: Detect if vehicle is actively working a field
+    Active field work = implements lowered and working (plowing, cultivating, sowing, etc.)
+    Returns true if field work detected, which triggers reduced malfunction chance
+    @param vehicle - The vehicle to check
+    @return boolean - True if actively doing field work
+]]
+function UsedPlusMaintenance.isDoingFieldWork(vehicle)
+    -- Check for active implements doing work
+    if not vehicle.getAttachedImplements then
+        return false
+    end
+
+    local implements = vehicle:getAttachedImplements()
+    if not implements or #implements == 0 then
+        return false
+    end
+
+    for _, implement in pairs(implements) do
+        local impl = implement.object
+        if impl then
+            -- Check if implement is turned on (active work)
+            if impl.getIsTurnedOn and impl:getIsTurnedOn() then
+                return true
+            end
+
+            -- Check if implement is lowered AND is a ground-engaging tool
+            if impl.getIsLowered and impl:getIsLowered() then
+                -- Check for ground-engaging tool specializations
+                if impl.spec_cultivator or impl.spec_plow or impl.spec_sowingMachine
+                   or impl.spec_sprayer or impl.spec_mower or impl.spec_tedder
+                   or impl.spec_windrower or impl.spec_baler or impl.spec_forageWagon
+                   or impl.spec_combine or impl.spec_harvester then
+                    return true
+                end
+            end
+        end
+    end
+
+    return false
+end
+
+--[[
+    v2.8.0: Get the field work protection multiplier (or 1.0 if not doing field work)
+    @param vehicle - The vehicle to check
+    @return number - Multiplier to apply to failure probability (0.3 during field work, 1.0 otherwise)
+]]
+function UsedPlusMaintenance.getFieldWorkMultiplier(vehicle)
+    local config = UsedPlusMaintenance.CONFIG
+
+    if UsedPlusMaintenance.isDoingFieldWork(vehicle) then
+        return config.fieldWorkProtectionMultiplier or 0.3
+    end
+
+    return 1.0
+end
+
+-- ===========================================================================
 -- v2.7.0: SEIZURE ESCALATION SYSTEM
 -- ===========================================================================
 
@@ -492,6 +616,18 @@ function UsedPlusMaintenance.calculateFailureProbability(vehicle, failureType, r
     -- Combined probability
     local probability = baseChance * damageMultiplier * hoursMultiplier * loadMultiplier * fluidMultiplier
     probability = probability * UsedPlusMaintenance.CONFIG.failureRateMultiplier
+
+    -- v2.8.0: Apply USER's malfunction frequency multiplier from settings
+    -- This allows players to tune malfunction frequency to their preference (25%-200%)
+    local userFrequencyMultiplier = 1.0
+    if UsedPlusSettings and UsedPlusSettings.get then
+        userFrequencyMultiplier = UsedPlusSettings:get("malfunctionFrequencyMultiplier") or 1.0
+    end
+    probability = probability * userFrequencyMultiplier
+
+    -- v2.8.0: Apply field work protection multiplier (70% less failures during active work)
+    local fieldWorkMultiplier = UsedPlusMaintenance.getFieldWorkMultiplier(vehicle)
+    probability = probability * fieldWorkMultiplier
 
     -- Cap at 5% per second max (allows for truly terrible engines)
     return math.min(probability, 0.05)

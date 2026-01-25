@@ -260,15 +260,16 @@ function NegotiationDialog:updateOfferDisplay()
         UsedPlus.logWarn("updateOfferDisplay: offerAmountText element is nil!")
     end
 
-    -- Savings
-    local savings = self.askingPrice - self.offerAmount
-    local savingsPercent = 100 - self.selectedPercent
+    -- Savings display
+    -- Note: At 100%, always show "Full price" regardless of rounding effects
     if self.savingsText then
-        if savings > 0 then
+        if self.selectedPercent >= 100 then
+            self.savingsText:setText("Full price")
+        else
+            local savings = self.askingPrice - self.offerAmount
+            local savingsPercent = 100 - self.selectedPercent
             self.savingsText:setText(string.format("%s (%d%% off)",
                 g_i18n:formatMoney(savings, 0, true, true), savingsPercent))
-        else
-            self.savingsText:setText("$0 (full price)")
         end
     end
 
@@ -598,6 +599,7 @@ function NegotiationDialog:onClickSendOffer()
         self.offerAmount, self.selectedPercent, response, responseAmount))
 
     -- v2.6.2: Handle WALKAWAY - permanent loss of listing
+    -- v2.8.0: Fixed - notify parent dialog to close/refresh, preventing double-offer exploit
     if response == "walkaway" then
         UsedPlus.logDebug("SELLER WALKAWAY - removing listing permanently")
 
@@ -612,8 +614,34 @@ function NegotiationDialog:onClickSendOffer()
             end
         end
 
-        -- Close this dialog
-        self:close()
+        -- Store callback info before closing (close() may clear them)
+        local callback = self.onOfferCallback
+        local callbackTarget = self.callbackTarget
+        local listing = self.listing
+
+        -- v2.8.0: Close ALL related dialogs to prevent any offer attempts
+        -- Close in reverse order of opening: NegotiationDialog -> any parent dialogs
+        g_gui:closeDialogByName("NegotiationDialog")
+        g_gui:closeDialogByName("InspectionReportDialog")
+        g_gui:closeDialogByName("UsedVehiclePreviewDialog")
+        g_gui:closeDialogByName("VehiclePortfolioDialog")
+
+        UsedPlus.logDebug("Walkaway: Closed all related dialogs")
+
+        -- v2.8.0: Notify parent dialog with "walkaway" result so it closes/disables Make Offer
+        -- This prevents the exploit where player could make another offer from the parent dialog
+        if callback then
+            local success, err = pcall(function()
+                if callbackTarget then
+                    callback(callbackTarget, "walkaway", listing)
+                else
+                    callback("walkaway", listing)
+                end
+            end)
+            if not success then
+                UsedPlus.logDebug("Walkaway callback error (non-critical): " .. tostring(err))
+            end
+        end
 
         -- Show special walkaway dialog
         InfoDialog.show(

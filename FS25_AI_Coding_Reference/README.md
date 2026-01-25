@@ -81,7 +81,7 @@ Created by [@Dukefarming](https://github.com/Dukefarming) — raw Lua source fro
 | Category | Files | Status |
 |:---------|:-----:|:------:|
 | `basics/` | 4 | ✅ 100% validated |
-| `patterns/` | 12 | ✅ 100% validated |
+| `patterns/` | 13 | ✅ 100% validated |
 | `advanced/` | 8 | ⚠️ 38% validated |
 | `pitfalls/` | 1 | ✅ 100% battle-tested |
 
@@ -116,6 +116,7 @@ Created by [@Dukefarming](https://github.com/Dukefarming) — raw Lua source fro
 | [data-classes.md](patterns/data-classes.md) | Data with business logic | Finance, deals |
 | [save-load.md](patterns/save-load.md) | Savegame persistence | Saving data |
 | [extensions.md](patterns/extensions.md) | Hooking game classes | Modify behavior |
+| [vehicle-info-box.md](patterns/vehicle-info-box.md) | Vehicle info display | Add custom HUD info |
 | [shop-ui.md](patterns/shop-ui.md) | Shop customization | Shop buttons |
 | [async-operations.md](patterns/async-operations.md) | TTL/TTS queues | Delayed ops |
 | [message-center.md](patterns/message-center.md) | Event subscription | Time/economy |

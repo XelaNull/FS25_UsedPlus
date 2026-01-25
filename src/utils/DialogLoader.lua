@@ -276,6 +276,11 @@ function DialogLoader.registerAll()
         DialogLoader.register("SellerResponseDialog", SellerResponseDialog, "gui/SellerResponseDialog.xml")
     end
 
+    -- v2.9.0: Service Truck Discovery dialog
+    if ServiceTruckDiscoveryDialog then
+        DialogLoader.register("ServiceTruckDiscoveryDialog", ServiceTruckDiscoveryDialog, "gui/ServiceTruckDiscoveryDialog.xml")
+    end
+
     UsedPlus.logInfo("DialogLoader: Registered all dialogs")
 end
 

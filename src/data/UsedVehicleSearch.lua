@@ -373,7 +373,8 @@ function UsedVehicleSearch.new(farmId, storeItemIndex, storeItemName, basePrice,
 
     -- Status
     self.status = "active"  -- active, completed, purchased, cancelled
-    self.createdAt = g_currentMission.environment.currentDay
+    -- v2.8.0: Guard against nil during load
+    self.createdAt = (g_currentMission and g_currentMission.environment) and g_currentMission.environment.currentDay or 0
 
     -- v1.5.0: Legacy fields for save migration (not used in new code)
     self.ttl = 0  -- DEPRECATED - kept for migration
@@ -382,8 +383,11 @@ function UsedVehicleSearch.new(farmId, storeItemIndex, storeItemName, basePrice,
     self.foundCondition = 0  -- DEPRECATED - use foundListings
     self.foundPrice = 0  -- DEPRECATED - use foundListings
 
-    -- Calculate search parameters from tier
-    self:calculateSearchParams()
+    -- v2.8.0: Only calculate search parameters if we have the required data
+    -- When loading from XML, new() is called without parameters, then loadFromXMLFile populates fields
+    if basePrice ~= nil and basePrice > 0 then
+        self:calculateSearchParams()
+    end
 
     return self
 end
@@ -393,6 +397,12 @@ end
     Sets up retainer fee, commission, and monthly success parameters
 ]]
 function UsedVehicleSearch:calculateSearchParams()
+    -- v2.8.0: Guard against nil values during load
+    if self.basePrice == nil or self.basePrice <= 0 then
+        UsedPlus.logDebug("calculateSearchParams: Skipping - basePrice is nil or 0")
+        return
+    end
+
     local tier = UsedVehicleSearch.SEARCH_TIERS[self.searchLevel]
     if tier == nil then
         tier = UsedVehicleSearch.SEARCH_TIERS[2]  -- Default to Regional
@@ -671,8 +681,37 @@ function UsedVehicleSearch:generateFoundVehicleDetails()
     local foundWear = wearRange[1] + (math.random() * (wearRange[2] - wearRange[1]))
 
     -- v1.5.1: Generate hours and age based on quality tier
+    -- v2.8.0: FIXED - Age is now CORRELATED with hours for realism
+    -- A vehicle with 3800 hours can't realistically be only 1-2 years old!
     local foundHours = math.floor(hoursRange[1] + (math.random() * (hoursRange[2] - hoursRange[1])))
-    local foundAge = math.floor(ageRange[1] + (math.random() * (ageRange[2] - ageRange[1] + 1)))
+
+    -- Calculate minimum realistic age from hours
+    -- Typical farm vehicle usage: 400-1000 hours/year depending on intensity
+    -- Use a random hours-per-year to add variety (some farms use equipment more than others)
+    local hoursPerYear = 400 + (math.random() * 600)  -- 400-1000 hours/year
+    local minAgeFromHours = math.ceil(foundHours / hoursPerYear)
+
+    -- Age must be at least the minimum from hours, but within the tier's range
+    -- Start with the larger of: tier minimum OR hours-based minimum
+    local baseAge = math.max(ageRange[1], minAgeFromHours)
+
+    -- Add some random extra years (vehicle might have sat idle some periods)
+    -- But don't exceed the tier's maximum age
+    local maxExtraAge = math.max(0, ageRange[2] - baseAge)
+    local extraAge = 0
+    if maxExtraAge > 0 then
+        extraAge = math.floor(math.random() * (maxExtraAge + 1))
+    end
+
+    local foundAge = math.min(baseAge + extraAge, ageRange[2])
+
+    -- Sanity check: if hours-based min exceeds tier max, use hours-based
+    -- (This handles edge cases where quality tier ranges don't account for high hours)
+    if minAgeFromHours > ageRange[2] then
+        foundAge = minAgeFromHours
+        UsedPlus.logDebug(string.format("  Age extended beyond tier max: %d hours requires %d years minimum",
+            foundHours, minAgeFromHours))
+    end
 
     -- v2.1.0: Generate RVB-compatible part data
     -- Each part has a "life" (0-1, how much remains) based on overall condition

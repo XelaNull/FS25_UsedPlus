@@ -8,7 +8,7 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="720px 645px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="720px 660px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
@@ -24,14 +24,14 @@
 
                 <!-- Two-column: Image left, Info right -->
                 <!-- Standard position: -185px 42px (X=left of center, Y=moves UP) -->
-                <Bitmap profile="mrVehicleImage" id="vehicleImage" position="-185px 75px"/>
+                <Bitmap profile="mrVehicleImage" id="vehicleImage" position="-185px 55px"/>
                 <Text profile="mrVehicleName" id="vehicleNameText" position="120px -30px" text=""/>
                 <Text profile="mrVehicleDetails" id="vehicleDetailsText" position="120px -52px" text=""/>
                 <Text profile="mrVehicleOrigin" id="originText" position="120px -74px" text=""/>
             </GuiElement>
 
             <!-- ===== SECTION 2: MECHANICAL STATUS ===== -->
-            <GuiElement profile="mrSectionMech" position="0px -193px">
+            <GuiElement profile="mrSectionMech" position="0px -228px">
                 <Bitmap profile="mrSectionBgMech" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionMechanical"/>
 
@@ -60,7 +60,7 @@
             </GuiElement>
 
             <!-- ===== SECTION 3: MECHANIC'S ASSESSMENT (NEW) ===== -->
-            <GuiElement profile="mrSectionQuote" position="0px -313px">
+            <GuiElement profile="mrSectionQuote" position="0px -348px">
                 <Bitmap profile="mrSectionBgQuote" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionMechanic"/>
 
@@ -68,7 +68,7 @@
             </GuiElement>
 
             <!-- ===== SECTION 4: SERVICE HISTORY (compact) ===== -->
-            <GuiElement profile="mrSectionHistory" position="0px -378px">
+            <GuiElement profile="mrSectionHistory" position="0px -413px">
                 <Bitmap profile="mrSectionBgHistory" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionService"/>
 
@@ -87,7 +87,7 @@
             </GuiElement>
 
             <!-- ===== SECTION 5: STATUS NOTES ===== -->
-            <GuiElement profile="mrSectionNotes" position="0px -468px">
+            <GuiElement profile="mrSectionNotes" position="0px -503px">
                 <Bitmap profile="mrSectionBgNotes" position="0px 0px"/>
                 <Text profile="mrSectionHeader" position="0px -5px" text="$l10n_usedplus_mrp_sectionStatus"/>
 
@@ -105,8 +105,9 @@
 
     <GUIProfiles>
         <!-- ========== SECTION CONTAINERS ========== -->
+        <!-- v2.8.0: Reduced Vehicle section height by 15px -->
         <Profile name="mrSectionVehicle" extends="emptyPanel" with="anchorTopCenter">
-            <size value="660px 115px"/>
+            <size value="660px 150px"/>
         </Profile>
 
         <Profile name="mrSectionMech" extends="emptyPanel" with="anchorTopCenter">
@@ -126,8 +127,9 @@
         </Profile>
 
         <!-- ========== SECTION BACKGROUNDS ========== -->
+        <!-- v2.8.0: Reduced Vehicle section height by 15px -->
         <Profile name="mrSectionBgVehicle" extends="baseReference" with="anchorTopCenter">
-            <size value="660px 115px"/>
+            <size value="660px 150px"/>
             <imageColor value="0.08 0.08 0.12 0.9"/>
         </Profile>
 

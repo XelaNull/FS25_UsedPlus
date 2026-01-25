@@ -115,7 +115,7 @@ end
 Mission00.loadMission00Finished = Utils.appendedFunction(
     Mission00.loadMission00Finished,
     function(mission)
-        UsedPlus.logInfo("Mission load finished, initializing mod")
+        UsedPlus.logWarn("Mission00.loadMission00Finished hook fired")
 
         if UsedPlus.instance == nil then
             UsedPlus.instance = UsedPlus.new()
@@ -123,8 +123,61 @@ Mission00.loadMission00Finished = Utils.appendedFunction(
 
         UsedPlus.instance:initialize()
 
-        -- v2.7.1: NOW load savegame data (managers exist now!)
-        UsedPlus.loadSavegameData()
+        -- v2.8.0: Initialize VehicleInfoExtension hook (Vehicle class now available)
+        if VehicleInfoExtension and VehicleInfoExtension.init then
+            VehicleInfoExtension.init()
+        end
+
+        -- v2.8.0: FALLBACK - If FSBaseMission.loadItemsFinished hook didn't fire,
+        -- try to get missionInfo directly from the mission object
+        if UsedPlus.pendingMissionInfo == nil then
+            UsedPlus.logWarn("pendingMissionInfo is nil - trying to get missionInfo from mission object...")
+
+            -- Try various ways to get missionInfo
+            local missionInfo = nil
+
+            -- Method 1: mission.missionInfo (common pattern)
+            if mission and mission.missionInfo then
+                missionInfo = mission.missionInfo
+                UsedPlus.logWarn("Got missionInfo from mission.missionInfo")
+            end
+
+            -- Method 2: g_currentMission.missionInfo
+            if missionInfo == nil and g_currentMission and g_currentMission.missionInfo then
+                missionInfo = g_currentMission.missionInfo
+                UsedPlus.logWarn("Got missionInfo from g_currentMission.missionInfo")
+            end
+
+            -- Method 3: Try g_careerScreen (for career mode)
+            if missionInfo == nil and g_careerScreen and g_careerScreen.currentSavegame then
+                -- Build missionInfo-like object from savegame data
+                local savegame = g_careerScreen.currentSavegame
+                if savegame and savegame.savegameDirectory then
+                    missionInfo = { savegameDirectory = savegame.savegameDirectory }
+                    UsedPlus.logWarn("Built missionInfo from g_careerScreen.currentSavegame")
+                end
+            end
+
+            -- Method 4: Try to find savegameDirectory from g_currentMission
+            if missionInfo == nil and g_currentMission then
+                local savegameDir = g_currentMission.savegameDirectory
+                if savegameDir then
+                    missionInfo = { savegameDirectory = savegameDir }
+                    UsedPlus.logWarn("Built missionInfo from g_currentMission.savegameDirectory")
+                end
+            end
+
+            if missionInfo then
+                UsedPlus.pendingMissionInfo = missionInfo
+                UsedPlus.logWarn(string.format("Fallback succeeded: savegameDirectory=%s",
+                    missionInfo.savegameDirectory or "nil"))
+            else
+                UsedPlus.logError("CRITICAL: Could not get missionInfo from any source!")
+            end
+        end
+
+        -- v2.8.0: DON'T load savegame data here - farms don't exist yet!
+        -- Moved to onStartMission where farms are guaranteed to be loaded
 
         -- v1.8.0: Initialize cross-mod compatibility (RVB, UYT detection)
         ModCompatibility.init()
@@ -140,7 +193,19 @@ Mission00.loadMission00Finished = Utils.appendedFunction(
 Mission00.onStartMission = Utils.appendedFunction(
     Mission00.onStartMission,
     function(mission)
-        UsedPlus.logInfo("Mission started")
+        UsedPlus.logWarn("Mission00.onStartMission hook fired")
+
+        -- v2.8.0: NOW load savegame data - farms are guaranteed to exist at this point!
+        -- Check if farms exist
+        local farm1 = g_farmManager and g_farmManager:getFarmById(1)
+        UsedPlus.logWarn(string.format("Farm check: g_farmManager=%s, farm1=%s",
+            tostring(g_farmManager ~= nil), tostring(farm1 ~= nil)))
+
+        if farm1 then
+            UsedPlus.loadSavegameData()
+        else
+            UsedPlus.logError("CRITICAL: Farm 1 still doesn't exist in onStartMission!")
+        end
 
         -- Initialize managers (call loadMapFinished)
         UsedPlus.logDebug("Initializing managers...")
@@ -350,25 +415,37 @@ end
 -- Hook savegame load (load mod data from savegame)
 -- IMPORTANT: This fires BEFORE managers are created in Mission00.loadMission00Finished
 -- We store the missionInfo and load data later in loadSavegameData()
-FSBaseMission.loadItemsFinished = Utils.appendedFunction(
-    FSBaseMission.loadItemsFinished,
-    function(mission, missionInfo, missionDynamicInfo)
-        -- v1.4.0: Initialize settings system first (before managers load)
-        if UsedPlusSettings and UsedPlusSettings.init then
-            local savegameDirectory = nil
-            if missionInfo and missionInfo.savegameDirectory then
-                savegameDirectory = missionInfo.savegameDirectory
-            end
-            UsedPlusSettings:init(savegameDirectory)
-            UsedPlus.logInfo("Settings system initialized")
-        end
+--
+-- v2.8.0: Check if FSBaseMission exists before hooking (it should, but let's verify)
+if FSBaseMission ~= nil and FSBaseMission.loadItemsFinished ~= nil then
+    FSBaseMission.loadItemsFinished = Utils.appendedFunction(
+        FSBaseMission.loadItemsFinished,
+        function(mission, missionInfo, missionDynamicInfo)
+            -- v2.8.0: WARN level for persistence debugging
+            UsedPlus.logWarn(string.format("loadItemsFinished hook: missionInfo=%s, dir=%s",
+                tostring(missionInfo ~= nil),
+                missionInfo and missionInfo.savegameDirectory or "nil"))
 
-        -- v2.7.1: Store missionInfo for later loading (managers don't exist yet!)
-        -- The actual data loading happens in loadMission00Finished after managers are created
-        UsedPlus.pendingMissionInfo = missionInfo
-        UsedPlus.logDebug("Stored missionInfo for deferred savegame loading")
-    end
-)
+            -- v1.4.0: Initialize settings system first (before managers load)
+            if UsedPlusSettings and UsedPlusSettings.init then
+                local savegameDirectory = nil
+                if missionInfo and missionInfo.savegameDirectory then
+                    savegameDirectory = missionInfo.savegameDirectory
+                end
+                UsedPlusSettings:init(savegameDirectory)
+            end
+
+            -- v2.7.1: Store missionInfo for later loading (managers don't exist yet!)
+            -- The actual data loading happens in loadMission00Finished after managers are created
+            UsedPlus.pendingMissionInfo = missionInfo
+        end
+    )
+    UsedPlus.logWarn("FSBaseMission.loadItemsFinished hook installed successfully")
+else
+    UsedPlus.logError(string.format("CRITICAL: Cannot hook FSBaseMission.loadItemsFinished! FSBaseMission=%s, loadItemsFinished=%s",
+        tostring(FSBaseMission ~= nil),
+        tostring(FSBaseMission ~= nil and FSBaseMission.loadItemsFinished ~= nil)))
+end
 
 --[[
     Load savegame data after managers are created
@@ -377,11 +454,14 @@ FSBaseMission.loadItemsFinished = Utils.appendedFunction(
 function UsedPlus.loadSavegameData()
     local missionInfo = UsedPlus.pendingMissionInfo
     if missionInfo == nil then
-        UsedPlus.logDebug("No pending missionInfo, skipping savegame load (new game?)")
+        -- v2.8.0: Upgrade to WARN so we can diagnose persistence issues
+        UsedPlus.logWarn("loadSavegameData: No pending missionInfo (new game or hook didn't fire)")
         return
     end
 
-    UsedPlus.logInfo("Loading savegame data (deferred)...")
+    -- v2.8.0: WARN so it always shows for persistence debugging
+    UsedPlus.logWarn(string.format("loadSavegameData: Loading from %s",
+        missionInfo.savegameDirectory or "nil"))
 
     if g_financeManager then
         g_financeManager:loadFromXMLFile(missionInfo)
@@ -401,6 +481,22 @@ function UsedPlus.loadSavegameData()
         UsedPlus.logWarn("g_vehicleSaleManager is nil, cannot load sale data!")
     end
 
+    -- v2.9.0: Load Service Truck Discovery state
+    if ServiceTruckDiscovery then
+        local savegameDir = missionInfo.savegameDirectory
+        if savegameDir then
+            local xmlPath = savegameDir .. "/usedPlus_serviceTruckDiscovery.xml"
+            if fileExists(xmlPath) then
+                local xmlFile = XMLFile.load("serviceTruckDiscovery", xmlPath)
+                if xmlFile then
+                    ServiceTruckDiscovery.loadFromXML(xmlFile, "serviceTruckDiscovery")
+                    xmlFile:delete()
+                    UsedPlus.logInfo("Service Truck Discovery data loaded")
+                end
+            end
+        end
+    end
+
     UsedPlus.logInfo("Savegame data loaded successfully")
 
     -- Clear the stored missionInfo
@@ -411,6 +507,10 @@ end
 FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(
     FSCareerMissionInfo.saveToXMLFile,
     function(missionInfo)
+        -- v2.8.0: WARN level for persistence debugging
+        UsedPlus.logWarn(string.format("saveToXMLFile hook: Saving to %s",
+            missionInfo and missionInfo.savegameDirectory or "nil"))
+
         if g_financeManager then
             g_financeManager:saveToXMLFile(missionInfo)
         end
@@ -424,7 +524,19 @@ FSCareerMissionInfo.saveToXMLFile = Utils.appendedFunction(
             g_vehicleSaleManager:saveToXMLFile(missionInfo)
         end
 
-        UsedPlus.logInfo("Savegame data saved")
+        -- v2.9.0: Save Service Truck Discovery state
+        if ServiceTruckDiscovery and missionInfo and missionInfo.savegameDirectory then
+            local xmlPath = missionInfo.savegameDirectory .. "/usedPlus_serviceTruckDiscovery.xml"
+            local xmlFile = XMLFile.create("serviceTruckDiscovery", xmlPath, "serviceTruckDiscovery")
+            if xmlFile then
+                ServiceTruckDiscovery.saveToXML(xmlFile, "serviceTruckDiscovery")
+                xmlFile:save()
+                xmlFile:delete()
+                UsedPlus.logInfo("Service Truck Discovery data saved")
+            end
+        end
+
+        UsedPlus.logWarn("saveToXMLFile hook: Complete")
     end
 )
 
@@ -440,12 +552,16 @@ function Farm.new(...)
     local farm = originalFarmNew(...)
 
     if farm ~= nil then
-        -- Add custom farm data structures
-        farm.financeDeals = {}        -- Active finance/lease deals
-        farm.usedVehicleSearches = {} -- Active search requests (for buying)
-        farm.vehicleSaleListings = {} -- NEW - Active sale listings (for selling)
-
-        UsedPlus.logDebug("Extended Farm " .. tostring(farm.farmId))
+        -- v2.8.0: Check if arrays already exist (don't overwrite loaded data!)
+        if farm.usedVehicleSearches == nil then
+            farm.financeDeals = {}        -- Active finance/lease deals
+            farm.usedVehicleSearches = {} -- Active search requests (for buying)
+            farm.vehicleSaleListings = {} -- NEW - Active sale listings (for selling)
+        else
+            -- Arrays already exist - log this unusual case
+            UsedPlus.logWarn(string.format("Farm.new: Farm %d already has usedVehicleSearches (%d items) - preserving!",
+                farm.farmId or 0, #farm.usedVehicleSearches))
+        end
     end
 
     return farm
@@ -466,10 +582,16 @@ function Farm.loadFromXMLFile(self, xmlFile, key)
     local success = originalFarmLoadFromXMLFile(self, xmlFile, key)
 
     if success then
-        -- Initialize custom data structures if not present
+        -- v2.8.0: Preserve existing data if already populated by UsedPlus load
+        local hadSearches = self.usedVehicleSearches ~= nil and #self.usedVehicleSearches > 0
         self.financeDeals = self.financeDeals or {}
         self.usedVehicleSearches = self.usedVehicleSearches or {}
-        self.vehicleSaleListings = self.vehicleSaleListings or {}  -- NEW
+        self.vehicleSaleListings = self.vehicleSaleListings or {}
+
+        if hadSearches then
+            UsedPlus.logWarn(string.format("Farm.loadFromXMLFile: Farm %d preserved %d searches",
+                self.farmId or 0, #self.usedVehicleSearches))
+        end
     end
 
     return success
@@ -806,6 +928,336 @@ if UsedPlus.DEBUG then
         end
 
         return string.format("%d active searches", #farm.usedVehicleSearches)
+    end
+
+    -- ========== v2.8.0: MALFUNCTION DEBUG COMMANDS ==========
+    -- These commands allow testing of malfunction system without waiting for random events
+
+    addConsoleCommand("upStall", "Force engine stall on current vehicle", "consoleCommandStall", UsedPlus)
+
+    function UsedPlus:consoleCommandStall()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        if UsedPlusMaintenance and UsedPlusMaintenance.triggerEngineStall then
+            UsedPlusMaintenance.triggerEngineStall(vehicle)
+            return "Triggered engine stall on " .. (vehicle:getName() or "vehicle")
+        else
+            return "Error: triggerEngineStall function not found"
+        end
+    end
+
+    addConsoleCommand("upMisfire", "Force engine misfire on current vehicle", "consoleCommandMisfire", UsedPlus)
+
+    function UsedPlus:consoleCommandMisfire()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        -- Simulate a misfire by setting the state directly
+        local config = UsedPlusMaintenance.CONFIG
+        spec.misfireActive = true
+        spec.misfireEndTime = (g_currentMission.time or 0) + math.random(config.misfireDurationMin, config.misfireDurationMax)
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
+        return "Triggered engine misfire on " .. (vehicle:getName() or "vehicle")
+    end
+
+    addConsoleCommand("upSurge", "Force hydraulic surge on current vehicle", "consoleCommandSurge", UsedPlus)
+
+    function UsedPlus:consoleCommandSurge()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        local config = UsedPlusMaintenance.CONFIG
+        local currentTime = g_currentMission.time or 0
+
+        spec.hydraulicSurgeActive = true
+        spec.hydraulicSurgeEndTime = currentTime + math.random(config.hydraulicSurgeDurationMin, config.hydraulicSurgeDurationMax)
+        spec.hydraulicSurgeFadeStartTime = spec.hydraulicSurgeEndTime - config.hydraulicSurgeFadeTime
+        spec.hydraulicSurgeDirection = math.random() < 0.5 and -1 or 1
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
+        local directionText = spec.hydraulicSurgeDirection < 0 and "left" or "right"
+        return string.format("Triggered hydraulic surge (%s) on %s", directionText, vehicle:getName() or "vehicle")
+    end
+
+    addConsoleCommand("upOverheat", "Force overheating on current vehicle", "consoleCommandOverheat", UsedPlus)
+
+    function UsedPlus:consoleCommandOverheat()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        -- Set engine temperature to critical level
+        spec.engineTemperature = 0.85
+        spec.hasShownOverheatWarning = false
+        spec.hasShownOverheatCritical = false
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
+        return "Set engine temperature to 85% (overheating threshold) on " .. (vehicle:getName() or "vehicle")
+    end
+
+    addConsoleCommand("upCutout", "Force electrical cutout on current vehicle", "consoleCommandCutout", UsedPlus)
+
+    function UsedPlus:consoleCommandCutout()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        if UsedPlusMaintenance and UsedPlusMaintenance.triggerImplementCutout then
+            UsedPlusMaintenance.triggerImplementCutout(vehicle)
+            return "Triggered electrical cutout on " .. (vehicle:getName() or "vehicle")
+        else
+            return "Error: triggerImplementCutout function not found"
+        end
+    end
+
+    addConsoleCommand("upFlatTire", "Force flat tire on current vehicle", "consoleCommandFlatTire", UsedPlus)
+
+    function UsedPlus:consoleCommandFlatTire()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        spec.hasFlatTire = true
+        spec.flatTireSide = math.random() < 0.5 and -1 or 1
+        spec.hasShownFlatTireWarning = true
+        spec.failureCount = (spec.failureCount or 0) + 1
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
+        local sideText = spec.flatTireSide < 0 and "left" or "right"
+        return string.format("Triggered flat tire (%s side) on %s", sideText, vehicle:getName() or "vehicle")
+    end
+
+    addConsoleCommand("upRunaway", "Force engine runaway on current vehicle", "consoleCommandRunaway", UsedPlus)
+
+    function UsedPlus:consoleCommandRunaway()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        spec.runawayActive = true
+        spec.runawayStartTime = g_currentMission.time or 0
+        spec.runawayPreviousSpeed = vehicle.getLastSpeed and vehicle:getLastSpeed() or 0
+        spec.runawayPreviousDamage = vehicle:getVehicleDamage() or 0
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
+        UsedPlusMaintenance.showWarning(vehicle,
+            g_i18n:getText("usedplus_warning_runaway") or "ENGINE RUNAWAY! Governor failure - TURN OFF ENGINE!",
+            5000, "runaway")
+
+        return "Triggered engine runaway on " .. (vehicle:getName() or "vehicle")
+    end
+
+    addConsoleCommand("upSeizure", "Force engine seizure on current vehicle (PERMANENT)", "consoleCommandSeizure", UsedPlus)
+
+    function UsedPlus:consoleCommandSeizure()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        if UsedPlusMaintenance and UsedPlusMaintenance.seizeComponent then
+            UsedPlusMaintenance.seizeComponent(vehicle, "engine")
+            return "PERMANENT: Engine seized on " .. (vehicle:getName() or "vehicle") .. " - requires major repair!"
+        else
+            return "Error: seizeComponent function not found"
+        end
+    end
+
+    addConsoleCommand("upMalfInfo", "Show malfunction state for current vehicle", "consoleCommandMalfInfo", UsedPlus)
+
+    function UsedPlus:consoleCommandMalfInfo()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        local config = UsedPlusMaintenance.CONFIG
+        local currentTime = (g_currentMission.time or 0) / 1000
+        local lastMalf = spec.lastMalfunctionTime or 0
+        local cooldown = config.globalMalfunctionCooldown or 45
+        local remaining = math.max(0, cooldown - (currentTime - lastMalf))
+
+        local isFieldWork = UsedPlusMaintenance.isDoingFieldWork and UsedPlusMaintenance.isDoingFieldWork(vehicle) or false
+
+        local info = string.format(
+            "=== Malfunction State for %s ===\n" ..
+            "Overall Reliability: %.1f%%\n" ..
+            "Engine: %.1f%% | Hydraulic: %.1f%% | Electrical: %.1f%%\n" ..
+            "DNA (Workhorse/Lemon): %.2f\n" ..
+            "Last Malfunction: %.1fs ago\n" ..
+            "Cooldown Remaining: %.1fs\n" ..
+            "Field Work Active: %s\n" ..
+            "Seizures: Engine=%s, Hydraulic=%s, Electrical=%s\n" ..
+            "Flat Tire: %s | Runaway: %s | Overheating: %s",
+            vehicle:getName() or "vehicle",
+            ((spec.engineReliability or 1) + (spec.hydraulicReliability or 1) + (spec.electricalReliability or 1)) / 3 * 100,
+            (spec.engineReliability or 1) * 100,
+            (spec.hydraulicReliability or 1) * 100,
+            (spec.electricalReliability or 1) * 100,
+            spec.workhorseLemonScale or 0.5,
+            currentTime - lastMalf,
+            remaining,
+            isFieldWork and "Yes" or "No",
+            spec.engineSeized and "SEIZED" or "OK",
+            spec.hydraulicsSeized and "SEIZED" or "OK",
+            spec.electricalSeized and "SEIZED" or "OK",
+            spec.hasFlatTire and "YES" or "No",
+            spec.runawayActive and "ACTIVE" or "No",
+            spec.engineTemperature and spec.engineTemperature > 0.6 and string.format("%.0f%%", spec.engineTemperature * 100) or "No"
+        )
+
+        -- Print to log and return summary
+        print(info)
+        return string.format("Reliability: %.0f%%, Cooldown: %.1fs remaining",
+            ((spec.engineReliability or 1) + (spec.hydraulicReliability or 1) + (spec.electricalReliability or 1)) / 3 * 100,
+            remaining)
+    end
+
+    addConsoleCommand("upResetCooldown", "Reset malfunction cooldown for current vehicle", "consoleCommandResetCooldown", UsedPlus)
+
+    function UsedPlus:consoleCommandResetCooldown()
+        local vehicle = g_currentMission.controlledVehicle
+        if not vehicle then
+            return "Error: Not in a vehicle"
+        end
+
+        local spec = vehicle.spec_usedPlusMaintenance
+        if not spec then
+            return "Error: Vehicle has no UsedPlus maintenance data"
+        end
+
+        spec.lastMalfunctionTime = 0
+        return "Reset malfunction cooldown for " .. (vehicle:getName() or "vehicle")
+    end
+
+    -- Service Truck Discovery commands (v2.9.0)
+    addConsoleCommand("upDiscoverServiceTruck", "Trigger Service Truck discovery (bypasses prerequisites)", "consoleCommandDiscoverServiceTruck", UsedPlus)
+
+    function UsedPlus:consoleCommandDiscoverServiceTruck()
+        local farmId = g_currentMission:getFarmId()
+        if not farmId or farmId == 0 then
+            return "Error: No valid farm"
+        end
+
+        if not ServiceTruckDiscovery then
+            return "Error: ServiceTruckDiscovery not loaded"
+        end
+
+        -- Force trigger discovery (bypasses prerequisites and RNG)
+        ServiceTruckDiscovery.triggerDiscovery(farmId, "console_command")
+        return string.format("Service Truck discovery triggered for farm %d! Check for popup.", farmId)
+    end
+
+    addConsoleCommand("upResetServiceTruck", "Reset Service Truck discovery state (for retesting)", "consoleCommandResetServiceTruck", UsedPlus)
+
+    function UsedPlus:consoleCommandResetServiceTruck()
+        local farmId = g_currentMission:getFarmId()
+        if not farmId or farmId == 0 then
+            return "Error: No valid farm"
+        end
+
+        if not ServiceTruckDiscovery then
+            return "Error: ServiceTruckDiscovery not loaded"
+        end
+
+        ServiceTruckDiscovery.resetDiscovery(farmId)
+        return string.format("Service Truck discovery state reset for farm %d. Can be discovered again.", farmId)
+    end
+
+    addConsoleCommand("upServiceTruckStatus", "Show Service Truck discovery prerequisites status", "consoleCommandServiceTruckStatus", UsedPlus)
+
+    function UsedPlus:consoleCommandServiceTruckStatus()
+        local farmId = g_currentMission:getFarmId()
+        if not farmId or farmId == 0 then
+            return "Error: No valid farm"
+        end
+
+        if not ServiceTruckDiscovery then
+            return "Error: ServiceTruckDiscovery not loaded"
+        end
+
+        local prereqs = ServiceTruckDiscovery.getPrerequisitesStatus(farmId)
+        local status = ServiceTruckDiscovery.getDiscoveryStatus(farmId)
+
+        local lines = {
+            "=== Service Truck Discovery Status ===",
+            string.format("Farm ID: %d", farmId),
+            "",
+            "Prerequisites:",
+            string.format("  OBD Uses: %d / %d %s", prereqs.obdUses, prereqs.obdRequired, prereqs.obdMet and "[OK]" or "[X]"),
+            string.format("  Credit Score: %d / %d %s", prereqs.creditScore, prereqs.creditRequired, prereqs.creditMet and "[OK]" or "[X]"),
+            string.format("  Has Degraded Vehicle: %s %s", prereqs.hasDegradedVehicle and "Yes" or "No", prereqs.ceilingMet and "[OK]" or "[X]"),
+            "",
+            "Discovery State:",
+            string.format("  Discovered: %s", status.hasDiscovered and "Yes" or "No"),
+            string.format("  Purchased: %s", status.hasPurchased and "Yes" or "No"),
+            string.format("  Opportunity Active: %s", status.opportunityActive and "Yes" or "No"),
+            string.format("  Remaining Days: %d", status.remainingDays or 0),
+            string.format("  Eligible Transactions: %d", status.eligibleTransactions or 0),
+        }
+
+        for _, line in ipairs(lines) do
+            print(line)
+        end
+
+        return "Status printed to console"
     end
 end
 

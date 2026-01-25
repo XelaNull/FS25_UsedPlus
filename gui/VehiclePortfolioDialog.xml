@@ -34,8 +34,8 @@
 
                 <!-- Two-column layout: Image left, Info right -->
                 <GuiElement position="0px -28px">
-                    <!-- Vehicle Image (left) - Standard position -185px 42px -->
-                    <Bitmap profile="vpfVehicleImage" id="vehicleImage" position="-185px 75px"/>
+                    <!-- Vehicle Image (left) - Standard position -185px 70px -->
+                    <Bitmap profile="vpfVehicleImage" id="vehicleImage" position="-185px 70px"/>
 
                     <!-- Vehicle Info (right) -->
                     <Text profile="vpfVehicleName" id="vehicleNameText" position="120px -5px" text=""/>
@@ -73,7 +73,7 @@
             <!-- ========== EXPIRATION WARNING ========== -->
             <GuiElement profile="vpfWarningSection" id="expirationSection" position="0px -340px">
                 <Bitmap profile="vpfWarningBg" position="0px 0px"/>
-                <Text profile="vpfWarningIcon" position="-280px -22px" text="!"/>
+                <Text profile="vpfWarningIcon" position="-280px 3px" text="!"/>
                 <Text profile="vpfWarningText" id="expirationText" position="0px -22px" text="Offer expires in 2 months"/>
             </GuiElement>
 
@@ -84,11 +84,11 @@
 
         <!-- Button Box - Action buttons only (Prev/Next moved to nav bar above) -->
         <BoxLayout profile="fs25_dialogButtonBox">
-            <Button id="viewDetailsButton" profile="buttonOK" text="View Details" onClick="onClickViewDetails"/>
+            <Button id="viewDetailsButton" profile="vpfButtonOK" text="View Details" onClick="onClickViewDetails"/>
             <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
-            <Button id="declineButton" profile="buttonActivate" text="Decline Offer" onClick="onClickDecline"/>
+            <Button id="declineButton" profile="vpfButtonActivate" text="Decline Offer" onClick="onClickDecline"/>
             <Bitmap profile="fs25_dialogButtonBoxSeparator"/>
-            <Button id="closeButton" profile="buttonBack" text="$l10n_button_close" onClick="onClickClose"/>
+            <Button id="closeButton" profile="vpfButtonBack" text="$l10n_button_close" onClick="onClickClose"/>
         </BoxLayout>
     </GuiElement>
 
@@ -259,6 +259,19 @@
             <textSize value="12px"/>
             <textColor value="0.5 0.6 0.5 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- ========== CUSTOM BUTTON PROFILES (text raised 10px) ========== -->
+        <Profile name="vpfButtonOK" extends="buttonOK">
+            <textOffset value="0px -10px"/>
+        </Profile>
+
+        <Profile name="vpfButtonActivate" extends="buttonActivate">
+            <textOffset value="0px -10px"/>
+        </Profile>
+
+        <Profile name="vpfButtonBack" extends="buttonBack">
+            <textOffset value="0px -10px"/>
         </Profile>
     </GUIProfiles>
 </GUI>

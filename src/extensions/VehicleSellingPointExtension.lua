@@ -198,25 +198,20 @@ function VehicleSellingPointExtension.createSaleListing(vehicle, farmId, agentTi
     -- Default priceTier for legacy compatibility
     priceTier = priceTier or 2
 
-    -- Create listing through manager (passes both tiers)
-    local listing = g_vehicleSaleManager:createSaleListing(farmId, vehicle, agentTier, priceTier)
+    -- v2.8.0: Use network event for multiplayer synchronization
+    -- This ensures the listing is created on the server and synced to all clients
+    CreateSaleListingEvent.sendToServer(farmId, vehicle.id, agentTier, priceTier)
 
-    if listing then
-        UsedPlus.logDebug(string.format("Created sale listing: %s (Agent %d, Price %d, ID: %s)",
-            listing.vehicleName, agentTier, priceTier, listing.id))
+    UsedPlus.logDebug(string.format("Sent CreateSaleListingEvent: vehicle=%d, agent=%d, price=%d",
+        vehicle.id, agentTier, priceTier))
 
-        -- Show styled confirmation dialog
-        VehicleSellingPointExtension.showSaleListingConfirmation(vehicle, agentTier, priceTier)
-    else
-        g_currentMission:addIngameNotification(
-            FSBaseMission.INGAME_NOTIFICATION_INFO,
-            "Failed to create sale listing. Please try again."
-        )
-    end
+    -- Show styled confirmation dialog optimistically
+    -- The server will send a TransactionResponseEvent to confirm success/failure
+    VehicleSellingPointExtension.showSaleListingConfirmation(vehicle, agentTier, priceTier)
 
     -- Cleanup: Clear our stored state
-    UsedPlus.logDebug(">>> SALE COMPLETE <<<")
-    VehicleSellingPointExtension.logGuiState("SALE_COMPLETE")
+    UsedPlus.logDebug(">>> SALE LISTING SENT <<<")
+    VehicleSellingPointExtension.logGuiState("SALE_LISTING_SENT")
 
     VehicleSellingPointExtension.currentVehicle = nil
     VehicleSellingPointExtension.pendingRepairCallback = nil
@@ -687,13 +682,12 @@ function VehicleSellingPointExtension.hookAllDialogs()
                     -- Show our dialog instead
                     local callback = function(agentTier, priceTier)
                         if agentTier ~= nil then
-                            -- Create sale listing
-                            local listing = g_vehicleSaleManager:createSaleListing(farmId, vehicle, agentTier, priceTier or 2)
-                            if listing then
-                                UsedPlus.logInfo(string.format("Created sale listing for %s", listing.vehicleName))
-                                -- Show confirmation
-                                VehicleSellingPointExtension.showSaleListingConfirmation(vehicle, agentTier, priceTier)
-                            end
+                            -- v2.8.0: Use network event for multiplayer synchronization
+                            priceTier = priceTier or 2
+                            CreateSaleListingEvent.sendToServer(farmId, vehicle.id, agentTier, priceTier)
+                            UsedPlus.logInfo(string.format("Sent CreateSaleListingEvent for vehicle %d", vehicle.id))
+                            -- Show confirmation optimistically
+                            VehicleSellingPointExtension.showSaleListingConfirmation(vehicle, agentTier, priceTier)
                         end
                     end
 

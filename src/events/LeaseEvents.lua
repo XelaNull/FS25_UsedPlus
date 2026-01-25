@@ -113,29 +113,34 @@ function LeaseVehicleEvent:run(connection)
         NetworkSecurity.logSecurityEvent("LEASE_REJECTED",
             string.format("Unauthorized lease attempt for farmId %d: %s", self.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
     -- v2.6.2: Validate lease system is enabled
     if UsedPlusSettings and UsedPlusSettings:get("enableLeaseSystem") == false then
         UsedPlus.logWarn("LeaseVehicleEvent rejected: Lease system disabled in settings")
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_disabled")
         return
     end
 
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_manager")
         return
     end
 
     local farm = g_farmManager:getFarmById(self.farmId)
     if farm == nil then
         UsedPlus.logError(string.format("Farm %d not found", self.farmId))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_farm_not_found")
         return
     end
 
     if farm.money < self.downPayment then
         UsedPlus.logError(string.format("Insufficient funds for down payment ($%.2f required, $%.2f available)",
             self.downPayment, farm.money))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_insufficient_funds")
         return
     end
 
@@ -146,6 +151,7 @@ function LeaseVehicleEvent:run(connection)
 
     if deal then
         UsedPlus.logDebug(string.format("Lease deal created successfully: %s (ID: %s)", self.vehicleName, deal.id))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_leased")
 
         local storeItem = g_storeManager:getItemByXMLFilename(self.vehicleConfig)
         if storeItem then
@@ -172,6 +178,7 @@ function LeaseVehicleEvent:run(connection)
         end
     else
         UsedPlus.logError(string.format("Failed to create lease deal for %s", self.vehicleName))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_failed")
     end
 end
 
@@ -327,12 +334,14 @@ function LeaseEndEvent:run(connection)
 
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
+        -- Note: No farmId available yet, can't send response
         return
     end
 
     local deal = g_financeManager:getDealById(self.dealId)
     if deal == nil then
         UsedPlus.logError(string.format("Lease deal %s not found", self.dealId))
+        -- Note: No farmId available, can't send response
         return
     end
 
@@ -343,30 +352,34 @@ function LeaseEndEvent:run(connection)
             string.format("Unauthorized lease end attempt for deal %s (farmId %d): %s",
                 self.dealId, deal.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
     if deal.dealType ~= 2 then
         UsedPlus.logError(string.format("Deal %s is not a lease", self.dealId))
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_invalid_deal_type")
         return
     end
 
     local farm = g_farmManager:getFarmById(deal.farmId)
     if farm == nil then
         UsedPlus.logError(string.format("Farm %d not found", deal.farmId))
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_farm_not_found")
         return
     end
 
     if self.action == LeaseEndEvent.ACTION_RETURN then
-        self:processReturn(deal, farm)
+        self:processReturn(deal, farm, connection)
     elseif self.action == LeaseEndEvent.ACTION_BUYOUT then
-        self:processBuyout(deal, farm)
+        self:processBuyout(deal, farm, connection)
     else
         UsedPlus.logError(string.format("Unknown lease end action: %d", self.action))
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_invalid_action")
     end
 end
 
-function LeaseEndEvent:processReturn(deal, farm)
+function LeaseEndEvent:processReturn(deal, farm, connection)
     if self.amount > 0 then
         if farm.money < self.amount then
             g_currentMission:addIngameNotification(
@@ -374,6 +387,7 @@ function LeaseEndEvent:processReturn(deal, farm)
                 string.format("Insufficient funds for damage penalty. Need %s",
                     g_i18n:formatMoney(self.amount, 0, true, true))
             )
+            TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_insufficient_funds")
             return
         end
         g_currentMission:addMoney(-self.amount, deal.farmId, MoneyType.OTHER, true, true)
@@ -395,16 +409,18 @@ function LeaseEndEvent:processReturn(deal, farm)
         FSBaseMission.INGAME_NOTIFICATION_OK,
         string.format("Lease ended. %s returned to dealer.", deal.itemName)
     )
+    TransactionResponseEvent.sendToClient(connection, deal.farmId, true, "usedplus_mp_success_lease_returned")
     UsedPlus.logDebug(string.format("Lease returned: %s (penalty: $%.2f)", deal.itemName, self.amount))
 end
 
-function LeaseEndEvent:processBuyout(deal, farm)
+function LeaseEndEvent:processBuyout(deal, farm, connection)
     if farm.money < self.amount then
         g_currentMission:addIngameNotification(
             FSBaseMission.INGAME_NOTIFICATION_ERROR,
             string.format("Insufficient funds for buyout. Need %s",
                 g_i18n:formatMoney(self.amount, 0, true, true))
         )
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_insufficient_funds")
         return
     end
 
@@ -424,6 +440,7 @@ function LeaseEndEvent:processBuyout(deal, farm)
         string.format("Congratulations! %s is now yours for %s",
             deal.itemName, g_i18n:formatMoney(self.amount, 0, true, true))
     )
+    TransactionResponseEvent.sendToClient(connection, deal.farmId, true, "usedplus_mp_success_lease_buyout")
 
     if CreditHistory then
         CreditHistory.recordEvent(deal.farmId, "DEAL_PAID_OFF", deal.itemName)
@@ -486,22 +503,26 @@ function TerminateLeaseEvent:run(connection)
             string.format("Unauthorized lease termination attempt for farmId %d: %s",
                 self.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_manager")
         return
     end
 
     local deal = g_financeManager:getDealById(self.dealId)
     if deal == nil then
         UsedPlus.logError(string.format("Deal %s not found", self.dealId))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_deal_not_found")
         return
     end
 
     if deal.dealType ~= 2 and deal.dealType ~= 3 then
         UsedPlus.logError(string.format("Deal %s is not a lease (type: %d)", self.dealId, deal.dealType or 0))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_invalid_deal_type")
         return
     end
 
@@ -509,12 +530,14 @@ function TerminateLeaseEvent:run(connection)
 
     if deal.farmId ~= self.farmId then
         UsedPlus.logError(string.format("Farm %d does not own deal %s", self.farmId, self.dealId))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
     local farm = g_farmManager:getFarmById(self.farmId)
     if farm == nil then
         UsedPlus.logError(string.format("Farm %d not found", self.farmId))
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_farm_not_found")
         return
     end
 
@@ -538,6 +561,7 @@ function TerminateLeaseEvent:run(connection)
             FSBaseMission.INGAME_NOTIFICATION_INFO,
             string.format("Land lease terminated: %s has been returned", deal.landName or deal.itemName or "Field")
         )
+        TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_lease_terminated")
         return
     end
 
@@ -570,6 +594,7 @@ function TerminateLeaseEvent:run(connection)
             FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
             string.format(g_i18n:getText("usedplus_error_insufficientFundsTermination"), g_i18n:formatMoney(totalPenalty))
         )
+        TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_insufficient_funds")
         return
     end
 
@@ -599,6 +624,7 @@ function TerminateLeaseEvent:run(connection)
     end
 
     g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_OK, notificationText)
+    TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_lease_terminated")
     UsedPlus.logDebug(string.format("Lease terminated: %s (penalty: $%.2f)", deal.vehicleName, totalPenalty))
 end
 
@@ -705,12 +731,14 @@ function LeaseRenewalEvent:run(connection)
 
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
+        -- Note: No farmId available yet, can't send response
         return
     end
 
     local deal = g_financeManager:getDealById(self.dealId)
     if deal == nil then
         UsedPlus.logError(string.format("Deal %s not found", self.dealId))
+        -- Note: No farmId available, can't send response
         return
     end
 
@@ -721,12 +749,14 @@ function LeaseRenewalEvent:run(connection)
             string.format("Unauthorized lease renewal attempt for deal %s (farmId %d): %s",
                 self.dealId, deal.farmId, errorMsg or "unknown"),
             connection)
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_unauthorized")
         return
     end
 
     local farm = g_farmManager:getFarmById(deal.farmId)
     if farm == nil then
         UsedPlus.logError(string.format("Farm %d not found", deal.farmId))
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_farm_not_found")
         return
     end
 
@@ -734,20 +764,21 @@ function LeaseRenewalEvent:run(connection)
                         (deal.itemId and string.find(deal.itemId or "", "farmland"))
 
     if self.action == LeaseRenewalEvent.ACTION_RETURN then
-        self:processReturn(deal, farm, isLandLease)
+        self:processReturn(deal, farm, isLandLease, connection)
     elseif self.action == LeaseRenewalEvent.ACTION_BUYOUT then
-        self:processBuyout(deal, farm, isLandLease)
+        self:processBuyout(deal, farm, isLandLease, connection)
     elseif self.action == LeaseRenewalEvent.ACTION_RENEW then
-        self:processRenew(deal, farm, isLandLease)
+        self:processRenew(deal, farm, isLandLease, connection)
     else
         UsedPlus.logError(string.format("Unknown lease renewal action: %d", self.action))
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_invalid_action")
     end
 end
 
 --[[
     Process return action - give back asset, refund deposit
 ]]
-function LeaseRenewalEvent:processReturn(deal, farm, isLandLease)
+function LeaseRenewalEvent:processReturn(deal, farm, isLandLease, connection)
     local depositRefund = self.data.depositRefund or 0
 
     -- Refund security deposit
@@ -791,13 +822,14 @@ function LeaseRenewalEvent:processReturn(deal, farm, isLandLease)
         CreditHistory.recordEvent(deal.farmId, "LEASE_RETURNED", deal.itemName)
     end
 
+    TransactionResponseEvent.sendToClient(connection, deal.farmId, true, "usedplus_mp_success_lease_returned")
     UsedPlus.logDebug(string.format("Lease returned: %s (refund: $%d)", deal.itemName, depositRefund))
 end
 
 --[[
     Process buyout action - purchase asset at residual minus equity
 ]]
-function LeaseRenewalEvent:processBuyout(deal, farm, isLandLease)
+function LeaseRenewalEvent:processBuyout(deal, farm, isLandLease, connection)
     local buyoutPrice = self.data.buyoutPrice or 0
     local equityApplied = self.data.equityApplied or 0
     local depositRefund = self.data.depositRefund or 0
@@ -810,6 +842,7 @@ function LeaseRenewalEvent:processBuyout(deal, farm, isLandLease)
             string.format("Insufficient funds for buyout. Need %s",
                 UIHelper.Text.formatMoney(netCost))
         )
+        TransactionResponseEvent.sendToClient(connection, deal.farmId, false, "usedplus_mp_error_insufficient_funds")
         return
     end
 
@@ -854,6 +887,7 @@ function LeaseRenewalEvent:processBuyout(deal, farm, isLandLease)
         CreditHistory.recordEvent(deal.farmId, "LEASE_BOUGHT_OUT", deal.itemName)
     end
 
+    TransactionResponseEvent.sendToClient(connection, deal.farmId, true, "usedplus_mp_success_lease_buyout")
     UsedPlus.logDebug(string.format("Lease bought out: %s (price: $%d, equity: $%d)",
         deal.itemName, buyoutPrice, equityApplied))
 end
@@ -861,7 +895,7 @@ end
 --[[
     Process renew action - extend lease with equity rollover
 ]]
-function LeaseRenewalEvent:processRenew(deal, farm, isLandLease)
+function LeaseRenewalEvent:processRenew(deal, farm, isLandLease, connection)
     local equityRollover = self.data.equityRollover or 0
     local newResidualValue = self.data.newResidualValue or deal.residualValue or 0
 
@@ -898,6 +932,7 @@ function LeaseRenewalEvent:processRenew(deal, farm, isLandLease)
         CreditHistory.recordEvent(deal.farmId, "LEASE_RENEWED", deal.itemName)
     end
 
+    TransactionResponseEvent.sendToClient(connection, deal.farmId, true, "usedplus_mp_success_lease_renewed")
     UsedPlus.logDebug(string.format("Lease renewed: %s (equity rollover: $%d, new residual: $%d)",
         deal.itemName, equityRollover, newResidualValue))
 end

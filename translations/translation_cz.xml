@@ -550,7 +550,7 @@
 
         <!--  Vehicle Info Display -->
         <e k="usedPlus_purchasedUsed" v="Kupované použité" eh="0cf8d116" />
-        <e k="usedPlus_repairHistory" v="Opravy: %d (celkem @1@@)" eh="724d4694" />
+        <e k="usedPlus_repairHistory" v="Opravy: %d (celkem %s)" eh="724d4694" />
         <e k="usedPlus_breakdownHistory" v="Rozdělení: %d" eh="18b384ef" />
         <e k="usedPlus_mechanicalCondition" v="Mechanické: %s" eh="e74c01b3" />
 
@@ -628,6 +628,36 @@
         <e k="usedplus_lease_amountTooSmall" v="Částka je příliš malá na leasing. Minimum: %s" eh="3e2012e8" />
         <e k="usedplus_repair_amountTooSmall" v="Náklady na opravu jsou příliš malé na financování. Minimum: %s" eh="446dd4cd" />
         <e k="usedplus_land_amountTooSmall" v="Cena pozemku je pro financování příliš nízká. Minimum: %s" eh="b4e8480c" />
+        <e k="usedplus_mp_error_unauthorized" v="Akce není povolena pro vaši farmu" eh="343a024c" />
+        <e k="usedplus_mp_error_disabled" v="Tato funkce je vypnuta v nastavení" eh="d3f06efd" />
+        <e k="usedplus_mp_error_manager" v="Systém není inicializován. Zkuste to znovu." eh="53daf785" />
+        <e k="usedplus_mp_error_invalid_params" v="Neplatné parametry" eh="a79fae6b" />
+        <e k="usedplus_mp_error_insufficient_funds" v="Nedostatek financí" eh="55f90c96" />
+        <e k="usedplus_mp_error_failed" v="Transakce selhala" eh="3f864e37" />
+        <e k="usedplus_mp_error_farm_not_found" v="Farma nenalezena" eh="a13cd50e" />
+        <e k="usedplus_mp_error_deal_not_found" v="Smlouva nenalezena" eh="f85a8ec8" />
+        <e k="usedplus_mp_error_land_not_found" v="Pozemek nenalezen" eh="db02fd36" />
+        <e k="usedplus_mp_error_land_owned" v="Tento pozemek je již vlastněn" eh="7175cfeb" />
+        <e k="usedplus_mp_error_already_leased" v="Na tento pozemek již máte pronájem" eh="25394947" />
+        <e k="usedplus_mp_error_invalid_deal_type" v="Neplatný typ smlouvy" eh="e9926aa4" />
+        <e k="usedplus_mp_error_deal_not_active" v="Smlouva není aktivní" eh="4f8a3c97" />
+        <e k="usedplus_mp_error_repair_failed" v="Oprava selhala" eh="e25882fc" />
+        <e k="usedplus_mp_error_search_failed" v="Vyhledávání selhalo" eh="a4d17776" />
+        <e k="usedplus_mp_success_financed" v="Vozidlo úspěšně financováno!" eh="e0a11202" />
+        <e k="usedplus_mp_success_leased" v="Vozidlo úspěšně pronajato!" eh="f73065ee" />
+        <e k="usedplus_mp_success_loan" v="Půjčka schválena!" eh="96d2eb36" />
+        <e k="usedplus_mp_success_payment" v="Platba zpracována!" eh="fffcd9ab" />
+        <e k="usedplus_mp_success_land_leased" v="Pozemek úspěšně pronajat!" eh="4815779c" />
+        <e k="usedplus_mp_success_land_buyout" v="Pozemek úspěšně zakoupen!" eh="9de4a0f4" />
+        <e k="usedplus_mp_success_listed" v="Vozidlo vystaveno k prodeji!" eh="1178dfe3" />
+        <e k="usedplus_mp_success_sale_action" v="Prodejní akce dokončena!" eh="f4473f61" />
+        <e k="usedplus_mp_success_price_modified" v="Cena aktualizována!" eh="3778ab16" />
+        <e k="usedplus_mp_success_repair" v="Oprava dokončena!" eh="9e6d62a2" />
+        <e k="usedplus_mp_success_search_started" v="Vyhledávání zahájeno!" eh="f10690d3" />
+        <e k="usedplus_mp_success_lease_ended" v="Pronájem úspěšně ukončen!" eh="71efe46d" />
+        <e k="usedplus_mp_success_lease_terminated" v="Pronájem předčasně ukončen!" eh="2ac6c824" />
+        <e k="usedplus_mp_success_lease_renewed" v="Pronájem prodloužen!" eh="30c5a4dd" />
+        <e k="usedplus_mp_success_lease_buyout" v="Výkup pronájmu dokončen!" eh="b76c5d41" />
 
         <!-- Mode Selector Options -->
         <e k="usedplus_mode_cash" v="Nakupujte v hotovosti" eh="01dc9cc3" />
@@ -796,6 +826,7 @@
         <e k="usedplus_button_close" v="Zavřít" eh="d3d2e617" />
         <e k="usedplus_button_confirm" v="Potvrdit" eh="70d9be9b" />
         <e k="usedplus_button_cancel" v="Zrušit" eh="ea478870" />
+        <e k="usedplus_button_later" v="Později" eh="61057a0c" />
         <e k="usedplus_button_takeLoan" v="Vzít půjčku" eh="40fe67fa" />
         <e k="usedplus_button_payOff" v="Splatit" eh="416ff954" />
 
@@ -917,8 +948,8 @@
         <e k="usedplus_tl_yourRate" v="Vaše úroková sazba:" eh="6387ae1b" />
         <e k="usedplus_tl_sectionCollateral" v="VYBRAT ZÁSTAVU" eh="fdb2d731" />
         <e k="usedplus_tl_collateralHelp" v="Klikněte pro přepnutí aktiv jako zástavy (zobrazeny pouze nezatížené aktiva)" eh="618ea809" />
-        <e k="usedplus_tl_prev" v="◄ Předch" eh="bddeed69" />
-        <e k="usedplus_tl_next" v="Další ►" eh="4b0a535a" />
+        <e k="usedplus_tl_prev" v="&lt; Předch" eh="bddeed69" />
+        <e k="usedplus_tl_next" v="Další &gt;" eh="4b0a535a" />
         <e k="usedplus_tl_selected" v="Vybráno:" eh="e8418a9e" />
         <e k="usedplus_tl_existingDebt" v="Existující dluh:" eh="e7d0c3fb" />
         <e k="usedplus_tl_maxLoan" v="MAXIMÁLNÍ PŮJČKA:" eh="f2517379" />
@@ -1036,6 +1067,7 @@
         <e k="usedplus_uvp_damage" v="Poškození:" eh="5a50c456" />
         <e k="usedplus_uvp_wear" v="Opotřebení:" eh="0f25ac5c" />
         <e k="usedplus_uvp_warningTitle" v="Skrytý mechanický stav neznámý" eh="d2e42691" />
+        <e k="usedplus_uvp_selectTier" v="Vyberte úroveň prohlídky:" eh="c3d4dde6" />
         <e k="usedplus_uvp_inspectPrompt" v="Zaplaťte za odbornou kontrolu" eh="2c3e76c2" />
         <e k="usedplus_uvp_inspectedText" v="Vozidlo bylo prohlédnuto - zobrazit zprávu" eh="9015cd17" />
         <e k="usedplus_button_buyAsIs" v="Koupit jak je" eh="43e49e70" />
@@ -1524,9 +1556,6 @@
         <e k="usedplus_tire_quality" v="Kvalita" eh="571094bb" />
 
         <!-- v1.7.0: Fluids Dialog Labels -->
-        <e k="usedplus_fluids_title" v="SERVIS KAPALIN" eh="7eb767c6" />
-        <e k="usedplus_fluids_oil" v="Motorový olej" eh="2e69df59" />
-        <e k="usedplus_fluids_hydraulic" v="Hydraulická kapalina" eh="fda2bff7" />
         <e k="usedplus_fluids_level" v="Úroveň:" eh="07ad8151" />
         <e k="usedplus_fluids_status" v="Stav:" eh="24a23d78" />
         <e k="usedplus_fluids_statusOk" v="OK" eh="e0aa021e" />
@@ -1541,9 +1570,7 @@
         <e k="usedplus_fluids_cost" v="Náklady:" eh="69edde90" />
 
         <!-- v1.7.0: Tires Dialog Labels -->
-        <e k="usedplus_tires_title" v="SERVIS PNEUMATIK" eh="b0234f4e" />
         <e k="usedplus_tires_condition" v="Stav:" eh="ed51222f" />
-        <e k="usedplus_tires_quality" v="Kvalita:" eh="571094bb" />
         <e k="usedplus_tires_traction" v="Trakce:" eh="8d38bce1" />
         <e k="usedplus_tires_flatTire" v="PRÁZDNÁ PNEUMATIKA" eh="6e87cc30" />
         <e k="usedplus_tires_replace" v="Vyměnit pneumatiky" eh="3a0d1434" />
@@ -1564,6 +1591,9 @@
         <e k="usedplus_mr_fuelLeak" v="Únik paliva:" eh="caf0d1a8" />
         <e k="usedplus_mr_yes" v="Ano" eh="93cba074" />
         <e k="usedplus_mr_no" v="Žádný" eh="bafd7322" />
+        <e k="usedplus_info_oil_level" v="Hladina oleje" eh="a6d699fb" />
+        <e k="usedplus_info_hydraulic_level" v="Hydraulická kapalina" eh="f9c4d7d9" />
+        <e k="usedplus_info_tire_condition" v="Pneumatiky" eh="3fe2c06a" />
 
         <!-- v1.7.0: Tires Service Dialog -->
         <e k="usedplus_tires_title" v="Servis pneumatik" eh="b0234f4e" />
@@ -1623,7 +1653,6 @@
         <e k="usedplus_oil_refillComplete" v="Olej doplněn - Náklady: %s" eh="0dff6e72" />
         <e k="usedplus_hydraulic_refillComplete" v="Hydraulická kapalina doplněna - Náklady: %s" eh="2d22bcb4" />
         <e k="usedplus_oil_refillCompleteStorage" v="Olej doplněn ze skladu" eh="2d3715a7" />
-        <e k="usedplus_hydraulic_refillCompleteStorage" v="Hydraulická kapalina doplněna ze skladu" eh="8290045e" />
         <e k="usedplus_oil_notEnoughStorage" v="Nedostatek oleje ve skladu" eh="4cf5955b" />
         <e k="usedplus_hydraulic_notEnoughStorage" v="Nedostatek hydraulické kapaliny ve skladu" eh="a1a0eb52" />
         <e k="usedplus_oil_alreadyFull" v="Motorový olej již plný" eh="9474e86e" />
@@ -1768,6 +1797,9 @@
         <e k="usedplus_fsk_temp_repair" v="DOČASNÁ POLNÍ OPRAVA" eh="b3bc3876" />
         <e k="usedplus_fsk_temp_repair_desc" v="Toto je nouzová oprava. Navštivte řádnou dílnu pro kompletní servis." eh="648457f5" />
         <e k="usedplus_fsk_kit_consumed" v="OBD skener byl spotřebován." eh="b2ea1455" />
+        <e k="usedplus_fsk_onetime_title" v="POLNÍ SERVIS DOKONČEN" eh="4336e84b" />
+        <e k="usedplus_fsk_onetime_desc" v="Další diagnostika tohoto systému vyžaduje dílenské vybavení" eh="38988277" />
+        <e k="usedplus_fsk_kit_consumed_onetime" v="OBD skener spotřebován. Všechny terénní úpravy tohoto systému byly provedeny." eh="4ae3775f" />
         <e k="usedplus_fsk_cannot_cancel" v="Oprava probíhá - nelze zrušit v této fázi." eh="6172d2ec" />
         <e k="usedplus_fsk_noVehicle" v="V dosahu nebylo detekováno žádné vozidlo. Přisuňte skener blíže k vozidlu." eh="e89e127f" />
 
@@ -1781,6 +1813,7 @@
         <e k="usedplus_fsk_tire_plug" v="ZÁSTRČKA" eh="c18d6117" />
         <e k="usedplus_fsk_tire_plug_desc" v="Lepší nouzová oprava" eh="b3aa3113" />
         <e k="usedplus_fsk_tire_plug_result" v="Obnovuje na 50% stav" eh="98bf223c" />
+        <e k="usedplus_fsk_tires_ok" v="Všechny pneumatiky OK - oprava není nutná" eh="e070fe8d" />
 
         <!-- v2.1.0: Scanner Readout Hints (Step 1 hints to deduce failed system) -->
         <e k="usedplus_fsk_scanner_readout" v="ÚDAJE ZE SKENERU OBD" eh="e81cab15" />
@@ -1844,6 +1877,8 @@
         <e k="usedplus_setting_tirewear_desc" v="Povolit realistické opotřebení pneumatik" eh="0a955572" />
         <e k="usedplus_setting_malfunctions" v="Poruchy" eh="97801e8a" />
         <e k="usedplus_setting_malfunctions_desc" v="Povolit náhodné poruchy a selhání komponentů" eh="fbbe01f9" />
+        <e k="usedplus_setting_malfunctionFrequency" v="Frekvence poruch" eh="6bf458c7" />
+        <e k="usedplus_setting_malfunctionFrequency_desc" v="Jak často dochází k poruchám. 100% = normálně, 50% = poloviční frekvence, 200% = dvojnásobná frekvence" eh="4ab011c4" />
         <e k="usedplus_setting_partialRepair" v="Částečná Oprava" eh="dc6b627a" />
         <e k="usedplus_setting_partialRepair_desc" v="Povolit částečné opravy v dílně (zakázání skryje tlačítko opravy)" eh="84fe180c" />
         <e k="usedplus_setting_partialRepaint" v="Částečné Lakování" eh="3fca656d" />
@@ -2051,10 +2086,39 @@
     <e k="usedplus_malfunction_seized" v="ZADŘENO" eh="cdceb6dd" />
     <e k="usedplus_malfunction_leak" v="ÚNIK" eh="2ec9e171" />
     <e k="usedplus_malfunction_flat" v="PRÁZDNÁ" eh="f88a77e3" />
+        <e k="usedplus_fsk_diagnosis_exhausted" v="Tento systém již prošel polním servisem. Další opravy vyžadují dílenské vybavení." eh="79b71f1e" />
     <e k="usedplus_seizure_detected" v="KOMPONENTA ZADŘENA" eh="9def01dd" />
     <e k="usedplus_seizure_repair_confirm" v="%s je zadřen(a) a vyžaduje nouzovou opravu.\n\nNáklady na opravu: %s\n\nPokračovat s opravou?" eh="bf702608" />
     <e k="usedplus_seizure_repaired" v="%s opraveno! Spolehlivost obnovena na %d%%" eh="323fa338" />
     <e k="usedplus_repair_no_money" v="Nedostatek peněz na opravu!" eh="0c0a7c19" />
+        <e k="usedplus_warning_notEnoughMoney" v="Nedostatek peněz!" eh="48f194d4" />
+        <e k="usedplus_notification_landSeized" v="POZEMEK ZABAVEN: %s byl odebrán kvůli neplacení!" eh="1c095ac6" />
+        <e k="usedplus_error_paymentTooLow" v="Částka platby je pod požadovaným minimem." eh="4f83eda0" />
+        <e k="usedplus_error_paymentTooHigh" v="Částka platby přesahuje zbývající zůstatek." eh="091a9776" />
+        <e k="usedplus_success_paymentMade" v="Platba úspěšně zpracována!" eh="b12aba7d" />
+        <e k="usedplus_error_cannotAffordTermination" v="Nedostatek peněz na poplatek za ukončení pronájmu." eh="64ed9e67" />
+        <e k="usedplus_credit_required" v="Vyžadován kredit" eh="cefa86b5" />
+        <e k="usedplus_finance_credit_msg" v="Financování vyžaduje kreditní skóre %d nebo vyšší." eh="7d3d6778" />
+        <e k="usedplus_lease_credit_msg" v="Leasing vyžaduje kreditní skóre %d nebo vyšší." eh="c86cbfc5" />
+        <e k="usedplus_error_purchaseFailed" v="Nákup selhal - herní API není dostupné." eh="c02a7002" />
+        <e k="usedplus_error_negativeDownPayment" v="Záloha nemůže být záporná." eh="0634f8d8" />
+        <e k="usedplus_error_downPaymentTooHigh" v="Záloha nemůže přesáhnout kupní cenu." eh="6bd926ef" />
+        <e k="usedplus_error_invalidTerm" v="Neplatná doba půjčky." eh="49e90a5b" />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="Záloha nemůže přesáhnout cenu pronájmu." eh="5e32ae97" />
+        <e k="usedplus_error_leaseTermInvalid" v="Neplatná doba pronájmu." eh="7f3c3523" />
+        <e k="usedplus_age_oneYear" v="1 rok stáří" eh="086d4f5c" />
+        <e k="usedplus_age_years" v="%d let stáří" eh="afdf2194" />
+        <e k="usedplus_hours" v="%d hodin" eh="4e8d5e54" />
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="Bankovní půjčka splacena!" eh="a6f2a43b" />
+        <e k="usedplus_mp_success_vehicle_purchased" v="Vozidlo úspěšně zakoupeno!" eh="b5beec4f" />
+        <e k="usedplus_mp_success_trade_in" v="Výměna úspěšně dokončena!" eh="0a59b49a" />
+        <e k="usedplus_mp_success_field_repair" v="Polní oprava dokončena!" eh="06239aac" />
+        <e k="usedplus_mp_success_fluids_refilled" v="Kapaliny úspěšně doplněny!" eh="9597cd1d" />
+        <e k="usedplus_mp_success_tires_replaced" v="Pneumatiky úspěšně vyměněny!" eh="5224fbbe" />
+        <e k="usedplus_mp_success_land_purchased" v="Pozemek úspěšně zakoupen!" eh="9de4a0f4" />
+        <e k="usedplus_mp_error_purchase_failed" v="Nákup selhal. Zkuste to prosím znovu." eh="42d7ddab" />
+        <e k="usedplus_mp_error_vehicle_not_found" v="Vozidlo nenalezeno." eh="02c84e79" />
+        <e k="usedplus_mp_error_no_loan" v="Žádný zůstatek půjčky k zaplacení." eh="5668e12f" />
 
     </elements>
 </l10n>

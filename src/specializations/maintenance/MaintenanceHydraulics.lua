@@ -22,6 +22,9 @@ function UsedPlusMaintenance.checkHydraulicSurge(vehicle)
     -- Don't trigger if disabled
     if not config.enableHydraulicSurge then return end
 
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     -- Don't trigger new surge if one is already active
     if spec.hydraulicSurgeActive then return end
 
@@ -62,6 +65,9 @@ function UsedPlusMaintenance.checkHydraulicSurge(vehicle)
         spec.hydraulicSurgeFadeStartTime = spec.hydraulicSurgeEndTime - config.hydraulicSurgeFadeTime
         spec.hydraulicSurgeDirection = math.random() < 0.5 and -1 or 1
 
+        -- v2.8.0: Record malfunction time for global cooldown
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
         -- Show red popup warning (consistent with other malfunctions)
         local directionText = spec.hydraulicSurgeDirection < 0 and
             (g_i18n:getText("usedPlus_directionLeft") or "left") or
@@ -90,6 +96,9 @@ function UsedPlusMaintenance.checkRunawayCondition(vehicle)
     -- Don't trigger if disabled
     if not config.enableRunaway then return end
 
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     -- Don't trigger if already in runaway
     if spec.runawayActive then return end
 
@@ -113,6 +122,9 @@ function UsedPlusMaintenance.checkRunawayCondition(vehicle)
         spec.runawayStartTime = g_currentMission.time or 0
         spec.runawayPreviousSpeed = speed
         spec.runawayPreviousDamage = vehicle:getVehicleDamage() or 0
+
+        -- v2.8.0: Record malfunction time for global cooldown
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
 
         UsedPlusMaintenance.showWarning(vehicle,
             g_i18n:getText("usedplus_warning_runaway") or
@@ -220,6 +232,10 @@ function UsedPlusMaintenance.checkImplementStuckDown(vehicle)
     local config = UsedPlusMaintenance.CONFIG
 
     if not config.enableImplementStuckDown then return end
+
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     if spec.implementStuckDown then return end  -- Already stuck
 
     local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
@@ -252,6 +268,9 @@ function UsedPlusMaintenance.checkImplementStuckDown(vehicle)
                 local duration = math.floor(config.implementStuckDownDuration * severityMultiplier)
                 spec.implementStuckDownEndTime = (g_currentMission.time or 0) + duration
 
+                -- v2.8.0: Record malfunction time for global cooldown
+                UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
                 UsedPlusMaintenance.showWarning(vehicle,
                     g_i18n:getText("usedplus_warning_stuckDown") or
                     "HYDRAULIC LIFT FAILURE - Implement cannot raise!")
@@ -275,6 +294,10 @@ function UsedPlusMaintenance.checkImplementStuckUp(vehicle)
     local config = UsedPlusMaintenance.CONFIG
 
     if not config.enableImplementStuckUp then return end
+
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     if spec.implementStuckUp then return end  -- Already stuck
 
     local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
@@ -308,6 +331,9 @@ function UsedPlusMaintenance.checkImplementStuckUp(vehicle)
                     local duration = math.floor(config.implementStuckUpDuration * severityMultiplier)
                     spec.implementStuckUpEndTime = (g_currentMission.time or 0) + duration
 
+                    -- v2.8.0: Record malfunction time for global cooldown
+                    UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
                     UsedPlusMaintenance.showWarning(vehicle,
                         g_i18n:getText("usedplus_warning_stuckUp") or
                         "HYDRAULIC VALVE FAILURE - Implement cannot lower!")
@@ -332,6 +358,10 @@ function UsedPlusMaintenance.checkImplementPull(vehicle)
     local config = UsedPlusMaintenance.CONFIG
 
     if not config.enableImplementPull then return end
+
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     if spec.implementPullActive then return end  -- Already active
 
     local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
@@ -362,6 +392,9 @@ function UsedPlusMaintenance.checkImplementPull(vehicle)
 
         spec.implementPullDirection = math.random() < 0.5 and -1 or 1
 
+        -- v2.8.0: Record malfunction time for global cooldown
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
         local directionText = spec.implementPullDirection < 0 and
             (g_i18n:getText("usedPlus_directionLeft") or "left") or
             (g_i18n:getText("usedPlus_directionRight") or "right")
@@ -386,6 +419,10 @@ function UsedPlusMaintenance.checkImplementDrag(vehicle)
     local config = UsedPlusMaintenance.CONFIG
 
     if not config.enableImplementDrag then return end
+
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     if spec.implementDragActive then return end  -- Already active
 
     local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
@@ -424,6 +461,9 @@ function UsedPlusMaintenance.checkImplementDrag(vehicle)
         local duration = math.floor(config.implementDragDuration * severityMultiplier)
         spec.implementDragEndTime = (g_currentMission.time or 0) + duration
 
+        -- v2.8.0: Record malfunction time for global cooldown
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
         UsedPlusMaintenance.showWarning(vehicle,
             g_i18n:getText("usedplus_warning_implementDrag") or
             "HYDRAULIC STRAIN - Speed reduced!")
@@ -444,6 +484,10 @@ function UsedPlusMaintenance.checkReducedTurning(vehicle)
     local config = UsedPlusMaintenance.CONFIG
 
     if not config.enableReducedTurning then return end
+
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
+
     if spec.reducedTurningActive then return end  -- Already active
 
     local hydraulicReliability = ModCompatibility.getHydraulicReliability(vehicle)
@@ -465,6 +509,9 @@ function UsedPlusMaintenance.checkReducedTurning(vehicle)
         local duration = math.floor(config.reducedTurningDuration * severityMultiplier)
         spec.reducedTurningEndTime = (g_currentMission.time or 0) + duration
 
+        -- v2.8.0: Record malfunction time for global cooldown
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
         UsedPlusMaintenance.showWarning(vehicle,
             g_i18n:getText("usedplus_warning_reducedTurning") or
             "POWER STEERING WEAK - Turning limited!")
@@ -482,6 +529,9 @@ end
 function UsedPlusMaintenance.checkImplementMalfunctions(vehicle)
     local spec = vehicle.spec_usedPlusMaintenance
     if spec == nil then return end
+
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
 
     local config = UsedPlusMaintenance.CONFIG
     local hydraulicReliability = spec.hydraulicReliability or 1.0
@@ -559,6 +609,9 @@ function UsedPlusMaintenance.checkImplementSurge(vehicle, implement, hydraulicRe
         if implement.setLoweredAll then
             implement:setLoweredAll(false)
 
+            -- v2.8.0: Record malfunction time for global cooldown
+            UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
             if not spec.hasShownSurgeWarning and UsedPlusMaintenance.shouldShowWarning(vehicle) then
                 g_currentMission:showBlinkingWarning(
                     g_i18n:getText("usedPlus_implementSurge") or "Hydraulic surge - implement raised!",
@@ -614,6 +667,9 @@ function UsedPlusMaintenance.checkImplementDrop(vehicle, implement, hydraulicRel
             implement:setLoweredAll(true)
             spec.failureCount = (spec.failureCount or 0) + 1  -- v1.6.0: Count as breakdown
 
+            -- v2.8.0: Record malfunction time for global cooldown
+            UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
             -- v2.7.0: Apply DNA-based breakdown degradation (lemons degrade faster)
             UsedPlusMaintenance.applyBreakdownDegradation(vehicle, "Hydraulic")
 
@@ -662,6 +718,9 @@ function UsedPlusMaintenance.checkPTOToggle(vehicle, implement, electricalReliab
         if implement.setIsTurnedOn then
             implement:setIsTurnedOn(not isOn)
 
+            -- v2.8.0: Record malfunction time for global cooldown
+            UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
             if not spec.hasShownPTOWarning and UsedPlusMaintenance.shouldShowWarning(vehicle) then
                 local stateText = isOn and
                     (g_i18n:getText("usedPlus_ptoOff") or "off") or
@@ -709,6 +768,9 @@ function UsedPlusMaintenance.checkHitchFailure(vehicle, implementInfo, hydraulic
             vehicle:detachImplementByObject(implement)
             spec.failureCount = (spec.failureCount or 0) + 1  -- v1.6.0: Count as major breakdown
 
+            -- v2.8.0: Record malfunction time for global cooldown
+            UsedPlusMaintenance.recordMalfunctionTime(vehicle)
+
             -- v2.7.0: Apply DNA-based breakdown degradation (lemons degrade faster)
             UsedPlusMaintenance.applyBreakdownDegradation(vehicle, "Hydraulic")
 
@@ -740,6 +802,9 @@ function UsedPlusMaintenance.checkImplementCutout(vehicle, dt)
 
     -- v2.7.0: Skip if electrical is seized (already permanently dead)
     if spec.electricalSeized then return end
+
+    -- v2.8.0: Check global malfunction cooldown (prevents cascade failures)
+    if UsedPlusMaintenance.isInGlobalCooldown(vehicle) then return end
 
     local config = UsedPlusMaintenance.CONFIG
     local currentTime = g_currentMission.time or 0
@@ -779,6 +844,9 @@ function UsedPlusMaintenance.checkImplementCutout(vehicle, dt)
         spec.isCutout = true
         spec.cutoutEndTime = g_currentMission.time + config.cutoutDurationMs
         spec.failureCount = (spec.failureCount or 0) + 1
+
+        -- v2.8.0: Record malfunction time for global cooldown
+        UsedPlusMaintenance.recordMalfunctionTime(vehicle)
 
         -- Try to raise/stop implements
         if vehicle.getAttachedAIImplements then
@@ -848,6 +916,9 @@ function UsedPlusMaintenance.triggerImplementCutout(vehicle)
         UsedPlusMaintenance.seizeComponent(vehicle, "electrical")
         return  -- Don't do temporary cutout
     end
+
+    -- v2.8.0: Record malfunction time for global cooldown
+    UsedPlusMaintenance.recordMalfunctionTime(vehicle)
 
     -- === Existing temporary cutout code (unchanged) ===
     spec.isCutout = true

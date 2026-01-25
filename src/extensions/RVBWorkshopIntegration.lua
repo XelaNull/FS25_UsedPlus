@@ -303,10 +303,12 @@ function RVBWorkshopIntegration:onRVBRepairButtonClick(dialog)
         UsedPlus.logDebug(string.format("RVBWorkshopIntegration: Using RVB repair cost: %d", rvbRepairCost))
     end
 
-    -- Play click sound
-    if g_soundPlayer then
-        g_soundPlayer:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
-    end
+    -- Play click sound (use pcall for safety - API varies between versions)
+    pcall(function()
+        if g_gui and g_gui.playSample then
+            g_gui:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
+        end
+    end)
 
     -- Close RVB dialog first
     if dialog.close then
@@ -590,10 +592,12 @@ function RVBWorkshopIntegration:onRepaintButtonClick(dialog)
 
     UsedPlus.logDebug(string.format("RVBWorkshopIntegration: Repaint clicked for %s", vehicle:getName()))
 
-    -- Play click sound
-    if g_soundPlayer then
-        g_soundPlayer:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
-    end
+    -- Play click sound (use pcall for safety - API varies between versions)
+    pcall(function()
+        if g_gui and g_gui.playSample then
+            g_gui:playSample(GuiSoundPlayer.SOUND_SAMPLES.CLICK)
+        end
+    end)
 
     -- Close RVB dialog first
     if dialog.close then
@@ -1714,7 +1718,7 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         quoteColor = {0.95, 0.6, 0.55, 1}  -- Reddish for lemons
     end
 
-    -- Row 0: Horizontal rule separator (centered, 80% width visual)
+    -- Row 0: Horizontal rule separator (centered, full width)
     local separatorRow = templateRow:clone(settingsBox)
     if separatorRow then
         separatorRow:setVisible(true)
@@ -1727,21 +1731,32 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         local value = separatorRow:getDescendantByName("value")
 
         if label then
+            -- Expand label to full row width and center
+            -- v2.8.0: Fix for cloned elements that may not have getSize method
+            if separatorRow.getSize then
+                local rowWidth, rowHeight = separatorRow:getSize()
+                if rowWidth and rowWidth > 0 then
+                    label:setSize(rowWidth * 0.95, nil)
+                end
+            end
+            if label.setTextAlignment then
+                label:setTextAlignment(RenderText.ALIGN_CENTER)
+            end
             -- Create centered horizontal rule using ASCII dashes
-            -- (Unicode box-drawing chars not supported by game font)
-            label:setText("     ---------------------------------     ")
+            label:setText("─────────────────────────────")
             if label.setTextColor then
                 label:setTextColor(0.5, 0.5, 0.5, 1)  -- Gray color for rule
             end
         end
         if value then
             value:setText("")
+            value:setVisible(false)
         end
 
         alternating = not alternating
     end
 
-    -- Row 1: Header "MECHANIC'S ASSESSMENT" - centered
+    -- Row 1: Header "MECHANIC'S ASSESSMENT" - centered, full width
     local headerRow = templateRow:clone(settingsBox)
     if headerRow then
         headerRow:setVisible(true)
@@ -1754,8 +1769,26 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         local value = headerRow:getDescendantByName("value")
 
         if label then
-            -- Center with spaces for visual centering in label column
-            label:setText("       " .. (g_i18n:getText("usedplus_mechanic_assessment") or "MECHANIC'S ASSESSMENT"))
+            -- Expand label to full row width and center text
+            -- v2.8.0: Fix for cloned elements that may not have getSize method
+            if headerRow.getSize then
+                local rowWidth, rowHeight = headerRow:getSize()
+                if rowWidth and rowWidth > 0 then
+                    label:setSize(rowWidth * 0.95, nil)  -- 95% of row width
+                end
+            end
+            if label.setTextAlignment then
+                label:setTextAlignment(RenderText.ALIGN_CENTER)
+            end
+            -- Disable text truncation (ellipsis)
+            if label.setHandleFocus then
+                label:setHandleFocus(false)
+            end
+            if label.setTextTruncated then
+                label:setTextTruncated(false)
+            end
+
+            label:setText(g_i18n:getText("usedplus_mechanic_assessment") or "MECHANIC'S ASSESSMENT")
             -- Style as centered header
             if label.setTextColor then
                 label:setTextColor(0.9, 0.8, 0.5, 1)  -- Gold header color
@@ -1766,12 +1799,13 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         end
         if value then
             value:setText("")  -- Empty value column
+            value:setVisible(false)  -- Hide value column entirely
         end
 
         alternating = not alternating
     end
 
-    -- Row 2: The quote itself - centered with italic feel
+    -- Row 2: The quote itself - centered, full width
     local quoteRow = templateRow:clone(settingsBox)
     if quoteRow then
         quoteRow:setVisible(true)
@@ -1784,14 +1818,34 @@ function RVBWorkshopIntegration:injectMechanicAssessment(dialog, settingsBox, te
         local value = quoteRow:getDescendantByName("value")
 
         if label then
-            -- Format as quote with quotation marks, add leading spaces for centering
-            label:setText(string.format('    "%s"', mechanicQuote))
+            -- Expand label to full row width and center text
+            -- v2.8.0: Fix for cloned elements that may not have getSize method
+            if quoteRow.getSize then
+                local rowWidth, rowHeight = quoteRow:getSize()
+                if rowWidth and rowWidth > 0 then
+                    label:setSize(rowWidth * 0.95, nil)  -- 95% of row width
+                end
+            end
+            if label.setTextAlignment then
+                label:setTextAlignment(RenderText.ALIGN_CENTER)
+            end
+            -- Disable text truncation (ellipsis)
+            if label.setHandleFocus then
+                label:setHandleFocus(false)
+            end
+            if label.setTextTruncated then
+                label:setTextTruncated(false)
+            end
+
+            -- Format as quote with quotation marks
+            label:setText(string.format('"%s"', mechanicQuote))
             if label.setTextColor then
                 label:setTextColor(unpack(quoteColor))
             end
         end
         if value then
             value:setText("")  -- Empty value column
+            value:setVisible(false)  -- Hide value column entirely
         end
     end
 

@@ -503,6 +503,7 @@ end
 
 --[[
     Execute early payoff
+    v2.8.0: Uses FinancePaymentEvent for multiplayer synchronization
 ]]
 function DealDetailsDialog:executePayoff()
     if self.deal == nil then return end
@@ -515,40 +516,17 @@ function DealDetailsDialog:executePayoff()
 
     local farmId = g_currentMission:getFarmId()
 
-    -- Deduct funds
-    g_currentMission:addMoney(-payoffAmount, farmId, MoneyType.OTHER, true, true)
-
-    -- Mark deal as paid off
-    deal.status = "paid_off"
-    deal.currentBalance = 0
-    deal.accruedInterest = 0
-
-    -- Track statistics
-    g_financeManager:incrementStatistic(farmId, "dealsCompleted", 1)
-    if deal.totalInterestPaid then
-        g_financeManager:incrementStatistic(farmId, "totalInterestPaid", deal.totalInterestPaid)
-    end
-
-    -- Record credit event
-    if CreditHistory then
-        CreditHistory.recordEvent(farmId, "DEAL_PAID_OFF", deal.itemName or "Unknown")
-    end
-
-    -- Remove from active deals
-    g_financeManager:removeDeal(deal.id)
-
-    -- Show notification
-    local isLease = (deal.dealType == 2) or (deal.itemType == "lease")
-    local notificationText = isLease and
-        string.format("Lease for %s bought out!", deal.itemName) or
-        string.format("Loan for %s paid off!", deal.itemName)
-
-    g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_OK, notificationText)
+    -- v2.8.0: Use network event for multiplayer synchronization
+    -- FinancePaymentEvent handles: validation, money deduction, deal completion,
+    -- statistics tracking, credit history, and deal removal when amount >= balance
+    -- Note: sendToServer is an instance method, so we create the event first
+    local paymentEvent = FinancePaymentEvent.new(deal.id, payoffAmount, farmId)
+    paymentEvent:sendToServer(deal.id, payoffAmount, farmId)
 
     -- Store callback before closing (dialog close clears it)
     local refreshCallback = self.onCloseCallback
 
-    -- Close dialog (ScreenElement doesn't have close(), use g_gui)
+    -- Close dialog immediately - server handles the rest
     g_gui:closeDialogByName("DealDetailsDialog")
 
     -- Refresh the finance manager frame using multiple fallback methods

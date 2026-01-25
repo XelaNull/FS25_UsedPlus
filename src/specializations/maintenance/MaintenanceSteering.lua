@@ -154,7 +154,9 @@ function UsedPlusMaintenance.applyDirectSteeringPull(vehicle, dt)
     end
 
     -- ========== FLAT TIRE PULL (high priority - persistent until repaired) ==========
-    if spec.hasFlatTire and config.enableFlatTire and not pullActive then
+    -- v2.8.0: Also respect malfunctions setting
+    local malfunctionsEnabled = not UsedPlusSettings or UsedPlusSettings:isSystemEnabled("Malfunctions")
+    if spec.hasFlatTire and config.enableFlatTire and malfunctionsEnabled and not pullActive then
         local flatPullStrength = config.flatTirePullStrength or 0.25
 
         -- Speed factor - more noticeable at speed
