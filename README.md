@@ -4,7 +4,7 @@
 
 > **Stop playing with Monopoly money.** Start making real financial decisions.
 
-**v2.9.0** | FS25 | Multiplayer Ready | 10 Languages
+**v2.9.1** | FS25 | Multiplayer Ready | 10 Languages
 
 ---
 
