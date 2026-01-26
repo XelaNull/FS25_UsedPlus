@@ -123,10 +123,25 @@ end
 
 --[[
     Update all display elements with inspection data
+    v2.9.1: Added tier-based reveal level filtering
 ]]
 function InspectionReportDialog:updateDisplay()
     local listing = self.listing
     if listing == nil then return end
+
+    -- v2.9.1: Get reveal level from inspection tier
+    -- revealLevel 1 = Quick (overall only)
+    -- revealLevel 2 = Standard (+ component details + RVB/tires)
+    -- revealLevel 3 = Comprehensive (+ DNA hint + repair estimate)
+    local revealLevel = 3  -- Default to full reveal for backwards compatibility
+    if listing.inspectionTier and UsedPlusMaintenance and UsedPlusMaintenance.CONFIG then
+        local tierConfig = UsedPlusMaintenance.CONFIG.inspectionTiers[listing.inspectionTier]
+        if tierConfig and tierConfig.revealLevel then
+            revealLevel = tierConfig.revealLevel
+        end
+    end
+    UsedPlus.logDebug(string.format("InspectionReportDialog: tier=%s, revealLevel=%d",
+        tostring(listing.inspectionTier), revealLevel))
 
     -- Get store item for image
     local storeItem = g_storeManager:getItemByXMLFilename(listing.storeItemIndex)
@@ -170,33 +185,54 @@ function InspectionReportDialog:updateDisplay()
         hydraulicRel = usedPlusData.hydraulicReliability or 1.0
         electricalRel = usedPlusData.electricalReliability or 1.0
 
-        self:updateReliabilityRating("engine", engineRel)
-        self:updateReliabilityRating("hydraulic", hydraulicRel)
-        self:updateReliabilityRating("electrical", electricalRel)
-
-        -- v1.4.0: Display mechanic quote based on workhorse/lemon DNA
-        local quote = "Vehicle condition assessed."
-        if usedPlusData.workhorseLemonScale and UsedPlusMaintenance and UsedPlusMaintenance.getInspectorQuote then
-            quote = UsedPlusMaintenance.getInspectorQuote(usedPlusData.workhorseLemonScale)
+        -- v2.9.1: Component reliability only shown for Standard+ (revealLevel >= 2)
+        if revealLevel >= 2 then
+            self:updateReliabilityRating("engine", engineRel)
+            self:updateReliabilityRating("hydraulic", hydraulicRel)
+            self:updateReliabilityRating("electrical", electricalRel)
+            -- Show component containers
+            self:setComponentsVisible(true)
+        else
+            -- Quick inspection - hide individual components
+            self:setComponentsVisible(false)
         end
+
+        -- v2.9.1: Mechanic quote/DNA hint only for Comprehensive (revealLevel >= 3)
         if self.mechanicQuoteText then
-            self.mechanicQuoteText:setText('"' .. quote .. '"')
+            if revealLevel >= 3 then
+                local quote = "Vehicle condition assessed."
+                if usedPlusData.workhorseLemonScale and UsedPlusMaintenance and UsedPlusMaintenance.getInspectorQuote then
+                    quote = UsedPlusMaintenance.getInspectorQuote(usedPlusData.workhorseLemonScale)
+                end
+                self.mechanicQuoteText:setText('"' .. quote .. '"')
+                self.mechanicQuoteText:setVisible(true)
+            else
+                -- Hide mechanic quote for Quick/Standard
+                self.mechanicQuoteText:setVisible(false)
+            end
         end
 
-        -- v1.9.4: Display fluid/oil assessment from mechanic
-        local fluidComment = nil
-        if UsedPlusMaintenance and UsedPlusMaintenance.getFluidInspectorComment then
-            fluidComment = UsedPlusMaintenance.getFluidInspectorComment(usedPlusData)
-        end
-        if self.fluidAssessmentText and fluidComment then
-            self.fluidAssessmentText:setText(fluidComment)
-            -- Color based on severity (red if leaks, orange if low, green if good)
-            if usedPlusData.hasOilLeak or usedPlusData.hasHydraulicLeak or usedPlusData.hasFuelLeak then
-                self.fluidAssessmentText:setTextColor(1, 0.4, 0.4, 1)  -- Red for leaks
-            elseif (usedPlusData.oilLevel or 1) < 0.5 or (usedPlusData.hydraulicFluidLevel or 1) < 0.5 then
-                self.fluidAssessmentText:setTextColor(1, 0.7, 0.3, 1)  -- Orange for low
+        -- v2.9.1: Fluid assessment only for Standard+ (revealLevel >= 2)
+        if self.fluidAssessmentText then
+            if revealLevel >= 2 then
+                local fluidComment = nil
+                if UsedPlusMaintenance and UsedPlusMaintenance.getFluidInspectorComment then
+                    fluidComment = UsedPlusMaintenance.getFluidInspectorComment(usedPlusData)
+                end
+                if fluidComment then
+                    self.fluidAssessmentText:setText(fluidComment)
+                    -- Color based on severity
+                    if usedPlusData.hasOilLeak or usedPlusData.hasHydraulicLeak or usedPlusData.hasFuelLeak then
+                        self.fluidAssessmentText:setTextColor(1, 0.4, 0.4, 1)  -- Red
+                    elseif (usedPlusData.oilLevel or 1) < 0.5 or (usedPlusData.hydraulicFluidLevel or 1) < 0.5 then
+                        self.fluidAssessmentText:setTextColor(1, 0.7, 0.3, 1)  -- Orange
+                    else
+                        self.fluidAssessmentText:setTextColor(0.7, 0.9, 0.7, 1)  -- Green
+                    end
+                    self.fluidAssessmentText:setVisible(true)
+                end
             else
-                self.fluidAssessmentText:setTextColor(0.7, 0.9, 0.7, 1)  -- Light green for good
+                self.fluidAssessmentText:setVisible(false)
             end
         end
 
@@ -209,21 +245,35 @@ function InspectionReportDialog:updateDisplay()
         end
     else
         -- No inspection data - show defaults
-        self:updateReliabilityRating("engine", 0.5)
-        self:updateReliabilityRating("hydraulic", 0.5)
-        self:updateReliabilityRating("electrical", 0.5)
+        if revealLevel >= 2 then
+            self:updateReliabilityRating("engine", 0.5)
+            self:updateReliabilityRating("hydraulic", 0.5)
+            self:updateReliabilityRating("electrical", 0.5)
+            self:setComponentsVisible(true)
+        else
+            self:setComponentsVisible(false)
+        end
 
         if self.mechanicQuoteText then
-            self.mechanicQuoteText:setText('"' .. g_i18n:getText("usedplus_inspection_noData") .. '"')
+            if revealLevel >= 3 then
+                self.mechanicQuoteText:setText('"' .. g_i18n:getText("usedplus_inspection_noData") .. '"')
+                self.mechanicQuoteText:setVisible(true)
+            else
+                self.mechanicQuoteText:setVisible(false)
+            end
         end
     end
 
-    -- v2.1.2: Integrate RVB parts INTO mechanical assessment (not separate section)
-    -- If RVB data exists, show detailed breakdown under Engine/Electrical
-    self:displayIntegratedRVBData(listing)
-
-    -- v2.1.0: Display tire conditions if data exists
-    self:displayTireConditions(listing)
+    -- v2.9.1: RVB parts and tire conditions only for Standard+ (revealLevel >= 2)
+    if revealLevel >= 2 then
+        -- v2.1.2: Integrate RVB parts INTO mechanical assessment
+        self:displayIntegratedRVBData(listing)
+        -- v2.1.0: Display tire conditions if data exists
+        self:displayTireConditions(listing)
+    else
+        -- Hide RVB/tire sections for Quick inspection
+        self:hideRVBAndTireSections()
+    end
 
     -- Calculate overall condition and costs
     local avgReliability = (engineRel + hydraulicRel + electricalRel) / 3
@@ -241,22 +291,37 @@ function InspectionReportDialog:updateDisplay()
         end
     end
 
-    -- Estimated repair cost (based on reliability deficit)
-    local repairDeficit = 1.0 - avgReliability
-    local basePrice = storeItem and storeItem.price or listedPrice * 1.5
-    local estimatedRepairCost = math.floor(basePrice * repairDeficit * 0.15)  -- ~15% of new price per 100% damage
+    -- v2.9.1: Repair cost and post-repair value only for Comprehensive (revealLevel >= 3)
+    if revealLevel >= 3 then
+        local repairDeficit = 1.0 - avgReliability
+        local basePrice = storeItem and storeItem.price or listedPrice * 1.5
+        local estimatedRepairCost = math.floor(basePrice * repairDeficit * 0.15)
 
-    if self.repairCostText then
-        self.repairCostText:setText(g_i18n:formatMoney(estimatedRepairCost, 0, true, true))
+        if self.repairCostText then
+            self.repairCostText:setText(g_i18n:formatMoney(estimatedRepairCost, 0, true, true))
+            self.repairCostText:setVisible(true)
+        end
+        if self.repairCostLabel then
+            self.repairCostLabel:setVisible(true)
+        end
+
+        local postRepairValue = math.floor(listedPrice + (estimatedRepairCost * 0.5))
+        if self.postRepairValueText then
+            self.postRepairValueText:setText(g_i18n:formatMoney(postRepairValue, 0, true, true))
+            self.postRepairValueText:setVisible(true)
+        end
+        if self.postRepairValueLabel then
+            self.postRepairValueLabel:setVisible(true)
+        end
+    else
+        -- Hide repair estimates for Quick/Standard
+        if self.repairCostText then self.repairCostText:setVisible(false) end
+        if self.repairCostLabel then self.repairCostLabel:setVisible(false) end
+        if self.postRepairValueText then self.postRepairValueText:setVisible(false) end
+        if self.postRepairValueLabel then self.postRepairValueLabel:setVisible(false) end
     end
 
-    -- Post-repair value estimate
-    local postRepairValue = math.floor(listedPrice + (estimatedRepairCost * 0.5))  -- Repairs add ~50% of their cost to value
-    if self.postRepairValueText then
-        self.postRepairValueText:setText(g_i18n:formatMoney(postRepairValue, 0, true, true))
-    end
-
-    -- Generate recommendation based on overall condition
+    -- Generate recommendation based on overall condition (shown for ALL tiers)
     if self.recommendationText then
         if avgReliability >= 0.75 then
             self.recommendationText:setText(g_i18n:getText("usedplus_inspection_rec_excellent"))
@@ -323,6 +388,54 @@ function InspectionReportDialog:updateReliabilityRating(componentType, reliabili
         statusElement:setText(ratingText)
         statusElement:setTextColor(r, g, b, 1)
     end
+end
+
+--[[
+    v2.9.1: Show/hide component reliability sections
+    Used for tier-based reveal levels
+]]
+function InspectionReportDialog:setComponentsVisible(visible)
+    -- Engine section
+    if self.engineSection then self.engineSection:setVisible(visible) end
+    if self.engineRatingText then self.engineRatingText:setVisible(visible) end
+    if self.engineStatusText then self.engineStatusText:setVisible(visible) end
+    if self.engineLabel then self.engineLabel:setVisible(visible) end
+
+    -- Hydraulic section
+    if self.hydraulicSection then self.hydraulicSection:setVisible(visible) end
+    if self.hydraulicRatingText then self.hydraulicRatingText:setVisible(visible) end
+    if self.hydraulicStatusText then self.hydraulicStatusText:setVisible(visible) end
+    if self.hydraulicLabel then self.hydraulicLabel:setVisible(visible) end
+
+    -- Electrical section
+    if self.electricalSection then self.electricalSection:setVisible(visible) end
+    if self.electricalRatingText then self.electricalRatingText:setVisible(visible) end
+    if self.electricalStatusText then self.electricalStatusText:setVisible(visible) end
+    if self.electricalLabel then self.electricalLabel:setVisible(visible) end
+
+    -- Component containers (if they exist as grouping elements)
+    if self.componentsContainer then self.componentsContainer:setVisible(visible) end
+    if self.mechanicalAssessmentSection then self.mechanicalAssessmentSection:setVisible(visible) end
+end
+
+--[[
+    v2.9.1: Hide RVB parts and tire condition sections
+    Used for Quick inspection tier
+]]
+function InspectionReportDialog:hideRVBAndTireSections()
+    -- RVB sub-components
+    if self.engineSubComponentsContainer then self.engineSubComponentsContainer:setVisible(false) end
+    if self.electricalSubComponentsContainer then self.electricalSubComponentsContainer:setVisible(false) end
+
+    -- Individual RVB elements
+    local rvbElements = {"engineCoreText", "thermostatText", "generatorText", "batteryText", "starterText", "glowPlugText"}
+    for _, elemName in ipairs(rvbElements) do
+        if self[elemName] then self[elemName]:setVisible(false) end
+    end
+
+    -- Tire section
+    if self.tireSectionContainer then self.tireSectionContainer:setVisible(false) end
+    if self.tireConditionsContainer then self.tireConditionsContainer:setVisible(false) end
 end
 
 --[[
@@ -477,13 +590,14 @@ function InspectionReportDialog:displayIntegratedRVBData(listing)
     local rvbData = listing.rvbPartsData
 
     -- v2.8.0: Check if RVB integration is enabled in settings
-    -- Even if listing has RVB data, don't show it if user disabled RVB integration
+    -- v2.9.1: Also require RVB mod to actually be installed - don't show synthetic data without RVB
     local rvbSettingEnabled = not UsedPlusSettings or UsedPlusSettings:get("enableRVBIntegration") ~= false
-    local hasRvbData = rvbSettingEnabled and rvbData ~= nil and next(rvbData) ~= nil
+    local rvbModInstalled = ModCompatibility and ModCompatibility.rvbInstalled or false
+    local hasRvbData = rvbSettingEnabled and rvbModInstalled and rvbData ~= nil and next(rvbData) ~= nil
 
     -- Debug logging to diagnose blank RVB section
-    UsedPlus.logDebug(string.format("displayIntegratedRVBData: hasRvbData=%s, rvbData=%s",
-        tostring(hasRvbData), tostring(rvbData ~= nil and "exists" or "nil")))
+    UsedPlus.logDebug(string.format("displayIntegratedRVBData: hasRvbData=%s, rvbInstalled=%s, rvbData=%s",
+        tostring(hasRvbData), tostring(rvbModInstalled), tostring(rvbData ~= nil and "exists" or "nil")))
     UsedPlus.logDebug(string.format("  engineSubComponentsContainer=%s, electricalSubComponentsContainer=%s",
         tostring(self.engineSubComponentsContainer ~= nil),
         tostring(self.electricalSubComponentsContainer ~= nil)))

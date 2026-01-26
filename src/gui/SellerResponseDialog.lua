@@ -41,6 +41,7 @@ function SellerResponseDialog.new(target, customMt)
     self.onCompleteCallback = nil
     self.callbackTarget = nil
     self.isClosing = false  -- Flag to prevent double-close issues
+    self.purchaseCompleted = false  -- v2.9.1: Flag to track if purchase was completed
 
     return self
 end
@@ -65,6 +66,8 @@ function SellerResponseDialog:setData(listing, search, responseType, playerOffer
     self.askingPrice = askingPrice
     self.onCompleteCallback = onCompleteCallback
     self.callbackTarget = callbackTarget
+    self.purchaseCompleted = false  -- v2.9.1: Reset for new negotiation
+    self.isClosing = false
 
     UsedPlus.logDebug(string.format("SellerResponseDialog:setData - type=%s, offer=$%d, response=$%d, asking=$%d",
         responseType, playerOffer or 0, responseAmount or 0, askingPrice or 0))
@@ -81,11 +84,28 @@ end
 
 --[[
     Called when dialog closes
+    v2.9.1: Apply cooldown on close if reject response wasn't handled
 ]]
 function SellerResponseDialog:onClose()
     SellerResponseDialog:superClass().onClose(self)
+
+    -- v2.9.1: If closing a REJECT response dialog without accepting,
+    -- apply the cooldown (handles Esc key and other close paths)
+    if self.responseType == SellerResponseDialog.RESPONSE_REJECT and self.listing and not self.purchaseCompleted then
+        if not self.listing.negotiationLocked then
+            self.listing.negotiationLocked = true
+            local currentTime = 0
+            if g_currentMission and g_currentMission.environment then
+                currentTime = g_currentMission.environment.dayTime or 0
+            end
+            self.listing.negotiationLockExpires = currentTime + 1800000  -- 30 minutes in ms
+            UsedPlus.logDebug("Dialog closed (Esc/other): Applied 30-minute cooldown for REJECT")
+        end
+    end
+
     -- Reset closing flag when dialog is fully closed
     self.isClosing = false
+    self.purchaseCompleted = false
 end
 
 --[[
@@ -393,6 +413,9 @@ function SellerResponseDialog:onClickPrimary()
     local callbackTarget = self.callbackTarget
     local purchasePrice = finalPrice
 
+    -- v2.9.1: Mark purchase as completed so onClose doesn't apply cooldown
+    self.purchaseCompleted = true
+
     -- Close dialog first
     self:close()
 
@@ -522,6 +545,7 @@ end
 
 --[[
     Tertiary button click (Walk Away / Cancel)
+    v2.9.1: Now applies a cooldown when walking away from a reject response
 ]]
 function SellerResponseDialog:onClickTertiary()
     UsedPlus.logDebug("Walk Away clicked - initiating deferred close")
@@ -532,6 +556,19 @@ function SellerResponseDialog:onClickTertiary()
         return
     end
     self.isClosing = true
+
+    -- v2.9.1: Apply cooldown when walking away from REJECT response
+    -- This prevents the exploit of immediately re-negotiating with a higher offer
+    if self.responseType == SellerResponseDialog.RESPONSE_REJECT and self.listing then
+        self.listing.negotiationLocked = true
+        -- Lock for 30 minutes of game time (1800000 ms) - enough to discourage exploit
+        local currentTime = 0
+        if g_currentMission and g_currentMission.environment then
+            currentTime = g_currentMission.environment.dayTime or 0
+        end
+        self.listing.negotiationLockExpires = currentTime + 1800000  -- 30 minutes in ms
+        UsedPlus.logDebug("Walk Away from REJECT: Applied 30-minute cooldown to listing")
+    end
 
     -- Use DEFERRED close (same pattern that fixed Complete Purchase)
     -- This ensures the dialog closes cleanly after the button event is fully processed

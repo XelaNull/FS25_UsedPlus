@@ -246,10 +246,14 @@ function NegotiationDialog:updateOfferDisplay()
     UsedPlus.logDebug(string.format("updateOfferDisplay: askingPrice=%s, selectedPercent=%s",
         tostring(self.askingPrice), tostring(self.selectedPercent)))
 
-    self.offerAmount = math.floor(self.askingPrice * (self.selectedPercent / 100))
-
-    -- Round to nearest $100
-    self.offerAmount = math.floor(self.offerAmount / 100) * 100
+    -- v2.9.1: At 100%, use exact asking price (no rounding) to avoid false "savings"
+    if self.selectedPercent >= 100 then
+        self.offerAmount = self.askingPrice
+    else
+        self.offerAmount = math.floor(self.askingPrice * (self.selectedPercent / 100))
+        -- Round to nearest $100 only for discounted offers
+        self.offerAmount = math.floor(self.offerAmount / 100) * 100
+    end
 
     UsedPlus.logDebug(string.format("updateOfferDisplay: calculated offerAmount=%s, offerAmountText=%s",
         tostring(self.offerAmount), tostring(self.offerAmountText ~= nil)))
@@ -603,8 +607,14 @@ function NegotiationDialog:onClickSendOffer()
     if response == "walkaway" then
         UsedPlus.logDebug("SELLER WALKAWAY - removing listing permanently")
 
-        -- Remove listing from search (permanent loss)
-        self:removeListingPermanently()
+        -- v2.9.1: Cache ALL values BEFORE any operations that might clear them
+        local callback = self.onOfferCallback
+        local callbackTarget = self.callbackTarget
+        local listing = self.listing
+        local search = self.search
+
+        -- Remove listing from search (permanent loss) - pass cached values
+        self:removeListingPermanentlyWithData(listing, search)
 
         -- Track walkaway statistic
         if FinanceManager and FinanceManager.getInstance then
@@ -613,11 +623,6 @@ function NegotiationDialog:onClickSendOffer()
                 fm:incrementStatistic(farmId, "negotiationsWalkaway", 1)
             end
         end
-
-        -- Store callback info before closing (close() may clear them)
-        local callback = self.onOfferCallback
-        local callbackTarget = self.callbackTarget
-        local listing = self.listing
 
         -- v2.8.0: Close ALL related dialogs to prevent any offer attempts
         -- Close in reverse order of opening: NegotiationDialog -> any parent dialogs
@@ -669,21 +674,32 @@ end
 --[[
     v2.6.2: Remove listing permanently from search
     Called when seller walks away insulted
+    v2.9.1: Now takes explicit parameters to avoid nil reference issues
 ]]
 function NegotiationDialog:removeListingPermanently()
-    if not self.listing or not self.search then
-        UsedPlus.logWarn("removeListingPermanently: missing listing or search")
+    -- Delegate to parameterized version
+    self:removeListingPermanentlyWithData(self.listing, self.search)
+end
+
+--[[
+    v2.9.1: Remove listing permanently with explicit data parameters
+    This version takes the listing and search as parameters to avoid nil reference issues
+    when dialog state is cleared during close operations
+]]
+function NegotiationDialog:removeListingPermanentlyWithData(listing, search)
+    if not listing or not search then
+        UsedPlus.logWarn("removeListingPermanentlyWithData: missing listing or search")
         return
     end
 
-    local listingId = self.listing.id
-    local searchId = self.search.id
+    local listingId = listing.id
+    local searchId = search.id
 
     UsedPlus.logDebug(string.format("Permanently removing listing %s from search %s", listingId, searchId))
 
     -- Method 1: Try to remove via search object
-    if self.search.removeFoundListing then
-        local removed = self.search:removeFoundListing(listingId)
+    if search.removeFoundListing then
+        local removed = search:removeFoundListing(listingId)
         if removed then
             UsedPlus.logDebug("Listing removed via search:removeFoundListing()")
             return
@@ -695,9 +711,9 @@ function NegotiationDialog:removeListingPermanently()
         local uvm = UsedVehicleManager.getInstance()
         if uvm then
             -- Find the search in manager and remove the listing
-            local search = uvm:getSearchById(searchId)
-            if search and search.removeFoundListing then
-                local removed = search:removeFoundListing(listingId)
+            local managerSearch = uvm:getSearchById(searchId)
+            if managerSearch and managerSearch.removeFoundListing then
+                local removed = managerSearch:removeFoundListing(listingId)
                 if removed then
                     UsedPlus.logDebug("Listing removed via UsedVehicleManager search")
                     return
@@ -714,9 +730,9 @@ function NegotiationDialog:removeListingPermanently()
     end
 
     -- Method 3: Mark listing as unavailable (fallback)
-    self.listing.status = "seller_walked_away"
-    self.listing.negotiationLocked = true
-    self.listing.negotiationLockExpires = math.huge  -- Never expires
+    listing.status = "seller_walked_away"
+    listing.negotiationLocked = true
+    listing.negotiationLockExpires = math.huge  -- Never expires
     UsedPlus.logDebug("Listing marked as seller_walked_away (fallback)")
 end
 

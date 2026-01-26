@@ -91,7 +91,11 @@ function DealDetailsDialog:updateDisplay()
     if self.deal == nil then return end
 
     local deal = self.deal
-    local isLease = (deal.dealType == 2) or (deal.itemType == "lease")
+    -- v2.9.1: Include land leases (dealType 3) in lease detection
+    local isLease = (deal.dealType == DealUtils.TYPE.LEASE) or
+                    (deal.dealType == DealUtils.TYPE.LAND_LEASE) or
+                    (deal.itemType == "lease") or
+                    (deal.itemType == "land_lease")
     local isDefaulted = deal.status == "defaulted"
 
     -- Show/hide sections based on deal status
@@ -99,7 +103,12 @@ function DealDetailsDialog:updateDisplay()
 
     -- Update title based on deal type
     if self.dialogTitleElement then
-        local title = isLease and "LEASE DETAILS" or "FINANCE DETAILS"
+        local title = "FINANCE DETAILS"
+        if deal.dealType == DealUtils.TYPE.LAND_LEASE then
+            title = "LAND LEASE DETAILS"
+        elseif isLease then
+            title = "LEASE DETAILS"
+        end
         self.dialogTitleElement:setText(title)
     end
 
@@ -587,12 +596,25 @@ end
 --[[
     Update section visibility based on deal status
     When defaulted, hide multiplier/payoff sections and show repossessed section
+    v2.9.1: Also hide multiplier for leases (no benefit to paying extra on lease)
     @param isDefaulted - Whether the deal is defaulted
 ]]
 function DealDetailsDialog:updateSectionVisibility(isDefaulted)
-    -- Hide multiplier and payoff sections for defaulted deals
+    -- Determine if this is a lease (vehicle lease or land lease)
+    -- Leases don't benefit from paying extra - the payment just covers depreciation + interest
+    local isLease = false
+    if self.deal then
+        isLease = (self.deal.dealType == DealUtils.TYPE.LEASE) or
+                  (self.deal.dealType == DealUtils.TYPE.LAND_LEASE) or
+                  (self.deal.itemType == "lease") or
+                  (self.deal.itemType == "land_lease")
+    end
+
+    -- Hide multiplier section for:
+    -- 1. Defaulted deals (no point in changing payment settings)
+    -- 2. Leases (paying extra doesn't reduce total cost or shorten term)
     if self.multiplierSection then
-        self.multiplierSection:setVisible(not isDefaulted)
+        self.multiplierSection:setVisible(not isDefaulted and not isLease)
     end
     if self.payoffSection then
         self.payoffSection:setVisible(not isDefaulted)

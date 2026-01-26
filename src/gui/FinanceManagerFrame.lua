@@ -476,7 +476,15 @@ function FinanceManagerFrame:updateStatsSection(farmId, farm)
         end
     end
     if self.lifetimeSavingsText then
-        self.lifetimeSavingsText:setText(g_i18n:formatMoney(stats.totalSavingsFromUsed or 0, 0, true, true))
+        -- Calculate combined "Marketplace Value" - total benefit from using the agent system
+        local totalValue = (stats.totalSavingsFromUsed or 0)      -- Buying used vs new price
+                         + (stats.totalNegotiationSavings or 0)   -- Negotiating price down
+                         + (stats.totalSavingsFromLand or 0)      -- Credit discounts on land
+                         + (stats.totalSaleProceeds or 0)         -- Gross sale proceeds
+                         - (stats.totalAgentCommissions or 0)     -- Commissions paid
+                         - (stats.totalSearchFees or 0)           -- Search fees paid
+                         - (stats.totalInspectionFees or 0)       -- Inspection fees paid
+        self.lifetimeSavingsText:setText(g_i18n:formatMoney(totalValue, 0, true, true))
     end
 
     -- Credit history summary

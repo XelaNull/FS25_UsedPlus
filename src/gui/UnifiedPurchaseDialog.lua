@@ -950,8 +950,9 @@ function UnifiedPurchaseDialog:updateDownPaymentOptions(slider, currentIndex)
         return
     end
 
-    -- Use filtered options from settings
-    local options = UnifiedPurchaseDialog.getDownPaymentOptions()
+    -- v2.9.1: Use credit-filtered options to match calculation logic
+    -- Previously called getDownPaymentOptions() without creditScore, causing mismatch
+    local options = UnifiedPurchaseDialog.getDownPaymentOptions(self.creditScore)
     local texts = {}
     for _, pct in ipairs(options) do
         local dollarAmount = self.vehiclePrice * (pct / 100)
@@ -1166,10 +1167,11 @@ function UnifiedPurchaseDialog:updateFinanceDisplay()
     local amountFinanced = self.vehiclePrice - self.tradeInValue - downPayment + cashBack
     amountFinanced = math.max(0, amountFinanced)
 
-    -- Due today = down payment (cash out of pocket)
+    -- Due today = down payment MINUS cash back (cash out of pocket)
     -- Trade-in does NOT reduce due today - it reduces amount financed
-    -- Cash back also doesn't affect due today - it's added to the loan
-    local dueTodayAmount = downPayment
+    -- Cash back DOES reduce due today - the extra loan covers part of your down payment
+    -- v2.9.1: Fixed - cashback should reduce the amount due today
+    local dueTodayAmount = math.max(0, downPayment - cashBack)
 
     -- Use centralized calculation function
     local termMonths = termYears * 12
@@ -1311,13 +1313,18 @@ end
     Shows confirmation dialog with transaction details before executing
 ]]
 function UnifiedPurchaseDialog:onConfirmPurchase()
+    UsedPlus.logWarn(string.format("onConfirmPurchase CLICKED! currentMode=%s", tostring(self.currentMode)))
+
     -- Build confirmation message based on current mode
     local confirmMessage = self:buildConfirmationMessage()
+
+    UsedPlus.logWarn("Showing YesNoDialog for confirmation")
 
     -- Show YesNo confirmation dialog
     -- Signature: YesNoDialog.show(callback, target, text, ...)
     YesNoDialog.show(
         function(yes)
+            UsedPlus.logWarn(string.format("YesNoDialog callback: yes=%s", tostring(yes)))
             if yes then
                 self:executeConfirmedPurchase()
             end
@@ -1374,7 +1381,15 @@ function UnifiedPurchaseDialog:buildConfirmationMessage()
         table.insert(lines, string.format("Monthly Payment: %s", g_i18n:formatMoney(monthlyPayment)))
         table.insert(lines, string.format("Total Interest: %s", g_i18n:formatMoney(totalInterest)))
         table.insert(lines, "")
-        table.insert(lines, string.format("DUE TODAY: %s (down payment)", g_i18n:formatMoney(downPayment)))
+        -- v2.9.1: Show cashback breakdown if applicable, and net due today
+        local netDueToday = math.max(0, downPayment - cashBack)
+        if cashBack > 0 then
+            table.insert(lines, string.format("Down Payment: %s", g_i18n:formatMoney(downPayment)))
+            table.insert(lines, string.format("Cash Back: -%s", g_i18n:formatMoney(cashBack)))
+            table.insert(lines, string.format("DUE TODAY: %s", g_i18n:formatMoney(netDueToday)))
+        else
+            table.insert(lines, string.format("DUE TODAY: %s (down payment)", g_i18n:formatMoney(netDueToday)))
+        end
 
     elseif self.currentMode == UnifiedPurchaseDialog.MODE_LEASE then
         -- Lease
@@ -1414,12 +1429,19 @@ end
     Execute the confirmed purchase based on current mode
 ]]
 function UnifiedPurchaseDialog:executeConfirmedPurchase()
+    UsedPlus.logWarn(string.format("executeConfirmedPurchase called, currentMode=%s", tostring(self.currentMode)))
+
     if self.currentMode == UnifiedPurchaseDialog.MODE_CASH then
+        UsedPlus.logWarn("Executing CASH purchase")
         self:executeCashPurchase()
     elseif self.currentMode == UnifiedPurchaseDialog.MODE_FINANCE then
+        UsedPlus.logWarn("Executing FINANCE purchase")
         self:executeFinancePurchase()
     elseif self.currentMode == UnifiedPurchaseDialog.MODE_LEASE then
+        UsedPlus.logWarn("Executing LEASE purchase")
         self:executeLeasePurchase()
+    else
+        UsedPlus.logError(string.format("Unknown purchase mode: %s", tostring(self.currentMode)))
     end
 end
 
@@ -1603,10 +1625,13 @@ function UnifiedPurchaseDialog:executeFinancePurchase()
     -- Down payment is cash paid today (regardless of trade-in)
     local downPayment = self.vehiclePrice * (downPct / 100)
 
-    -- Check if player can afford down payment
-    if downPayment > farm.money then
+    -- v2.9.1: Net cost = down payment minus cashback (the actual out-of-pocket amount)
+    local netDueToday = math.max(0, downPayment - cashBack)
+
+    -- Check if player can afford net due today (down payment minus cashback)
+    if netDueToday > farm.money then
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL,
-            string.format(g_i18n:getText("usedplus_error_insufficientFundsDownPayment"), g_i18n:formatMoney(downPayment, 0, true, true)))
+            string.format(g_i18n:getText("usedplus_error_insufficientFundsDownPayment"), g_i18n:formatMoney(netDueToday, 0, true, true)))
         return
     end
 
@@ -1639,8 +1664,9 @@ function UnifiedPurchaseDialog:executeFinancePurchase()
     local spawnSuccess = self:spawnVehicle(farmId, 0)  -- Price 0 since it's financed
 
     if spawnSuccess then
+        -- v2.9.1: Show net due today (down payment minus cashback) not just down payment
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_OK,
-            string.format(g_i18n:getText("usedplus_notify_vehicleFinanced"), self.vehicleName, g_i18n:formatMoney(downPayment)))
+            string.format(g_i18n:getText("usedplus_notify_vehicleFinanced"), self.vehicleName, g_i18n:formatMoney(netDueToday)))
     else
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_OK,
             string.format(g_i18n:getText("usedplus_notify_vehicleFinancedShop"), self.vehicleName))
@@ -1664,8 +1690,12 @@ end
     3. Deducting money (down payment)
 ]]
 function UnifiedPurchaseDialog:executeLeasePurchase()
+    UsedPlus.logWarn("executeLeasePurchase: ENTERED")
+
     local farmId = g_currentMission:getFarmId()
     local farm = g_farmManager:getFarmById(farmId)
+
+    UsedPlus.logWarn(string.format("executeLeasePurchase: farmId=%s, farm=%s", tostring(farmId), tostring(farm ~= nil)))
 
     if not farm then
         g_currentMission:addIngameNotification(FSBaseMission.INGAME_NOTIFICATION_CRITICAL, g_i18n:getText("usedplus_error_farmNotFound"))
@@ -1711,6 +1741,14 @@ function UnifiedPurchaseDialog:executeLeasePurchase()
     -- Get vehicle config filename
     local vehicleConfig = self.storeItem and self.storeItem.xmlFilename or "unknown"
 
+    -- Get configurations from shop screen (same pattern as cash/finance purchase)
+    local configurations = {}
+    if self.shopScreen then
+        configurations = self.shopScreen.configurations or {}
+    elseif g_shopConfigScreen then
+        configurations = g_shopConfigScreen.configurations or {}
+    end
+
     -- Send lease event to server
     -- LeaseVehicleEvent handles: deal creation, money deduction, vehicle spawning
     LeaseVehicleEvent.sendToServer(
@@ -1720,7 +1758,7 @@ function UnifiedPurchaseDialog:executeLeasePurchase()
         self.vehiclePrice,
         totalDueToday,  -- downPayment = cap reduction + security deposit
         termYears,      -- LeaseVehicleEvent expects years
-        {}              -- configurations (empty for now)
+        configurations  -- User-selected configurations from shop screen
     )
 
     -- Close dialog

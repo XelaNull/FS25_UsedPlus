@@ -115,15 +115,16 @@ function FinanceManagerFrame:updateFinancesSection(farmId, farm)
                 if deal.status == "active" and rowIndex < FinanceManagerFrame.MAX_FINANCE_ROWS then
                     table.insert(self.activeDeals, deal)
 
+                    -- v2.9.1: Clearer type indicators to distinguish leases from financing
                     local dealType
-                    if deal.dealType == 2 then
-                        dealType = "LEASE"
-                    elseif deal.dealType == 3 then
-                        dealType = "LAND"
+                    if deal.dealType == DealUtils.TYPE.LEASE then
+                        dealType = "V.LEASE"  -- Vehicle Lease
+                    elseif deal.dealType == DealUtils.TYPE.LAND_LEASE then
+                        dealType = "L.LEASE"  -- Land Lease
                     elseif deal.dealType == 4 then
-                        dealType = "LOAN"
+                        dealType = "LOAN"     -- Cash Loan
                     else
-                        dealType = "FIN"
+                        dealType = "FINANCE"  -- Vehicle/Equipment/Land Finance
                     end
                     local itemName = deal.itemName or "Unknown"
 

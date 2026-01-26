@@ -770,7 +770,8 @@ function UnifiedLandPurchaseDialog:executeCashPurchase()
 
     -- Send purchase request to server via network event
     -- Server handles: ownership transfer, money deduction, notifications
-    PurchaseLandCashEvent.sendToServer(farmId, self.farmlandId, self.landPrice, self.landName)
+    -- Pass baseLandPrice for credit discount tracking
+    PurchaseLandCashEvent.sendToServer(farmId, self.farmlandId, self.landPrice, self.landName, self.baseLandPrice)
 
     self:close()
 end
