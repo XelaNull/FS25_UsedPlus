@@ -24,20 +24,21 @@ function PurchaseLandCashEvent.emptyNew()
     return self
 end
 
-function PurchaseLandCashEvent.new(farmId, farmlandId, landPrice, landName)
+function PurchaseLandCashEvent.new(farmId, farmlandId, landPrice, landName, baseLandPrice)
     local self = PurchaseLandCashEvent.emptyNew()
     self.farmId = farmId
     self.farmlandId = farmlandId
     self.landPrice = landPrice
     self.landName = landName or ""
+    self.baseLandPrice = baseLandPrice or landPrice  -- Base price before credit adjustment
     return self
 end
 
-function PurchaseLandCashEvent.sendToServer(farmId, farmlandId, landPrice, landName)
-    local event = PurchaseLandCashEvent.new(farmId, farmlandId, landPrice, landName)
+function PurchaseLandCashEvent.sendToServer(farmId, farmlandId, landPrice, landName, baseLandPrice)
+    local event = PurchaseLandCashEvent.new(farmId, farmlandId, landPrice, landName, baseLandPrice)
     if g_server ~= nil then
         -- Single player / host - execute directly
-        event:run(g_server:getServerConnection())
+        event:run(nil)  -- v2.9.1: Server doesn't need connection
     else
         -- Multiplayer client - send to server
         g_client:getServerConnection():sendEvent(event)
@@ -49,6 +50,7 @@ function PurchaseLandCashEvent:writeStream(streamId, connection)
     streamWriteInt32(streamId, self.farmlandId)
     streamWriteFloat32(streamId, self.landPrice)
     streamWriteString(streamId, self.landName or "")
+    streamWriteFloat32(streamId, self.baseLandPrice or self.landPrice)
 end
 
 function PurchaseLandCashEvent:readStream(streamId, connection)
@@ -56,11 +58,12 @@ function PurchaseLandCashEvent:readStream(streamId, connection)
     self.farmlandId = streamReadInt32(streamId)
     self.landPrice = streamReadFloat32(streamId)
     self.landName = streamReadString(streamId)
+    self.baseLandPrice = streamReadFloat32(streamId)
     self:run(connection)
 end
 
 function PurchaseLandCashEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("PurchaseLandCashEvent must run on server")
         return
     end
@@ -131,6 +134,18 @@ function PurchaseLandCashEvent:run(connection)
         CreditHistory.recordEvent(self.farmId, "LAND_CASH_PURCHASE", self.landName)
     end
 
+    -- Track land purchase statistics
+    if g_financeManager then
+        g_financeManager:incrementStatistic(self.farmId, "landPurchases", 1)
+        -- Calculate and track credit discount savings
+        local savings = (self.baseLandPrice or self.landPrice) - self.landPrice
+        if savings > 0 then
+            g_financeManager:incrementStatistic(self.farmId, "totalSavingsFromLand", savings)
+            UsedPlus.logDebug(string.format("Tracked land credit savings: $%.0f (base $%.0f - paid $%.0f)",
+                savings, self.baseLandPrice or 0, self.landPrice))
+        end
+    end
+
     -- Send success response
     TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_land_purchased")
 
@@ -186,7 +201,7 @@ end
 function LandLeaseEvent.sendToServer(farmId, farmlandId, fieldName, landPrice, termMonths, securityDeposit, monthlyPayment)
     local event = LandLeaseEvent.new(farmId, farmlandId, fieldName, landPrice, termMonths, securityDeposit, monthlyPayment)
     if g_server ~= nil then
-        event:run(g_server:getServerConnection())
+        event:run(nil)  -- v2.9.1: Server doesn't need connection
     else
         g_client:getServerConnection():sendEvent(event)
     end
@@ -214,7 +229,7 @@ function LandLeaseEvent:readStream(streamId, connection)
 end
 
 function LandLeaseEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("LandLeaseEvent must run on server")
         return
     end
@@ -385,7 +400,7 @@ end
 function LandLeaseBuyoutEvent.sendToServer(dealId)
     local event = LandLeaseBuyoutEvent.new(dealId)
     if g_server ~= nil then
-        event:run(g_server:getServerConnection())
+        event:run(nil)  -- v2.9.1: Server doesn't need connection
     else
         g_client:getServerConnection():sendEvent(event)
     end
@@ -401,7 +416,7 @@ function LandLeaseBuyoutEvent:readStream(streamId, connection)
 end
 
 function LandLeaseBuyoutEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("LandLeaseBuyoutEvent must run on server")
         return
     end

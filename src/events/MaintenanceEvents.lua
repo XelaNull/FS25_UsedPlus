@@ -181,7 +181,7 @@ function FieldRepairEvent.execute(farmId, vehicleId, component, cost)
 end
 
 function FieldRepairEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("FieldRepairEvent must run on server")
         return
     end
@@ -354,7 +354,7 @@ function RefillFluidsEvent.execute(farmId, vehicleId, fluidType, cost)
 end
 
 function RefillFluidsEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("RefillFluidsEvent must run on server")
         return
     end
@@ -523,7 +523,7 @@ function ReplaceTiresEvent.execute(farmId, vehicleId, tireQuality, cost)
 end
 
 function ReplaceTiresEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("ReplaceTiresEvent must run on server")
         return
     end

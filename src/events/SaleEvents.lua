@@ -105,7 +105,7 @@ function CreateSaleListingEvent.execute(farmId, vehicleId, agentTier, priceTier)
 end
 
 function CreateSaleListingEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("CreateSaleListingEvent must run on server")
         return
     end
@@ -225,7 +225,7 @@ function SaleListingActionEvent.execute(listingId, actionType)
 end
 
 function SaleListingActionEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("SaleListingActionEvent must run on server")
         return
     end
@@ -337,7 +337,7 @@ function ModifyListingPriceEvent.execute(listingId, newPrice)
 end
 
 function ModifyListingPriceEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("ModifyListingPriceEvent must run on server")
         return
     end
@@ -486,7 +486,7 @@ function TradeInVehicleEvent.execute(farmId, vehicleId, tradeInValue)
 end
 
 function TradeInVehicleEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("TradeInVehicleEvent must run on server")
         return
     end

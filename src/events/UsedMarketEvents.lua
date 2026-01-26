@@ -158,7 +158,7 @@ function RequestUsedItemEvent.execute(farmId, storeItemIndex, storeItemName, bas
 end
 
 function RequestUsedItemEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("RequestUsedItemEvent must run on server")
         return
     end
@@ -348,7 +348,7 @@ function CancelSearchEvent.execute(searchId)
 end
 
 function CancelSearchEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("CancelSearchEvent must run on server")
         return
     end
@@ -469,7 +469,7 @@ function DeclineListingEvent.execute(searchId, listingId)
 end
 
 function DeclineListingEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("DeclineListingEvent must run on server")
         return
     end
@@ -595,7 +595,7 @@ function PurchaseUsedVehicleEvent.execute(farmId, searchId, listingId)
 end
 
 function PurchaseUsedVehicleEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("PurchaseUsedVehicleEvent must run on server")
         return
     end

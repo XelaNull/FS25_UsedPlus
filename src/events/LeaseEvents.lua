@@ -36,12 +36,17 @@ function LeaseVehicleEvent.new(farmId, vehicleConfig, vehicleName, basePrice, do
 end
 
 function LeaseVehicleEvent.sendToServer(farmId, vehicleConfig, vehicleName, basePrice, downPayment, termYears, configurations)
+    UsedPlus.logWarn(string.format("LeaseVehicleEvent.sendToServer: farmId=%s, vehicle=%s, price=%.0f, down=%.0f, years=%.2f",
+        tostring(farmId), tostring(vehicleName), basePrice or 0, downPayment or 0, termYears or 0))
+
     local event = LeaseVehicleEvent.new(farmId, vehicleConfig, vehicleName, basePrice, downPayment, termYears)
     event.configurations = configurations or {}
 
     if g_server ~= nil then
-        event:run(g_server:getServerConnection())
+        UsedPlus.logWarn("LeaseVehicleEvent: Running on server directly")
+        event:run(nil)  -- v2.9.1: Server doesn't need connection
     else
+        UsedPlus.logWarn("LeaseVehicleEvent: Sending to server from client")
         g_client:getServerConnection():sendEvent(event)
     end
 end
@@ -102,10 +107,14 @@ function LeaseVehicleEvent:readStream(streamId, connection)
 end
 
 function LeaseVehicleEvent:run(connection)
-    if not connection:getIsServer() then
+    UsedPlus.logWarn("LeaseVehicleEvent:run() ENTERED")
+
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("LeaseVehicleEvent must run on server")
         return
     end
+
+    UsedPlus.logWarn("LeaseVehicleEvent:run() - passed connection check")
 
     -- v2.7.2: Validate farm ownership to prevent multiplayer exploits
     local isAuthorized, errorMsg = NetworkSecurity.validateFarmOwnership(connection, self.farmId)
@@ -117,6 +126,8 @@ function LeaseVehicleEvent:run(connection)
         return
     end
 
+    UsedPlus.logWarn("LeaseVehicleEvent:run() - passed security check")
+
     -- v2.6.2: Validate lease system is enabled
     if UsedPlusSettings and UsedPlusSettings:get("enableLeaseSystem") == false then
         UsedPlus.logWarn("LeaseVehicleEvent rejected: Lease system disabled in settings")
@@ -124,11 +135,15 @@ function LeaseVehicleEvent:run(connection)
         return
     end
 
+    UsedPlus.logWarn("LeaseVehicleEvent:run() - lease system enabled")
+
     if g_financeManager == nil then
         UsedPlus.logError("FinanceManager not initialized")
         TransactionResponseEvent.sendToClient(connection, self.farmId, false, "usedplus_mp_error_manager")
         return
     end
+
+    UsedPlus.logWarn("LeaseVehicleEvent:run() - g_financeManager exists")
 
     local farm = g_farmManager:getFarmById(self.farmId)
     if farm == nil then
@@ -137,6 +152,8 @@ function LeaseVehicleEvent:run(connection)
         return
     end
 
+    UsedPlus.logWarn(string.format("LeaseVehicleEvent:run() - farm found, money=%.0f, downPayment=%.0f", farm.money, self.downPayment))
+
     if farm.money < self.downPayment then
         UsedPlus.logError(string.format("Insufficient funds for down payment ($%.2f required, $%.2f available)",
             self.downPayment, farm.money))
@@ -144,23 +161,28 @@ function LeaseVehicleEvent:run(connection)
         return
     end
 
+    UsedPlus.logWarn("LeaseVehicleEvent:run() - calling createLeaseDeal")
+
     local deal = g_financeManager:createLeaseDeal(
         self.farmId, self.vehicleConfig, self.vehicleName,
         self.basePrice, self.downPayment, self.termYears
     )
 
     if deal then
-        UsedPlus.logDebug(string.format("Lease deal created successfully: %s (ID: %s)", self.vehicleName, deal.id))
+        UsedPlus.logWarn(string.format("LeaseVehicleEvent:run() - deal created: %s (ID: %s)", self.vehicleName, deal.id))
         TransactionResponseEvent.sendToClient(connection, self.farmId, true, "usedplus_mp_success_leased")
 
         local storeItem = g_storeManager:getItemByXMLFilename(self.vehicleConfig)
+        UsedPlus.logWarn(string.format("LeaseVehicleEvent:run() - storeItem=%s for config=%s", tostring(storeItem ~= nil), self.vehicleConfig))
+
         if storeItem then
             -- Spawn the vehicle using the game's proper API
-            -- Note: Can't use g_client:getServerConnection():sendEvent() on server - it doesn't work
+            UsedPlus.logWarn("LeaseVehicleEvent:run() - calling spawnLeasedVehicle")
             local success = self:spawnLeasedVehicle(storeItem, self.farmId, self.configurations or {}, deal)
+            UsedPlus.logWarn(string.format("LeaseVehicleEvent:run() - spawnLeasedVehicle returned: %s", tostring(success)))
 
             if success then
-                UsedPlus.logDebug(string.format("Spawned leased vehicle: %s", self.vehicleName))
+                UsedPlus.logWarn(string.format("Spawned leased vehicle: %s", self.vehicleName))
 
                 g_currentMission:addIngameNotification(
                     FSBaseMission.INGAME_NOTIFICATION_OK,
@@ -184,6 +206,7 @@ end
 
 --[[
     Spawn a leased vehicle using the game's proper vehicle buying API
+    Uses BuyVehicleEvent just like financed purchases (FinanceManager.lua:466)
     @param storeItem - The store item to spawn
     @param farmId - Owner farm ID
     @param configurations - Vehicle configurations
@@ -191,81 +214,40 @@ end
     @return boolean success
 ]]
 function LeaseVehicleEvent:spawnLeasedVehicle(storeItem, farmId, configurations, deal)
-    -- Use g_currentMission's vehicle buying system
-    local buyData = {
-        storeItem = storeItem,
-        configurations = configurations,
-        ownerFarmId = farmId,
-        price = 0,  -- Leased, no purchase price
-        propertyState = VehiclePropertyState.LEASED
-    }
+    -- Use BuyVehicleData/BuyVehicleEvent - the proper game API for spawning vehicles
+    -- Pattern from FinanceManager.lua createFinanceDeal() which works correctly
 
-    -- Try using the shop controller's buy method if available
-    if g_currentMission.shopController and g_currentMission.shopController.buy then
-        local success = pcall(function()
-            g_currentMission.shopController:buy(storeItem, configurations, farmId, 0)
-        end)
-        if success then
-            UsedPlus.logDebug("Vehicle spawned via shopController:buy()")
-            return true
-        end
+    if not BuyVehicleData or not BuyVehicleEvent then
+        UsedPlus.logError("BuyVehicleData or BuyVehicleEvent not available")
+        return false
     end
 
-    -- Fallback: Use direct vehicle loading
-    local x, y, z = self:getVehicleSpawnPosition()
+    local buyData = BuyVehicleData.new()
+    buyData:setOwnerFarmId(farmId)
+    buyData:setPrice(0)  -- Leased, no purchase price (already paid via down payment)
+    buyData:setStoreItem(storeItem)
 
-    -- Build configurations table in the format expected by loadVehicle
-    local configTable = {}
-    for configName, configValue in pairs(configurations or {}) do
-        configTable[configName] = configValue
+    -- Apply user-selected configurations
+    local vehicleConfigs = configurations or {}
+    buyData:setConfigurations(vehicleConfigs)
+
+    -- Debug log configurations being applied
+    local configCount = 0
+    for k, v in pairs(vehicleConfigs) do
+        UsedPlus.logDebug(string.format("  Lease config: %s = %s", tostring(k), tostring(v)))
+        configCount = configCount + 1
     end
+    UsedPlus.logDebug(string.format("Total lease configurations applied: %d", configCount))
 
-    -- Use VehicleLoadingUtil if available
-    if VehicleLoadingUtil and VehicleLoadingUtil.loadVehicle then
-        local success = pcall(function()
-            VehicleLoadingUtil.loadVehicle(
-                storeItem.xmlFilename,
-                {x = x, y = y, z = z},
-                true,  -- addPhysics
-                0,     -- yRotation
-                farmId,
-                configTable,
-                nil,   -- callback
-                nil,   -- callbackTarget
-                {}     -- callbackArguments
-            )
-        end)
-        if success then
-            UsedPlus.logDebug("Vehicle spawned via VehicleLoadingUtil.loadVehicle()")
-            return true
-        end
-    end
+    -- Spawn vehicle using BuyVehicleEvent
+    -- ALWAYS use client->server path, even in single player
+    -- This is how the normal shop flow works - BuyVehicleEvent:run() expects a real connection
+    local buyEvent = BuyVehicleEvent.new(buyData)
 
-    -- Final fallback: Use g_currentMission:loadVehicle if it exists
-    if g_currentMission.loadVehicle then
-        local success, vehicle = pcall(function()
-            return g_currentMission:loadVehicle(
-                storeItem.xmlFilename,
-                x, y, z,
-                0, 0, 0,  -- Rotation
-                true,     -- isAbsolute
-                0,        -- price
-                farmId,   -- owner
-                nil,      -- propertyState
-                configTable
-            )
-        end)
-        if success and vehicle then
-            -- Mark as leased
-            vehicle.isLeased = true
-            vehicle.leaseDealId = deal.id
-            UsedPlus.logDebug("Vehicle spawned via g_currentMission:loadVehicle()")
-            return true
-        end
-    end
+    UsedPlus.logWarn("spawnLeasedVehicle: Sending BuyVehicleEvent via client connection")
+    g_client:getServerConnection():sendEvent(buyEvent)
 
-    UsedPlus.logWarn("All vehicle spawn methods failed - vehicle will need to be collected from shop")
-    return false
+    return true
 end
 
 function LeaseVehicleEvent:getVehicleSpawnPosition()
@@ -307,7 +289,7 @@ end
 function LeaseEndEvent.sendToServer(dealId, action, amount)
     local event = LeaseEndEvent.new(dealId, action, amount)
     if g_server ~= nil then
-        event:run(g_server:getServerConnection())
+        event:run(nil)  -- v2.9.1: Server doesn't need connection
     else
         g_client:getServerConnection():sendEvent(event)
     end
@@ -327,7 +309,7 @@ function LeaseEndEvent:readStream(streamId, connection)
 end
 
 function LeaseEndEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("LeaseEndEvent must run on server")
         return
     end
@@ -473,7 +455,7 @@ end
 function TerminateLeaseEvent.sendToServer(dealId, farmId)
     local event = TerminateLeaseEvent.new(dealId, farmId)
     if g_server ~= nil then
-        event:run(g_server:getServerConnection())
+        event:run(nil)  -- v2.9.1: Server doesn't need connection
     else
         g_client:getServerConnection():sendEvent(event)
     end
@@ -491,7 +473,7 @@ function TerminateLeaseEvent:readStream(streamId, connection)
 end
 
 function TerminateLeaseEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("TerminateLeaseEvent must run on server")
         return
     end
@@ -659,7 +641,7 @@ end
 function LeaseRenewalEvent.sendToServer(dealId, action, data)
     local event = LeaseRenewalEvent.new(dealId, action, data)
     if g_server ~= nil then
-        event:run(g_server:getServerConnection())
+        event:run(nil)  -- v2.9.1: Server doesn't need connection
     else
         g_client:getServerConnection():sendEvent(event)
     end
@@ -724,7 +706,7 @@ function LeaseRenewalEvent:readStream(streamId, connection)
 end
 
 function LeaseRenewalEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("LeaseRenewalEvent must run on server")
         return
     end

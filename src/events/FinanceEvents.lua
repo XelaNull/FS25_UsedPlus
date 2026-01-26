@@ -156,7 +156,8 @@ function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePri
     end
 
     -- v2.7.2 SECURITY: Validate cashBack doesn't exceed maximum allowed
-    local creditScore = CreditScore.getScore(farmId)
+    -- v2.9.1: Fixed - use CreditScore.calculate() not nonexistent getScore()
+    local creditScore = CreditScore.calculate(farmId)
     local maxCashBack = 0
     if CreditScore.getMaxCashBack then
         maxCashBack = CreditScore.getMaxCashBack(basePrice, downPayment, creditScore)
@@ -193,7 +194,7 @@ function FinanceVehicleEvent.execute(farmId, itemType, itemId, itemName, basePri
 end
 
 function FinanceVehicleEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("FinanceVehicleEvent must run on server")
         return
     end
@@ -241,7 +242,7 @@ end
 
 function FinancePaymentEvent:sendToServer(dealId, paymentAmount, farmId)
     if g_server ~= nil then
-        self:run(g_server:getServerConnection())
+        self:run(nil)  -- v2.9.1: Server doesn't need connection
     else
         g_client:getServerConnection():sendEvent(
             FinancePaymentEvent.new(dealId, paymentAmount, farmId)
@@ -263,7 +264,7 @@ function FinancePaymentEvent:readStream(streamId, connection)
 end
 
 function FinancePaymentEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("FinancePaymentEvent must run on server")
         return
     end
@@ -321,7 +322,11 @@ function FinancePaymentEvent:run(connection)
 
     if self.paymentAmount >= payoffAmount then
         -- Full payoff
-        local penalty = deal:calculatePrepaymentPenalty()
+        -- v2.9.1: Fix method name and handle deals without prepayment penalties (leases)
+        local penalty = 0
+        if deal.getPrepaymentPenalty then
+            penalty = deal:getPrepaymentPenalty()
+        end
         local totalCost = payoffAmount + penalty
 
         if farm.money < totalCost then
@@ -587,7 +592,7 @@ function TakeLoanEvent.execute(farmId, loanAmount, termYears, interestRate, mont
 end
 
 function TakeLoanEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("TakeLoanEvent must run on server")
         return
     end
@@ -714,7 +719,7 @@ end
 
 function VanillaLoanPaymentEvent:run(connection)
     -- Only execute on server
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("VanillaLoanPaymentEvent must run on server")
         return
     end

@@ -46,7 +46,7 @@ end
 function TransactionResponseEvent.sendToClient(connection, farmId, success, messageKey, arg1, arg2)
     if g_server ~= nil and connection ~= nil then
         -- Only send to actual client connections, not server's own connection
-        if not connection:getIsServer() then
+        if connection ~= nil and not connection:getIsServer() then
             connection:sendEvent(TransactionResponseEvent.new(farmId, success, messageKey,
                 tostring(arg1 or ""), tostring(arg2 or "")))
         else
@@ -111,7 +111,7 @@ end
 
 function TransactionResponseEvent:run(connection)
     -- Only execute on client (connection IS server means we're on client receiving from server)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         return
     end
 

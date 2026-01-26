@@ -317,7 +317,7 @@ end
     Execute event on server (called after readStream in multiplayer)
 ]]
 function RepairVehicleEvent:run(connection)
-    if not connection:getIsServer() then
+    if connection ~= nil and not connection:getIsServer() then
         UsedPlus.logError("RepairVehicleEvent must run on server")
         return
     end
