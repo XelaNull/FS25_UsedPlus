@@ -9,34 +9,25 @@
 
     v1.8.0 - Field Service Kit System
     v2.0.0 - Full RVB/UYT cross-mod integration
-            - findNearbyVehicles() now detects RVB part failures and UYT tire wear
-            - Activation prompt shows specific warning sources (RVB, Tires, Engine, etc.)
-            - Renamed from Field Service Kit to OBD Scanner
-    v2.0.1 - Fixed activation prompt not appearing
-            - Now uses g_localPlayer pattern (FS25 standard) instead of g_currentMission.player
-            - Added raiseActive() to ensure onUpdate calls continue for ground objects
-            - Pattern from: OilServicePoint.lua which works correctly
-            - Changed keybind from R to O (custom USEDPLUS_ACTIVATE_OBD action)
-            - Avoids conflict with Realistic Breakdowns jumper cable
-    v2.0.2 - Fixed keybind prompt not showing for ground objects
-            - setActionEventTextVisibility only works for vehicle controls (when IN a vehicle)
-            - Now uses addExtraPrintText for on-foot prompt display
-            - Uses getDigitalInputAxis for direct input checking (respects key rebinding)
-            - Removed callback-based approach which doesn't work for non-controlled objects
-    v2.0.3 - Implemented proper on-foot input using PlayerInputComponent pattern
-            - Pattern from: FS25_CutOpenBale - hooks PlayerInputComponent.registerGlobalPlayerActionEvents
-            - Global action event registration works for on-foot interactions
-            - Proper keybind display with O key (no conflict with RVB jumper cable)
+    v2.0.1 - Fixed activation prompt, changed keybind to O
+    v2.0.2 - Used addExtraPrintText + getDigitalInputAxis (worked but wrong UX)
+    v2.0.3 - Attempted PlayerInputComponent (double keybind bug)
+    v2.0.4 - Direct input polling - CONFIRMED WORKING
+    v2.0.5 - FAILED: CutOpenBale pattern still causes double keybind
+    v2.0.6 - Back to v2.0.4: Direct polling only, NO registerActionEvent
+    v2.0.7 - RVB Pattern: Uses beginActionEventsModification/endActionEventsModification
+            - This is the EXACT pattern RVB uses for jumper cables (which works!)
+            - Key difference: modification context wrapper around registration
+            - Game renders [O] automatically, we only provide text
 ]]
 
 FieldServiceKit = {}
 FieldServiceKit.MOD_NAME = g_currentModName or "FS25_UsedPlus"
 
--- Global tracking for on-foot input system
+-- Global tracking for proximity-based activation
 FieldServiceKit.instances = {}           -- All active OBD scanner instances
-FieldServiceKit.actionEventId = nil      -- Global action event ID
 FieldServiceKit.nearestScanner = nil     -- Currently nearest scanner to player
-FieldServiceKit.scannerText = ""         -- Current action text
+FieldServiceKit.actionEventId = nil      -- v2.0.7: Action event ID (RVB pattern)
 
 local SPEC_NAME = "spec_fieldServiceKit"
 
@@ -49,8 +40,6 @@ function FieldServiceKit.registerFunctions(vehicleType)
     SpecializationUtil.registerFunction(vehicleType, "getTargetVehicle", FieldServiceKit.getTargetVehicle)
     SpecializationUtil.registerFunction(vehicleType, "activateFieldService", FieldServiceKit.activateFieldService)
     SpecializationUtil.registerFunction(vehicleType, "consumeKit", FieldServiceKit.consumeKit)
-    SpecializationUtil.registerFunction(vehicleType, "updateActionEventText", FieldServiceKit.updateActionEventText)
-    SpecializationUtil.registerFunction(vehicleType, "onActivateOBD", FieldServiceKit.onActivateOBD)
     SpecializationUtil.registerFunction(vehicleType, "getActivatePromptText", FieldServiceKit.getActivatePromptText)
 end
 
@@ -58,111 +47,6 @@ function FieldServiceKit.registerEventListeners(vehicleType)
     SpecializationUtil.registerEventListener(vehicleType, "onLoad", FieldServiceKit)
     SpecializationUtil.registerEventListener(vehicleType, "onDelete", FieldServiceKit)
     SpecializationUtil.registerEventListener(vehicleType, "onUpdate", FieldServiceKit)
-end
-
---[[
-    v2.0.3: Global callback when O key is pressed (on-foot)
-    Called by the global player action event system
-]]
-function FieldServiceKit.onGlobalActivateOBD()
-    if FieldServiceKit.nearestScanner ~= nil then
-        local scanner = FieldServiceKit.nearestScanner
-        local spec = scanner[SPEC_NAME]
-        if spec ~= nil and not spec.isConsumed then
-            scanner:activateFieldService()
-        end
-    end
-end
-
---[[
-    v2.0.3: Update action event visibility based on nearest scanner
-    Called from onUpdate of each scanner instance
-]]
-function FieldServiceKit.updateGlobalActionEvent()
-    if FieldServiceKit.actionEventId == nil then
-        return
-    end
-
-    local hasNearbyScanner = FieldServiceKit.nearestScanner ~= nil
-    g_inputBinding:setActionEventActive(FieldServiceKit.actionEventId, hasNearbyScanner)
-    g_inputBinding:setActionEventTextVisibility(FieldServiceKit.actionEventId, hasNearbyScanner)
-
-    if hasNearbyScanner then
-        g_inputBinding:setActionEventText(FieldServiceKit.actionEventId, FieldServiceKit.scannerText)
-        g_inputBinding:setActionEventTextPriority(FieldServiceKit.actionEventId, GS_PRIO_VERY_HIGH)
-    end
-end
-
---[[
-    v2.0.3: Hook into PlayerInputComponent to register global on-foot action
-    Pattern from: FS25_CutOpenBale
-]]
-function FieldServiceKit.registerGlobalPlayerActionEvents()
-    if FieldServiceKit.actionEventId == nil then
-        -- Use InputAction.ACTIONNAME pattern (not string) for proper registration
-        local actionId = InputAction.USEDPLUS_ACTIVATE_OBD
-        if actionId == nil then
-            UsedPlus.logInfo("OBD Scanner: InputAction.USEDPLUS_ACTIVATE_OBD not found, trying string")
-            actionId = "USEDPLUS_ACTIVATE_OBD"
-        else
-            UsedPlus.logInfo("OBD Scanner: Found InputAction.USEDPLUS_ACTIVATE_OBD")
-        end
-
-        -- v2.0.3: Match CutBale pattern exactly:
-        -- Param 2 is a string identifier, not a target object
-        -- Callback is a plain function reference
-        local valid, eventId = g_inputBinding:registerActionEvent(
-            actionId,                            -- Action from modDesc.xml
-            "USEDPLUS_ACTIVATE_OBD",             -- String identifier (CutBale pattern)
-            FieldServiceKit.onGlobalActivateOBD, -- Callback function
-            false,                               -- triggerUp
-            true,                                -- triggerDown (fire when pressed)
-            false,                               -- triggerAlways
-            true                                 -- startActive
-        )
-
-        UsedPlus.logInfo("OBD Scanner: registerActionEvent returned valid=" .. tostring(valid) .. ", eventId=" .. tostring(eventId))
-
-        if valid then
-            FieldServiceKit.actionEventId = eventId
-            g_inputBinding:setActionEventTextPriority(eventId, GS_PRIO_VERY_HIGH)
-            g_inputBinding:setActionEventActive(eventId, false)  -- Start hidden
-            g_inputBinding:setActionEventTextVisibility(eventId, false)
-            UsedPlus.logInfo("OBD Scanner: Global action event registered (O key), eventId=" .. tostring(eventId))
-        else
-            UsedPlus.logInfo("OBD Scanner: Failed to register global action event")
-        end
-    end
-end
-
--- Hook into PlayerInputComponent.registerGlobalPlayerActionEvents
--- This is called when the player spawns/loads
-if PlayerInputComponent ~= nil and PlayerInputComponent.registerGlobalPlayerActionEvents ~= nil then
-    PlayerInputComponent.registerGlobalPlayerActionEvents = Utils.appendedFunction(
-        PlayerInputComponent.registerGlobalPlayerActionEvents,
-        FieldServiceKit.registerGlobalPlayerActionEvents
-    )
-    UsedPlus.logInfo("OBD Scanner: Hooked PlayerInputComponent.registerGlobalPlayerActionEvents")
-else
-    -- Fallback: Hook when the script is loaded by the game
-    -- This handles cases where PlayerInputComponent isn't available at load time
-    UsedPlus.logInfo("OBD Scanner: PlayerInputComponent not available yet")
-
-    -- Try again after a delay using Mission00.onStartMission
-    if Mission00 ~= nil then
-        Mission00.onStartMission = Utils.appendedFunction(Mission00.onStartMission or function() end, function()
-            if PlayerInputComponent ~= nil and PlayerInputComponent.registerGlobalPlayerActionEvents ~= nil then
-                if FieldServiceKit.hookInstalled ~= true then
-                    PlayerInputComponent.registerGlobalPlayerActionEvents = Utils.appendedFunction(
-                        PlayerInputComponent.registerGlobalPlayerActionEvents,
-                        FieldServiceKit.registerGlobalPlayerActionEvents
-                    )
-                    FieldServiceKit.hookInstalled = true
-                    UsedPlus.logInfo("OBD Scanner: Late-hooked PlayerInputComponent (via Mission00)")
-                end
-            end
-        end)
-    end
 end
 
 function FieldServiceKit.initSpecialization()
@@ -219,7 +103,7 @@ function FieldServiceKit:onLoad(savegame)
     -- Pattern from: OilServicePoint.lua
     self:raiseActive()
 
-    UsedPlus.logInfo("FieldServiceKit loaded - tier: " .. spec.kitTier .. " (v2.0.3 - PlayerInputComponent pattern)")
+    UsedPlus.logInfo("FieldServiceKit loaded - tier: " .. spec.kitTier .. " (v2.0.4 - direct input polling)")
 end
 
 function FieldServiceKit:onDelete()
@@ -244,7 +128,6 @@ function FieldServiceKit:onDelete()
     -- Clear nearest scanner if it was this one
     if FieldServiceKit.nearestScanner == self then
         FieldServiceKit.nearestScanner = nil
-        FieldServiceKit.updateGlobalActionEvent()
     end
 end
 
@@ -273,7 +156,6 @@ function FieldServiceKit:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSe
         -- If this was the nearest scanner, clear it
         if FieldServiceKit.nearestScanner == self then
             FieldServiceKit.nearestScanner = nil
-            FieldServiceKit.updateGlobalActionEvent()
         end
 
         -- Hide the kit visually immediately
@@ -353,7 +235,6 @@ function FieldServiceKit:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSe
         -- If this was the nearest scanner, clear it
         if FieldServiceKit.nearestScanner == self then
             FieldServiceKit.nearestScanner = nil
-            FieldServiceKit.updateGlobalActionEvent()
         end
         return
     end
@@ -361,14 +242,15 @@ function FieldServiceKit:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSe
     -- Update nearby vehicle detection (finds ANY vehicle, not just broken ones)
     self:findNearbyVehicles()
 
-    -- v2.0.3: Check player proximity and update global action event
+    -- v2.0.4: Check player proximity for direct input polling
     local playerNearby = false
     local playerDistance = 999999
     local activationRadius = 2.5  -- meters
+    local isOnFoot = false
 
     if self.rootNode ~= nil and g_localPlayer ~= nil then
         -- Check if player is on foot (not in a vehicle)
-        local isOnFoot = true
+        isOnFoot = true
         if g_localPlayer.getIsInVehicle ~= nil then
             isOnFoot = not g_localPlayer:getIsInVehicle()
         end
@@ -395,8 +277,7 @@ function FieldServiceKit:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSe
     spec.playerNearby = playerNearby
     spec.playerDistance = playerDistance
 
-    -- v2.0.3: Update global nearest scanner tracking
-    -- Each scanner checks if it's the closest one to the player
+    -- v2.0.4: Track nearest scanner for multiple scanner support
     if playerNearby and not spec.isConsumed then
         local currentNearest = FieldServiceKit.nearestScanner
         local shouldBeNearest = false
@@ -415,95 +296,45 @@ function FieldServiceKit:onUpdate(dt, isActiveForInput, isActiveForInputIgnoreSe
 
         if shouldBeNearest then
             FieldServiceKit.nearestScanner = self
-            -- Build the action text
-            local actionText = g_i18n:getText("usedplus_fsk_activate") or "Use OBD Scanner"
-            if spec.targetVehicle ~= nil then
-                local vehicleName = spec.targetVehicle.vehicle:getName() or "Vehicle"
-                actionText = actionText .. " - " .. vehicleName
-            end
-            FieldServiceKit.scannerText = actionText
-            FieldServiceKit.updateGlobalActionEvent()
         end
     else
         -- Player not nearby this scanner - clear if we were the nearest
         if FieldServiceKit.nearestScanner == self then
             FieldServiceKit.nearestScanner = nil
-            FieldServiceKit.updateGlobalActionEvent()
         end
     end
-end
 
---[[
-    Update the action event text to show vehicle info
-]]
-function FieldServiceKit:updateActionEventText()
-    local spec = self[SPEC_NAME]
-    if spec.actionEventId == nil then return end
+    -- v2.0.7: RVB Pattern - Use setActionEventText/Active/TextVisibility
+    -- The callback handles activation, we just control display here
+    if FieldServiceKit.actionEventId ~= nil and g_inputBinding ~= nil then
+        local shouldShow = playerNearby and isOnFoot and FieldServiceKit.nearestScanner == self
 
-    local baseText = g_i18n:getText("usedplus_fsk_activate") or "Use OBD Scanner"
+        if shouldShow then
+            -- Build prompt text WITHOUT [O] - game renders keybind automatically
+            local promptText = self:getActivatePromptText()
 
-    if spec.targetVehicle ~= nil then
-        local vehicleName = spec.targetVehicle.vehicle:getName() or "Vehicle"
-        local target = spec.targetVehicle
-
-        if target.isDisabled then
-            baseText = string.format("%s - %s (DISABLED)", baseText, vehicleName)
-        elseif target.needsService then
-            -- Show specific warning source
-            local warnings = {}
-            if target.hasRVBIssue then table.insert(warnings, "RVB") end
-            if target.hasUYTIssue then table.insert(warnings, "Tires") end
-            if target.hasMaintenance then
-                local maintSpec = target.vehicle.spec_usedPlusMaintenance
-                if maintSpec then
-                    if maintSpec.engineReliability < 0.5 then table.insert(warnings, "Engine") end
-                    if maintSpec.electricalReliability < 0.5 then table.insert(warnings, "Electrical") end
-                    if maintSpec.hydraulicReliability < 0.5 then table.insert(warnings, "Hydraulic") end
-                end
-            end
-            if #warnings > 0 then
-                baseText = string.format("%s - %s (%s)", baseText, vehicleName, table.concat(warnings, ", "))
-            else
-                baseText = string.format("%s - %s (Needs Service)", baseText, vehicleName)
-            end
+            -- Set text and make visible (RVB pattern)
+            g_inputBinding:setActionEventTextPriority(FieldServiceKit.actionEventId, GS_PRIO_VERY_HIGH)
+            g_inputBinding:setActionEventTextVisibility(FieldServiceKit.actionEventId, true)
+            g_inputBinding:setActionEventActive(FieldServiceKit.actionEventId, true)
+            g_inputBinding:setActionEventText(FieldServiceKit.actionEventId, promptText)
         else
-            baseText = string.format("%s - %s", baseText, vehicleName)
+            -- Hide when not nearby
+            g_inputBinding:setActionEventTextVisibility(FieldServiceKit.actionEventId, false)
+            g_inputBinding:setActionEventActive(FieldServiceKit.actionEventId, false)
         end
-    end
-
-    g_inputBinding:setActionEventText(spec.actionEventId, baseText)
-end
-
---[[
-    Callback when our custom O key action is triggered
-]]
-function FieldServiceKit:onActivateOBD(actionName, inputValue, callbackState, isAnalog)
-    local spec = self[SPEC_NAME]
-    if spec.playerNearby and not spec.isConsumed then
-        self:activateFieldService()
     end
 end
 
 --[[
     Get the prompt text to display when player is near the kit
-    v2.0.1: Shows vehicle info and key binding
+    v2.0.7: Returns text WITHOUT [KEY] prefix - game renders keybind via setActionEventText
 ]]
 function FieldServiceKit:getActivatePromptText()
     local spec = self[SPEC_NAME]
 
-    -- Get the key name for our action (with safe fallback)
-    local keyName = "O"  -- Default fallback
-    if g_inputBinding.getFirstActiveBinding ~= nil then
-        local success, actionBinding = pcall(function()
-            return g_inputBinding:getFirstActiveBinding("USEDPLUS_ACTIVATE_OBD")
-        end)
-        if success and actionBinding ~= nil and actionBinding.getKeyName ~= nil then
-            keyName = actionBinding:getKeyName() or "O"
-        end
-    end
-
-    -- Base prompt
-    local baseText = g_i18n:getText("usedplus_fsk_activate") or "Use OBD Scanner"
+    -- Base text (NO key prefix - game renders that automatically)
+    local baseText = "OBD Scanner"
 
     -- Add vehicle info if we have a target
     if spec.targetVehicle ~= nil then
@@ -511,9 +342,8 @@ function FieldServiceKit:getActivatePromptText()
         local target = spec.targetVehicle
 
         if target.isDisabled then
-            baseText = string.format("%s - %s (DISABLED)", baseText, vehicleName)
+            baseText = string.format("OBD Scanner: %s (DISABLED)", vehicleName)
         elseif target.needsService then
-            -- Show specific warning source
             local warnings = {}
             if target.hasRVBIssue then table.insert(warnings, "RVB") end
             if target.hasUYTIssue then table.insert(warnings, "Tires") end
@@ -526,17 +356,17 @@ function FieldServiceKit:getActivatePromptText()
                 end
             end
             if #warnings > 0 then
-                baseText = string.format("%s - %s (%s)", baseText, vehicleName, table.concat(warnings, ", "))
+                baseText = string.format("OBD Scanner: %s (%s)", vehicleName, table.concat(warnings, ", "))
             else
-                baseText = string.format("%s - %s (Needs Service)", baseText, vehicleName)
+                baseText = string.format("OBD Scanner: %s", vehicleName)
             end
         else
-            baseText = string.format("%s - %s", baseText, vehicleName)
+            baseText = string.format("OBD Scanner: %s", vehicleName)
         end
     end
 
-    -- Format with key binding
-    return string.format("[%s] %s", keyName, baseText)
+    -- Return text only - game adds [KEY] prefix automatically via action event system
+    return baseText
 end
 
 --[[
@@ -717,13 +547,6 @@ function FieldServiceKit:consumeKit()
     spec.isConsumed = true
     UsedPlus.logInfo("FieldServiceKit consumed - scheduling deletion")
 
-    -- Disable our custom input action
-    if spec.actionEventId ~= nil then
-        g_inputBinding:setActionEventActive(spec.actionEventId, false)
-        g_inputBinding:setActionEventTextVisibility(spec.actionEventId, false)
-        spec.actionEventActive = false
-    end
-
     -- Mark for deletion on next update cycle
     -- We use a flag instead of immediate deletion to avoid issues during event handling
     spec.pendingDeletion = true
@@ -758,7 +581,96 @@ function FieldServiceKit:vehicleTriggerCallback(triggerId, otherId, onEnter, onL
     -- This callback could be used for more precise collision-based detection
 end
 
--- v2.0.1: Removed onRegisterActionEvents and FieldServiceKitActivatable class
--- Now using direct g_inputBinding:registerActionEvent() in onLoad for custom O key binding
--- This avoids conflict with Realistic Breakdowns jumper cable (R key)
--- The activatable system forces use of ACTIVATE action which is always bound to R
+--[[
+    v2.0.7: RVB Pattern - Action Event Registration
+
+    The EXACT pattern from Real Vehicle Breakdowns (jumper cables):
+    1. Hook into PlayerInputComponent.registerActionEvents (not registerGlobalPlayerActionEvents)
+    2. Wrap registration in beginActionEventsModification/endActionEventsModification
+    3. Check inputComponent.player.isOwner before registering
+    4. Use setActionEventText/Active/TextVisibility in onUpdate to control display
+    5. Game renders [KEY] automatically - we only provide text
+
+    Key difference from our previous attempts: The modification context wrapper.
+]]
+
+-- Callback function when action is triggered (RVB pattern)
+function FieldServiceKit.actionEventCallback(self, actionName, inputValue, callbackState, isAnalog)
+    -- Only trigger on key press (inputValue > 0), not release
+    if inputValue <= 0 then
+        return
+    end
+
+    -- Find and activate the nearest scanner
+    local scanner = FieldServiceKit.nearestScanner
+    if scanner ~= nil then
+        local spec = scanner[SPEC_NAME]
+        if spec ~= nil and not spec.isConsumed then
+            UsedPlus.logInfo("OBD Scanner: Action callback triggered, activating scanner")
+            scanner:activateFieldService()
+        end
+    end
+end
+
+-- RVB Pattern: Hook into PlayerInputComponent.registerActionEvents
+-- Uses custom appendedFunction like RVB does
+FieldServiceKit.originalRegisterActionEvents = nil
+
+function FieldServiceKit.hookPlayerInputComponent()
+    if FieldServiceKit.originalRegisterActionEvents ~= nil then
+        return -- Already hooked
+    end
+
+    if PlayerInputComponent == nil or PlayerInputComponent.registerActionEvents == nil then
+        UsedPlus.logWarn("OBD Scanner: PlayerInputComponent.registerActionEvents not available")
+        return
+    end
+
+    -- Store original function
+    FieldServiceKit.originalRegisterActionEvents = PlayerInputComponent.registerActionEvents
+
+    -- Replace with our version that calls original then adds our action
+    PlayerInputComponent.registerActionEvents = function(inputComponent, ...)
+        -- Call original first
+        FieldServiceKit.originalRegisterActionEvents(inputComponent, ...)
+
+        -- Now add our action (RVB pattern)
+        if inputComponent.player ~= nil and inputComponent.player.isOwner then
+            -- Check if action exists
+            local actionId = InputAction.USEDPLUS_ACTIVATE_OBD
+            if actionId == nil then
+                UsedPlus.logWarn("OBD Scanner: InputAction.USEDPLUS_ACTIVATE_OBD not found")
+                return
+            end
+
+            -- RVB uses beginActionEventsModification/endActionEventsModification
+            g_inputBinding:beginActionEventsModification(PlayerInputComponent.INPUT_CONTEXT_NAME)
+
+            local success, eventId = g_inputBinding:registerActionEvent(
+                actionId,                               -- Action from modDesc.xml
+                FieldServiceKit,                        -- Target object
+                FieldServiceKit.actionEventCallback,    -- Callback function
+                false,                                  -- triggerUp
+                true,                                   -- triggerDown
+                false,                                  -- triggerAlways
+                false,                                  -- startActive (RVB uses false)
+                nil,                                    -- callbackState
+                true                                    -- disableConflictingBindings (RVB uses true)
+            )
+
+            g_inputBinding:endActionEventsModification()
+
+            if success and eventId ~= nil then
+                FieldServiceKit.actionEventId = eventId
+                UsedPlus.logInfo("OBD Scanner: Action event registered (RVB pattern), eventId=" .. tostring(eventId))
+            else
+                UsedPlus.logWarn("OBD Scanner: Failed to register action event")
+            end
+        end
+    end
+
+    UsedPlus.logInfo("OBD Scanner: PlayerInputComponent.registerActionEvents hooked (v2.0.7 RVB pattern)")
+end
+
+-- Install hook when this file loads
+FieldServiceKit.hookPlayerInputComponent()
