@@ -40,14 +40,14 @@ function LeaseDeal.new(farmId, vehicleConfig, vehicleName, price, downPayment, t
     self.vehicleId = nil                -- Runtime vehicle ID
     self.objectId = nil                 -- Network object ID
 
-    -- Lease financial terms
-    self.baseCost = price
+    -- Lease financial terms (v2.9.1: nil guards for savegame load)
+    self.baseCost = price or 0
     self.downPayment = downPayment or 0
-    self.residualValue = residualValue  -- Balloon payment at end
+    self.residualValue = residualValue or 0  -- Balloon payment at end
 
-    self.termMonths = termMonths
+    self.termMonths = termMonths or 12
     self.monthsPaid = 0
-    self.interestRate = interestRate / 100  -- Convert percentage to decimal
+    self.interestRate = (interestRate or 5) / 100  -- Convert percentage to decimal
     self.monthlyPayment = 0  -- Calculated below
 
     -- Vehicle condition tracking (for damage penalties)

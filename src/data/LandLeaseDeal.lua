@@ -46,22 +46,22 @@ function LandLeaseDeal.new(farmId, farmlandId, landName, landPrice, termYears)
     self.landName = landName      -- Display name (e.g., "Field 5")
     self.itemName = landName      -- Alias for UI compatibility
 
-    -- Lease financial terms
-    self.landPrice = landPrice
-    self.termYears = termYears
-    self.termMonths = termYears * 12
+    -- Lease financial terms (v2.9.1: nil guards for savegame load)
+    self.landPrice = landPrice or 0
+    self.termYears = termYears or 1
+    self.termMonths = (termYears or 1) * 12
 
-    -- Get term configuration
-    local termConfig = LandLeaseDeal.getTermConfig(termYears)
+    -- Get term configuration (use self.termYears which has nil guard)
+    local termConfig = LandLeaseDeal.getTermConfig(self.termYears)
     self.markupRate = termConfig.markupRate
     self.buyoutDiscount = termConfig.buyoutDiscount
 
-    -- Calculate total lease cost with markup
-    self.totalLeaseCost = landPrice * (1 + self.markupRate)
+    -- Calculate total lease cost with markup (use self.landPrice which has nil guard)
+    self.totalLeaseCost = self.landPrice * (1 + self.markupRate)
     self.monthlyPayment = self.totalLeaseCost / self.termMonths
 
     -- Calculate buyout price (land price minus discount for progress)
-    self.baseBuyoutPrice = landPrice * (1 - self.buyoutDiscount)
+    self.baseBuyoutPrice = self.landPrice * (1 - self.buyoutDiscount)
 
     -- Payment tracking
     self.monthsPaid = 0

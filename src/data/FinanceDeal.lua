@@ -44,14 +44,14 @@ function FinanceDeal.new(farmId, itemType, itemId, itemName, price, downPayment,
     self.itemName = itemName  -- Display name
     self.objectId = nil       -- Network object ID (for vehicles)
 
-    -- Financial terms
-    self.originalPrice = price
+    -- Financial terms (v2.9.1: nil guards for savegame load)
+    self.originalPrice = price or 0
     self.downPayment = downPayment or 0
     self.cashBack = cashBack or 0
-    self.amountFinanced = price - downPayment + cashBack
+    self.amountFinanced = (price or 0) - (downPayment or 0) + (cashBack or 0)
 
-    self.termMonths = termMonths
-    self.interestRate = interestRate / 100  -- Convert percentage to decimal
+    self.termMonths = termMonths or 12
+    self.interestRate = (interestRate or 5) / 100  -- Convert percentage to decimal
     self.monthlyPayment = 0  -- Calculated below
 
     -- Payment status
