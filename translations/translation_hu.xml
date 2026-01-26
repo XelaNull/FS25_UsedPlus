@@ -1775,179 +1775,179 @@
         <e k="usedplus_neg_yourOffer" v="Ajánlatod:" eh="4e018663" />
         <e k="usedplus_neg_savings" v="Megtakarítás:" eh="f3815936" />
         <e k="usedplus_neg_sendOffer" v="Ajánlat küldése" eh="1afbee68" />
-        <e k="usedplus_whisper_desperate_seller" v="[EN] Between you and me... they seem pretty eager to sell. Might be in a tough spot." eh="7250e321" />
-        <e k="usedplus_whisper_listed_long" v="[EN] Between you and me... I've seen this rig listed for a while now. Seller might be motivated." eh="d05ae609" />
-        <e k="usedplus_whisper_upgrading" v="[EN] Between you and me... heard they're upgrading to bigger equipment. Could be flexible." eh="e3972bc6" />
-        <e k="usedplus_whisper_knows_value" v="[EN] Between you and me... they've priced it fair and know exactly what it's worth." eh="8acefc9c" />
-        <e k="usedplus_whisper_just_listed" v="[EN] Between you and me... just hit the market. Might not be in a rush to deal." eh="b113b9e6" />
-        <e k="usedplus_whisper_standard" v="[EN] Between you and me... seems like a straightforward seller. Worth making an offer." eh="b00693e0" />
-        <e k="usedplus_whisper_weather_storm" v="[EN] Plus, with that storm rolling in, they might want to close quick." eh="25a637f5" />
-        <e k="usedplus_whisper_weather_rain" v="[EN] Rain's keeping everyone cooped up... good time to push for a deal." eh="1b825b89" />
-        <e k="usedplus_whisper_weather_hail" v="[EN] That hail's got folks worried about their gear sitting out." eh="023b34f7" />
-        <e k="usedplus_whisper_weather_snow" v="[EN] Snow falling... off-season always makes sellers more flexible." eh="bcdab6d9" />
-        <e k="usedplus_whisper_weather_perfect" v="[EN] Beautiful day like this though... don't expect any favors." eh="bf201d88" />
-        <e k="usedplus_sr_titleAccept" v="[EN] OFFER ACCEPTED!" eh="c36f802f" />
-        <e k="usedplus_sr_titleCounter" v="[EN] COUNTER OFFER" eh="544441c8" />
-        <e k="usedplus_sr_titleReject" v="[EN] OFFER REJECTED" eh="2b54c509" />
-        <e k="usedplus_sr_titleWalkaway" v="[EN] SELLER WALKED AWAY" eh="d4da1912" />
-        <e k="usedplus_sr_yourOffer" v="[EN] Your Offer:" eh="4e018663" />
-        <e k="usedplus_sr_counterOffer" v="[EN] Counter Offer:" eh="768065b8" />
-        <e k="usedplus_sr_sellerPrice" v="[EN] Seller's Price:" eh="1402265a" />
-        <e k="usedplus_sr_completePurchase" v="[EN] Complete Purchase" eh="e1c9f521" />
-        <e k="usedplus_sr_acceptCounter" v="[EN] Accept Counter" eh="fdbaf6cf" />
-        <e k="usedplus_sr_standFirm" v="[EN] Stand Firm" eh="3b35ba7f" />
-        <e k="usedplus_sr_walkAway" v="[EN] Walk Away" eh="5218f5e2" />
-        <e k="usedplus_sr_payFullPrice" v="[EN] Pay Full Price" eh="1d0533bd" />
-        <e k="usedplus_response_accepted" v="[EN] Deal! You've got yourself a %s." eh="e1b388b0" />
-        <e k="usedplus_response_counter" v="[EN] I can't go that low, but I'll meet you partway. How about %s?" eh="6da9eb6a" />
-        <e k="usedplus_response_rejected" v="[EN] Sorry, but I can't accept that. My price is firm at %s." eh="d99f0b95" />
-        <e k="usedplus_response_walkaway" v="[EN] I think we're too far apart. Come back if you change your mind." eh="c73a083b" />
-        <e k="usedplus_standfirm_success" v="[EN] Alright, alright... you drive a hard bargain. I'll take it." eh="0953e50a" />
-        <e k="usedplus_standfirm_hold" v="[EN] Look, %s is as low as I can go. Take it or leave it." eh="2d81ca38" />
-        <e k="usedplus_standfirm_walkaway" v="[EN] I don't think we're going to agree. Maybe another time." eh="2d8a7003" />
-        <e k="usedplus_negotiation_locked_title" v="[EN] Seller Unavailable" eh="00a519f4" />
-        <e k="usedplus_negotiation_locked" v="[EN] Seller is unavailable. Try again in %d minutes." eh="938f0f62" />
-        <e k="usedplus_negotiation_locked_hint" v="[EN] They might cool off after a bit..." eh="1c8c51e6" />
-        <e k="usedplus_insufficient_funds" v="[EN] Insufficient Funds" eh="68c8a940" />
-        <e k="usedplus_insufficient_funds_offer" v="[EN] You cannot afford this offer. Used vehicle purchases are cash only." eh="1c7f7913" />
-        <e k="usedplus_insufficient_funds_shortfall" v="[EN] You need %s more to complete this purchase." eh="d40315cf" />
-        <e k="usedplus_insufficient_funds_balance" v="[EN] Current balance: %s" eh="b9522f76" />
-        <e k="usedplus_walkaway_title" v="[EN] SELLER WALKED AWAY" eh="d4da1912" />
-        <e k="usedplus_walkaway_message" v="[EN] Your offer insulted the seller. They've refused to do business with you and this vehicle is no longer available." eh="3ef90ec2" />
-        <e k="usedplus_walkaway_workhorse" v="[EN] This seller knows exactly what they have - a machine that's been nothing but reliable. They won't entertain lowball offers." eh="dd4d6411" />
-        <e k="usedplus_seller_immovable_hint" v="[EN] This seller knows exactly what they have. Don't expect any negotiation room." eh="afe11ced" />
-        <e k="usedplus_mode_finance_disabled" v="[EN] Finance (Disabled)" eh="a7fe11df" />
-        <e k="usedplus_mode_lease_disabled" v="[EN] Lease (Disabled)" eh="2c3f5a31" />
-        <e k="usedplus_finance_disabled_title" v="[EN] Feature Disabled" eh="e4c783e8" />
-        <e k="usedplus_finance_disabled_msg" v="[EN] Vehicle financing is disabled in UsedPlus settings." eh="fffb70a6" />
-        <e k="usedplus_lease_disabled_title" v="[EN] Feature Disabled" eh="e4c783e8" />
-        <e k="usedplus_lease_disabled_msg" v="[EN] Vehicle leasing is disabled in UsedPlus settings." eh="bd7f5b24" />
-        <e k="usedplus_land_finance_disabled_msg" v="[EN] Land financing is disabled in UsedPlus settings." eh="0335547a" />
-        <e k="usedplus_land_lease_disabled_msg" v="[EN] Land leasing is disabled in UsedPlus settings." eh="f875a63d" />
-        <e k="usedplus_land_modeFinance_disabled" v="[EN] Finance (Disabled)" eh="a7fe11df" />
-        <e k="usedplus_land_modeLease_disabled" v="[EN] Lease (Disabled)" eh="2c3f5a31" />
-        <e k="usedplus_engine_seized" v="[EN] ENGINE SEIZED! Repair required before vehicle will start." eh="c22e256a" />
-        <e k="usedplus_hydraulics_seized" v="[EN] HYDRAULICS SEIZED! Implements are locked in place." eh="dd09718c" />
-        <e k="usedplus_electrical_seized" v="[EN] ELECTRICAL FAILURE! All systems are dead." eh="84b7514a" />
-        <e k="usedplus_seizure_detected" v="[EN] COMPONENT SEIZED" eh="9def01dd" />
-        <e k="usedplus_seizure_repair_confirm" v="[EN] %s is seized and requires emergency repair.\n\nRepair cost: %s\n\nProceed with repair?" eh="bf702608" />
-        <e k="usedplus_seizure_repaired" v="[EN] %s repaired! Reliability restored to %d%%" eh="323fa338" />
-        <e k="usedplus_repair_no_money" v="[EN] Not enough money for repair!" eh="0c0a7c19" />
-        <e k="usedplus_warning_notEnoughMoney" v="[EN] Not enough money!" eh="48f194d4" />
-        <e k="usedplus_notification_landSeized" v="[EN] LAND SEIZED: %s has been taken due to non-payment!" eh="1c095ac6" />
-        <e k="usedplus_error_paymentTooLow" v="[EN] Payment amount is below the minimum required." eh="4f83eda0" />
-        <e k="usedplus_error_paymentTooHigh" v="[EN] Payment amount exceeds the remaining balance." eh="091a9776" />
-        <e k="usedplus_success_paymentMade" v="[EN] Payment processed successfully!" eh="b12aba7d" />
-        <e k="usedplus_error_cannotAffordTermination" v="[EN] Not enough money to pay the lease termination fee." eh="64ed9e67" />
-        <e k="usedplus_credit_required" v="[EN] Credit Required" eh="cefa86b5" />
-        <e k="usedplus_finance_credit_msg" v="[EN] Financing requires a credit score of %d or higher." eh="7d3d6778" />
-        <e k="usedplus_lease_credit_msg" v="[EN] Leasing requires a credit score of %d or higher." eh="c86cbfc5" />
-        <e k="usedplus_error_purchaseFailed" v="[EN] Purchase failed - game API not available." eh="c02a7002" />
-        <e k="usedplus_error_negativeDownPayment" v="[EN] Down payment cannot be negative." eh="0634f8d8" />
-        <e k="usedplus_error_downPaymentTooHigh" v="[EN] Down payment cannot exceed the purchase price." eh="6bd926ef" />
-        <e k="usedplus_error_invalidTerm" v="[EN] Invalid loan term." eh="49e90a5b" />
-        <e k="usedplus_error_leaseDownPaymentTooHigh" v="[EN] Down payment cannot exceed the lease price." eh="5e32ae97" />
-        <e k="usedplus_error_leaseTermInvalid" v="[EN] Invalid lease term." eh="7f3c3523" />
-        <e k="usedplus_age_oneYear" v="[EN] 1 year old" eh="086d4f5c" />
-        <e k="usedplus_age_years" v="[EN] %d years old" eh="afdf2194" />
-        <e k="usedplus_hours" v="[EN] %d hours" eh="4e8d5e54" />
-        <e k="usedplus_notification_vanillaLoanPaidOff" v="[EN] Bank loan paid off!" eh="a6f2a43b" />
-        <e k="usedplus_mp_success_vehicle_purchased" v="[EN] Vehicle purchased successfully!" eh="b5beec4f" />
-        <e k="usedplus_mp_success_trade_in" v="[EN] Trade-in completed successfully!" eh="0a59b49a" />
-        <e k="usedplus_mp_success_field_repair" v="[EN] Field repair completed!" eh="06239aac" />
-        <e k="usedplus_mp_success_fluids_refilled" v="[EN] Fluids refilled successfully!" eh="9597cd1d" />
-        <e k="usedplus_mp_success_tires_replaced" v="[EN] Tires replaced successfully!" eh="5224fbbe" />
-        <e k="usedplus_mp_success_land_purchased" v="[EN] Land purchased successfully!" eh="9de4a0f4" />
-        <e k="usedplus_mp_error_purchase_failed" v="[EN] Purchase failed. Please try again." eh="42d7ddab" />
-        <e k="usedplus_mp_error_vehicle_not_found" v="[EN] Vehicle not found." eh="02c84e79" />
-        <e k="usedplus_mp_error_no_loan" v="[EN] No loan balance to pay." eh="5668e12f" />
-        <e k="usedplus_admin_title" v="[EN] UsedPlus Admin Panel" eh="f1ae106e" />
-        <e k="usedplus_admin_tab_malfunctions" v="[EN] Malfunctions" eh="97801e8a" />
-        <e k="usedplus_admin_tab_spawning" v="[EN] Spawning" eh="abd8b510" />
-        <e k="usedplus_admin_tab_finance" v="[EN] Finance" eh="c482980d" />
-        <e k="usedplus_admin_tab_dialogs" v="[EN] Dialogs" eh="258853ae" />
-        <e k="usedplus_admin_tab_state" v="[EN] State" eh="46a2a41c" />
-        <e k="usedplus_admin_section_engine" v="[EN] ENGINE" eh="1942d6cf" />
-        <e k="usedplus_admin_section_electrical" v="[EN] ELECTRICAL" eh="9f317629" />
-        <e k="usedplus_admin_section_hydraulic" v="[EN] HYDRAULIC" eh="3e0b9977" />
-        <e k="usedplus_admin_section_tires" v="[EN] TIRES" eh="36173e29" />
-        <e k="usedplus_admin_section_utility" v="[EN] UTILITY" eh="1697ce5d" />
-        <e k="usedplus_admin_section_items" v="[EN] ITEMS" eh="9a932d55" />
-        <e k="usedplus_admin_section_discovery" v="[EN] DISCOVERY" eh="f5be5d66" />
-        <e k="usedplus_admin_section_test_vehicles" v="[EN] TEST VEHICLES" eh="682cb0f3" />
-        <e k="usedplus_admin_section_condition" v="[EN] CONDITION PAINTER" eh="2593ea9b" />
-        <e k="usedplus_admin_section_money" v="[EN] MONEY" eh="2bc794c2" />
-        <e k="usedplus_admin_section_credit" v="[EN] CREDIT SCORE" eh="4f3b169e" />
-        <e k="usedplus_admin_section_deals" v="[EN] DEALS" eh="bdcaa389" />
-        <e k="usedplus_admin_section_finance_dialogs" v="[EN] FINANCE DIALOGS" eh="babbf134" />
-        <e k="usedplus_admin_section_market_dialogs" v="[EN] MARKETPLACE DIALOGS" eh="4c8988f5" />
-        <e k="usedplus_admin_section_service_dialogs" v="[EN] SERVICE DIALOGS" eh="e407aa85" />
-        <e k="usedplus_admin_section_lease_dialogs" v="[EN] LEASE DIALOGS" eh="479e552e" />
-        <e k="usedplus_admin_section_debug" v="[EN] DEBUG MODE" eh="c7ee79cd" />
-        <e k="usedplus_admin_section_vehicle_state" v="[EN] VEHICLE STATE" eh="c077f4be" />
-        <e k="usedplus_admin_section_dna" v="[EN] SELLER DNA (Next Search)" eh="0e284459" />
-        <e k="usedplus_admin_section_quick_vehicle" v="[EN] QUICK VEHICLE SWAP" eh="01242f7d" />
-        <e k="usedplus_admin_btn_stall" v="[EN] Stall" eh="a0f50ad4" />
-        <e k="usedplus_admin_btn_misfire" v="[EN] Misfire" eh="9b9bd091" />
-        <e k="usedplus_admin_btn_overheat" v="[EN] Overheat" eh="5d266c94" />
-        <e k="usedplus_admin_btn_runaway" v="[EN] Runaway" eh="dbdba743" />
-        <e k="usedplus_admin_btn_seizure" v="[EN] Seizure" eh="82d09d65" />
-        <e k="usedplus_admin_btn_cutout" v="[EN] Cutout" eh="330be5af" />
-        <e k="usedplus_admin_btn_surge_l" v="[EN] Surge (L)" eh="14a7255f" />
-        <e k="usedplus_admin_btn_surge_r" v="[EN] Surge (R)" eh="f9261697" />
-        <e k="usedplus_admin_btn_flat_l" v="[EN] Flat (L)" eh="427238a9" />
-        <e k="usedplus_admin_btn_flat_r" v="[EN] Flat (R)" eh="5a2301a8" />
-        <e k="usedplus_admin_btn_reset_cooldown" v="[EN] Reset CD" eh="d2165eba" />
-        <e k="usedplus_admin_btn_malf_info" v="[EN] Malf Info" eh="92badb26" />
-        <e k="usedplus_admin_btn_fix_all" v="[EN] Fix All" eh="1c7feed4" />
-        <e k="usedplus_admin_btn_spawn_obd" v="[EN] OBD Scanner" eh="96023669" />
-        <e k="usedplus_admin_btn_spawn_truck" v="[EN] Svc Truck" eh="083ff302" />
-        <e k="usedplus_admin_btn_spawn_parts" v="[EN] Parts Pallet" eh="ca04c55a" />
-        <e k="usedplus_admin_btn_trigger_discovery" v="[EN] Trigger Disc" eh="adaba831" />
-        <e k="usedplus_admin_btn_reset_discovery" v="[EN] Reset Disc" eh="f78bfb71" />
-        <e k="usedplus_admin_btn_discovery_status" v="[EN] Disc Status" eh="bce3ddd2" />
-        <e k="usedplus_admin_btn_spawn_lemon" v="[EN] Spawn Lemon" eh="13d3e048" />
-        <e k="usedplus_admin_btn_spawn_workhorse" v="[EN] Workhorse" eh="50cf5190" />
-        <e k="usedplus_admin_btn_spawn_damaged" v="[EN] Damaged" eh="f7bd791a" />
-        <e k="usedplus_admin_btn_paint_pristine" v="[EN] Pristine" eh="96af3470" />
-        <e k="usedplus_admin_btn_paint_worn" v="[EN] Worn" eh="36cc503e" />
-        <e k="usedplus_admin_btn_paint_beaten" v="[EN] Beaten" eh="866731dc" />
-        <e k="usedplus_admin_btn_paint_destroyed" v="[EN] Destroyed" eh="aefbd059" />
-        <e k="usedplus_admin_btn_add_10k" v="[EN] +$10,000" eh="3ca6f66c" />
-        <e k="usedplus_admin_btn_add_100k" v="[EN] +$100,000" eh="860860a5" />
-        <e k="usedplus_admin_btn_add_1m" v="[EN] +$1,000,000" eh="8946b435" />
-        <e k="usedplus_admin_btn_set_zero" v="[EN] Set $0" eh="ca8864ed" />
-        <e k="usedplus_admin_btn_list_deals" v="[EN] List Deals" eh="936e496b" />
-        <e k="usedplus_admin_btn_payoff_all" v="[EN] Pay Off All" eh="3817edc8" />
-        <e k="usedplus_admin_btn_create_loan" v="[EN] Test Loan" eh="06cb7221" />
-        <e k="usedplus_admin_btn_create_lease" v="[EN] Test Lease" eh="d653ef32" />
-        <e k="usedplus_admin_btn_missed_payment" v="[EN] Miss Payment" eh="4890557c" />
-        <e k="usedplus_admin_btn_dlg_loan" v="[EN] Take Loan" eh="40fe67fa" />
-        <e k="usedplus_admin_btn_dlg_approved" v="[EN] Approved" eh="6f806341" />
-        <e k="usedplus_admin_btn_dlg_credit" v="[EN] Credit" eh="0a90b1bc" />
-        <e k="usedplus_admin_btn_dlg_history" v="[EN] History" eh="16d2b386" />
-        <e k="usedplus_admin_btn_dlg_repo" v="[EN] Repo" eh="0f74adf1" />
-        <e k="usedplus_admin_btn_dlg_search" v="[EN] Search" eh="13348442" />
-        <e k="usedplus_admin_btn_dlg_purchase" v="[EN] Purchase" eh="76b6a47a" />
-        <e k="usedplus_admin_btn_dlg_negotiate" v="[EN] Negotiate" eh="e481ddec" />
-        <e k="usedplus_admin_btn_dlg_seller" v="[EN] Seller Resp" eh="8ff31b45" />
-        <e k="usedplus_admin_btn_dlg_obd" v="[EN] OBD" eh="9971dd97" />
-        <e k="usedplus_admin_btn_dlg_service" v="[EN] Svc Truck" eh="083ff302" />
-        <e k="usedplus_admin_btn_dlg_inspect" v="[EN] Inspect" eh="35a9dbe6" />
-        <e k="usedplus_admin_btn_dlg_lease_end" v="[EN] Lease End" eh="da7801f1" />
-        <e k="usedplus_admin_btn_dlg_lease_renew" v="[EN] Lease Renew" eh="7a794930" />
-        <e k="usedplus_admin_btn_toggle_debug" v="[EN] Toggle Debug" eh="e69cb6a0" />
-        <e k="usedplus_admin_btn_rel_100" v="[EN] Rel: 100%" eh="dfdb79d3" />
-        <e k="usedplus_admin_btn_rel_50" v="[EN] Rel: 50%" eh="9ce7a0a2" />
-        <e k="usedplus_admin_btn_rel_10" v="[EN] Rel: 10%" eh="54d6e770" />
-        <e k="usedplus_admin_btn_reset_hours" v="[EN] Reset Hours" eh="a519e5e1" />
-        <e k="usedplus_admin_btn_add_hours" v="[EN] +1000 Hours" eh="ef05132d" />
-        <e k="usedplus_admin_btn_dna_desperate" v="[EN] Desperate" eh="97df4642" />
-        <e k="usedplus_admin_btn_dna_reasonable" v="[EN] Reasonable" eh="e485c034" />
-        <e k="usedplus_admin_btn_dna_immovable" v="[EN] Immovable" eh="57d0e57c" />
-        <e k="usedplus_admin_btn_next_vehicle" v="[EN] Next Vehicle" eh="e95e97fa" />
-        <e k="usedplus_admin_btn_prev_vehicle" v="[EN] Prev Vehicle" eh="69b3a0d0" />
-        <e k="usedplus_admin_current_balance" v="[EN] Current Balance:" eh="473e7f9e" />
-        <e k="usedplus_admin_current_credit" v="[EN] Credit Score:" eh="0199e1a3" />
-        <e k="usedplus_admin_status_ready" v="[EN] Ready. Select an action." eh="1ef35a42" /></elements>
+        <e k="usedplus_whisper_desperate_seller" v="Köztünk maradjon... elég türelmetlennek tűnnek az eladásra. Lehet, hogy szorult helyzetben vannak." eh="7250e321" />
+        <e k="usedplus_whisper_listed_long" v="Köztünk maradjon... már egy ideje látom ezt a járgányt a piacon. Az eladó motivált lehet." eh="d05ae609" />
+        <e k="usedplus_whisper_upgrading" v="Köztünk maradjon... hallottam, hogy nagyobb gépekre váltanak. Lehet rugalmasak." eh="e3972bc6" />
+        <e k="usedplus_whisper_knows_value" v="Köztünk maradjon... tisztességesen árazták és pontosan tudják mennyit ér." eh="8acefc9c" />
+        <e k="usedplus_whisper_just_listed" v="Köztünk maradjon... épp most került piacra. Lehet, nem sietnek az üzlettel." eh="b113b9e6" />
+        <e k="usedplus_whisper_standard" v="Köztünk maradjon... egyenes eladónak tűnik. Érdemes ajánlatot tenni." eh="b00693e0" />
+        <e k="usedplus_whisper_weather_storm" v="Ráadásul azzal a viharral ami közeleg, lehet gyorsan le akarnak zárni." eh="25a637f5" />
+        <e k="usedplus_whisper_weather_rain" v="Az eső mindenkit bent tart... jó idő alkudni." eh="1b825b89" />
+        <e k="usedplus_whisper_weather_hail" v="A jégeső miatt aggódnak a kint álló felszereléseikért." eh="023b34f7" />
+        <e k="usedplus_whisper_weather_snow" v="Esik a hó... szezonon kívül az eladók mindig rugalmasabbak." eh="bcdab6d9" />
+        <e k="usedplus_whisper_weather_perfect" v="Ilyen szép napon viszont... ne várj kedvezményeket." eh="bf201d88" />
+        <e k="usedplus_sr_titleAccept" v="AJÁNLAT ELFOGADVA!" eh="c36f802f" />
+        <e k="usedplus_sr_titleCounter" v="ELLENAJÁNLAT" eh="544441c8" />
+        <e k="usedplus_sr_titleReject" v="AJÁNLAT ELUTASÍTVA" eh="2b54c509" />
+        <e k="usedplus_sr_titleWalkaway" v="AZ ELADÓ FELÁLLT" eh="d4da1912" />
+        <e k="usedplus_sr_yourOffer" v="Ajánlatod:" eh="4e018663" />
+        <e k="usedplus_sr_counterOffer" v="Ellenajánlat:" eh="768065b8" />
+        <e k="usedplus_sr_sellerPrice" v="Eladó ára:" eh="1402265a" />
+        <e k="usedplus_sr_completePurchase" v="Vásárlás befejezése" eh="e1c9f521" />
+        <e k="usedplus_sr_acceptCounter" v="Ellenajánlat elfogadása" eh="fdbaf6cf" />
+        <e k="usedplus_sr_standFirm" v="Kitartás" eh="3b35ba7f" />
+        <e k="usedplus_sr_walkAway" v="Távozás" eh="5218f5e2" />
+        <e k="usedplus_sr_payFullPrice" v="Teljes ár fizetése" eh="1d0533bd" />
+        <e k="usedplus_response_accepted" v="Megegyeztünk! A tiéd a %s." eh="e1b388b0" />
+        <e k="usedplus_response_counter" v="Ennyire nem tudok lemenni, de félúton találkozunk. Mi lenne %s-val?" eh="6da9eb6a" />
+        <e k="usedplus_response_rejected" v="Sajnálom, de ezt nem fogadhatom el. Az áram %s és végleges." eh="d99f0b95" />
+        <e k="usedplus_response_walkaway" v="Szerintem túl messze vagyunk egymástól. Gyere vissza ha meggondolod magad." eh="c73a083b" />
+        <e k="usedplus_standfirm_success" v="Oké, oké... keményen alkudsz. Elfogadom." eh="0953e50a" />
+        <e k="usedplus_standfirm_hold" v="Figyelj, %s a legalacsonyabb amire le tudok menni. Ezt vagy semmit." eh="2d81ca38" />
+        <e k="usedplus_standfirm_walkaway" v="Nem hiszem, hogy meg fogunk egyezni. Talán máskor." eh="2d8a7003" />
+        <e k="usedplus_negotiation_locked_title" v="Eladó nem elérhető" eh="00a519f4" />
+        <e k="usedplus_negotiation_locked" v="Az eladó nem elérhető. Próbáld újra %d perc múlva." eh="938f0f62" />
+        <e k="usedplus_negotiation_locked_hint" v="Lehet, hogy lehiggad egy kicsit..." eh="1c8c51e6" />
+        <e k="usedplus_insufficient_funds" v="Nincs elég pénz" eh="68c8a940" />
+        <e k="usedplus_insufficient_funds_offer" v="Nem engedheted meg ezt az ajánlatot. Használt jármű vásárlás csak készpénzzel." eh="1c7f7913" />
+        <e k="usedplus_insufficient_funds_shortfall" v="Még %s kell a vásárlás befejezéséhez." eh="d40315cf" />
+        <e k="usedplus_insufficient_funds_balance" v="Jelenlegi egyenleg: %s" eh="b9522f76" />
+        <e k="usedplus_walkaway_title" v="AZ ELADÓ FELÁLLT" eh="d4da1912" />
+        <e k="usedplus_walkaway_message" v="Az ajánlatod megsértette az eladót. Megtagadta az üzletelést veled és ez a jármű már nem elérhető." eh="3ef90ec2" />
+        <e k="usedplus_walkaway_workhorse" v="Ez az eladó pontosan tudja mit ad - egy gépet ami mindig megbízható volt. Nem fog alkudozni alacsony árakon." eh="dd4d6411" />
+        <e k="usedplus_seller_immovable_hint" v="Ez az eladó pontosan tudja mit ad. Ne várj alkuteret." eh="afe11ced" />
+        <e k="usedplus_mode_finance_disabled" v="Finanszírozás (Kikapcsolva)" eh="a7fe11df" />
+        <e k="usedplus_mode_lease_disabled" v="Lízing (Kikapcsolva)" eh="2c3f5a31" />
+        <e k="usedplus_finance_disabled_title" v="Funkció kikapcsolva" eh="e4c783e8" />
+        <e k="usedplus_finance_disabled_msg" v="Jármű finanszírozás ki van kapcsolva a UsedPlus beállításokban." eh="fffb70a6" />
+        <e k="usedplus_lease_disabled_title" v="Funkció kikapcsolva" eh="e4c783e8" />
+        <e k="usedplus_lease_disabled_msg" v="Jármű lízing ki van kapcsolva a UsedPlus beállításokban." eh="bd7f5b24" />
+        <e k="usedplus_land_finance_disabled_msg" v="Föld finanszírozás ki van kapcsolva a UsedPlus beállításokban." eh="0335547a" />
+        <e k="usedplus_land_lease_disabled_msg" v="Föld lízing ki van kapcsolva a UsedPlus beállításokban." eh="f875a63d" />
+        <e k="usedplus_land_modeFinance_disabled" v="Finanszírozás (Kikapcsolva)" eh="a7fe11df" />
+        <e k="usedplus_land_modeLease_disabled" v="Lízing (Kikapcsolva)" eh="2c3f5a31" />
+        <e k="usedplus_engine_seized" v="MOTOR BEGYULLADT! Javítás szükséges mielőtt a jármű beindulna." eh="c22e256a" />
+        <e k="usedplus_hydraulics_seized" v="HIDRAULIKA BEGYULLADT! A munkagépek helyükön rögzítettek." eh="dd09718c" />
+        <e k="usedplus_electrical_seized" v="ELEKTROMOS HIBA! Minden rendszer halott." eh="84b7514a" />
+        <e k="usedplus_seizure_detected" v="ALKATRÉSZ BEGYULLADT" eh="9def01dd" />
+        <e k="usedplus_seizure_repair_confirm" v="%s begyulladt és sürgős javítást igényel.\n\nJavítási költség: %s\n\nFolytatod a javítást?" eh="bf702608" />
+        <e k="usedplus_seizure_repaired" v="%s megjavítva! Megbízhatóság helyreállítva %d%%-ra" eh="323fa338" />
+        <e k="usedplus_repair_no_money" v="Nincs elég pénzed javításra!" eh="0c0a7c19" />
+        <e k="usedplus_warning_notEnoughMoney" v="Nincs elég pénzed!" eh="48f194d4" />
+        <e k="usedplus_notification_landSeized" v="FÖLD LEFOGLALVA: %s elvéve fizetés elmulasztása miatt!" eh="1c095ac6" />
+        <e k="usedplus_error_paymentTooLow" v="A fizetés összege a minimálisan szükséges alatt van." eh="4f83eda0" />
+        <e k="usedplus_error_paymentTooHigh" v="A fizetés összege meghaladja a fennmaradó egyenleget." eh="091a9776" />
+        <e k="usedplus_success_paymentMade" v="Fizetés sikeresen feldolgozva!" eh="b12aba7d" />
+        <e k="usedplus_error_cannotAffordTermination" v="Nincs elég pénzed a lízing felmondási díjra." eh="64ed9e67" />
+        <e k="usedplus_credit_required" v="Hitel szükséges" eh="cefa86b5" />
+        <e k="usedplus_finance_credit_msg" v="Finanszírozáshoz %d vagy magasabb hitelpontszám szükséges." eh="7d3d6778" />
+        <e k="usedplus_lease_credit_msg" v="Lízinghez %d vagy magasabb hitelpontszám szükséges." eh="c86cbfc5" />
+        <e k="usedplus_error_purchaseFailed" v="Vásárlás sikertelen - játék API nem elérhető." eh="c02a7002" />
+        <e k="usedplus_error_negativeDownPayment" v="Az előleg nem lehet negatív." eh="0634f8d8" />
+        <e k="usedplus_error_downPaymentTooHigh" v="Az előleg nem haladhatja meg a vásárlási árat." eh="6bd926ef" />
+        <e k="usedplus_error_invalidTerm" v="Érvénytelen hitel futamidő." eh="49e90a5b" />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="Az előleg nem haladhatja meg a lízing árat." eh="5e32ae97" />
+        <e k="usedplus_error_leaseTermInvalid" v="Érvénytelen lízing futamidő." eh="7f3c3523" />
+        <e k="usedplus_age_oneYear" v="1 éves" eh="086d4f5c" />
+        <e k="usedplus_age_years" v="%d éves" eh="afdf2194" />
+        <e k="usedplus_hours" v="%d óra" eh="4e8d5e54" />
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="Bank hitel kifizetve!" eh="a6f2a43b" />
+        <e k="usedplus_mp_success_vehicle_purchased" v="Jármű sikeresen megvásárolva!" eh="b5beec4f" />
+        <e k="usedplus_mp_success_trade_in" v="Beszámítás sikeresen befejezve!" eh="0a59b49a" />
+        <e k="usedplus_mp_success_field_repair" v="Helyszíni javítás befejezve!" eh="06239aac" />
+        <e k="usedplus_mp_success_fluids_refilled" v="Folyadékok sikeresen feltöltve!" eh="9597cd1d" />
+        <e k="usedplus_mp_success_tires_replaced" v="Gumiabroncsok sikeresen cserélve!" eh="5224fbbe" />
+        <e k="usedplus_mp_success_land_purchased" v="Föld sikeresen megvásárolva!" eh="9de4a0f4" />
+        <e k="usedplus_mp_error_purchase_failed" v="Vásárlás sikertelen. Kérlek próbáld újra." eh="42d7ddab" />
+        <e k="usedplus_mp_error_vehicle_not_found" v="Jármű nem található." eh="02c84e79" />
+        <e k="usedplus_mp_error_no_loan" v="Nincs hitelegyenleg fizetésre." eh="5668e12f" />
+        <e k="usedplus_admin_title" v="UsedPlus Admin Panel" eh="f1ae106e" />
+        <e k="usedplus_admin_tab_malfunctions" v="Meghibásodások" eh="97801e8a" />
+        <e k="usedplus_admin_tab_spawning" v="Létrehozás" eh="abd8b510" />
+        <e k="usedplus_admin_tab_finance" v="Finanszírozás" eh="c482980d" />
+        <e k="usedplus_admin_tab_dialogs" v="Párbeszédek" eh="258853ae" />
+        <e k="usedplus_admin_tab_state" v="Állapot" eh="46a2a41c" />
+        <e k="usedplus_admin_section_engine" v="MOTOR" eh="1942d6cf" />
+        <e k="usedplus_admin_section_electrical" v="ELEKTROMOS" eh="9f317629" />
+        <e k="usedplus_admin_section_hydraulic" v="HIDRAULIKA" eh="3e0b9977" />
+        <e k="usedplus_admin_section_tires" v="GUMIABRONCSOK" eh="36173e29" />
+        <e k="usedplus_admin_section_utility" v="SEGÉDESZKÖZÖK" eh="1697ce5d" />
+        <e k="usedplus_admin_section_items" v="TÁRGYAK" eh="9a932d55" />
+        <e k="usedplus_admin_section_discovery" v="FELFEDEZÉS" eh="f5be5d66" />
+        <e k="usedplus_admin_section_test_vehicles" v="TESZT JÁRMŰVEK" eh="682cb0f3" />
+        <e k="usedplus_admin_section_condition" v="ÁLLAPOT FESTŐ" eh="2593ea9b" />
+        <e k="usedplus_admin_section_money" v="PÉNZ" eh="2bc794c2" />
+        <e k="usedplus_admin_section_credit" v="HITELPONTSZÁM" eh="4f3b169e" />
+        <e k="usedplus_admin_section_deals" v="ÜZLETEK" eh="bdcaa389" />
+        <e k="usedplus_admin_section_finance_dialogs" v="FINANSZÍROZÁSI PÁRBESZÉDEK" eh="babbf134" />
+        <e k="usedplus_admin_section_market_dialogs" v="PIACTÉR PÁRBESZÉDEK" eh="4c8988f5" />
+        <e k="usedplus_admin_section_service_dialogs" v="SZERVIZ PÁRBESZÉDEK" eh="e407aa85" />
+        <e k="usedplus_admin_section_lease_dialogs" v="LÍZING PÁRBESZÉDEK" eh="479e552e" />
+        <e k="usedplus_admin_section_debug" v="DEBUG MÓD" eh="c7ee79cd" />
+        <e k="usedplus_admin_section_vehicle_state" v="JÁRMŰ ÁLLAPOT" eh="c077f4be" />
+        <e k="usedplus_admin_section_dna" v="ELADÓ DNS (Következő keresés)" eh="0e284459" />
+        <e k="usedplus_admin_section_quick_vehicle" v="GYORS JÁRMŰ CSERE" eh="01242f7d" />
+        <e k="usedplus_admin_btn_stall" v="Leáll" eh="a0f50ad4" />
+        <e k="usedplus_admin_btn_misfire" v="Bedurran" eh="9b9bd091" />
+        <e k="usedplus_admin_btn_overheat" v="Túlhevül" eh="5d266c94" />
+        <e k="usedplus_admin_btn_runaway" v="Elszabadul" eh="dbdba743" />
+        <e k="usedplus_admin_btn_seizure" v="Begyullad" eh="82d09d65" />
+        <e k="usedplus_admin_btn_cutout" v="Kimarad" eh="330be5af" />
+        <e k="usedplus_admin_btn_surge_l" v="Lökés (B)" eh="14a7255f" />
+        <e k="usedplus_admin_btn_surge_r" v="Lökés (J)" eh="f9261697" />
+        <e k="usedplus_admin_btn_flat_l" v="Defekt (B)" eh="427238a9" />
+        <e k="usedplus_admin_btn_flat_r" v="Defekt (J)" eh="5a2301a8" />
+        <e k="usedplus_admin_btn_reset_cooldown" v="CD törlés" eh="d2165eba" />
+        <e k="usedplus_admin_btn_malf_info" v="Hiba info" eh="92badb26" />
+        <e k="usedplus_admin_btn_fix_all" v="Mindent javít" eh="1c7feed4" />
+        <e k="usedplus_admin_btn_spawn_obd" v="OBD szkenner" eh="96023669" />
+        <e k="usedplus_admin_btn_spawn_truck" v="Szerviz autó" eh="083ff302" />
+        <e k="usedplus_admin_btn_spawn_parts" v="Alkatrész raklap" eh="ca04c55a" />
+        <e k="usedplus_admin_btn_trigger_discovery" v="Felfedezés" eh="adaba831" />
+        <e k="usedplus_admin_btn_reset_discovery" v="Felfed. törlés" eh="f78bfb71" />
+        <e k="usedplus_admin_btn_discovery_status" v="Felfed. állapot" eh="bce3ddd2" />
+        <e k="usedplus_admin_btn_spawn_lemon" v="Tragacs létrehoz" eh="13d3e048" />
+        <e k="usedplus_admin_btn_spawn_workhorse" v="Munkaló" eh="50cf5190" />
+        <e k="usedplus_admin_btn_spawn_damaged" v="Sérült" eh="f7bd791a" />
+        <e k="usedplus_admin_btn_paint_pristine" v="Kifogástalan" eh="96af3470" />
+        <e k="usedplus_admin_btn_paint_worn" v="Kopott" eh="36cc503e" />
+        <e k="usedplus_admin_btn_paint_beaten" v="Vert" eh="866731dc" />
+        <e k="usedplus_admin_btn_paint_destroyed" v="Tönkrement" eh="aefbd059" />
+        <e k="usedplus_admin_btn_add_10k" v="+$10,000" eh="3ca6f66c" />
+        <e k="usedplus_admin_btn_add_100k" v="+$100,000" eh="860860a5" />
+        <e k="usedplus_admin_btn_add_1m" v="+$1,000,000" eh="8946b435" />
+        <e k="usedplus_admin_btn_set_zero" v="$0 beállít" eh="ca8864ed" />
+        <e k="usedplus_admin_btn_list_deals" v="Üzletek listája" eh="936e496b" />
+        <e k="usedplus_admin_btn_payoff_all" v="Mind kifizet" eh="3817edc8" />
+        <e k="usedplus_admin_btn_create_loan" v="Teszt hitel" eh="06cb7221" />
+        <e k="usedplus_admin_btn_create_lease" v="Teszt lízing" eh="d653ef32" />
+        <e k="usedplus_admin_btn_missed_payment" v="Fizetés kihagy" eh="4890557c" />
+        <e k="usedplus_admin_btn_dlg_loan" v="Hitel felvét" eh="40fe67fa" />
+        <e k="usedplus_admin_btn_dlg_approved" v="Jóváhagyva" eh="6f806341" />
+        <e k="usedplus_admin_btn_dlg_credit" v="Hitel" eh="0a90b1bc" />
+        <e k="usedplus_admin_btn_dlg_history" v="Előzmények" eh="16d2b386" />
+        <e k="usedplus_admin_btn_dlg_repo" v="Visszavétel" eh="0f74adf1" />
+        <e k="usedplus_admin_btn_dlg_search" v="Keresés" eh="13348442" />
+        <e k="usedplus_admin_btn_dlg_purchase" v="Vásárlás" eh="76b6a47a" />
+        <e k="usedplus_admin_btn_dlg_negotiate" v="Alkudozás" eh="e481ddec" />
+        <e k="usedplus_admin_btn_dlg_seller" v="Eladó válasz" eh="8ff31b45" />
+        <e k="usedplus_admin_btn_dlg_obd" v="OBD" eh="9971dd97" />
+        <e k="usedplus_admin_btn_dlg_service" v="Szerviz autó" eh="083ff302" />
+        <e k="usedplus_admin_btn_dlg_inspect" v="Vizsgálat" eh="35a9dbe6" />
+        <e k="usedplus_admin_btn_dlg_lease_end" v="Lízing vége" eh="da7801f1" />
+        <e k="usedplus_admin_btn_dlg_lease_renew" v="Lízing meghossz." eh="7a794930" />
+        <e k="usedplus_admin_btn_toggle_debug" v="Debug kapcsol" eh="e69cb6a0" />
+        <e k="usedplus_admin_btn_rel_100" v="Megb: 100%" eh="dfdb79d3" />
+        <e k="usedplus_admin_btn_rel_50" v="Megb: 50%" eh="9ce7a0a2" />
+        <e k="usedplus_admin_btn_rel_10" v="Megb: 10%" eh="54d6e770" />
+        <e k="usedplus_admin_btn_reset_hours" v="Órák törlése" eh="a519e5e1" />
+        <e k="usedplus_admin_btn_add_hours" v="+1000 óra" eh="ef05132d" />
+        <e k="usedplus_admin_btn_dna_desperate" v="Kétségbeesett" eh="97df4642" />
+        <e k="usedplus_admin_btn_dna_reasonable" v="Ésszerű" eh="e485c034" />
+        <e k="usedplus_admin_btn_dna_immovable" v="Mozdíthatatlan" eh="57d0e57c" />
+        <e k="usedplus_admin_btn_next_vehicle" v="Köv. jármű" eh="e95e97fa" />
+        <e k="usedplus_admin_btn_prev_vehicle" v="Előző jármű" eh="69b3a0d0" />
+        <e k="usedplus_admin_current_balance" v="Jelenlegi egyenleg:" eh="473e7f9e" />
+        <e k="usedplus_admin_current_credit" v="Hitelpontszám:" eh="0199e1a3" />
+        <e k="usedplus_admin_status_ready" v="Kész. Válassz egy műveletet." eh="1ef35a42" /></elements>
 </l10n>

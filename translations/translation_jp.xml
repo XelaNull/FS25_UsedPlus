@@ -1851,103 +1851,103 @@
         <e k="usedplus_age_oneYear" v="1年落ち" eh="086d4f5c" />
         <e k="usedplus_age_years" v="%d年落ち" eh="afdf2194" />
         <e k="usedplus_hours" v="%d時間" eh="4e8d5e54" />
-        <e k="usedplus_notification_vanillaLoanPaidOff" v="[EN] Bank loan paid off!" eh="a6f2a43b" />
-        <e k="usedplus_mp_success_vehicle_purchased" v="[EN] Vehicle purchased successfully!" eh="b5beec4f" />
-        <e k="usedplus_mp_success_trade_in" v="[EN] Trade-in completed successfully!" eh="0a59b49a" />
-        <e k="usedplus_mp_success_field_repair" v="[EN] Field repair completed!" eh="06239aac" />
-        <e k="usedplus_mp_success_fluids_refilled" v="[EN] Fluids refilled successfully!" eh="9597cd1d" />
-        <e k="usedplus_mp_success_tires_replaced" v="[EN] Tires replaced successfully!" eh="5224fbbe" />
-        <e k="usedplus_mp_success_land_purchased" v="[EN] Land purchased successfully!" eh="9de4a0f4" />
-        <e k="usedplus_mp_error_purchase_failed" v="[EN] Purchase failed. Please try again." eh="42d7ddab" />
-        <e k="usedplus_mp_error_vehicle_not_found" v="[EN] Vehicle not found." eh="02c84e79" />
-        <e k="usedplus_mp_error_no_loan" v="[EN] No loan balance to pay." eh="5668e12f" />
-        <e k="usedplus_admin_title" v="[EN] UsedPlus Admin Panel" eh="f1ae106e" />
-        <e k="usedplus_admin_tab_malfunctions" v="[EN] Malfunctions" eh="97801e8a" />
-        <e k="usedplus_admin_tab_spawning" v="[EN] Spawning" eh="abd8b510" />
-        <e k="usedplus_admin_tab_finance" v="[EN] Finance" eh="c482980d" />
-        <e k="usedplus_admin_tab_dialogs" v="[EN] Dialogs" eh="258853ae" />
-        <e k="usedplus_admin_tab_state" v="[EN] State" eh="46a2a41c" />
-        <e k="usedplus_admin_section_engine" v="[EN] ENGINE" eh="1942d6cf" />
-        <e k="usedplus_admin_section_electrical" v="[EN] ELECTRICAL" eh="9f317629" />
-        <e k="usedplus_admin_section_hydraulic" v="[EN] HYDRAULIC" eh="3e0b9977" />
-        <e k="usedplus_admin_section_tires" v="[EN] TIRES" eh="36173e29" />
-        <e k="usedplus_admin_section_utility" v="[EN] UTILITY" eh="1697ce5d" />
-        <e k="usedplus_admin_section_items" v="[EN] ITEMS" eh="9a932d55" />
-        <e k="usedplus_admin_section_discovery" v="[EN] DISCOVERY" eh="f5be5d66" />
-        <e k="usedplus_admin_section_test_vehicles" v="[EN] TEST VEHICLES" eh="682cb0f3" />
-        <e k="usedplus_admin_section_condition" v="[EN] CONDITION PAINTER" eh="2593ea9b" />
-        <e k="usedplus_admin_section_money" v="[EN] MONEY" eh="2bc794c2" />
-        <e k="usedplus_admin_section_credit" v="[EN] CREDIT SCORE" eh="4f3b169e" />
-        <e k="usedplus_admin_section_deals" v="[EN] DEALS" eh="bdcaa389" />
-        <e k="usedplus_admin_section_finance_dialogs" v="[EN] FINANCE DIALOGS" eh="babbf134" />
-        <e k="usedplus_admin_section_market_dialogs" v="[EN] MARKETPLACE DIALOGS" eh="4c8988f5" />
-        <e k="usedplus_admin_section_service_dialogs" v="[EN] SERVICE DIALOGS" eh="e407aa85" />
-        <e k="usedplus_admin_section_lease_dialogs" v="[EN] LEASE DIALOGS" eh="479e552e" />
-        <e k="usedplus_admin_section_debug" v="[EN] DEBUG MODE" eh="c7ee79cd" />
-        <e k="usedplus_admin_section_vehicle_state" v="[EN] VEHICLE STATE" eh="c077f4be" />
-        <e k="usedplus_admin_section_dna" v="[EN] SELLER DNA (Next Search)" eh="0e284459" />
-        <e k="usedplus_admin_section_quick_vehicle" v="[EN] QUICK VEHICLE SWAP" eh="01242f7d" />
-        <e k="usedplus_admin_btn_stall" v="[EN] Stall" eh="a0f50ad4" />
-        <e k="usedplus_admin_btn_misfire" v="[EN] Misfire" eh="9b9bd091" />
-        <e k="usedplus_admin_btn_overheat" v="[EN] Overheat" eh="5d266c94" />
-        <e k="usedplus_admin_btn_runaway" v="[EN] Runaway" eh="dbdba743" />
-        <e k="usedplus_admin_btn_seizure" v="[EN] Seizure" eh="82d09d65" />
-        <e k="usedplus_admin_btn_cutout" v="[EN] Cutout" eh="330be5af" />
-        <e k="usedplus_admin_btn_surge_l" v="[EN] Surge (L)" eh="14a7255f" />
-        <e k="usedplus_admin_btn_surge_r" v="[EN] Surge (R)" eh="f9261697" />
-        <e k="usedplus_admin_btn_flat_l" v="[EN] Flat (L)" eh="427238a9" />
-        <e k="usedplus_admin_btn_flat_r" v="[EN] Flat (R)" eh="5a2301a8" />
-        <e k="usedplus_admin_btn_reset_cooldown" v="[EN] Reset CD" eh="d2165eba" />
-        <e k="usedplus_admin_btn_malf_info" v="[EN] Malf Info" eh="92badb26" />
-        <e k="usedplus_admin_btn_fix_all" v="[EN] Fix All" eh="1c7feed4" />
-        <e k="usedplus_admin_btn_spawn_obd" v="[EN] OBD Scanner" eh="96023669" />
-        <e k="usedplus_admin_btn_spawn_truck" v="[EN] Svc Truck" eh="083ff302" />
-        <e k="usedplus_admin_btn_spawn_parts" v="[EN] Parts Pallet" eh="ca04c55a" />
-        <e k="usedplus_admin_btn_trigger_discovery" v="[EN] Trigger Disc" eh="adaba831" />
-        <e k="usedplus_admin_btn_reset_discovery" v="[EN] Reset Disc" eh="f78bfb71" />
-        <e k="usedplus_admin_btn_discovery_status" v="[EN] Disc Status" eh="bce3ddd2" />
-        <e k="usedplus_admin_btn_spawn_lemon" v="[EN] Spawn Lemon" eh="13d3e048" />
-        <e k="usedplus_admin_btn_spawn_workhorse" v="[EN] Workhorse" eh="50cf5190" />
-        <e k="usedplus_admin_btn_spawn_damaged" v="[EN] Damaged" eh="f7bd791a" />
-        <e k="usedplus_admin_btn_paint_pristine" v="[EN] Pristine" eh="96af3470" />
-        <e k="usedplus_admin_btn_paint_worn" v="[EN] Worn" eh="36cc503e" />
-        <e k="usedplus_admin_btn_paint_beaten" v="[EN] Beaten" eh="866731dc" />
-        <e k="usedplus_admin_btn_paint_destroyed" v="[EN] Destroyed" eh="aefbd059" />
-        <e k="usedplus_admin_btn_add_10k" v="[EN] +$10,000" eh="3ca6f66c" />
-        <e k="usedplus_admin_btn_add_100k" v="[EN] +$100,000" eh="860860a5" />
-        <e k="usedplus_admin_btn_add_1m" v="[EN] +$1,000,000" eh="8946b435" />
-        <e k="usedplus_admin_btn_set_zero" v="[EN] Set $0" eh="ca8864ed" />
-        <e k="usedplus_admin_btn_list_deals" v="[EN] List Deals" eh="936e496b" />
-        <e k="usedplus_admin_btn_payoff_all" v="[EN] Pay Off All" eh="3817edc8" />
-        <e k="usedplus_admin_btn_create_loan" v="[EN] Test Loan" eh="06cb7221" />
-        <e k="usedplus_admin_btn_create_lease" v="[EN] Test Lease" eh="d653ef32" />
-        <e k="usedplus_admin_btn_missed_payment" v="[EN] Miss Payment" eh="4890557c" />
-        <e k="usedplus_admin_btn_dlg_loan" v="[EN] Take Loan" eh="40fe67fa" />
-        <e k="usedplus_admin_btn_dlg_approved" v="[EN] Approved" eh="6f806341" />
-        <e k="usedplus_admin_btn_dlg_credit" v="[EN] Credit" eh="0a90b1bc" />
-        <e k="usedplus_admin_btn_dlg_history" v="[EN] History" eh="16d2b386" />
-        <e k="usedplus_admin_btn_dlg_repo" v="[EN] Repo" eh="0f74adf1" />
-        <e k="usedplus_admin_btn_dlg_search" v="[EN] Search" eh="13348442" />
-        <e k="usedplus_admin_btn_dlg_purchase" v="[EN] Purchase" eh="76b6a47a" />
-        <e k="usedplus_admin_btn_dlg_negotiate" v="[EN] Negotiate" eh="e481ddec" />
-        <e k="usedplus_admin_btn_dlg_seller" v="[EN] Seller Resp" eh="8ff31b45" />
-        <e k="usedplus_admin_btn_dlg_obd" v="[EN] OBD" eh="9971dd97" />
-        <e k="usedplus_admin_btn_dlg_service" v="[EN] Svc Truck" eh="083ff302" />
-        <e k="usedplus_admin_btn_dlg_inspect" v="[EN] Inspect" eh="35a9dbe6" />
-        <e k="usedplus_admin_btn_dlg_lease_end" v="[EN] Lease End" eh="da7801f1" />
-        <e k="usedplus_admin_btn_dlg_lease_renew" v="[EN] Lease Renew" eh="7a794930" />
-        <e k="usedplus_admin_btn_toggle_debug" v="[EN] Toggle Debug" eh="e69cb6a0" />
-        <e k="usedplus_admin_btn_rel_100" v="[EN] Rel: 100%" eh="dfdb79d3" />
-        <e k="usedplus_admin_btn_rel_50" v="[EN] Rel: 50%" eh="9ce7a0a2" />
-        <e k="usedplus_admin_btn_rel_10" v="[EN] Rel: 10%" eh="54d6e770" />
-        <e k="usedplus_admin_btn_reset_hours" v="[EN] Reset Hours" eh="a519e5e1" />
-        <e k="usedplus_admin_btn_add_hours" v="[EN] +1000 Hours" eh="ef05132d" />
-        <e k="usedplus_admin_btn_dna_desperate" v="[EN] Desperate" eh="97df4642" />
-        <e k="usedplus_admin_btn_dna_reasonable" v="[EN] Reasonable" eh="e485c034" />
-        <e k="usedplus_admin_btn_dna_immovable" v="[EN] Immovable" eh="57d0e57c" />
-        <e k="usedplus_admin_btn_next_vehicle" v="[EN] Next Vehicle" eh="e95e97fa" />
-        <e k="usedplus_admin_btn_prev_vehicle" v="[EN] Prev Vehicle" eh="69b3a0d0" />
-        <e k="usedplus_admin_current_balance" v="[EN] Current Balance:" eh="473e7f9e" />
-        <e k="usedplus_admin_current_credit" v="[EN] Credit Score:" eh="0199e1a3" />
-        <e k="usedplus_admin_status_ready" v="[EN] Ready. Select an action." eh="1ef35a42" /></elements>
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="銀行ローン完済！" eh="a6f2a43b" />
+        <e k="usedplus_mp_success_vehicle_purchased" v="車両購入成功！" eh="b5beec4f" />
+        <e k="usedplus_mp_success_trade_in" v="下取り完了！" eh="0a59b49a" />
+        <e k="usedplus_mp_success_field_repair" v="フィールド修理完了！" eh="06239aac" />
+        <e k="usedplus_mp_success_fluids_refilled" v="オイル補充完了！" eh="9597cd1d" />
+        <e k="usedplus_mp_success_tires_replaced" v="タイヤ交換完了！" eh="5224fbbe" />
+        <e k="usedplus_mp_success_land_purchased" v="土地購入成功！" eh="9de4a0f4" />
+        <e k="usedplus_mp_error_purchase_failed" v="購入失敗。再試行してください。" eh="42d7ddab" />
+        <e k="usedplus_mp_error_vehicle_not_found" v="車両が見つかりません。" eh="02c84e79" />
+        <e k="usedplus_mp_error_no_loan" v="支払うローン残高がありません。" eh="5668e12f" />
+        <e k="usedplus_admin_title" v="UsedPlus管理パネル" eh="f1ae106e" />
+        <e k="usedplus_admin_tab_malfunctions" v="故障" eh="97801e8a" />
+        <e k="usedplus_admin_tab_spawning" v="スポーン" eh="abd8b510" />
+        <e k="usedplus_admin_tab_finance" v="ファイナンス" eh="c482980d" />
+        <e k="usedplus_admin_tab_dialogs" v="ダイアログ" eh="258853ae" />
+        <e k="usedplus_admin_tab_state" v="状態" eh="46a2a41c" />
+        <e k="usedplus_admin_section_engine" v="エンジン" eh="1942d6cf" />
+        <e k="usedplus_admin_section_electrical" v="電装" eh="9f317629" />
+        <e k="usedplus_admin_section_hydraulic" v="油圧" eh="3e0b9977" />
+        <e k="usedplus_admin_section_tires" v="タイヤ" eh="36173e29" />
+        <e k="usedplus_admin_section_utility" v="ユーティリティ" eh="1697ce5d" />
+        <e k="usedplus_admin_section_items" v="アイテム" eh="9a932d55" />
+        <e k="usedplus_admin_section_discovery" v="ディスカバリー" eh="f5be5d66" />
+        <e k="usedplus_admin_section_test_vehicles" v="テスト車両" eh="682cb0f3" />
+        <e k="usedplus_admin_section_condition" v="コンディションペインター" eh="2593ea9b" />
+        <e k="usedplus_admin_section_money" v="お金" eh="2bc794c2" />
+        <e k="usedplus_admin_section_credit" v="信用スコア" eh="4f3b169e" />
+        <e k="usedplus_admin_section_deals" v="取引" eh="bdcaa389" />
+        <e k="usedplus_admin_section_finance_dialogs" v="ファイナンスダイアログ" eh="babbf134" />
+        <e k="usedplus_admin_section_market_dialogs" v="マーケットダイアログ" eh="4c8988f5" />
+        <e k="usedplus_admin_section_service_dialogs" v="サービスダイアログ" eh="e407aa85" />
+        <e k="usedplus_admin_section_lease_dialogs" v="リースダイアログ" eh="479e552e" />
+        <e k="usedplus_admin_section_debug" v="デバッグモード" eh="c7ee79cd" />
+        <e k="usedplus_admin_section_vehicle_state" v="車両状態" eh="c077f4be" />
+        <e k="usedplus_admin_section_dna" v="売り手DNA（次の検索）" eh="0e284459" />
+        <e k="usedplus_admin_section_quick_vehicle" v="クイック車両切り替え" eh="01242f7d" />
+        <e k="usedplus_admin_btn_stall" v="ストール" eh="a0f50ad4" />
+        <e k="usedplus_admin_btn_misfire" v="失火" eh="9b9bd091" />
+        <e k="usedplus_admin_btn_overheat" v="過熱" eh="5d266c94" />
+        <e k="usedplus_admin_btn_runaway" v="暴走" eh="dbdba743" />
+        <e k="usedplus_admin_btn_seizure" v="焼き付き" eh="82d09d65" />
+        <e k="usedplus_admin_btn_cutout" v="停止" eh="330be5af" />
+        <e k="usedplus_admin_btn_surge_l" v="サージ (左)" eh="14a7255f" />
+        <e k="usedplus_admin_btn_surge_r" v="サージ (右)" eh="f9261697" />
+        <e k="usedplus_admin_btn_flat_l" v="パンク (左)" eh="427238a9" />
+        <e k="usedplus_admin_btn_flat_r" v="パンク (右)" eh="5a2301a8" />
+        <e k="usedplus_admin_btn_reset_cooldown" v="CD リセット" eh="d2165eba" />
+        <e k="usedplus_admin_btn_malf_info" v="故障情報" eh="92badb26" />
+        <e k="usedplus_admin_btn_fix_all" v="全て修理" eh="1c7feed4" />
+        <e k="usedplus_admin_btn_spawn_obd" v="OBDスキャナー" eh="96023669" />
+        <e k="usedplus_admin_btn_spawn_truck" v="サービストラック" eh="083ff302" />
+        <e k="usedplus_admin_btn_spawn_parts" v="パーツパレット" eh="ca04c55a" />
+        <e k="usedplus_admin_btn_trigger_discovery" v="ディスカバリー起動" eh="adaba831" />
+        <e k="usedplus_admin_btn_reset_discovery" v="ディスカバリーリセット" eh="f78bfb71" />
+        <e k="usedplus_admin_btn_discovery_status" v="ディスカバリー状態" eh="bce3ddd2" />
+        <e k="usedplus_admin_btn_spawn_lemon" v="レモンスポーン" eh="13d3e048" />
+        <e k="usedplus_admin_btn_spawn_workhorse" v="ワークホース" eh="50cf5190" />
+        <e k="usedplus_admin_btn_spawn_damaged" v="ダメージ車" eh="f7bd791a" />
+        <e k="usedplus_admin_btn_paint_pristine" v="新品同様" eh="96af3470" />
+        <e k="usedplus_admin_btn_paint_worn" v="使用感あり" eh="36cc503e" />
+        <e k="usedplus_admin_btn_paint_beaten" v="ボロボロ" eh="866731dc" />
+        <e k="usedplus_admin_btn_paint_destroyed" v="破壊済み" eh="aefbd059" />
+        <e k="usedplus_admin_btn_add_10k" v="+$10,000" eh="3ca6f66c" />
+        <e k="usedplus_admin_btn_add_100k" v="+$100,000" eh="860860a5" />
+        <e k="usedplus_admin_btn_add_1m" v="+$1,000,000" eh="8946b435" />
+        <e k="usedplus_admin_btn_set_zero" v="$0に設定" eh="ca8864ed" />
+        <e k="usedplus_admin_btn_list_deals" v="取引一覧" eh="936e496b" />
+        <e k="usedplus_admin_btn_payoff_all" v="全て完済" eh="3817edc8" />
+        <e k="usedplus_admin_btn_create_loan" v="テストローン" eh="06cb7221" />
+        <e k="usedplus_admin_btn_create_lease" v="テストリース" eh="d653ef32" />
+        <e k="usedplus_admin_btn_missed_payment" v="支払い漏れ" eh="4890557c" />
+        <e k="usedplus_admin_btn_dlg_loan" v="ローン取得" eh="40fe67fa" />
+        <e k="usedplus_admin_btn_dlg_approved" v="承認済み" eh="6f806341" />
+        <e k="usedplus_admin_btn_dlg_credit" v="信用" eh="0a90b1bc" />
+        <e k="usedplus_admin_btn_dlg_history" v="履歴" eh="16d2b386" />
+        <e k="usedplus_admin_btn_dlg_repo" v="差し押さえ" eh="0f74adf1" />
+        <e k="usedplus_admin_btn_dlg_search" v="検索" eh="13348442" />
+        <e k="usedplus_admin_btn_dlg_purchase" v="購入" eh="76b6a47a" />
+        <e k="usedplus_admin_btn_dlg_negotiate" v="交渉" eh="e481ddec" />
+        <e k="usedplus_admin_btn_dlg_seller" v="売り手応答" eh="8ff31b45" />
+        <e k="usedplus_admin_btn_dlg_obd" v="OBD" eh="9971dd97" />
+        <e k="usedplus_admin_btn_dlg_service" v="サービストラック" eh="083ff302" />
+        <e k="usedplus_admin_btn_dlg_inspect" v="点検" eh="35a9dbe6" />
+        <e k="usedplus_admin_btn_dlg_lease_end" v="リース終了" eh="da7801f1" />
+        <e k="usedplus_admin_btn_dlg_lease_renew" v="リース更新" eh="7a794930" />
+        <e k="usedplus_admin_btn_toggle_debug" v="デバッグ切替" eh="e69cb6a0" />
+        <e k="usedplus_admin_btn_rel_100" v="信頼性: 100%" eh="dfdb79d3" />
+        <e k="usedplus_admin_btn_rel_50" v="信頼性: 50%" eh="9ce7a0a2" />
+        <e k="usedplus_admin_btn_rel_10" v="信頼性: 10%" eh="54d6e770" />
+        <e k="usedplus_admin_btn_reset_hours" v="時間リセット" eh="a519e5e1" />
+        <e k="usedplus_admin_btn_add_hours" v="+1000時間" eh="ef05132d" />
+        <e k="usedplus_admin_btn_dna_desperate" v="必死" eh="97df4642" />
+        <e k="usedplus_admin_btn_dna_reasonable" v="妥当" eh="e485c034" />
+        <e k="usedplus_admin_btn_dna_immovable" v="動かない" eh="57d0e57c" />
+        <e k="usedplus_admin_btn_next_vehicle" v="次の車両" eh="e95e97fa" />
+        <e k="usedplus_admin_btn_prev_vehicle" v="前の車両" eh="69b3a0d0" />
+        <e k="usedplus_admin_current_balance" v="現在の残高:" eh="473e7f9e" />
+        <e k="usedplus_admin_current_credit" v="信用スコア:" eh="0199e1a3" />
+        <e k="usedplus_admin_status_ready" v="準備完了。アクションを選択してください。" eh="1ef35a42" /></elements>
 </l10n>
