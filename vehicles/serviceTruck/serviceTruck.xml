@@ -44,7 +44,7 @@
         <sounds filename="$data/vehicles/international/transtarII/sounds/transtarII.xml" volumeFactor="0.35"/>
         <components count="1">
             <component centerOfMass="0 0.4 0.97" solverIterationCount="10" mass="7000"/>
-        </component>
+        </components>
         <schemaOverlay attacherJointPosition="0 0" name="TRUCK"/>
         <mapHotspot type="TRUCK"/>
     </base>

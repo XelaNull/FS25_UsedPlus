@@ -227,12 +227,13 @@ function ServiceTruck:onRegisterActionEvents(isActiveForInput, isActiveForInputI
         self:clearActionEventsTable(spec.actionEvents)
 
         if isActiveForInputIgnoreSelection then
-            -- Register action for starting/stopping restoration
-            local _, actionEventId = self:addActionEvent(spec.actionEvents, InputAction.USEDPLUS_ACTIVATE_OBD, self, ServiceTruck.onActionActivate, false, true, false, true, nil)
-            g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_VERY_HIGH)
-            spec.actionEventId = actionEventId
-
-            self:updateActionEventText()
+            -- Use dedicated USEDPLUS_SERVICE_TRUCK action (R key) to avoid conflicts
+            local _, actionEventId = self:addActionEvent(spec.actionEvents, InputAction.USEDPLUS_SERVICE_TRUCK, self, ServiceTruck.onActionActivate, false, true, false, true, nil)
+            if actionEventId ~= nil then
+                g_inputBinding:setActionEventTextPriority(actionEventId, GS_PRIO_VERY_HIGH)
+                spec.actionEventId = actionEventId
+                self:updateActionEventText()
+            end
         end
     end
 end
