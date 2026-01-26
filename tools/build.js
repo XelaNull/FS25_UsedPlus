@@ -70,53 +70,65 @@ function getVersion() {
     return match ? match[1] : 'unknown';
 }
 
-function getDateStamp() {
+function getTimestamp() {
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
-    return `${year}${month}${day}`;
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    return `${year}${month}${day}_${hours}${minutes}${seconds}`;
 }
 
-function createZipWithPowerShell(files, outputPath) {
-    const tempDir = path.join(require('os').tmpdir(), 'UsedPlus_Build_' + Date.now());
-    fs.mkdirSync(tempDir, { recursive: true });
+function createZipWithArchiver(files, outputPath) {
+    return new Promise((resolve, reject) => {
+        const archiver = require('archiver');
 
-    for (const file of files) {
-        const targetPath = path.join(tempDir, file.relativePath);
-        const targetDir = path.dirname(targetPath);
-        fs.mkdirSync(targetDir, { recursive: true });
-        fs.copyFileSync(file.fullPath, targetPath);
-    }
+        // Remove existing file if present
+        if (fs.existsSync(outputPath)) {
+            fs.unlinkSync(outputPath);
+        }
 
-    if (fs.existsSync(outputPath)) {
-        fs.unlinkSync(outputPath);
-    }
+        const output = fs.createWriteStream(outputPath);
+        const archive = archiver('zip', {
+            zlib: { level: 9 } // Maximum compression
+        });
 
-    // Use PowerShell to create zip
-    const psCommand = `Compress-Archive -Path '${tempDir.replace(/'/g, "''")}\\*' -DestinationPath '${outputPath.replace(/'/g, "''")}' -Force`;
-    execSync(`powershell -Command "${psCommand}"`, { stdio: 'inherit' });
+        output.on('close', () => {
+            resolve(archive.pointer());
+        });
 
-    // Cleanup
-    fs.rmSync(tempDir, { recursive: true, force: true });
+        archive.on('error', (err) => {
+            reject(err);
+        });
 
-    return fs.statSync(outputPath).size;
+        archive.pipe(output);
+
+        // Add files with forward slashes (Unix-style paths for FS25 compatibility)
+        for (const file of files) {
+            const zipPath = file.relativePath.replace(/\\/g, '/');
+            archive.file(file.fullPath, { name: zipPath });
+        }
+
+        archive.finalize();
+    });
 }
 
-function main() {
+async function main() {
     console.log('');
     console.log('============================================');
     console.log('  UsedPlus ModHub Build Script');
     console.log('============================================');
 
     const version = getVersion();
-    const dateStamp = getDateStamp();
-    const zipName = `${MOD_NAME}_v${version}_${dateStamp}.zip`;
+    const timestamp = getTimestamp();
+    const zipName = `${MOD_NAME}_v${version}_${timestamp}.zip`;
     const outputPath = path.join(OUTPUT_DIR, zipName);
 
-    console.log(`  Version:  ${version}`);
-    console.log(`  Date:     ${dateStamp}`);
-    console.log(`  Output:   ${zipName}`);
+    console.log(`  Version:   ${version}`);
+    console.log(`  Timestamp: ${timestamp}`);
+    console.log(`  Output:    ${zipName}`);
     console.log('============================================');
     console.log('');
 
@@ -129,9 +141,9 @@ function main() {
     console.log(`  Found ${files.length} files to include`);
     console.log('');
 
-    // Create zip
+    // Create zip with archiver (uses forward slashes for FS25 compatibility)
     console.log('Creating zip file...');
-    const size = createZipWithPowerShell(files, outputPath);
+    const size = await createZipWithArchiver(files, outputPath);
     const sizeKB = (size / 1024).toFixed(2);
     const sizeMB = (size / 1024 / 1024).toFixed(2);
 
@@ -149,4 +161,7 @@ function main() {
     console.log('');
 }
 
-main();
+main().catch(err => {
+    console.error('Build failed:', err);
+    process.exit(1);
+});
