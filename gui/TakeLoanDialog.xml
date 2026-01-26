@@ -55,7 +55,7 @@
                     <!-- Row 1 -->
                     <GuiElement profile="tlAssetRow" id="assetRow1" position="0px -5px">
                         <Bitmap profile="tlAssetRowBg" id="assetRow1Bg" position="0px 0px"/>
-                        <Text profile="tlAssetCheckbox" id="assetRow1Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow1Check" position="-290px -4px" text="[ ]"/>
                         <Text profile="tlAssetName" id="assetRow1Name" position="-140px -4px" text=""/>
                         <Text profile="tlAssetCategory" id="assetRow1Category" position="100px -4px" text=""/>
                         <Text profile="tlAssetValue" id="assetRow1Value" position="260px -4px" text=""/>
@@ -63,7 +63,7 @@
                     <!-- Row 2 -->
                     <GuiElement profile="tlAssetRow" id="assetRow2" position="0px -27px">
                         <Bitmap profile="tlAssetRowBg" id="assetRow2Bg" position="0px 0px"/>
-                        <Text profile="tlAssetCheckbox" id="assetRow2Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow2Check" position="-290px -4px" text="[ ]"/>
                         <Text profile="tlAssetName" id="assetRow2Name" position="-140px -4px" text=""/>
                         <Text profile="tlAssetCategory" id="assetRow2Category" position="100px -4px" text=""/>
                         <Text profile="tlAssetValue" id="assetRow2Value" position="260px -4px" text=""/>
@@ -71,7 +71,7 @@
                     <!-- Row 3 -->
                     <GuiElement profile="tlAssetRow" id="assetRow3" position="0px -49px">
                         <Bitmap profile="tlAssetRowBg" id="assetRow3Bg" position="0px 0px"/>
-                        <Text profile="tlAssetCheckbox" id="assetRow3Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow3Check" position="-290px -4px" text="[ ]"/>
                         <Text profile="tlAssetName" id="assetRow3Name" position="-140px -4px" text=""/>
                         <Text profile="tlAssetCategory" id="assetRow3Category" position="100px -4px" text=""/>
                         <Text profile="tlAssetValue" id="assetRow3Value" position="260px -4px" text=""/>
@@ -79,7 +79,7 @@
                     <!-- Row 4 -->
                     <GuiElement profile="tlAssetRow" id="assetRow4" position="0px -71px">
                         <Bitmap profile="tlAssetRowBg" id="assetRow4Bg" position="0px 0px"/>
-                        <Text profile="tlAssetCheckbox" id="assetRow4Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow4Check" position="-290px -4px" text="[ ]"/>
                         <Text profile="tlAssetName" id="assetRow4Name" position="-140px -4px" text=""/>
                         <Text profile="tlAssetCategory" id="assetRow4Category" position="100px -4px" text=""/>
                         <Text profile="tlAssetValue" id="assetRow4Value" position="260px -4px" text=""/>
@@ -87,7 +87,7 @@
                     <!-- Row 5 -->
                     <GuiElement profile="tlAssetRow" id="assetRow5" position="0px -93px">
                         <Bitmap profile="tlAssetRowBg" id="assetRow5Bg" position="0px 0px"/>
-                        <Text profile="tlAssetCheckbox" id="assetRow5Check" position="-290px -4px" text="☐"/>
+                        <Text profile="tlAssetCheckbox" id="assetRow5Check" position="-290px -4px" text="[ ]"/>
                         <Text profile="tlAssetName" id="assetRow5Name" position="-140px -4px" text=""/>
                         <Text profile="tlAssetCategory" id="assetRow5Category" position="100px -4px" text=""/>
                         <Text profile="tlAssetValue" id="assetRow5Value" position="260px -4px" text=""/>

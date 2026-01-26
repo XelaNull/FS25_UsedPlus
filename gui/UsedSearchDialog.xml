@@ -28,7 +28,7 @@
                 - Right column: Vehicle text info (left-aligned)
 
                 KEY MEASUREMENTS:
-                - Section: 720px wide × 130px tall
+                - Section: 720px wide x 130px tall
                 - Header row: ~25px (text at -5px from top)
                 - Content container: 100px tall, starts at -28px (below header)
                 - Left cell: 350px wide, centered at X=-185px (image area)

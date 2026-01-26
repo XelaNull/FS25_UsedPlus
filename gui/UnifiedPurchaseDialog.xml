@@ -28,7 +28,7 @@
                 Same pattern as UsedSearchDialog for visual consistency.
 
                 KEY MEASUREMENTS:
-                - Section: 750px wide × 130px tall
+                - Section: 750px wide x 130px tall
                 - Header row: ~25px (text at -5px from top)
                 - Content container: 100px tall, starts at -28px (below header)
                 - Left cell: 350px wide, centered at X=-185px (image area)
@@ -125,7 +125,7 @@
 
             <!-- ========== SECTION 4B: Finance Mode ========== -->
             <!-- Same position as Cash - only one visible at a time -->
-            <!-- Safe X range: ±280px for dropdowns (200px wide) -->
+            <!-- Safe X range: -280px to +280px for dropdowns (200px wide) -->
             <GuiElement profile="upPaymentSectionLarge" id="financeSection" position="0px -510px" visible="false">
                 <Bitmap profile="upPaymentSectionLargeBg" position="0px 0px"/>
                 <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionFinance"/>
@@ -162,7 +162,7 @@
 
             <!-- ========== SECTION 4C: Lease Mode ========== -->
             <!-- Same position as Cash/Finance - only one visible at a time -->
-            <!-- Safe X range: ±280px for dropdowns (200px wide) -->
+            <!-- Safe X range: -280px to +280px for dropdowns (200px wide) -->
             <GuiElement profile="upPaymentSectionLarge" id="leaseSection" position="0px -510px" visible="false">
                 <Bitmap profile="upPaymentSectionLargeBg" position="0px 0px"/>
                 <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionLease"/>

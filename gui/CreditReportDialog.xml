@@ -65,7 +65,7 @@
                 <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionFactors"/>
 
                 <!-- Factor rows: Label on left (-80px), Value on right (+80px) -->
-                <!-- Centered within 380px section bounds (±190px) -->
+                <!-- Centered within 380px section bounds (-190px to +190px) -->
                 <Text profile="crFactorLabel" position="-80px -30px" text="$l10n_usedplus_cr_factorPayment"/>
                 <Text profile="crFactorValue" id="factorPaymentText" position="80px -30px" text=""/>
 
