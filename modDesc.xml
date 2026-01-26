@@ -114,9 +114,7 @@ Siehe CHANGELOG.md für Versionshistorie.
         <action name="USEDPLUS_INSPECT_VEHICLE" category="MENU" axisType="HALF"/>
         <action name="USEDPLUS_ACTIVATE_OBD"/>
         <action name="USEDPLUS_TIRES" category="MENU" axisType="HALF"/>
-        <!-- TEMPORARILY DISABLED for OBD debug
         <action name="USEDPLUS_SERVICE_TRUCK" category="VEHICLE" axisType="HALF"/>
-        -->
     </actions>
 
     <inputBinding>
@@ -135,11 +133,9 @@ Siehe CHANGELOG.md für Versionshistorie.
         <actionBinding action="USEDPLUS_TIRES">
             <binding device="KB_MOUSE_DEFAULT" input="KEY_t"/>
         </actionBinding>
-        <!-- TEMPORARILY DISABLED for OBD debug
         <actionBinding action="USEDPLUS_SERVICE_TRUCK">
             <binding device="KB_MOUSE_DEFAULT" input="KEY_r"/>
         </actionBinding>
-        -->
     </inputBinding>
 
     <!--
@@ -308,9 +304,7 @@ Siehe CHANGELOG.md für Versionshistorie.
     <!-- Vehicle Specializations - Hand Tools & Service Vehicles -->
     <specializations>
         <specialization name="FieldServiceKit" className="FieldServiceKit" filename="vehicles/FieldServiceKit.lua"/>
-        <!-- TEMPORARILY DISABLED for OBD debug
         <specialization name="ServiceTruck" className="ServiceTruck" filename="vehicles/ServiceTruck.lua"/>
-        -->
     </specializations>
 
     <!-- Vehicle Types - Portable Tools & Service Vehicles -->

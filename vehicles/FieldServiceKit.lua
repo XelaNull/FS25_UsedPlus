@@ -547,6 +547,18 @@ function FieldServiceKit:consumeKit()
     spec.isConsumed = true
     UsedPlus.logInfo("FieldServiceKit consumed - scheduling deletion")
 
+    -- v2.0.7: Clear nearestScanner and hide action event immediately
+    if FieldServiceKit.nearestScanner == self then
+        FieldServiceKit.nearestScanner = nil
+    end
+
+    -- Hide the action event so it doesn't show for a consumed scanner
+    if FieldServiceKit.actionEventId ~= nil and g_inputBinding ~= nil then
+        g_inputBinding:setActionEventTextVisibility(FieldServiceKit.actionEventId, false)
+        g_inputBinding:setActionEventActive(FieldServiceKit.actionEventId, false)
+        UsedPlus.logInfo("FieldServiceKit: Action event hidden after consumption")
+    end
+
     -- Mark for deletion on next update cycle
     -- We use a flag instead of immediate deletion to avoid issues during event handling
     spec.pendingDeletion = true
