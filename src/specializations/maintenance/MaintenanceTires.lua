@@ -269,7 +269,13 @@ function UsedPlusMaintenance.checkTireMalfunctions(vehicle)
                 local weather = g_currentMission.environment.weather
                 if weather then
                     isWet = weather:getIsRaining() or false
-                    isSnow = weather:getTimeSinceLastRain() ~= nil and weather:getSnowHeight() > 0
+                    -- v2.9.1: getSnowHeight doesn't exist - use snowDepth property or check season
+                    if weather.snowDepth then
+                        isSnow = weather.snowDepth > 0
+                    elseif g_currentMission.environment.currentSeason == Environment.SEASON_WINTER then
+                        -- Fallback: assume snow in winter
+                        isSnow = true
+                    end
                 end
             end
 

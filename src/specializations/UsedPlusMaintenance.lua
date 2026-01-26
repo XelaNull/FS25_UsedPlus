@@ -231,7 +231,8 @@ function UsedPlusMaintenance:getCanMotorRun(superFunc)
 
     -- v1.5.1: Speed governor - cut motor when significantly over reliability-based max speed
     local inStallRecovery = spec.stallRecoveryEndTime and spec.stallRecoveryEndTime > 0
-    if not inStallRecovery and UsedPlusMaintenance.CONFIG.enableSpeedDegradation and spec.maxSpeedFactor and spec.maxSpeedFactor < 0.95 then
+    local config = UsedPlusMaintenance.CONFIG
+    if not inStallRecovery and config and config.enableSpeedDegradation and spec.maxSpeedFactor and spec.maxSpeedFactor < 0.95 then
         local currentSpeed = 0
         if self.getLastSpeed then
             currentSpeed = self:getLastSpeed()  -- km/h
@@ -773,7 +774,8 @@ function UsedPlusMaintenance:onPostLoad(savegame)
         spec.wheelDistances[4] = xmlFile:getValue(key .. ".wheelDistances.w4", spec.wheelDistances[4]) or 0
 
         -- Recalculate per-wheel conditions from loaded distances
-        local baseDistance = UsedPlusMaintenance.CONFIG.tireWearDistanceBase or 240000
+        local config = UsedPlusMaintenance.CONFIG
+        local baseDistance = (config and config.tireWearDistanceBase) or 240000
         for i = 1, 4 do
             local wheelWear = math.min(1.0, spec.wheelDistances[i] / baseDistance)
             spec.wheelConditions[i] = math.max(0, 1.0 - wheelWear)
@@ -1069,7 +1071,8 @@ function UsedPlusMaintenance:onReadStream(streamId, connection)
         spec.wheelDistances[i] = streamReadFloat32(streamId)
     end
     -- Recalculate conditions from distances
-    local baseDistance = UsedPlusMaintenance.CONFIG.tireWearDistanceBase or 240000
+    local config = UsedPlusMaintenance.CONFIG
+    local baseDistance = (config and config.tireWearDistanceBase) or 240000
     for i = 1, 4 do
         local wheelWear = math.min(1.0, spec.wheelDistances[i] / baseDistance)
         spec.wheelConditions[i] = math.max(0, 1.0 - wheelWear)
@@ -1077,14 +1080,14 @@ function UsedPlusMaintenance:onReadStream(streamId, connection)
 
     -- Apply tire quality modifiers after reading
     if spec.tireQuality == 1 then
-        spec.tireMaxTraction = UsedPlusMaintenance.CONFIG.tireRetreadTractionMult
-        spec.tireFailureMultiplier = UsedPlusMaintenance.CONFIG.tireRetreadFailureMult
+        spec.tireMaxTraction = (config and config.tireRetreadTractionMult) or 0.95
+        spec.tireFailureMultiplier = (config and config.tireRetreadFailureMult) or 1.5
     elseif spec.tireQuality == 3 then
-        spec.tireMaxTraction = UsedPlusMaintenance.CONFIG.tireQualityTractionMult
-        spec.tireFailureMultiplier = UsedPlusMaintenance.CONFIG.tireQualityFailureMult
+        spec.tireMaxTraction = (config and config.tireQualityTractionMult) or 1.05
+        spec.tireFailureMultiplier = (config and config.tireQualityFailureMult) or 0.7
     else
-        spec.tireMaxTraction = UsedPlusMaintenance.CONFIG.tireNormalTractionMult
-        spec.tireFailureMultiplier = UsedPlusMaintenance.CONFIG.tireNormalFailureMult
+        spec.tireMaxTraction = (config and config.tireNormalTractionMult) or 1.0
+        spec.tireFailureMultiplier = (config and config.tireNormalFailureMult) or 1.0
     end
 
     -- v1.7.0: Oil system
