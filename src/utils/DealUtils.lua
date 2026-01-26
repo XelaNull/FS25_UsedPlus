@@ -59,7 +59,9 @@ function DealUtils.generateId(dealType, farmId)
     typePrefix = typePrefix:lower():gsub(" ", "_")
     local timestamp = g_currentMission.environment.currentDay or 0
     local random = math.random(1000, 9999)
-    return string.format("%s_%d_%d_%d", typePrefix, farmId, timestamp, random)
+    -- v2.9.1: Guard against nil farmId during savegame load
+    local safeFarmId = farmId or 0
+    return string.format("%s_%d_%d_%d", typePrefix, safeFarmId, timestamp, random)
 end
 
 --[[

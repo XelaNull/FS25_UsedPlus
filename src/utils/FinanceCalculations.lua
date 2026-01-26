@@ -268,7 +268,8 @@ end
 
 --[[
     Validate lease parameters
-    Leases have stricter requirements than finance
+    Note: downPayment here is actually "total due today" which includes
+    cap reduction + security deposit. We shouldn't limit this arbitrarily.
 ]]
 function FinanceCalculations.validateLeaseParams(price, downPayment, termYears)
     -- Validate price
@@ -276,17 +277,21 @@ function FinanceCalculations.validateLeaseParams(price, downPayment, termYears)
         return false, g_i18n:getText("usedplus_error_invalidPrice")
     end
 
-    -- Validate down payment (max 20% for leases)
+    -- Validate down payment (upfront cost)
+    -- Can't be negative, and can't exceed vehicle price
+    -- (security deposit + cap reduction shouldn't exceed vehicle value)
     if downPayment < 0 then
         return false, g_i18n:getText("usedplus_error_negativeDownPayment")
     end
 
-    if downPayment > price * 0.20 then
+    if downPayment > price then
         return false, g_i18n:getText("usedplus_error_leaseDownPaymentTooHigh")
     end
 
-    -- Validate term (1-5 years only for leases)
-    if termYears < 1 or termYears > 5 then
+    -- Validate term (3 months to 5 years for leases)
+    -- LEASE_TERMS includes {3, 6, 9, 12, 24, 36, 48, 60} months
+    -- termYears can be 0.25 (3mo) to 5 (60mo)
+    if termYears < 0.25 or termYears > 5 then
         return false, g_i18n:getText("usedplus_error_leaseTermInvalid")
     end
 
