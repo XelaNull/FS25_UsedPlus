@@ -1353,7 +1353,7 @@
         <e k="usedplus_fmf_vehiclesFound" v="Знайдено транспорту:" eh="047a7db6" />
         <e k="usedplus_fmf_feesSpent" v="Витрачено на збори:" eh="787c75fb" />
         <e k="usedplus_fmf_successRate" v="Відсоток успіху:" eh="346bdbd3" />
-        <e k="usedplus_fmf_totalSaved" v="Всього зекономлено (Вживане vs Нове):" eh="7d88f3ce" />
+        <e k="usedplus_fmf_totalSaved" v="Ринкова Вартість:" eh="7d88f3ce" />
         <e k="usedplus_fmf_yourCreditScore" v="Ваш кредитний рейтинг" eh="5bbd5087" />
         <e k="usedplus_fmf_creditRanges" v="Кредитні діапазони:" eh="a4a7b278" />
         <e k="usedplus_fmf_tierExcellent" v="750-850 Відмінно -1,5%" eh="8d6d7463" />

@@ -1353,7 +1353,7 @@
         <e k="usedplus_fmf_vehiclesFound" v="Nalezená vozidla:" eh="047a7db6" />
         <e k="usedplus_fmf_feesSpent" v="Utracené poplatky:" eh="787c75fb" />
         <e k="usedplus_fmf_successRate" v="Míra úspěšnosti:" eh="346bdbd3" />
-        <e k="usedplus_fmf_totalSaved" v="Celkem ušetřeno (Použité vs Nové):" eh="7d88f3ce" />
+        <e k="usedplus_fmf_totalSaved" v="Tržní Hodnota:" eh="7d88f3ce" />
         <e k="usedplus_fmf_yourCreditScore" v="Vaše kreditní skóre" eh="5bbd5087" />
         <e k="usedplus_fmf_creditRanges" v="Kreditní rozsahy:" eh="a4a7b278" />
         <e k="usedplus_fmf_tierExcellent" v="750-850 Výborné -1,5%" eh="8d6d7463" />

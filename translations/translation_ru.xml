@@ -1353,7 +1353,7 @@
         <e k="usedplus_fmf_vehiclesFound" v="Найдено транспорта:" eh="047a7db6" />
         <e k="usedplus_fmf_feesSpent" v="Потрачено на сборы:" eh="787c75fb" />
         <e k="usedplus_fmf_successRate" v="Уровень успеха:" eh="346bdbd3" />
-        <e k="usedplus_fmf_totalSaved" v="Всего сэкономлено (Б/У vs Новое):" eh="7d88f3ce" />
+        <e k="usedplus_fmf_totalSaved" v="Рыночная Стоимость:" eh="7d88f3ce" />
         <e k="usedplus_fmf_yourCreditScore" v="Ваш кредитный рейтинг" eh="5bbd5087" />
         <e k="usedplus_fmf_creditRanges" v="Кредитные диапазоны:" eh="a4a7b278" />
         <e k="usedplus_fmf_tierExcellent" v="750-850 Отлично -1,5%" eh="8d6d7463" />

@@ -1353,7 +1353,7 @@
         <e k="usedplus_fmf_vehiclesFound" v="Véhicules trouvés:" eh="047a7db6" />
         <e k="usedplus_fmf_feesSpent" v="Frais dépensés:" eh="787c75fb" />
         <e k="usedplus_fmf_successRate" v="Taux de réussite:" eh="346bdbd3" />
-        <e k="usedplus_fmf_totalSaved" v="Total économisé (Occasion vs Neuf):" eh="7d88f3ce" />
+        <e k="usedplus_fmf_totalSaved" v="Valeur Marché:" eh="7d88f3ce" />
         <e k="usedplus_fmf_yourCreditScore" v="Votre score de crédit" eh="5bbd5087" />
         <e k="usedplus_fmf_creditRanges" v="Plages de crédit:" eh="a4a7b278" />
         <e k="usedplus_fmf_tierExcellent" v="750-850 Excellent -1,5%" eh="8d6d7463" />

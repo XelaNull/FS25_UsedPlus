@@ -1364,7 +1364,7 @@
         <e k="usedplus_fmf_vehiclesFound" v="Vehicles Found:" eh="047a7db6" />
         <e k="usedplus_fmf_feesSpent" v="Fees Spent:" eh="787c75fb" />
         <e k="usedplus_fmf_successRate" v="Success Rate:" eh="346bdbd3" />
-        <e k="usedplus_fmf_totalSaved" v="Total Saved (Used vs New):" eh="7d88f3ce" />
+        <e k="usedplus_fmf_totalSaved" v="Marketplace Value:" eh="7d88f3ce" />
         <e k="usedplus_fmf_yourCreditScore" v="Your Credit Score" eh="5bbd5087" />
         <e k="usedplus_fmf_creditRanges" v="Credit Ranges:" eh="a4a7b278" />
         <e k="usedplus_fmf_tierExcellent" v="750-850 Excellent -1.5%" eh="8d6d7463" />
