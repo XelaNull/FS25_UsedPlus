@@ -25,3 +25,5 @@ NUL
 # Translation sync state (auto-generated)
 .translation-sync.json
 translations/.translation-sync.json
+node_modules/
+package-lock.json

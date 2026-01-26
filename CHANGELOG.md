@@ -4,6 +4,98 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.9.1] - 2026-01-25
+
+### Fixed - Negotiation System Bug Fixes
+
+**Bug 1: Walkaway listing removal was failing**
+- `removeListingPermanently` showed "missing listing or search" errors
+- Root cause: `self.listing` and `self.search` were nil by the time removal ran
+- Fix: Cache listing/search values BEFORE any operations, pass explicitly to new `removeListingPermanentlyWithData()` method
+
+**Bug 2: Reject response had no consequence - exploit allowed**
+- Players could get rejected, hit Esc, and immediately retry with higher offer
+- Root cause: REJECT responses didn't apply any cooldown
+- Fix: Walking away (or Esc) from a REJECT response now applies 30-minute cooldown
+- Added `purchaseCompleted` flag to prevent cooldown when player pays full price
+
+**Bug 3: False "saved $X" at 100% offer**
+- Paying full price showed "You saved $44" due to rounding
+- Root cause: Offer amounts were rounded to nearest $100 even at 100%
+- Example: $44,544 asking → 100% offer = $44,500 → "$44 saved"
+- Fix: At 100%, use exact asking price with no rounding
+
+**Bug 4: Cashback not reducing "Due Today" display**
+- Setting $10k cashback still showed $20k due today
+- Root cause: Display calculated `dueTodayAmount = downPayment` ignoring cashback
+- Fix: `dueTodayAmount = downPayment - cashBack`
+
+**Bug 5: Affordability check ignored cashback**
+- Could be blocked from financing even when cashback made it affordable
+- Root cause: Checked `downPayment > farm.money` instead of `(downPayment - cashBack) > farm.money`
+- Fix: Use net due today for affordability check and success notification
+
+**Bug 6: Inspection tiers showed identical reports**
+- Quick, Standard, and Comprehensive inspections all showed the same full detail
+- Root cause: `InspectionReportDialog` never checked `revealLevel` from tier config
+- Fix: Implemented tier-based visibility filtering:
+  - **Quick (revealLevel 1)**: Overall rating + recommendation ONLY
+  - **Standard (revealLevel 2)**: + Component reliabilities, fluid assessment, RVB parts, tire conditions
+  - **Comprehensive (revealLevel 3)**: + Mechanic quote (DNA hint), repair cost estimate, post-repair value
+
+**Bug 7: RVB components shown without RVB installed**
+- Engine Core, Thermostat, Battery, etc. were visible even without RVB mod
+- Root cause: We generate synthetic RVB data for all listings, but didn't check if RVB was installed before displaying
+- Fix: Added `ModCompatibility.rvbInstalled` check to `displayIntegratedRVBData()` - now only shows when RVB mod is present
+
+**Bug 8: Confirmation dialog still showed full down payment when cashback used**
+- First popup (Purchase Vehicle) showed correct $10k, but confirmation dialog still showed $20k
+- Root cause: `buildConfirmationMessage()` showed raw `downPayment` without subtracting `cashBack`
+- Fix: Calculate `netDueToday = downPayment - cashBack` and show breakdown when cashback > 0
+
+**Bug 9: Finance purchase failed silently - "attempt to call nil value"**
+- Clicking confirm on financed purchase did nothing, returned to previous screen
+- Root cause: `FinanceEvents.lua:159` called nonexistent `CreditScore.getScore(farmId)`
+- Fix: Changed to `CreditScore.calculate(farmId)` (the correct function name)
+
+**Bug 10: CreditReportDialog and TakeLoanDialog failed to load from ZIP**
+- Error: "Failed to open xml file" when trying to open these dialogs
+- Root cause: Non-ASCII Unicode characters in XML files break FS25's XML parser
+  - CreditReportDialog.xml had `±` in a comment
+  - TakeLoanDialog.xml had `☐` (Unicode checkbox) characters
+- Fix: Replaced all non-ASCII characters with ASCII equivalents:
+  - `±190px` → `-190px to +190px`
+  - `☐` → `[ ]`
+  - `×` → `x`
+
+**Bug 11: Land/Vehicle lease and finance events crashed in single player**
+- Error: "attempt to call missing method 'getServerConnection' of table"
+- Root cause: `g_server:getServerConnection()` is invalid - `g_server` doesn't have that method
+- Affected 8 places across 3 files: LandEvents.lua, FinanceEvents.lua, LeaseEvents.lua
+- Fix: Changed to `event:run(nil)` when running on server (no connection needed)
+
+**Bug 12: Events crashed when connection is nil after Bug 11 fix**
+- Error: "attempt to index nil with 'getIsServer'"
+- Root cause: After passing `nil` for connection, `connection:getIsServer()` fails
+- Affected 26 places across 8 event files
+- Fix: Changed all checks to `if connection ~= nil and not connection:getIsServer() then`
+
+**Bug 13: Savegame failed to load - DealUtils.generateId nil farmId**
+- Error: "invalid argument #3 to 'format' (number expected, got nil)"
+- Root cause: `DealUtils.generateId()` called with nil farmId during savegame load
+- Fix: Added nil guard `local safeFarmId = farmId or 0`
+
+**Bug 14: Savegame failed to load - nil arithmetic in Deal constructors**
+- Error: "attempt to perform arithmetic (sub) on nil" in FinanceDeal.lua
+- Root cause: Deal constructors called with nil price/termMonths/interestRate during load
+- Fix: Added nil guards to all numeric parameters in FinanceDeal, LeaseDeal, LandLeaseDeal
+
+**Additional Fixes:**
+- Fixed Service Truck XML: `</component>` → `</components>` tag mismatch on line 47
+- Fixed MaintenanceTires.lua: `getSnowHeight()` method doesn't exist, use `snowDepth` property or season check instead
+
+---
+
 ## [2.9.0] - 2026-01-25
 
 ### Added - Service Truck System
