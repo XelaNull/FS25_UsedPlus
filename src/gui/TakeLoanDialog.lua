@@ -91,6 +91,9 @@ end
 function TakeLoanDialog:onGuiSetupFinished()
     TakeLoanDialog:superClass().onGuiSetupFinished(self)
 
+    -- Store icon directory
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
     -- Explicitly bind pagination elements (deeply nested, may not auto-bind)
     -- Use getDescendantByName to find elements anywhere in the hierarchy
     if self.dialogElement then
@@ -103,13 +106,60 @@ function TakeLoanDialog:onGuiSetupFinished()
         if not self.nextPageBtn then
             self.nextPageBtn = self.dialogElement:getDescendantByName("nextPageBtn")
         end
+
+        -- v2.9.5: Bind section icon elements
+        if not self.creditSectionIcon then
+            self.creditSectionIcon = self.dialogElement:getDescendantByName("creditSectionIcon")
+        end
+        if not self.collateralSectionIcon then
+            self.collateralSectionIcon = self.dialogElement:getDescendantByName("collateralSectionIcon")
+        end
+        if not self.configSectionIcon then
+            self.configSectionIcon = self.dialogElement:getDescendantByName("configSectionIcon")
+        end
+        if not self.paymentSectionIcon then
+            self.paymentSectionIcon = self.dialogElement:getDescendantByName("paymentSectionIcon")
+        end
     end
+
+    -- v2.9.5: Setup section header icons
+    self:setupSectionIcons()
 
     -- Diagnostic logging (using logWarn so it always shows)
     UsedPlus.logWarn(string.format("TakeLoanDialog:onGuiSetupFinished - pageIndicatorText=%s, prevPageBtn=%s, nextPageBtn=%s",
         tostring(self.pageIndicatorText ~= nil),
         tostring(self.prevPageBtn ~= nil),
         tostring(self.nextPageBtn ~= nil)))
+end
+
+--[[
+    v2.9.5: Setup section header icons
+    Icons are set via Lua because XML paths don't work from ZIP mods
+]]
+function TakeLoanDialog:setupSectionIcons()
+    if self.iconDir == nil then
+        return
+    end
+
+    -- Credit section - credit score icon
+    if self.creditSectionIcon ~= nil then
+        self.creditSectionIcon:setImageFilename(self.iconDir .. "credit_score.png")
+    end
+
+    -- Collateral section - shield/collateral icon
+    if self.collateralSectionIcon ~= nil then
+        self.collateralSectionIcon:setImageFilename(self.iconDir .. "collateral.png")
+    end
+
+    -- Config section - percentage/settings icon
+    if self.configSectionIcon ~= nil then
+        self.configSectionIcon:setImageFilename(self.iconDir .. "percentage.png")
+    end
+
+    -- Payment section - calendar icon
+    if self.paymentSectionIcon ~= nil then
+        self.paymentSectionIcon:setImageFilename(self.iconDir .. "calendar.png")
+    end
 end
 
 --[[

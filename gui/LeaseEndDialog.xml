@@ -37,15 +37,17 @@
             <!-- Options Section -->
             <Text profile="leaseEndSectionTitle" position="0px -250px" text="$l10n_usedplus_le_chooseOption"/>
 
-            <!-- Return Option -->
+            <!-- Return Option (v2.9.5: added icon) -->
             <GuiElement position="0px -290px">
+                <Bitmap profile="leaseEndOptionIcon" id="returnIcon" position="-280px -15px"/>
                 <Text profile="leaseEndOptionTitle" position="-150px 0px" text="$l10n_usedplus_le_returnTitle"/>
                 <Text profile="leaseEndOptionDesc" position="-150px -25px" text="$l10n_usedplus_le_returnDesc"/>
                 <Text profile="leaseEndOptionCost" id="returnCostText" position="-150px -50px" text=""/>
             </GuiElement>
 
-            <!-- Buyout Option -->
+            <!-- Buyout Option (v2.9.5: added icon) -->
             <GuiElement position="0px -370px">
+                <Bitmap profile="leaseEndOptionIcon" id="buyoutIcon" position="-280px -15px"/>
                 <Text profile="leaseEndOptionTitle" position="-150px 0px" text="$l10n_usedplus_le_buyoutTitle"/>
                 <Text profile="leaseEndOptionDesc" position="-150px -25px" text="$l10n_usedplus_le_buyoutDesc"/>
                 <Text profile="leaseEndOptionCost" id="buyoutPriceText" position="-150px -50px" text=""/>
@@ -62,6 +64,12 @@
     </GuiElement>
 
     <GUIProfiles>
+        <!-- v2.9.5: Option icons -->
+        <Profile name="leaseEndOptionIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="32px 32px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
         <Profile name="leaseEndVehicleName" extends="fs25_textDefault" with="anchorTopCenter">
             <height value="28px"/>
             <textSize value="22px"/>

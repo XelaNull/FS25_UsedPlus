@@ -43,6 +43,9 @@ function SellerResponseDialog.new(target, customMt)
     self.isClosing = false  -- Flag to prevent double-close issues
     self.purchaseCompleted = false  -- v2.9.1: Flag to track if purchase was completed
 
+    -- v2.9.5: Icon directory for dynamic icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
     return self
 end
 
@@ -136,10 +139,9 @@ function SellerResponseDialog:displayAccept()
         self.responseBg:setImageColor(0.06, 0.14, 0.08, 0.95)
     end
 
-    -- Icon
-    if self.responseIcon then
-        self.responseIcon:setText("OK")
-        self.responseIcon:setTextColor(0.2, 0.8, 0.2, 1)
+    -- Icon - v2.9.5: Use image icon instead of text
+    if self.responseIconImage then
+        self.responseIconImage:setImageFilename(self.iconDir .. "status_good.png")
     end
 
     -- Response text
@@ -205,10 +207,9 @@ function SellerResponseDialog:displayCounter()
         self.responseBg:setImageColor(0.14, 0.10, 0.06, 0.95)
     end
 
-    -- Icon
-    if self.responseIcon then
-        self.responseIcon:setText("?")
-        self.responseIcon:setTextColor(1, 0.6, 0.2, 1)
+    -- Icon - v2.9.5: Use image icon instead of text
+    if self.responseIconImage then
+        self.responseIconImage:setImageFilename(self.iconDir .. "handshake.png")
     end
 
     -- Response text
@@ -274,10 +275,9 @@ function SellerResponseDialog:displayReject()
         self.responseBg:setImageColor(0.14, 0.06, 0.06, 0.95)
     end
 
-    -- Icon
-    if self.responseIcon then
-        self.responseIcon:setText("X")
-        self.responseIcon:setTextColor(0.9, 0.2, 0.2, 1)
+    -- Icon - v2.9.5: Use image icon instead of text
+    if self.responseIconImage then
+        self.responseIconImage:setImageFilename(self.iconDir .. "status_bad.png")
     end
 
     -- Response text
@@ -623,4 +623,4 @@ function SellerResponseDialog:close()
     end
 end
 
-UsedPlus.logInfo("SellerResponseDialog loaded (v2.6.0)")
+UsedPlus.logInfo("SellerResponseDialog loaded (v2.9.5)")

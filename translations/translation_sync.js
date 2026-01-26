@@ -118,6 +118,7 @@ const LANGUAGE_NAMES = {
     ro: 'Romanian',
     tr: 'Turkish',
     ja: 'Japanese',
+    jp: 'Japanese',
     ko: 'Korean',
     zh: 'Chinese (Simplified)',
     tw: 'Chinese (Traditional)',

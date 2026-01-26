@@ -19,7 +19,9 @@
             <!-- v2.0.0: Hidden when credit system disabled in settings -->
             <GuiElement profile="tlCreditContainer" id="creditSection" position="0px -70px">
                 <Bitmap profile="tlCreditBg" position="0px 0px"/>
-                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionCredit"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="tlSectionIcon" id="creditSectionIcon" position="-280px -3px"/>
+                <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionCredit"/>
 
                 <!-- Score and Rate display (2 columns) -->
                 <Text profile="tlLabel" position="-200px -28px" text="$l10n_usedplus_tl_score"/>
@@ -42,7 +44,9 @@
             <!-- Height: 235px (expanded for asset selection list + padding) -->
             <GuiElement profile="tlCollateralContainer" position="0px -195px">
                 <Bitmap profile="tlCollateralBg" position="0px 0px"/>
-                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionCollateral"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="tlSectionIcon" id="collateralSectionIcon" position="-280px -3px"/>
+                <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionCollateral"/>
 
                 <!-- Help text -->
                 <Text profile="tlCollateralHelp" position="0px -24px" text="$l10n_usedplus_tl_collateralHelp"/>
@@ -130,7 +134,9 @@
             <!-- Height: 68px (dropdown ends at ~56px + 12px padding) -->
             <GuiElement profile="tlConfigSection" position="0px -440px">
                 <Bitmap profile="tlConfigBg" position="0px 0px"/>
-                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionConfig"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="tlSectionIcon" id="configSectionIcon" position="-280px -3px"/>
+                <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionConfig"/>
 
                 <Text profile="tlLabel" position="-200px -30px" text="$l10n_usedplus_tl_amount"/>
                 <MultiTextOption profile="tlDropdown" id="loanAmountSlider" position="-50px -28px" onClick="onLoanAmountChanged"/>
@@ -144,7 +150,9 @@
             <!-- Height: 80px (content ends at ~70px + 10px padding) -->
             <GuiElement profile="tlPaymentSection" position="0px -518px">
                 <Bitmap profile="tlPaymentBg" position="0px 0px"/>
-                <Text profile="tlSectionHeader" position="0px -5px" text="$l10n_usedplus_tl_sectionPayment"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="tlSectionIcon" id="paymentSectionIcon" position="-280px -3px"/>
+                <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionPayment"/>
 
                 <Text profile="tlLabel" position="-200px -30px" text="$l10n_usedplus_tl_monthly"/>
                 <Text profile="tlMonthlyValue" id="monthlyPaymentText" position="-120px -30px" text=""/>
@@ -226,6 +234,21 @@
             <textBold value="true"/>
             <textColor value="1 0.8 0.2 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v2.9.5: Section header with icon - text left-aligned -->
+        <Profile name="tlSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="620px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- v2.9.5: Section icon profile (20px icons) -->
+        <Profile name="tlSectionIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
         </Profile>
 
         <!-- ========== LABELS (70px wide) ========== -->

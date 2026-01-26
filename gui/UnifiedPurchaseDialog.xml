@@ -18,6 +18,9 @@
 
         <GuiElement profile="fs25_dialogContentContainer">
 
+            <!-- v2.9.5: Header icon -->
+            <Bitmap profile="upHeaderIcon" id="headerIcon" position="-360px -15px"/>
+
             <!-- Title -->
             <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_up_title"/>
 
@@ -39,7 +42,9 @@
             -->
             <GuiElement profile="upItemSection" position="0px -55px">
                 <Bitmap profile="upItemSectionBg" position="0px 0px"/>
-                <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionVehicle"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="upSectionIcon" id="vehicleSectionIcon" position="-325px -3px"/>
+                <Text profile="upSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_up_sectionVehicle"/>
 
                 <!-- Two-column container: image left, text right -->
                 <GuiElement profile="upVehiclePreviewContainer" position="0px -28px">
@@ -59,7 +64,9 @@
             <!-- Section is 120px tall to accommodate credit warning banner -->
             <GuiElement profile="upModeSection" position="0px -210px">
                 <Bitmap profile="upModeSectionBg" position="0px 0px"/>
-                <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionMethod"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="upSectionIcon" id="methodSectionIcon" position="-325px -3px"/>
+                <Text profile="upSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_up_sectionMethod"/>
                 <Text profile="upHelpText" id="modeHelpText" position="0px -25px" text="$l10n_usedplus_up_methodHelp"/>
                 <MultiTextOption profile="upModeSelector" id="modeSelector" position="0px -48px" onClick="onModeChanged"/>
 
@@ -75,7 +82,9 @@
             <!-- TWO-COLUMN LAYOUT: Left 30% = image, Right 70% = dropdown + info -->
             <GuiElement profile="upTradeInSection" id="tradeInSection" position="0px -340px">
                 <Bitmap profile="upTradeInSectionBg" position="0px 0px"/>
-                <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionTradeIn"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="upSectionIcon" id="tradeInSectionIcon" position="-325px -3px"/>
+                <Text profile="upSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_up_sectionTradeIn"/>
                 <Text profile="upHelpText" id="tradeInHelpText" position="0px -22px" text="$l10n_usedplus_up_tradeInHelp"/>
 
                 <!-- Dropdown in RIGHT column (70%), centered at +108px - always visible -->
@@ -107,7 +116,9 @@
             <!-- 10px gap after Trade-In (160px) = -340 - 160 - 10 = -510 -->
             <GuiElement profile="upPaymentSection" id="cashSection" position="0px -510px" visible="true">
                 <Bitmap profile="upPaymentSectionBg" position="0px 0px"/>
-                <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionCash"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="upSectionIcon" id="cashSectionIcon" position="-325px -3px"/>
+                <Text profile="upSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_up_sectionCash"/>
                 <Text profile="upHelpText" id="cashHelpText" position="0px -22px" text="$l10n_usedplus_up_cashHelp"/>
 
                 <!-- Two column layout for cash summary - centered in dialog -->
@@ -128,7 +139,9 @@
             <!-- Safe X range: -280px to +280px for dropdowns (200px wide) -->
             <GuiElement profile="upPaymentSectionLarge" id="financeSection" position="0px -510px" visible="false">
                 <Bitmap profile="upPaymentSectionLargeBg" position="0px 0px"/>
-                <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionFinance"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="upSectionIcon" id="financeSectionIcon" position="-325px -3px"/>
+                <Text profile="upSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_up_sectionFinance"/>
                 <Text profile="upHelpText" id="financeHelpText" position="0px -22px" text="$l10n_usedplus_up_financeHelp"/>
 
                 <!-- Configuration Row: Term, Down Payment, Cash Back - 3 columns at safe positions -->
@@ -165,7 +178,9 @@
             <!-- Safe X range: -280px to +280px for dropdowns (200px wide) -->
             <GuiElement profile="upPaymentSectionLarge" id="leaseSection" position="0px -510px" visible="false">
                 <Bitmap profile="upPaymentSectionLargeBg" position="0px 0px"/>
-                <Text profile="upSectionHeader" position="0px -5px" text="$l10n_usedplus_up_sectionLease"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="upSectionIcon" id="leaseSectionIcon" position="-325px -3px"/>
+                <Text profile="upSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_up_sectionLease"/>
                 <Text profile="upHelpText" id="leaseHelpText" position="0px -22px" text="$l10n_usedplus_up_leaseHelp"/>
 
                 <!-- Configuration Row: Term, Down Payment - 2 columns centered -->
@@ -287,6 +302,27 @@
             <textBold value="true"/>
             <textColor value="1 0.8 0.2 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v2.9.5: Section header with icon - text left-aligned -->
+        <Profile name="upSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="700px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- v2.9.5: Header icon profile (32px) -->
+        <Profile name="upHeaderIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="32px 32px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- v2.9.5: Section icon profile (20px) -->
+        <Profile name="upSectionIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
         </Profile>
 
         <!-- ========== HELP TEXT ========== -->

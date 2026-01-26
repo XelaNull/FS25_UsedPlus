@@ -31,7 +31,7 @@
         <dailyUpkeep>50</dailyUpkeep>
         <lifetime>600</lifetime>
         <rotation>0</rotation>
-        <brand>GMC</brand>
+        <brand>LIZARD</brand>
         <category>trucks</category>
         <!-- Hidden from shop - must be discovered through National Agent -->
         <showInStore>false</showInStore>
@@ -384,9 +384,8 @@
     <rimColorConfigurations useDefaultColors="true">
         <rimColorConfiguration materialTemplateName="RIM_CONFIGURATION_CHROME" price="1000"/>
         <rimColorConfiguration materialTemplateName="RIM_DEFAULT"/>
-        <rimColorConfiguration materialTemplateName="RAM_SILVER" name="Silver" isDefault="true"/>
+        <rimColorConfiguration materialTemplateName="RIM_CONFIGURATION_SILVER" name="Silver" isDefault="true"/>
         <rimColorConfiguration materialTemplateName="chrome" name="$l10n_ui_colorChrome"/>
-        <rimColorConfiguration materialTemplateName="DARK_CHROME" name="Dark Chrome"/>
         <rimColorConfiguration materialTemplateName="RIM_CONFIGURATION_BLACK"/>
     </rimColorConfigurations>
 

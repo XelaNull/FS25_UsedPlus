@@ -46,10 +46,55 @@ function InspectionReportDialog.getInstance()
         -- Load XML - use UsedPlus.MOD_DIR which persists after mod load
         local xmlPath = UsedPlus.MOD_DIR .. "gui/InspectionReportDialog.xml"
         g_gui:loadGui(xmlPath, "InspectionReportDialog", InspectionReportDialog.INSTANCE)
+        -- Note: setupSystemIcons() is called in onCreate() for DialogLoader compatibility
 
         UsedPlus.logDebug("InspectionReportDialog created and loaded from: " .. xmlPath)
     end
     return InspectionReportDialog.INSTANCE
+end
+
+--[[
+    v2.8.0: Set up system icons for mechanical assessment section
+    Icons must be set via Lua - XML paths don't work from ZIP mods
+]]
+function InspectionReportDialog:setupSystemIcons()
+    local iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
+    -- v2.9.5: Header icon - inspect
+    if self.headerIcon ~= nil then
+        self.headerIcon:setImageFilename(iconDir .. "inspect.png")
+    end
+
+    -- v2.9.5: Section header icons
+    if self.vehicleSectionIcon ~= nil then
+        self.vehicleSectionIcon:setImageFilename(iconDir .. "vehicle.png")
+    end
+    if self.mechanicalSectionIcon ~= nil then
+        self.mechanicalSectionIcon:setImageFilename(iconDir .. "sys_engine.png")
+    end
+    if self.mechanicSectionIcon ~= nil then
+        self.mechanicSectionIcon:setImageFilename(iconDir .. "agent.png")
+    end
+    if self.recommendSectionIcon ~= nil then
+        self.recommendSectionIcon:setImageFilename(iconDir .. "lightbulb.png")
+    end
+
+    -- Engine system icon
+    if self.engineSystemIcon ~= nil then
+        self.engineSystemIcon:setImageFilename(iconDir .. "sys_engine.png")
+    end
+
+    -- Hydraulic system icon
+    if self.hydraulicSystemIcon ~= nil then
+        self.hydraulicSystemIcon:setImageFilename(iconDir .. "sys_hydraulic.png")
+    end
+
+    -- Electrical system icon
+    if self.electricalSystemIcon ~= nil then
+        self.electricalSystemIcon:setImageFilename(iconDir .. "sys_electrical.png")
+    end
+
+    UsedPlus.logDebug("InspectionReportDialog: System icons initialized")
 end
 
 --[[
@@ -100,6 +145,17 @@ function InspectionReportDialog:show(listing, farmId, onPurchaseCallback, callba
         tostring(listing and listing.storeItemName), tostring(farmId)))
 
     g_gui:showDialog("InspectionReportDialog")
+end
+
+--[[
+    Called when dialog is created by GUI system
+    v2.8.0: Set up icons here instead of getInstance() for DialogLoader compatibility
+]]
+function InspectionReportDialog:onCreate()
+    InspectionReportDialog:superClass().onCreate(self)
+
+    -- Set up system icons (must be done via Lua, not XML paths)
+    self:setupSystemIcons()
 end
 
 --[[

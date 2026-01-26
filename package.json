@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "archiver": "^7.0.1"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
   }
 }

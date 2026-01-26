@@ -213,6 +213,49 @@ FS25_UsedPlus/
 - NO `goto` or `::label::` - use nested `if not condition then ... end`
 - NO `continue` - use guard clauses
 
+### Custom GUI Icons (Images from Mod ZIP)
+
+**THE PROBLEM:** FS25 cannot load images specified in XML from within a mod ZIP file. XML attributes like `imageFilename="gui/icons/myicon.png"` or `filename="$moddir$gui/icons/myicon.png"` will fail or show a corrupted texture atlas.
+
+**THE SOLUTION:** Set images dynamically via Lua using `setImageFilename()`:
+
+```xml
+<!-- In dialog XML: Create Bitmap with id, NO filename attribute -->
+<Profile name="myIconProfile" extends="baseReference" with="anchorTopCenter">
+    <size value="40px 40px"/>
+    <imageSliceId value="noSlice"/>
+</Profile>
+<Bitmap profile="myIconProfile" id="myIconElement" position="0px -20px"/>
+```
+
+```lua
+-- In dialog Lua onCreate(): Set image path dynamically
+function MyDialog:onCreate()
+    MyDialog:superClass().onCreate(self)
+
+    if self.myIconElement ~= nil then
+        local iconPath = MyMod.MOD_DIR .. "gui/icons/my_icon.png"
+        self.myIconElement:setImageFilename(iconPath)
+    end
+end
+```
+
+**GENERATING ICONS:** Use `tools/generateIcons.js` (requires `npm install sharp`):
+```bash
+cd tools && node generateIcons.js
+```
+- Generates 256x256 PNG icons with SVG-defined vector graphics
+- Icons stored in `gui/icons/` folder
+- Build script includes `gui/icons/*.png` in ZIP (other PNGs excluded)
+
+**KEY POINTS:**
+- Profile MUST have `imageSliceId value="noSlice"` to prevent atlas slicing
+- Profile MUST extend `baseReference` for proper image rendering
+- Image path in Lua uses `MOD_DIR` (full path that works inside ZIP)
+- 256x256 source size recommended for crisp rendering at 40-48px display size
+
+**Reference:** `gui/FieldServiceKitDialog.xml` + `src/gui/FieldServiceKitDialog.lua` (v2.8.1)
+
 ### On-Foot Input System (Hand Tools / Ground Objects)
 
 **THE PROBLEM:** When creating custom keybinds for on-foot interactions (hand tools, placeables, etc.):

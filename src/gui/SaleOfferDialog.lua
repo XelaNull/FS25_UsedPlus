@@ -41,6 +41,9 @@ function SaleOfferDialog.new(target, custom_mt, i18n)
     self.listing = nil
     self.callback = nil
 
+    -- v2.9.5: Icon directory for dynamic icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
     return self
 end
 
@@ -63,7 +66,27 @@ end
 function SaleOfferDialog:onOpen()
     SaleOfferDialog:superClass().onOpen(self)
 
+    -- v2.9.5: Setup section icons
+    self:setupSectionIcons()
+
     self:updateDisplay()
+end
+
+--[[
+    v2.9.5: Setup section icons
+]]
+function SaleOfferDialog:setupSectionIcons()
+    -- Quality star icon
+    local qualityIcon = self.dialogElement:getDescendantById("qualityIcon")
+    if qualityIcon ~= nil then
+        qualityIcon:setImageFilename(self.iconDir .. "quality_star.png")
+    end
+
+    -- Timer icon
+    local timerIcon = self.dialogElement:getDescendantById("timerIcon")
+    if timerIcon ~= nil then
+        timerIcon:setImageFilename(self.iconDir .. "timer.png")
+    end
 end
 
 --[[
@@ -245,4 +268,4 @@ function SaleOfferDialog.showForListing(listing, callback)
     return DialogLoader.show("SaleOfferDialog", "setListing", listing, callback)
 end
 
-UsedPlus.logInfo("SaleOfferDialog loaded (v1.9.7 simplified options)")
+UsedPlus.logInfo("SaleOfferDialog loaded (v2.9.5)")

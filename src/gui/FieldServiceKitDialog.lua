@@ -84,6 +84,22 @@ end
 
 function FieldServiceKitDialog:onCreate()
     FieldServiceKitDialog:superClass().onCreate(self)
+
+    -- v2.8.1: Set mode icons via Lua (only method that works for mod images in ZIP)
+    local iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
+    if self.modeRepairIcon ~= nil then
+        self.modeRepairIcon:setImageFilename(iconDir .. "fsk_repair.png")
+    end
+    if self.modeWarningIcon ~= nil then
+        self.modeWarningIcon:setImageFilename(iconDir .. "fsk_warning.png")
+    end
+    if self.modeTireIcon ~= nil then
+        self.modeTireIcon:setImageFilename(iconDir .. "fsk_tire.png")
+    end
+    if self.modeDiagnosticsIcon ~= nil then
+        self.modeDiagnosticsIcon:setImageFilename(iconDir .. "fsk_diagnostics.png")
+    end
 end
 
 --[[

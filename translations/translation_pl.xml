@@ -255,6 +255,7 @@
         <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Sprawdź pojazd" eh="c06f09f1" />
         <e k="input_USEDPLUS_ACTIVATE_OBD" v="Użyj skanera OBD" eh="9666e26b" />
         <e k="input_USEDPLUS_TIRES" v="Serwis opon" eh="b0234f4e" />
+        <e k="input_USEDPLUS_SERVICE_TRUCK" v="Sterowanie pojazdem serwisowym" />
 
         <!--  Tooltips for Finance Dialog -->
         <e k="usedplus_finance_loanTerm_tooltip" v="Rozłóż płatności na 1-20 lat. Dłuższe terminy = mniejsze raty miesięczne, ale więcej odsetek całkowitych." eh="e1170142" />
@@ -2087,6 +2088,136 @@
     <e k="usedplus_malfunction_leak" v="PRZECIEK" eh="2ec9e171" />
     <e k="usedplus_malfunction_flat" v="PRZEBITA" eh="f88a77e3" />
         <e k="usedplus_fsk_diagnosis_exhausted" v="Ten system był już serwisowany w terenie. Dalsze naprawy wymagają sprzętu warsztatowego." eh="79b71f1e" />
+        <e k="usedplus_serviceTruck_name" v="Warsztat mobilny" eh="51b741d0" />
+        <e k="usedplus_serviceTruck_function" v="Mobilny warsztat do długoterminowej renowacji pojazdów. Może przywrócić niezawodność ORAZ maksymalny poziom niezawodności. Wymaga oleju napędowego, oleju silnikowego, płynu hydraulicznego i części zamiennych." eh="3c12f4e8" />
+        <e k="usedplus_serviceTruck_typeDesc" v="Pojazd renowacyjny" eh="7d7e5cd9" />
+        <e k="usedplus_serviceTruck_dialogTitle" v="WARSZTAT MOBILNY - RENOWACJA POJAZDU" eh="00a2db6f" />
+        <e k="usedplus_serviceTruck_inspect" v="Sprawdź %s" eh="1fb02eae" />
+        <e k="usedplus_serviceTruck_noTarget" v="Brak pojazdu w pobliżu" eh="c02151b6" />
+        <e k="usedplus_serviceTruck_noVehicle" v="Brak pojazdu do renowacji w pobliżu" eh="a06fd6fe" />
+        <e k="usedplus_serviceTruck_resume" v="Wznów renowację" eh="0e390222" />
+        <e k="usedplus_serviceTruck_stop" v="Zatrzymaj renowację" eh="145970e3" />
+        <e k="usedplus_serviceTruck_started" v="Rozpoczęto renowację %s" eh="9ae2b7d4" />
+        <e k="usedplus_serviceTruck_stopped" v="Zatrzymano renowację %s" eh="486b803c" />
+        <e k="usedplus_serviceTruck_resumed" v="Renowacja wznowiona" eh="4dd62e8e" />
+        <e k="usedplus_serviceTruck_complete" v="Renowacja zakończona: %s" eh="9d83e616" />
+        <e k="usedplus_serviceTruck_needParts" v="Potrzebna paleta z częściami zamiennymi w pobliżu!" eh="13f1aea0" />
+        <e k="usedplus_serviceTruck_damage" v="Uwaga: Uszkodzenie renowacji z powodu braku zasobów!" eh="a0546a3a" />
+        <e k="usedplus_serviceTruck_ceiling" v="Maks. potencjał: %d%%" eh="6f7241ba" />
+        <e k="usedplus_serviceTruck_selectInfo" v="Wybierz komponent, aby rozpocząć głęboką renowację. W przeciwieństwie do napraw polowych, ten proces trwa godziny, ale może w pełni przywrócić pojazd." eh="979901a5" />
+        <e k="usedplus_serviceTruck_cooldown" v="Oczekiwanie: %dh" eh="2ea1fcb2" />
+        <e k="usedplus_serviceTruck_healthy" v="System sprawny" eh="5576cd8a" />
+        <e k="usedplus_serviceTruck_inspecting" v="Inspekcja: %s" eh="e11e1d26" />
+        <e k="usedplus_serviceTruck_estimatedTime" v="Szacowany czas: %d godzin" eh="1d3deb3e" />
+        <e k="usedplus_serviceTruck_inspectionPassed" v="INSPEKCJA ZALICZONA" eh="47f7fcfd" />
+        <e k="usedplus_serviceTruck_inspectionFailed" v="INSPEKCJA NIEZALICZONA" eh="a631d00c" />
+        <e k="usedplus_serviceTruck_canStartRestoration" v="Można rozpocząć renowację. Szacowany czas: %d godzin" eh="0e981aef" />
+        <e k="usedplus_serviceTruck_wrongDiagnosis" v="Błędna diagnoza. Musisz poczekać przed ponowną próbą naprawy tego komponentu." eh="5a4aabc9" />
+        <e k="usedplus_serviceTruck_cooldownApplied" v="Oczekiwanie: %d godzin" eh="2c7183c1" />
+        <e k="usedplus_serviceTruck_startRestoration" v="ROZPOCZNIJ RENOWACJĘ" eh="696ac7a5" />
+        <e k="usedplus_serviceTruck_paused_diesel" v="Renowacja wstrzymana - uzupełnij zbiornik oleju napędowego" eh="1fe7b196" />
+        <e k="usedplus_serviceTruck_paused_oil" v="Renowacja wstrzymana - uzupełnij zbiornik oleju" eh="e8431b21" />
+        <e k="usedplus_serviceTruck_paused_hydraulic" v="Renowacja wstrzymana - uzupełnij płyn hydrauliczny" eh="613a5371" />
+        <e k="usedplus_serviceTruck_paused_parts" v="Renowacja wstrzymana - potrzeba więcej części zamiennych!" eh="bd1c3747" />
+        <e k="usedplus_serviceTruck_discoveryTitle" v="WYJĄTKOWA OKAZJA" eh="5859f1ad" />
+        <e k="usedplus_serviceTruck_discoverySubtitle" v="Twój agent krajowy ma kontakt" eh="c0c9fe88" />
+        <e k="usedplus_serviceTruck_mechanicQuote" v="&amp;quot;Znam mechanika, który odchodzi na emeryturę. Ma w pełni wyposażony warsztat mobilny na sprzedaż. Tylko gotówka, ale mogę załatwić dobrą cenę. Zainteresowany?&amp;quot;" eh="219139f8" />
+        <e k="usedplus_serviceTruck_vehicleName" v="GMC C7000 Warsztat mobilny" eh="7f78c3d1" />
+        <e k="usedplus_serviceTruck_feature1" v="Długoterminowa renowacja pojazdów" eh="0fa4b175" />
+        <e k="usedplus_serviceTruck_feature2" v="Naprawa maksymalnej niezawodności" eh="dee9f0ff" />
+        <e k="usedplus_serviceTruck_feature3" v="Jedyny sposób na uratowanie wraków" eh="e025ba61" />
+        <e k="usedplus_serviceTruck_originalPrice" v="Cena regularna: 75 000 $" eh="70fcf983" />
+        <e k="usedplus_serviceTruck_yourPrice" v="TWOJA CENA" eh="6dd8d761" />
+        <e k="usedplus_serviceTruck_cashOnly" v="TYLKO GOTÓWKA" eh="087d1524" />
+        <e k="usedplus_serviceTruck_expiryNote" v="Oferta wygasa za %d dni" eh="9d7bc900" />
+        <e k="usedplus_serviceTruck_buyNow" v="Kup teraz" eh="c1f52fba" />
+        <e k="usedplus_serviceTruck_notNow" v="Nie teraz" eh="8dff1db0" />
+        <e k="usedplus_serviceTruck_purchaseSuccess" v="Warsztat mobilny zakupiony! Znajdziesz go przy punkcie sprzedaży." eh="16cacb8d" />
+        <e k="usedplus_serviceTruck_opportunitySaved" v="Okazja zapisana. Sprawdź Menadżer finansów, aby kupić później." eh="410b1a26" />
+        <e k="usedplus_serviceTruck_opportunityExpired" v="Okazja na warsztat mobilny wygasła." eh="a5d3a5fb" />
+        <e k="usedplus_serviceTruck_insufficientFunds" v="Brak środków! Potrzebujesz %s $ gotówki." eh="9b84e434" />
+        <e k="usedplus_serviceTruck_alreadyOwned" v="Posiadasz już warsztat mobilny." eh="8d7c53f6" />
+        <e k="usedplus_sparePartsPallet_name" v="Paleta z częściami zamiennymi" eh="9bf39a93" />
+        <e k="usedplus_sparePartsPallet_function" v="Części zamienne do renowacji w warsztacie mobilnym. Umieść w pobliżu warsztatu podczas prac renowacyjnych." eh="c90aa3eb" />
+        <e k="fillType_spareParts" v="Części zamienne" eh="ab6b8ce1" />
+        <e k="unit_pcs" v="szt." eh="3ecf2642" />
+        <e k="usedplus_resto_symptom_engine_knocking_load" v="Silne stuki pod obciążeniem" eh="fb8c3067" />
+        <e k="usedplus_resto_symptom_engine_low_oil_pressure" v="Krytycznie niskie ciśnienie oleju" eh="a3efa42d" />
+        <e k="usedplus_resto_symptom_engine_excessive_vibration" v="Nadmierne wibracje przy wszystkich prędkościach" eh="b99e166e" />
+        <e k="usedplus_resto_symptom_engine_blue_smoke" v="Gęsty niebieski dym z wydechu" eh="7565a2d6" />
+        <e k="usedplus_resto_symptom_engine_oil_consumption" v="Zużycie 2L oleju na godzinę" eh="dec5fc5f" />
+        <e k="usedplus_resto_symptom_engine_compression_loss" v="Test kompresji: 40% poniżej normy" eh="5ebe46dc" />
+        <e k="usedplus_resto_symptom_engine_blowby" v="Nadmierne przedmuchy skrzyni korbowej" eh="a7ba64cb" />
+        <e k="usedplus_resto_symptom_engine_power_loss" v="Moc wyjściowa 50% znamionowej" eh="f3aaa976" />
+        <e k="usedplus_resto_symptom_engine_crankcase_pressure" v="Podwyższone ciśnienie w skrzyni korbowej" eh="c5f32b50" />
+        <e k="usedplus_resto_symptom_engine_ticking" v="Rytmiczne stukanie z rozrządu" eh="c52cdfd8" />
+        <e k="usedplus_resto_symptom_engine_rough_idle" v="Bardzo nierówna praca na biegu jałowym" eh="479de259" />
+        <e k="usedplus_resto_symptom_engine_valve_noise" v="Narastający hałas rozrządu" eh="ce1f139d" />
+        <e k="usedplus_resto_diag_cylinder_wear" v="Zużycie ścianek cylindrów" eh="2e9abecf" />
+        <e k="usedplus_resto_diag_main_bearings" v="Zużyte łożyska główne" eh="10706469" />
+        <e k="usedplus_resto_diag_piston_rings" v="Uszkodzone pierścienie tłokowe" eh="93ad31e3" />
+        <e k="usedplus_resto_diag_camshaft_wear" v="Zużycie wałka rozrządu/popychaczy" eh="ec3a7cd5" />
+        <e k="usedplus_resto_symptom_elec_intermittent_systems" v="Okresowe awarie wielu systemów" eh="023ad81b" />
+        <e k="usedplus_resto_symptom_elec_corrosion_visible" v="Widoczna korozja na złączach" eh="5c9a9a3c" />
+        <e k="usedplus_resto_symptom_elec_multiple_faults" v="Zapisane kody błędów we wszystkich modułach" eh="d4ade2b6" />
+        <e k="usedplus_resto_symptom_elec_erratic_behavior" v="Nieregularne zachowanie systemu" eh="b69e9c62" />
+        <e k="usedplus_resto_symptom_elec_no_communication" v="Brak komunikacji magistrali CAN" eh="d003610c" />
+        <e k="usedplus_resto_symptom_elec_stored_codes" v="Setki zapisanych kodów błędów" eh="40791f46" />
+        <e k="usedplus_resto_symptom_elec_wrong_readings" v="Czujniki pokazują niemożliwe odczyty" eh="cb94f53b" />
+        <e k="usedplus_resto_symptom_elec_limp_mode" v="Stała aktywacja trybu awaryjnego" eh="f2301c42" />
+        <e k="usedplus_resto_symptom_elec_poor_response" v="Opóźniona reakcja przepustnicy/sterowania" eh="66546509" />
+        <e k="usedplus_resto_symptom_elec_voltage_drops" v="Silne spadki napięcia pod obciążeniem" eh="01228a80" />
+        <e k="usedplus_resto_symptom_elec_dim_lights" v="Światła mocno przygasają na biegu jałowym" eh="37cdb057" />
+        <e k="usedplus_resto_symptom_elec_starter_slow" v="Rozrusznik ledwo kręci" eh="886fcc59" />
+        <e k="usedplus_resto_diag_harness_degradation" v="Degradacja wiązki przewodów" eh="1ac0bee9" />
+        <e k="usedplus_resto_diag_ecu_failure" v="Awaria sterownika/ECU" eh="c58a3f02" />
+        <e k="usedplus_resto_diag_sensor_array" v="Degradacja układu czujników" eh="dbf631b9" />
+        <e k="usedplus_resto_diag_ground_points" v="Korozja punktów masowych" eh="76c3875c" />
+        <e k="usedplus_resto_symptom_hyd_slow_operation" v="Ekstremalnie powolna praca hydrauliki" eh="1491284f" />
+        <e k="usedplus_resto_symptom_hyd_cavitation_noise" v="Odgłos kawitacji pompy" eh="78a4d860" />
+        <e k="usedplus_resto_symptom_hyd_low_pressure" v="Ciśnienie systemowe 60% poniżej normy" eh="4fb95c5c" />
+        <e k="usedplus_resto_symptom_hyd_drift" v="Dryf osprzętu pod obciążeniem" eh="161be612" />
+        <e k="usedplus_resto_symptom_hyd_uneven_response" v="Nierówna reakcja między obwodami" eh="ed5383af" />
+        <e k="usedplus_resto_symptom_hyd_internal_leak" v="Wykryto wyciek wewnętrzny - ciśnienie nie utrzymuje się" eh="24df5973" />
+        <e k="usedplus_resto_symptom_hyd_external_leak" v="Widoczny zewnętrzny wyciek płynu" eh="83e3f803" />
+        <e k="usedplus_resto_symptom_hyd_rod_scoring" v="Widoczne rysy na tłoczysku cylindra" eh="afc6f369" />
+        <e k="usedplus_resto_symptom_hyd_position_creep" v="Pełzanie pozycji pod obciążeniem statycznym" eh="e0a2a78c" />
+        <e k="usedplus_resto_symptom_hyd_visible_cracks" v="Widoczne pęknięcia osłon węży" eh="4a3b0a3e" />
+        <e k="usedplus_resto_symptom_hyd_bulging" v="Wybrzuszanie węży pod ciśnieniem" eh="45b25f17" />
+        <e k="usedplus_resto_symptom_hyd_seepage" v="Przesiąkanie płynu przy złączkach" eh="5a712984" />
+        <e k="usedplus_resto_diag_pump_wear" v="Zużyta pompa hydrauliczna" eh="52b93aef" />
+        <e k="usedplus_resto_diag_valve_wear" v="Zużycie zaworu sterującego" eh="a8b29f50" />
+        <e k="usedplus_resto_diag_cylinder_seals" v="Awaria uszczelek cylindra" eh="b1160c88" />
+        <e k="usedplus_resto_diag_hose_degradation" v="Degradacja węży" eh="a8e8141c" />
+        <e k="usedplus_resto_hint_engine_compression" v="Test kompresji: Niska w wielu cylindrach" eh="3a3b3c44" />
+        <e k="usedplus_resto_hint_engine_oil_analysis" v="Analiza oleju: Wysoka zawartość metalu" eh="bd8248e0" />
+        <e k="usedplus_resto_hint_engine_vibration" v="Analiza wibracji: Częstotliwość łożyska" eh="effbd7bc" />
+        <e k="usedplus_resto_hint_engine_blowby" v="Pomiar przedmuchów: 3x norma" eh="623f710e" />
+        <e k="usedplus_resto_hint_engine_wear_metals" v="Metale zużycia w oleju: Poziom krytyczny" eh="f3246cb4" />
+        <e k="usedplus_resto_hint_elec_resistance" v="Rezystancja wiązki: Poza normą" eh="b9abd1d2" />
+        <e k="usedplus_resto_hint_elec_insulation" v="Test izolacji: Wykryto przebicie" eh="1d71c2a6" />
+        <e k="usedplus_resto_hint_elec_continuity" v="Ciągłość: Wiele otwartych obwodów" eh="e0f6fd0b" />
+        <e k="usedplus_resto_hint_elec_voltage_drop" v="Test spadku napięcia: Nadmierny" eh="d25b077c" />
+        <e k="usedplus_resto_hint_elec_current_draw" v="Pobór pasożytniczy: 10x norma" eh="59444b85" />
+        <e k="usedplus_resto_hint_hyd_pressure_test" v="Test ciśnienia: Przepływ bez ciśnienia" eh="bd006d67" />
+        <e k="usedplus_resto_hint_hyd_flow_rate" v="Przepływ: 40% znamionowej wydajności" eh="b90ab77b" />
+        <e k="usedplus_resto_hint_hyd_fluid_analysis" v="Analiza płynu: Zanieczyszczony" eh="dfe20002" />
+        <e k="usedplus_resto_hint_hyd_temp_rise" v="Wzrost temperatury: Nienormalnie szybki" eh="533cbcf4" />
+        <e k="usedplus_resto_hint_hyd_case_drain" v="Przepływ drenażowy: Podwyższony" eh="a22095fe" />
+        <e k="usedplus_resto_inspection_success" v="Prawidłowa diagnoza! Można rozpocząć renowację." eh="97b6cad5" />
+        <e k="usedplus_resto_inspection_failed" v="Błędna diagnoza. Zastosowano 48-godzinne oczekiwanie." eh="810bd06d" />
+        <e k="usedplus_resto_desc_bearings" v="Wymiana łożysk głównych i inspekcja wału korbowego" eh="82cd6ee4" />
+        <e k="usedplus_resto_desc_cylinder" v="Roztaczanie cylindrów i wymiana tłoków" eh="f59dd2d9" />
+        <e k="usedplus_resto_desc_rings" v="Wymiana pierścieni tłokowych i honowanie cylindrów" eh="215c10a5" />
+        <e k="usedplus_resto_desc_camshaft" v="Wymiana wałka rozrządu i popychaczy" eh="d7ac0f03" />
+        <e k="usedplus_resto_desc_harness" v="Całkowita wymiana wiązki przewodów" eh="90710fd7" />
+        <e k="usedplus_resto_desc_ecu" v="Wymiana i przeprogramowanie ECU" eh="8b0b987d" />
+        <e k="usedplus_resto_desc_sensors" v="Całkowita wymiana układu czujników" eh="d7757def" />
+        <e k="usedplus_resto_desc_grounds" v="Renowacja i czyszczenie punktów masowych" eh="8d73bf8b" />
+        <e k="usedplus_resto_desc_pump" v="Regeneracja lub wymiana pompy hydraulicznej" eh="661156e5" />
+        <e k="usedplus_resto_desc_valves" v="Przegląd zaworu sterującego" eh="5e2cc6b4" />
+        <e k="usedplus_resto_desc_cylinders" v="Ponowne uszczelnienie cylindra i renowacja tłoczyska" eh="d0aab178" />
+        <e k="usedplus_resto_desc_hoses" v="Całkowita wymiana węży" eh="b9531198" />
     <e k="usedplus_seizure_detected" v="KOMPONENT ZABLOKOWANY" eh="9def01dd" />
     <e k="usedplus_seizure_repair_confirm" v="%s jest zablokowany i wymaga awaryjnej naprawy.\n\nKoszt naprawy: %s\n\nKontynuowac naprawe?" eh="bf702608" />
     <e k="usedplus_seizure_repaired" v="%s naprawiony! Niezawodnosc przywrocona do %d%%" eh="323fa338" />
@@ -2119,6 +2250,95 @@
         <e k="usedplus_mp_error_purchase_failed" v="Zakup nie powiódł się. Spróbuj ponownie." eh="42d7ddab" />
         <e k="usedplus_mp_error_vehicle_not_found" v="Nie znaleziono pojazdu." eh="02c84e79" />
         <e k="usedplus_mp_error_no_loan" v="Brak salda kredytu do spłaty." eh="5668e12f" />
+        <e k="usedplus_admin_title" v="Panel administracyjny UsedPlus" eh="f1ae106e" />
+        <e k="usedplus_admin_tab_malfunctions" v="Usterki" eh="97801e8a" />
+        <e k="usedplus_admin_tab_spawning" v="Tworzenie" eh="abd8b510" />
+        <e k="usedplus_admin_tab_finance" v="Finanse" eh="c482980d" />
+        <e k="usedplus_admin_tab_dialogs" v="Okna dialogowe" eh="258853ae" />
+        <e k="usedplus_admin_tab_state" v="Stan" eh="46a2a41c" />
+        <e k="usedplus_admin_section_engine" v="SILNIK" eh="1942d6cf" />
+        <e k="usedplus_admin_section_electrical" v="ELEKTRYKA" eh="9f317629" />
+        <e k="usedplus_admin_section_hydraulic" v="HYDRAULIKA" eh="3e0b9977" />
+        <e k="usedplus_admin_section_tires" v="OPONY" eh="36173e29" />
+        <e k="usedplus_admin_section_utility" v="NARZĘDZIA" eh="1697ce5d" />
+        <e k="usedplus_admin_section_items" v="PRZEDMIOTY" eh="9a932d55" />
+        <e k="usedplus_admin_section_discovery" v="ODKRYWANIE" eh="f5be5d66" />
+        <e k="usedplus_admin_section_test_vehicles" v="POJAZDY TESTOWE" eh="682cb0f3" />
+        <e k="usedplus_admin_section_condition" v="MALOWANIE STANU" eh="2593ea9b" />
+        <e k="usedplus_admin_section_money" v="PIENIĄDZE" eh="2bc794c2" />
+        <e k="usedplus_admin_section_credit" v="OCENA KREDYTOWA" eh="4f3b169e" />
+        <e k="usedplus_admin_section_deals" v="UMOWY" eh="bdcaa389" />
+        <e k="usedplus_admin_section_finance_dialogs" v="OKNA FINANSOWE" eh="babbf134" />
+        <e k="usedplus_admin_section_market_dialogs" v="OKNA RYNKOWE" eh="4c8988f5" />
+        <e k="usedplus_admin_section_service_dialogs" v="OKNA SERWISOWE" eh="e407aa85" />
+        <e k="usedplus_admin_section_lease_dialogs" v="OKNA LEASINGU" eh="479e552e" />
+        <e k="usedplus_admin_section_debug" v="TRYB DEBUGOWANIA" eh="c7ee79cd" />
+        <e k="usedplus_admin_section_vehicle_state" v="STAN POJAZDU" eh="c077f4be" />
+        <e k="usedplus_admin_section_dna" v="DNA SPRZEDAWCY (Nast. wyszukiwanie)" eh="0e284459" />
+        <e k="usedplus_admin_section_quick_vehicle" v="SZYBKA ZMIANA POJAZDU" eh="01242f7d" />
+        <e k="usedplus_admin_btn_stall" v="Zgaśnięcie" eh="a0f50ad4" />
+        <e k="usedplus_admin_btn_misfire" v="Wypadanie" eh="9b9bd091" />
+        <e k="usedplus_admin_btn_overheat" v="Przegrzanie" eh="5d266c94" />
+        <e k="usedplus_admin_btn_runaway" v="Rozbieganie" eh="dbdba743" />
+        <e k="usedplus_admin_btn_seizure" v="Zatarcie" eh="82d09d65" />
+        <e k="usedplus_admin_btn_cutout" v="Wyłączenie" eh="330be5af" />
+        <e k="usedplus_admin_btn_surge_l" v="Skok (L)" eh="14a7255f" />
+        <e k="usedplus_admin_btn_surge_r" v="Skok (P)" eh="f9261697" />
+        <e k="usedplus_admin_btn_flat_l" v="Flak (L)" eh="427238a9" />
+        <e k="usedplus_admin_btn_flat_r" v="Flak (P)" eh="5a2301a8" />
+        <e k="usedplus_admin_btn_reset_cooldown" v="Reset ocz." eh="d2165eba" />
+        <e k="usedplus_admin_btn_malf_info" v="Info ust." eh="92badb26" />
+        <e k="usedplus_admin_btn_fix_all" v="Napraw wsz." eh="1c7feed4" />
+        <e k="usedplus_admin_btn_spawn_obd" v="Skaner OBD" eh="96023669" />
+        <e k="usedplus_admin_btn_spawn_truck" v="Warsztat" eh="083ff302" />
+        <e k="usedplus_admin_btn_spawn_parts" v="Paleta części" eh="ca04c55a" />
+        <e k="usedplus_admin_btn_trigger_discovery" v="Wyzwól odk." eh="adaba831" />
+        <e k="usedplus_admin_btn_reset_discovery" v="Reset odk." eh="f78bfb71" />
+        <e k="usedplus_admin_btn_discovery_status" v="Status odk." eh="bce3ddd2" />
+        <e k="usedplus_admin_btn_spawn_lemon" v="Stwórz wrak" eh="13d3e048" />
+        <e k="usedplus_admin_btn_spawn_workhorse" v="Koń roboczy" eh="50cf5190" />
+        <e k="usedplus_admin_btn_spawn_damaged" v="Uszkodzony" eh="f7bd791a" />
+        <e k="usedplus_admin_btn_paint_pristine" v="Idealny" eh="96af3470" />
+        <e k="usedplus_admin_btn_paint_worn" v="Zużyty" eh="36cc503e" />
+        <e k="usedplus_admin_btn_paint_beaten" v="Zniszczony" eh="866731dc" />
+        <e k="usedplus_admin_btn_paint_destroyed" v="Zrujnowany" eh="aefbd059" />
+        <e k="usedplus_admin_btn_add_10k" v="+10 000 $" eh="3ca6f66c" />
+        <e k="usedplus_admin_btn_add_100k" v="+100 000 $" eh="860860a5" />
+        <e k="usedplus_admin_btn_add_1m" v="+1 000 000 $" eh="8946b435" />
+        <e k="usedplus_admin_btn_set_zero" v="Ustaw 0 $" eh="ca8864ed" />
+        <e k="usedplus_admin_btn_list_deals" v="Lista umów" eh="936e496b" />
+        <e k="usedplus_admin_btn_payoff_all" v="Spłać wszystko" eh="3817edc8" />
+        <e k="usedplus_admin_btn_create_loan" v="Test kredytu" eh="06cb7221" />
+        <e k="usedplus_admin_btn_create_lease" v="Test leasingu" eh="d653ef32" />
+        <e k="usedplus_admin_btn_missed_payment" v="Pomiń płatność" eh="4890557c" />
+        <e k="usedplus_admin_btn_dlg_loan" v="Weź kredyt" eh="40fe67fa" />
+        <e k="usedplus_admin_btn_dlg_approved" v="Zatwierdzony" eh="6f806341" />
+        <e k="usedplus_admin_btn_dlg_credit" v="Kredyt" eh="0a90b1bc" />
+        <e k="usedplus_admin_btn_dlg_history" v="Historia" eh="16d2b386" />
+        <e k="usedplus_admin_btn_dlg_repo" v="Przejęcie" eh="0f74adf1" />
+        <e k="usedplus_admin_btn_dlg_search" v="Szukaj" eh="13348442" />
+        <e k="usedplus_admin_btn_dlg_purchase" v="Zakup" eh="76b6a47a" />
+        <e k="usedplus_admin_btn_dlg_negotiate" v="Negocjuj" eh="e481ddec" />
+        <e k="usedplus_admin_btn_dlg_seller" v="Odp. sprzedawcy" eh="8ff31b45" />
+        <e k="usedplus_admin_btn_dlg_obd" v="OBD" eh="9971dd97" />
+        <e k="usedplus_admin_btn_dlg_service" v="Warsztat" eh="083ff302" />
+        <e k="usedplus_admin_btn_dlg_inspect" v="Inspekcja" eh="35a9dbe6" />
+        <e k="usedplus_admin_btn_dlg_lease_end" v="Koniec leasingu" eh="da7801f1" />
+        <e k="usedplus_admin_btn_dlg_lease_renew" v="Odnów leasing" eh="7a794930" />
+        <e k="usedplus_admin_btn_toggle_debug" v="Przełącz debug" eh="e69cb6a0" />
+        <e k="usedplus_admin_btn_rel_100" v="Niez: 100%" eh="dfdb79d3" />
+        <e k="usedplus_admin_btn_rel_50" v="Niez: 50%" eh="9ce7a0a2" />
+        <e k="usedplus_admin_btn_rel_10" v="Niez: 10%" eh="54d6e770" />
+        <e k="usedplus_admin_btn_reset_hours" v="Reset godzin" eh="a519e5e1" />
+        <e k="usedplus_admin_btn_add_hours" v="+1000 godzin" eh="ef05132d" />
+        <e k="usedplus_admin_btn_dna_desperate" v="Zdesperowany" eh="97df4642" />
+        <e k="usedplus_admin_btn_dna_reasonable" v="Rozsądny" eh="e485c034" />
+        <e k="usedplus_admin_btn_dna_immovable" v="Nieugięty" eh="57d0e57c" />
+        <e k="usedplus_admin_btn_next_vehicle" v="Nast. pojazd" eh="e95e97fa" />
+        <e k="usedplus_admin_btn_prev_vehicle" v="Poprz. pojazd" eh="69b3a0d0" />
+        <e k="usedplus_admin_current_balance" v="Aktualny stan konta:" eh="473e7f9e" />
+        <e k="usedplus_admin_current_credit" v="Ocena kredytowa:" eh="0199e1a3" />
+        <e k="usedplus_admin_status_ready" v="Gotowe. Wybierz akcję." eh="1ef35a42" />
 
     </elements>
 </l10n>

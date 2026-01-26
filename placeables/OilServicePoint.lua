@@ -1085,8 +1085,8 @@ end
     placeables.placeable(?).{MOD_NAME}.{SPEC_NAME}.{custom_path}
 ]]
 if Placeable and Placeable.xmlSchemaSavegame then
-    -- Full path includes mod name and spec name as the game structures it
-    local savegameBasePath = "placeables.placeable(?).FS25_UsedPlus.OilServicePoint"
+    -- v2.8.1: Path must match what saveToXMLFile() and onLoad() actually use
+    local savegameBasePath = "placeables.placeable(?)"
     OilServicePoint.registerSavegameXMLPaths(Placeable.xmlSchemaSavegame, savegameBasePath)
     UsedPlus.logDebug("OilServicePoint: Registered savegame XML paths at " .. savegameBasePath)
 end

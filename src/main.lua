@@ -412,40 +412,8 @@ function UsedPlus.addInGameMenuPage(frame, pageName, uvs, position, predicateFun
     UsedPlus.logDebug("  InGameMenu integration complete!")
 end
 
--- Hook savegame load (load mod data from savegame)
--- IMPORTANT: This fires BEFORE managers are created in Mission00.loadMission00Finished
--- We store the missionInfo and load data later in loadSavegameData()
---
--- v2.8.0: Check if FSBaseMission exists before hooking (it should, but let's verify)
-if FSBaseMission ~= nil and FSBaseMission.loadItemsFinished ~= nil then
-    FSBaseMission.loadItemsFinished = Utils.appendedFunction(
-        FSBaseMission.loadItemsFinished,
-        function(mission, missionInfo, missionDynamicInfo)
-            -- v2.8.0: WARN level for persistence debugging
-            UsedPlus.logWarn(string.format("loadItemsFinished hook: missionInfo=%s, dir=%s",
-                tostring(missionInfo ~= nil),
-                missionInfo and missionInfo.savegameDirectory or "nil"))
-
-            -- v1.4.0: Initialize settings system first (before managers load)
-            if UsedPlusSettings and UsedPlusSettings.init then
-                local savegameDirectory = nil
-                if missionInfo and missionInfo.savegameDirectory then
-                    savegameDirectory = missionInfo.savegameDirectory
-                end
-                UsedPlusSettings:init(savegameDirectory)
-            end
-
-            -- v2.7.1: Store missionInfo for later loading (managers don't exist yet!)
-            -- The actual data loading happens in loadMission00Finished after managers are created
-            UsedPlus.pendingMissionInfo = missionInfo
-        end
-    )
-    UsedPlus.logWarn("FSBaseMission.loadItemsFinished hook installed successfully")
-else
-    UsedPlus.logError(string.format("CRITICAL: Cannot hook FSBaseMission.loadItemsFinished! FSBaseMission=%s, loadItemsFinished=%s",
-        tostring(FSBaseMission ~= nil),
-        tostring(FSBaseMission ~= nil and FSBaseMission.loadItemsFinished ~= nil)))
-end
+-- v2.8.1: Removed FSBaseMission.loadItemsFinished hook (doesn't exist in FS25)
+-- The existing Mission00.loadMission00Finished and FSBaseMission.onStartMission hooks work correctly
 
 --[[
     Load savegame data after managers are created
@@ -858,6 +826,27 @@ function UsedPlus.consoleCommandPayoffAll(self)
 
     return string.format("Paid off %d deals (%s total)", paidCount,
         g_i18n:formatMoney(totalPaid, 0, true, true))
+end
+
+-- Admin Control Panel console command (admin only)
+addConsoleCommand("upAdminCP", "Open UsedPlus Admin Control Panel (admin only, must be in vehicle)", "consoleCommandAdminCP", UsedPlus)
+
+function UsedPlus.consoleCommandAdminCP(self)
+    -- Check admin permissions
+    if not self:isAdmin() then
+        return "Error: Only administrators can use this command."
+    end
+
+    -- Must be in a vehicle
+    local vehicle = g_currentMission.controlledVehicle
+    if vehicle == nil then
+        return "Error: Must be in a vehicle to open Admin Panel."
+    end
+
+    -- Open the Admin Control Panel
+    DialogLoader.show("AdminControlPanel", "setVehicle", vehicle)
+
+    return "Opening Admin Control Panel..."
 end
 
 --[[

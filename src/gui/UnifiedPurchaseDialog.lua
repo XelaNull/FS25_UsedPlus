@@ -258,6 +258,54 @@ function UnifiedPurchaseDialog:onGuiSetupFinished()
         self.leaseDownSlider:setState(self.leaseDownIndex)
     end
 
+    -- v2.9.5: Setup section header icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+    self:setupSectionIcons()
+end
+
+--[[
+    v2.9.5: Setup section header icons
+    Icons are set via Lua because XML paths don't work from ZIP mods
+]]
+function UnifiedPurchaseDialog:setupSectionIcons()
+    if self.iconDir == nil then
+        return
+    end
+
+    -- Header icon - finance
+    if self.headerIcon ~= nil then
+        self.headerIcon:setImageFilename(self.iconDir .. "finance.png")
+    end
+
+    -- Vehicle section - vehicle icon
+    if self.vehicleSectionIcon ~= nil then
+        self.vehicleSectionIcon:setImageFilename(self.iconDir .. "vehicle.png")
+    end
+
+    -- Method section - percentage icon
+    if self.methodSectionIcon ~= nil then
+        self.methodSectionIcon:setImageFilename(self.iconDir .. "percentage.png")
+    end
+
+    -- Trade-In section - trade_in icon
+    if self.tradeInSectionIcon ~= nil then
+        self.tradeInSectionIcon:setImageFilename(self.iconDir .. "trade_in.png")
+    end
+
+    -- Cash section - cash icon
+    if self.cashSectionIcon ~= nil then
+        self.cashSectionIcon:setImageFilename(self.iconDir .. "cash.png")
+    end
+
+    -- Finance section - loan_doc icon
+    if self.financeSectionIcon ~= nil then
+        self.financeSectionIcon:setImageFilename(self.iconDir .. "loan_doc.png")
+    end
+
+    -- Lease section - lease icon
+    if self.leaseSectionIcon ~= nil then
+        self.leaseSectionIcon:setImageFilename(self.iconDir .. "lease.png")
+    end
 end
 
 --[[

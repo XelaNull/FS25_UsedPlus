@@ -21,8 +21,10 @@
             <GuiElement profile="srResponseSection" position="0px -60px">
                 <Bitmap profile="srResponseBg" id="responseBg" position="0px 0px"/>
 
-                <!-- Response Icon (changes based on type) -->
-                <Text profile="srResponseIcon" id="responseIcon" position="-230px -55px" text=""/>
+                <!-- Response Icon (changes based on type) - v2.9.5: Now uses image icons -->
+                <Bitmap profile="srResponseIconImage" id="responseIconImage" position="-230px -55px"/>
+                <!-- Fallback text icon (hidden by default) -->
+                <Text profile="srResponseIcon" id="responseIcon" position="-230px -55px" text="" visible="false"/>
 
                 <!-- Response Message (main text) -->
                 <Text profile="srResponseText" id="responseText" position="20px -35px" text=""/>
@@ -89,6 +91,12 @@
         <Profile name="srResponseBgReject" extends="baseReference" with="anchorTopCenter">
             <size value="660px 150px"/>
             <imageColor value="0.14 0.06 0.06 0.95"/>
+        </Profile>
+
+        <!-- ========== RESPONSE ICON IMAGE ========== -->
+        <Profile name="srResponseIconImage" extends="baseReference" with="anchorTopCenter">
+            <size value="48px 48px"/>
+            <imageSliceId value="noSlice"/>
         </Profile>
 
         <!-- ========== RESPONSE ELEMENTS ========== -->

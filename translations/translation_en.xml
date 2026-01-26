@@ -255,6 +255,7 @@
         <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Inspect Vehicle" eh="c06f09f1" />
         <e k="input_USEDPLUS_ACTIVATE_OBD" v="Use OBD Scanner" eh="9666e26b" />
         <e k="input_USEDPLUS_TIRES" v="Tire Service" eh="b0234f4e" />
+        <e k="input_USEDPLUS_SERVICE_TRUCK" v="Service Truck Control" eh="fad0e0f1" />
 
         <!--  Tooltips for Finance Dialog -->
         <e k="usedplus_finance_loanTerm_tooltip" v="Spread payments over 1-20 years. Longer terms = smaller monthly payments but more total interest paid." eh="e1170142" />
@@ -1364,7 +1365,7 @@
         <e k="usedplus_fmf_vehiclesFound" v="Vehicles Found:" eh="047a7db6" />
         <e k="usedplus_fmf_feesSpent" v="Fees Spent:" eh="787c75fb" />
         <e k="usedplus_fmf_successRate" v="Success Rate:" eh="346bdbd3" />
-        <e k="usedplus_fmf_totalSaved" v="Marketplace Value:" eh="7d88f3ce" />
+        <e k="usedplus_fmf_totalSaved" v="Marketplace Value:" eh="bf7d98b0" />
         <e k="usedplus_fmf_yourCreditScore" v="Your Credit Score" eh="5bbd5087" />
         <e k="usedplus_fmf_creditRanges" v="Credit Ranges:" eh="a4a7b278" />
         <e k="usedplus_fmf_tierExcellent" v="750-850 Excellent -1.5%" eh="8d6d7463" />
@@ -1902,156 +1903,156 @@
         <e k="usedplus_fsk_diagnosis_exhausted" v="This system has already received field service. Further repairs require workshop equipment." eh="79b71f1e" />
 
         <!-- v2.9.0: Service Truck - Long-Term Restoration System -->
-        <e k="usedplus_serviceTruck_name" v="Service Truck" />
-        <e k="usedplus_serviceTruck_function" v="Mobile workshop for long-term vehicle restoration. Can restore reliability AND reliability ceiling over time. Requires diesel, oil, hydraulic fluid, and spare parts." />
-        <e k="usedplus_serviceTruck_typeDesc" v="Restoration Vehicle" />
-        <e k="usedplus_serviceTruck_dialogTitle" v="SERVICE TRUCK - VEHICLE RESTORATION" />
-        <e k="usedplus_serviceTruck_inspect" v="Inspect %s" />
-        <e k="usedplus_serviceTruck_noTarget" v="No vehicle nearby" />
-        <e k="usedplus_serviceTruck_noVehicle" v="No vehicle nearby to restore" />
-        <e k="usedplus_serviceTruck_resume" v="Resume Restoration" />
-        <e k="usedplus_serviceTruck_stop" v="Stop Restoration" />
-        <e k="usedplus_serviceTruck_started" v="Started restoration of %s" />
-        <e k="usedplus_serviceTruck_stopped" v="Stopped restoration of %s" />
-        <e k="usedplus_serviceTruck_resumed" v="Restoration resumed" />
-        <e k="usedplus_serviceTruck_complete" v="Restoration complete: %s" />
-        <e k="usedplus_serviceTruck_needParts" v="Need spare parts pallet nearby!" />
-        <e k="usedplus_serviceTruck_damage" v="Warning: Restoration damage due to empty resources!" />
-        <e k="usedplus_serviceTruck_ceiling" v="Max Potential: %d%%" />
-        <e k="usedplus_serviceTruck_selectInfo" v="Select a component to begin deep restoration. Unlike field repairs, this process takes hours but can fully restore the vehicle." />
-        <e k="usedplus_serviceTruck_cooldown" v="Cooldown: %dh" />
-        <e k="usedplus_serviceTruck_healthy" v="System Healthy" />
-        <e k="usedplus_serviceTruck_inspecting" v="Inspecting: %s" />
-        <e k="usedplus_serviceTruck_estimatedTime" v="Estimated time: %d hours" />
-        <e k="usedplus_serviceTruck_inspectionPassed" v="INSPECTION PASSED" />
-        <e k="usedplus_serviceTruck_inspectionFailed" v="INSPECTION FAILED" />
-        <e k="usedplus_serviceTruck_canStartRestoration" v="Restoration can begin. Estimated: %d hours" />
-        <e k="usedplus_serviceTruck_wrongDiagnosis" v="Incorrect diagnosis. You must wait before retrying this component." />
-        <e k="usedplus_serviceTruck_cooldownApplied" v="Cooldown: %d hours" />
-        <e k="usedplus_serviceTruck_startRestoration" v="START RESTORATION" />
-        <e k="usedplus_serviceTruck_paused_diesel" v="Restoration paused - refill diesel tank" />
-        <e k="usedplus_serviceTruck_paused_oil" v="Restoration paused - refill oil tank" />
-        <e k="usedplus_serviceTruck_paused_hydraulic" v="Restoration paused - refill hydraulic fluid" />
-        <e k="usedplus_serviceTruck_paused_parts" v="Restoration paused - need more spare parts!" />
+        <e k="usedplus_serviceTruck_name" v="Service Truck" eh="51b741d0" />
+        <e k="usedplus_serviceTruck_function" v="Mobile workshop for long-term vehicle restoration. Can restore reliability AND reliability ceiling over time. Requires diesel, oil, hydraulic fluid, and spare parts." eh="3c12f4e8" />
+        <e k="usedplus_serviceTruck_typeDesc" v="Restoration Vehicle" eh="7d7e5cd9" />
+        <e k="usedplus_serviceTruck_dialogTitle" v="SERVICE TRUCK - VEHICLE RESTORATION" eh="00a2db6f" />
+        <e k="usedplus_serviceTruck_inspect" v="Inspect %s" eh="1fb02eae" />
+        <e k="usedplus_serviceTruck_noTarget" v="No vehicle nearby" eh="c02151b6" />
+        <e k="usedplus_serviceTruck_noVehicle" v="No vehicle nearby to restore" eh="a06fd6fe" />
+        <e k="usedplus_serviceTruck_resume" v="Resume Restoration" eh="0e390222" />
+        <e k="usedplus_serviceTruck_stop" v="Stop Restoration" eh="145970e3" />
+        <e k="usedplus_serviceTruck_started" v="Started restoration of %s" eh="9ae2b7d4" />
+        <e k="usedplus_serviceTruck_stopped" v="Stopped restoration of %s" eh="486b803c" />
+        <e k="usedplus_serviceTruck_resumed" v="Restoration resumed" eh="4dd62e8e" />
+        <e k="usedplus_serviceTruck_complete" v="Restoration complete: %s" eh="9d83e616" />
+        <e k="usedplus_serviceTruck_needParts" v="Need spare parts pallet nearby!" eh="13f1aea0" />
+        <e k="usedplus_serviceTruck_damage" v="Warning: Restoration damage due to empty resources!" eh="a0546a3a" />
+        <e k="usedplus_serviceTruck_ceiling" v="Max Potential: %d%%" eh="6f7241ba" />
+        <e k="usedplus_serviceTruck_selectInfo" v="Select a component to begin deep restoration. Unlike field repairs, this process takes hours but can fully restore the vehicle." eh="979901a5" />
+        <e k="usedplus_serviceTruck_cooldown" v="Cooldown: %dh" eh="2ea1fcb2" />
+        <e k="usedplus_serviceTruck_healthy" v="System Healthy" eh="5576cd8a" />
+        <e k="usedplus_serviceTruck_inspecting" v="Inspecting: %s" eh="e11e1d26" />
+        <e k="usedplus_serviceTruck_estimatedTime" v="Estimated time: %d hours" eh="1d3deb3e" />
+        <e k="usedplus_serviceTruck_inspectionPassed" v="INSPECTION PASSED" eh="47f7fcfd" />
+        <e k="usedplus_serviceTruck_inspectionFailed" v="INSPECTION FAILED" eh="a631d00c" />
+        <e k="usedplus_serviceTruck_canStartRestoration" v="Restoration can begin. Estimated: %d hours" eh="0e981aef" />
+        <e k="usedplus_serviceTruck_wrongDiagnosis" v="Incorrect diagnosis. You must wait before retrying this component." eh="5a4aabc9" />
+        <e k="usedplus_serviceTruck_cooldownApplied" v="Cooldown: %d hours" eh="2c7183c1" />
+        <e k="usedplus_serviceTruck_startRestoration" v="START RESTORATION" eh="696ac7a5" />
+        <e k="usedplus_serviceTruck_paused_diesel" v="Restoration paused - refill diesel tank" eh="1fe7b196" />
+        <e k="usedplus_serviceTruck_paused_oil" v="Restoration paused - refill oil tank" eh="e8431b21" />
+        <e k="usedplus_serviceTruck_paused_hydraulic" v="Restoration paused - refill hydraulic fluid" eh="613a5371" />
+        <e k="usedplus_serviceTruck_paused_parts" v="Restoration paused - need more spare parts!" eh="bd1c3747" />
 
         <!-- Service Truck Discovery -->
-        <e k="usedplus_serviceTruck_discoveryTitle" v="SPECIAL OPPORTUNITY" />
-        <e k="usedplus_serviceTruck_discoverySubtitle" v="Your National Agent Has a Connection" />
-        <e k="usedplus_serviceTruck_mechanicQuote" v="&quot;I know a mechanic retiring from the repair business. He's got a fully-equipped service truck he's looking to sell. Cash only, but I can get you a good deal. Interested?&quot;" />
-        <e k="usedplus_serviceTruck_vehicleName" v="GMC C7000 Service Truck" />
-        <e k="usedplus_serviceTruck_feature1" v="Long-term vehicle restoration" />
-        <e k="usedplus_serviceTruck_feature2" v="Reliability ceiling repair" />
-        <e k="usedplus_serviceTruck_feature3" v="The only way to save lemons" />
-        <e k="usedplus_serviceTruck_originalPrice" v="Regular Price: $75,000" />
-        <e k="usedplus_serviceTruck_yourPrice" v="YOUR PRICE" />
-        <e k="usedplus_serviceTruck_cashOnly" v="CASH ONLY" />
-        <e k="usedplus_serviceTruck_expiryNote" v="Offer expires in %d days" />
-        <e k="usedplus_serviceTruck_buyNow" v="Buy Now" />
-        <e k="usedplus_serviceTruck_notNow" v="Not Now" />
-        <e k="usedplus_serviceTruck_purchaseSuccess" v="Service Truck purchased! Find it at the shop spawn point." />
-        <e k="usedplus_serviceTruck_opportunitySaved" v="Opportunity saved. Check Finance Manager to purchase later." />
-        <e k="usedplus_serviceTruck_opportunityExpired" v="Service Truck opportunity has expired." />
-        <e k="usedplus_serviceTruck_insufficientFunds" v="Insufficient funds! You need $%s cash." />
-        <e k="usedplus_serviceTruck_alreadyOwned" v="You already own a Service Truck." />
+        <e k="usedplus_serviceTruck_discoveryTitle" v="SPECIAL OPPORTUNITY" eh="5859f1ad" />
+        <e k="usedplus_serviceTruck_discoverySubtitle" v="Your National Agent Has a Connection" eh="c0c9fe88" />
+        <e k="usedplus_serviceTruck_mechanicQuote" v="&quot;I know a mechanic retiring from the repair business. He's got a fully-equipped service truck he's looking to sell. Cash only, but I can get you a good deal. Interested?&quot;" eh="219139f8" />
+        <e k="usedplus_serviceTruck_vehicleName" v="GMC C7000 Service Truck" eh="7f78c3d1" />
+        <e k="usedplus_serviceTruck_feature1" v="Long-term vehicle restoration" eh="0fa4b175" />
+        <e k="usedplus_serviceTruck_feature2" v="Reliability ceiling repair" eh="dee9f0ff" />
+        <e k="usedplus_serviceTruck_feature3" v="The only way to save lemons" eh="e025ba61" />
+        <e k="usedplus_serviceTruck_originalPrice" v="Regular Price: $75,000" eh="70fcf983" />
+        <e k="usedplus_serviceTruck_yourPrice" v="YOUR PRICE" eh="6dd8d761" />
+        <e k="usedplus_serviceTruck_cashOnly" v="CASH ONLY" eh="087d1524" />
+        <e k="usedplus_serviceTruck_expiryNote" v="Offer expires in %d days" eh="9d7bc900" />
+        <e k="usedplus_serviceTruck_buyNow" v="Buy Now" eh="c1f52fba" />
+        <e k="usedplus_serviceTruck_notNow" v="Not Now" eh="8dff1db0" />
+        <e k="usedplus_serviceTruck_purchaseSuccess" v="Service Truck purchased! Find it at the shop spawn point." eh="16cacb8d" />
+        <e k="usedplus_serviceTruck_opportunitySaved" v="Opportunity saved. Check Finance Manager to purchase later." eh="410b1a26" />
+        <e k="usedplus_serviceTruck_opportunityExpired" v="Service Truck opportunity has expired." eh="a5d3a5fb" />
+        <e k="usedplus_serviceTruck_insufficientFunds" v="Insufficient funds! You need $%s cash." eh="9b84e434" />
+        <e k="usedplus_serviceTruck_alreadyOwned" v="You already own a Service Truck." eh="8d7c53f6" />
 
         <!-- v2.9.0: Spare Parts Pallet -->
-        <e k="usedplus_sparePartsPallet_name" v="Spare Parts Pallet" />
-        <e k="usedplus_sparePartsPallet_function" v="Consumable spare parts for Service Truck restoration. Place near the truck during restoration work." />
-        <e k="fillType_spareParts" v="Spare Parts" />
-        <e k="unit_pcs" v="pcs" />
+        <e k="usedplus_sparePartsPallet_name" v="Spare Parts Pallet" eh="9bf39a93" />
+        <e k="usedplus_sparePartsPallet_function" v="Consumable spare parts for Service Truck restoration. Place near the truck during restoration work." eh="c90aa3eb" />
+        <e k="fillType_spareParts" v="Spare Parts" eh="ab6b8ce1" />
+        <e k="unit_pcs" v="pcs" eh="3ecf2642" />
 
         <!-- v2.9.0: Restoration Diagnostic Symptoms - Engine -->
-        <e k="usedplus_resto_symptom_engine_knocking_load" v="Severe knocking under load" />
-        <e k="usedplus_resto_symptom_engine_low_oil_pressure" v="Oil pressure critically low" />
-        <e k="usedplus_resto_symptom_engine_excessive_vibration" v="Excessive vibration at all speeds" />
-        <e k="usedplus_resto_symptom_engine_blue_smoke" v="Heavy blue smoke from exhaust" />
-        <e k="usedplus_resto_symptom_engine_oil_consumption" v="Consuming 2L oil per hour" />
-        <e k="usedplus_resto_symptom_engine_compression_loss" v="Compression test: 40% below spec" />
-        <e k="usedplus_resto_symptom_engine_blowby" v="Excessive crankcase blowby" />
-        <e k="usedplus_resto_symptom_engine_power_loss" v="Power output 50% of rated" />
-        <e k="usedplus_resto_symptom_engine_crankcase_pressure" v="Crankcase pressure elevated" />
-        <e k="usedplus_resto_symptom_engine_ticking" v="Rhythmic ticking from valve train" />
-        <e k="usedplus_resto_symptom_engine_rough_idle" v="Extreme rough idle" />
-        <e k="usedplus_resto_symptom_engine_valve_noise" v="Valve train noise increasing" />
+        <e k="usedplus_resto_symptom_engine_knocking_load" v="Severe knocking under load" eh="fb8c3067" />
+        <e k="usedplus_resto_symptom_engine_low_oil_pressure" v="Oil pressure critically low" eh="a3efa42d" />
+        <e k="usedplus_resto_symptom_engine_excessive_vibration" v="Excessive vibration at all speeds" eh="b99e166e" />
+        <e k="usedplus_resto_symptom_engine_blue_smoke" v="Heavy blue smoke from exhaust" eh="7565a2d6" />
+        <e k="usedplus_resto_symptom_engine_oil_consumption" v="Consuming 2L oil per hour" eh="dec5fc5f" />
+        <e k="usedplus_resto_symptom_engine_compression_loss" v="Compression test: 40% below spec" eh="5ebe46dc" />
+        <e k="usedplus_resto_symptom_engine_blowby" v="Excessive crankcase blowby" eh="a7ba64cb" />
+        <e k="usedplus_resto_symptom_engine_power_loss" v="Power output 50% of rated" eh="f3aaa976" />
+        <e k="usedplus_resto_symptom_engine_crankcase_pressure" v="Crankcase pressure elevated" eh="c5f32b50" />
+        <e k="usedplus_resto_symptom_engine_ticking" v="Rhythmic ticking from valve train" eh="c52cdfd8" />
+        <e k="usedplus_resto_symptom_engine_rough_idle" v="Extreme rough idle" eh="479de259" />
+        <e k="usedplus_resto_symptom_engine_valve_noise" v="Valve train noise increasing" eh="ce1f139d" />
 
         <!-- v2.9.0: Restoration Diagnoses - Engine -->
-        <e k="usedplus_resto_diag_cylinder_wear" v="Cylinder wall wear" />
-        <e k="usedplus_resto_diag_main_bearings" v="Main bearings worn" />
-        <e k="usedplus_resto_diag_piston_rings" v="Piston rings failed" />
-        <e k="usedplus_resto_diag_camshaft_wear" v="Camshaft/lifter wear" />
+        <e k="usedplus_resto_diag_cylinder_wear" v="Cylinder wall wear" eh="2e9abecf" />
+        <e k="usedplus_resto_diag_main_bearings" v="Main bearings worn" eh="10706469" />
+        <e k="usedplus_resto_diag_piston_rings" v="Piston rings failed" eh="93ad31e3" />
+        <e k="usedplus_resto_diag_camshaft_wear" v="Camshaft/lifter wear" eh="ec3a7cd5" />
 
         <!-- v2.9.0: Restoration Diagnostic Symptoms - Electrical -->
-        <e k="usedplus_resto_symptom_elec_intermittent_systems" v="Multiple systems failing intermittently" />
-        <e k="usedplus_resto_symptom_elec_corrosion_visible" v="Visible corrosion on connectors" />
-        <e k="usedplus_resto_symptom_elec_multiple_faults" v="Stored fault codes across all modules" />
-        <e k="usedplus_resto_symptom_elec_erratic_behavior" v="Erratic system behavior" />
-        <e k="usedplus_resto_symptom_elec_no_communication" v="No CAN bus communication" />
-        <e k="usedplus_resto_symptom_elec_stored_codes" v="Hundreds of stored fault codes" />
-        <e k="usedplus_resto_symptom_elec_wrong_readings" v="Sensors giving impossible readings" />
-        <e k="usedplus_resto_symptom_elec_limp_mode" v="Constant limp mode activation" />
-        <e k="usedplus_resto_symptom_elec_poor_response" v="Sluggish throttle/control response" />
-        <e k="usedplus_resto_symptom_elec_voltage_drops" v="Severe voltage drops under load" />
-        <e k="usedplus_resto_symptom_elec_dim_lights" v="Lights dim significantly at idle" />
-        <e k="usedplus_resto_symptom_elec_starter_slow" v="Starter motor barely cranks" />
+        <e k="usedplus_resto_symptom_elec_intermittent_systems" v="Multiple systems failing intermittently" eh="023ad81b" />
+        <e k="usedplus_resto_symptom_elec_corrosion_visible" v="Visible corrosion on connectors" eh="5c9a9a3c" />
+        <e k="usedplus_resto_symptom_elec_multiple_faults" v="Stored fault codes across all modules" eh="d4ade2b6" />
+        <e k="usedplus_resto_symptom_elec_erratic_behavior" v="Erratic system behavior" eh="b69e9c62" />
+        <e k="usedplus_resto_symptom_elec_no_communication" v="No CAN bus communication" eh="d003610c" />
+        <e k="usedplus_resto_symptom_elec_stored_codes" v="Hundreds of stored fault codes" eh="40791f46" />
+        <e k="usedplus_resto_symptom_elec_wrong_readings" v="Sensors giving impossible readings" eh="cb94f53b" />
+        <e k="usedplus_resto_symptom_elec_limp_mode" v="Constant limp mode activation" eh="f2301c42" />
+        <e k="usedplus_resto_symptom_elec_poor_response" v="Sluggish throttle/control response" eh="66546509" />
+        <e k="usedplus_resto_symptom_elec_voltage_drops" v="Severe voltage drops under load" eh="01228a80" />
+        <e k="usedplus_resto_symptom_elec_dim_lights" v="Lights dim significantly at idle" eh="37cdb057" />
+        <e k="usedplus_resto_symptom_elec_starter_slow" v="Starter motor barely cranks" eh="886fcc59" />
 
         <!-- v2.9.0: Restoration Diagnoses - Electrical -->
-        <e k="usedplus_resto_diag_harness_degradation" v="Wiring harness degradation" />
-        <e k="usedplus_resto_diag_ecu_failure" v="ECU/controller failure" />
-        <e k="usedplus_resto_diag_sensor_array" v="Sensor array degradation" />
-        <e k="usedplus_resto_diag_ground_points" v="Ground point corrosion" />
+        <e k="usedplus_resto_diag_harness_degradation" v="Wiring harness degradation" eh="1ac0bee9" />
+        <e k="usedplus_resto_diag_ecu_failure" v="ECU/controller failure" eh="c58a3f02" />
+        <e k="usedplus_resto_diag_sensor_array" v="Sensor array degradation" eh="dbf631b9" />
+        <e k="usedplus_resto_diag_ground_points" v="Ground point corrosion" eh="76c3875c" />
 
         <!-- v2.9.0: Restoration Diagnostic Symptoms - Hydraulic -->
-        <e k="usedplus_resto_symptom_hyd_slow_operation" v="Extremely slow hydraulic operation" />
-        <e k="usedplus_resto_symptom_hyd_cavitation_noise" v="Pump cavitation noise" />
-        <e k="usedplus_resto_symptom_hyd_low_pressure" v="System pressure 60% below spec" />
-        <e k="usedplus_resto_symptom_hyd_drift" v="Implements drifting under load" />
-        <e k="usedplus_resto_symptom_hyd_uneven_response" v="Uneven response between circuits" />
-        <e k="usedplus_resto_symptom_hyd_internal_leak" v="Internal leak detected - pressure won't hold" />
-        <e k="usedplus_resto_symptom_hyd_external_leak" v="External fluid leak visible" />
-        <e k="usedplus_resto_symptom_hyd_rod_scoring" v="Cylinder rod scoring visible" />
-        <e k="usedplus_resto_symptom_hyd_position_creep" v="Position creep under static load" />
-        <e k="usedplus_resto_symptom_hyd_visible_cracks" v="Visible cracks in hose covers" />
-        <e k="usedplus_resto_symptom_hyd_bulging" v="Hose bulging under pressure" />
-        <e k="usedplus_resto_symptom_hyd_seepage" v="Fluid seepage at fittings" />
+        <e k="usedplus_resto_symptom_hyd_slow_operation" v="Extremely slow hydraulic operation" eh="1491284f" />
+        <e k="usedplus_resto_symptom_hyd_cavitation_noise" v="Pump cavitation noise" eh="78a4d860" />
+        <e k="usedplus_resto_symptom_hyd_low_pressure" v="System pressure 60% below spec" eh="4fb95c5c" />
+        <e k="usedplus_resto_symptom_hyd_drift" v="Implements drifting under load" eh="161be612" />
+        <e k="usedplus_resto_symptom_hyd_uneven_response" v="Uneven response between circuits" eh="ed5383af" />
+        <e k="usedplus_resto_symptom_hyd_internal_leak" v="Internal leak detected - pressure won't hold" eh="24df5973" />
+        <e k="usedplus_resto_symptom_hyd_external_leak" v="External fluid leak visible" eh="83e3f803" />
+        <e k="usedplus_resto_symptom_hyd_rod_scoring" v="Cylinder rod scoring visible" eh="afc6f369" />
+        <e k="usedplus_resto_symptom_hyd_position_creep" v="Position creep under static load" eh="e0a2a78c" />
+        <e k="usedplus_resto_symptom_hyd_visible_cracks" v="Visible cracks in hose covers" eh="4a3b0a3e" />
+        <e k="usedplus_resto_symptom_hyd_bulging" v="Hose bulging under pressure" eh="45b25f17" />
+        <e k="usedplus_resto_symptom_hyd_seepage" v="Fluid seepage at fittings" eh="5a712984" />
 
         <!-- v2.9.0: Restoration Diagnoses - Hydraulic -->
-        <e k="usedplus_resto_diag_pump_wear" v="Hydraulic pump worn" />
-        <e k="usedplus_resto_diag_valve_wear" v="Control valve wear" />
-        <e k="usedplus_resto_diag_cylinder_seals" v="Cylinder seal failure" />
-        <e k="usedplus_resto_diag_hose_degradation" v="Hose degradation" />
+        <e k="usedplus_resto_diag_pump_wear" v="Hydraulic pump worn" eh="52b93aef" />
+        <e k="usedplus_resto_diag_valve_wear" v="Control valve wear" eh="a8b29f50" />
+        <e k="usedplus_resto_diag_cylinder_seals" v="Cylinder seal failure" eh="b1160c88" />
+        <e k="usedplus_resto_diag_hose_degradation" v="Hose degradation" eh="a8e8141c" />
 
         <!-- v2.9.0: Restoration Hints -->
-        <e k="usedplus_resto_hint_engine_compression" v="Compression test: Multiple cylinders low" />
-        <e k="usedplus_resto_hint_engine_oil_analysis" v="Oil analysis: High metal content" />
-        <e k="usedplus_resto_hint_engine_vibration" v="Vibration analysis: Bearing frequency" />
-        <e k="usedplus_resto_hint_engine_blowby" v="Blowby measurement: 3x normal" />
-        <e k="usedplus_resto_hint_engine_wear_metals" v="Wear metals in oil: Critical levels" />
-        <e k="usedplus_resto_hint_elec_resistance" v="Harness resistance: Out of spec" />
-        <e k="usedplus_resto_hint_elec_insulation" v="Insulation test: Breakdown detected" />
-        <e k="usedplus_resto_hint_elec_continuity" v="Continuity: Multiple open circuits" />
-        <e k="usedplus_resto_hint_elec_voltage_drop" v="Voltage drop test: Excessive" />
-        <e k="usedplus_resto_hint_elec_current_draw" v="Parasitic draw: 10x normal" />
-        <e k="usedplus_resto_hint_hyd_pressure_test" v="Pressure test: Flow but no pressure" />
-        <e k="usedplus_resto_hint_hyd_flow_rate" v="Flow rate: 40% of rated capacity" />
-        <e k="usedplus_resto_hint_hyd_fluid_analysis" v="Fluid analysis: Contaminated" />
-        <e k="usedplus_resto_hint_hyd_temp_rise" v="Temperature rise: Abnormally fast" />
-        <e k="usedplus_resto_hint_hyd_case_drain" v="Case drain flow: Elevated" />
+        <e k="usedplus_resto_hint_engine_compression" v="Compression test: Multiple cylinders low" eh="3a3b3c44" />
+        <e k="usedplus_resto_hint_engine_oil_analysis" v="Oil analysis: High metal content" eh="bd8248e0" />
+        <e k="usedplus_resto_hint_engine_vibration" v="Vibration analysis: Bearing frequency" eh="effbd7bc" />
+        <e k="usedplus_resto_hint_engine_blowby" v="Blowby measurement: 3x normal" eh="623f710e" />
+        <e k="usedplus_resto_hint_engine_wear_metals" v="Wear metals in oil: Critical levels" eh="f3246cb4" />
+        <e k="usedplus_resto_hint_elec_resistance" v="Harness resistance: Out of spec" eh="b9abd1d2" />
+        <e k="usedplus_resto_hint_elec_insulation" v="Insulation test: Breakdown detected" eh="1d71c2a6" />
+        <e k="usedplus_resto_hint_elec_continuity" v="Continuity: Multiple open circuits" eh="e0f6fd0b" />
+        <e k="usedplus_resto_hint_elec_voltage_drop" v="Voltage drop test: Excessive" eh="d25b077c" />
+        <e k="usedplus_resto_hint_elec_current_draw" v="Parasitic draw: 10x normal" eh="59444b85" />
+        <e k="usedplus_resto_hint_hyd_pressure_test" v="Pressure test: Flow but no pressure" eh="bd006d67" />
+        <e k="usedplus_resto_hint_hyd_flow_rate" v="Flow rate: 40% of rated capacity" eh="b90ab77b" />
+        <e k="usedplus_resto_hint_hyd_fluid_analysis" v="Fluid analysis: Contaminated" eh="dfe20002" />
+        <e k="usedplus_resto_hint_hyd_temp_rise" v="Temperature rise: Abnormally fast" eh="533cbcf4" />
+        <e k="usedplus_resto_hint_hyd_case_drain" v="Case drain flow: Elevated" eh="a22095fe" />
 
         <!-- v2.9.0: Restoration Outcome Messages -->
-        <e k="usedplus_resto_inspection_success" v="Correct diagnosis! Restoration can begin." />
-        <e k="usedplus_resto_inspection_failed" v="Incorrect diagnosis. 48-hour cooldown applied." />
-        <e k="usedplus_resto_desc_bearings" v="Main bearing replacement and crankshaft inspection" />
-        <e k="usedplus_resto_desc_cylinder" v="Cylinder rebore and piston replacement" />
-        <e k="usedplus_resto_desc_rings" v="Piston ring replacement and cylinder honing" />
-        <e k="usedplus_resto_desc_camshaft" v="Camshaft and lifter replacement" />
-        <e k="usedplus_resto_desc_harness" v="Complete wiring harness replacement" />
-        <e k="usedplus_resto_desc_ecu" v="ECU replacement and reprogramming" />
-        <e k="usedplus_resto_desc_sensors" v="Full sensor array replacement" />
-        <e k="usedplus_resto_desc_grounds" v="Ground point restoration and cleaning" />
-        <e k="usedplus_resto_desc_pump" v="Hydraulic pump rebuild or replacement" />
-        <e k="usedplus_resto_desc_valves" v="Control valve overhaul" />
-        <e k="usedplus_resto_desc_cylinders" v="Cylinder reseal and rod refinishing" />
-        <e k="usedplus_resto_desc_hoses" v="Complete hose replacement" />
+        <e k="usedplus_resto_inspection_success" v="Correct diagnosis! Restoration can begin." eh="97b6cad5" />
+        <e k="usedplus_resto_inspection_failed" v="Incorrect diagnosis. 48-hour cooldown applied." eh="810bd06d" />
+        <e k="usedplus_resto_desc_bearings" v="Main bearing replacement and crankshaft inspection" eh="82cd6ee4" />
+        <e k="usedplus_resto_desc_cylinder" v="Cylinder rebore and piston replacement" eh="f59dd2d9" />
+        <e k="usedplus_resto_desc_rings" v="Piston ring replacement and cylinder honing" eh="215c10a5" />
+        <e k="usedplus_resto_desc_camshaft" v="Camshaft and lifter replacement" eh="d7ac0f03" />
+        <e k="usedplus_resto_desc_harness" v="Complete wiring harness replacement" eh="90710fd7" />
+        <e k="usedplus_resto_desc_ecu" v="ECU replacement and reprogramming" eh="8b0b987d" />
+        <e k="usedplus_resto_desc_sensors" v="Full sensor array replacement" eh="d7757def" />
+        <e k="usedplus_resto_desc_grounds" v="Ground point restoration and cleaning" eh="8d73bf8b" />
+        <e k="usedplus_resto_desc_pump" v="Hydraulic pump rebuild or replacement" eh="661156e5" />
+        <e k="usedplus_resto_desc_valves" v="Control valve overhaul" eh="5e2cc6b4" />
+        <e k="usedplus_resto_desc_cylinders" v="Cylinder reseal and rod refinishing" eh="d0aab178" />
+        <e k="usedplus_resto_desc_hoses" v="Complete hose replacement" eh="b9531198" />
 
         <!-- v1.9.9: Settings System -->
         <e k="usedplus_settings_header" v="UsedPlus Settings" eh="3ac65cdc" />
@@ -2360,6 +2361,127 @@
         <e k="usedplus_mp_error_purchase_failed" v="Purchase failed. Please try again." eh="42d7ddab" />
         <e k="usedplus_mp_error_vehicle_not_found" v="Vehicle not found." eh="02c84e79" />
         <e k="usedplus_mp_error_no_loan" v="No loan balance to pay." eh="5668e12f" />
+
+        <!-- ============================================== -->
+        <!-- v2.9.5: ADMIN CONTROL PANEL                   -->
+        <!-- ============================================== -->
+
+        <!-- Dialog Title -->
+        <e k="usedplus_admin_title" v="UsedPlus Admin Panel" eh="f1ae106e" />
+
+        <!-- Tab Names -->
+        <e k="usedplus_admin_tab_malfunctions" v="Malfunctions" eh="97801e8a" />
+        <e k="usedplus_admin_tab_spawning" v="Spawning" eh="abd8b510" />
+        <e k="usedplus_admin_tab_finance" v="Finance" eh="c482980d" />
+        <e k="usedplus_admin_tab_dialogs" v="Dialogs" eh="258853ae" />
+        <e k="usedplus_admin_tab_state" v="State" eh="46a2a41c" />
+
+        <!-- Section Headers - Tab 1 (Malfunctions) -->
+        <e k="usedplus_admin_section_engine" v="ENGINE" eh="1942d6cf" />
+        <e k="usedplus_admin_section_electrical" v="ELECTRICAL" eh="9f317629" />
+        <e k="usedplus_admin_section_hydraulic" v="HYDRAULIC" eh="3e0b9977" />
+        <e k="usedplus_admin_section_tires" v="TIRES" eh="36173e29" />
+        <e k="usedplus_admin_section_utility" v="UTILITY" eh="1697ce5d" />
+
+        <!-- Section Headers - Tab 2 (Spawning) -->
+        <e k="usedplus_admin_section_items" v="ITEMS" eh="9a932d55" />
+        <e k="usedplus_admin_section_discovery" v="DISCOVERY" eh="f5be5d66" />
+        <e k="usedplus_admin_section_test_vehicles" v="TEST VEHICLES" eh="682cb0f3" />
+        <e k="usedplus_admin_section_condition" v="CONDITION PAINTER" eh="2593ea9b" />
+
+        <!-- Section Headers - Tab 3 (Finance) -->
+        <e k="usedplus_admin_section_money" v="MONEY" eh="2bc794c2" />
+        <e k="usedplus_admin_section_credit" v="CREDIT SCORE" eh="4f3b169e" />
+        <e k="usedplus_admin_section_deals" v="DEALS" eh="bdcaa389" />
+
+        <!-- Section Headers - Tab 4 (Dialogs) -->
+        <e k="usedplus_admin_section_finance_dialogs" v="FINANCE DIALOGS" eh="babbf134" />
+        <e k="usedplus_admin_section_market_dialogs" v="MARKETPLACE DIALOGS" eh="4c8988f5" />
+        <e k="usedplus_admin_section_service_dialogs" v="SERVICE DIALOGS" eh="e407aa85" />
+        <e k="usedplus_admin_section_lease_dialogs" v="LEASE DIALOGS" eh="479e552e" />
+
+        <!-- Section Headers - Tab 5 (State) -->
+        <e k="usedplus_admin_section_debug" v="DEBUG MODE" eh="c7ee79cd" />
+        <e k="usedplus_admin_section_vehicle_state" v="VEHICLE STATE" eh="c077f4be" />
+        <e k="usedplus_admin_section_dna" v="SELLER DNA (Next Search)" eh="0e284459" />
+        <e k="usedplus_admin_section_quick_vehicle" v="QUICK VEHICLE SWAP" eh="01242f7d" />
+
+        <!-- Buttons - Tab 1 (Malfunctions) -->
+        <e k="usedplus_admin_btn_stall" v="Stall" eh="a0f50ad4" />
+        <e k="usedplus_admin_btn_misfire" v="Misfire" eh="9b9bd091" />
+        <e k="usedplus_admin_btn_overheat" v="Overheat" eh="5d266c94" />
+        <e k="usedplus_admin_btn_runaway" v="Runaway" eh="dbdba743" />
+        <e k="usedplus_admin_btn_seizure" v="Seizure" eh="82d09d65" />
+        <e k="usedplus_admin_btn_cutout" v="Cutout" eh="330be5af" />
+        <e k="usedplus_admin_btn_surge_l" v="Surge (L)" eh="14a7255f" />
+        <e k="usedplus_admin_btn_surge_r" v="Surge (R)" eh="f9261697" />
+        <e k="usedplus_admin_btn_flat_l" v="Flat (L)" eh="427238a9" />
+        <e k="usedplus_admin_btn_flat_r" v="Flat (R)" eh="5a2301a8" />
+        <e k="usedplus_admin_btn_reset_cooldown" v="Reset CD" eh="d2165eba" />
+        <e k="usedplus_admin_btn_malf_info" v="Malf Info" eh="92badb26" />
+        <e k="usedplus_admin_btn_fix_all" v="Fix All" eh="1c7feed4" />
+
+        <!-- Buttons - Tab 2 (Spawning) -->
+        <e k="usedplus_admin_btn_spawn_obd" v="OBD Scanner" eh="96023669" />
+        <e k="usedplus_admin_btn_spawn_truck" v="Svc Truck" eh="083ff302" />
+        <e k="usedplus_admin_btn_spawn_parts" v="Parts Pallet" eh="ca04c55a" />
+        <e k="usedplus_admin_btn_trigger_discovery" v="Trigger Disc" eh="adaba831" />
+        <e k="usedplus_admin_btn_reset_discovery" v="Reset Disc" eh="f78bfb71" />
+        <e k="usedplus_admin_btn_discovery_status" v="Disc Status" eh="bce3ddd2" />
+        <e k="usedplus_admin_btn_spawn_lemon" v="Spawn Lemon" eh="13d3e048" />
+        <e k="usedplus_admin_btn_spawn_workhorse" v="Workhorse" eh="50cf5190" />
+        <e k="usedplus_admin_btn_spawn_damaged" v="Damaged" eh="f7bd791a" />
+        <e k="usedplus_admin_btn_paint_pristine" v="Pristine" eh="96af3470" />
+        <e k="usedplus_admin_btn_paint_worn" v="Worn" eh="36cc503e" />
+        <e k="usedplus_admin_btn_paint_beaten" v="Beaten" eh="866731dc" />
+        <e k="usedplus_admin_btn_paint_destroyed" v="Destroyed" eh="aefbd059" />
+
+        <!-- Buttons - Tab 3 (Finance) -->
+        <e k="usedplus_admin_btn_add_10k" v="+$10,000" eh="3ca6f66c" />
+        <e k="usedplus_admin_btn_add_100k" v="+$100,000" eh="860860a5" />
+        <e k="usedplus_admin_btn_add_1m" v="+$1,000,000" eh="8946b435" />
+        <e k="usedplus_admin_btn_set_zero" v="Set $0" eh="ca8864ed" />
+        <e k="usedplus_admin_btn_list_deals" v="List Deals" eh="936e496b" />
+        <e k="usedplus_admin_btn_payoff_all" v="Pay Off All" eh="3817edc8" />
+        <e k="usedplus_admin_btn_create_loan" v="Test Loan" eh="06cb7221" />
+        <e k="usedplus_admin_btn_create_lease" v="Test Lease" eh="d653ef32" />
+        <e k="usedplus_admin_btn_missed_payment" v="Miss Payment" eh="4890557c" />
+
+        <!-- Buttons - Tab 4 (Dialogs) -->
+        <e k="usedplus_admin_btn_dlg_loan" v="Take Loan" eh="40fe67fa" />
+        <e k="usedplus_admin_btn_dlg_approved" v="Approved" eh="6f806341" />
+        <e k="usedplus_admin_btn_dlg_credit" v="Credit" eh="0a90b1bc" />
+        <e k="usedplus_admin_btn_dlg_history" v="History" eh="16d2b386" />
+        <e k="usedplus_admin_btn_dlg_repo" v="Repo" eh="0f74adf1" />
+        <e k="usedplus_admin_btn_dlg_search" v="Search" eh="13348442" />
+        <e k="usedplus_admin_btn_dlg_purchase" v="Purchase" eh="76b6a47a" />
+        <e k="usedplus_admin_btn_dlg_negotiate" v="Negotiate" eh="e481ddec" />
+        <e k="usedplus_admin_btn_dlg_seller" v="Seller Resp" eh="8ff31b45" />
+        <e k="usedplus_admin_btn_dlg_obd" v="OBD" eh="9971dd97" />
+        <e k="usedplus_admin_btn_dlg_service" v="Svc Truck" eh="083ff302" />
+        <e k="usedplus_admin_btn_dlg_inspect" v="Inspect" eh="35a9dbe6" />
+        <e k="usedplus_admin_btn_dlg_lease_end" v="Lease End" eh="da7801f1" />
+        <e k="usedplus_admin_btn_dlg_lease_renew" v="Lease Renew" eh="7a794930" />
+
+        <!-- Buttons - Tab 5 (State) -->
+        <e k="usedplus_admin_btn_toggle_debug" v="Toggle Debug" eh="e69cb6a0" />
+        <e k="usedplus_admin_btn_rel_100" v="Rel: 100%" eh="dfdb79d3" />
+        <e k="usedplus_admin_btn_rel_50" v="Rel: 50%" eh="9ce7a0a2" />
+        <e k="usedplus_admin_btn_rel_10" v="Rel: 10%" eh="54d6e770" />
+        <e k="usedplus_admin_btn_reset_hours" v="Reset Hours" eh="a519e5e1" />
+        <e k="usedplus_admin_btn_add_hours" v="+1000 Hours" eh="ef05132d" />
+        <e k="usedplus_admin_btn_dna_desperate" v="Desperate" eh="97df4642" />
+        <e k="usedplus_admin_btn_dna_reasonable" v="Reasonable" eh="e485c034" />
+        <e k="usedplus_admin_btn_dna_immovable" v="Immovable" eh="57d0e57c" />
+        <e k="usedplus_admin_btn_next_vehicle" v="Next Vehicle" eh="e95e97fa" />
+        <e k="usedplus_admin_btn_prev_vehicle" v="Prev Vehicle" eh="69b3a0d0" />
+
+        <!-- Info Labels -->
+        <e k="usedplus_admin_current_balance" v="Current Balance:" eh="473e7f9e" />
+        <e k="usedplus_admin_current_credit" v="Credit Score:" eh="0199e1a3" />
+
+        <!-- Status Messages -->
+        <e k="usedplus_admin_status_ready" v="Ready. Select an action." eh="1ef35a42" />
 
     </elements>
 </l10n>

@@ -47,9 +47,46 @@ end
 
 --[[
      Called when dialog is created (required by GUI system)
+     v2.9.5: Sets up section header icons
 ]]
 function UsedSearchDialog:onCreate()
     UsedSearchDialog:superClass().onCreate(self)
+
+    -- Store icon directory
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
+    -- v2.9.5: Setup icons
+    self:setupSectionIcons()
+end
+
+--[[
+    v2.9.5: Setup section header icons
+    Icons are set via Lua because XML paths don't work from ZIP mods
+]]
+function UsedSearchDialog:setupSectionIcons()
+    if self.iconDir == nil then
+        return
+    end
+
+    -- Header icon - search
+    if self.headerIcon ~= nil then
+        self.headerIcon:setImageFilename(self.iconDir .. "search.png")
+    end
+
+    -- Vehicle section - vehicle icon
+    if self.vehicleSectionIcon ~= nil then
+        self.vehicleSectionIcon:setImageFilename(self.iconDir .. "vehicle.png")
+    end
+
+    -- Tier section - agent icon
+    if self.tierSectionIcon ~= nil then
+        self.tierSectionIcon:setImageFilename(self.iconDir .. "agent.png")
+    end
+
+    -- Quality section - quality star icon
+    if self.qualitySectionIcon ~= nil then
+        self.qualitySectionIcon:setImageFilename(self.iconDir .. "quality_star.png")
+    end
 end
 
 --[[

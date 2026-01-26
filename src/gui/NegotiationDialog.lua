@@ -49,6 +49,9 @@ function NegotiationDialog.new(target, customMt)
     self.offerAmount = 0
     self.askingPrice = 0
 
+    -- v2.9.5: Icon directory for dynamic icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
     return self
 end
 
@@ -85,6 +88,9 @@ end
 function NegotiationDialog:onOpen()
     NegotiationDialog:superClass().onOpen(self)
 
+    -- v2.9.5: Setup section icons
+    self:setupSectionIcons()
+
     UsedPlus.logDebug(string.format("NegotiationDialog:onOpen - self.listing=%s, self.askingPrice=%s",
         tostring(self.listing ~= nil), tostring(self.askingPrice)))
 
@@ -92,6 +98,35 @@ function NegotiationDialog:onOpen()
         self:updateDisplay()
     else
         UsedPlus.logWarn("NegotiationDialog:onOpen - self.listing is nil! Dialog data not set properly.")
+    end
+end
+
+--[[
+    v2.9.5: Setup section icons
+]]
+function NegotiationDialog:setupSectionIcons()
+    -- Vehicle section icon
+    local vehicleSectionIcon = self.dialogElement:getDescendantById("vehicleSectionIcon")
+    if vehicleSectionIcon ~= nil then
+        vehicleSectionIcon:setImageFilename(self.iconDir .. "vehicle.png")
+    end
+
+    -- Whisper section icon (lightbulb)
+    local whisperSectionIcon = self.dialogElement:getDescendantById("whisperSectionIcon")
+    if whisperSectionIcon ~= nil then
+        whisperSectionIcon:setImageFilename(self.iconDir .. "lightbulb.png")
+    end
+
+    -- Whisper inline icon (also lightbulb for the quote area)
+    local whisperIcon = self.dialogElement:getDescendantById("whisperIcon")
+    if whisperIcon ~= nil then
+        whisperIcon:setImageFilename(self.iconDir .. "lightbulb.png")
+    end
+
+    -- Offer section icon
+    local offerSectionIcon = self.dialogElement:getDescendantById("offerSectionIcon")
+    if offerSectionIcon ~= nil then
+        offerSectionIcon:setImageFilename(self.iconDir .. "offer.png")
     end
 end
 
@@ -751,4 +786,4 @@ function NegotiationDialog:close()
     g_gui:closeDialog(self)
 end
 
-UsedPlus.logInfo("NegotiationDialog loaded (v2.6.0)")
+UsedPlus.logInfo("NegotiationDialog loaded (v2.9.5)")

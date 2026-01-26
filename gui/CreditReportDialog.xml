@@ -41,7 +41,9 @@
             <!-- Position: -200px centers a 380px element in left half of 800px container -->
             <GuiElement profile="crScoreSection" position="-200px -95px">
                 <Bitmap profile="crScoreSectionBg" position="0px 0px"/>
-                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionScore"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="crSectionIcon" id="scoreHeaderIcon" position="-150px -3px"/>
+                <Text profile="crSectionHeaderWithIcon" position="15px -5px" text="$l10n_usedplus_cr_sectionScore"/>
 
                 <!-- Large Score Display -->
                 <Text profile="crScoreLarge" id="scoreValueText" position="0px -35px" text=""/>
@@ -55,14 +57,18 @@
             <GuiElement profile="crTrendSection" position="-200px -258px">
                 <Bitmap profile="crTrendSectionBg" position="0px 0px"/>
                 <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionTrend"/>
-                <Text profile="crTrendValue" id="scoreTrendText" position="0px -30px" text="$l10n_usedplus_cr_noHistory"/>
+                <!-- v2.9.5: Icon-based trend indicator (replaces Unicode arrows) -->
+                <Bitmap profile="crTrendIcon" id="trendIcon" position="-140px -28px"/>
+                <Text profile="crTrendValue" id="scoreTrendText" position="20px -30px" text="$l10n_usedplus_cr_noHistory"/>
             </GuiElement>
 
             <!-- FACTORS AFFECTING SCORE SECTION -->
             <!-- After Trend (55px) + 8px gap = -258 - 55 - 8 = -321 -->
             <GuiElement profile="crFactorsSection" position="-200px -321px">
                 <Bitmap profile="crFactorsSectionBg" position="0px 0px"/>
-                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionFactors"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="crSectionIcon" id="factorsHeaderIcon" position="-150px -3px"/>
+                <Text profile="crSectionHeaderWithIcon" position="15px -5px" text="$l10n_usedplus_cr_sectionFactors"/>
 
                 <!-- Factor rows: Label on left (-80px), Value on right (+80px) -->
                 <!-- Centered within 380px section bounds (-190px to +190px) -->
@@ -86,7 +92,9 @@
             <!-- After Factors (140px) + 8px gap = -321 - 140 - 8 = -469 -->
             <GuiElement profile="crTipsSection" position="-200px -469px">
                 <Bitmap profile="crTipsSectionBgLeft" position="0px 0px"/>
-                <Text profile="crTipsSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionTips"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="crSectionIcon" id="tipsHeaderIcon" position="-150px -3px"/>
+                <Text profile="crTipsSectionHeaderWithIcon" position="15px -5px" text="$l10n_usedplus_cr_sectionTips"/>
 
                 <Text profile="crTipTextLeft" id="tipText1" position="0px -28px" text="$l10n_usedplus_cr_tip1"/>
                 <Text profile="crTipTextLeft" id="tipText2" position="0px -46px" text="$l10n_usedplus_cr_tip2"/>
@@ -100,7 +108,9 @@
             <!-- Extended height to include Net Worth row -->
             <GuiElement profile="crAccountSection" position="190px -95px">
                 <Bitmap profile="crAccountSectionBgExtended" position="0px 0px"/>
-                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionAccount"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="crSectionIconRight" id="accountHeaderIcon" position="-155px -3px"/>
+                <Text profile="crSectionHeaderWithIcon" position="15px -5px" text="$l10n_usedplus_cr_sectionAccount"/>
 
                 <!-- Labels at -80px, Values at +80px - centered in 385px section -->
                 <Text profile="crLabel" position="-80px -32px" text="$l10n_usedplus_cr_openAccounts"/>
@@ -131,7 +141,9 @@
             <!-- After Active (90px) + 8px gap = -230 - 90 - 8 = -328 -->
             <GuiElement profile="crPaymentSection" position="190px -328px">
                 <Bitmap profile="crPaymentSectionBg" position="0px 0px"/>
-                <Text profile="crSectionHeader" position="0px -5px" text="$l10n_usedplus_cr_sectionPayment"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="crSectionIconRight" id="paymentHeaderIcon" position="-155px -3px"/>
+                <Text profile="crSectionHeaderWithIcon" position="15px -5px" text="$l10n_usedplus_cr_sectionPayment"/>
 
                 <!-- Labels at -80px, Values at +80px - centered in 385px section -->
                 <Text profile="crLabel" position="-80px -32px" text="$l10n_usedplus_cr_onTimePayments"/>
@@ -307,12 +319,41 @@
             <textAlignment value="center"/>
         </Profile>
 
+        <!-- v2.9.5: Section header with icon - text left-aligned to make room for icon -->
+        <Profile name="crSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="320px 22px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- v2.9.5: Section icon profiles (20px icons for headers) -->
+        <Profile name="crSectionIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <Profile name="crSectionIconRight" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
         <Profile name="crTipsSectionHeader" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="360px 22px"/>
             <textSize value="13px"/>
             <textBold value="true"/>
             <textColor value="0.5 1 0.6 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v2.9.5: Tips section header with icon -->
+        <Profile name="crTipsSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="320px 22px"/>
+            <textSize value="13px"/>
+            <textBold value="true"/>
+            <textColor value="0.5 1 0.6 1"/>
+            <textAlignment value="left"/>
         </Profile>
 
         <!-- ========== CREDIT SCORE HERO DISPLAY ========== -->
@@ -347,12 +388,18 @@
         </Profile>
 
         <!-- ========== SCORE TREND ========== -->
+        <!-- v2.9.5: Icon for trend direction (replaces Unicode arrows) -->
+        <Profile name="crTrendIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="24px 24px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
         <Profile name="crTrendValue" extends="fs25_textDefault" with="anchorTopCenter">
-            <size value="360px 20px"/>
+            <size value="280px 20px"/>
             <textSize value="14px"/>
             <textBold value="true"/>
             <textColor value="0.7 0.7 0.7 1"/>
-            <textAlignment value="center"/>
+            <textAlignment value="left"/>
         </Profile>
 
         <!-- ========== FACTOR LABELS & VALUES ========== -->

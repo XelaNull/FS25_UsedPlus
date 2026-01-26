@@ -4,6 +4,63 @@ All notable changes to this project are documented here.
 
 ---
 
+## [2.9.5] - 2026-01-26
+
+### Added - Admin Control Panel
+
+**New Feature: upAdminCP Console Command**
+- Comprehensive in-game admin/testing panel accessible via `upAdminCP` console command
+- Requires admin privileges and must be in a vehicle to open
+- 5 organized tabs with 60+ one-click test buttons:
+
+| Tab | Features |
+|-----|----------|
+| **Malfunctions** | Trigger stall, misfire, overheat, runaway, seizure, cutout, surge, flat tires |
+| **Spawning** | Spawn OBD Scanner, Service Truck, Parts Pallet; trigger/reset discovery |
+| **Finance** | Add money ($10k/$100k/$1M), set credit scores (300-850), create test loans |
+| **Dialogs** | Direct access to all 15+ dialogs for testing (bypasses normal flow) |
+| **State** | Toggle debug mode, set reliability (10%/50%/100%), manipulate hours, set seller DNA |
+
+- Status bar shows feedback after each action
+- Vehicle condition painting: Pristine, Worn, Beaten, Destroyed presets
+- Quick vehicle swap: Next/Prev vehicle buttons for rapid testing
+
+### Added - Language Expansion
+
+**5 New Languages (15 Total)**
+- Dutch (NL)
+- Hungarian (HU)
+- Turkish (TR)
+- Portuguese - Portugal (PT)
+- Japanese (JP)
+
+Full translation of all 1,944 localization keys for each new language.
+
+### Improved - Documentation & Community
+
+- Added GitHub repository links to modDesc.xml (EN and DE descriptions)
+- Added "Supported Languages" section to README with all 15 languages listed
+- Added GitHub/Issues links to README header for easy access
+- Updated language count from 10 to 15 in all documentation
+
+### Files Added
+- `src/gui/AdminControlPanel.lua` - Dialog logic (~750 lines)
+- `gui/AdminControlPanel.xml` - Dialog layout (~450 lines)
+- `translations/translation_nl.xml` - Dutch
+- `translations/translation_hu.xml` - Hungarian
+- `translations/translation_tr.xml` - Turkish
+- `translations/translation_pt.xml` - Portuguese (Portugal)
+- `translations/translation_jp.xml` - Japanese
+
+### Files Modified
+- `modDesc.xml` - Added AdminControlPanel source, updated descriptions
+- `src/main.lua` - Added upAdminCP console command
+- `src/utils/DialogLoader.lua` - Registered AdminControlPanel dialog
+- `translations/translation_en.xml` - Added ~80 Admin Panel l10n keys
+- All existing translation files - Synced with new keys
+
+---
+
 ## [2.9.1] - 2026-01-25
 
 ### Fixed - Negotiation System Bug Fixes

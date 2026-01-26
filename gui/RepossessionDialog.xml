@@ -8,18 +8,21 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="580px 420px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="580px 450px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
 
         <GuiElement profile="fs25_dialogContentContainer">
 
+            <!-- v2.9.5: Prominent warning icon -->
+            <Bitmap profile="rpWarningIcon" id="warningIcon" position="0px -10px"/>
+
             <!-- Warning Title -->
-            <Text profile="rpWarningTitle" position="0px -25px" text="$l10n_usedplus_rp_title"/>
+            <Text profile="rpWarningTitle" position="0px -55px" text="$l10n_usedplus_rp_title"/>
 
             <!-- ========== SECTION 1: What Was Repossessed ========== -->
-            <GuiElement profile="rpSectionContainer" position="0px -75px">
+            <GuiElement profile="rpSectionContainer" position="0px -105px">
                 <Bitmap profile="rpSectionBgRed" position="0px 0px"/>
 
                 <Text profile="rpSectionHeader" position="0px -8px" text="$l10n_usedplus_rp_sectionTaken"/>
@@ -33,7 +36,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 2: Reason ========== -->
-            <GuiElement profile="rpReasonSection" position="0px -170px">
+            <GuiElement profile="rpReasonSection" position="0px -200px">
                 <Bitmap profile="rpSectionBg" position="0px 0px"/>
                 <Text profile="rpSectionHeader" position="0px -8px" text="$l10n_usedplus_rp_sectionReason"/>
 
@@ -45,7 +48,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 3: Credit Impact ========== -->
-            <GuiElement profile="rpCreditSection" position="0px -260px">
+            <GuiElement profile="rpCreditSection" position="0px -290px">
                 <Bitmap profile="rpSectionBgCredit" position="0px 0px"/>
                 <Text profile="rpSectionHeader" position="0px -8px" text="$l10n_usedplus_rp_sectionCredit"/>
 
@@ -53,10 +56,10 @@
             </GuiElement>
 
             <!-- Additional items warning (for multiple collateral) -->
-            <Text profile="rpAdditionalText" id="additionalItemsText" position="0px -330px" text=""/>
+            <Text profile="rpAdditionalText" id="additionalItemsText" position="0px -360px" text=""/>
 
             <!-- Footer message -->
-            <Text profile="rpFooterText" position="0px -355px" text="$l10n_usedplus_rp_footer"/>
+            <Text profile="rpFooterText" position="0px -385px" text="$l10n_usedplus_rp_footer"/>
 
         </GuiElement>
 
@@ -67,6 +70,12 @@
     </GuiElement>
 
     <GUIProfiles>
+        <!-- v2.9.5: Prominent warning icon (48px) -->
+        <Profile name="rpWarningIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="48px 48px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
         <!-- ========== TITLE ========== -->
         <Profile name="rpWarningTitle" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="500px 30px"/>

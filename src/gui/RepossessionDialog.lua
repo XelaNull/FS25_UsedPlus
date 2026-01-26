@@ -27,7 +27,8 @@ RepossessionDialog.CONTROLS = {
     "missedPaymentsText",
     "balanceOwedText",
     "creditWarningText",
-    "additionalItemsText"
+    "additionalItemsText",
+    "warningIcon"  -- v2.9.5
 }
 
 --[[
@@ -48,6 +49,16 @@ function RepossessionDialog.new(target, custom_mt, i18n)
     self.callback = nil
 
     return self
+end
+
+--[[
+    v2.9.5: onCreate - Set up warning icon
+]]
+function RepossessionDialog:onCreate()
+    RepossessionDialog:superClass().onCreate(self)
+
+    -- Store icon directory
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
 end
 
 --[[
@@ -88,8 +99,20 @@ function RepossessionDialog:onOpen()
     -- Assign controls
     self:assignControls()
 
+    -- v2.9.5: Set warning icon
+    self:setupWarningIcon()
+
     -- Update display
     self:updateDisplay()
+end
+
+--[[
+    v2.9.5: Setup the prominent warning icon
+]]
+function RepossessionDialog:setupWarningIcon()
+    if self.warningIcon ~= nil and self.iconDir ~= nil then
+        self.warningIcon:setImageFilename(self.iconDir .. "status_bad.png")
+    end
 end
 
 --[[

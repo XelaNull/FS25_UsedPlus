@@ -14,13 +14,18 @@
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
 
         <GuiElement profile="fs25_dialogContentContainer">
+            <!-- v2.9.5: Header icon -->
+            <Bitmap profile="irpHeaderIcon" id="headerIcon" position="-310px -15px"/>
+
             <!-- Title -->
             <Text profile="irpTitle" id="titleText" position="0px -25px" text="$l10n_usedplus_irp_title"/>
 
             <!-- ========== SECTION 1: Vehicle Info ========== -->
             <GuiElement profile="irpSectionContainer" position="0px -60px">
                 <Bitmap profile="irpSectionBg" position="0px 0px"/>
-                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionVehicle"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="irpSectionIcon" id="vehicleSectionIcon" position="-290px -3px"/>
+                <Text profile="irpSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_irp_sectionVehicle"/>
 
                 <!-- Two-column layout: Image left, Info right -->
                 <GuiElement position="0px -28px">
@@ -41,9 +46,12 @@
             <!-- Main system ratings + sub-components shown when RVB data available -->
             <GuiElement profile="irpMechanicalSection" position="0px -220px">
                 <Bitmap profile="irpMechanicalBg" position="0px 0px"/>
-                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionMechanical"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="irpSectionIcon" id="mechanicalSectionIcon" position="-290px -3px"/>
+                <Text profile="irpSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_irp_sectionMechanical"/>
 
-                <!-- ENGINE SYSTEM (shifted right 20px) -->
+                <!-- ENGINE SYSTEM (with icon) -->
+                <Bitmap profile="irpSystemIcon" id="engineSystemIcon" position="-285px -30px"/>
                 <Text profile="irpSystemLabel" position="-260px -30px" text="$l10n_usedplus_irp_engine"/>
                 <Text profile="irpSystemValue" id="engineRatingText" position="-160px -30px" text=""/>
                 <Text profile="irpSystemStatus" id="engineStatusText" position="-80px -30px" text=""/>
@@ -56,12 +64,14 @@
                     <Text profile="irpSubValue" id="thermostatText" position="-145px -63px" text="--"/>
                 </GuiElement>
 
-                <!-- HYDRAULIC SYSTEM (UsedPlus only - RVB doesn't track) -->
+                <!-- HYDRAULIC SYSTEM (with icon, UsedPlus only - RVB doesn't track) -->
+                <Bitmap profile="irpSystemIcon" id="hydraulicSystemIcon" position="-285px -82px"/>
                 <Text profile="irpSystemLabel" position="-260px -82px" text="$l10n_usedplus_irp_hydraulics"/>
                 <Text profile="irpSystemValue" id="hydraulicRatingText" position="-160px -82px" text=""/>
                 <Text profile="irpSystemStatus" id="hydraulicStatusText" position="-80px -82px" text=""/>
 
-                <!-- ELECTRICAL SYSTEM -->
+                <!-- ELECTRICAL SYSTEM (with icon) -->
+                <Bitmap profile="irpSystemIcon" id="electricalSystemIcon" position="-285px -102px"/>
                 <Text profile="irpSystemLabel" position="-260px -102px" text="$l10n_usedplus_irp_electrical"/>
                 <Text profile="irpSystemValue" id="electricalRatingText" position="-160px -102px" text=""/>
                 <Text profile="irpSystemStatus" id="electricalStatusText" position="-80px -102px" text=""/>
@@ -125,7 +135,9 @@
             <!-- Position adjusted for tire section padding (+10px) -->
             <GuiElement profile="irpNotesSectionTall" position="0px -480px">
                 <Bitmap profile="irpNotesBgTall" position="0px 0px"/>
-                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionMechanic"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="irpSectionIcon" id="mechanicSectionIcon" position="-290px -3px"/>
+                <Text profile="irpSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_irp_sectionMechanic"/>
 
                 <!-- Quote text (italicized, centered) -->
                 <Text profile="irpQuoteText" id="mechanicQuoteText" position="0px -28px"
@@ -140,7 +152,9 @@
             <!-- Position adjusted for layout changes -->
             <GuiElement profile="irpRecommendSection" position="0px -580px">
                 <Bitmap profile="irpRecommendBg" position="0px 0px"/>
-                <Text profile="irpSectionHeader" position="0px -5px" text="$l10n_usedplus_irp_sectionRecommend"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="irpSectionIcon" id="recommendSectionIcon" position="-290px -3px"/>
+                <Text profile="irpSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_irp_sectionRecommend"/>
 
                 <Text profile="irpRecommendValue" id="recommendationText" position="0px -35px"
                       text=""/>
@@ -164,6 +178,13 @@
     </GuiElement>
 
     <GUIProfiles>
+        <!-- ========== ICON PROFILES ========== -->
+        <!-- System icons for mechanical assessment section -->
+        <Profile name="irpSystemIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
         <!-- ========== TITLE ========== -->
         <Profile name="irpTitle" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="600px 30px"/>
@@ -238,6 +259,27 @@
             <textBold value="true"/>
             <textColor value="1 0.8 0.2 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v2.9.5: Section header with icon - text left-aligned -->
+        <Profile name="irpSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- v2.9.5: Header icon profile (32px) -->
+        <Profile name="irpHeaderIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="32px 32px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- v2.9.5: Section icon profile (20px) -->
+        <Profile name="irpSectionIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
         </Profile>
 
         <!-- ========== VEHICLE INFO ========== -->

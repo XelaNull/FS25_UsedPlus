@@ -8,18 +8,21 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="600px 480px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="600px 510px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
 
         <GuiElement profile="fs25_dialogContentContainer">
 
+            <!-- v2.9.5: Success header icon (green checkmark) -->
+            <Bitmap profile="laHeaderIcon" id="headerIcon" position="0px -10px"/>
+
             <!-- Title with checkmark -->
-            <Text profile="laApprovedTitle" position="0px -25px" text="$l10n_usedplus_la_title"/>
+            <Text profile="laApprovedTitle" position="0px -55px" text="$l10n_usedplus_la_title"/>
 
             <!-- ========== SECTION 1: Loan Amount ========== -->
-            <GuiElement profile="laSectionContainer" position="0px -70px">
+            <GuiElement profile="laSectionContainer" position="0px -100px">
                 <Bitmap profile="laSectionBgGreen" position="0px 0px"/>
 
                 <Text profile="laAmountLabel" position="0px -12px" text="$l10n_usedplus_la_amountDeposited"/>
@@ -27,7 +30,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 2: Loan Terms ========== -->
-            <GuiElement profile="laTermsSection" position="0px -145px">
+            <GuiElement profile="laTermsSection" position="0px -175px">
                 <Bitmap profile="laSectionBg" position="0px 0px"/>
                 <Text profile="laSectionHeader" position="0px -5px" text="$l10n_usedplus_la_sectionTerms"/>
 
@@ -40,7 +43,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 3: Payment Schedule ========== -->
-            <GuiElement profile="laPaymentSection" position="0px -220px">
+            <GuiElement profile="laPaymentSection" position="0px -250px">
                 <Bitmap profile="laSectionBg" position="0px 0px"/>
                 <Text profile="laSectionHeader" position="0px -5px" text="$l10n_usedplus_la_sectionPayment"/>
 
@@ -56,7 +59,7 @@
             </GuiElement>
 
             <!-- ========== SECTION 4: Credit Impact ========== -->
-            <GuiElement profile="laCreditSection" position="0px -300px">
+            <GuiElement profile="laCreditSection" position="0px -330px">
                 <Bitmap profile="laSectionBgCredit" position="0px 0px"/>
                 <Text profile="laSectionHeader" position="0px -5px" text="$l10n_usedplus_la_sectionCredit"/>
 
@@ -68,10 +71,10 @@
             </GuiElement>
 
             <!-- ========== Collateral Warning (if applicable) ========== -->
-            <Text profile="laCollateralText" id="collateralText" position="0px -380px" text=""/>
+            <Text profile="laCollateralText" id="collateralText" position="0px -410px" text=""/>
 
             <!-- Info text -->
-            <Text profile="laInfoText" position="0px -405px" text="$l10n_usedplus_la_info"/>
+            <Text profile="laInfoText" position="0px -435px" text="$l10n_usedplus_la_info"/>
 
         </GuiElement>
 
@@ -82,6 +85,12 @@
     </GuiElement>
 
     <GUIProfiles>
+        <!-- ========== HEADER ICON ========== -->
+        <Profile name="laHeaderIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="32px 32px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
         <!-- ========== TITLE ========== -->
         <Profile name="laApprovedTitle" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="500px 30px"/>

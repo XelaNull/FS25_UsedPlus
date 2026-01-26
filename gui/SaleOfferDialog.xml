@@ -48,8 +48,9 @@
             <GuiElement profile="soSectionBg" position="0px -165px" size="680px 100px">
                 <!-- Large offer amount -->
                 <Text profile="soOfferAmount" id="offerAmountText" position="0px -15px"/>
-                <!-- Star rating + deal quality text -->
-                <Text profile="soDealRating" id="dealRatingText" position="0px -55px"/>
+                <!-- v2.9.5: Deal quality icon + text -->
+                <Bitmap profile="soQualityIcon" id="qualityIcon" position="-100px -55px"/>
+                <Text profile="soDealRating" id="dealRatingText" position="15px -55px"/>
             </GuiElement>
 
             <!-- ================================================================ -->
@@ -93,10 +94,10 @@
             </GuiElement>
 
             <!-- ================================================================ -->
-            <!-- SECTION 5: Expiration Warning -->
+            <!-- SECTION 5: Expiration Warning (v2.9.5: timer icon) -->
             <!-- ================================================================ -->
             <GuiElement position="0px -480px">
-                <Text profile="soExpirationIcon" position="-80px 0px" text="⏱"/>
+                <Bitmap profile="soTimerIcon" id="timerIcon" position="-90px -5px"/>
                 <Text profile="soExpirationLabel" position="0px 0px" text="$l10n_usedplus_so_expiresIn"/>
                 <Text profile="soExpirationValue" id="expirationText" position="100px 0px"/>
             </GuiElement>
@@ -119,6 +120,18 @@
         <!-- Section background (dark panel) -->
         <Profile name="soSectionBg" extends="fs25_guiElement" with="anchorTopCenter">
             <bgColor value="0.05 0.05 0.08 0.9"/>
+        </Profile>
+
+        <!-- v2.9.5: Quality star icon -->
+        <Profile name="soQualityIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="24px 24px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- v2.9.5: Timer icon -->
+        <Profile name="soTimerIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="24px 24px"/>
+            <imageSliceId value="noSlice"/>
         </Profile>
 
         <!-- Following RVB pattern: baseReference + square size + noSlice -->

@@ -38,6 +38,11 @@
         <Profile name="lrOptionButton" extends="buttonActivate">
             <Value name="fontSize" value="14px"/>
         </Profile>
+        <!-- v2.9.5: Option icons -->
+        <Profile name="lrOptionIcon" extends="baseReference" with="anchorTopLeft">
+            <size value="28px 28px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
     </Profiles>
 
     <GuiElement profile="newLayer"/>
@@ -92,27 +97,30 @@
             <GuiElement position="-330px -220px" size="660px 160px">
                 <Text profile="lrSectionHeader" position="0px 0px" text="$l10n_usedplus_lr_sectionOptions"/>
 
-                <!-- Option 1: Return -->
+                <!-- Option 1: Return (v2.9.5: added icon) -->
                 <GuiElement position="0px -30px" size="200px 100px">
-                    <Text profile="lrLabel" position="0px 0px" text="$l10n_usedplus_lr_optionReturn"/>
+                    <Bitmap profile="lrOptionIcon" id="returnIcon" position="0px 10px"/>
+                    <Text profile="lrLabel" position="35px 0px" text="$l10n_usedplus_lr_optionReturn"/>
                     <Text profile="lrLabel" position="0px -18px" text="$l10n_usedplus_lr_optionReturnDesc"/>
                     <Text profile="lrLabel" position="0px -36px" text="$l10n_usedplus_lr_youReceive"/>
                     <Text profile="lrMoneyGreen" id="returnRefundText" position="0px -54px" text=""/>
                     <Button profile="lrOptionButton" id="returnButton" position="0px -80px" size="180px 30px" text="$l10n_usedplus_button_return" onClick="onReturn"/>
                 </GuiElement>
 
-                <!-- Option 2: Buyout -->
+                <!-- Option 2: Buyout (v2.9.5: added icon) -->
                 <GuiElement position="220px -30px" size="200px 100px">
-                    <Text profile="lrLabel" position="0px 0px" text="$l10n_usedplus_lr_optionBuyout"/>
+                    <Bitmap profile="lrOptionIcon" id="buyoutIcon" position="0px 10px"/>
+                    <Text profile="lrLabel" position="35px 0px" text="$l10n_usedplus_lr_optionBuyout"/>
                     <Text profile="lrLabel" position="0px -18px" text="$l10n_usedplus_lr_optionBuyoutDesc"/>
                     <Text profile="lrLabel" position="0px -36px" text="$l10n_usedplus_lr_youPay"/>
                     <Text profile="lrMoneyRed" id="buyoutPriceText" position="0px -54px" text=""/>
                     <Button profile="lrOptionButton" id="buyoutButton" position="0px -80px" size="180px 30px" text="$l10n_usedplus_button_buyout" onClick="onBuyout"/>
                 </GuiElement>
 
-                <!-- Option 3: Renew -->
+                <!-- Option 3: Renew (v2.9.5: added icon) -->
                 <GuiElement position="440px -30px" size="200px 100px">
-                    <Text profile="lrLabel" position="0px 0px" text="$l10n_usedplus_lr_optionRenew"/>
+                    <Bitmap profile="lrOptionIcon" id="renewIcon" position="0px 10px"/>
+                    <Text profile="lrLabel" position="35px 0px" text="$l10n_usedplus_lr_optionRenew"/>
                     <Text profile="lrLabel" position="0px -18px" text="$l10n_usedplus_lr_optionRenewDesc"/>
                     <Text profile="lrLabel" position="0px -36px" text="$l10n_usedplus_lr_equityCarries"/>
                     <Text profile="lrMoneyGreen" id="renewEquityText" position="0px -54px" text=""/>

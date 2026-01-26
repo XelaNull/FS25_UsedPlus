@@ -44,7 +44,43 @@ end
     Called when dialog is created
 ]]
 function SearchInitiatedDialog:onCreate()
-    -- No superclass call needed for ScreenElement
+    -- Store icon directory for later use
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+end
+
+--[[
+    Setup section icons - must be called after elements are bound
+]]
+function SearchInitiatedDialog:setupSectionIcons()
+    -- Header icon (search icon)
+    local headerIcon = self.dialogElement:getDescendantById("headerIcon")
+    if headerIcon ~= nil then
+        headerIcon:setImageFilename(self.iconDir .. "search.png")
+    end
+
+    -- Vehicle section icon
+    local vehicleIcon = self.dialogElement:getDescendantById("vehicleIcon")
+    if vehicleIcon ~= nil then
+        vehicleIcon:setImageFilename(self.iconDir .. "vehicle.png")
+    end
+
+    -- Config section icon (agent)
+    local configIcon = self.dialogElement:getDescendantById("configIcon")
+    if configIcon ~= nil then
+        configIcon:setImageFilename(self.iconDir .. "agent.png")
+    end
+
+    -- Fees section icon (cash)
+    local feesIcon = self.dialogElement:getDescendantById("feesIcon")
+    if feesIcon ~= nil then
+        feesIcon:setImageFilename(self.iconDir .. "cash.png")
+    end
+
+    -- Pricing section icon (finance)
+    local pricingIcon = self.dialogElement:getDescendantById("pricingIcon")
+    if pricingIcon ~= nil then
+        pricingIcon:setImageFilename(self.iconDir .. "finance.png")
+    end
 end
 
 --[[
@@ -174,6 +210,9 @@ end
 ]]
 function SearchInitiatedDialog:onOpen()
     SearchInitiatedDialog:superClass().onOpen(self)
+
+    -- Setup section icons
+    self:setupSectionIcons()
 end
 
 --[[

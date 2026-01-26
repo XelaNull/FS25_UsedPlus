@@ -255,6 +255,7 @@
         <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Огляньте транспортний засіб" eh="c06f09f1" />
         <e k="input_USEDPLUS_ACTIVATE_OBD" v="Використати OBD-сканер" eh="9666e26b" />
         <e k="input_USEDPLUS_TIRES" v="Шиномонтаж" eh="b0234f4e" />
+        <e k="input_USEDPLUS_SERVICE_TRUCK" v="Керування сервісною вантажівкою" />
 
         <!--  Tooltips for Finance Dialog -->
         <e k="usedplus_finance_loanTerm_tooltip" v="Розподіліть виплати на 1-20 років. Довші терміни = менші щомісячні платежі, але більша загальна сплата відсотків." eh="e1170142" />
@@ -2087,6 +2088,136 @@
     <e k="usedplus_malfunction_leak" v="ВИТІК" eh="2ec9e171" />
     <e k="usedplus_malfunction_flat" v="СПУЩЕНО" eh="f88a77e3" />
         <e k="usedplus_fsk_diagnosis_exhausted" v="Ця система вже пройшла польове обслуговування. Подальший ремонт потребує обладнання майстерні." eh="79b71f1e" />
+        <e k="usedplus_serviceTruck_name" v="Сервісна вантажівка" eh="51b741d0" />
+        <e k="usedplus_serviceTruck_function" v="Мобільна майстерня для довготривалого відновлення техніки. Може відновити надійність ТА максимальну надійність з часом. Потребує дизель, мастило, гідравлічну рідину та запчастини." eh="3c12f4e8" />
+        <e k="usedplus_serviceTruck_typeDesc" v="Транспорт для реставрації" eh="7d7e5cd9" />
+        <e k="usedplus_serviceTruck_dialogTitle" v="СЕРВІСНА ВАНТАЖІВКА - ВІДНОВЛЕННЯ ТЕХНІКИ" eh="00a2db6f" />
+        <e k="usedplus_serviceTruck_inspect" v="Оглянути %s" eh="1fb02eae" />
+        <e k="usedplus_serviceTruck_noTarget" v="Немає техніки поблизу" eh="c02151b6" />
+        <e k="usedplus_serviceTruck_noVehicle" v="Немає техніки поблизу для відновлення" eh="a06fd6fe" />
+        <e k="usedplus_serviceTruck_resume" v="Продовжити відновлення" eh="0e390222" />
+        <e k="usedplus_serviceTruck_stop" v="Зупинити відновлення" eh="145970e3" />
+        <e k="usedplus_serviceTruck_started" v="Розпочато відновлення %s" eh="9ae2b7d4" />
+        <e k="usedplus_serviceTruck_stopped" v="Зупинено відновлення %s" eh="486b803c" />
+        <e k="usedplus_serviceTruck_resumed" v="Відновлення продовжено" eh="4dd62e8e" />
+        <e k="usedplus_serviceTruck_complete" v="Відновлення завершено: %s" eh="9d83e616" />
+        <e k="usedplus_serviceTruck_needParts" v="Потрібна палета із запчастинами поблизу!" eh="13f1aea0" />
+        <e k="usedplus_serviceTruck_damage" v="Увага: Пошкодження через відсутність ресурсів!" eh="a0546a3a" />
+        <e k="usedplus_serviceTruck_ceiling" v="Макс. потенціал: %d%%" eh="6f7241ba" />
+        <e k="usedplus_serviceTruck_selectInfo" v="Оберіть компонент для глибокого відновлення. На відміну від польового ремонту, цей процес займає години, але може повністю відновити техніку." eh="979901a5" />
+        <e k="usedplus_serviceTruck_cooldown" v="Очікування: %d год" eh="2ea1fcb2" />
+        <e k="usedplus_serviceTruck_healthy" v="Система справна" eh="5576cd8a" />
+        <e k="usedplus_serviceTruck_inspecting" v="Огляд: %s" eh="e11e1d26" />
+        <e k="usedplus_serviceTruck_estimatedTime" v="Орієнтовний час: %d годин" eh="1d3deb3e" />
+        <e k="usedplus_serviceTruck_inspectionPassed" v="ОГЛЯД ПРОЙДЕНО" eh="47f7fcfd" />
+        <e k="usedplus_serviceTruck_inspectionFailed" v="ОГЛЯД НЕ ПРОЙДЕНО" eh="a631d00c" />
+        <e k="usedplus_serviceTruck_canStartRestoration" v="Можна розпочати відновлення. Орієнтовно: %d годин" eh="0e981aef" />
+        <e k="usedplus_serviceTruck_wrongDiagnosis" v="Невірний діагноз. Потрібно зачекати перед повторною спробою." eh="5a4aabc9" />
+        <e k="usedplus_serviceTruck_cooldownApplied" v="Очікування: %d годин" eh="2c7183c1" />
+        <e k="usedplus_serviceTruck_startRestoration" v="ПОЧАТИ ВІДНОВЛЕННЯ" eh="696ac7a5" />
+        <e k="usedplus_serviceTruck_paused_diesel" v="Відновлення призупинено - заправте дизельний бак" eh="1fe7b196" />
+        <e k="usedplus_serviceTruck_paused_oil" v="Відновлення призупинено - долийте мастило" eh="e8431b21" />
+        <e k="usedplus_serviceTruck_paused_hydraulic" v="Відновлення призупинено - долийте гідравлічну рідину" eh="613a5371" />
+        <e k="usedplus_serviceTruck_paused_parts" v="Відновлення призупинено - потрібні ще запчастини!" eh="bd1c3747" />
+        <e k="usedplus_serviceTruck_discoveryTitle" v="ОСОБЛИВА ПРОПОЗИЦІЯ" eh="5859f1ad" />
+        <e k="usedplus_serviceTruck_discoverySubtitle" v="Ваш агент має зв'язки" eh="c0c9fe88" />
+        <e k="usedplus_serviceTruck_mechanicQuote" v="&amp;quot;Я знаю механіка, який виходить на пенсію. У нього є повністю обладнана сервісна вантажівка на продаж. Тільки готівка, але я можу домовитись про хорошу ціну. Зацікавлені?&amp;quot;" eh="219139f8" />
+        <e k="usedplus_serviceTruck_vehicleName" v="Сервісна вантажівка GMC C7000" eh="7f78c3d1" />
+        <e k="usedplus_serviceTruck_feature1" v="Довготривале відновлення техніки" eh="0fa4b175" />
+        <e k="usedplus_serviceTruck_feature2" v="Ремонт максимальної надійності" eh="dee9f0ff" />
+        <e k="usedplus_serviceTruck_feature3" v="Єдиний спосіб врятувати невдалі машини" eh="e025ba61" />
+        <e k="usedplus_serviceTruck_originalPrice" v="Звичайна ціна: $75,000" eh="70fcf983" />
+        <e k="usedplus_serviceTruck_yourPrice" v="ВАША ЦІНА" eh="6dd8d761" />
+        <e k="usedplus_serviceTruck_cashOnly" v="ТІЛЬКИ ГОТІВКА" eh="087d1524" />
+        <e k="usedplus_serviceTruck_expiryNote" v="Пропозиція діє ще %d днів" eh="9d7bc900" />
+        <e k="usedplus_serviceTruck_buyNow" v="Купити" eh="c1f52fba" />
+        <e k="usedplus_serviceTruck_notNow" v="Пізніше" eh="8dff1db0" />
+        <e k="usedplus_serviceTruck_purchaseSuccess" v="Сервісну вантажівку придбано! Шукайте біля магазину." eh="16cacb8d" />
+        <e k="usedplus_serviceTruck_opportunitySaved" v="Пропозицію збережено. Перевірте Фінансовий менеджер для покупки." eh="410b1a26" />
+        <e k="usedplus_serviceTruck_opportunityExpired" v="Пропозиція на сервісну вантажівку закінчилась." eh="a5d3a5fb" />
+        <e k="usedplus_serviceTruck_insufficientFunds" v="Недостатньо коштів! Потрібно $%s готівкою." eh="9b84e434" />
+        <e k="usedplus_serviceTruck_alreadyOwned" v="Ви вже маєте сервісну вантажівку." eh="8d7c53f6" />
+        <e k="usedplus_sparePartsPallet_name" v="Палета із запчастинами" eh="9bf39a93" />
+        <e k="usedplus_sparePartsPallet_function" v="Витратні запчастини для відновлення технікою сервісною вантажівкою. Розмістіть біля вантажівки під час відновлення." eh="c90aa3eb" />
+        <e k="fillType_spareParts" v="Запчастини" eh="ab6b8ce1" />
+        <e k="unit_pcs" v="шт" eh="3ecf2642" />
+        <e k="usedplus_resto_symptom_engine_knocking_load" v="Сильний стукіт під навантаженням" eh="fb8c3067" />
+        <e k="usedplus_resto_symptom_engine_low_oil_pressure" v="Критично низький тиск мастила" eh="a3efa42d" />
+        <e k="usedplus_resto_symptom_engine_excessive_vibration" v="Надмірна вібрація на всіх швидкостях" eh="b99e166e" />
+        <e k="usedplus_resto_symptom_engine_blue_smoke" v="Густий синій дим з вихлопу" eh="7565a2d6" />
+        <e k="usedplus_resto_symptom_engine_oil_consumption" v="Споживання 2л мастила на годину" eh="dec5fc5f" />
+        <e k="usedplus_resto_symptom_engine_compression_loss" v="Тест компресії: на 40% нижче норми" eh="5ebe46dc" />
+        <e k="usedplus_resto_symptom_engine_blowby" v="Надмірний прорив газів у картер" eh="a7ba64cb" />
+        <e k="usedplus_resto_symptom_engine_power_loss" v="Потужність 50% від номінальної" eh="f3aaa976" />
+        <e k="usedplus_resto_symptom_engine_crankcase_pressure" v="Підвищений тиск у картері" eh="c5f32b50" />
+        <e k="usedplus_resto_symptom_engine_ticking" v="Ритмічне цокання з клапанного механізму" eh="c52cdfd8" />
+        <e k="usedplus_resto_symptom_engine_rough_idle" v="Дуже нерівний холостий хід" eh="479de259" />
+        <e k="usedplus_resto_symptom_engine_valve_noise" v="Зростання шуму клапанного механізму" eh="ce1f139d" />
+        <e k="usedplus_resto_diag_cylinder_wear" v="Знос стінок циліндрів" eh="2e9abecf" />
+        <e k="usedplus_resto_diag_main_bearings" v="Зношені корінні підшипники" eh="10706469" />
+        <e k="usedplus_resto_diag_piston_rings" v="Несправні поршневі кільця" eh="93ad31e3" />
+        <e k="usedplus_resto_diag_camshaft_wear" v="Знос розподільного вала/штовхачів" eh="ec3a7cd5" />
+        <e k="usedplus_resto_symptom_elec_intermittent_systems" v="Періодичні збої кількох систем" eh="023ad81b" />
+        <e k="usedplus_resto_symptom_elec_corrosion_visible" v="Видима корозія на роз'ємах" eh="5c9a9a3c" />
+        <e k="usedplus_resto_symptom_elec_multiple_faults" v="Збережені коди помилок у всіх модулях" eh="d4ade2b6" />
+        <e k="usedplus_resto_symptom_elec_erratic_behavior" v="Непередбачувана поведінка системи" eh="b69e9c62" />
+        <e k="usedplus_resto_symptom_elec_no_communication" v="Відсутній зв'язок по CAN шині" eh="d003610c" />
+        <e k="usedplus_resto_symptom_elec_stored_codes" v="Сотні збережених кодів помилок" eh="40791f46" />
+        <e k="usedplus_resto_symptom_elec_wrong_readings" v="Датчики показують неможливі значення" eh="cb94f53b" />
+        <e k="usedplus_resto_symptom_elec_limp_mode" v="Постійне ввімкнення аварійного режиму" eh="f2301c42" />
+        <e k="usedplus_resto_symptom_elec_poor_response" v="Повільна реакція газу/керування" eh="66546509" />
+        <e k="usedplus_resto_symptom_elec_voltage_drops" v="Значні падіння напруги під навантаженням" eh="01228a80" />
+        <e k="usedplus_resto_symptom_elec_dim_lights" v="Фари значно тьмяніють на холостих" eh="37cdb057" />
+        <e k="usedplus_resto_symptom_elec_starter_slow" v="Стартер ледве крутить" eh="886fcc59" />
+        <e k="usedplus_resto_diag_harness_degradation" v="Деградація електропроводки" eh="1ac0bee9" />
+        <e k="usedplus_resto_diag_ecu_failure" v="Несправність ЕБУ/контролера" eh="c58a3f02" />
+        <e k="usedplus_resto_diag_sensor_array" v="Деградація датчиків" eh="dbf631b9" />
+        <e k="usedplus_resto_diag_ground_points" v="Корозія точок заземлення" eh="76c3875c" />
+        <e k="usedplus_resto_symptom_hyd_slow_operation" v="Дуже повільна робота гідравліки" eh="1491284f" />
+        <e k="usedplus_resto_symptom_hyd_cavitation_noise" v="Шум кавітації насоса" eh="78a4d860" />
+        <e k="usedplus_resto_symptom_hyd_low_pressure" v="Тиск системи на 60% нижче норми" eh="4fb95c5c" />
+        <e k="usedplus_resto_symptom_hyd_drift" v="Обладнання опускається під навантаженням" eh="161be612" />
+        <e k="usedplus_resto_symptom_hyd_uneven_response" v="Нерівномірна реакція між контурами" eh="ed5383af" />
+        <e k="usedplus_resto_symptom_hyd_internal_leak" v="Виявлено внутрішній витік - тиск не тримається" eh="24df5973" />
+        <e k="usedplus_resto_symptom_hyd_external_leak" v="Видимий зовнішній витік рідини" eh="83e3f803" />
+        <e k="usedplus_resto_symptom_hyd_rod_scoring" v="Видимі подряпини на штоку циліндра" eh="afc6f369" />
+        <e k="usedplus_resto_symptom_hyd_position_creep" v="Повзучість положення під статичним навантаженням" eh="e0a2a78c" />
+        <e k="usedplus_resto_symptom_hyd_visible_cracks" v="Видимі тріщини на оплітці шлангів" eh="4a3b0a3e" />
+        <e k="usedplus_resto_symptom_hyd_bulging" v="Здуття шлангів під тиском" eh="45b25f17" />
+        <e k="usedplus_resto_symptom_hyd_seepage" v="Просочування рідини на з'єднаннях" eh="5a712984" />
+        <e k="usedplus_resto_diag_pump_wear" v="Зношений гідронасос" eh="52b93aef" />
+        <e k="usedplus_resto_diag_valve_wear" v="Знос розподільного клапана" eh="a8b29f50" />
+        <e k="usedplus_resto_diag_cylinder_seals" v="Несправність ущільнень циліндра" eh="b1160c88" />
+        <e k="usedplus_resto_diag_hose_degradation" v="Деградація шлангів" eh="a8e8141c" />
+        <e k="usedplus_resto_hint_engine_compression" v="Тест компресії: Низький тиск у кількох циліндрах" eh="3a3b3c44" />
+        <e k="usedplus_resto_hint_engine_oil_analysis" v="Аналіз мастила: Високий вміст металу" eh="bd8248e0" />
+        <e k="usedplus_resto_hint_engine_vibration" v="Аналіз вібрації: Частота підшипників" eh="effbd7bc" />
+        <e k="usedplus_resto_hint_engine_blowby" v="Вимірювання прориву: в 3 рази вище норми" eh="623f710e" />
+        <e k="usedplus_resto_hint_engine_wear_metals" v="Метали зносу в мастилі: Критичний рівень" eh="f3246cb4" />
+        <e k="usedplus_resto_hint_elec_resistance" v="Опір проводки: Поза нормою" eh="b9abd1d2" />
+        <e k="usedplus_resto_hint_elec_insulation" v="Тест ізоляції: Виявлено пробій" eh="1d71c2a6" />
+        <e k="usedplus_resto_hint_elec_continuity" v="Цілісність: Кілька розірваних ланцюгів" eh="e0f6fd0b" />
+        <e k="usedplus_resto_hint_elec_voltage_drop" v="Тест падіння напруги: Надмірне" eh="d25b077c" />
+        <e k="usedplus_resto_hint_elec_current_draw" v="Паразитний струм: в 10 разів вище норми" eh="59444b85" />
+        <e k="usedplus_resto_hint_hyd_pressure_test" v="Тест тиску: Потік є, тиску немає" eh="bd006d67" />
+        <e k="usedplus_resto_hint_hyd_flow_rate" v="Швидкість потоку: 40% від номінальної" eh="b90ab77b" />
+        <e k="usedplus_resto_hint_hyd_fluid_analysis" v="Аналіз рідини: Забруднена" eh="dfe20002" />
+        <e k="usedplus_resto_hint_hyd_temp_rise" v="Зростання температури: Аномально швидке" eh="533cbcf4" />
+        <e k="usedplus_resto_hint_hyd_case_drain" v="Потік дренажу картера: Підвищений" eh="a22095fe" />
+        <e k="usedplus_resto_inspection_success" v="Правильний діагноз! Можна розпочати відновлення." eh="97b6cad5" />
+        <e k="usedplus_resto_inspection_failed" v="Невірний діагноз. 48-годинне очікування застосовано." eh="810bd06d" />
+        <e k="usedplus_resto_desc_bearings" v="Заміна корінних підшипників та огляд колінвала" eh="82cd6ee4" />
+        <e k="usedplus_resto_desc_cylinder" v="Розточування циліндрів та заміна поршнів" eh="f59dd2d9" />
+        <e k="usedplus_resto_desc_rings" v="Заміна поршневих кілець та хонінгування циліндрів" eh="215c10a5" />
+        <e k="usedplus_resto_desc_camshaft" v="Заміна розподільного вала та штовхачів" eh="d7ac0f03" />
+        <e k="usedplus_resto_desc_harness" v="Повна заміна електропроводки" eh="90710fd7" />
+        <e k="usedplus_resto_desc_ecu" v="Заміна та перепрограмування ЕБУ" eh="8b0b987d" />
+        <e k="usedplus_resto_desc_sensors" v="Повна заміна датчиків" eh="d7757def" />
+        <e k="usedplus_resto_desc_grounds" v="Відновлення та очищення точок заземлення" eh="8d73bf8b" />
+        <e k="usedplus_resto_desc_pump" v="Відновлення або заміна гідронасоса" eh="661156e5" />
+        <e k="usedplus_resto_desc_valves" v="Капремонт розподільного клапана" eh="5e2cc6b4" />
+        <e k="usedplus_resto_desc_cylinders" v="Переущільнення циліндрів та шліфування штоків" eh="d0aab178" />
+        <e k="usedplus_resto_desc_hoses" v="Повна заміна шлангів" eh="b9531198" />
     <e k="usedplus_seizure_detected" v="КОМПОНЕНТ ЗАКЛИНИЛО" eh="9def01dd" />
     <e k="usedplus_seizure_repair_confirm" v="%s заклинило і потребує аварійного ремонту.\n\nВартість ремонту: %s\n\nПродовжити ремонт?" eh="bf702608" />
     <e k="usedplus_seizure_repaired" v="%s відремонтовано! Надійність відновлено до %d%%" eh="323fa338" />
@@ -2119,6 +2250,95 @@
         <e k="usedplus_mp_error_purchase_failed" v="Покупка не вдалася. Спробуйте ще раз." eh="42d7ddab" />
         <e k="usedplus_mp_error_vehicle_not_found" v="Техніку не знайдено." eh="02c84e79" />
         <e k="usedplus_mp_error_no_loan" v="Немає залишку позики для сплати." eh="5668e12f" />
+        <e k="usedplus_admin_title" v="Панель адміністратора UsedPlus" eh="f1ae106e" />
+        <e k="usedplus_admin_tab_malfunctions" v="Несправності" eh="97801e8a" />
+        <e k="usedplus_admin_tab_spawning" v="Спаун" eh="abd8b510" />
+        <e k="usedplus_admin_tab_finance" v="Фінанси" eh="c482980d" />
+        <e k="usedplus_admin_tab_dialogs" v="Діалоги" eh="258853ae" />
+        <e k="usedplus_admin_tab_state" v="Стан" eh="46a2a41c" />
+        <e k="usedplus_admin_section_engine" v="ДВИГУН" eh="1942d6cf" />
+        <e k="usedplus_admin_section_electrical" v="ЕЛЕКТРИКА" eh="9f317629" />
+        <e k="usedplus_admin_section_hydraulic" v="ГІДРАВЛІКА" eh="3e0b9977" />
+        <e k="usedplus_admin_section_tires" v="ШИНИ" eh="36173e29" />
+        <e k="usedplus_admin_section_utility" v="УТИЛІТИ" eh="1697ce5d" />
+        <e k="usedplus_admin_section_items" v="ПРЕДМЕТИ" eh="9a932d55" />
+        <e k="usedplus_admin_section_discovery" v="ВИЯВЛЕННЯ" eh="f5be5d66" />
+        <e k="usedplus_admin_section_test_vehicles" v="ТЕСТОВА ТЕХНІКА" eh="682cb0f3" />
+        <e k="usedplus_admin_section_condition" v="ФАРБУВАННЯ СТАНУ" eh="2593ea9b" />
+        <e k="usedplus_admin_section_money" v="ГРОШІ" eh="2bc794c2" />
+        <e k="usedplus_admin_section_credit" v="КРЕДИТНИЙ РЕЙТИНГ" eh="4f3b169e" />
+        <e k="usedplus_admin_section_deals" v="УГОДИ" eh="bdcaa389" />
+        <e k="usedplus_admin_section_finance_dialogs" v="ФІНАНСОВІ ДІАЛОГИ" eh="babbf134" />
+        <e k="usedplus_admin_section_market_dialogs" v="ДІАЛОГИ РИНКУ" eh="4c8988f5" />
+        <e k="usedplus_admin_section_service_dialogs" v="СЕРВІСНІ ДІАЛОГИ" eh="e407aa85" />
+        <e k="usedplus_admin_section_lease_dialogs" v="ДІАЛОГИ ЛІЗИНГУ" eh="479e552e" />
+        <e k="usedplus_admin_section_debug" v="РЕЖИМ ВІДЛАГОДЖЕННЯ" eh="c7ee79cd" />
+        <e k="usedplus_admin_section_vehicle_state" v="СТАН ТЕХНІКИ" eh="c077f4be" />
+        <e k="usedplus_admin_section_dna" v="ДНК ПРОДАВЦЯ (Наст. пошук)" eh="0e284459" />
+        <e k="usedplus_admin_section_quick_vehicle" v="ШВИДКА ЗАМІНА ТЕХНІКИ" eh="01242f7d" />
+        <e k="usedplus_admin_btn_stall" v="Заглох" eh="a0f50ad4" />
+        <e k="usedplus_admin_btn_misfire" v="Пропуск" eh="9b9bd091" />
+        <e k="usedplus_admin_btn_overheat" v="Перегрів" eh="5d266c94" />
+        <e k="usedplus_admin_btn_runaway" v="Рознос" eh="dbdba743" />
+        <e k="usedplus_admin_btn_seizure" v="Клин" eh="82d09d65" />
+        <e k="usedplus_admin_btn_cutout" v="Відключ" eh="330be5af" />
+        <e k="usedplus_admin_btn_surge_l" v="Стрибок (Л)" eh="14a7255f" />
+        <e k="usedplus_admin_btn_surge_r" v="Стрибок (П)" eh="f9261697" />
+        <e k="usedplus_admin_btn_flat_l" v="Прокол (Л)" eh="427238a9" />
+        <e k="usedplus_admin_btn_flat_r" v="Прокол (П)" eh="5a2301a8" />
+        <e k="usedplus_admin_btn_reset_cooldown" v="Скид. КД" eh="d2165eba" />
+        <e k="usedplus_admin_btn_malf_info" v="Інфо несп." eh="92badb26" />
+        <e k="usedplus_admin_btn_fix_all" v="Лагод. все" eh="1c7feed4" />
+        <e k="usedplus_admin_btn_spawn_obd" v="OBD сканер" eh="96023669" />
+        <e k="usedplus_admin_btn_spawn_truck" v="Серв. авто" eh="083ff302" />
+        <e k="usedplus_admin_btn_spawn_parts" v="Палета зч." eh="ca04c55a" />
+        <e k="usedplus_admin_btn_trigger_discovery" v="Запуст. вияв." eh="adaba831" />
+        <e k="usedplus_admin_btn_reset_discovery" v="Скид. вияв." eh="f78bfb71" />
+        <e k="usedplus_admin_btn_discovery_status" v="Стат. вияв." eh="bce3ddd2" />
+        <e k="usedplus_admin_btn_spawn_lemon" v="Спаун лимон" eh="13d3e048" />
+        <e k="usedplus_admin_btn_spawn_workhorse" v="Робочий кінь" eh="50cf5190" />
+        <e k="usedplus_admin_btn_spawn_damaged" v="Пошкодж." eh="f7bd791a" />
+        <e k="usedplus_admin_btn_paint_pristine" v="Ідеальний" eh="96af3470" />
+        <e k="usedplus_admin_btn_paint_worn" v="Зношений" eh="36cc503e" />
+        <e k="usedplus_admin_btn_paint_beaten" v="Побитий" eh="866731dc" />
+        <e k="usedplus_admin_btn_paint_destroyed" v="Знищений" eh="aefbd059" />
+        <e k="usedplus_admin_btn_add_10k" v="+$10,000" eh="3ca6f66c" />
+        <e k="usedplus_admin_btn_add_100k" v="+$100,000" eh="860860a5" />
+        <e k="usedplus_admin_btn_add_1m" v="+$1,000,000" eh="8946b435" />
+        <e k="usedplus_admin_btn_set_zero" v="Встан. $0" eh="ca8864ed" />
+        <e k="usedplus_admin_btn_list_deals" v="Список угод" eh="936e496b" />
+        <e k="usedplus_admin_btn_payoff_all" v="Сплат. все" eh="3817edc8" />
+        <e k="usedplus_admin_btn_create_loan" v="Тест позика" eh="06cb7221" />
+        <e k="usedplus_admin_btn_create_lease" v="Тест лізинг" eh="d653ef32" />
+        <e k="usedplus_admin_btn_missed_payment" v="Пропуск плат." eh="4890557c" />
+        <e k="usedplus_admin_btn_dlg_loan" v="Взяти позику" eh="40fe67fa" />
+        <e k="usedplus_admin_btn_dlg_approved" v="Схвалено" eh="6f806341" />
+        <e k="usedplus_admin_btn_dlg_credit" v="Кредит" eh="0a90b1bc" />
+        <e k="usedplus_admin_btn_dlg_history" v="Історія" eh="16d2b386" />
+        <e k="usedplus_admin_btn_dlg_repo" v="Вилучення" eh="0f74adf1" />
+        <e k="usedplus_admin_btn_dlg_search" v="Пошук" eh="13348442" />
+        <e k="usedplus_admin_btn_dlg_purchase" v="Покупка" eh="76b6a47a" />
+        <e k="usedplus_admin_btn_dlg_negotiate" v="Торгуватись" eh="e481ddec" />
+        <e k="usedplus_admin_btn_dlg_seller" v="Відп. продав." eh="8ff31b45" />
+        <e k="usedplus_admin_btn_dlg_obd" v="OBD" eh="9971dd97" />
+        <e k="usedplus_admin_btn_dlg_service" v="Серв. авто" eh="083ff302" />
+        <e k="usedplus_admin_btn_dlg_inspect" v="Огляд" eh="35a9dbe6" />
+        <e k="usedplus_admin_btn_dlg_lease_end" v="Кінець лізингу" eh="da7801f1" />
+        <e k="usedplus_admin_btn_dlg_lease_renew" v="Подовж. лізинг" eh="7a794930" />
+        <e k="usedplus_admin_btn_toggle_debug" v="Перемк. відл." eh="e69cb6a0" />
+        <e k="usedplus_admin_btn_rel_100" v="Над: 100%" eh="dfdb79d3" />
+        <e k="usedplus_admin_btn_rel_50" v="Над: 50%" eh="9ce7a0a2" />
+        <e k="usedplus_admin_btn_rel_10" v="Над: 10%" eh="54d6e770" />
+        <e k="usedplus_admin_btn_reset_hours" v="Скид. години" eh="a519e5e1" />
+        <e k="usedplus_admin_btn_add_hours" v="+1000 годин" eh="ef05132d" />
+        <e k="usedplus_admin_btn_dna_desperate" v="Відчайдушний" eh="97df4642" />
+        <e k="usedplus_admin_btn_dna_reasonable" v="Розумний" eh="e485c034" />
+        <e k="usedplus_admin_btn_dna_immovable" v="Непохитний" eh="57d0e57c" />
+        <e k="usedplus_admin_btn_next_vehicle" v="Наст. техніка" eh="e95e97fa" />
+        <e k="usedplus_admin_btn_prev_vehicle" v="Попер. техніка" eh="69b3a0d0" />
+        <e k="usedplus_admin_current_balance" v="Поточний баланс:" eh="473e7f9e" />
+        <e k="usedplus_admin_current_credit" v="Кредитний рейтинг:" eh="0199e1a3" />
+        <e k="usedplus_admin_status_ready" v="Готово. Оберіть дію." eh="1ef35a42" />
 
     </elements>
 </l10n>

@@ -61,6 +61,45 @@ function DealDetailsDialog:onGuiSetupFinished()
         self.multiplierSelector:setTexts(DealDetailsDialog.MULTIPLIER_TEXTS)
         self.multiplierSelector:setState(1)  -- Default to 1x (first option)
     end
+
+    -- v2.9.5: Setup section header icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+    self:setupSectionIcons()
+end
+
+--[[
+    v2.9.5: Setup section header icons
+    Icons are set via Lua because XML paths don't work from ZIP mods
+]]
+function DealDetailsDialog:setupSectionIcons()
+    if self.iconDir == nil then
+        return
+    end
+
+    -- Header icon - loan_doc
+    if self.headerIcon ~= nil then
+        self.headerIcon:setImageFilename(self.iconDir .. "loan_doc.png")
+    end
+
+    -- Item section - vehicle icon
+    if self.itemSectionIcon ~= nil then
+        self.itemSectionIcon:setImageFilename(self.iconDir .. "vehicle.png")
+    end
+
+    -- Terms section - finance icon
+    if self.termsSectionIcon ~= nil then
+        self.termsSectionIcon:setImageFilename(self.iconDir .. "finance.png")
+    end
+
+    -- Progress section - calendar icon
+    if self.progressSectionIcon ~= nil then
+        self.progressSectionIcon:setImageFilename(self.iconDir .. "calendar.png")
+    end
+
+    -- Summary section - percentage icon
+    if self.summarySectionIcon ~= nil then
+        self.summarySectionIcon:setImageFilename(self.iconDir .. "percentage.png")
+    end
 end
 
 --[[

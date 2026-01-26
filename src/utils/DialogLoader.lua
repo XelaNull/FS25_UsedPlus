@@ -281,6 +281,11 @@ function DialogLoader.registerAll()
         DialogLoader.register("ServiceTruckDiscoveryDialog", ServiceTruckDiscoveryDialog, "gui/ServiceTruckDiscoveryDialog.xml")
     end
 
+    -- v2.9.5: Admin Control Panel
+    if AdminControlPanel then
+        DialogLoader.register("AdminControlPanel", AdminControlPanel, "gui/AdminControlPanel.xml")
+    end
+
     UsedPlus.logInfo("DialogLoader: Registered all dialogs")
 end
 

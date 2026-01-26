@@ -44,11 +44,13 @@
                 </GuiElement>
 
                 <!-- Mode Buttons (2x2 grid) -->
+                <!-- v2.8.1: All icons use Method A - Lua setImageFilename() -->
+
                 <!-- Diagnose Component (top-left) -->
                 <GuiElement profile="fskModeBox" position="-165px -70px">
                     <Bitmap profile="fskModeBoxBg" id="modeDiagnoseBg" position="0px 0px"/>
                     <Button profile="fskModeBtn" id="modeDiagnoseButton" onClick="onModeDiagnoseClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
-                    <Text profile="fskModeIcon" position="0px -15px" text="🔧"/>
+                    <Bitmap profile="fskModeIconImage" id="modeRepairIcon" position="0px -21px"/>
                     <Text profile="fskModeLabel" id="modeDiagnoseLabel" position="0px -48px" text="Diagnose Component"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="Skill-based repair minigame"/>
                 </GuiElement>
@@ -57,7 +59,7 @@
                 <GuiElement profile="fskModeBox" position="165px -70px">
                     <Bitmap profile="fskModeBoxBgWarning" id="modeMalfunctionsBg" position="0px 0px"/>
                     <Button profile="fskModeBtn" id="modeMalfunctionsButton" onClick="onModeMalfunctionsClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
-                    <Text profile="fskModeIcon" position="0px -15px" text="⚠"/>
+                    <Bitmap profile="fskModeIconImage" id="modeWarningIcon" position="0px -21px"/>
                     <Text profile="fskModeLabel" id="modeMalfunctionsLabel" position="0px -48px" text="Locate Malfunctions"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="View active issues"/>
                 </GuiElement>
@@ -66,7 +68,7 @@
                 <GuiElement profile="fskModeBox" position="-165px -175px">
                     <Bitmap profile="fskModeBoxBg" id="modeTireServiceBg" position="0px 0px"/>
                     <Button profile="fskModeBtn" id="modeTireServiceButton" onClick="onModeTireServiceClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
-                    <Text profile="fskModeIcon" position="0px -15px" text="🛞"/>
+                    <Bitmap profile="fskModeIconImage" id="modeTireIcon" position="0px -21px"/>
                     <Text profile="fskModeLabel" id="modeTireServiceLabel" position="0px -48px" text="Tire Service"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="Repair flat tire"/>
                 </GuiElement>
@@ -75,7 +77,7 @@
                 <GuiElement profile="fskModeBox" id="modeRVBBox" position="165px -175px">
                     <Bitmap profile="fskModeBoxBgTech" id="modeRVBBg" position="0px 0px"/>
                     <Button profile="fskModeBtn" id="modeRVBButton" onClick="onModeRVBClick" onHighlight="onModeBtnHighlight" onHighlightRemove="onModeBtnUnhighlight" position="0px 0px"/>
-                    <Text profile="fskModeIcon" position="0px -15px" text="📊"/>
+                    <Bitmap profile="fskModeIconImage" id="modeDiagnosticsIcon" position="0px -21px"/>
                     <Text profile="fskModeLabel" id="modeRVBLabel" position="0px -48px" text="RVB System Analysis"/>
                     <Text profile="fskModeDesc" position="0px -68px" text="View RVB component life"/>
                 </GuiElement>
@@ -853,6 +855,13 @@
             <textColor value="0.8 0.8 0.8 1"/>
             <textAlignment value="center"/>
         </Profile>
+        <!-- v2.8.1: Added missing fskWarningText profile -->
+        <Profile name="fskWarningText" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="600px 18px"/>
+            <textSize value="12px"/>
+            <textColor value="0.9 0.7 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
         <Profile name="fskSystemName" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="600px 22px"/>
             <textSize value="15px"/>
@@ -881,6 +890,12 @@
             <textSize value="12px"/>
             <textColor value="0.7 0.7 0.7 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v2.8.1: Mode icon images - set via Lua setImageFilename() -->
+        <Profile name="fskModeIconImage" extends="baseReference" with="anchorTopCenter">
+            <size value="40px 40px"/>
+            <imageSliceId value="noSlice"/>
         </Profile>
 
         <!-- Mode selection boxes -->

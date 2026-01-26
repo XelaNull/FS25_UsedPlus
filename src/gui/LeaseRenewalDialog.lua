@@ -39,6 +39,9 @@ function LeaseRenewalDialog.new(target, customMt)
     -- Callback
     self.callback = nil
 
+    -- v2.9.5: Icon directory for dynamic icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
     return self
 end
 
@@ -172,7 +175,34 @@ end
 ]]
 function LeaseRenewalDialog:onOpen()
     LeaseRenewalDialog:superClass().onOpen(self)
+
+    -- v2.9.5: Setup option icons
+    self:setupOptionIcons()
+
     self:updateDisplay()
+end
+
+--[[
+    v2.9.5: Setup option icons
+]]
+function LeaseRenewalDialog:setupOptionIcons()
+    -- Return icon (arrow_left)
+    local returnIcon = self.dialogElement:getDescendantById("returnIcon")
+    if returnIcon ~= nil then
+        returnIcon:setImageFilename(self.iconDir .. "arrow_left.png")
+    end
+
+    -- Buyout icon (cash)
+    local buyoutIcon = self.dialogElement:getDescendantById("buyoutIcon")
+    if buyoutIcon ~= nil then
+        buyoutIcon:setImageFilename(self.iconDir .. "cash.png")
+    end
+
+    -- Renew icon (lease)
+    local renewIcon = self.dialogElement:getDescendantById("renewIcon")
+    if renewIcon ~= nil then
+        renewIcon:setImageFilename(self.iconDir .. "lease.png")
+    end
 end
 
 --[[
@@ -358,4 +388,4 @@ function LeaseRenewalDialog.show(deal, callback)
     DialogLoader.show("LeaseRenewalDialog", "setDeal", deal, callback)
 end
 
-UsedPlus.logInfo("LeaseRenewalDialog loaded")
+UsedPlus.logInfo("LeaseRenewalDialog loaded (v2.9.5)")

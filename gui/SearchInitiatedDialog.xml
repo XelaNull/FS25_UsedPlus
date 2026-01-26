@@ -9,26 +9,31 @@
     <GuiElement profile="newLayer" />
     <Bitmap profile="dialogFullscreenBg" id="dialogBg" />
 
-    <GuiElement profile="dialogBg" id="dialogElement" size="620px 520px">
+    <GuiElement profile="dialogBg" id="dialogElement" size="620px 550px">
         <ThreePartBitmap profile="fs25_dialogBgMiddle" />
         <ThreePartBitmap profile="fs25_dialogBgTop" />
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
 
         <GuiElement profile="fs25_dialogContentContainer">
 
+            <!-- v2.9.5: Header icon (search with checkmark) -->
+            <Bitmap profile="siHeaderIcon" id="headerIcon" position="0px -10px"/>
+
             <!-- Title -->
-            <Text profile="siTitle" position="0px -20px" text="Search Initiated"/>
+            <Text profile="siTitle" position="0px -50px" text="Search Initiated"/>
 
             <!-- ========== SECTION 1: Vehicle Being Searched ========== -->
-            <GuiElement profile="siSectionContainer" position="0px -55px">
+            <GuiElement profile="siSectionContainer" position="0px -85px">
                 <Bitmap profile="siSectionBgBlue" position="0px 0px"/>
+                <Bitmap profile="siSectionIcon" id="vehicleIcon" position="-250px -15px"/>
                 <Text profile="siVehicleName" id="vehicleNameText" position="0px -20px" text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 2: Search Configuration ========== -->
-            <GuiElement profile="siSectionContainerTall" position="0px -115px">
+            <GuiElement profile="siSectionContainerTall" position="0px -145px">
                 <Bitmap profile="siSectionBg" position="0px 0px"/>
-                <Text profile="siSectionHeader" position="0px -8px" text="SEARCH CONFIGURATION"/>
+                <Bitmap profile="siSectionIcon" id="configIcon" position="-250px -5px"/>
+                <Text profile="siSectionHeaderWithIcon" position="0px -8px" text="SEARCH CONFIGURATION"/>
 
                 <!-- Two columns: Search Tier | Quality Target -->
                 <Text profile="siLabel" position="-150px -32px" text="Search Tier"/>
@@ -41,9 +46,10 @@
             </GuiElement>
 
             <!-- ========== SECTION 3: Agent Fees ========== -->
-            <GuiElement profile="siSectionContainerMed" position="0px -210px">
+            <GuiElement profile="siSectionContainerMed" position="0px -240px">
                 <Bitmap profile="siSectionBgFee" position="0px 0px"/>
-                <Text profile="siSectionHeader" position="0px -8px" text="AGENT FEES"/>
+                <Bitmap profile="siSectionIcon" id="feesIcon" position="-250px -5px"/>
+                <Text profile="siSectionHeaderWithIcon" position="0px -8px" text="AGENT FEES"/>
 
                 <!-- Two columns: Retainer | Commission -->
                 <Text profile="siLabel" position="-150px -32px" text="Retainer (Paid Now)"/>
@@ -54,9 +60,10 @@
             </GuiElement>
 
             <!-- ========== SECTION 4: Expected Pricing ========== -->
-            <GuiElement profile="siSectionContainerMed" position="0px -295px">
+            <GuiElement profile="siSectionContainerMed" position="0px -325px">
                 <Bitmap profile="siSectionBgGreen" position="0px 0px"/>
-                <Text profile="siSectionHeader" position="0px -8px" text="EXPECTED PRICING"/>
+                <Bitmap profile="siSectionIcon" id="pricingIcon" position="-250px -5px"/>
+                <Text profile="siSectionHeaderWithIcon" position="0px -8px" text="EXPECTED PRICING"/>
 
                 <!-- Three columns: Base Price | Commission | Asking Price -->
                 <Text profile="siLabel" position="-180px -32px" text="Est. Base"/>
@@ -70,9 +77,9 @@
             </GuiElement>
 
             <!-- ========== Info Text ========== -->
-            <Text profile="siInfoText" id="infoText" position="0px -390px"
+            <Text profile="siInfoText" id="infoText" position="0px -420px"
                 text="Your agent will search monthly and notify you when vehicles are found."/>
-            <Text profile="siInfoTextSub" position="0px -412px"
+            <Text profile="siInfoTextSub" position="0px -442px"
                 text="Check Used Marketplace in ESC menu to view search progress."/>
 
         </GuiElement>
@@ -84,6 +91,27 @@
     </GuiElement>
 
     <GUIProfiles>
+        <!-- ========== HEADER ICON ========== -->
+        <Profile name="siHeaderIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="32px 32px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- ========== SECTION ICONS ========== -->
+        <Profile name="siSectionIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- ========== SECTION HEADER WITH ICON ========== -->
+        <Profile name="siSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="500px 20px"/>
+            <textSize value="12px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="center"/>
+        </Profile>
+
         <!-- ========== TITLE ========== -->
         <Profile name="siTitle" extends="fs25_textDefault" with="anchorTopCenter">
             <size value="500px 28px"/>

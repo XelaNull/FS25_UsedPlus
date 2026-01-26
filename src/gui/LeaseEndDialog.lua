@@ -31,6 +31,9 @@ function LeaseEndDialog.new(target, customMt)
     self.buyoutPrice = 0
     self.callback = nil
 
+    -- v2.9.5: Icon directory for dynamic icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
     return self
 end
 
@@ -46,7 +49,28 @@ end
 ]]
 function LeaseEndDialog:onOpen()
     LeaseEndDialog:superClass().onOpen(self)
+
+    -- v2.9.5: Setup option icons
+    self:setupOptionIcons()
+
     self:updateDisplay()
+end
+
+--[[
+    v2.9.5: Setup option icons
+]]
+function LeaseEndDialog:setupOptionIcons()
+    -- Return icon (arrow_left)
+    local returnIcon = self.dialogElement:getDescendantById("returnIcon")
+    if returnIcon ~= nil then
+        returnIcon:setImageFilename(self.iconDir .. "arrow_left.png")
+    end
+
+    -- Buyout icon (cash)
+    local buyoutIcon = self.dialogElement:getDescendantById("buyoutIcon")
+    if buyoutIcon ~= nil then
+        buyoutIcon:setImageFilename(self.iconDir .. "cash.png")
+    end
 end
 
 --[[
@@ -189,4 +213,4 @@ function LeaseEndDialog:onClose()
     LeaseEndDialog:superClass().onClose(self)
 end
 
-UsedPlus.logInfo("LeaseEndDialog loaded")
+UsedPlus.logInfo("LeaseEndDialog loaded (v2.9.5)")

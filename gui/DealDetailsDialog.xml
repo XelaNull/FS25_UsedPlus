@@ -10,6 +10,9 @@
 
         <GuiElement profile="fs25_dialogContentContainer">
 
+            <!-- v2.9.5: Header icon -->
+            <Bitmap profile="ddHeaderIcon" id="headerIcon" position="-310px -20px"/>
+
             <!-- Title -->
             <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -30px" text="$l10n_usedplus_dd_title"/>
 
@@ -17,7 +20,9 @@
             <!-- Unified Grid: Col1 L-270 V-170 | Col2 L-30 V70 | Col3 L170 V270 -->
             <GuiElement profile="ddSectionContainer" position="0px -70px">
                 <Bitmap profile="ddSectionBg" position="0px 0px"/>
-                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionItem"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="ddSectionIcon" id="itemSectionIcon" position="-290px -3px"/>
+                <Text profile="ddSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_dd_sectionItem"/>
 
                 <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_name"/>
                 <Text profile="ddValueSmall" id="itemNameText" position="-170px -28px" text=""/>
@@ -34,7 +39,9 @@
             <!-- Grid: L1 -270px, V1 -170px | L2 -30px, V2 70px | L3 170px, V3 270px -->
             <GuiElement profile="ddSectionContainerTall" position="0px -160px">
                 <Bitmap profile="ddSectionBgTall" position="0px 0px"/>
-                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionTerms"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="ddSectionIcon" id="termsSectionIcon" position="-290px -3px"/>
+                <Text profile="ddSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_dd_sectionTerms"/>
 
                 <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_original"/>
                 <Text profile="ddValueMoney" id="originalPriceText" position="-170px -28px" text=""/>
@@ -55,7 +62,9 @@
             <!-- Unified Grid: Col1 L-270 V-170 | Col3 L170 V270 -->
             <GuiElement profile="ddSectionContainer" position="0px -250px">
                 <Bitmap profile="ddSectionBg" position="0px 0px"/>
-                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionProgress"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="ddSectionIcon" id="progressSectionIcon" position="-290px -3px"/>
+                <Text profile="ddSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_dd_sectionProgress"/>
 
                 <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_payments"/>
                 <Text profile="ddValueSmall" id="paymentsMadeText" position="-170px -28px" text=""/>
@@ -72,7 +81,9 @@
             <!-- Same grid as Financial Terms for cross-section alignment -->
             <GuiElement profile="ddSectionContainer" position="0px -340px">
                 <Bitmap profile="ddSectionBg" position="0px 0px"/>
-                <Text profile="ddSectionHeader" position="0px -5px" text="$l10n_usedplus_dd_sectionSummary"/>
+                <!-- v2.9.5: Section header with icon -->
+                <Bitmap profile="ddSectionIcon" id="summarySectionIcon" position="-290px -3px"/>
+                <Text profile="ddSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_dd_sectionSummary"/>
 
                 <Text profile="ddLabelSmall" position="-270px -28px" text="$l10n_usedplus_dd_principal"/>
                 <Text profile="ddValueMoney" id="principalPaidText" position="-170px -28px" text=""/>
@@ -197,6 +208,27 @@
             <textBold value="true"/>
             <textColor value="1 0.8 0.2 1"/>
             <textAlignment value="center"/>
+        </Profile>
+
+        <!-- v2.9.5: Section header with icon - text left-aligned -->
+        <Profile name="ddSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
+            <size value="620px 22px"/>
+            <textSize value="14px"/>
+            <textBold value="true"/>
+            <textColor value="1 0.8 0.2 1"/>
+            <textAlignment value="left"/>
+        </Profile>
+
+        <!-- v2.9.5: Header icon profile (32px) -->
+        <Profile name="ddHeaderIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="32px 32px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- v2.9.5: Section icon profile (20px) -->
+        <Profile name="ddSectionIcon" extends="baseReference" with="anchorTopCenter">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
         </Profile>
 
         <!-- ========== 2-COLUMN LABELS (100px wide) ========== -->

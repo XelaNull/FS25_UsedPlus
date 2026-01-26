@@ -1,0 +1,1953 @@
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<!--
+     Hungarian localization for FS25_UsedPlus
+     Auto-generated base file - run translation_sync.js to populate
+-->
+<l10n>
+    <elements>
+    
+        <e k="usedplus_finance_title" v="Jármű finanszírozás" eh="6efef1bd" />
+        <e k="usedplus_finance_itemDetails" v="Jármű adatok" eh="fcb2575f" />
+        <e k="usedplus_finance_configuration" v="Finanszírozás beállítása" eh="0519e514" />
+        <e k="usedplus_finance_term" v="Futamidő" eh="5d1f9c9f" />
+        <e k="usedplus_finance_loanTerm" v="Futamidő (év)" eh="a33ae292" />
+        <e k="usedplus_finance_downPayment" v="Előleg" eh="46b7f6c5" />
+        <e k="usedplus_finance_cashBack" v="Készpénz visszatérítés" eh="bca1e43d" />
+        <e k="usedplus_finance_paymentPreview" v="Törlesztés előnézet" eh="a3f5396e" />
+        <e k="usedplus_finance_monthlyPayment" v="Havi törlesztés" eh="c102e118" />
+        <e k="usedplus_finance_yearlyPayment" v="Éves törlesztés" eh="b4080ee0" />
+        <e k="usedplus_finance_totalInterest" v="Összes kamat" eh="8c4f3836" />
+        <e k="usedplus_finance_totalCost" v="Teljes költség" eh="50e91dab" />
+        <e k="usedplus_finance_interestRate" v="Kamatláb" eh="0b6e9e85" />
+        <e k="usedplus_finance_creditScore" v="Hitelpontszám" eh="ae61b052" />
+        <e k="usedplus_finance_creditRating" v="Hitelminősítés" eh="0c50a24a" />
+        <e k="usedplus_finance_important" v="Fontos információk" eh="e89802a1" />
+        <e k="usedplus_finance_ownershipTransfers" v="A tulajdonjog az elfogadáskor azonnal átszáll." eh="8dcaaa5b" />
+        <e k="usedplus_finance_sellAnytime" v="A finanszírozott tételeket bármikor eladhatja. A fennmaradó tartozást az eladási bevételből kell kiegyenlíteni." eh="ce3d5807" />
+        <e k="usedplus_lease_title" v="Jármű lízing" eh="beae83e4" />
+        <e k="usedplus_lease_vehicleDetails" v="Jármű adatok" eh="fcb2575f" />
+        <e k="usedplus_lease_configuration" v="Lízing beállítása" eh="07e07e72" />
+        <e k="usedplus_lease_term" v="Lízing időtartam (év)" eh="13fd4421" />
+        <e k="usedplus_lease_downPayment" v="Előleg" eh="46b7f6c5" />
+        <e k="usedplus_lease_residualValue" v="Maradványérték (záró részlet)" eh="458fd3b9" />
+        <e k="usedplus_lease_paymentPreview" v="Törlesztés előnézet" eh="a3f5396e" />
+        <e k="usedplus_lease_monthlyPayment" v="Havi törlesztés" eh="c102e118" />
+        <e k="usedplus_lease_yearlyPayment" v="Éves törlesztés" eh="b4080ee0" />
+        <e k="usedplus_lease_totalCost" v="Teljes lízing költség" eh="993f980c" />
+        <e k="usedplus_lease_interestRate" v="Kamatláb" eh="0b6e9e85" />
+        <e k="usedplus_lease_creditScore" v="Hitelpontszám" eh="ae61b052" />
+        <e k="usedplus_lease_important" v="Fontos lízing információk" eh="767b599f" />
+        <e k="usedplus_lease_endOfTerm" v="Lízing lejárat" eh="35022911" />
+        <e k="usedplus_lease_buyoutPrice" v="Kivásárlási ár" eh="8d6be5af" />
+        <e k="usedplus_lease_totalInterest" v="Összes kamat" eh="8c4f3836" />
+        <e k="usedplus_search_title" v="Használt felszerelés keresése" eh="7c093c6a" />
+        <e k="usedplus_search_itemDetails" v="Tétel adatok" eh="6df16946" />
+        <e k="usedplus_search_searching" v="Keresés folyamatban" eh="7706fe6a" />
+        <e k="usedplus_search_newPrice" v="Új ár:" eh="8def7435" />
+        <e k="usedplus_search_selectTier" v="Keresési szint kiválasztása" eh="fe21c40b" />
+        <e k="usedplus_search_tierDescription" v="Válassza ki a keresés hatókörét. A magasabb szintek többe kerülnek és tovább tartanak, de jobb sikerességi arányuk és minőségük van." eh="0e9cafdd" />
+        <e k="usedplus_search_tierSelection" v="Keresési szint választás" eh="a2527868" />
+        <e k="usedplus_search_tierLocal" v="Helyi keresés" eh="e1ea5bc1" />
+        <e k="usedplus_search_tierRegional" v="Regionális keresés" eh="722cc490" />
+        <e k="usedplus_search_tierNational" v="Országos keresés" eh="c967061f" />
+        <e k="usedplus_search_cost" v="Keresési költség" eh="510c1fa6" />
+        <e k="usedplus_search_duration" v="Időtartam" eh="e02d2ae0" />
+        <e k="usedplus_search_success" v="Sikerességi arány" eh="aac60ede" />
+        <e k="usedplus_search_successChance" v="Siker esélye" eh="7ad5b765" />
+        <e k="usedplus_search_match" v="Minőség találati esély" eh="da45c669" />
+        <e k="usedplus_search_description" v="Leírás" eh="b5a7adde" />
+        <e k="usedplus_search_descLocal" v="Közeli kereskedők keresése. Garantált 1 hónapos válasz, 2% költség, 40% sikeresség." eh="1aef5e06" />
+        <e k="usedplus_search_descRegional" v="Regionális hálózat keresése. 1-3 hónap, 6% költség, 70% sikeresség." eh="d0d8016e" />
+        <e k="usedplus_search_descNational" v="Országos keresés. 2-6 hónap, 12% költség, 85% sikeresség." eh="71992615" />
+        <e k="usedplus_search_qualitySelection" v="Kívánt minőség" eh="f70a51e0" />
+        <e k="usedplus_search_qualityDescription" v="Alacsonyabb minőség = olcsóbb ár, de több javítás szükséges" eh="f991384c" />
+        <e k="usedplus_search_confirmTitle" v="Keresés elindítva" eh="e42ba949" />
+        <e k="usedplus_search_retainer" v="Ügynöki előleg" eh="22908ab1" />
+        <e k="usedplus_search_commission" v="Közvetítői díj" eh="1130f6f3" />
+        <e k="usedplus_search_commissionInfo" v="%d%% hozzáadva a jármű árához" eh="e6462a3c" />
+        <e k="usedplus_search_monthProgress" v="%d. hónap / %d" eh="b2af1b34" />
+        <e k="usedplus_search_vehiclesFound" v="%d jármű találva" eh="69e744df" />
+        <e k="usedplus_search_monthlyChance" v="%d%% havonta" eh="c5458c12" />
+        <e k="usedplus_search_foundVehicles" v="TALÁLT JÁRMŰVEK" eh="4a8990d1" />
+        <e k="usedplus_search_noVehiclesYet" v="Még nem találtunk járművet" eh="812b14d0" />
+        <e k="usedplus_search_inspectVehicle" v="Átvizsgálás" eh="35a9dbe6" />
+        <e k="usedplus_search_buyVehicle" v="Vásárlás" eh="831a28f1" />
+        <e k="usedplus_search_declineVehicle" v="Elutasítás" eh="0d362728" />
+        <e k="usedplus_notify_vehicleFound" v="Az ügynöke talált egy %s-t!" eh="bf9782f6" />
+        <e k="usedplus_notify_searchComplete" v="Keresés befejezve: %d jármű találva" eh="dbd32f05" />
+        <e k="usedplus_confirmation_title" v="Megerősítés" eh="f4d1ea47" />
+        <e k="usedplus_inGameMenuTitle" v="Used Plus - Finanszírozás és keresések" eh="093c7b9e" />
+        <e k="usedplus_activeFinanceDeals" v="Aktív finanszírozási szerződések:" eh="5cf7fac5" />
+        <e k="usedplus_activeSearches" v="Aktív keresések:" eh="274e131d" />
+        <e k="usedplus_creditScore" v="Hitelpontszám:" eh="0199e1a3" />
+        <e k="usedplus_manager_title" v="Pénzügyi kezelő" eh="76701fe5" />
+        <e k="usedplus_manager_totalFinanced" v="Összes finanszírozás" eh="223e5677" />
+        <e k="usedplus_manager_monthlyObligations" v="Havi kötelezettségek" eh="398fa99a" />
+        <e k="usedplus_manager_creditScore" v="Hitelpontszám" eh="ae61b052" />
+        <e k="usedplus_manager_assetValue" v="Eszközérték" eh="5482d5a2" />
+        <e k="usedplus_manager_debtRatio" v="Adósságráta" eh="93581501" />
+        <e k="usedplus_manager_activeDeals" v="Aktív szerződések" eh="5bf89e7b" />
+        <e k="usedplus_manager_type" v="Típus" eh="a1fa2777" />
+        <e k="usedplus_manager_item" v="Tétel" eh="7d74f3b9" />
+        <e k="usedplus_manager_balance" v="Egyenleg" eh="99a808d8" />
+        <e k="usedplus_manager_monthly" v="Havi törlesztés" eh="c102e118" />
+        <e k="usedplus_manager_progress" v="Előrehaladás" eh="46b5f8c5" />
+        <e k="usedplus_manager_actions" v="Műveletek" eh="06df3300" />
+        <e k="usedplus_manager_noDeals" v="Nincs aktív finanszírozási vagy lízing szerződés." eh="880134fe" />
+        <e k="usedplus_manager_helpText" v="Járművek finanszírozása a boltból (F gomb). Használt felszerelés keresése (V gomb). A törlesztések havonta automatikusan levonásra kerülnek." eh="ea889bec" />
+        <e k="usedplus_vanillaLoan" v="Banki hitelkeret" eh="ae4b0f92" />
+        <e k="usedplus_loanOpen" v="Nyitott" eh="c3bf447e" />
+        <e k="usedplus_loanNoTerm" v="Nincs futamidő" eh="8dbfc606" />
+        <e k="usedplus_loanInterestOnly" v="Kamat" eh="920beb5d" />
+        <e k="usedplus_detail_dealInfo" v="Szerződés információk" eh="442669bc" />
+        <e k="usedplus_detail_itemName" v="Tétel" eh="7d74f3b9" />
+        <e k="usedplus_detail_dealType" v="Típus" eh="a1fa2777" />
+        <e k="usedplus_detail_originalPrice" v="Eredeti ár" eh="8bd19c0a" />
+        <e k="usedplus_detail_downPayment" v="Előleg" eh="46b7f6c5" />
+        <e k="usedplus_detail_amountFinanced" v="Finanszírozott összeg" eh="e285131a" />
+        <e k="usedplus_detail_interestRate" v="Kamatláb" eh="0b6e9e85" />
+        <e k="usedplus_detail_term" v="Futamidő" eh="cf5f3091" />
+        <e k="usedplus_detail_startDate" v="Kezdő dátum" eh="db3794c7" />
+        <e k="usedplus_detail_paymentStatus" v="Fizetési állapot" eh="2ea78fad" />
+        <e k="usedplus_detail_currentBalance" v="Aktuális egyenleg" eh="91b496c3" />
+        <e k="usedplus_detail_principalPaid" v="Kifizetett tőke" eh="dbc03b11" />
+        <e k="usedplus_detail_interestPaid" v="Kifizetett kamat" eh="000ffd10" />
+        <e k="usedplus_detail_remainingPrincipal" v="Fennmaradó tőke" eh="d6f9e1f5" />
+        <e k="usedplus_detail_projectedInterest" v="Várható kamat (előtörlesztés nélkül)" eh="30c8b124" />
+        <e k="usedplus_detail_makePayment" v="További törlesztés" eh="baa79ea4" />
+        <e k="usedplus_detail_paymentAmount" v="Törlesztés összege" eh="5bbe29e8" />
+        <e k="usedplus_detail_paymentSummary" v="Törlesztés összefoglaló" eh="0ca2b553" />
+        <e k="usedplus_detail_paymentTotal" v="Teljes törlesztés" eh="4935ede3" />
+        <e k="usedplus_detail_toPrincipal" v="Tőkére" eh="5253f523" />
+        <e k="usedplus_detail_toInterest" v="Kamatra" eh="d9e82220" />
+        <e k="usedplus_detail_newBalance" v="Új egyenleg" eh="17d35991" />
+        <e k="usedplus_detail_prepaymentPenalty" v="Előtörlesztési büntetés" eh="057cca0e" />
+        <e k="usedplus_landFinance_title" v="Termőföld finanszírozás" eh="4a5ab59c" />
+        <e k="usedplus_landFinance_fieldDetails" v="Tábla adatok" eh="cb124d38" />
+        <e k="usedplus_landFinance_configuration" v="Finanszírozás beállítása" eh="0519e514" />
+        <e k="usedplus_landFinance_term" v="Futamidő (év)" eh="a33ae292" />
+        <e k="usedplus_landFinance_downPayment" v="Előleg" eh="46b7f6c5" />
+        <e k="usedplus_landFinance_paymentPreview" v="Törlesztés előnézet" eh="a3f5396e" />
+        <e k="usedplus_landFinance_monthlyPayment" v="Havi törlesztés" eh="c102e118" />
+        <e k="usedplus_landFinance_yearlyPayment" v="Éves törlesztés" eh="b4080ee0" />
+        <e k="usedplus_landFinance_totalInterest" v="Összes kamat" eh="8c4f3836" />
+        <e k="usedplus_landFinance_totalCost" v="Teljes költség" eh="50e91dab" />
+        <e k="usedplus_landFinance_interestRate" v="Kamatláb" eh="0b6e9e85" />
+        <e k="usedplus_landFinance_lowerRates" v="A földfinanszírozás általában alacsonyabb kamatot kínál." eh="6a9be1a3" />
+        <e k="usedplus_landFinance_creditScore" v="Hitelpontszám" eh="ae61b052" />
+        <e k="usedplus_landFinance_important" v="Fontos információk" eh="e89802a1" />
+        <e k="usedplus_landFinance_ownershipTransfers" v="A föld tulajdonjoga azonnal átszáll. A táblát azonnal használhatja." eh="6bd793be" />
+        <e k="usedplus_landFinance_seizureWarning" v="Figyelem: A havi törlesztések elmulasztása a föld elkobzását eredményezheti." eh="9e692b4f" />
+        <e k="usedplus_button_acceptFinance" v="Finanszírozás elfogadása" eh="dac8a2e3" />
+        <e k="usedplus_button_acceptLease" v="Lízing elfogadása" eh="8230fec9" />
+        <e k="usedplus_button_startSearch" v="Keresés indítása" eh="39d69ff6" />
+        <e k="usedplus_button_viewDetail" v="Részletek" eh="5d5cd268" />
+        <e k="usedplus_button_makePayment" v="Törlesztés" eh="772005c5" />
+        <e k="usedplus_button_endLeaseEarly" v="Lízing korai befejezése" eh="57913dd8" />
+        <e k="usedplus_button_purchaseUsed" v="Használt vásárlása" eh="b2e3f11c" />
+        <e k="usedplus_button_finance" v="Finanszírozás" eh="c482980d" />
+        <e k="usedplus_button_financeLand" v="Föld finanszírozás" eh="638732e0" />
+        <e k="usedplus_button_leaseLand" v="Föld lízing" eh="ec34a2a6" />
+        <e k="usedplus_button_lease" v="Lízing" eh="47c96b08" />
+        <e k="usedplus_button_searchUsed" v="Használt keresés" eh="11533c61" />
+        <e k="usedplus_notification_dealComplete" v="%s ki lett fizetve!" eh="5d829f21" />
+        <e k="usedplus_notification_searchSuccess" v="Használt %s találva!" eh="ef123353" />
+        <e k="usedplus_notification_searchFailed" v="A %s keresése sikertelen. Nem található egyezés." eh="fc5652a6" />
+        <e k="usedplus_searchFailed_title" v="Keresés befejezve" eh="e92d4ab1" />
+        <e k="usedplus_searchFailed_message" v="Az ügynöke nem talált a feltételeknek megfelelő %s-t. A keresési díj nem visszatéríthető. Kívánsága szerint új keresést indíthat." eh="f866d76d" />
+        <e k="usedplus_notification_searchStarted" v="%s keresése folyamatban. Várható befejezés: %d nap." eh="1b04e427" />
+        <e k="usedplus_notification_searchCancelled" v="%s keresése törölve. Nincs visszatérítés." eh="e5f294f4" />
+        <e k="usedplus_notification_vehicleFound" v="Használt %s (%s) találva %s-ért!" eh="97804817" />
+        <e k="usedplus_notification_dealPaidOff" v="%s teljesen ki lett fizetve!" eh="2d9db7b8" />
+        <e k="usedplus_notification_paymentProcessed" v="%s törlesztés feldolgozva: %s" eh="81123b2d" />
+        <e k="usedplus_notification_leaseTerminated" v="%s lízingje megszűnt. Büntetés: %s" eh="b59ab283" />
+        <e k="usedplus_notification_leaseTerminatedNoPenalty" v="%s lízingje megszűnt. Nincs büntetés." eh="07e1dcd5" />
+        <e k="usedplus_notification_missedLeasePayment" v="ELMULASZTOTT LÍZING TÖRLESZTÉS: %s nem fizethető ki (%s)" eh="1efc41eb" />
+        <e k="usedplus_notification_leaseDamagePenalty" v="Lízing kárbüntetés (%s): %s" eh="618cc31d" />
+        <e k="usedplus_notification_leaseComplete" v="Lízing befejezve! %s visszaadva." eh="d78a78c7" />
+        <e k="usedplus_notification_dealPaidFromSale" v="%s eladva. %s finanszírozási egyenleg kifizetve a bevételből." eh="8ef8395a" />
+        <e k="usedplus_error_insufficientFunds" v="Nincs elég pénz. Szükséges: %s" eh="e212e92e" />
+        <e k="usedplus_error_searchFailed" v="Keresés indítása sikertelen. Próbálja újra." eh="1fdff9c2" />
+        <e k="usedplus_error_insufficientFundsTermination" v="Nincs elég pénz a lízing megszüntetéséhez. Szükséges: %s" eh="b089241b" />
+        <e k="usedplus_error_invalidDeal" v="Érvénytelen szerződés. Kérjük, lépjen kapcsolatba a támogatással." eh="5a9d61df" />
+        <e k="usedplus_error_cannotSellLeasedVehicle" v="Lízingelt járművet nem lehet eladni. Először fejezze be a lízinget vagy várja meg a lejáratot." eh="056547d3" />
+        <e k="usedplus_error_insufficientSalePrice" v="Nem lehet eladni. A fennmaradó egyenleg (%s) meghaladja az eladási árat (%s)." eh="bb69fad7" />
+        <e k="usedplus_error_maxSaleListings" v="Legfeljebb %d jármű hirdetése lehetséges egyszerre. Várja meg az eladás befejezését vagy töröljön egy hirdetést." eh="a5dd26b0" />
+        <e k="usedplus_credit_excellent" v="Kiváló" eh="fcc2d28a" />
+        <e k="usedplus_credit_good" v="Jó" eh="0c6ad70b" />
+        <e k="usedplus_credit_fair" v="Megfelelő" eh="f7f20cf0" />
+        <e k="usedplus_credit_poor" v="Gyenge" eh="0e94d017" />
+        <e k="usedplus_condition_critical" v="Kritikus" eh="278d01e5" />
+        <e k="usedplus_condition_poor" v="Gyenge" eh="0e94d017" />
+        <e k="usedplus_condition_any" v="Bármilyen" eh="ed36a1ef" />
+        <e k="usedplus_condition_fair" v="Megfelelő" eh="f7f20cf0" />
+        <e k="usedplus_condition_good" v="Jó" eh="0c6ad70b" />
+        <e k="usedplus_condition_excellent" v="Kiváló" eh="fcc2d28a" />
+        <e k="usedplus_condition_poor_desc" v="Alkalmi vétel - lehet, hogy nem működik vagy kiterjedt javítást igényel" eh="01dfd975" />
+        <e k="usedplus_condition_any_desc" v="Legolcsóbb működő - jelentős javításokat igényelhet" eh="4f93d3f3" />
+        <e k="usedplus_dealType_finance" v="Finanszírozás" eh="c482980d" />
+        <e k="usedplus_dealType_lease" v="Lízing" eh="47c96b08" />
+        <e k="usedplus_itemType_vehicle" v="Jármű" eh="d6af9c1e" />
+        <e k="usedplus_itemType_land" v="Termőföld" eh="d13a7835" />
+        <e k="usedplus_itemType_placeable" v="Elhelyezhető" eh="a50f608e" />
+        <e k="usedplus_generation_recent" v="Újabb" eh="dae52b80" />
+        <e k="usedplus_generation_midage" v="Középkorú" eh="414353d1" />
+        <e k="usedplus_generation_old" v="Régi" eh="c7268757" />
+        <e k="usedplus_help_creditScore" v="A hitelpontszám befolyásolja a kamatot. Javítsa alacsony adósság-eszköz arány fenntartásával." eh="a3a769c7" />
+        <e k="usedplus_help_downPayment" v="A magasabb előleg csökkenti a havi törlesztést és csökkentheti a kamatot." eh="b8e7782b" />
+        <e k="usedplus_help_cashBack" v="A készpénz visszatérítés az előlegből kerül levonásra. Növeli a finanszírozott összeget." eh="0ff6b424" />
+        <e k="usedplus_help_prepayment" v="Előtörlesztheti a hitelét a kamat megtakarításához. Előtörlesztési büntetés alkalmazható." eh="f8455d1a" />
+        <e k="usedplus_help_leaseDamage" v="Tartsa a lízingelt járműveket jó állapotban a visszaadási büntetések elkerüléséhez." eh="f99c02f9" />
+        <e k="usedplus_menu_financeManager" v="Pénzügyi kezelő" eh="76701fe5" />
+        <e k="usedplus_action_openFinanceManager" v="Pénzügyi kezelő megnyitása" eh="806bb897" />
+        <e k="usedplus_action_searchUsed" v="Használt felszerelés keresése" eh="77397317" />
+        <e k="input_USEDPLUS_OPEN_FINANCE_MANAGER" v="Pénzügyi kezelő megnyitása" eh="806bb897" />
+        <e k="input_USEDPLUS_SEARCH_USED" v="Használt felszerelés keresése" eh="77397317" />
+        <e k="input_USEDPLUS_INSPECT_VEHICLE" v="Jármű átvizsgálása" eh="c06f09f1" />
+        <e k="input_USEDPLUS_ACTIVATE_OBD" v="OBD szkenner használata" eh="9666e26b" />
+        <e k="input_USEDPLUS_TIRES" v="Gumiabroncs szerviz" eh="b0234f4e" />
+        <e k="input_USEDPLUS_SERVICE_TRUCK" v="Szerviz teherautó vezérlés" eh="fad0e0f1" />
+        <e k="usedplus_finance_loanTerm_tooltip" v="Törlesztés elosztása 1-20 év között. Hosszabb futamidő = kisebb havi törlesztés, de több összes kamat." eh="e1170142" />
+        <e k="usedplus_finance_downPayment_tooltip" v="Fizessen előre a hitelösszeg csökkentéséhez. Magasabb előleg = alacsonyabb kamat és havi törlesztés. Tartomány: 0-50%." eh="cb530b47" />
+        <e k="usedplus_finance_cashBack_tooltip" v="Készpénz azonnali átvétele (hozzáadva a hitelhez). Hasznos működési költségekre, de növeli a havi törlesztést és az összes költséget." eh="dc2693cd" />
+        <e k="usedplus_finance_monthlyPayment_tooltip" v="Automatikusan levonásra kerül a gazdaság számlájáról minden játékbeli hónapban. Győződjön meg róla, hogy van elég pénze!" eh="c0ee3f8c" />
+        <e k="usedplus_finance_totalInterest_tooltip" v="A finanszírozás többletköltsége a készpénzes fizetéshez képest. Ezt fizeti az időben elosztott törlesztésért." eh="93fba715" />
+        <e k="usedplus_finance_totalCost_tooltip" v="Vételár + összes kamat = amit ténylegesen fizet a teljes futamidő alatt." eh="52be56aa" />
+        <e k="usedplus_finance_interestRate_tooltip" v="A hitelre felszámított éves százalék. A hitelpontszám és az előleg alapján. Az alacsonyabb jobb!" eh="d2b214cf" />
+        <e k="usedplus_finance_creditScore_tooltip" v="A gazdaság pénzügyi minősítése (300-850). Magasabb pontszám = alacsonyabb kamat. Javítsa alacsony adósság és időben fizetés által." eh="63bcbfcf" />
+        <e k="usedplus_lease_term_tooltip" v="Lízing 1-5 évre, majd visszaadja a járművet vagy kifizeti a maradványértéket a megtartáshoz. Rövidebb időtartam = magasabb havi törlesztés." eh="dad3d80d" />
+        <e k="usedplus_lease_downPayment_tooltip" v="Előleg. Alacsonyabb maximum (20%) mint finanszírozásnál, mert még nem Öné a jármű." eh="eee20887" />
+        <e k="usedplus_lease_residualValue_tooltip" v="A lízing végén fizetendő összeg, ha meg szeretné tartani a járművet. A becsült értékcsökkenés alapján. Adja vissza a járművet, hogy ne fizessen extra összeget (ha jó állapotban van)." eh="828cc532" />
+        <e k="usedplus_lease_monthlyPayment_tooltip" v="Automatikusan levonásra kerül minden hónapban a lízing időtartama alatt. Alacsonyabb mint a finanszírozási törlesztés, mert nem fizeti ki a jármű teljes értékét." eh="a251e99c" />
+        <e k="usedplus_lease_totalCost_tooltip" v="Előleg + összes havi törlesztés. NEM tartalmazza a maradványértéket, ha a végén megvásárolja." eh="dc10c085" />
+        <e k="usedplus_lease_interestRate_tooltip" v="A lízing éves százaléka. Magasabb mint a finanszírozási kamat (5.5% vs 4.5%) a magasabb hitelezői kockázat miatt." eh="f4c00279" />
+        <e k="usedplus_lease_damage_tooltip" v="Lízing végén: >10% kár vagy >15% kopás = akár 30%-os büntetés a jármű árából. Tartsa karban a járművet!" eh="01999ed8" />
+        <e k="usedplus_search_local_tooltip" v="Közeli kereskedők keresése. Garantált 1 hónapos válasz, 2% költség, 40% sikeresség. Gyors és olcsó." eh="9b08bf3e" />
+        <e k="usedplus_search_regional_tooltip" v="Regionális hálózat keresése. 1-3 hónap, 6% költség, 70% sikeresség. Jó egyensúly a legtöbb kereséshez." eh="e5535f88" />
+        <e k="usedplus_search_national_tooltip" v="Országos keresés. 2-6 hónap, 12% költség, 85% sikeresség. Legjobb ritka felszereléshez." eh="0717b1d3" />
+        <e k="usedplus_search_cost_tooltip" v="Előzetes díj, azonnal levonva. Nem visszatéríthető, még ha a keresés sikertelen is." eh="88816596" />
+        <e k="usedplus_search_duration_tooltip" v="Játékbeli hónapok az eredményekig. Értesítést kap, amikor a keresés befejeződik." eh="9c9f3c15" />
+        <e k="usedplus_search_successChance_tooltip" v="Annak valószínűsége, hogy egyáltalán talál ilyen típusú használt felszerelést." eh="a25aade9" />
+        <e k="usedplus_manager_totalFinanced_tooltip" v="Az összes hitel és lízing fennmaradó tartozása. Tartsa az eszközérték alatt!" eh="7c15778c" />
+        <e k="usedplus_manager_monthlyObligations_tooltip" v="Minden hónapban levont összeg a számlájáról. Mindig legyen elég készpénze!" eh="c5cee5ec" />
+        <e k="usedplus_manager_creditScore_tooltip" v="300-850 besorolás. 750+ = Kiváló, 650-749 = Jó, 550-649 = Megfelelő, &lt;550 = Gyenge. Befolyásolja az összes jövőbeli kamatot!" eh="4b1c2269" />
+        <e k="usedplus_manager_assetValue_tooltip" v="A járművek, felszerelések, táblák és épületek együttes értéke. Magasabbnak kell lennie az adósságnál!" eh="64ef61f3" />
+        <e k="usedplus_manager_debtRatio_tooltip" v="Összes adósság ÷ Eszközérték. Tartsa 30% alatt a kiváló hitelminősítéshez. 50% felett jelentősen rontja a pontszámot!" eh="041f390c" />
+        <e k="usedplus_detail_principalPaid_tooltip" v="Az eredeti hitel kifizetett része. Ez csökkenti az egyenleget." eh="b4d4023c" />
+        <e k="usedplus_detail_interestPaid_tooltip" v="Az eddig fizetett többletköltség a kölcsönért. Ez NEM csökkenti az egyenleget." eh="f0c23fa4" />
+        <e k="usedplus_detail_projectedInterest_tooltip" v="Az összes kamat, amit fizetni fog, ha folytatja a minimum havi törlesztést. Fizessen most többet ennek csökkentéséhez!" eh="d5d18292" />
+        <e k="usedplus_detail_prepaymentPenalty_tooltip" v="Egyszeri díj a korai törlesztésért (általában 1-3% az egyenlegből). Azért számítják fel, mert a hitelező elveszíti a jövőbeli kamatbevételt." eh="aff5ffdd" />
+        <e k="usedplus_detail_currentBalance_tooltip" v="A még fennálló tartozás (csak tőke). A többletfizetés gyorsabban csökkenti!" eh="d789bc3a" />
+        <e k="usedplus_detail_paymentSplit_tooltip" v="Megmutatja, hogyan oszlik meg a törlesztés: Tőke (egyenleg csökkentés) vs Kamat (kölcsön költség)." eh="4c8d291b" />
+        <e k="usedplus_loan_title" v="Hitel felvétele" eh="f50c2071" />
+        <e k="usedplus_loan_configuration" v="HITEL BEÁLLÍTÁSA" eh="6c055726" />
+        <e k="usedplus_loan_paymentPreview" v="TÖRLESZTÉS ELŐNÉZET" eh="3890682c" />
+        <e k="usedplus_loan_accept" v="Hitel elfogadása" eh="ad5f835e" />
+        <e k="usedplus_loan_creditInfo" v="A hitelpontszáma határozza meg a maximális hitelfelvételi keretet és a kamatot." eh="2af2776a" />
+        <e k="usedplus_loan_collateralInfo" v="A fedezet a járművek értékének 50%-ából és a földek értékének 60%-ából számítódik." eh="4a5857f7" />
+        <e k="usedplus_loan_success" v="Hitel jóváhagyva! %s jóváírva a számlájára." eh="aefc6532" />
+        <e k="usedplus_loan_denied" v="Hitel elutasítva. Elégtelen fedezet vagy gyenge hitelminősítés." eh="c49dcbcb" />
+        <e k="usedplus_loan_monthlyPayment" v="Havi törlesztés" eh="c102e118" />
+        <e k="usedplus_loan_totalInterest" v="Összes kamat" eh="8c4f3836" />
+        <e k="usedplus_loan_totalRepayment" v="Teljes visszafizetés" eh="78b2ff2b" />
+        <e k="usedplus_repair_title" v="Jármű szerviz" eh="40546bfb" />
+        <e k="usedplus_repair_title_mechanical" v="Mechanikai javítás" eh="60a0d54f" />
+        <e k="usedplus_repair_title_repaint" v="Jármű újrafestése" eh="d5b4d6be" />
+        <e k="usedplus_repair_mechanical" v="MECHANIKAI JAVÍTÁS" eh="6294bbee" />
+        <e k="usedplus_repair_cosmetic" v="FESTÉS ÉS KOZMETIKA" eh="d111819f" />
+        <e k="usedplus_repair_slider" v="Javítás mértéke" eh="0dda5ee8" />
+        <e k="usedplus_repair_cost" v="Javítási költség" eh="6f0504d5" />
+        <e k="usedplus_repair_after" v="Állapot után" eh="d6d75451" />
+        <e k="usedplus_repair_payCash" v="Készpénzes fizetés" eh="e490310b" />
+        <e k="usedplus_repair_finance" v="Javítás finanszírozása" eh="70ef80a4" />
+        <e k="usedplus_repair_success" v="Javítás kész! %s megjavítva." eh="fecc6480" />
+        <e k="usedplus_repaint_slider" v="Festés mértéke" eh="bf64833d" />
+        <e k="usedplus_repaint_cost" v="Festési költség" eh="b994cb4e" />
+        <e k="usedplus_button_repairVehicle" v="Jármű javítása" eh="9592bc0d" />
+        <e k="usedplus_button_repaint" v="Újrafestés" eh="1d0b7dd4" />
+        <e k="usedplus_button_tradeIn" v="Beszámítás" eh="d9a572a1" />
+        <e k="usedplus_repair_financeSuccess" v="Javítás finanszírozva! %s összesen %d hónap alatt, %s/hó" eh="ac520447" />
+        <e k="usedplus_repair_noRepairsNeeded" v="Ez a jármű nem igényel javítást." eh="58c85fca" />
+        <e k="usedplus_tab_finances" v="Pénzügyek" eh="46d0ae63" />
+        <e k="usedplus_tab_searches" v="Keresések" eh="490fae83" />
+        <e k="usedplus_tab_stats" v="Statisztikák" eh="c33e404a" />
+        <e k="usedplus_searches_active" v="Aktív keresések" eh="f33a3913" />
+        <e k="usedplus_searches_totalCost" v="Összes keresési költség" eh="1bd59244" />
+        <e k="usedplus_stats_creditInfo" v="Eszközök és adósság arány alapján" eh="f07db642" />
+        <e k="usedplus_stats_lifetime" v="Összesített statisztikák" eh="727103d4" />
+        <e k="usedplus_stats_totalFinanced" v="Összes finanszírozás (összesen)" eh="772f294e" />
+        <e k="usedplus_stats_totalInterest" v="Összes kifizetett kamat" eh="ee7cd19e" />
+        <e k="usedplus_stats_searchesCompleted" v="Befejezett keresések" eh="20cde964" />
+        <e k="usedplus_stats_searchesSuccessful" v="Sikeres keresések" eh="9b0bb3f7" />
+        <e k="usedplus_creditHistory_title" v="Hitelezési előzmények" eh="317d0ae5" />
+        <e k="usedplus_creditHistory_paymentOnTime" v="Időben fizetett" eh="40b0a85e" />
+        <e k="usedplus_creditHistory_paymentMissed" v="Elmulasztott törlesztés" eh="1c3f3184" />
+        <e k="usedplus_creditHistory_dealPaidOff" v="Hitel kifizetve" eh="d75739c7" />
+        <e k="usedplus_creditHistory_newDebt" v="Új finanszírozás" eh="516d9124" />
+        <e k="usedplus_creditHistory_loanTaken" v="Készpénzhitel felvéve" eh="42a815ac" />
+        <e k="usedplus_creditHistory_excellent" v="Kiváló hitelminősítés elérve" eh="00e0a79c" />
+        <e k="usedplus_creditHistory_trend" v="Pontszám tendencia" eh="c93fabeb" />
+        <e k="usedplus_creditHistory_trendUp" v="Emelkedő" eh="b308896e" />
+        <e k="usedplus_creditHistory_trendDown" v="Csökkenő" eh="39e2d7ed" />
+        <e k="usedplus_creditHistory_stable" v="Stabil" eh="fa3aff3c" />
+        <e k="usedplus_tradeIn_title" v="Jármű beszámítás" eh="f5f0c421" />
+        <e k="usedplus_tradeIn_select" v="Válasszon járművet beszámításra:" eh="4d5697ad" />
+        <e k="usedplus_tradeIn_value" v="Beszámítási érték" eh="a62d3415" />
+        <e k="usedplus_tradeIn_brandBonus" v="Azonos márka bónusz (+10%)" eh="5775348c" />
+        <e k="usedplus_tradeIn_noVehicles" v="Nincs beszámítható jármű" eh="0ffbcb88" />
+        <e k="usedplus_tradeIn_confirm" v="Beszámítás alkalmazása" eh="5d265e23" />
+        <e k="usedplus_tradeIn_skip" v="Nincs beszámítás" eh="d28a6989" />
+        <e k="usedplus_tradeIn_help" v="A beszámítási érték az eladási ár 85%-a. Azonos márkájú vásárlásnál 10% bónusz jár." eh="acd55aef" />
+        <e k="usedplus_tradeIn_applied" v="Beszámítás alkalmazva: %s jóváírás" eh="d58037e6" />
+        <e k="usedplus_tradeIn_financed" v="Finanszírozott járművek nem számíthatók be" eh="b99f5ae1" />
+        <e k="usedplus_dashboard_title" v="Pénzügyi áttekintés" eh="475b3fca" />
+        <e k="usedplus_dashboard_creditScore" v="Hitelpontszám" eh="ae61b052" />
+        <e k="usedplus_dashboard_obligations" v="Havi kötelezettségek" eh="398fa99a" />
+        <e k="usedplus_dashboard_debtRatio" v="Adósság-eszköz arány" eh="325f67e0" />
+        <e k="usedplus_dashboard_upcoming" v="Közelgő törlesztések" eh="f994fae4" />
+        <e k="usedplus_dashboard_history" v="Legutóbbi hitelezési tevékenység" eh="6b32a5cb" />
+        <e k="usedplus_dashboard_statistics" v="Összesített statisztikák" eh="727103d4" />
+        <e k="usedplus_dashboard_equipment" v="Felszerelés" eh="9ccda2d5" />
+        <e k="usedplus_dashboard_land" v="Földterület" eh="512ef7c6" />
+        <e k="usedplus_dashboard_loans" v="Hitelek" eh="64e109fb" />
+        <e k="usedplus_dashboard_total" v="Összesen" eh="96b01412" />
+        <e k="usedplus_dashboard_assets" v="Összes eszköz" eh="7f0b6dfb" />
+        <e k="usedplus_dashboard_debt" v="Összes adósság" eh="f0648c99" />
+        <e k="usedplus_dashboard_ratio" v="Arány" eh="8334a158" />
+        <e k="usedplus_dashboard_excellent" v="Kiváló" eh="fcc2d28a" />
+        <e k="usedplus_dashboard_good" v="Jó" eh="0c6ad70b" />
+        <e k="usedplus_dashboard_fair" v="Megfelelő" eh="f7f20cf0" />
+        <e k="usedplus_dashboard_high" v="Magas" eh="655d20c1" />
+        <e k="usedplus_dashboard_critical" v="Kritikus" eh="278d01e5" />
+        <e k="usedplus_dashboard_noPayments" v="Nincs közelgő törlesztés" eh="96a72e57" />
+        <e k="usedplus_dashboard_noHistory" v="Még nincs hitelezési előzmény" eh="4e58800f" />
+        <e k="usedplus_dashboard_onTime" v="Időben fizetések" eh="3f020383" />
+        <e k="usedplus_dashboard_missed" v="Elmulasztott törlesztések" eh="352ca78d" />
+        <e k="usedplus_dashboard_tip" v="Tipp: Fizessen időben a hitelpontszám javításához. Törlesse előre a hiteleket a kamat megtakarításához." eh="4878dc76" />
+        <e k="usedplus_land_title" v="Termőföld vásárlás" eh="f741fdc8" />
+        <e k="usedplus_land_purchaseMethod" v="VÁSÁRLÁSI MÓD" eh="f5f3c261" />
+        <e k="usedplus_land_paymentSummary" v="FIZETÉSI ÖSSZESÍTŐ" eh="0dd98605" />
+        <e k="usedplus_land_financeTerms" v="FINANSZÍROZÁSI FELTÉTELEK" eh="42352b5c" />
+        <e k="usedplus_land_leaseTerms" v="LÍZING FELTÉTELEK" eh="0100690c" />
+        <e k="usedplus_land_landPrice" v="Föld ára:" eh="b2d5ac98" />
+        <e k="usedplus_land_taxes" v="Átruházási illeték:" eh="351b4b60" />
+        <e k="usedplus_land_totalDue" v="FIZETENDŐ ÖSSZESEN:" eh="6527240c" />
+        <e k="usedplus_land_loanTerm" v="Futamidő:" eh="766186df" />
+        <e k="usedplus_land_leaseTerm" v="Lízing időtartam:" eh="52b77655" />
+        <e k="usedplus_land_downPayment" v="Előleg:" eh="a706fdb6" />
+        <e k="usedplus_land_amountFinanced" v="Finanszírozott összeg:" eh="c9247e08" />
+        <e k="usedplus_land_interestRate" v="Kamatláb:" eh="389f9dd8" />
+        <e k="usedplus_land_monthlyPayment" v="Havi törlesztés:" eh="3499b658" />
+        <e k="usedplus_land_totalInterest" v="Összes kamat:" eh="183c0158" />
+        <e k="usedplus_land_dueToday" v="MA FIZETENDŐ:" eh="f644eca9" />
+        <e k="usedplus_land_totalLeaseCost" v="Teljes lízing költség:" eh="61a93e0e" />
+        <e k="usedplus_land_buyoutPrice" v="Kivásárlási ár:" eh="121b9571" />
+        <e k="usedplus_land_confirm" v="Vásárlás megerősítése" eh="c8505ab3" />
+        <e k="usedplus_sell_title" v="Jármű eladása" eh="fe030802" />
+        <e k="usedplus_sell_selectAgent" v="Értékesítési ügynök kiválasztása" eh="08c52dc1" />
+        <e k="usedplus_sell_vehicleDetails" v="Jármű adatok" eh="fcb2575f" />
+        <e k="usedplus_sell_vanillaValue" v="Azonnali eladási érték" eh="8ddad336" />
+        <e k="usedplus_sell_localAgent" v="Helyi ügynök" eh="082cb5b6" />
+        <e k="usedplus_sell_regionalAgent" v="Regionális ügynök" eh="403955ba" />
+        <e k="usedplus_sell_nationalAgent" v="Országos ügynök" eh="eef8214f" />
+        <e k="usedplus_sell_expectedReturn" v="Várható bevétel" eh="20b99f1d" />
+        <e k="usedplus_sell_timeFrame" v="Időkeret" eh="ced18839" />
+        <e k="usedplus_sell_agentFee" v="Ügynöki díj" eh="40f286a6" />
+        <e k="usedplus_sell_successRate" v="Sikerességi arány" eh="aac60ede" />
+        <e k="usedplus_sell_confirm" v="Hirdetés feladása" eh="8ce97708" />
+        <e k="usedplus_sell_tradeInOnly" v="Csak beszámítás" eh="c9626b59" />
+        <e k="usedplus_sell_tradeInDescription" v="50-65% azonnali érték új jármű vásárlásakor" eh="d6dcdb1f" />
+        <e k="usedplus_sell_localDescription" v="Gyors helyi eladás. 1-2 hónap, 85% sikerességi arány." eh="8cb93a6b" />
+        <e k="usedplus_sell_regionalDescription" v="Regionális hálózat. 2-4 hónap, 90% sikerességi arány." eh="9e0c4114" />
+        <e k="usedplus_sell_nationalDescription" v="Országos elérés. 3-6 hónap, 95% sikerességi arány." eh="013aefeb" />
+        <e k="usedplus_sell_listed" v="Jármű hirdetve (%s). Várható: %s - %s" eh="28271f31" />
+        <e k="usedplus_sell_alreadyListed" v="Ez a jármű már hirdetésben van" eh="cb22926e" />
+        <e k="usedplus_sell_cantSellFinanced" v="Finanszírozott járművek nem adhatók el. Először fizesse ki az egyenleget." eh="1dcb38c2" />
+        <e k="usedplus_saleOffer_title" v="Eladási ajánlat érkezett" eh="6eeec636" />
+        <e k="usedplus_saleOffer_message" v="Vevő jelentkezett a járművére!" eh="7b1304f7" />
+        <e k="usedplus_saleOffer_offerAmount" v="Ajánlat összege" eh="0916d967" />
+        <e k="usedplus_saleOffer_expiresIn" v="Ajánlat lejár" eh="ce06a052" />
+        <e k="usedplus_saleOffer_accept" v="Ajánlat elfogadása" eh="93a5776a" />
+        <e k="usedplus_saleOffer_decline" v="Ajánlat elutasítása" eh="3db99481" />
+        <e k="usedplus_saleOffer_hours" v="%d óra" eh="4e8d5e54" />
+        <e k="usedplus_saleOffer_accepted" v="Jármű eladva %s-ért!" eh="f5cd95ab" />
+        <e k="usedplus_saleOffer_declined" v="Ajánlat elutasítva. Az ügynök tovább keres..." eh="b7c0bba6" />
+        <e k="usedplus_saleOffer_expired" v="Ajánlat lejárt (%s). Az ügynök tovább keres..." eh="180bd573" />
+        <e k="usedplus_saleExpired_title" v="Hirdetés lejárt" eh="610084ea" />
+        <e k="usedplus_saleExpired_sectionInfo" v="HIRDETÉS RÉSZLETEI" eh="7b3916d2" />
+        <e k="usedplus_saleExpired_sectionOutcome" v="EREDMÉNY" eh="79988be0" />
+        <e k="usedplus_saleExpired_noBuyer" v="Nem találtunk vevőt a hirdetési időszak alatt." eh="aa575ade" />
+        <e k="usedplus_saleExpired_feePaid" v="Kifizetett ügynöki díj:" eh="ce19a828" />
+        <e k="usedplus_saleExpired_hint" v="Újra hirdetheti a járművet ugyanazokkal vagy más ügynök/ár beállításokkal." eh="e225592c" />
+        <e k="usedplus_saleExpired_relist" v="Újra hirdetés" eh="a556ce3c" />
+        <e k="usedplus_sale_statusActive" v="Vevő keresése..." eh="28e37076" />
+        <e k="usedplus_sale_statusPending" v="AJÁNLAT: %s" eh="868cdf29" />
+        <e k="usedplus_sale_statusSold" v="ELADVA: %s" eh="737a574b" />
+        <e k="usedplus_sale_statusExpired" v="Lejárt - Nem találtunk vevőt" eh="3e3e51fd" />
+        <e k="usedplus_sale_statusCancelled" v="Törölve" eh="a149e85a" />
+        <e k="usedplus_sale_listingExpired" v="Nem találtunk vevőt (%s). Az ügynöki díj (%s) nem visszatéríthető." eh="08587fe0" />
+        <e k="usedplus_sale_cancel" v="Hirdetés törlése" eh="587021c1" />
+        <e k="usedplus_sale_cancelConfirm" v="%s hirdetésének törlése? Az ügynöki díj NEM kerül visszatérítésre." eh="3bbc7efa" />
+        <e k="usedplus_sale_cancelled" v="%s hirdetése törölve." eh="aa5902d2" />
+        <e k="usedplus_manager_saleListings" v="ELADÓ JÁRMŰVEK" eh="2f6d760e" />
+        <e k="usedplus_manager_noSales" v="Nincs aktív hirdetés" eh="0af1686a" />
+        <e k="usedplus_button_nextPage" v="Következő menü" eh="2553da59" />
+        <e k="usedplus_button_prevPage" v="Előző menü" eh="d4e01f11" />
+        <e k="usedPlus_engineStalled" v="A motor leállt!" eh="2cfeb1d2" />
+        <e k="usedPlus_engineStalledRecovery" v="A motor leállt! Várjon %d másodpercet..." eh="9a57b319" />
+        <e k="usedPlus_engineWontStart" v="A motor nem indul - próbálja újra" eh="daa0591c" />
+        <e k="usedPlus_hydraulicDrift" v="Hidraulika nyomásvesztés!" eh="31f2964d" />
+        <e k="usedPlus_implementCutout" v="A munkagép leállt!" eh="395b6ba3" />
+        <e k="usedPlus_electricalCutout" v="Elektromos hiba - munkagépek offline!" eh="0c156989" />
+        <e k="usedPlus_speedDegraded" v="Motor küzd - max sebesség %d%%-ra csökkent!" eh="af083aef" />
+        <e k="usedPlus_speedDegradedReminder" v="A jármű lassan halad - javítás ajánlott" eh="95eb2457" />
+        <e k="usedPlus_speedGovernor" v="A motor nem tudja tartani ezt a sebességet!" eh="f9bd1f68" />
+        <e k="usedPlus_firstStartStall" v="A motor nem indult el!" eh="cc82faeb" />
+        <e k="usedPlus_steeringLoose" v="A kormány lazának tűnik - kopott hidraulika!" eh="75649517" />
+        <e k="usedPlus_steeringPull" v="A kormány %s felé húz!" eh="e743ac7b" />
+        <e k="usedPlus_directionLeft" v="balra" eh="811882fe" />
+        <e k="usedPlus_directionRight" v="jobbra" eh="7c4f2940" />
+        <e k="usedPlus_engineMisfire" v="Motor begyulladási hiba!" eh="46773a4f" />
+        <e k="usedPlus_engineOverheating" v="Motor túlmelegszik! (%d%%)" eh="736c0a30" />
+        <e k="usedPlus_engineOverheated" v="MOTOR TÚLMELEGEDETT! Hagyja lehűlni!" eh="48a6aa38" />
+        <e k="usedPlus_implementSurge" v="Hidraulika lökés - munkagép felemelkedett!" eh="31786612" />
+        <e k="usedPlus_implementDrop" v="Hidraulika hiba - munkagép leesett!" eh="9445c54d" />
+        <e k="usedPlus_ptoToggle" v="Elektromos hiba - TLT %s kapcsolva!" eh="0dce42ac" />
+        <e k="usedPlus_ptoOn" v="be" eh="ed2b5c01" />
+        <e k="usedPlus_ptoOff" v="ki" eh="3262d48d" />
+        <e k="usedPlus_hitchFailure" v="FÜGGESZTMÉNY HIBA - Munkagép lecsatolva!" eh="16f9096e" />
+        <e k="usedPlus_hydraulicWeak" v="Gyenge hidraulika (%d%%) - munkagépek sodródhatnak!" eh="dc1e58d4" />
+        <e k="usedPlus_hydraulicDrifted" v="Munkagép leengedve hidraulika hiba miatt" eh="5df727d2" />
+        <e k="usedPlus_inspectButton" v="Átvizsgálás (%s)" eh="cd9aa28e" />
+        <e k="usedPlus_inspectionTitle" v="Átvizsgálási jelentés" eh="ecd12a05" />
+        <e k="usedPlus_inspectionCost" v="Átvizsgálási költség" eh="5cb45e67" />
+        <e k="usedPlus_mechanicalAssessment" v="MECHANIKAI ÁLLAPOT" eh="9437e788" />
+        <e k="usedPlus_inspectorNotes" v="Vizsgálói megjegyzések" eh="0f769201" />
+        <e k="usedPlus_recommendation" v="Ajánlás" eh="c76e3867" />
+        <e k="usedPlus_hiddenConditionWarning" v="Rejtett mechanikai állapot ismeretlen" eh="d2e42691" />
+        <e k="usedPlus_payForInspection" v="Fizessen szakmai átvizsgálásért" eh="2c3e76c2" />
+        <e k="usedPlus_conditionGood" v="Jó" eh="0c6ad70b" />
+        <e k="usedPlus_conditionAcceptable" v="Elfogadható" eh="e684de7f" />
+        <e k="usedPlus_conditionBelowAverage" v="Átlag alatti" eh="271d9709" />
+        <e k="usedPlus_conditionPoor" v="Gyenge" eh="0e94d017" />
+        <e k="usedPlus_conditionCritical" v="Kritikus" eh="278d01e5" />
+        <e k="usedPlus_indicatorCritical" v="[KRITIKUS]" eh="b0eac769" />
+        <e k="usedPlus_indicatorNeedsService" v="[SZERVIZ SZÜKSÉGES]" eh="c3591f0d" />
+        <e k="usedPlus_indicatorWorn" v="[KOPOTT]" eh="393432f2" />
+        <e k="usedPlus_maintenanceHistory" v="Karbantartási előzmények" eh="ad562d90" />
+        <e k="usedPlus_engineReliability" v="Motor" eh="7bfa3072" />
+        <e k="usedPlus_hydraulicReliability" v="Hidraulika" eh="1de58ed3" />
+        <e k="usedPlus_electricalReliability" v="Elektromos rendszer" eh="6f15be3d" />
+        <e k="usedPlus_purchasedUsed" v="Használtan vásárolva" eh="0cf8d116" />
+        <e k="usedPlus_repairHistory" v="Javítások: %d (összesen %s)" eh="724d4694" />
+        <e k="usedPlus_breakdownHistory" v="Meghibásodások: %d" eh="18b384ef" />
+        <e k="usedPlus_mechanicalCondition" v="Mechanikai: %s" eh="e74c01b3" />
+        <e k="usedPlus_noteEngineWorn" v="A motor erős használat jeleit mutatja. Időnkénti leállás várható terhelés alatt." eh="40261310" />
+        <e k="usedPlus_noteHydraulicWorn" v="A hidraulika rendszer kopott. Munkagépek sodródhatnak felemelt állapotban." eh="8b84b53a" />
+        <e k="usedPlus_noteElectricalIssues" v="Elektromos problémák észlelve. A munkagépek váratlanul leállhatnak." eh="439af566" />
+        <e k="usedPlus_noteVehicleOk" v="A jármű elfogadható mechanikai állapotban van." eh="876a0550" />
+        <e k="usedPlus_recommendNegotiate" v="Alkudjon az áron vagy számoljon javítási költségekkel" eh="0721eac5" />
+        <e k="usedPlus_recommendProceed" v="Jó mechanikai állapot - bátran vásároljon" eh="96c54629" />
+        <e k="usedplus_error_selectDealFirst" v="Először válasszon finanszírozási szerződést" eh="b675a0de" />
+        <e k="usedplus_error_noSearchInRow" v="Nincs keresés ebben a sorban" eh="5cdf2cd9" />
+        <e k="usedplus_error_noSaleListingInRow" v="Nincs hirdetés ebben a sorban" eh="c671d622" />
+        <e k="usedplus_error_noDealInRow" v="Nincs finanszírozási szerződés ebben a sorban" eh="875f8314" />
+        <e k="usedplus_error_farmNotFound" v="Hiba: Nem található a gazdaság" eh="a19f69e5" />
+        <e k="usedplus_error_noVehicleSelected" v="Nincs kiválasztott jármű" eh="6662b577" />
+        <e k="usedplus_error_cannotCancelReady" v="Nem törölhető - ez a hirdetés készen áll a vásárlásra" eh="f4d3a871" />
+        <e k="usedplus_error_searchNotActive" v="Ez a keresés már nem aktív" eh="071b3b9e" />
+        <e k="usedplus_error_noOfferPending" v="Nincs függőben lévő ajánlat ezen a hirdetésen" eh="d4e54566" />
+        <e k="usedplus_error_noOfferToDecline" v="Nincs elutasítandó függő ajánlat" eh="e48082ad" />
+        <e k="usedplus_error_cannotCancelPendingOffer" v="Nem törölhető amíg ajánlat van függőben. Először fogadja el vagy utasítsa el." eh="cdf73751" />
+        <e k="usedplus_error_cannotModifyPendingOffer" v="Nem módosítható az ár amíg ajánlat van függőben." eh="7fb9f02b" />
+        <e k="usedplus_error_invalidPrice" v="Érvénytelen ár. Kérjük, adjon meg pozitív számot." eh="89f7cc3c" />
+        <e k="usedplus_error_invalidAmount" v="Érvénytelen összeg. Kérjük, adjon meg pozitív számot." eh="9baf36ff" />
+        <e k="usedplus_error_insufficientFundsPayment" v="Nincs elég pénz. %s szükséges a havi törlesztéshez." eh="cea3245c" />
+        <e k="usedplus_error_insufficientFundsPayoff" v="Nincs elég pénz a teljes törlesztéshez" eh="ff08bf99" />
+        <e k="usedplus_error_insufficientFundsNeedHave" v="Nincs elég pénz. Szükséges: %s, rendelkezésre áll: %s" eh="7005b33c" />
+        <e k="usedplus_error_insufficientFundsDownPayment" v="Nincs elég pénz az előleghez! Szükséges: %s" eh="e1cfc60d" />
+        <e k="usedplus_error_insufficientFundsGeneric" v="Nincs elég pénz! Szükséges: %s" eh="d8249477" />
+        <e k="usedplus_error_insufficientFundsForPayment" v="Nincs elég pénz a törlesztéshez" eh="bc4a233a" />
+        <e k="usedplus_error_noPaymentOptions" v="Nincsenek elérhető fizetési lehetőségek" eh="5cf01d98" />
+        <e k="usedplus_error_noActiveDeals" v="Nincs aktív finanszírozási szerződés törlesztésre" eh="19c25246" />
+        <e k="usedplus_error_noDealsToPayAll" v="Nincs aktív finanszírozási szerződés fizetésre" eh="a8217dc4" />
+        <e k="usedplus_error_noPaymentsDue" v="Nincs esedékes törlesztés ebben az időszakban" eh="9da7e0ff" />
+        <e k="usedplus_error_payoffFailed" v="Teljes törlesztés sikertelen" eh="ab252955" />
+        <e k="usedplus_error_paymentFailed" v="Törlesztés sikertelen" eh="1305a2b0" />
+        <e k="usedplus_error_eventNotAvailable" v="Hiba: %s nem érhető el" eh="9c93ae19" />
+        <e k="usedplus_error_creditTooLow" v="Hitelpontszám túl alacsony" eh="660fbd90" />
+        <e k="usedplus_error_creditTooLowDetail" v="Az Ön hitelpontszáma (%d) alacsonyabb a %s-hoz szükséges minimumnál (%d)." eh="210df978" />
+        <e k="usedplus_error_creditTip" v="Tipp: Fizessen időben a meglévő hitelekre a pontszám építéséhez." eh="3346706d" />
+        <e k="usedplus_error_creditShortfall" v="Hiány: %d pont" eh="a19b5472" />
+        <e k="usedplus_finance_repairFinancing" v="javítás finanszírozás" eh="4f72a7b2" />
+        <e k="usedplus_finance_vehicleFinancing" v="jármű finanszírozás" eh="7b2b15aa" />
+        <e k="usedplus_finance_vehicleLeasing" v="jármű lízing" eh="524b6d9b" />
+        <e k="usedplus_finance_landFinancing" v="föld finanszírozás" eh="ef09c4c7" />
+        <e k="usedplus_finance_cashLoan" v="készpénzhitel" eh="ac895880" />
+        <e k="usedplus_credit_tooLowForFinancing" v="Hitelpontszám túl alacsony finanszírozáshoz. Pontszáma: %d (minimum: %d+). Építse hitelét időben fizetéssel." eh="c7e03e45" />
+        <e k="usedplus_credit_tooLowForLeasing" v="Hitelpontszám túl alacsony lízinghez. Pontszáma: %d (minimum: %d+). A lízing jobb hitelt igényel mint a finanszírozás." eh="50b91953" />
+        <e k="usedplus_credit_tooLowForLand" v="Hitelpontszám túl alacsony (%d). %d+ szükséges a földfinanszírozáshoz." eh="78d73204" />
+        <e k="usedplus_credit_tooLowForRepair" v="Hitelpontszám túl alacsony (%d). %d+ szükséges a javítás finanszírozásához." eh="70147f73" />
+        <e k="usedplus_credit_needScore" v="Hitel: %d (szükséges: %d)" eh="82790b98" />
+        <e k="usedplus_finance_amountTooSmall" v="Az összeg túl kicsi finanszírozáshoz. Minimum: %s" eh="3a90d8c2" />
+        <e k="usedplus_lease_amountTooSmall" v="Az összeg túl kicsi lízinghez. Minimum: %s" eh="3e2012e8" />
+        <e k="usedplus_repair_amountTooSmall" v="A javítási költség túl kicsi finanszírozáshoz. Minimum: %s" eh="446dd4cd" />
+        <e k="usedplus_land_amountTooSmall" v="A föld ára túl kicsi finanszírozáshoz. Minimum: %s" eh="b4e8480c" />
+        <e k="usedplus_mp_error_unauthorized" v="A művelet nem engedélyezett a gazdaságának" eh="343a024c" />
+        <e k="usedplus_mp_error_disabled" v="Ez a funkció le van tiltva a beállításokban" eh="d3f06efd" />
+        <e k="usedplus_mp_error_manager" v="A rendszer nincs inicializálva. Próbálja újra." eh="53daf785" />
+        <e k="usedplus_mp_error_invalid_params" v="Érvénytelen paraméterek" eh="a79fae6b" />
+        <e k="usedplus_mp_error_insufficient_funds" v="Nincs elég pénz" eh="55f90c96" />
+        <e k="usedplus_mp_error_failed" v="A tranzakció sikertelen" eh="3f864e37" />
+        <e k="usedplus_mp_error_farm_not_found" v="Gazdaság nem található" eh="a13cd50e" />
+        <e k="usedplus_mp_error_deal_not_found" v="Szerződés nem található" eh="f85a8ec8" />
+        <e k="usedplus_mp_error_land_not_found" v="Föld nem található" eh="db02fd36" />
+        <e k="usedplus_mp_error_land_owned" v="Ez a föld már tulajdonban van" eh="7175cfeb" />
+        <e k="usedplus_mp_error_already_leased" v="Már van lízingje ezen a földön" eh="25394947" />
+        <e k="usedplus_mp_error_invalid_deal_type" v="Érvénytelen szerződés típus" eh="e9926aa4" />
+        <e k="usedplus_mp_error_deal_not_active" v="A szerződés nem aktív" eh="4f8a3c97" />
+        <e k="usedplus_mp_error_repair_failed" v="Javítás sikertelen" eh="e25882fc" />
+        <e k="usedplus_mp_error_search_failed" v="Keresés sikertelen" eh="a4d17776" />
+        <e k="usedplus_mp_success_financed" v="Jármű sikeresen finanszírozva!" eh="e0a11202" />
+        <e k="usedplus_mp_success_leased" v="Jármű sikeresen lízingelve!" eh="f73065ee" />
+        <e k="usedplus_mp_success_loan" v="Hitel jóváhagyva!" eh="96d2eb36" />
+        <e k="usedplus_mp_success_payment" v="Törlesztés feldolgozva!" eh="fffcd9ab" />
+        <e k="usedplus_mp_success_land_leased" v="Föld sikeresen lízingelve!" eh="4815779c" />
+        <e k="usedplus_mp_success_land_buyout" v="Föld sikeresen megvásárolva!" eh="9de4a0f4" />
+        <e k="usedplus_mp_success_listed" v="Jármű hirdetve eladásra!" eh="1178dfe3" />
+        <e k="usedplus_mp_success_sale_action" v="Eladási művelet befejezve!" eh="f4473f61" />
+        <e k="usedplus_mp_success_price_modified" v="Ár frissítve!" eh="3778ab16" />
+        <e k="usedplus_mp_success_repair" v="Javítás befejezve!" eh="9e6d62a2" />
+        <e k="usedplus_mp_success_search_started" v="Keresés elindítva!" eh="f10690d3" />
+        <e k="usedplus_mp_success_lease_ended" v="Lízing sikeresen befejezve!" eh="71efe46d" />
+        <e k="usedplus_mp_success_lease_terminated" v="Lízing megszüntetve!" eh="2ac6c824" />
+        <e k="usedplus_mp_success_lease_renewed" v="Lízing megújítva!" eh="30c5a4dd" />
+        <e k="usedplus_mp_success_lease_buyout" v="Lízing kivásárlás befejezve!" eh="b76c5d41" />
+        <e k="usedplus_mode_cash" v="Készpénzes vásárlás" eh="01dc9cc3" />
+        <e k="usedplus_mode_finance" v="Finanszírozás" eh="c482980d" />
+        <e k="usedplus_mode_lease" v="Lízing" eh="47c96b08" />
+        <e k="usedplus_mode_financeCredit" v="Finanszírozás (Hitel: %d+)" eh="0b6c80e3" />
+        <e k="usedplus_mode_leaseCredit" v="Lízing (Hitel: %d+)" eh="439bd2b6" />
+        <e k="usedplus_notify_vehicleSold" v="%s eladva %s-ért!" eh="159b99b9" />
+        <e k="usedplus_notify_offerDeclined" v="Ajánlat elutasítva - az ügynök tovább keres" eh="957ec943" />
+        <e k="usedplus_notify_listingCancelled" v="%s hirdetése törölve" eh="77f331c5" />
+        <e k="usedplus_notify_vehiclePurchased" v="%s megvásárolva %s-ért" eh="ee85175a" />
+        <e k="usedplus_notify_vehiclePurchasedShop" v="%s megvásárolva - Látogasson el a boltba az átvételhez" eh="3359716e" />
+        <e k="usedplus_notify_vehicleFinanced" v="%s finanszírozva - %s esedékes ma" eh="874037b7" />
+        <e k="usedplus_notify_vehicleFinancedShop" v="%s finanszírozva - Látogasson el a boltba az átvételhez" eh="815fb77d" />
+        <e k="usedplus_notify_landPurchased" v="%s megvásárolva %s-ért" eh="ee85175a" />
+        <e k="usedplus_notify_landFinanced" v="%s finanszírozva - %s esedékes ma" eh="874037b7" />
+        <e k="usedplus_notify_vehicleNowYours" v="Gratulálunk! %s most az Öné!" eh="f9f453e9" />
+        <e k="usedplus_notify_loanPaidOff" v="Hitel kifizetve! Összesen: %s" eh="0ba73cba" />
+        <e k="usedplus_notify_paymentProcessed" v="%s törlesztés feldolgozva!" eh="fc4c5db3" />
+        <e k="usedplus_notify_paidDealsTotal" v="%d szerződés kifizetve! Összesen: %s" eh="14743f8a" />
+        <e k="usedplus_notify_paidDealsSomeFailed" v="%d szerződés kifizetve, %d sikertelen" eh="203dd11e" />
+        <e k="usedplus_notify_paymentConfigSaved" v="Fizetési beállítások mentve!" eh="c0ea9507" />
+        <e k="usedplus_notify_landLeaseTerminated" v="%s földlízingje megszűnt" eh="f2414acd" />
+        <e k="usedplus_creditreport_reportDate" v="Jelentés dátuma: %s" eh="6bcda474" />
+        <e k="usedplus_creditreport_scoreRange" v="Pontszám tartomány: 300-850" eh="3d50ef3a" />
+        <e k="usedplus_creditreport_standardRates" v="Standard kamatok érvényesek" eh="0012275c" />
+        <e k="usedplus_creditreport_noHistory" v="Nincs előzmény" eh="be5404ee" />
+        <e k="usedplus_creditreport_noActiveAccounts" v="Nincsenek aktív számlák" eh="1b3f60a4" />
+        <e k="usedplus_creditreport_noPaymentHistory" v="Még nincs fizetési előzmény" eh="2103413b" />
+        <e k="usedplus_creditreport_makePaymentsHint" v="Kezdjen el fizetéseket teljesíteni az előzmények építéséhez" eh="84400e0a" />
+        <e k="usedplus_creditreport_trend_excellent" v="Kiváló - Erős felfelé mutató trend" eh="b60dafaf" />
+        <e k="usedplus_creditreport_trend_good" v="Jó - Pozitív lendület" eh="83cf1f7c" />
+        <e k="usedplus_creditreport_trend_stable" v="Stabil - Fenntartás" eh="06f25cfd" />
+        <e k="usedplus_creditreport_trend_declining" v="Csökkenő - Figyelmet igényel" eh="cae1fb1c" />
+        <e k="usedplus_creditreport_trend_poor" v="Gyenge - Azonnali intézkedés szükséges" eh="3abb1302" />
+        <e k="usedplus_dealdetails_payoffInfo" v="Fizesse ki korábban, hogy kamatot takarítson meg." eh="6d50cda5" />
+        <e k="usedplus_dealdetails_buyoutLease" v="LÍZING KIVÁSÁRLÁS" eh="15e7acf5" />
+        <e k="usedplus_dealdetails_earlyPayoff" v="KORAI TÖRLESZTÉS" eh="58ce5d42" />
+        <e k="usedplus_dealdetails_paidOff" v="Kifizetve!" eh="549facbe" />
+        <e k="usedplus_inspection_noData" v="Átvizsgálási adatok nem elérhetők." eh="10237259" />
+        <e k="usedplus_inspection_rec_excellent" v="Kiváló állapot - bátran vásároljon" eh="e09472b9" />
+        <e k="usedplus_inspection_rec_good" v="Jó állapot - tisztességes üzlet ezen az áron" eh="ef94d957" />
+        <e k="usedplus_inspection_rec_fair" v="Megfelelő állapot - alkudjon vagy számoljon javításokkal" eh="35d4d11e" />
+        <e k="usedplus_inspection_rec_poor" v="Gyenge állapot - jelentős javítások szükségesek" eh="dfdd7572" />
+        <e k="usedplus_inspection_started" v="Átvizsgálás elindítva! Kész ~%d óra múlva." eh="6ceb09a1" />
+        <e k="usedplus_inspection_complete" v="%s átvizsgálás kész (%s)! Tekintse meg a jelentést." eh="d63cc200" />
+        <e k="usedplus_inspection_alreadyPending" v="Átvizsgálás már folyamatban!" eh="f18717e5" />
+        <e k="usedplus_inspection_notReady" v="Átvizsgálás még nem kész!" eh="cca0fa21" />
+        <e k="usedplus_inspection_notDone" v="A járművet még nem vizsgálták át!" eh="58a6a5a1" />
+        <e k="usedplus_inspection_failed" v="Átvizsgálás sikertelen: %s" eh="13d9eb55" />
+        <e k="usedplus_inspectionTitle" v="Jármű átvizsgálás" eh="7276b8fd" />
+        <e k="usedplus_confirmInspection" v="%s átvizsgálás kérése (%s)?\n\nKész ~%d óra múlva." eh="20a936ac" />
+        <e k="usedplus_selectInspectionTier" v="Válassza ki az átvizsgálás típusát:" eh="d920b2ce" />
+        <e k="usedplus_tier_quick_desc" v="Csak általános értékelés" eh="b2f8f4ab" />
+        <e k="usedplus_tier_standard_desc" v="Teljes megbízhatóság + alkatrész állapot" eh="f7939a73" />
+        <e k="usedplus_tier_comprehensive_desc" v="Teljes részletek + DNS tipp + javítási becslés" eh="a80be59a" />
+        <e k="usedplus_common_yes" v="Igen" eh="93cba074" />
+        <e k="usedplus_common_no" v="Nem" eh="bafd7322" />
+        <e k="usedplus_common_na" v="N/A" eh="382b0f51" />
+        <e k="usedplus_maintenance_purchasedUsed" v="Használtan vásárolva" eh="9b4614d5" />
+        <e k="usedplus_maintenance_purchasedNew" v="Újként vásárolva" eh="675dda81" />
+        <e k="usedplus_maintenance_excellentCondition" v="Ez a jármű kiváló állapotban van, karbantartási aggályok nélkül." eh="3b88ba3a" />
+        <e k="usedplus_paymentconfig_selectLoan" v="Válasszon hitelt fent a fizetési mód megváltoztatásához" eh="9c398fdf" />
+        <e k="usedplus_paymentconfig_warningSkip" v="FIGYELEM: Törlesztések kihagyása növeli az egyenleget!" eh="edd2053c" />
+        <e k="usedplus_paymentconfig_noteNegAmort" v="Megjegyzés: Egyes törlesztések a kamat alattiak" eh="5502d2f3" />
+        <e k="usedplus_repairfinance_title_repaint" v="Festés finanszírozása" eh="fdcf5d38" />
+        <e k="usedplus_repairfinance_title_repair" v="Javítás finanszírozása" eh="70ef80a4" />
+        <e k="usedplus_preview_title" v="Használt jármű találva" eh="ac794919" />
+        <e k="usedplus_preview_viewReport" v="Jelentés megtekintése" eh="7cd1ac84" />
+        <e k="usedplus_manager_clickToSelect" v="Kattintson a sorra a kiválasztáshoz" eh="51c56c6f" />
+        <e k="usedplus_manager_assetsLabel" v="Eszközök: %s" eh="34459115" />
+        <e k="usedplus_manager_debtLabel" v="Adósság: %s" eh="fff2ef4c" />
+        <e k="usedplus_dealdetails_earlyPayoffSaves" v="Korai törlesztéssel %s kamatot takarít meg!" eh="482a76d4" />
+        <e k="usedplus_preview_ageYears" v="%d év" eh="86730d79" />
+        <e k="usedplus_preview_payForInspection" v="Fizessen %s-t szakmai átvizsgálásért" eh="a64ff42a" />
+        <e k="usedplus_preview_inspectionRange" v="Átvizsgálási lehetőségek: %s - %s" eh="47ff59b3" />
+        <e k="usedplus_preview_inspectionProgress" v="%s átvizsgálás folyamatban... ~%d óra hátra" eh="911dfff0" />
+        <e k="usedplus_preview_requestInspection" v="Átvizsgálás kérése" eh="e555e8b2" />
+        <e k="usedplus_preview_inProgress" v="Folyamatban..." eh="bd62582e" />
+        <e k="usedplus_land_modeCash" v="Készpénzes vásárlás" eh="01dc9cc3" />
+        <e k="usedplus_land_modeFinance" v="Finanszírozás" eh="c482980d" />
+        <e k="usedplus_land_modeLease" v="Lízing" eh="47c96b08" />
+        <e k="usedplus_action_financeLand" v="Finanszírozás" eh="c482980d" />
+        <e k="usedplus_action_leaseLand" v="Lízing" eh="47c96b08" />
+        <e k="usedplus_land_termYears" v="%d év" eh="b655468c" />
+        <e k="usedplus_land_termYear" v="1 év" eh="cc1a252a" />
+        <e k="usedplus_land_termMonths" v="%d hónap" eh="d36b3bae" />
+        <e k="usedplus_land_termMonth" v="1 hónap" eh="cf13b270" />
+        <e k="usedplus_land_noAdjustment" v="Nincs kiigazítás (Megfelelő hitel)" eh="cda8e933" />
+        <e k="usedplus_land_noDeposit" v="Nincs letét (%s hitel)" eh="e022dc69" />
+        <e k="usedplus_land_depositInfo" v="%s (%d hó, %s hitel)" eh="062ae4ba" />
+        <e k="usedplus_land_buyoutAnytime" v="Kivásárlás bármikor: %s" eh="056478ed" />
+        <e k="usedplus_land_signingBonus" v="Szerződéskötési bónusz: Tartalmazza a %s értékű %s-t" eh="bec8cd54" />
+        <e k="usedplus_land_securityDeposit" v="%s biztonsági letét" eh="d8780aed" />
+        <e k="usedplus_land_noDepositRequired" v="nem szükséges letét" eh="467a3088" />
+        <e k="usedplus_error_insufficientFundsLand" v="Nincs elég pénz! Még %s szükséges. Próbáljon finanszírozást vagy lízinget." eh="d993d097" />
+        <e k="usedplus_error_insufficientFundsDeposit" v="Nincs elég pénz a biztonsági letéthez! Még %s szükséges." eh="ad97e0d8" />
+        <e k="usedplus_error_couldNotCompletePurchase" v="Hiba: Nem sikerült befejezni a vásárlást" eh="a0fca4fc" />
+        <e k="usedplus_notify_landLeased" v="%s bérbe véve! %s/hó, %s" eh="71a876f7" />
+        <e k="usedplus_loan_useFinancialDashboard" v="Használja a Pénzügyi áttekintést (ESC Menü) a hitelpontszám alapú hitelekhez" eh="1175c14f" />
+        <e k="usedplus_loan_vanillaBorrowDisabled" v="Vanilla kölcsönzés letiltva. Nyissa meg a Pénzügyi áttekintést a hitelpontszám alapú hitelekhez." eh="c81aff14" />
+        <e k="usedplus_button_purchase" v="Vásárlás" eh="76b6a47a" />
+        <e k="usedplus_button_buyNow" v="Vásárlás most" eh="c1f52fba" />
+        <e k="usedplus_button_decline" v="Elutasítás" eh="0d362728" />
+        <e k="usedplus_button_goBack" v="Vissza" eh="4f2f5e1d" />
+        <e k="usedplus_button_close" v="Bezárás" eh="d3d2e617" />
+        <e k="usedplus_button_confirm" v="Megerősítés" eh="70d9be9b" />
+        <e k="usedplus_button_cancel" v="Mégse" eh="ea478870" />
+        <e k="usedplus_button_later" v="Később" eh="61057a0c" />
+        <e k="usedplus_button_takeLoan" v="Hitel felvétele" eh="40fe67fa" />
+        <e k="usedplus_button_payOff" v="Törlesztés" eh="416ff954" />
+        <e k="usedplus_irp_title" v="ÁTVIZSGÁLÁSI JELENTÉS" eh="fca75392" />
+        <e k="usedplus_irp_sectionVehicle" v="JÁRMŰ" eh="e9fa318f" />
+        <e k="usedplus_irp_sectionMechanical" v="MECHANIKAI ÁLLAPOT" eh="9437e788" />
+        <e k="usedplus_irp_sectionNotes" v="VIZSGÁLÓI MEGJEGYZÉSEK" eh="24c3a1cc" />
+        <e k="usedplus_irp_sectionMechanic" v="SZERELŐ ÉRTÉKELÉSE" eh="ed0defaa" />
+        <e k="usedplus_irp_mechanicName" v="- Jani" eh="32d190f0" />
+        <e k="usedplus_irp_sectionRecommend" v="AJÁNLÁS" eh="7ae70d6c" />
+        <e k="usedplus_irp_listedPrice" v="Listaár:" eh="64a72200" />
+        <e k="usedplus_irp_engine" v="Motor:" eh="c7d60198" />
+        <e k="usedplus_irp_hydraulics" v="Hidraulika:" eh="1dccde48" />
+        <e k="usedplus_irp_electrical" v="Elektromos:" eh="2d4cfeb4" />
+        <e k="usedplus_irp_overallCondition" v="Általános állapot:" eh="a211ade5" />
+        <e k="usedplus_irp_estRepairCost" v="Becsült javítási költség:" eh="e0065daa" />
+        <e k="usedplus_irp_postRepairValue" v="Javítás utáni érték:" eh="676a8d00" />
+        <e k="usedplus_irp_priceNote" v="Az árak az eladó irányárát tükrözik. Alkudjon az átvizsgálás eredményei alapján." eh="1d136196" />
+        <e k="usedplus_irp_sectionRvbParts" v="ALKATRÉSZ ÁLLAPOT" eh="73555be1" />
+        <e k="usedplus_irp_part_engine" v="Motor" eh="7bfa3072" />
+        <e k="usedplus_irp_part_thermostat" v="Termosztát" eh="91e0b95d" />
+        <e k="usedplus_irp_part_generator" v="Generátor" eh="92a8f0b9" />
+        <e k="usedplus_irp_part_battery" v="Akkumulátor" eh="d67c9286" />
+        <e k="usedplus_irp_part_starter" v="Önindító" eh="ee6085db" />
+        <e k="usedplus_irp_part_glowplug" v="Izzítógyertya" eh="6fdb6ce6" />
+        <e k="usedplus_irp_sectionTires" v="GUMIABRONCS ÁLLAPOT" eh="d7d271cc" />
+        <e k="usedplus_irp_worstTire" v="Legrosszabb:" eh="4ca3e96d" />
+        <e k="usedplus_mrp_title" v="KARBANTARTÁSI JELENTÉS" eh="a2ca3391" />
+        <e k="usedplus_mrp_sectionReliability" v="MEGBÍZHATÓSÁGI ÉRTÉKELÉSEK" eh="87b5f6c4" />
+        <e k="usedplus_mrp_sectionHistory" v="KARBANTARTÁSI ELŐZMÉNYEK" eh="2ec3182d" />
+        <e k="usedplus_mrp_sectionNotes" v="ÁLLAPOT MEGJEGYZÉSEK" eh="078385a2" />
+        <e k="usedplus_mrp_breakdowns" v="Meghibásodások" eh="ff1cc005" />
+        <e k="usedplus_mrp_repairs" v="Javítások" eh="810a4b9e" />
+        <e k="usedplus_mrp_inspected" v="Átvizsgálva" eh="3a07b37b" />
+        <e k="usedplus_mrp_resaleImpact" v="Viszonteladási hatás:" eh="92b1671e" />
+        <e k="usedplus_mrp_origin" v="Eredet:" eh="dd187730" />
+        <e k="usedplus_mrp_overallCondition" v="ÁLTALÁNOS ÁLLAPOT" eh="c8090411" />
+        <e k="usedplus_dash_creditScore" v="HITELPONTSZÁM" eh="4f3b169e" />
+        <e k="usedplus_dash_debtRatio" v="ADÓSSÁGRÁTA" eh="c32f2503" />
+        <e k="usedplus_dash_assets" v="Eszközök:" eh="9c1a8d1e" />
+        <e k="usedplus_dash_debt" v="Adósság:" eh="5cd7ac01" />
+        <e k="usedplus_dash_ratio" v="Arány:" eh="a5be3d44" />
+        <e k="usedplus_dash_trend" v="Trend:" eh="0bc8b222" />
+        <e k="usedplus_dash_monthlyObligations" v="HAVI KÖTELEZETTSÉGEK" eh="5f11ba8b" />
+        <e k="usedplus_dash_equipment" v="Felszerelés:" eh="36f0f45f" />
+        <e k="usedplus_dash_land" v="Föld:" eh="40db99ca" />
+        <e k="usedplus_dash_loans" v="Hitelek:" eh="b60186ea" />
+        <e k="usedplus_dash_total" v="ÖSSZESEN:" eh="fe30028d" />
+        <e k="usedplus_dash_upcomingPayments" v="KÖZELGŐ TÖRLESZTÉSEK" eh="75dbf3ca" />
+        <e k="usedplus_dash_noPayments" v="Nincs közelgő törlesztés" eh="96a72e57" />
+        <e k="usedplus_dash_lifetimeStats" v="ÖSSZESÍTETT STATISZTIKÁK" eh="10e8dd52" />
+        <e k="usedplus_dash_totalFinanced" v="Összes finanszírozás:" eh="43df67a8" />
+        <e k="usedplus_dash_interestPaid" v="Kifizetett kamat:" eh="e8344297" />
+        <e k="usedplus_dash_dealsCompleted" v="Teljesített szerződések:" eh="1bd021c5" />
+        <e k="usedplus_dash_onTime" v="Időben:" eh="f99e4430" />
+        <e k="usedplus_dash_missed" v="Elmulasztva:" eh="e60f2982" />
+        <e k="usedplus_dash_tip" v="Tipp: Fizessen időben a hitelminősítés javításához. Törlesse a hiteleket korábban a kamat megtakarításához." eh="f34bfad5" />
+        <e k="usedplus_mrp_sectionMechanical" v="MECHANIKAI ÁLLAPOT" eh="5f94ecb6" />
+        <e k="usedplus_mrp_sectionService" v="SZERVIZ ELŐZMÉNYEK" eh="2bf3d81d" />
+        <e k="usedplus_mrp_sectionStatus" v="ÁLLAPOT" eh="5f241c8c" />
+        <e k="usedplus_mrp_shopRepairs" v="Bolti javítások" eh="6aec1607" />
+        <e k="usedplus_mrp_overall" v="Összesen:" eh="418a41b5" />
+        <e k="usedplus_mrp_condition" v="Állapot:" eh="ed51222f" />
+        <e k="usedplus_mrp_hours" v="Üzemórák" eh="f6eeda8b" />
+        <e k="usedplus_dd_title" v="SZERZŐDÉS RÉSZLETEI" eh="d711da33" />
+        <e k="usedplus_dd_sectionItem" v="TÉTEL INFORMÁCIÓK" eh="344a6d4f" />
+        <e k="usedplus_dd_sectionTerms" v="PÉNZÜGYI FELTÉTELEK" eh="cfadb041" />
+        <e k="usedplus_dd_sectionProgress" v="TÖRLESZTÉSI ELŐREHALADÁS" eh="f338b0ad" />
+        <e k="usedplus_dd_sectionSummary" v="FIZETÉSI ÖSSZESÍTŐ" eh="0dd98605" />
+        <e k="usedplus_dd_sectionMultiplier" v="TÖRLESZTÉSI SZORZÓ" eh="db8d799b" />
+        <e k="usedplus_dd_sectionPayoff" v="KORAI TÖRLESZTÉS" eh="58ce5d42" />
+        <e k="usedplus_dd_sectionRepossessed" v="ELKOBZOTT FEDEZET" eh="e0b8734f" />
+        <e k="usedplus_dd_name" v="Név:" eh="4e140ba7" />
+        <e k="usedplus_dd_type" v="Típus:" eh="e659b52e" />
+        <e k="usedplus_dd_status" v="Állapot:" eh="24a23d78" />
+        <e k="usedplus_dd_missed" v="Elmulasztva:" eh="e60f2982" />
+        <e k="usedplus_dd_original" v="Eredeti:" eh="fd5835ce" />
+        <e k="usedplus_dd_down" v="Előleg:" eh="d3d840b3" />
+        <e k="usedplus_dd_financed" v="Finanszírozva:" eh="ed7c65d7" />
+        <e k="usedplus_dd_term" v="Futamidő:" eh="3980a548" />
+        <e k="usedplus_dd_rate" v="Kamat:" eh="9f754529" />
+        <e k="usedplus_dd_monthly" v="Havi:" eh="01963e19" />
+        <e k="usedplus_dd_payments" v="Törlesztések:" eh="2edfe3cd" />
+        <e k="usedplus_dd_balance" v="Egyenleg:" eh="b5397350" />
+        <e k="usedplus_dd_remaining" v="Hátralévő:" eh="c2221b44" />
+        <e k="usedplus_dd_equity" v="Tőke:" eh="6d810016" />
+        <e k="usedplus_dd_principal" v="Tőke:" eh="7f39c030" />
+        <e k="usedplus_dd_interest" v="Kamat:" eh="25df650a" />
+        <e k="usedplus_dd_total" v="Összesen:" eh="66c4c511" />
+        <e k="usedplus_dd_multiplier" v="Szorzó:" eh="933d643e" />
+        <e k="usedplus_dd_adjusted" v="Módosított:" eh="468e7f0c" />
+        <e k="usedplus_dd_payoffIn" v="Törlesztés:" eh="2873bd4e" />
+        <e k="usedplus_dd_youSave" v="Megtakarítás:" eh="8b00c75c" />
+        <e k="usedplus_dd_payoff" v="Törlesztés:" eh="7e7f2967" />
+        <e k="usedplus_dd_accruedNote" v="(felhalmozott kamattal)" eh="ba209296" />
+        <e k="usedplus_dd_payoffInfo" v="Korai törlesztéssel kamatot takarít meg!" eh="3e87cef1" />
+        <e k="usedplus_dd_repossessedInfo" v="Az alábbi tételek elkobzásra kerültek elmulasztott törlesztések miatt:" eh="b9f50218" />
+        <e k="usedplus_dd_repossessedTotal" v="Elkobzott összérték:" eh="a6274dce" />
+        <e k="usedplus_button_viewHistory" v="Előzmények" eh="db9c40b5" />
+        <e k="usedplus_button_earlyPayoff" v="Korai törlesztés" eh="4ccf6612" />
+        <e k="usedplus_tl_title" v="HITEL FELVÉTELE" eh="2d3208d6" />
+        <e k="usedplus_tl_sectionCredit" v="AZ ÖN HITELE" eh="87d51ea4" />
+        <e k="usedplus_tl_score" v="Pontszám:" eh="343bc2b9" />
+        <e k="usedplus_tl_yourRate" v="Az Ön kamatlába:" eh="6387ae1b" />
+        <e k="usedplus_tl_sectionCollateral" v="FEDEZET KIVÁLASZTÁSA" eh="fdb2d731" />
+        <e k="usedplus_tl_collateralHelp" v="Kattintson az eszközök fedezetként történő kiválasztásához (csak terhetlen eszközök jelennek meg)" eh="618ea809" />
+        <e k="usedplus_tl_prev" v="&lt; Előző" eh="93819e8f" />
+        <e k="usedplus_tl_next" v="Következő >" eh="3ef61c7b" />
+        <e k="usedplus_tl_selected" v="Kiválasztva:" eh="e8418a9e" />
+        <e k="usedplus_tl_existingDebt" v="Meglévő adósság:" eh="e7d0c3fb" />
+        <e k="usedplus_tl_maxLoan" v="MAXIMÁLIS HITEL:" eh="f2517379" />
+        <e k="usedplus_tl_sectionConfig" v="HITEL BEÁLLÍTÁSA" eh="6c055726" />
+        <e k="usedplus_tl_amount" v="Összeg:" eh="6702a6e3" />
+        <e k="usedplus_tl_term" v="Futamidő:" eh="3980a548" />
+        <e k="usedplus_tl_sectionPayment" v="TÖRLESZTÉS ELŐNÉZET" eh="3890682c" />
+        <e k="usedplus_tl_monthly" v="Havi:" eh="01963e19" />
+        <e k="usedplus_tl_total" v="Összesen:" eh="66c4c511" />
+        <e k="usedplus_tl_interest" v="Kamat:" eh="25df650a" />
+        <e k="usedplus_tl_yearly" v="Éves:" eh="49192394" />
+        <e k="usedplus_tl_info" v="A hitel azonnal jóváírásra kerül. A törlesztések havonta automatikusan levonódnak." eh="91080370" />
+        <e k="usedplus_button_acceptLoan" v="Hitel elfogadása" eh="ad5f835e" />
+        <e k="usedplus_la_title" v="HITEL JÓVÁHAGYVA" eh="93e4efbe" />
+        <e k="usedplus_la_amountDeposited" v="Jóváírt összeg" eh="682d6e59" />
+        <e k="usedplus_la_sectionTerms" v="HITEL FELTÉTELEK" eh="08b4cdd6" />
+        <e k="usedplus_la_term" v="Futamidő:" eh="3980a548" />
+        <e k="usedplus_la_rate" v="Kamatláb:" eh="389f9dd8" />
+        <e k="usedplus_la_sectionPayment" v="TÖRLESZTÉSI ÜTEMEZÉS" eh="7facfc46" />
+        <e k="usedplus_la_monthly" v="Havi:" eh="01963e19" />
+        <e k="usedplus_la_yearly" v="Éves:" eh="49192394" />
+        <e k="usedplus_la_totalInterest" v="Összes kamat:" eh="183c0158" />
+        <e k="usedplus_la_sectionCredit" v="HITELMINŐSÍTÉS HATÁS" eh="2bc4f898" />
+        <e k="usedplus_la_previous" v="Korábbi:" eh="1db2aece" />
+        <e k="usedplus_la_newScore" v="Új pontszám:" eh="cf060e2c" />
+        <e k="usedplus_la_info" v="A törlesztések havonta automatikusan levonódnak. Az időben fizetés javítja a hitelminősítést!" eh="78d04eb6" />
+        <e k="usedplus_rp_title" v="ELKOBZÁSI ÉRTESÍTÉS" eh="0654d371" />
+        <e k="usedplus_rp_sectionTaken" v="ELKOBZOTT ESZKÖZ" eh="30ef7a0c" />
+        <e k="usedplus_rp_value" v="Érték:" eh="acdb802b" />
+        <e k="usedplus_rp_sectionReason" v="NEMFIZETÉS RÉSZLETEI" eh="e361d8c2" />
+        <e k="usedplus_rp_missedPayments" v="Elmulasztott törlesztések:" eh="b96a6a49" />
+        <e k="usedplus_rp_balanceOwed" v="Tartozás:" eh="38a2ac4f" />
+        <e k="usedplus_rp_sectionCredit" v="HITELMINŐSÍTÉS HATÁS" eh="2bc4f898" />
+        <e k="usedplus_rp_creditImpact" v="Ez az elkobzás súlyosan befolyásolja a hitelpontszámát. A jövőbeli finanszírozás drágább lesz vagy elutasításra kerül." eh="255a010d" />
+        <e k="usedplus_rp_footer" v="Fizessen időben a jövőbeli elkobzások elkerüléséhez." eh="000e26a4" />
+        <e k="usedplus_up_title" v="Jármű vásárlása" eh="f5dc36d9" />
+        <e k="usedplus_up_sectionVehicle" v="JÁRMŰ" eh="e9fa318f" />
+        <e k="usedplus_up_sectionMethod" v="VÁSÁRLÁSI MÓD" eh="f5f3c261" />
+        <e k="usedplus_up_methodHelp" v="Válassza ki a fizetés módját: készpénz előre, finanszírozás idővel, vagy lízing alacsonyabb törlesztéssel." eh="83636102" />
+        <e k="usedplus_up_sectionTradeIn" v="BESZÁMÍTÁS (Opcionális)" eh="e5bfdf59" />
+        <e k="usedplus_up_tradeInHelp" v="Válasszon járművet beszámításra a fizetendő összeg csökkentéséhez." eh="93193d20" />
+        <e k="usedplus_up_tradeInVehicle" v="Beszámított jármű:" eh="300da437" />
+        <e k="usedplus_up_tradeInValue" v="Beszámítási érték:" eh="4f0e849e" />
+        <e k="usedplus_up_sectionCash" v="FIZETÉSI ÖSSZESÍTŐ" eh="0dd98605" />
+        <e k="usedplus_up_cashHelp" v="Fizesse ki a teljes összeget most. A beszámítási érték levonásra kerül az összegből." eh="6439a515" />
+        <e k="usedplus_up_vehiclePrice" v="Jármű ára:" eh="3c3c7b43" />
+        <e k="usedplus_up_tradeInCredit" v="Beszámítási jóváírás:" eh="ce4811cd" />
+        <e k="usedplus_up_totalDue" v="FIZETENDŐ ÖSSZESEN:" eh="6527240c" />
+        <e k="usedplus_up_sectionFinance" v="FINANSZÍROZÁSI FELTÉTELEK" eh="42352b5c" />
+        <e k="usedplus_up_financeHelp" v="Ossza el a törlesztést időben. Állítsa be a futamidőt, előleget és készpénz visszatérítést az ideális havi törlesztéshez." eh="9efc0b37" />
+        <e k="usedplus_up_loanTerm" v="Futamidő:" eh="766186df" />
+        <e k="usedplus_up_downPayment" v="Előleg:" eh="a706fdb6" />
+        <e k="usedplus_up_cashBack" v="Készpénz vissza:" eh="3a5f448d" />
+        <e k="usedplus_up_amountFinanced" v="Finanszírozott összeg:" eh="c9247e08" />
+        <e k="usedplus_up_interestRate" v="Kamatláb:" eh="389f9dd8" />
+        <e k="usedplus_up_monthlyPayment" v="Havi törlesztés:" eh="3499b658" />
+        <e k="usedplus_up_totalInterest" v="Összes kamat:" eh="183c0158" />
+        <e k="usedplus_up_dueToday" v="MA FIZETENDŐ:" eh="f644eca9" />
+        <e k="usedplus_up_sectionPayment" v="TÖRLESZTÉSI ÜTEMEZÉS" eh="7facfc46" />
+        <e k="usedplus_up_sectionDueToday" v="MA FIZETENDŐ ÖSSZEG" eh="7490fb39" />
+        <e k="usedplus_up_youPayNow" v="Most fizet:" eh="3dceb6af" />
+        <e k="usedplus_up_sectionLease" v="LÍZING FELTÉTELEK" eh="0100690c" />
+        <e k="usedplus_up_leaseHelp" v="Hosszabb futamidő = alacsonyabb havi ÉS alacsonyabb kivásárlás. Az előleg csökkenti a ma fizetendő összeget." eh="e7576928" />
+        <e k="usedplus_up_leaseTerm" v="Lízing időtartam:" eh="52b77655" />
+        <e k="usedplus_up_securityDeposit" v="Biztonsági letét:" eh="40ff2282" />
+        <e k="usedplus_up_totalLeaseCost" v="Teljes lízing költség:" eh="61a93e0e" />
+        <e k="usedplus_up_buyoutAtEnd" v="Kivásárlás végén:" eh="c79112f8" />
+        <e k="usedplus_button_confirmPurchase" v="Vásárlás megerősítése" eh="c8505ab3" />
+        <e k="usedplus_lp_sectionDetails" v="TERMŐFÖLD RÉSZLETEI" eh="e41fc419" />
+        <e k="usedplus_lp_field" v="Tábla:" eh="af9b2925" />
+        <e k="usedplus_lp_size" v="Méret:" eh="af645946" />
+        <e k="usedplus_lp_perHa" v="Ha-onként:" eh="ddf262a0" />
+        <e k="usedplus_lp_basePrice" v="Alapár:" eh="74e3d937" />
+        <e k="usedplus_lp_creditAdjust" v="Hitel kiigazítás:" eh="f7acd3c7" />
+        <e k="usedplus_lp_yourPrice" v="Az Ön ára:" eh="1d387415" />
+        <e k="usedplus_lp_methodHelp" v="Válassza ki a fizetés módját: készpénz előre, finanszírozás idővel, vagy a föld bérlete." eh="57d0bf21" />
+        <e k="usedplus_lp_cashHelp" v="Fizesse ki a teljes összeget most, hogy azonnal tulajdonossá váljon." eh="1d680803" />
+        <e k="usedplus_lp_financeHelp" v="Finanszírozza a földvásárlást havi törlesztésekkel. Állítsa be a futamidőt és előleget alább." eh="c823a585" />
+        <e k="usedplus_lp_leaseHelp" v="Bérelje a földet havi törlesztésekkel. A díj a terület és a talajminőség alapján kerül kiszámításra." eh="fcb662a3" />
+        <e k="usedplus_lp_leaseTerm" v="Bérleti időtartam:" eh="52b77655" />
+        <e k="usedplus_lp_monthlyPayment" v="Havi törlesztés:" eh="3499b658" />
+        <e k="usedplus_lp_annualCost" v="Éves költség:" eh="bdfc1025" />
+        <e k="usedplus_lp_rateCalc" v="Díj számítás:" eh="0514b02f" />
+        <e k="usedplus_lp_securityDeposit" v="Biztonsági letét:" eh="40ff2282" />
+        <e k="usedplus_lp_dueToday" v="Ma fizetendő:" eh="bbc41d05" />
+        <e k="usedplus_lp_totalLeaseCost" v="Teljes bérleti költség:" eh="61a93e0e" />
+        <e k="usedplus_us_sectionVehicle" v="JÁRMŰ" eh="e9fa318f" />
+        <e k="usedplus_us_sectionTier" v="KERESÉSI SZINT" eh="2a7a1103" />
+        <e k="usedplus_us_sectionQuality" v="KÍVÁNT MINŐSÉG" eh="4a96fcfe" />
+        <e k="usedplus_us_qualityAny" v="Bármilyen" eh="ed36a1ef" />
+        <e k="usedplus_us_qualityPoor" v="Gyenge" eh="0e94d017" />
+        <e k="usedplus_us_qualityFair" v="Elfogadható" eh="f7f20cf0" />
+        <e k="usedplus_us_qualityGood" v="Jó" eh="0c6ad70b" />
+        <e k="usedplus_us_qualityExcellent" v="Kiváló" eh="fcc2d28a" />
+        <e k="usedplus_us_discountFormat" v="~%d%% kedvezmény" eh="69923e02" />
+        <e k="usedplus_us_infoText" v="A magasabb szintek többe kerülnek, de jobb sikeraránnyal és minőséggel találnak járműveket." eh="5d292c52" />
+        <e k="usedplus_uvp_title" v="Használt jármű találat" eh="ac794919" />
+        <e k="usedplus_uvp_sectionVehicle" v="JÁRMŰ INFORMÁCIÓ" eh="47b7b38d" />
+        <e k="usedplus_uvp_askingPrice" v="Kért ár:" eh="c515d94e" />
+        <e k="usedplus_uvp_sectionCondition" v="LÁTHATÓ ÁLLAPOT" eh="0eb0492b" />
+        <e k="usedplus_uvp_age" v="Életkor:" eh="25235196" />
+        <e k="usedplus_uvp_hours" v="Üzemórák:" eh="ad179a10" />
+        <e k="usedplus_uvp_damage" v="Sérülés:" eh="5a50c456" />
+        <e k="usedplus_uvp_wear" v="Kopás:" eh="0f25ac5c" />
+        <e k="usedplus_uvp_warningTitle" v="Rejtett műszaki állapot ismeretlen" eh="d2e42691" />
+        <e k="usedplus_uvp_selectTier" v="Válassz vizsgálati szintet:" eh="c3d4dde6" />
+        <e k="usedplus_uvp_inspectPrompt" v="Fizess szakértői vizsgálatért" eh="2c3e76c2" />
+        <e k="usedplus_uvp_inspectedText" v="A jármű átvizsgálva - jelentés megtekintése" eh="9015cd17" />
+        <e k="usedplus_button_buyAsIs" v="Vásárlás így" eh="43e49e70" />
+        <e k="usedplus_button_inspect" v="Vizsgálat" eh="35a9dbe6" />
+        <e k="usedplus_button_tires" v="Gumik" eh="3fe2c06a" />
+        <e k="usedplus_button_fluids" v="Folyadékok" eh="c599fed9" />
+        <e k="usedplus_rp_sectionStatus" v="JÁRMŰ ÁLLAPOTA" eh="41898172" />
+        <e k="usedplus_rp_mechanical" v="Műszaki:" eh="80061faf" />
+        <e k="usedplus_rp_paint" v="Festék:" eh="d65951a4" />
+        <e k="usedplus_rp_sectionRepair" v="MŰSZAKI JAVÍTÁS" eh="6294bbee" />
+        <e k="usedplus_rp_sectionRepaint" v="ÚJRAFESTÉS" eh="8c638cea" />
+        <e k="usedplus_rp_selectAmount" v="Válaszd ki a javítás mértékét:" eh="99d6f5e9" />
+        <e k="usedplus_rp_selectPaint" v="Válaszd ki az újrafestés mértékét:" eh="9c5d4c7b" />
+        <e k="usedplus_rp_percentExplain" v="A fennmaradó sérülés javításának százaléka. 100% = teljes helyreállítás." eh="83a0df1d" />
+        <e k="usedplus_rp_percentExplainPaint" v="A festékkopás helyreállításának százaléka. 100% = gyári festés." eh="e8268659" />
+        <e k="usedplus_rp_selected" v="Kiválasztva:" eh="e8418a9e" />
+        <e k="usedplus_rp_cost" v="Költség:" eh="69edde90" />
+        <e k="usedplus_rp_after" v="Utána:" eh="fdbe650f" />
+        <e k="usedplus_rp_sectionPayment" v="FIZETÉS" eh="b842122b" />
+        <e k="usedplus_rp_totalCost" v="TELJES KÖLTSÉG:" eh="c4886680" />
+        <e k="usedplus_rp_result" v="EREDMÉNY:" eh="442def3f" />
+        <e k="usedplus_rp_yourMoney" v="Pénzed:" eh="8f18f24a" />
+        <e k="usedplus_rp_infoText" v="Fizess most vagy finanszírozd havi törlesztéssel." eh="9462576c" />
+        <e k="usedplus_button_payCash" v="KÉSZPÉNZ" eh="b134b99e" />
+        <e k="usedplus_rp_buttonFinance" v="FINANSZÍROZÁS" eh="65fe55e3" />
+        <e k="usedplus_sv_title" v="Jármű eladása" eh="fe030802" />
+        <e k="usedplus_sv_sectionVehicle" v="ELADÓ JÁRMŰ" eh="e26b5c39" />
+        <e k="usedplus_sv_sectionOptions" v="ÉRTÉKESÍTÉSI OPCIÓK" eh="7aa5cdd7" />
+        <e k="usedplus_sv_optionsHelp" v="Bérelj ügynököt vevők kereséséhez. A jobb ügynökök több vevőt érnek el, de többet kérnek." eh="ba69b5e8" />
+        <e k="usedplus_sv_agent" v="Ügynök:" eh="8c014e8c" />
+        <e k="usedplus_sv_askingPrice" v="Kért ár:" eh="c515d94e" />
+        <e k="usedplus_sv_sectionOutcome" v="VÁRHATÓ EREDMÉNY" eh="938f969b" />
+        <e k="usedplus_sv_expectedReturn" v="Várható bevétel:" eh="a64a415f" />
+        <e k="usedplus_sv_returnPercent" v="Megtérülés %:" eh="a4f3603f" />
+        <e k="usedplus_sv_agentFee" v="Ügynöki díj:" eh="d9e5adff" />
+        <e k="usedplus_sv_netAfterFee" v="Nettó díj után:" eh="95d8ccf3" />
+        <e k="usedplus_sv_expectedTime" v="Várható idő:" eh="34fab0d7" />
+        <e k="usedplus_sv_successRate" v="Sikeresség:" eh="346bdbd3" />
+        <e k="usedplus_sv_selected" v="Kiválasztva:" eh="e8418a9e" />
+        <e k="usedplus_sv_sectionCompare" v="ALTERNATÍV OPCIÓK" eh="0c82f4b3" />
+        <e k="usedplus_sv_tradeInCompare" v="Beszámítás (vásárláskor):" eh="4625f0a8" />
+        <e k="usedplus_sv_infoText" v="Az ügynök vevőket keres. Ajánlatokat kapsz elfogadásra vagy elutasításra." eh="8cf963a6" />
+        <e k="usedplus_sv_warningText" v="Az ügynöki díj nem visszatéríthető. A jármű a tiéd marad eladásig." eh="c1203e3c" />
+        <e k="usedplus_button_hireAgent" v="Ügynök bérlése" eh="876d6229" />
+        <e k="usedplus_sli_title" v="Hirdetés létrehozva!" eh="9b42efd7" />
+        <e k="usedplus_sli_sectionAgent" v="ÜGYNÖK ADATAI" eh="07b84291" />
+        <e k="usedplus_sli_agentType" v="Ügynök:" eh="8c014e8c" />
+        <e k="usedplus_sli_feeCharged" v="Felszámított díj:" eh="b8b2c7fb" />
+        <e k="usedplus_sli_sectionListing" v="HIRDETÉS RÉSZLETEI" eh="7b3916d2" />
+        <e k="usedplus_sli_priceTier" v="Árkategória:" eh="a2139c66" />
+        <e k="usedplus_sli_expectedPrice" v="Várható ár:" eh="47fafc20" />
+        <e k="usedplus_sli_timeline" v="Időkeret:" eh="00e0ede6" />
+        <e k="usedplus_sli_successRate" v="Sikeresség:" eh="346bdbd3" />
+        <e k="usedplus_sli_infoText" v="Az ügynököd most vevőket keres." eh="ebe12ffc" />
+        <e k="usedplus_sli_infoTextSub" v="Ajánlatokat fogsz kapni elfogadásra vagy elutasításra." eh="f88e1b82" />
+        <e k="usedplus_notify_saleOffer" v="Vevő találva: %s! Ajánlat: %s" eh="3389313f" />
+        <e k="usedplus_so_title_v2" v="VEVŐ TALÁLVA!" eh="fd3a815d" />
+        <e k="usedplus_so_expectedRange" v="VÁRHATÓ TARTOMÁNY" eh="97d4cf24" />
+        <e k="usedplus_so_rangeMin" v="Min" eh="78d811e9" />
+        <e k="usedplus_so_rangeOffer" v="Ez az ajánlat" eh="7b80f546" />
+        <e k="usedplus_so_rangeMax" v="Max" eh="6a061313" />
+        <e k="usedplus_so_yourOptions" v="LEHETŐSÉGEID" eh="b9646b5a" />
+        <e k="usedplus_so_thisOffer" v="Ajánlat elfogadása:" eh="24352753" />
+        <e k="usedplus_so_keepWaiting" v="Tovább várni:" eh="9cc093ff" />
+        <e k="usedplus_so_keepWaitingNote" v="Lehet jobb ajánlat, vagy lejár a hirdetés" eh="6b53991a" />
+        <e k="usedplus_so_expiresIn" v="Ajánlat lejár:" eh="ca2ce4a5" />
+        <e k="usedplus_so_acceptOffer" v="Elfogadás" eh="93a5776a" />
+        <e k="usedplus_so_keepWaitingBtn" v="Tovább várni" eh="addcd152" />
+        <e k="usedplus_so_title" v="ELADÁSI AJÁNLAT ÉRKEZETT!" eh="1596a2b0" />
+        <e k="usedplus_button_acceptOffer" v="Elfogadás" eh="93a5776a" />
+        <e k="usedplus_pc_title" v="Hiteltörlesztés beállítása" eh="07beb52e" />
+        <e k="usedplus_pc_headerLoan" v="Hitel" eh="9ad81a8f" />
+        <e k="usedplus_pc_headerBalance" v="Egyenleg" eh="99a808d8" />
+        <e k="usedplus_pc_headerMode" v="Mód" eh="650be618" />
+        <e k="usedplus_pc_headerPayment" v="Törlesztés" eh="c453a4b8" />
+        <e k="usedplus_pc_selectLoan" v="Válassz hitelt a törlesztési mód módosításához" eh="9c398fdf" />
+        <e k="usedplus_pc_totalPayment" v="ÖSSZES TÖRLESZTÉS" eh="bea684c8" />
+        <e k="usedplus_button_resetAll" v="Összes visszaállítása" eh="b69a15a8" />
+        <e k="usedplus_button_apply" v="Alkalmaz" eh="9639e32c" />
+        <e k="usedplus_le_chooseOption" v="Válassz opciót:" eh="c4477bb4" />
+        <e k="usedplus_le_returnTitle" v="JÁRMŰ VISSZAADÁSA" eh="2c0e1ab5" />
+        <e k="usedplus_le_returnDesc" v="Visszaadás a kereskedőnek, sérülési díjak fizetése" eh="91a379d9" />
+        <e k="usedplus_le_buyoutTitle" v="JÁRMŰ KIVÁSÁRLÁSA" eh="4fd832ea" />
+        <e k="usedplus_le_buyoutDesc" v="Maradványérték kifizetése, jármű megtartása" eh="2397b13e" />
+        <e k="usedplus_button_returnVehicle" v="Visszaadás" eh="29494bde" />
+        <e k="usedplus_button_buyoutVehicle" v="Kivásárlás" eh="941e30d2" />
+        <e k="usedplus_lr_title" v="Lízing lejárt" eh="6aa968eb" />
+        <e k="usedplus_lr_sectionSummary" v="LÍZING ÖSSZEFOGLALÓ" eh="4d8adcee" />
+        <e k="usedplus_lr_term" v="Futamidő:" eh="3980a548" />
+        <e k="usedplus_lr_paymentsMade" v="Befizetések:" eh="c6d673a2" />
+        <e k="usedplus_lr_totalPaid" v="Összesen fizetve:" eh="752d1456" />
+        <e k="usedplus_lr_equityBuilt" v="Felépített tőke:" eh="9a889d2d" />
+        <e k="usedplus_lr_sectionDeposit" v="LETÉT ÁLLAPOTA" eh="664a8e6a" />
+        <e k="usedplus_lr_securityDeposit" v="Biztonsági letét:" eh="40ff2282" />
+        <e k="usedplus_lr_deductions" v="Levonások:" eh="18e6b2d1" />
+        <e k="usedplus_lr_refundAmount" v="Visszatérítés:" eh="601b295e" />
+        <e k="usedplus_lr_vehicleCondition" v="Jármű állapota:" eh="507cbde4" />
+        <e k="usedplus_lr_sectionOptions" v="LEHETŐSÉGEID" eh="b9646b5a" />
+        <e k="usedplus_lr_optionReturn" v="VISSZAADÁS" eh="a2bec276" />
+        <e k="usedplus_lr_optionReturnDesc" v="Eszköz visszaadása" eh="d3b59566" />
+        <e k="usedplus_lr_youReceive" v="Kapod:" eh="7d826ecb" />
+        <e k="usedplus_lr_optionBuyout" v="KIVÁSÁRLÁS" eh="824fbea1" />
+        <e k="usedplus_lr_optionBuyoutDesc" v="Megvásárlás tulajdonba" eh="f27e9e96" />
+        <e k="usedplus_lr_youPay" v="Fizetsz:" eh="58ef0d24" />
+        <e k="usedplus_lr_optionRenew" v="MEGÚJÍTÁS" eh="f2120692" />
+        <e k="usedplus_lr_optionRenewDesc" v="Lízing meghosszabbítása" eh="392db1c5" />
+        <e k="usedplus_lr_equityCarries" v="Tőke átvihető:" eh="4c5d28b7" />
+        <e k="usedplus_button_return" v="Visszaadás" eh="988fd738" />
+        <e k="usedplus_button_buyout" v="Kivásárlás" eh="6e052e38" />
+        <e k="usedplus_button_renew" v="Megújítás" eh="0b9feba3" />
+        <e k="usedplus_lr_helpText" v="Válassz egy opciót. Visszaadáskor kapod a letéted. Kivásárláskor a tőkéd beszámít. Megújításkor a tőke a jövőbeli kivásárláshoz marad." eh="91673bf9" />
+        <e k="usedplus_conf_title" v="Megerősítés" eh="f4d1ea47" />
+        <e k="usedplus_cr_title" v="HITELJELENTÉS" eh="3725e302" />
+        <e k="usedplus_cr_reportDate" v="Jelentés dátuma:" eh="93ad31a7" />
+        <e k="usedplus_cr_sectionScore" v="HITELPONTSZÁM" eh="4f3b169e" />
+        <e k="usedplus_cr_scoreRange" v="Pontszám tartomány: 300-850" eh="3d50ef3a" />
+        <e k="usedplus_cr_sectionTrend" v="PONTSZÁM TREND" eh="e48c7243" />
+        <e k="usedplus_cr_noHistory" v="Nincs előzmény" eh="be5404ee" />
+        <e k="usedplus_cr_sectionFactors" v="PONTSZÁMOT BEFOLYÁSOLÓ TÉNYEZŐK" eh="2d37fbe6" />
+        <e k="usedplus_cr_factorPayment" v="Fizetési előzmények (35%):" eh="64428de4" />
+        <e k="usedplus_cr_factorUtilization" v="Hitelkihasználtság (30%):" eh="1781c289" />
+        <e k="usedplus_cr_factorAge" v="Számla kora (15%):" eh="25e0a509" />
+        <e k="usedplus_cr_factorMix" v="Számla típusok (10%):" eh="10cfcc8e" />
+        <e k="usedplus_cr_factorInquiries" v="Legutóbbi lekérdezések (10%):" eh="2707f9d5" />
+        <e k="usedplus_cr_sectionAccount" v="SZÁMLA ÖSSZEFOGLALÓ" eh="30b999cb" />
+        <e k="usedplus_cr_openAccounts" v="Nyitott számlák:" eh="63f11347" />
+        <e k="usedplus_cr_closedAccounts" v="Lezárt számlák:" eh="66278d88" />
+        <e k="usedplus_cr_outstandingBalance" v="Fennálló egyenleg:" eh="992c579f" />
+        <e k="usedplus_cr_sectionActive" v="AKTÍV SZÁMLÁK" eh="7aed11c2" />
+        <e k="usedplus_cr_noActiveAccounts" v="Nincsenek aktív számlák" eh="1b3f60a4" />
+        <e k="usedplus_cr_sectionPayment" v="FIZETÉSI ELŐZMÉNYEK" eh="56a90765" />
+        <e k="usedplus_cr_onTimePayments" v="Időben fizetések:" eh="5fe2e027" />
+        <e k="usedplus_cr_missedPayments" v="Elmulasztott fizetések:" eh="b96a6a49" />
+        <e k="usedplus_cr_currentStreak" v="Jelenlegi sorozat:" eh="532fbb21" />
+        <e k="usedplus_cr_longestStreak" v="Leghosszabb sorozat:" eh="2cfe9c97" />
+        <e k="usedplus_cr_section12Month" v="12 HÓNAPOS ELŐZMÉNY" eh="3a1a2ffd" />
+        <e k="usedplus_cr_sectionTips" v="TIPPEK A JAVÍTÁSHOZ" eh="b68d1668" />
+        <e k="usedplus_cr_tip1" v="Fizess időben a hitelképesség építéséhez" eh="a69f1a91" />
+        <e k="usedplus_cr_tip2" v="Tartsd az adósságot a vagyon 50%-a alatt" eh="70d62f24" />
+        <e k="usedplus_cr_tip3" v="Építs előzményt kis hitelekkel" eh="dc1c9766" />
+        <e k="usedplus_cr_creditDisabled" v="Hitelpontozás kikapcsolva" eh="62d14b3c" />
+        <e k="usedplus_cr_creditDisabledHint" v="Engedélyezd a hitelpontozást a UsedPlus beállításokban a jelentés megtekintéséhez." eh="4c217397" />
+        <e k="usedplus_sd_title" v="KERESÉS RÉSZLETEI" eh="b3338e43" />
+        <e k="usedplus_sd_sectionSearching" v="KERESÉS TÁRGYA" eh="fb7b73d1" />
+        <e k="usedplus_sd_sectionConfig" v="KERESÉS BEÁLLÍTÁSA" eh="b1db3ac1" />
+        <e k="usedplus_sd_searchTier" v="Keresési szint:" eh="1659ba2c" />
+        <e k="usedplus_sd_agentFee" v="Ügynöki díj:" eh="d9e5adff" />
+        <e k="usedplus_sd_baseSuccess" v="Alap sikeresség:" eh="7cb62230" />
+        <e k="usedplus_sd_qualitySought" v="Keresett minőség:" eh="5596b7f2" />
+        <e k="usedplus_sd_successModifier" v="Sikeresség módosító:" eh="6dd11cf5" />
+        <e k="usedplus_sd_combinedChance" v="Összes esély:" eh="7f4e4f53" />
+        <e k="usedplus_sd_sectionPricing" v="VÁRHATÓ ÁRAZÁS" eh="76b4b461" />
+        <e k="usedplus_sd_newPrice" v="Új ár:" eh="8def7435" />
+        <e k="usedplus_sd_expectedUsed" v="Várható használt:" eh="28f47fae" />
+        <e k="usedplus_sd_savings" v="Megtakarítás:" eh="f3815936" />
+        <e k="usedplus_sd_qualityRange" v="Minőség tartomány:" eh="d897532c" />
+        <e k="usedplus_sd_priceRange" v="Ár tartomány:" eh="f0c5f00f" />
+        <e k="usedplus_sd_sectionStatus" v="KERESÉS ÁLLAPOTA" eh="58667467" />
+        <e k="usedplus_sd_status" v="Állapot:" eh="24a23d78" />
+        <e k="usedplus_sd_timeRemaining" v="Hátralévő idő:" eh="d67a16ee" />
+        <e k="usedplus_sd_started" v="Indítva:" eh="cf864170" />
+        <e k="usedplus_sd_elapsed" v="Eltelt:" eh="97ce22df" />
+        <e k="usedplus_sd_infoText" v="A regionális keresések a legjobb ár-érték arányt kínálják." eh="83c02892" />
+        <e k="usedplus_sld_title" v="ELADÁSI HIRDETÉS RÉSZLETEI" eh="9e334439" />
+        <e k="usedplus_sld_sectionVehicle" v="JÁRMŰ" eh="e9fa318f" />
+        <e k="usedplus_sld_sectionStatus" v="ÁLLAPOT" eh="5f241c8c" />
+        <e k="usedplus_sld_condition" v="Állapot:" eh="ed51222f" />
+        <e k="usedplus_sld_hours" v="Üzemórák:" eh="ad179a10" />
+        <e k="usedplus_sld_timeLeft" v="Hátralévő idő:" eh="39eed84f" />
+        <e k="usedplus_sld_sectionConfig" v="ELADÁS BEÁLLÍTÁSA" eh="363705b3" />
+        <e k="usedplus_sld_agentTier" v="Ügynök szint:" eh="4eb7801b" />
+        <e k="usedplus_sld_agentFee" v="Ügynöki díj:" eh="d9e5adff" />
+        <e k="usedplus_sld_baseSuccess" v="Alap sikeresség:" eh="7cb62230" />
+        <e k="usedplus_sld_priceTier" v="Árkategória:" eh="a2139c66" />
+        <e k="usedplus_sld_priceRange" v="Ár tartomány:" eh="f0c5f00f" />
+        <e k="usedplus_sld_successMod" v="Sikeresség mód:" eh="072a440b" />
+        <e k="usedplus_sld_sectionValue" v="ÉRTÉK ÖSSZEHASONLÍTÁS" eh="b15429bc" />
+        <e k="usedplus_sld_vanillaSell" v="Normál eladás:" eh="5aa2c432" />
+        <e k="usedplus_sld_tradeInValue" v="Beszámítási érték:" eh="4f0e849e" />
+        <e k="usedplus_sld_tradeInNote" v="(Beszámítás: 50-65% azonnal)" eh="29c1fe6d" />
+        <e k="usedplus_sld_expected" v="Várható:" eh="28cd6614" />
+        <e k="usedplus_sld_vsVanilla" v="vs Normál:" eh="c4365310" />
+        <e k="usedplus_sld_netAfterFee" v="Nettó (díj után):" eh="505e1f8c" />
+        <e k="usedplus_sld_sectionOffers" v="AJÁNLAT ELŐZMÉNYEK" eh="673b6b05" />
+        <e k="usedplus_sld_offersReceived" v="Kapott ajánlatok:" eh="6c54540b" />
+        <e k="usedplus_sld_offersDeclined" v="Elutasított ajánlatok:" eh="b3088f05" />
+        <e k="usedplus_sld_listedFor" v="Hirdetve:" eh="3df84bda" />
+        <e k="usedplus_sld_infoText" v="A magasabb szintű ügynökök szélesebb körben keresnek, de tovább tart." eh="c6eb9c87" />
+        <e k="usedplus_ph_title" v="FIZETÉSI ELŐZMÉNYEK" eh="56a90765" />
+        <e k="usedplus_ph_sectionSummary" v="ÜGYLET ÖSSZEFOGLALÓ" eh="395f5e84" />
+        <e k="usedplus_ph_item" v="Tétel:" eh="93125227" />
+        <e k="usedplus_ph_original" v="Eredeti:" eh="fd5835ce" />
+        <e k="usedplus_ph_rate" v="Kamat:" eh="9f754529" />
+        <e k="usedplus_ph_monthly" v="Havi:" eh="01963e19" />
+        <e k="usedplus_ph_progress" v="Haladás:" eh="2e6e937b" />
+        <e k="usedplus_ph_balance" v="Egyenleg:" eh="b5397350" />
+        <e k="usedplus_ph_headerNum" v="#" eh="01abfc75" />
+        <e k="usedplus_ph_headerPayment" v="TÖRLESZTÉS" eh="b842122b" />
+        <e k="usedplus_ph_headerPrincipal" v="TŐKE" eh="5396ab10" />
+        <e k="usedplus_ph_headerInterest" v="KAMAT" eh="c1833ca6" />
+        <e k="usedplus_ph_headerBalance" v="EGYENLEG" eh="bd50bfda" />
+        <e k="usedplus_ph_headerStatus" v="ÁLLAPOT" eh="5f241c8c" />
+        <e k="usedplus_button_prev" v="ELŐZŐ" eh="504ec00b" />
+        <e k="usedplus_button_next" v="KÖVETKEZŐ" eh="47559fb8" />
+        <e k="usedplus_ph_pageInfo" v="Fizetések %d-%d / %d" eh="2984020e" />
+        <e k="usedplus_fmf_sectionFinances" v="PÉNZÜGYEK" eh="15625374" />
+        <e k="usedplus_fmf_sectionMarketplace" v="HASZNÁLT PIACTÉR" eh="ad2d33e9" />
+        <e k="usedplus_fmf_sectionCredit" v="HITEL ÉS STATISZTIKA" eh="8a71fbbe" />
+        <e k="usedplus_fmf_sectionStatistics" v="STATISZTIKA" eh="bd71bd5e" />
+        <e k="usedplus_fmf_noActiveDeals" v="Nincsenek aktív finanszírozási ügyletek" eh="171c5c5d" />
+        <e k="usedplus_fmf_headerType" v="TÍPUS" eh="94849514" />
+        <e k="usedplus_fmf_headerItem" v="TÉTEL" eh="2b911c01" />
+        <e k="usedplus_fmf_headerBalance" v="EGYENLEG" eh="bd50bfda" />
+        <e k="usedplus_fmf_headerMonthly" v="HAVI" eh="c107927c" />
+        <e k="usedplus_fmf_headerProgress" v="HALADÁS" eh="ee886345" />
+        <e k="usedplus_fmf_headerLeft" v="MARADT" eh="684d325a" />
+        <e k="usedplus_fmf_totalOwed" v="Összes tartozás:" eh="3dcc8909" />
+        <e k="usedplus_fmf_monthlyLabel" v="Havi:" eh="01963e19" />
+        <e k="usedplus_fmf_interestLabel" v="Kamat:" eh="25df650a" />
+        <e k="usedplus_fmf_dealsLabel" v="Ügyletek:" eh="bf915594" />
+        <e k="usedplus_fmf_payEarly" v="ELŐTÖRLESZTÉS" eh="5fa1eddb" />
+        <e k="usedplus_fmf_info" v="INFO" eh="551b723e" />
+        <e k="usedplus_fmf_searchTierInfo" v="Keresési szint információ" eh="0770e1cd" />
+        <e k="usedplus_fmf_localSearch" v="Helyi keresés" eh="e1ea5bc1" />
+        <e k="usedplus_fmf_localStats" v="2% díj | 40% siker | 1 hónap" eh="3ccea670" />
+        <e k="usedplus_fmf_regionalSearch" v="Regionális keresés" eh="722cc490" />
+        <e k="usedplus_fmf_regionalStats" v="6% díj | 70% siker | 1-3 hónap" eh="edd16abf" />
+        <e k="usedplus_fmf_nationalSearch" v="Országos keresés" eh="c967061f" />
+        <e k="usedplus_fmf_nationalStats" v="12% díj | 85% siker | 2-6 hónap" eh="685c2f27" />
+        <e k="usedplus_fmf_startFromShop" v="Keresés indítása Boltból 'Használt keresése' opcióval" eh="f0c6f05a" />
+        <e k="usedplus_fmf_viaSearchUsed" v=" " eh="d41d8cd9" />
+        <e k="usedplus_fmf_usedVehicleSearches" v="Használt jármű keresések" eh="a3601db6" />
+        <e k="usedplus_fmf_noActiveSearches" v="Nincs aktív keresés. Indítsd a Boltból." eh="6f447735" />
+        <e k="usedplus_fmf_headerPrice" v="ÁR" eh="6da7ab78" />
+        <e k="usedplus_fmf_headerTier" v="SZINT" eh="cd24a010" />
+        <e k="usedplus_fmf_headerStatus" v="ÁLLAPOT" eh="5f241c8c" />
+        <e k="usedplus_fmf_headerChance" v="MINŐSÉG" eh="ac7ac10c" />
+        <e k="usedplus_fmf_headerTime" v="IDŐ" eh="346ff32e" />
+        <e k="usedplus_fmf_headerOffers" v="AJÁNLATOK" eh="627d160c" />
+        <e k="usedplus_fmf_vehiclesForSale" v="Eladó járművek" eh="de8a84e8" />
+        <e k="usedplus_fmf_noListings" v="Nincsenek hirdetések. Adj el a Garázs menüből." eh="d0462537" />
+        <e k="usedplus_fmf_lifetimeStats" v="Összes statisztika" eh="727103d4" />
+        <e k="usedplus_fmf_financeHistory" v="-- Finanszírozási előzmények --" eh="ea637866" />
+        <e k="usedplus_fmf_dealsCompleted" v="Lezárt ügyletek:" eh="1bd021c5" />
+        <e k="usedplus_fmf_totalFinanced" v="Összes finanszírozott:" eh="43df67a8" />
+        <e k="usedplus_fmf_interestPaid" v="Kifizetett kamat:" eh="e8344297" />
+        <e k="usedplus_fmf_paymentsMade" v="Befizetések:" eh="c6d673a2" />
+        <e k="usedplus_fmf_searchHistory" v="-- Keresési előzmények --" eh="c0835495" />
+        <e k="usedplus_fmf_searchesStarted" v="Indított keresések:" eh="5828679f" />
+        <e k="usedplus_fmf_vehiclesFound" v="Talált járművek:" eh="047a7db6" />
+        <e k="usedplus_fmf_feesSpent" v="Költött díjak:" eh="787c75fb" />
+        <e k="usedplus_fmf_successRate" v="Sikeresség:" eh="346bdbd3" />
+        <e k="usedplus_fmf_totalSaved" v="Piactéri érték:" eh="bf7d98b0" />
+        <e k="usedplus_fmf_yourCreditScore" v="Hitelpontszámod" eh="5bbd5087" />
+        <e k="usedplus_fmf_creditRanges" v="Hitel tartományok:" eh="a4a7b278" />
+        <e k="usedplus_fmf_tierExcellent" v="750-850 Kiváló -1.5%" eh="8d6d7463" />
+        <e k="usedplus_fmf_tierGood" v="700-749 Jó -0.5%" eh="331b260e" />
+        <e k="usedplus_fmf_tierFair" v="650-699 Elfogadható +0.5%" eh="ce30f0f5" />
+        <e k="usedplus_fmf_tierPoor" v="600-649 Gyenge +1.5%" eh="f6639d3f" />
+        <e k="usedplus_fmf_tierVeryPoor" v="300-599 Nagyon gyenge +3.0%" eh="e80b837e" />
+        <e k="usedplus_fmf_listings" v="%d hirdetés" eh="5a6d48e6" />
+        <e k="usedplus_fmf_overview" v="ÁTTEKINTÉS" eh="3b9ae4ee" />
+        <e k="usedplus_fmf_overviewLine1" v="A UsedPlus bővíti az alap gazdaságot valósághű finanszírozással, használt piactérrel és hitelrendszerrel." eh="608d34f6" />
+        <e k="usedplus_fmf_overviewLine2" v="Finanszírozz vagy lízingelj a Boltból. Régi felszerelést cserélj be. Adj el ügynökökön keresztül jobb áron." eh="a48f7073" />
+        <e k="usedplus_fmf_buyingUsed" v="HASZNÁLT VÁSÁRLÁSA" eh="bcd9a06a" />
+        <e k="usedplus_fmf_buyingLine1" v="Bolt → 'Használt keresése' ügynök bérléshez. HELYI: 2%, 40%. REGIONÁLIS: 6%, 70%. ORSZÁGOS: 12%, 85%." eh="28ec9203" />
+        <e k="usedplus_fmf_buyingLine2" v="Magasabb szint = szélesebb keresés, jobb esélyek. Használt járművek változó állapotúak és üzemórásak." eh="1d91fbdb" />
+        <e k="usedplus_fmf_sellingEquip" v="FELSZERELÉS ELADÁSA" eh="e3d28030" />
+        <e k="usedplus_fmf_sellingLine1" v="Garázs → Eladásra hirdetés. Beszámítás: 50-65%. Helyi: 60-75%. Regionális: 75-90%. Országos: 90-100%." eh="b08f8684" />
+        <e k="usedplus_fmf_sellingLine2" v="Az állapot és üzemórák befolyásolják az értéket. Ajánlatok elfogadása/elutasítása erről a képernyőről." eh="6dc501b7" />
+        <e k="usedplus_fmf_creditScore" v="HITELPONTSZÁM (300-850)" eh="e0e72acc" />
+        <e k="usedplus_fmf_creditLine1" v="Meghatározza a kamatokat és beszámítási értékeket. Javul: időben fizetés, ügyletek lezárása. Romlik: elmulasztott fizetés, nem teljesítés." eh="8408535e" />
+        <e k="usedplus_fmf_creditLine2" v="A vagyon fedezetet biztosít, de nem bizonyítja a hitelképességet. A fizetési előzmények számítanak leginkább!" eh="d9504a0d" />
+        <e k="usedplus_fmf_quickRef" v="GYORS ÚTMUTATÓ" eh="011d2c62" />
+        <e k="usedplus_fmf_quickRefLine1" v="Bolt → Finanszírozás/Lízing/Használt keresése | Garázs → Eladásra hirdetés" eh="426419c9" />
+        <e k="usedplus_fmf_quickRefLine2" v="Havi törlesztések automatikusan levonódnak. Előtörlesztés kamatot takarít meg." eh="73cd35d9" />
+        <e k="usedplus_ll_title" v="Föld bérlése" eh="ec34a2a6" />
+        <e k="usedplus_ll_sectionDetails" v="MEZŐ RÉSZLETEI" eh="9550d705" />
+        <e k="usedplus_ll_field" v="Mező:" eh="af9b2925" />
+        <e k="usedplus_ll_size" v="Méret:" eh="af645946" />
+        <e k="usedplus_ll_value" v="Érték:" eh="acdb802b" />
+        <e k="usedplus_ll_sectionTerm" v="BÉRLETI IDŐ" eh="bb3b670a" />
+        <e k="usedplus_ll_selectDuration" v="Válassz bérleti időt:" eh="8f0c8cd2" />
+        <e k="usedplus_ll_sectionCosts" v="BÉRLETI KÖLTSÉGEK" eh="5793e394" />
+        <e k="usedplus_ll_monthlyPayment" v="Havi törlesztés:" eh="3499b658" />
+        <e k="usedplus_ll_yearlyPayment" v="Éves törlesztés:" eh="e1ddacf9" />
+        <e k="usedplus_ll_totalCost" v="Teljes bérleti költség:" eh="61a93e0e" />
+        <e k="usedplus_ll_markup" v="Felár:" eh="62aed63e" />
+        <e k="usedplus_ll_buyoutPrice" v="Kivásárlási ár:" eh="121b9571" />
+        <e k="usedplus_ll_note1" v="A bérlet lehetővé teszi a föld használatát teljes vásárlás nélkül." eh="b4808387" />
+        <e k="usedplus_ll_note2" v="A föld visszakerül a piacra bérlet végén, kivéve ha kivásárolod." eh="bbed7c34" />
+        <e k="usedplus_lf_field" v="Mező:" eh="af9b2925" />
+        <e k="usedplus_lf_size" v="Méret:" eh="af645946" />
+        <e k="usedplus_lf_price" v="Ár:" eh="f2c12ae1" />
+        <e k="usedplus_lf_sectionDueToday" v="MA FIZETENDŐ ALÁÍRÁSKOR" eh="cdbd21f6" />
+        <e k="usedplus_lf_downPayment" v="Előleg:" eh="a706fdb6" />
+        <e k="usedplus_lf_youPayToday" v="MA FIZETSZ:" eh="6d6d4e26" />
+        <e k="usedplus_lf_lowerRatesNote" v="Földfinanszírozás kedvezőbb kamatozású mint járműhitelek." eh="1e35d132" />
+        <e k="usedplus_fd_title" v="Finanszírozási ügylet részletei" eh="b49b6b5b" />
+        <e k="usedplus_fd_quick1Month" v="1 hónap" eh="cf13b270" />
+        <e k="usedplus_fd_quick6Months" v="6 hónap" eh="1d4545e8" />
+        <e k="usedplus_fd_quick1Year" v="1 év" eh="cc1a252a" />
+        <e k="usedplus_fd_quickPayOff" v="Végtörlesztés" eh="416ff954" />
+        <e k="usedplus_rf_title" v="Javítás finanszírozása" eh="70ef80a4" />
+        <e k="usedplus_rf_sectionService" v="SZERVIZ RÉSZLETEK" eh="22efc112" />
+        <e k="usedplus_rf_repairCost" v="Javítási költség:" eh="33553cf9" />
+        <e k="usedplus_rf_repaintCost" v="Festési költség:" eh="78155645" />
+        <e k="usedplus_rf_loanTerm" v="Hitel futamidő:" eh="766186df" />
+        <e k="usedplus_rf_downPayment" v="Előleg:" eh="a706fdb6" />
+        <e k="usedplus_rf_monthlyPayment" v="Havi törlesztés:" eh="3499b658" />
+        <e k="usedplus_rf_totalInterest" v="Összes kamat:" eh="183c0158" />
+        <e k="usedplus_rf_interestRate" v="Kamatláb:" eh="389f9dd8" />
+        <e k="usedplus_rf_totalPayments" v="Összes fizetés:" eh="66fc72d1" />
+        <e k="usedplus_rf_creditScore" v="Hitelpontszám:" eh="0199e1a3" />
+        <e k="usedplus_rf_infoText" v="Havi törlesztések automatikusan levonódnak. Előtörlesztés kamatot takarít meg." eh="1318c91c" />
+        <e k="usedplus_tl_excellent" v="Kiváló 750+: 6.5%" eh="c1a424c4" />
+        <e k="usedplus_tl_good" v="Jó 700-749: 7.5%" eh="98ac4cee" />
+        <e k="usedplus_tl_fair" v="Elfogadható 650-699: 8.5%" eh="45ddaf78" />
+        <e k="usedplus_tl_poor" v="Gyenge 600-649: 9.5%" eh="58571247" />
+        <e k="usedplus_tl_veryPoor" v="Nagyon gyenge &lt;600: 11%" eh="fbe67fc1" />
+        <e k="usedplus_quote_cat_1" v="Őszintén meglepődtem, hogy ez egyáltalán ideért a telepre." eh="cb9f59c6" />
+        <e k="usedplus_quote_cat_2" v="Aki ezt összeszerelte, keressen más munkát." eh="b2d238fe" />
+        <e k="usedplus_quote_cat_3" v="Mondanám, hogy fuss, de ez a szerkezet úgysem érne utol." eh="2b06c2fb" />
+        <e k="usedplus_quote_cat_4" v="Égetnék egy kis zsályát, mielőtt elhajtanám a telepről." eh="0ddabc9c" />
+        <e k="usedplus_quote_cat_5" v="Ennek több balszerencséje van, mint egy törött tükör gyárnak." eh="59775a6e" />
+        <e k="usedplus_quote_ter_1" v="Az unokatestvéremnek volt ilyen. Aztán tyúkólnak használta. Arra volt jó." eh="6c3c344d" />
+        <e k="usedplus_quote_ter_2" v="Néhány gép egyszerűen rosszul jön le a sorról. Ez az egyik." eh="b07bc8cf" />
+        <e k="usedplus_quote_ter_3" v="A tanácsom? Tervezz be sok műhelylátogatást." eh="2da8e09a" />
+        <e k="usedplus_quote_ter_4" v="Ha a gépeket meg lehetne átkozni, ez biztosan az." eh="0d4be32b" />
+        <e k="usedplus_quote_ter_5" v="Valami nincs rendben ezzel. Nem tudom elmagyarázni, de a csontjaimban érzem." eh="bc8c0b65" />
+        <e k="usedplus_quote_poor_1" v="Működni fog, de ne várd, hogy hálás lesz érte." eh="92bbf125" />
+        <e k="usedplus_quote_poor_2" v="Ezt nálunk úgy hívják, hogy 'alkatrésznek való traktor'." eh="a7f1ab7c" />
+        <e k="usedplus_quote_poor_3" v="Tartsd készenlétben a szerelőd számát." eh="eb88b7e4" />
+        <e k="usedplus_quote_poor_4" v="A nagyapám ezt úgy hívta volna, hogy 'balszerencsés'." eh="be274117" />
+        <e k="usedplus_quote_poor_5" v="Néhány traktor vonzza a bajt, mint a villámhárító. Ez az egyikük." eh="b44d96fb" />
+        <e k="usedplus_quote_below_1" v="Semmi különös. Csak... megfelelő." eh="353a9d86" />
+        <e k="usedplus_quote_below_2" v="Olyan megbízható, mint a szúnyogháló a tengeralattjárón." eh="95df2b9a" />
+        <e k="usedplus_quote_below_3" v="Elvégzi a munkát. Idővel." eh="74dee67d" />
+        <e k="usedplus_quote_below_4" v="Nem mondom, hogy kísértet lakja, de nem hagynám éjjel egyedül járni." eh="085f159e" />
+        <e k="usedplus_quote_below_5" v="Néhány gépnek van egy kis rossz karmája. Ennek van egy csöppnyi." eh="69ea1a61" />
+        <e k="usedplus_quote_slight_1" v="Elfogadható tűréshatárok. Éppen csak." eh="9a318f89" />
+        <e k="usedplus_quote_slight_2" v="Láttam jobbat is az unokaöcsémtől, egy csavarkulccsal és bálázódróttal." eh="56702efd" />
+        <e k="usedplus_quote_slight_3" v="Szabványos gyári minőség. Ennyi." eh="c4cd00f0" />
+        <e k="usedplus_quote_slight_4" v="Az ösztönöm azt mondja, lesz vele néhány fejfájásod. Az ösztönömnek általában igaza van." eh="f352c300" />
+        <e k="usedplus_quote_slight_5" v="Van egy régi mondás - néhány vas egyszerűen nem akar együttműködni." eh="b44d3544" />
+        <e k="usedplus_quote_avg_1" v="Pont a középúton. Semmi figyelemre méltó, semmi aggasztó." eh="9d7020c8" />
+        <e k="usedplus_quote_avg_2" v="Tisztességes szolgálatot ad tisztességes bánásmódért." eh="14751760" />
+        <e k="usedplus_quote_avg_3" v="Nem különleges, de ugyanúgy felszántja a földet, mint bármelyik másik." eh="f66f8232" />
+        <e k="usedplus_quote_avg_4" v="A szellemek semlegesek ezzel kapcsolatban, ha hiszel ilyesmiben." eh="f65de15b" />
+        <e k="usedplus_quote_avg_5" v="Nem áldott, nem átkozott. Csak... egy gép." eh="0f28d736" />
+        <e k="usedplus_quote_above_1" v="Aki ezt összeszerelte, tudta mit csinál." eh="b71cc554" />
+        <e k="usedplus_quote_above_2" v="Ez a gép több aratáson is veled lesz." eh="099289d7" />
+        <e k="usedplus_quote_above_3" v="Jó alapjai vannak ennek." eh="d3b25028" />
+        <e k="usedplus_quote_above_4" v="Jó érzésem van ezzel kapcsolatban. Hívd szerelői megérzésnek." eh="f9ff1887" />
+        <e k="usedplus_quote_above_5" v="Néhány gép egyszerűen dolgozni akar. Ennek megvan ez a lelke." eh="02e28acf" />
+        <e k="usedplus_quote_good_1" v="Ez jól jött ki a gyárból." eh="e96c0227" />
+        <e k="usedplus_quote_good_2" v="Ez az a fajta vas, amire a nagyapám büszke lett volna a pajtában." eh="7eb71e1b" />
+        <e k="usedplus_quote_good_3" v="Valakinek a futószalagon jó napja volt." eh="570a36cf" />
+        <e k="usedplus_quote_good_4" v="A régi mesterem azt mondta, néhány traktor szerencsésen születik. Ez lehet az egyik." eh="b5a7fdf3" />
+        <e k="usedplus_quote_good_5" v="Van jó vas és rossz vas. Ez itt a jó fajta." eh="c8c3113e" />
+        <e k="usedplus_quote_exc_1" v="NA, ÍGY kellene mindet megépíteni." eh="ec1fb8fb" />
+        <e k="usedplus_quote_exc_2" v="Ez egy igazi kincs, ha valaha láttam ilyet." eh="081d1c8c" />
+        <e k="usedplus_quote_exc_3" v="Finomabb, mint a béka haja négybe vágva - és ez mond valamit." eh="9c89cba9" />
+        <e k="usedplus_quote_exc_4" v="Ha hinnék a szerencsecsillagokban, azt mondanám, ez egy egész csillagkép alatt született." eh="95bb8742" />
+        <e k="usedplus_quote_exc_5" v="Néhány gépnek van lelke. Ennek jó lelke van." eh="8513dfed" />
+        <e k="usedplus_quote_leg_1" v="30 év alatt talán egy tucatnyit láttam ilyen jól megépítve." eh="754ee998" />
+        <e k="usedplus_quote_leg_2" v="Ennek több lelke van, mint egy vasárnapi gospelkórusnak." eh="e7a5f517" />
+        <e k="usedplus_quote_leg_3" v="Tartsd meg ezt. Nem találsz még egy ilyet." eh="9b78b8eb" />
+        <e k="usedplus_quote_leg_4" v="A régiek ilyen traktorokról beszéltek. Azt hittem, csak legendák." eh="79b4f4fa" />
+        <e k="usedplus_quote_leg_5" v="Ennek őrangyalai dolgoznak túlórában a motorházban." eh="d8d30168" />
+        <e k="usedplus_searchExpired_title" v="Keresés befejezve" eh="e92d4ab1" />
+        <e k="usedplus_searchExpired_summary" v="KERESÉS ÖSSZEFOGLALÓ" eh="6fa784ed" />
+        <e k="usedplus_searchExpired_searchedFor" v="Keresett:" eh="e67ff702" />
+        <e k="usedplus_searchExpired_agentTier" v="Ügynök szint:" eh="4eb7801b" />
+        <e k="usedplus_searchExpired_quality" v="Minőség:" eh="3ded0b1d" />
+        <e k="usedplus_searchExpired_duration" v="Időtartam:" eh="68311558" />
+        <e k="usedplus_searchExpired_results" v="EREDMÉNYEK" eh="44795920" />
+        <e k="usedplus_searchExpired_vehiclesFound" v="%d jármű találva" eh="69e744df" />
+        <e k="usedplus_searchExpired_noVehicles" v="Nem találtunk járművet" eh="df1eff24" />
+        <e k="usedplus_searchExpired_renewSearch" v="KERESÉS MEGÚJÍTÁSA?" eh="e65ba949" />
+        <e k="usedplus_searchExpired_renewCost" v="Megújítás költsége:" eh="cab42ff8" />
+        <e k="usedplus_searchExpired_renew" v="Keresés megújítása" eh="5f2a7f33" />
+        <e k="usedplus_searchExpired_renewed" v="Keresés megújítva: %s!" eh="3f0b77e5" />
+        <e k="usedplus_searchExpired_insufficientFunds" v="Nincs elég pénz a keresés megújításához." eh="ffe2599c" />
+        <e k="usedplus_warning_tireWorn" v="Figyelem: A gumik kopnak. Hamarosan cserére lesz szükség." eh="b2f94e8c" />
+        <e k="usedplus_warning_tireCritical" v="KRITIKUS: A gumik kritikusan koptak! Azonnal cseréld ki a defekt elkerülése érdekében." eh="773fe608" />
+        <e k="usedplus_warning_flatTire" v="DEFEKT! A jármű kezelhetősége súlyosan korlátozott. Gumijavítás szükséges." eh="d5759919" />
+        <e k="usedplus_warning_lowTraction" v="Figyelem: Alacsony tapadás a kopott gumik miatt. Csökkentsd a sebességet rossz körülmények között." eh="07b59ae5" />
+        <e k="usedplus_warning_oilLow" v="Figyelem: Alacsony olajszint. Hamarosan szerviz szükséges." eh="035f4e6b" />
+        <e k="usedplus_warning_oilCritical" v="KRITIKUS: Veszélyesen alacsony olajszint! Motor károsodás folyamatban." eh="e2d09647" />
+        <e k="usedplus_warning_oilLeak" v="Figyelem: Olajszivárgás észlelve. Folyadékvesztés gyorsul." eh="da087d3f" />
+        <e k="usedplus_warning_engineDamage" v="MOTOR SÉRÜLÉS: Végleges megbízhatóság vesztés az alacsony olajszint miatt!" eh="6b323cd8" />
+        <e k="usedplus_warning_hydraulicLow" v="Figyelem: Alacsony hidraulika folyadék. Hamarosan szerviz szükséges." eh="527899fc" />
+        <e k="usedplus_warning_hydraulicCritical" v="KRITIKUS: Veszélyesen alacsony hidraulika folyadék! Rendszer károsodás folyamatban." eh="fe31b6f1" />
+        <e k="usedplus_warning_hydraulicLeak" v="Figyelem: Hidraulika szivárgás észlelve. Folyadékvesztés gyorsul." eh="36b8f377" />
+        <e k="usedplus_warning_hydraulicDamage" v="HIDRAULIKA SÉRÜLÉS: Végleges megbízhatóság vesztés az alacsony folyadékszint miatt!" eh="843ae10a" />
+        <e k="usedplus_warning_fuelLeak" v="Figyelem: Üzemanyagszivárgás észlelve! Jelentősen megnövekedett üzemanyag-fogyasztás." eh="6654d01e" />
+        <e k="usedplus_warning_hydraulicSurge" v="SZERVÓKORMÁNY MEGHIBÁSODÁS - A jármű %s felé húz!" eh="a8d164f9" />
+        <e k="usedplus_warning_runaway" v="MOTOR ELSZABADULÁS! Szabályozó hiba - KAPCSOLD KI A MOTORT!" eh="b5041aa9" />
+        <e k="usedplus_runaway_end_engineOff" v="Motor leállítva - elszabadulás biztonságosan befejeződött." eh="14fd2da3" />
+        <e k="usedplus_runaway_end_crash" v="Ütközés észlelve - elszabadulás befejeződött." eh="0354e555" />
+        <e k="usedplus_runaway_end_damage" v="Jármű sérült - elszabadulás befejeződött." eh="ad34ca1f" />
+        <e k="usedplus_runaway_end_fluids" v="Folyadékok feltöltve - szabályozó helyreállt." eh="7baa9445" />
+        <e k="usedplus_warning_stuckDown" v="HIDRAULIKUS EMELŐ HIBA - Az eszköz nem emelhető!" eh="8c1e0f84" />
+        <e k="usedplus_warning_stuckUp" v="HIDRAULIKUS SZELEP HIBA - Az eszköz nem süllyeszthető!" eh="b353bdf9" />
+        <e k="usedplus_warning_implementPull" v="ESZKÖZ VONSZOLÁS - %s felé húz!" eh="9542214f" />
+        <e k="usedplus_warning_implementDrag" v="HIDRAULIKUS TÚLTERHELÉS - Sebesség csökkentve!" eh="4202b7ec" />
+        <e k="usedplus_warning_reducedTurning" v="SZERVÓKORMÁNY GYENGE - Kormányzás korlátozott!" eh="a9794a39" />
+        <e k="usedplus_tire_retread" v="Újrafutózott" eh="bcf7f101" />
+        <e k="usedplus_tire_normal" v="Normál" eh="960b44c5" />
+        <e k="usedplus_tire_quality" v="Minőségi" eh="571094bb" />
+        <e k="usedplus_fluids_level" v="Szint:" eh="07ad8151" />
+        <e k="usedplus_fluids_status" v="Állapot:" eh="24a23d78" />
+        <e k="usedplus_fluids_statusOk" v="OK" eh="e0aa021e" />
+        <e k="usedplus_fluids_statusLow" v="ALACSONY" eh="41bc94cb" />
+        <e k="usedplus_fluids_statusCritical" v="KRITIKUS" eh="99cd1c61" />
+        <e k="usedplus_fluids_statusLeaking" v="SZIVÁROG" eh="2ec9e171" />
+        <e k="usedplus_fluids_leakMinor" v="Kisebb szivárgás" eh="b6c9aa5d" />
+        <e k="usedplus_fluids_leakModerate" v="Közepes szivárgás" eh="ed8731d2" />
+        <e k="usedplus_fluids_leakSevere" v="Súlyos szivárgás" eh="2d132bfd" />
+        <e k="usedplus_fluids_topUp" v="Feltöltés" eh="e38f9cb0" />
+        <e k="usedplus_fluids_fullChange" v="Teljes csere" eh="08692df2" />
+        <e k="usedplus_fluids_cost" v="Költség:" eh="69edde90" />
+        <e k="usedplus_tires_condition" v="Állapot:" eh="ed51222f" />
+        <e k="usedplus_tires_traction" v="Tapadás:" eh="8d38bce1" />
+        <e k="usedplus_tires_flatTire" v="DEFEKT" eh="6e87cc30" />
+        <e k="usedplus_tires_replace" v="Gumicsere" eh="3a0d1434" />
+        <e k="usedplus_tires_retreadDesc" v="Gazdaságos opció - alacsonyabb tapadás, nagyobb meghibásodási kockázat" eh="f277d077" />
+        <e k="usedplus_tires_normalDesc" v="Standard gumik - kiegyensúlyozott teljesítmény" eh="df677172" />
+        <e k="usedplus_tires_qualityDesc" v="Prémium gumik - jobb tapadás, alacsonyabb meghibásodási kockázat" eh="69e595ca" />
+        <e k="usedplus_tires_cost" v="Költség:" eh="69edde90" />
+        <e k="usedplus_mr_tires" v="GUMIK" eh="36173e29" />
+        <e k="usedplus_mr_fluids" v="FOLYADÉKOK" eh="d857c0c4" />
+        <e k="usedplus_mr_tireCondition" v="Gumi állapot:" eh="e8946816" />
+        <e k="usedplus_mr_tireQuality" v="Gumi minőség:" eh="40db131b" />
+        <e k="usedplus_mr_oilLevel" v="Olajszint:" eh="0fe915e8" />
+        <e k="usedplus_mr_hydraulicLevel" v="Hidraulika folyadék:" eh="45673d76" />
+        <e k="usedplus_mr_fuelLeak" v="Üzemanyag szivárgás:" eh="caf0d1a8" />
+        <e k="usedplus_mr_yes" v="Igen" eh="93cba074" />
+        <e k="usedplus_mr_no" v="Nem" eh="bafd7322" />
+        <e k="usedplus_info_oil_level" v="Olajszint" eh="a6d699fb" />
+        <e k="usedplus_info_hydraulic_level" v="Hidraulika folyadék" eh="f9c4d7d9" />
+        <e k="usedplus_info_tire_condition" v="Gumik" eh="3fe2c06a" />
+        <e k="usedplus_tires_title" v="Gumiszerviz" eh="b0234f4e" />
+        <e k="usedplus_tires_sectionStatus" v="JÁRMŰ ÉS GUMI ÁLLAPOT" eh="c0e3631e" />
+        <e k="usedplus_tires_sectionSelect" v="GUMI MINŐSÉG KIVÁLASZTÁSA" eh="42abee54" />
+        <e k="usedplus_tires_sectionPayment" v="FIZETÉSI ÖSSZEFOGLALÓ" eh="0dd98605" />
+        <e k="usedplus_tires_currentQuality" v="Jelenlegi minőség:" eh="b46a9180" />
+        <e k="usedplus_tires_currentCondition" v="Gumi állapot:" eh="e8946816" />
+        <e k="usedplus_tires_selectHelp" v="Kattints egy gumi típusra a kiválasztáshoz. Magasabb minőség = jobb teljesítmény." eh="0c321a8a" />
+        <e k="usedplus_tires_retread" v="Újrafutózott" eh="bcf7f101" />
+        <e k="usedplus_tires_normal" v="Normál" eh="960b44c5" />
+        <e k="usedplus_tires_quality" v="Minőségi" eh="571094bb" />
+        <e k="usedplus_tires_retreadInfo" v="85% tapadás, 3x hiba" eh="5d43f3aa" />
+        <e k="usedplus_tires_normalInfo" v="100% tapadás, alap" eh="c5306480" />
+        <e k="usedplus_tires_qualityInfo" v="110% tapadás, 0.5x hiba" eh="0017aa0f" />
+        <e k="usedplus_tires_selectedTire" v="Kiválasztott gumi:" eh="83200a19" />
+        <e k="usedplus_tires_selectedQuality" v="Kiválasztott minőség:" eh="c8df8c6c" />
+        <e k="usedplus_tires_totalCost" v="Teljes költség:" eh="a131af32" />
+        <e k="usedplus_tires_selectOne" v="Válassz gumikat..." eh="b97fd8a1" />
+        <e k="usedplus_tires_selectQuality" v="Válassz minőséget" eh="46aef69c" />
+        <e k="usedplus_tires_selectAbove" v="Válassz fent" eh="cf957b6f" />
+        <e k="usedplus_tires_infoText" v="Az új gumik 100%-os állapotra állítanak vissza. Az újrafutózottak újrahasznosított köpenyek." eh="3196a18f" />
+        <e k="usedplus_tires_flatWarning" v="DEFEKT - Csere szükséges!" eh="1f8d653d" />
+        <e k="usedplus_tires_selectFirst" v="Kérlek először válassz gumi minőséget." eh="41ebcf2f" />
+        <e k="usedplus_tires_replaced" v="Gumik cserélve: %s" eh="b2a5385c" />
+        <e k="usedplus_tires_conditionUYT" v="Gumikopás (UYT):" eh="27375886" />
+        <e k="usedplus_fluids_title" v="Folyadék szerviz" eh="7eb767c6" />
+        <e k="usedplus_fluids_sectionStatus" v="JÁRMŰ ÉS FOLYADÉK ÁLLAPOT" eh="2fb5c91e" />
+        <e k="usedplus_fluids_sectionService" v="SZERVIZ OPCIÓK" eh="6a49411d" />
+        <e k="usedplus_fluids_sectionPayment" v="FIZETÉSI ÖSSZEFOGLALÓ" eh="0dd98605" />
+        <e k="usedplus_fluids_oilLevel" v="Motorolaj:" eh="2168f846" />
+        <e k="usedplus_fluids_hydraulicLevel" v="Hidraulika folyadék:" eh="45673d76" />
+        <e k="usedplus_fluids_oilRefill" v="Motorolaj feltöltés" eh="1df82b4c" />
+        <e k="usedplus_fluids_hydraulicRefill" v="Hidraulika folyadék feltöltés" eh="706eafaf" />
+        <e k="usedplus_fluids_full" v="Tele" eh="bbd47109" />
+        <e k="usedplus_fluids_refillAmount" v="Feltöltés: %.0f%%" eh="9ef2791c" />
+        <e k="usedplus_fluids_noRefillNeeded" v="Nincs szükség feltöltésre" eh="4d6cc245" />
+        <e k="usedplus_fluids_oil" v="Olaj" eh="2e69df59" />
+        <e k="usedplus_fluids_hydraulic" v="Hidraulika" eh="fda2bff7" />
+        <e k="usedplus_fluids_selectedServices" v="Kiválasztott szolgáltatások:" eh="457540d9" />
+        <e k="usedplus_fluids_totalCost" v="Teljes költség:" eh="a131af32" />
+        <e k="usedplus_fluids_selectServices" v="Válassz szolgáltatásokat..." eh="6f7d0cbb" />
+        <e k="usedplus_fluids_infoText" v="Kattints a szolgáltatásokra a kiválasztáshoz. Feltöltés 100%-ra állítja a szinteket." eh="67b41eeb" />
+        <e k="usedplus_fluids_oilLeakWarning" v="OLAJSZIVÁRGÁS ÉSZLELVE" eh="ca7f272e" />
+        <e k="usedplus_fluids_hydraulicLeakWarning" v="HIDRAULIKA SZIVÁRGÁS ÉSZLELVE" eh="daa3a59f" />
+        <e k="usedplus_fluids_selectFirst" v="Kérlek válassz legalább egy szolgáltatást." eh="a638ea70" />
+        <e k="usedplus_fluids_refilled" v="Folyadékok feltöltve: %s" eh="b427d6fd" />
+        <e k="usedplus_oilBarrel_name" v="Olajszerviz hordó" eh="54ea297f" />
+        <e k="usedplus_oilBarrel_function" v="Hajts közel egy járművel a motorolaj és hidraulika folyadék feltöltéséhez." eh="7dfb134d" />
+        <e k="usedplus_oilBarrel_specUnlimited" v="Korlátlan" eh="545f6c2f" />
+        <e k="usedplus_oilTank_name" v="Olajszerviz tartály" eh="fa56df0c" />
+        <e k="usedplus_oilTank_function" v="Nagy kapacitású olajszerviz pont motorolaj és hidraulika folyadék feltöltéséhez." eh="e6a6837a" />
+        <e k="usedplus_oil_refillAction" v="Motorolaj feltöltése" eh="001b2a5a" />
+        <e k="usedplus_hydraulic_refillAction" v="Hidraulika folyadék feltöltése" eh="11081031" />
+        <e k="usedplus_oil_refillComplete" v="Olaj feltöltve - Költség: %s" eh="0dff6e72" />
+        <e k="usedplus_hydraulic_refillComplete" v="Hidraulika folyadék feltöltve - Költség: %s" eh="2d22bcb4" />
+        <e k="usedplus_oil_refillCompleteStorage" v="Olaj feltöltve a tárolóból" eh="2d3715a7" />
+        <e k="usedplus_oil_notEnoughStorage" v="Nincs elég olaj a tárolóban" eh="4cf5955b" />
+        <e k="usedplus_hydraulic_notEnoughStorage" v="Nincs elég hidraulika folyadék a tárolóban" eh="a1a0eb52" />
+        <e k="usedplus_oil_alreadyFull" v="A motorolaj már tele van" eh="9474e86e" />
+        <e k="usedplus_hydraulic_alreadyFull" v="A hidraulika folyadék már tele van" eh="904d6078" />
+        <e k="usedplus_oil_storageLevel" v="Olaj tároló: %d / %d L" eh="1a5af945" />
+        <e k="usedplus_hydraulic_storageLevel" v="Hidraulika tároló: %d / %d L" eh="d35b0be5" />
+        <e k="usedplus_oil_purchaseAction" v="Olaj vásárlása" eh="9c9c34d3" />
+        <e k="usedplus_oil_purchased" v="%.0fL olaj vásárolva - %s (Tartály: %.0f/%.0fL)" eh="5b99f35f" />
+        <e k="usedplus_oil_storageFull" v="Az olaj tartály tele van!" eh="980d9a22" />
+        <e k="usedplus_fluid_purchaseAction" v="Folyadékok vásárlása" eh="6533ddc5" />
+        <e k="usedplus_fluid_oil" v="Motorolaj" eh="d2d4a89d" />
+        <e k="usedplus_fluid_hydraulic" v="Hidraulika folyadék" eh="f9c4d7d9" />
+        <e k="usedplus_fluid_purchased" v="%.0fL %s vásárolva - %s (Tartály: %.0f/%.0fL)" eh="a63f3cbd" />
+        <e k="usedplus_fluid_storageFull" v="A tartály tele van!" eh="3a3fc002" />
+        <e k="usedplus_fluid_notEnoughStorage" v="Nincs elég folyadék! Szükséges: %.1fL, van: %.1fL" eh="4c38b7b9" />
+        <e k="usedplus_hydraulic_refillCompleteStorage" v="Hidraulika folyadék feltöltve - %.1fL használva (%.1fL maradt)" eh="8290045e" />
+        <e k="usedplus_fluid_oilLeakSevere" v="Jelentős olajszivárgás észlelve - azonnali beavatkozás szükséges." eh="e1254667" />
+        <e k="usedplus_fluid_oilLeakMinor" v="Kisebb olajszivárgás - idővel rosszabbodhat." eh="f363cc55" />
+        <e k="usedplus_fluid_oilCritical" v="Kritikusan alacsony olajszint - töltsd fel működés előtt." eh="ae9c42e9" />
+        <e k="usedplus_fluid_oilLow" v="Olajszint az ajánlott alatt - feltöltés szükséges." eh="38c0af65" />
+        <e k="usedplus_fluid_oilAdequate" v="Olajszint megfelelő, de rendszeresen ellenőrizd." eh="248537b5" />
+        <e k="usedplus_fluid_oilGood" v="Az olajszint rendben van." eh="5e690ecc" />
+        <e k="usedplus_fluid_hydLeakSevere" v="Súlyos hidraulika szivárgás - sürgős javítás szükséges." eh="7c247db5" />
+        <e k="usedplus_fluid_hydLeakMinor" v="Kisebb hidraulika szivárgás észlelve - figyelj rá." eh="82823907" />
+        <e k="usedplus_fluid_hydCritical" v="Veszélyesen alacsony hidraulika szint - az eszközök nem működhetnek megfelelően." eh="c7aee2e5" />
+        <e k="usedplus_fluid_hydLow" v="Alacsony hidraulika szint - feltöltés ajánlott." eh="869a87d8" />
+        <e k="usedplus_fluid_hydGood" v="A hidraulika rendszer egészséges." eh="0419e98f" />
+        <e k="usedplus_fluid_fuelLeak" v="FIGYELEM: Üzemanyagszivárgás - tűzveszély, javítás szükséges." eh="9016df52" />
+        <e k="usedplus_fluid_allClear" v="Minden folyadékrendszer normális." eh="339f1e72" />
+        <e k="usedplus_fsk_name" v="OBD szkenner" eh="96023669" />
+        <e k="usedplus_fsk_function" v="Hordozható OBD diagnosztikai szkenner vészhelyzeti javításokhoz. Csatlakozik a jármű diagnosztikai portjához hibakódok és szenzor adatok olvasásához. Egyszer használatos." eh="bfdb43fa" />
+        <e k="usedplus_fsk_tier_basic" v="Alap OBD" eh="36823daa" />
+        <e k="usedplus_fsk_activate" v="OBD szkenner csatlakoztatása" eh="dc1214b1" />
+        <e k="usedplus_fsk_title" v="OBD DIAGNOSZTIKAI SZKENNER - HELYSZÍNI SZERVIZ" eh="04584a39" />
+        <e k="usedplus_fsk_vehicle" v="Csatlakozva:" eh="ed4c66be" />
+        <e k="usedplus_fsk_status" v="Jármű állapota:" eh="4e265002" />
+        <e k="usedplus_fsk_status_disabled" v="HIBA - NEM MŰKÖDIK" eh="44f80aed" />
+        <e k="usedplus_fsk_status_needs_service" v="SZERVIZ SZÜKSÉGES" eh="83142576" />
+        <e k="usedplus_fsk_select_system" v="Az OBD szkenner több rendszerben is hibát talált. Melyik rendszert diagnosztizáljuk?" eh="a0116adf" />
+        <e k="usedplus_fsk_reliability" v="Rendszer állapot" eh="5bbdb0be" />
+        <e k="usedplus_fsk_system_engine" v="Motor ECU" eh="0171f3c6" />
+        <e k="usedplus_fsk_system_electrical" v="Elektromos rendszer" eh="7a1b3240" />
+        <e k="usedplus_fsk_system_hydraulic" v="Hidraulika vezérlés" eh="ab71d1ba" />
+        <e k="usedplus_fsk_warning_choose" v="Válaszd ki a legvalószínűbb hibás rendszert - téves diagnózis csökkenti a javítás hatékonyságát" eh="88de8162" />
+        <e k="usedplus_fsk_diagnosis" v="OBD HIBAANALÍZIS" eh="65f2e448" />
+        <e k="usedplus_fsk_symptoms_observed" v="OBD SZKENNER ÉRTÉKEI:" eh="1f7e1f8b" />
+        <e k="usedplus_fsk_diagnosis_question" v="Ezen diagnosztikai kódok alapján mi a gyökérok?" eh="05d464f1" />
+        <e k="usedplus_fsk_symptom_engine_misfiring" v="Henger gyújtáskimaradás - szabálytalan égésminta" eh="54e95868" />
+        <e k="usedplus_fsk_symptom_engine_black_smoke" v="Kipufogó szenzor: Gazdag üzemanyag keverék / hiányos égés" eh="0c232d74" />
+        <e k="usedplus_fsk_symptom_engine_power_loss_gradual" v="Teljesítmény: 40%-kal névleges alatt - csökkenő trend" eh="105e5a11" />
+        <e k="usedplus_fsk_symptom_engine_hard_start" v="Indítómotor ciklusok: Túlzott indítás szükséges" eh="a231fd9d" />
+        <e k="usedplus_fsk_symptom_engine_stalling" v="Fordulatszám ingadozás: Motor leáll terhelés alatt" eh="627b64ae" />
+        <e k="usedplus_fsk_symptom_engine_sputtering" v="Üzemanyag ellátás: Szakaszos áramlás észlelve" eh="a72d2ca7" />
+        <e k="usedplus_fsk_symptom_engine_rough_idle" v="Alapjárat minőség: Instabil fordulatszám állóban" eh="0560c5a8" />
+        <e k="usedplus_fsk_symptom_engine_misfiring_high_rpm" v="Magas RPM gyújtáskimaradás: Gyújtásidőzítés hiba" eh="ccc64a6c" />
+        <e k="usedplus_fsk_symptom_engine_poor_acceleration" v="Gázreakció: Késleltetett / gyenge gyorsulás" eh="1286a3a2" />
+        <e k="usedplus_fsk_symptom_engine_backfiring" v="Időzítés elemzés: Égés a kipufogóban történik" eh="4c4186cb" />
+        <e k="usedplus_fsk_symptom_engine_wont_start" v="Motor állapot: Nincs gyújtás - tekeri de nem indul" eh="f9e71ec8" />
+        <e k="usedplus_fsk_symptom_engine_timing_off" v="Szelepidőzítés: Specifikáción kívül" eh="1e354219" />
+        <e k="usedplus_fsk_diag_fuel_filter" v="Üzemanyagszűrő eltömődött" eh="045d7210" />
+        <e k="usedplus_fsk_diag_spark_plugs" v="Gyertya elszennyeződött" eh="4e46ad59" />
+        <e k="usedplus_fsk_diag_air_filter" v="Légszűrő eltömődött" eh="0e4e8481" />
+        <e k="usedplus_fsk_diag_timing_belt" v="Vezérműszíj megcsúszott" eh="47655d97" />
+        <e k="usedplus_fsk_symptom_elec_no_crank" v="Indító áramkör: Nincs áram az indítómotorhoz" eh="887c1d68" />
+        <e k="usedplus_fsk_symptom_elec_no_lights" v="Világítás áramkör: Nulla feszültség" eh="cff7d4f0" />
+        <e k="usedplus_fsk_symptom_elec_clicking" v="Relé állapot: Gyors kattogás - elégtelen áram" eh="25817132" />
+        <e k="usedplus_fsk_symptom_elec_random_shutdowns" v="Áramellátás stabilitás: Váratlan rendszerleállások" eh="06cc91ba" />
+        <e k="usedplus_fsk_symptom_elec_specific_systems_fail" v="Áramkör elemzés: Elszigetelt rendszerhibák" eh="ed1119bc" />
+        <e k="usedplus_fsk_symptom_elec_partial_power" v="Áram elosztás: Néhány áramkör halott" eh="a79bdcf7" />
+        <e k="usedplus_fsk_symptom_elec_starts_then_dies" v="Futási idő: Motor leáll röviddel indítás után" eh="7cf039bd" />
+        <e k="usedplus_fsk_symptom_elec_dim_lights" v="Feszültségszint: Normál alatt - halvány fények alapjáraton" eh="f25674a2" />
+        <e k="usedplus_fsk_symptom_elec_battery_warning" v="Akkumulátor állapot: Nem tölt működés közben" eh="cf8ccb1e" />
+        <e k="usedplus_fsk_symptom_elec_intermittent" v="Csatlakozás minőség: Szakaszos áramkiesések" eh="0e6113d4" />
+        <e k="usedplus_fsk_symptom_elec_works_when_wiggling" v="Kábelköteg: Mozgás-érzékeny csatlakozások" eh="dfed316f" />
+        <e k="usedplus_fsk_symptom_elec_flickering" v="Teljesítmény: Ingadozó feszültségszintek" eh="a07a6d54" />
+        <e k="usedplus_fsk_diag_battery" v="Akkumulátor lemerült/lecsatlakoztatva" eh="50d3c4fc" />
+        <e k="usedplus_fsk_diag_fuse" v="Kiégett biztosíték" eh="1776843f" />
+        <e k="usedplus_fsk_diag_alternator" v="Generátor meghibásodás" eh="788d66fc" />
+        <e k="usedplus_fsk_diag_wiring" v="Laza vezeték csatlakozás" eh="0096822d" />
+        <e k="usedplus_fsk_symptom_hyd_slow_response" v="Reakcióidő: Hidraulika működtetők lassan mozdulnak" eh="ca10c213" />
+        <e k="usedplus_fsk_symptom_hyd_weak_lift" v="Emelési kapacitás: Névleges emelőerő alatt" eh="76c62746" />
+        <e k="usedplus_fsk_symptom_hyd_low_pressure" v="Rendszernyomás: 40%-kal működési spec. alatt" eh="696b0dd4" />
+        <e k="usedplus_fsk_symptom_hyd_jerky" v="Mozgás minőség: Rángatózó/akadozó működés" eh="df8361c5" />
+        <e k="usedplus_fsk_symptom_hyd_spongy" v="Vezérlés érzet: Szivacsós/puha pedálreakció" eh="d345985c" />
+        <e k="usedplus_fsk_symptom_hyd_inconsistent" v="Nyomás stabilitás: Ingadozó értékek" eh="0be9dee1" />
+        <e k="usedplus_fsk_symptom_hyd_grinding" v="Szivattyú zaj: Csikorgó/kavitációs hangok" eh="8af6855a" />
+        <e k="usedplus_fsk_symptom_hyd_overheating" v="Folyadék hőm.: Túlmelegedés észlelve (95C+)" eh="f81562f9" />
+        <e k="usedplus_fsk_symptom_hyd_whining" v="Szivattyú zaj: Magas sivító hang terhelés alatt" eh="14db1d73" />
+        <e k="usedplus_fsk_symptom_hyd_visible_leak" v="Szivárgás érzékelő: Külső folyadékvesztés" eh="58be5bf5" />
+        <e k="usedplus_fsk_symptom_hyd_oil_spots" v="Folyadékszint: Csökken - külső szivárgás valószínű" eh="8ff50abe" />
+        <e k="usedplus_fsk_symptom_hyd_pressure_drop" v="Nyomás trend: Fokozatos csökkenés idővel" eh="d445c192" />
+        <e k="usedplus_fsk_diag_hyd_fluid" v="Alacsony folyadékszint" eh="86179cbc" />
+        <e k="usedplus_fsk_diag_hyd_air" v="Levegő a hidraulika vezetékekben" eh="1c8c7fbb" />
+        <e k="usedplus_fsk_diag_hyd_pump" v="Hidraulika szivattyú kopás" eh="36c963f7" />
+        <e k="usedplus_fsk_diag_hyd_seals" v="Tömítés/tömítőgyűrű hiba" eh="e2110dbd" />
+        <e k="usedplus_fsk_repair_air_filter" v="Eltömődött légszűrő kitisztítva - légáramlás helyreállt." eh="da165550" />
+        <e k="usedplus_fsk_repair_fuel_filter" v="Üzemanyagszűrő kitisztítva - üzemanyag áramlás helyreállt." eh="66acd0b3" />
+        <e k="usedplus_fsk_repair_spark_plugs" v="Gyertyák tisztítva/hézagolva - gyújtás javítva." eh="78a202f1" />
+        <e k="usedplus_fsk_repair_timing" v="Időzítő alkatrészek beállítva - szinkron helyreállt." eh="a2ab2028" />
+        <e k="usedplus_fsk_repair_battery" v="Sarkak tisztítva és bikázva - áram helyreállt." eh="705ece14" />
+        <e k="usedplus_fsk_repair_fuse" v="Kiégett biztosíték cserélve tartalékra." eh="4b7be2fa" />
+        <e k="usedplus_fsk_repair_alternator" v="Ideiglenes generátor áthidalás - korlátozott töltés." eh="df04f816" />
+        <e k="usedplus_fsk_repair_wiring" v="Laza csatlakozások rögzítve - áramkör helyreállt." eh="03bc6610" />
+        <e k="usedplus_fsk_repair_hyd_fluid" v="Hidraulika folyadék feltöltve a készlet tartalékból." eh="80207351" />
+        <e k="usedplus_fsk_repair_hyd_bleed" v="Levegő kiengedve a hidraulika vezetékekből." eh="df37c387" />
+        <e k="usedplus_fsk_repair_hyd_pump" v="Ideiglenes szivattyú tömítés kezelés alkalmazva." eh="89e6edb3" />
+        <e k="usedplus_fsk_repair_hyd_seals" v="Vészhelyzeti tömítő anyag alkalmazva." eh="5fadb7ef" />
+        <e k="usedplus_fsk_result_title_perfect" v="JAVÍTÁS SIKERES" eh="cb532e1b" />
+        <e k="usedplus_fsk_result_title_good" v="RÉSZLEGES JAVÍTÁS" eh="cbba8a69" />
+        <e k="usedplus_fsk_result_title_poor" v="MINIMÁLIS JAVÍTÁS" eh="9d485c84" />
+        <e k="usedplus_fsk_result_perfect" v="Helyes diagnózis! Célzott javítás végrehajtva." eh="91538006" />
+        <e k="usedplus_fsk_result_good" v="Jó rendszer, de a diagnózis téves volt. Általános javítások végrehajtva." eh="47b6188e" />
+        <e k="usedplus_fsk_result_poor" v="Rossz rendszer azonosítva. Csak alap karbantartás végrehajtva." eh="38caed38" />
+        <e k="usedplus_fsk_results" v="JAVÍTÁSI EREDMÉNYEK" eh="bb6599cb" />
+        <e k="usedplus_fsk_before" v="Előtte:" eh="0519a746" />
+        <e k="usedplus_fsk_after" v="Utána:" eh="fdbe650f" />
+        <e k="usedplus_fsk_feedback_perfect" v="Helyes diagnózis!" eh="ea6dac23" />
+        <e k="usedplus_fsk_feedback_partial" v="Jó rendszer, de a konkrét ok más volt." eh="ad5b77ef" />
+        <e k="usedplus_fsk_feedback_wrong" v="A tényleges probléma más rendszerben volt." eh="9b04c318" />
+        <e k="usedplus_fsk_temp_repair" v="IDEIGLENES HELYSZÍNI JAVÍTÁS" eh="b3bc3876" />
+        <e k="usedplus_fsk_temp_repair_desc" v="Ez egy vészhelyzeti javítás. Keresd fel a műhelyt teljes szervizért." eh="648457f5" />
+        <e k="usedplus_fsk_kit_consumed" v="Az OBD szkenner elhasználódott." eh="b2ea1455" />
+        <e k="usedplus_fsk_onetime_title" v="HELYSZÍNI SZERVIZ KÉSZ" eh="4336e84b" />
+        <e k="usedplus_fsk_onetime_desc" v="További diagnosztika ezen a rendszeren műhely felszerelést igényel" eh="38988277" />
+        <e k="usedplus_fsk_kit_consumed_onetime" v="OBD szkenner elhasználva. Minden helyszíni beállítás végrehajtva ezen a rendszeren." eh="4ae3775f" />
+        <e k="usedplus_fsk_cannot_cancel" v="Javítás folyamatban - ebben a szakaszban nem lehet megszakítani." eh="6172d2ec" />
+        <e k="usedplus_fsk_noVehicle" v="Nem észleltünk járművet a közelben. Vidd közelebb a szkennert egy járműhöz." eh="e89e127f" />
+        <e k="usedplus_fsk_tire_repair" v="DEFEKT ÉSZLELVE - Kattints a javításhoz" eh="0cd0073e" />
+        <e k="usedplus_fsk_tire_repair_title" v="GUMI VÉSZHELYZETI JAVÍTÁS" eh="fe197822" />
+        <e k="usedplus_fsk_tire_choose" v="Válassz javítási módszert:" eh="51db1af3" />
+        <e k="usedplus_fsk_tire_patch" v="FOLT" eh="63bc9a39" />
+        <e k="usedplus_fsk_tire_patch_desc" v="Gyors ideiglenes javítás" eh="796b53da" />
+        <e k="usedplus_fsk_tire_patch_result" v="30%-os állapotra állít vissza" eh="37d192f4" />
+        <e k="usedplus_fsk_tire_plug" v="DUGÓ" eh="c18d6117" />
+        <e k="usedplus_fsk_tire_plug_desc" v="Jobb vészhelyzeti javítás" eh="b3aa3113" />
+        <e k="usedplus_fsk_tire_plug_result" v="50%-os állapotra állít vissza" eh="98bf223c" />
+        <e k="usedplus_fsk_tires_ok" v="Minden gumi OK - Nincs szükség javításra" eh="e070fe8d" />
+        <e k="usedplus_fsk_scanner_readout" v="OBD SZKENNER LEOLVASÁS" eh="e81cab15" />
+        <e k="usedplus_fsk_hint_no_faults" v="Nincsenek kritikus hibakódok tárolva" eh="56f7aa39" />
+        <e k="usedplus_fsk_hint_preventive" v="Megelőző karbantartás ajánlott" eh="695fff39" />
+        <e k="usedplus_fsk_hint_engine_dtc" v="DTC P0xxx: Hajtáslánc hibakódok tárolva" eh="3ef35761" />
+        <e k="usedplus_fsk_hint_engine_combustion" v="Szabálytalan égési ciklus minták naplózva" eh="cfc95185" />
+        <e k="usedplus_fsk_hint_engine_airfuel" v="Levegő-üzemanyag keverék értékek specifikáción kívül" eh="e0a6626d" />
+        <e k="usedplus_fsk_hint_engine_exhaust" v="Kipufogógáz szenzor értékek abnormálisak" eh="f491ddaa" />
+        <e k="usedplus_fsk_hint_engine_throttle" v="Gázreakció eltérés észlelve" eh="b702d132" />
+        <e k="usedplus_fsk_hint_engine_timing" v="Főtengely időzítés variancia rögzítve" eh="c6429837" />
+        <e k="usedplus_fsk_hint_elec_dtc" v="DTC B/U kódok: Hálózati kommunikációs hibák" eh="5dc3a478" />
+        <e k="usedplus_fsk_hint_elec_voltage" v="Feszültség szabályozás normál paramétereken kívül" eh="f6b58c16" />
+        <e k="usedplus_fsk_hint_elec_signal" v="Szakaszos szenzor jel kiesések észlelve" eh="5f4e98be" />
+        <e k="usedplus_fsk_hint_elec_canbus" v="CAN busz kommunikációs hibák naplózva" eh="06868b16" />
+        <e k="usedplus_fsk_hint_elec_timeout" v="Modul válasz időtúllépések rögzítve" eh="8d47cb04" />
+        <e k="usedplus_fsk_hint_elec_ground" v="Földelési hiba indikátorok aktiválva" eh="aeded58c" />
+        <e k="usedplus_fsk_hint_hyd_response" v="Eszköz reakcióidő meghaladja a küszöböt" eh="c51368ce" />
+        <e k="usedplus_fsk_hint_hyd_pressure" v="Hidraulika nyomás ingadozások észlelve" eh="c884962a" />
+        <e k="usedplus_fsk_hint_hyd_hitch" v="Hárompontos függesztés pozíció szenzor drift" eh="f047bc25" />
+        <e k="usedplus_fsk_hint_hyd_actuator" v="Működtető ciklusidő romlás észlelve" eh="78638bc2" />
+        <e k="usedplus_fsk_hint_hyd_flow" v="Áramlási sebesség szabálytalanságok az aux körökben" eh="36d131ee" />
+        <e k="usedplus_fsk_hint_hyd_temp" v="Hidraulika folyadék hőmérséklet figyelmeztetések naplózva" eh="cfc27131" />
+        <e k="usedplus_fsk_mode_diagnose" v="Alkatrész diagnosztika" eh="3b9e5655" />
+        <e k="usedplus_fsk_mode_malfunctions" v="Meghibásodások keresése" eh="26d2acee" />
+        <e k="usedplus_fsk_mode_tire" v="Gumiszerviz" eh="b0234f4e" />
+        <e k="usedplus_fsk_mode_rvb" v="RVB rendszer elemzés" eh="5f5c4944" />
+        <e k="usedplus_fsk_rvb_not_installed" v="RVB mod nincs telepítve" eh="68a5ac1b" />
+        <e k="usedplus_fsk_rvb_no_data" v="Nincs RVB adat ehhez a járműhöz" eh="772bef55" />
+        <e k="usedplus_fsk_no_malfunctions" v="Nincsenek aktív meghibásodások" eh="3d25e830" />
+        <e k="usedplus_component_engine" v="Motor" eh="7bfa3072" />
+        <e k="usedplus_component_hydraulic" v="Hidraulika" eh="1de58ed3" />
+        <e k="usedplus_component_electrical" v="Elektromos" eh="6f15be3d" />
+        <e k="usedplus_component_fuel_system" v="Üzemanyag rendszer" eh="136d85c8" />
+        <e k="usedplus_component_tires" v="Gumik" eh="3fe2c06a" />
+        <e k="usedplus_malfunction_seized" v="BERAGADT" eh="cdceb6dd" />
+        <e k="usedplus_malfunction_leak" v="SZIVÁROG" eh="2ec9e171" />
+        <e k="usedplus_malfunction_flat" v="DEFEKT" eh="f88a77e3" />
+        <e k="usedplus_fsk_diagnosis_exhausted" v="Ez a rendszer már kapott helyszíni szervizt. További javítások műhely felszerelést igényelnek." eh="79b71f1e" />
+        <e k="usedplus_serviceTruck_name" v="Szerviz teherautó" eh="51b741d0" />
+        <e k="usedplus_serviceTruck_function" v="Mobil műhely hosszú távú jármű helyreállításhoz. Képes helyreállítani a megbízhatóságot ÉS a megbízhatósági plafont idővel. Dízel, olaj, hidraulika folyadék és alkatrészek szükségesek." eh="3c12f4e8" />
+        <e k="usedplus_serviceTruck_typeDesc" v="Helyreállító jármű" eh="7d7e5cd9" />
+        <e k="usedplus_serviceTruck_dialogTitle" v="SZERVIZ TEHERAUTÓ - JÁRMŰ HELYREÁLLÍTÁS" eh="00a2db6f" />
+        <e k="usedplus_serviceTruck_inspect" v="%s vizsgálata" eh="1fb02eae" />
+        <e k="usedplus_serviceTruck_noTarget" v="Nincs jármű a közelben" eh="c02151b6" />
+        <e k="usedplus_serviceTruck_noVehicle" v="Nincs jármű a közelben helyreállításhoz" eh="a06fd6fe" />
+        <e k="usedplus_serviceTruck_resume" v="Helyreállítás folytatása" eh="0e390222" />
+        <e k="usedplus_serviceTruck_stop" v="Helyreállítás leállítása" eh="145970e3" />
+        <e k="usedplus_serviceTruck_started" v="%s helyreállítása elkezdődött" eh="9ae2b7d4" />
+        <e k="usedplus_serviceTruck_stopped" v="%s helyreállítása leállítva" eh="486b803c" />
+        <e k="usedplus_serviceTruck_resumed" v="Helyreállítás folytatva" eh="4dd62e8e" />
+        <e k="usedplus_serviceTruck_complete" v="Helyreállítás kész: %s" eh="9d83e616" />
+        <e k="usedplus_serviceTruck_needParts" v="Alkatrész raklap szükséges a közelben!" eh="13f1aea0" />
+        <e k="usedplus_serviceTruck_damage" v="Figyelem: Helyreállítási sérülés üres készletek miatt!" eh="a0546a3a" />
+        <e k="usedplus_serviceTruck_ceiling" v="Max potenciál: %d%%" eh="6f7241ba" />
+        <e k="usedplus_serviceTruck_selectInfo" v="Válassz egy alkatrészt a mély helyreállítás megkezdéséhez. A helyszíni javításokkal ellentétben ez órákig tart, de teljesen helyreállíthatja a járművet." eh="979901a5" />
+        <e k="usedplus_serviceTruck_cooldown" v="Hűtés: %dó" eh="2ea1fcb2" />
+        <e k="usedplus_serviceTruck_healthy" v="Rendszer egészséges" eh="5576cd8a" />
+        <e k="usedplus_serviceTruck_inspecting" v="Vizsgálat: %s" eh="e11e1d26" />
+        <e k="usedplus_serviceTruck_estimatedTime" v="Becsült idő: %d óra" eh="1d3deb3e" />
+        <e k="usedplus_serviceTruck_inspectionPassed" v="VIZSGÁLAT SIKERES" eh="47f7fcfd" />
+        <e k="usedplus_serviceTruck_inspectionFailed" v="VIZSGÁLAT SIKERTELEN" eh="a631d00c" />
+        <e k="usedplus_serviceTruck_canStartRestoration" v="Helyreállítás megkezdhető. Becsült: %d óra" eh="0e981aef" />
+        <e k="usedplus_serviceTruck_wrongDiagnosis" v="Helytelen diagnózis. Várnod kell mielőtt újra próbálod ezt az alkatrészt." eh="5a4aabc9" />
+        <e k="usedplus_serviceTruck_cooldownApplied" v="Hűtés: %d óra" eh="2c7183c1" />
+        <e k="usedplus_serviceTruck_startRestoration" v="HELYREÁLLÍTÁS INDÍTÁSA" eh="696ac7a5" />
+        <e k="usedplus_serviceTruck_paused_diesel" v="Helyreállítás szünetel - töltsd fel a dízel tartályt" eh="1fe7b196" />
+        <e k="usedplus_serviceTruck_paused_oil" v="Helyreállítás szünetel - töltsd fel az olaj tartályt" eh="e8431b21" />
+        <e k="usedplus_serviceTruck_paused_hydraulic" v="Helyreállítás szünetel - töltsd fel a hidraulika folyadékot" eh="613a5371" />
+        <e k="usedplus_serviceTruck_paused_parts" v="Helyreállítás szünetel - több alkatrész szükséges!" eh="bd1c3747" />
+        <e k="usedplus_serviceTruck_discoveryTitle" v="KÜLÖNLEGES LEHETŐSÉG" eh="5859f1ad" />
+        <e k="usedplus_serviceTruck_discoverySubtitle" v="Az országos ügynöködnek van egy kapcsolata" eh="c0c9fe88" />
+        <e k="usedplus_serviceTruck_mechanicQuote" v="&amp;quot;Ismerek egy szerelőt, aki visszavonul a javítóiparból. Van egy teljesen felszerelt szerviz teherautója, amit el szeretne adni. Csak készpénzért, de jó árat tudok intézni. Érdekel?&amp;quot;" eh="219139f8" />
+        <e k="usedplus_serviceTruck_vehicleName" v="GMC C7000 Szerviz Teherautó" eh="7f78c3d1" />
+        <e k="usedplus_serviceTruck_feature1" v="Hosszú távú jármű helyreállítás" eh="0fa4b175" />
+        <e k="usedplus_serviceTruck_feature2" v="Megbízhatósági plafon javítás" eh="dee9f0ff" />
+        <e k="usedplus_serviceTruck_feature3" v="Az egyetlen mód a tragacsok megmentésére" eh="e025ba61" />
+        <e k="usedplus_serviceTruck_originalPrice" v="Normál ár: $75,000" eh="70fcf983" />
+        <e k="usedplus_serviceTruck_yourPrice" v="A TE ÁRAD" eh="6dd8d761" />
+        <e k="usedplus_serviceTruck_cashOnly" v="CSAK KÉSZPÉNZ" eh="087d1524" />
+        <e k="usedplus_serviceTruck_expiryNote" v="Az ajánlat %d nap múlva lejár" eh="9d7bc900" />
+        <e k="usedplus_serviceTruck_buyNow" v="Vásárlás" eh="c1f52fba" />
+        <e k="usedplus_serviceTruck_notNow" v="Most nem" eh="8dff1db0" />
+        <e k="usedplus_serviceTruck_purchaseSuccess" v="Szerviz teherautó megvásárolva! Keresd a bolt megjelenési pontjánál." eh="16cacb8d" />
+        <e k="usedplus_serviceTruck_opportunitySaved" v="Lehetőség elmentve. Ellenőrizd a Finanszírozás Kezelőben a későbbi vásárláshoz." eh="410b1a26" />
+        <e k="usedplus_serviceTruck_opportunityExpired" v="A szerviz teherautó lehetőség lejárt." eh="a5d3a5fb" />
+        <e k="usedplus_serviceTruck_insufficientFunds" v="Nincs elég pénzed! $%s készpénzre van szükséged." eh="9b84e434" />
+        <e k="usedplus_serviceTruck_alreadyOwned" v="Már van szerviz teherautód." eh="8d7c53f6" />
+        <e k="usedplus_sparePartsPallet_name" v="Alkatrész Raklap" eh="9bf39a93" />
+        <e k="usedplus_sparePartsPallet_function" v="Fogyóeszköz alkatrészek a szerviz teherautó helyreállításhoz. Helyezd a teherautó közelébe a helyreállítási munka során." eh="c90aa3eb" />
+        <e k="fillType_spareParts" v="Alkatrészek" eh="ab6b8ce1" />
+        <e k="unit_pcs" v="db" eh="3ecf2642" />
+        <e k="usedplus_resto_symptom_engine_knocking_load" v="Súlyos kopogás terhelés alatt" eh="fb8c3067" />
+        <e k="usedplus_resto_symptom_engine_low_oil_pressure" v="Olajnyomás kritikusan alacsony" eh="a3efa42d" />
+        <e k="usedplus_resto_symptom_engine_excessive_vibration" v="Túlzott vibráció minden sebességnél" eh="b99e166e" />
+        <e k="usedplus_resto_symptom_engine_blue_smoke" v="Erős kék füst a kipufogóból" eh="7565a2d6" />
+        <e k="usedplus_resto_symptom_engine_oil_consumption" v="2L olajat fogyaszt óránként" eh="dec5fc5f" />
+        <e k="usedplus_resto_symptom_engine_compression_loss" v="Kompresszió teszt: 40%-kal specifikáció alatt" eh="5ebe46dc" />
+        <e k="usedplus_resto_symptom_engine_blowby" v="Túlzott forgattyúház átfúvás" eh="a7ba64cb" />
+        <e k="usedplus_resto_symptom_engine_power_loss" v="Teljesítmény a névleges 50%-a" eh="f3aaa976" />
+        <e k="usedplus_resto_symptom_engine_crankcase_pressure" v="Forgattyúház nyomás megemelkedett" eh="c5f32b50" />
+        <e k="usedplus_resto_symptom_engine_ticking" v="Ritmikus ketyegés a szelepvezérlésből" eh="c52cdfd8" />
+        <e k="usedplus_resto_symptom_engine_rough_idle" v="Rendkívül egyenetlen alapjárat" eh="479de259" />
+        <e k="usedplus_resto_symptom_engine_valve_noise" v="Szelepvezérlés zaja fokozódik" eh="ce1f139d" />
+        <e k="usedplus_resto_diag_cylinder_wear" v="Hengerfal kopás" eh="2e9abecf" />
+        <e k="usedplus_resto_diag_main_bearings" v="Főcsapágyak koptak" eh="10706469" />
+        <e k="usedplus_resto_diag_piston_rings" v="Dugattyúgyűrűk meghibásodtak" eh="93ad31e3" />
+        <e k="usedplus_resto_diag_camshaft_wear" v="Vezérműtengely/emelő kopás" eh="ec3a7cd5" />
+        <e k="usedplus_resto_symptom_elec_intermittent_systems" v="Több rendszer időszakosan meghibásodik" eh="023ad81b" />
+        <e k="usedplus_resto_symptom_elec_corrosion_visible" v="Látható korrózió a csatlakozókon" eh="5c9a9a3c" />
+        <e k="usedplus_resto_symptom_elec_multiple_faults" v="Tárolt hibakódok minden modulban" eh="d4ade2b6" />
+        <e k="usedplus_resto_symptom_elec_erratic_behavior" v="Rendszer szabálytalan viselkedése" eh="b69e9c62" />
+        <e k="usedplus_resto_symptom_elec_no_communication" v="Nincs CAN busz kommunikáció" eh="d003610c" />
+        <e k="usedplus_resto_symptom_elec_stored_codes" v="Több száz tárolt hibakód" eh="40791f46" />
+        <e k="usedplus_resto_symptom_elec_wrong_readings" v="Szenzorok lehetetlen értékeket mutatnak" eh="cb94f53b" />
+        <e k="usedplus_resto_symptom_elec_limp_mode" v="Folyamatos vészüzemmód aktiválás" eh="f2301c42" />
+        <e k="usedplus_resto_symptom_elec_poor_response" v="Lassú gázreakció/vezérlés válasz" eh="66546509" />
+        <e k="usedplus_resto_symptom_elec_voltage_drops" v="Súlyos feszültségesés terhelés alatt" eh="01228a80" />
+        <e k="usedplus_resto_symptom_elec_dim_lights" v="Fények jelentősen halványodnak alapjáraton" eh="37cdb057" />
+        <e k="usedplus_resto_symptom_elec_starter_slow" v="Önindító alig tekeri" eh="886fcc59" />
+        <e k="usedplus_resto_diag_harness_degradation" v="Kábelköteg elöregedés" eh="1ac0bee9" />
+        <e k="usedplus_resto_diag_ecu_failure" v="ECU/vezérlő meghibásodás" eh="c58a3f02" />
+        <e k="usedplus_resto_diag_sensor_array" v="Szenzor tömb elöregedés" eh="dbf631b9" />
+        <e k="usedplus_resto_diag_ground_points" v="Földelési pont korrózió" eh="76c3875c" />
+        <e k="usedplus_resto_symptom_hyd_slow_operation" v="Rendkívül lassú hidraulika működés" eh="1491284f" />
+        <e k="usedplus_resto_symptom_hyd_cavitation_noise" v="Szivattyú kavitációs zaj" eh="78a4d860" />
+        <e k="usedplus_resto_symptom_hyd_low_pressure" v="Rendszernyomás 60%-kal specifikáció alatt" eh="4fb95c5c" />
+        <e k="usedplus_resto_symptom_hyd_drift" v="Munkagépek elcsúsznak terhelés alatt" eh="161be612" />
+        <e k="usedplus_resto_symptom_hyd_uneven_response" v="Egyenetlen válasz a körök között" eh="ed5383af" />
+        <e k="usedplus_resto_symptom_hyd_internal_leak" v="Belső szivárgás észlelve - nyomás nem tartható" eh="24df5973" />
+        <e k="usedplus_resto_symptom_hyd_external_leak" v="Külső folyadékszivárgás látható" eh="83e3f803" />
+        <e k="usedplus_resto_symptom_hyd_rod_scoring" v="Henger dugattyúrúd karcolás látható" eh="afc6f369" />
+        <e k="usedplus_resto_symptom_hyd_position_creep" v="Pozíció csúszás statikus terhelés alatt" eh="e0a2a78c" />
+        <e k="usedplus_resto_symptom_hyd_visible_cracks" v="Látható repedések a tömlőburkolatokon" eh="4a3b0a3e" />
+        <e k="usedplus_resto_symptom_hyd_bulging" v="Tömlő kidudorodás nyomás alatt" eh="45b25f17" />
+        <e k="usedplus_resto_symptom_hyd_seepage" v="Folyadék szivárgás a csatlakozóknál" eh="5a712984" />
+        <e k="usedplus_resto_diag_pump_wear" v="Hidraulika szivattyú kopott" eh="52b93aef" />
+        <e k="usedplus_resto_diag_valve_wear" v="Vezérlőszelep kopás" eh="a8b29f50" />
+        <e k="usedplus_resto_diag_cylinder_seals" v="Henger tömítés meghibásodás" eh="b1160c88" />
+        <e k="usedplus_resto_diag_hose_degradation" v="Tömlő elöregedés" eh="a8e8141c" />
+        <e k="usedplus_resto_hint_engine_compression" v="Kompresszió teszt: Több henger alacsony" eh="3a3b3c44" />
+        <e k="usedplus_resto_hint_engine_oil_analysis" v="Olaj elemzés: Magas fémtartalom" eh="bd8248e0" />
+        <e k="usedplus_resto_hint_engine_vibration" v="Vibráció elemzés: Csapágy frekvencia" eh="effbd7bc" />
+        <e k="usedplus_resto_hint_engine_blowby" v="Átfúvás mérés: 3x normális" eh="623f710e" />
+        <e k="usedplus_resto_hint_engine_wear_metals" v="Kopásfémek az olajban: Kritikus szint" eh="f3246cb4" />
+        <e k="usedplus_resto_hint_elec_resistance" v="Kábelköteg ellenállás: Specifikáción kívül" eh="b9abd1d2" />
+        <e k="usedplus_resto_hint_elec_insulation" v="Szigetelés teszt: Átütés észlelve" eh="1d71c2a6" />
+        <e k="usedplus_resto_hint_elec_continuity" v="Folytonosság: Több nyitott áramkör" eh="e0f6fd0b" />
+        <e k="usedplus_resto_hint_elec_voltage_drop" v="Feszültségesés teszt: Túlzott" eh="d25b077c" />
+        <e k="usedplus_resto_hint_elec_current_draw" v="Parazita áram: 10x normális" eh="59444b85" />
+        <e k="usedplus_resto_hint_hyd_pressure_test" v="Nyomás teszt: Áramlás de nincs nyomás" eh="bd006d67" />
+        <e k="usedplus_resto_hint_hyd_flow_rate" v="Áramlási sebesség: Névleges kapacitás 40%-a" eh="b90ab77b" />
+        <e k="usedplus_resto_hint_hyd_fluid_analysis" v="Folyadék elemzés: Szennyezett" eh="dfe20002" />
+        <e k="usedplus_resto_hint_hyd_temp_rise" v="Hőmérséklet emelkedés: Abnormálisan gyors" eh="533cbcf4" />
+        <e k="usedplus_resto_hint_hyd_case_drain" v="Házleeresztő áramlás: Megemelkedett" eh="a22095fe" />
+        <e k="usedplus_resto_inspection_success" v="Helyes diagnózis! A helyreállítás megkezdődhet." eh="97b6cad5" />
+        <e k="usedplus_resto_inspection_failed" v="Helytelen diagnózis. 48 órás hűtés alkalmazva." eh="810bd06d" />
+        <e k="usedplus_resto_desc_bearings" v="Főcsapágy csere és főtengely vizsgálat" eh="82cd6ee4" />
+        <e k="usedplus_resto_desc_cylinder" v="Henger újrafúrás és dugattyú csere" eh="f59dd2d9" />
+        <e k="usedplus_resto_desc_rings" v="Dugattyúgyűrű csere és henger hónolás" eh="215c10a5" />
+        <e k="usedplus_resto_desc_camshaft" v="Vezérműtengely és emelő csere" eh="d7ac0f03" />
+        <e k="usedplus_resto_desc_harness" v="Teljes kábelköteg csere" eh="90710fd7" />
+        <e k="usedplus_resto_desc_ecu" v="ECU csere és újraprogramozás" eh="8b0b987d" />
+        <e k="usedplus_resto_desc_sensors" v="Teljes szenzor tömb csere" eh="d7757def" />
+        <e k="usedplus_resto_desc_grounds" v="Földelési pont helyreállítás és tisztítás" eh="8d73bf8b" />
+        <e k="usedplus_resto_desc_pump" v="Hidraulika szivattyú felújítás vagy csere" eh="661156e5" />
+        <e k="usedplus_resto_desc_valves" v="Vezérlőszelep nagyjavítás" eh="5e2cc6b4" />
+        <e k="usedplus_resto_desc_cylinders" v="Henger újratömítés és rúd újracsiszolás" eh="d0aab178" />
+        <e k="usedplus_resto_desc_hoses" v="Teljes tömlő csere" eh="b9531198" />
+        <e k="usedplus_settings_header" v="UsedPlus Beállítások" eh="3ac65cdc" />
+        <e k="usedplus_settings_requiresAdmin" v="Csak a szerver admin módosíthatja a beállításokat." eh="e036f8a5" />
+        <e k="usedplus_setting_preset" v="Gyors előbeállítás" eh="ef6e6470" />
+        <e k="usedplus_setting_preset_desc" v="Előbeállított konfiguráció alkalmazása (minden alábbi beállítást módosít)" eh="63332963" />
+        <e k="usedplus_setting_finance" v="Jármű/Föld finanszírozás" eh="8159256d" />
+        <e k="usedplus_setting_finance_desc" v="Finanszírozás engedélyezése jármű és föld vásárláshoz" eh="4834038c" />
+        <e k="usedplus_setting_lease" v="Lízing" eh="9e668941" />
+        <e k="usedplus_setting_lease_desc" v="Jármű és föld lízing engedélyezése kivásárlási opcióval" eh="689ee038" />
+        <e k="usedplus_setting_search" v="Használt jármű keresés" eh="07c38501" />
+        <e k="usedplus_setting_search_desc" v="Ügynök alapú használt felszerelés keresés engedélyezése" eh="73690f8f" />
+        <e k="usedplus_setting_sale" v="Jármű értékesítés" eh="9111fc3c" />
+        <e k="usedplus_setting_sale_desc" v="Ügynök alapú jármű értékesítés engedélyezése (azonnali eladás helyett)" eh="861c1a37" />
+        <e k="usedplus_setting_repair" v="Javítási rendszer" eh="5a2967eb" />
+        <e k="usedplus_setting_repair_desc" v="Részleges javítás és újrafestés opciók engedélyezése" eh="a6774f7d" />
+        <e k="usedplus_setting_tradein" v="Beszámítási rendszer" eh="3e428cd4" />
+        <e k="usedplus_setting_tradein_desc" v="Járművek beszámítása vásárláskor engedélyezése" eh="464eed0d" />
+        <e k="usedplus_setting_credit" v="Hitelpontszám" eh="c709b51e" />
+        <e k="usedplus_setting_credit_desc" v="Dinamikus hitelpontszám alapú kamatlábak engedélyezése" eh="ea6286a9" />
+        <e k="usedplus_setting_tirewear" v="Gumiabroncs kopás" eh="fa71e50e" />
+        <e k="usedplus_setting_tirewear_desc" v="Valósághű gumiabroncs elhasználódás idővel engedélyezése" eh="0a955572" />
+        <e k="usedplus_setting_malfunctions" v="Meghibásodások" eh="97801e8a" />
+        <e k="usedplus_setting_malfunctions_desc" v="Véletlenszerű meghibásodások és alkatrész hibák engedélyezése" eh="fbbe01f9" />
+        <e k="usedplus_setting_malfunctionFrequency" v="Meghibásodás gyakoriság" eh="6bf458c7" />
+        <e k="usedplus_setting_malfunctionFrequency_desc" v="Milyen gyakran fordulnak elő meghibásodások. 100% = normál, 50% = fele olyan gyakori, 200% = kétszer olyan gyakori" eh="4ab011c4" />
+        <e k="usedplus_setting_partialRepair" v="Részleges javítás" eh="dc6b627a" />
+        <e k="usedplus_setting_partialRepair_desc" v="Részleges javítás engedélyezése a járműboltban (kikapcsolva elrejti a javítás gombot)" eh="84fe180c" />
+        <e k="usedplus_setting_partialRepaint" v="Részleges újrafestés" eh="3fca656d" />
+        <e k="usedplus_setting_partialRepaint_desc" v="Részleges újrafestés engedélyezése a járműboltban (kikapcsolva elrejti a festés gombot)" eh="4ca7214a" />
+        <e k="usedplus_setting_farmlandDifficulty" v="Termőföld nehézségi skálázás" eh="9118adb6" />
+        <e k="usedplus_setting_farmlandDifficulty_desc" v="Föld árak skálázása játék nehézséggel (mint járművek). Könnyű: 60%, Normál: 100%, Nehéz: 140%" eh="50a435ef" />
+        <e k="usedplus_setting_bankInterest" v="Bank kamat" eh="1267ace4" />
+        <e k="usedplus_setting_bankInterest_desc" v="Kamatot kapsz pozitív készpénz egyenleg után (havonta, mint takarékszámla)" eh="8e706865" />
+        <e k="usedplus_setting_bankInterestRate" v="Kamatláb (ÉHM)" eh="798c19e6" />
+        <e k="usedplus_setting_bankInterestRate_desc" v="Éves kamatláb készpénzre. 1% = $10,000 évente $1M egyenleggel" eh="80e4314a" />
+        <e k="usedplus_settings_compatibility" v="Mod kompatibilitás" eh="5581e454" />
+        <e k="usedplus_setting_rvbIntegration" v="RVB integráció" eh="c95f0d09" />
+        <e k="usedplus_setting_rvbIntegration_desc" v="Real Vehicle Breakdowns integráció engedélyezése. Kapcsold ki ha problémáid vannak az RVB-vel." eh="991f2898" />
+        <e k="usedplus_setting_uytIntegration" v="UYT integráció" eh="3953e8cd" />
+        <e k="usedplus_setting_uytIntegration_desc" v="Use Your Tyres integráció engedélyezése. Kapcsold ki ha problémáid vannak az UYT-vel." eh="1a39015f" />
+        <e k="usedplus_setting_amIntegration" v="AM integráció" eh="64b0aea5" />
+        <e k="usedplus_setting_amIntegration_desc" v="AdvancedMaintenance integráció engedélyezése. Motor sérülés ellenőrzéseket láncolja a modok között." eh="27967992" />
+        <e k="usedplus_setting_hpIntegration" v="HP integráció" eh="3f302093" />
+        <e k="usedplus_setting_hpIntegration_desc" v="HirePurchasing integráció engedélyezése. Elrejti a UsedPlus Finanszírozás gombot (HP kezeli)." eh="a17d2bc4" />
+        <e k="usedplus_setting_bueIntegration" v="BUE integráció" eh="5cf334ff" />
+        <e k="usedplus_setting_bueIntegration_desc" v="BuyUsedEquipment integráció engedélyezése. Elrejti a UsedPlus Keresés gombot (BUE kezeli)." eh="0216f3ab" />
+        <e k="usedplus_setting_elsIntegration" v="ELS integráció" eh="1b5ac55a" />
+        <e k="usedplus_setting_elsIntegration_desc" v="EnhancedLoanSystem integráció engedélyezése. Kikapcsolja a UsedPlus hiteleket (ELS kezeli)." eh="1594da56" />
+        <e k="usedplus_settings_toggles" v="Funkció kapcsolók" eh="2aa7da8d" />
+        <e k="usedplus_settings_money" v="Pénz és díjak" eh="e0d1b0db" />
+        <e k="usedplus_settings_risk" v="Engedékenység és kockázat" eh="c57ae16a" />
+        <e k="usedplus_settings_marketplace" v="Piactér" eh="675e31b9" />
+        <e k="usedplus_settings_condition" v="Állapot és minőség" eh="0ada4be1" />
+        <e k="usedplus_setting_interestRate" v="Finanszírozási kamatláb" eh="ec5e55f4" />
+        <e k="usedplus_setting_interestRate_desc" v="Alapkamat minden finanszírozáshoz (járművek, föld, hitelek). Hitelpontszám módosítja." eh="86443f38" />
+        <e k="usedplus_setting_tradeInValue" v="Beszámítási érték %" eh="1f2d9066" />
+        <e k="usedplus_setting_tradeInValue_desc" v="Eladási ár alap százaléka beszámításnál" eh="63d5cd26" />
+        <e k="usedplus_setting_repairCost" v="Javítási költség szorzó" eh="f6f74c79" />
+        <e k="usedplus_setting_repairCost_desc" v="Szorzó minden javítási költségre" eh="d20d8168" />
+        <e k="usedplus_setting_paintCost" v="Festési költség szorzó" eh="b5b8f53a" />
+        <e k="usedplus_setting_paintCost_desc" v="Szorzó újrafestési költségekre (külön a javítástól)" eh="4fcb0c32" />
+        <e k="usedplus_setting_leaseMarkup" v="Lízing felár %" eh="aac70e2a" />
+        <e k="usedplus_setting_leaseMarkup_desc" v="Százalékos felár a havi lízing díjakon" eh="23d9d6f0" />
+        <e k="usedplus_setting_missedPayments" v="Kihagyott fizetések mulasztásig" eh="be335e9f" />
+        <e k="usedplus_setting_missedPayments_desc" v="Kihagyott fizetések száma jármű visszavétel előtt" eh="71688a5f" />
+        <e k="usedplus_setting_downPayment" v="Min. előleg %" eh="b70d8e33" />
+        <e k="usedplus_setting_downPayment_desc" v="Minimális szükséges előleg finanszírozáshoz" eh="d290560c" />
+        <e k="usedplus_setting_startingCredit" v="Kezdő hitelpontszám" eh="8fd1d387" />
+        <e k="usedplus_setting_startingCredit_desc" v="Kezdeti hitelpontszám új játékoknál" eh="1861873e" />
+        <e k="usedplus_setting_latePenalty" v="Késedelmi büntetés" eh="70703f0b" />
+        <e k="usedplus_setting_latePenalty_desc" v="Elvesztett hitelpontszám pontok késedelmes fizetésenként" eh="a58e7e31" />
+        <e k="usedplus_setting_searchSuccess" v="Alap keresési siker %" eh="01f7d1c0" />
+        <e k="usedplus_setting_searchSuccess_desc" v="Alap esély használt jármű találásra. Szintek bónuszai: Gazdaságos +0%, Standard +10%, Prémium +20%, Elit +30%" eh="69f7bd7b" />
+        <e k="usedplus_setting_maxListings" v="Max hirdetések farmonként" eh="5f8a47bd" />
+        <e k="usedplus_setting_maxListings_desc" v="Maximum aktív eladási hirdetések farmonként (belső beállítás)" eh="88403541" />
+        <e k="usedplus_setting_offerExpiry" v="Ajánlat lejárat" eh="8b1b7a6f" />
+        <e k="usedplus_setting_offerExpiry_desc" v="Órák amíg az eladási ajánlatok lejárnak" eh="fe118057" />
+        <e k="usedplus_setting_commission" v="Ügynöki jutalék %" eh="443d1555" />
+        <e k="usedplus_setting_commission_desc" v="Eladási ügynökök által levont százalék" eh="8f42cc9d" />
+        <e k="usedplus_setting_conditionMin" v="Használt állapot min" eh="c2725712" />
+        <e k="usedplus_setting_conditionMin_desc" v="Minimális állapot használt járművekhez" eh="67ff9bc5" />
+        <e k="usedplus_setting_conditionMax" v="Használt állapot max" eh="ff759d4c" />
+        <e k="usedplus_setting_conditionMax_desc" v="Maximális állapot használt járművekhez" eh="5eb8cfaf" />
+        <e k="usedplus_setting_conditionMult" v="Állapot ár hatás" eh="b9ea233b" />
+        <e k="usedplus_setting_conditionMult_desc" v="Mennyire befolyásolja az állapot a jármű árát" eh="1defc378" />
+        <e k="usedplus_setting_brandBonus" v="Márkahűség bónusz" eh="51d04913" />
+        <e k="usedplus_setting_brandBonus_desc" v="Extra beszámítási érték azonos márka vásárlásakor" eh="3256663b" />
+        <e k="usedplus_setting_overrideShopBuyLease" v="Bolt Vásárlás/Lízing felülírás" eh="b4e2b28b" />
+        <e k="usedplus_setting_overrideShopBuyLease_desc" v="BE: Vásárlás/Lízing gombok UsedPlus párbeszédet nyitják. KI: Finanszírozás gombot használd helyette. Kapcsold ki ha ütközés van más bolt modokkal." eh="8a2bc868" />
+        <e k="usedplus_setting_overrideRVBRepair" v="RVB Javítás felülírás" eh="ad8478fa" />
+        <e k="usedplus_setting_overrideRVBRepair_desc" v="BE: RVB Javítás gomb UsedPlus részleges javítást nyit. KI: Használd a Térkép &gt; Jármű javítás opciót UsedPlus funkciókhoz. Csak Real Vehicle Breakdowns telepítéssel." eh="364e998d" />
+        <e k="usedplus_preset_title" v="Előbeállítás alkalmazása" eh="124235e0" />
+        <e k="usedplus_preset_easy" v="Könnyű" eh="7f943921" />
+        <e k="usedplus_preset_easy_desc" v="Maximum engedékenység - fókuszálj a gazdálkodásra, ne a pénzügyekre" eh="81004805" />
+        <e k="usedplus_preset_balanced" v="Kiegyensúlyozott" eh="c6589f52" />
+        <e k="usedplus_preset_balanced_desc" v="Alapértelmezett kiegyensúlyozott szimuláció - a tervezett élmény" eh="e4b620f0" />
+        <e k="usedplus_preset_challenging" v="Kihívó" eh="4235e068" />
+        <e k="usedplus_preset_challenging_desc" v="Valós következmények - a döntések számítanak" eh="232773e0" />
+        <e k="usedplus_preset_hardcore" v="Hardcore" eh="1c800aa9" />
+        <e k="usedplus_preset_hardcore_desc" v="Gazdasági túlélés - minden dollár számít" eh="f893227a" />
+        <e k="usedplus_preset_streamlined" v="Egyszerűsített" eh="093eb019" />
+        <e k="usedplus_preset_streamlined_desc" v="Csak finanszírozás és lízing - extrák nélkül" eh="e3952520" />
+        <e k="usedplus_preset_immersive" v="Élményszerű" eh="7a7f14a4" />
+        <e k="usedplus_preset_immersive_desc" v="Teljes szimuláció - legjobb RVB/UYT modokkal" eh="777e7831" />
+        <e k="usedplus_preset_realistic" v="Kiegyensúlyozott" eh="c6589f52" />
+        <e k="usedplus_preset_casual" v="Könnyű" eh="7f943921" />
+        <e k="usedplus_preset_lite" v="Egyszerűsített" eh="093eb019" />
+        <e k="usedplus_preset_realistic_desc" v="Alapértelmezett kiegyensúlyozott szimuláció - a tervezett élmény" eh="e4b620f0" />
+        <e k="usedplus_preset_casual_desc" v="Maximum engedékenység - fókuszálj a gazdálkodásra, ne a pénzügyekre" eh="81004805" />
+        <e k="usedplus_preset_lite_desc" v="Csak finanszírozás és lízing - extrák nélkül" eh="e3952520" />
+        <e k="usedplus_preset_apply" v="Alkalmaz" eh="9639e32c" />
+        <e k="usedplus_preset_reset" v="Alapértelmezettre állítás" eh="6795975d" />
+        <e k="usedplus_hydraulic_system" v="Hidraulika rendszer" eh="2f6e031e" />
+        <e k="usedplus_maintenance_grade" v="Karbantartás" eh="10d0de28" />
+        <e k="usedplus_service_history" v="Előzmények" eh="16d2b386" />
+        <e k="usedplus_mechanic_says" v="Szerelő" eh="64eb6697" />
+        <e k="usedplus_mechanic_assessment" v="SZERELŐ ÉRTÉKELÉSE" eh="ed0defaa" />
+        <e k="usedplus_grade_excellent" v="Kiváló" eh="fcc2d28a" />
+        <e k="usedplus_grade_good" v="Jó" eh="0c6ad70b" />
+        <e k="usedplus_grade_fair" v="Elfogadható" eh="f7f20cf0" />
+        <e k="usedplus_grade_poor" v="Gyenge" eh="0e94d017" />
+        <e k="usedplus_grade_critical" v="Kritikus" eh="278d01e5" />
+        <e k="usedplus_button_makeOffer" v="Ajánlat" eh="4b779fa1" />
+        <e k="usedplus_neg_title" v="AJÁNLAT KÜLDÉSE" eh="a91f8bed" />
+        <e k="usedplus_neg_sectionVehicle" v="JÁRMŰ" eh="e9fa318f" />
+        <e k="usedplus_neg_sectionWhisper" v="SZERELŐ SÚGJA" eh="29e2cd4f" />
+        <e k="usedplus_neg_sectionOffer" v="AZ AJÁNLATOD" eh="0b3b396e" />
+        <e k="usedplus_neg_askingPrice" v="Kikiáltási ár:" eh="c515d94e" />
+        <e k="usedplus_neg_yourOffer" v="Ajánlatod:" eh="4e018663" />
+        <e k="usedplus_neg_savings" v="Megtakarítás:" eh="f3815936" />
+        <e k="usedplus_neg_sendOffer" v="Ajánlat küldése" eh="1afbee68" />
+        <e k="usedplus_whisper_desperate_seller" v="[EN] Between you and me... they seem pretty eager to sell. Might be in a tough spot." eh="7250e321" />
+        <e k="usedplus_whisper_listed_long" v="[EN] Between you and me... I've seen this rig listed for a while now. Seller might be motivated." eh="d05ae609" />
+        <e k="usedplus_whisper_upgrading" v="[EN] Between you and me... heard they're upgrading to bigger equipment. Could be flexible." eh="e3972bc6" />
+        <e k="usedplus_whisper_knows_value" v="[EN] Between you and me... they've priced it fair and know exactly what it's worth." eh="8acefc9c" />
+        <e k="usedplus_whisper_just_listed" v="[EN] Between you and me... just hit the market. Might not be in a rush to deal." eh="b113b9e6" />
+        <e k="usedplus_whisper_standard" v="[EN] Between you and me... seems like a straightforward seller. Worth making an offer." eh="b00693e0" />
+        <e k="usedplus_whisper_weather_storm" v="[EN] Plus, with that storm rolling in, they might want to close quick." eh="25a637f5" />
+        <e k="usedplus_whisper_weather_rain" v="[EN] Rain's keeping everyone cooped up... good time to push for a deal." eh="1b825b89" />
+        <e k="usedplus_whisper_weather_hail" v="[EN] That hail's got folks worried about their gear sitting out." eh="023b34f7" />
+        <e k="usedplus_whisper_weather_snow" v="[EN] Snow falling... off-season always makes sellers more flexible." eh="bcdab6d9" />
+        <e k="usedplus_whisper_weather_perfect" v="[EN] Beautiful day like this though... don't expect any favors." eh="bf201d88" />
+        <e k="usedplus_sr_titleAccept" v="[EN] OFFER ACCEPTED!" eh="c36f802f" />
+        <e k="usedplus_sr_titleCounter" v="[EN] COUNTER OFFER" eh="544441c8" />
+        <e k="usedplus_sr_titleReject" v="[EN] OFFER REJECTED" eh="2b54c509" />
+        <e k="usedplus_sr_titleWalkaway" v="[EN] SELLER WALKED AWAY" eh="d4da1912" />
+        <e k="usedplus_sr_yourOffer" v="[EN] Your Offer:" eh="4e018663" />
+        <e k="usedplus_sr_counterOffer" v="[EN] Counter Offer:" eh="768065b8" />
+        <e k="usedplus_sr_sellerPrice" v="[EN] Seller's Price:" eh="1402265a" />
+        <e k="usedplus_sr_completePurchase" v="[EN] Complete Purchase" eh="e1c9f521" />
+        <e k="usedplus_sr_acceptCounter" v="[EN] Accept Counter" eh="fdbaf6cf" />
+        <e k="usedplus_sr_standFirm" v="[EN] Stand Firm" eh="3b35ba7f" />
+        <e k="usedplus_sr_walkAway" v="[EN] Walk Away" eh="5218f5e2" />
+        <e k="usedplus_sr_payFullPrice" v="[EN] Pay Full Price" eh="1d0533bd" />
+        <e k="usedplus_response_accepted" v="[EN] Deal! You've got yourself a %s." eh="e1b388b0" />
+        <e k="usedplus_response_counter" v="[EN] I can't go that low, but I'll meet you partway. How about %s?" eh="6da9eb6a" />
+        <e k="usedplus_response_rejected" v="[EN] Sorry, but I can't accept that. My price is firm at %s." eh="d99f0b95" />
+        <e k="usedplus_response_walkaway" v="[EN] I think we're too far apart. Come back if you change your mind." eh="c73a083b" />
+        <e k="usedplus_standfirm_success" v="[EN] Alright, alright... you drive a hard bargain. I'll take it." eh="0953e50a" />
+        <e k="usedplus_standfirm_hold" v="[EN] Look, %s is as low as I can go. Take it or leave it." eh="2d81ca38" />
+        <e k="usedplus_standfirm_walkaway" v="[EN] I don't think we're going to agree. Maybe another time." eh="2d8a7003" />
+        <e k="usedplus_negotiation_locked_title" v="[EN] Seller Unavailable" eh="00a519f4" />
+        <e k="usedplus_negotiation_locked" v="[EN] Seller is unavailable. Try again in %d minutes." eh="938f0f62" />
+        <e k="usedplus_negotiation_locked_hint" v="[EN] They might cool off after a bit..." eh="1c8c51e6" />
+        <e k="usedplus_insufficient_funds" v="[EN] Insufficient Funds" eh="68c8a940" />
+        <e k="usedplus_insufficient_funds_offer" v="[EN] You cannot afford this offer. Used vehicle purchases are cash only." eh="1c7f7913" />
+        <e k="usedplus_insufficient_funds_shortfall" v="[EN] You need %s more to complete this purchase." eh="d40315cf" />
+        <e k="usedplus_insufficient_funds_balance" v="[EN] Current balance: %s" eh="b9522f76" />
+        <e k="usedplus_walkaway_title" v="[EN] SELLER WALKED AWAY" eh="d4da1912" />
+        <e k="usedplus_walkaway_message" v="[EN] Your offer insulted the seller. They've refused to do business with you and this vehicle is no longer available." eh="3ef90ec2" />
+        <e k="usedplus_walkaway_workhorse" v="[EN] This seller knows exactly what they have - a machine that's been nothing but reliable. They won't entertain lowball offers." eh="dd4d6411" />
+        <e k="usedplus_seller_immovable_hint" v="[EN] This seller knows exactly what they have. Don't expect any negotiation room." eh="afe11ced" />
+        <e k="usedplus_mode_finance_disabled" v="[EN] Finance (Disabled)" eh="a7fe11df" />
+        <e k="usedplus_mode_lease_disabled" v="[EN] Lease (Disabled)" eh="2c3f5a31" />
+        <e k="usedplus_finance_disabled_title" v="[EN] Feature Disabled" eh="e4c783e8" />
+        <e k="usedplus_finance_disabled_msg" v="[EN] Vehicle financing is disabled in UsedPlus settings." eh="fffb70a6" />
+        <e k="usedplus_lease_disabled_title" v="[EN] Feature Disabled" eh="e4c783e8" />
+        <e k="usedplus_lease_disabled_msg" v="[EN] Vehicle leasing is disabled in UsedPlus settings." eh="bd7f5b24" />
+        <e k="usedplus_land_finance_disabled_msg" v="[EN] Land financing is disabled in UsedPlus settings." eh="0335547a" />
+        <e k="usedplus_land_lease_disabled_msg" v="[EN] Land leasing is disabled in UsedPlus settings." eh="f875a63d" />
+        <e k="usedplus_land_modeFinance_disabled" v="[EN] Finance (Disabled)" eh="a7fe11df" />
+        <e k="usedplus_land_modeLease_disabled" v="[EN] Lease (Disabled)" eh="2c3f5a31" />
+        <e k="usedplus_engine_seized" v="[EN] ENGINE SEIZED! Repair required before vehicle will start." eh="c22e256a" />
+        <e k="usedplus_hydraulics_seized" v="[EN] HYDRAULICS SEIZED! Implements are locked in place." eh="dd09718c" />
+        <e k="usedplus_electrical_seized" v="[EN] ELECTRICAL FAILURE! All systems are dead." eh="84b7514a" />
+        <e k="usedplus_seizure_detected" v="[EN] COMPONENT SEIZED" eh="9def01dd" />
+        <e k="usedplus_seizure_repair_confirm" v="[EN] %s is seized and requires emergency repair.\n\nRepair cost: %s\n\nProceed with repair?" eh="bf702608" />
+        <e k="usedplus_seizure_repaired" v="[EN] %s repaired! Reliability restored to %d%%" eh="323fa338" />
+        <e k="usedplus_repair_no_money" v="[EN] Not enough money for repair!" eh="0c0a7c19" />
+        <e k="usedplus_warning_notEnoughMoney" v="[EN] Not enough money!" eh="48f194d4" />
+        <e k="usedplus_notification_landSeized" v="[EN] LAND SEIZED: %s has been taken due to non-payment!" eh="1c095ac6" />
+        <e k="usedplus_error_paymentTooLow" v="[EN] Payment amount is below the minimum required." eh="4f83eda0" />
+        <e k="usedplus_error_paymentTooHigh" v="[EN] Payment amount exceeds the remaining balance." eh="091a9776" />
+        <e k="usedplus_success_paymentMade" v="[EN] Payment processed successfully!" eh="b12aba7d" />
+        <e k="usedplus_error_cannotAffordTermination" v="[EN] Not enough money to pay the lease termination fee." eh="64ed9e67" />
+        <e k="usedplus_credit_required" v="[EN] Credit Required" eh="cefa86b5" />
+        <e k="usedplus_finance_credit_msg" v="[EN] Financing requires a credit score of %d or higher." eh="7d3d6778" />
+        <e k="usedplus_lease_credit_msg" v="[EN] Leasing requires a credit score of %d or higher." eh="c86cbfc5" />
+        <e k="usedplus_error_purchaseFailed" v="[EN] Purchase failed - game API not available." eh="c02a7002" />
+        <e k="usedplus_error_negativeDownPayment" v="[EN] Down payment cannot be negative." eh="0634f8d8" />
+        <e k="usedplus_error_downPaymentTooHigh" v="[EN] Down payment cannot exceed the purchase price." eh="6bd926ef" />
+        <e k="usedplus_error_invalidTerm" v="[EN] Invalid loan term." eh="49e90a5b" />
+        <e k="usedplus_error_leaseDownPaymentTooHigh" v="[EN] Down payment cannot exceed the lease price." eh="5e32ae97" />
+        <e k="usedplus_error_leaseTermInvalid" v="[EN] Invalid lease term." eh="7f3c3523" />
+        <e k="usedplus_age_oneYear" v="[EN] 1 year old" eh="086d4f5c" />
+        <e k="usedplus_age_years" v="[EN] %d years old" eh="afdf2194" />
+        <e k="usedplus_hours" v="[EN] %d hours" eh="4e8d5e54" />
+        <e k="usedplus_notification_vanillaLoanPaidOff" v="[EN] Bank loan paid off!" eh="a6f2a43b" />
+        <e k="usedplus_mp_success_vehicle_purchased" v="[EN] Vehicle purchased successfully!" eh="b5beec4f" />
+        <e k="usedplus_mp_success_trade_in" v="[EN] Trade-in completed successfully!" eh="0a59b49a" />
+        <e k="usedplus_mp_success_field_repair" v="[EN] Field repair completed!" eh="06239aac" />
+        <e k="usedplus_mp_success_fluids_refilled" v="[EN] Fluids refilled successfully!" eh="9597cd1d" />
+        <e k="usedplus_mp_success_tires_replaced" v="[EN] Tires replaced successfully!" eh="5224fbbe" />
+        <e k="usedplus_mp_success_land_purchased" v="[EN] Land purchased successfully!" eh="9de4a0f4" />
+        <e k="usedplus_mp_error_purchase_failed" v="[EN] Purchase failed. Please try again." eh="42d7ddab" />
+        <e k="usedplus_mp_error_vehicle_not_found" v="[EN] Vehicle not found." eh="02c84e79" />
+        <e k="usedplus_mp_error_no_loan" v="[EN] No loan balance to pay." eh="5668e12f" />
+        <e k="usedplus_admin_title" v="[EN] UsedPlus Admin Panel" eh="f1ae106e" />
+        <e k="usedplus_admin_tab_malfunctions" v="[EN] Malfunctions" eh="97801e8a" />
+        <e k="usedplus_admin_tab_spawning" v="[EN] Spawning" eh="abd8b510" />
+        <e k="usedplus_admin_tab_finance" v="[EN] Finance" eh="c482980d" />
+        <e k="usedplus_admin_tab_dialogs" v="[EN] Dialogs" eh="258853ae" />
+        <e k="usedplus_admin_tab_state" v="[EN] State" eh="46a2a41c" />
+        <e k="usedplus_admin_section_engine" v="[EN] ENGINE" eh="1942d6cf" />
+        <e k="usedplus_admin_section_electrical" v="[EN] ELECTRICAL" eh="9f317629" />
+        <e k="usedplus_admin_section_hydraulic" v="[EN] HYDRAULIC" eh="3e0b9977" />
+        <e k="usedplus_admin_section_tires" v="[EN] TIRES" eh="36173e29" />
+        <e k="usedplus_admin_section_utility" v="[EN] UTILITY" eh="1697ce5d" />
+        <e k="usedplus_admin_section_items" v="[EN] ITEMS" eh="9a932d55" />
+        <e k="usedplus_admin_section_discovery" v="[EN] DISCOVERY" eh="f5be5d66" />
+        <e k="usedplus_admin_section_test_vehicles" v="[EN] TEST VEHICLES" eh="682cb0f3" />
+        <e k="usedplus_admin_section_condition" v="[EN] CONDITION PAINTER" eh="2593ea9b" />
+        <e k="usedplus_admin_section_money" v="[EN] MONEY" eh="2bc794c2" />
+        <e k="usedplus_admin_section_credit" v="[EN] CREDIT SCORE" eh="4f3b169e" />
+        <e k="usedplus_admin_section_deals" v="[EN] DEALS" eh="bdcaa389" />
+        <e k="usedplus_admin_section_finance_dialogs" v="[EN] FINANCE DIALOGS" eh="babbf134" />
+        <e k="usedplus_admin_section_market_dialogs" v="[EN] MARKETPLACE DIALOGS" eh="4c8988f5" />
+        <e k="usedplus_admin_section_service_dialogs" v="[EN] SERVICE DIALOGS" eh="e407aa85" />
+        <e k="usedplus_admin_section_lease_dialogs" v="[EN] LEASE DIALOGS" eh="479e552e" />
+        <e k="usedplus_admin_section_debug" v="[EN] DEBUG MODE" eh="c7ee79cd" />
+        <e k="usedplus_admin_section_vehicle_state" v="[EN] VEHICLE STATE" eh="c077f4be" />
+        <e k="usedplus_admin_section_dna" v="[EN] SELLER DNA (Next Search)" eh="0e284459" />
+        <e k="usedplus_admin_section_quick_vehicle" v="[EN] QUICK VEHICLE SWAP" eh="01242f7d" />
+        <e k="usedplus_admin_btn_stall" v="[EN] Stall" eh="a0f50ad4" />
+        <e k="usedplus_admin_btn_misfire" v="[EN] Misfire" eh="9b9bd091" />
+        <e k="usedplus_admin_btn_overheat" v="[EN] Overheat" eh="5d266c94" />
+        <e k="usedplus_admin_btn_runaway" v="[EN] Runaway" eh="dbdba743" />
+        <e k="usedplus_admin_btn_seizure" v="[EN] Seizure" eh="82d09d65" />
+        <e k="usedplus_admin_btn_cutout" v="[EN] Cutout" eh="330be5af" />
+        <e k="usedplus_admin_btn_surge_l" v="[EN] Surge (L)" eh="14a7255f" />
+        <e k="usedplus_admin_btn_surge_r" v="[EN] Surge (R)" eh="f9261697" />
+        <e k="usedplus_admin_btn_flat_l" v="[EN] Flat (L)" eh="427238a9" />
+        <e k="usedplus_admin_btn_flat_r" v="[EN] Flat (R)" eh="5a2301a8" />
+        <e k="usedplus_admin_btn_reset_cooldown" v="[EN] Reset CD" eh="d2165eba" />
+        <e k="usedplus_admin_btn_malf_info" v="[EN] Malf Info" eh="92badb26" />
+        <e k="usedplus_admin_btn_fix_all" v="[EN] Fix All" eh="1c7feed4" />
+        <e k="usedplus_admin_btn_spawn_obd" v="[EN] OBD Scanner" eh="96023669" />
+        <e k="usedplus_admin_btn_spawn_truck" v="[EN] Svc Truck" eh="083ff302" />
+        <e k="usedplus_admin_btn_spawn_parts" v="[EN] Parts Pallet" eh="ca04c55a" />
+        <e k="usedplus_admin_btn_trigger_discovery" v="[EN] Trigger Disc" eh="adaba831" />
+        <e k="usedplus_admin_btn_reset_discovery" v="[EN] Reset Disc" eh="f78bfb71" />
+        <e k="usedplus_admin_btn_discovery_status" v="[EN] Disc Status" eh="bce3ddd2" />
+        <e k="usedplus_admin_btn_spawn_lemon" v="[EN] Spawn Lemon" eh="13d3e048" />
+        <e k="usedplus_admin_btn_spawn_workhorse" v="[EN] Workhorse" eh="50cf5190" />
+        <e k="usedplus_admin_btn_spawn_damaged" v="[EN] Damaged" eh="f7bd791a" />
+        <e k="usedplus_admin_btn_paint_pristine" v="[EN] Pristine" eh="96af3470" />
+        <e k="usedplus_admin_btn_paint_worn" v="[EN] Worn" eh="36cc503e" />
+        <e k="usedplus_admin_btn_paint_beaten" v="[EN] Beaten" eh="866731dc" />
+        <e k="usedplus_admin_btn_paint_destroyed" v="[EN] Destroyed" eh="aefbd059" />
+        <e k="usedplus_admin_btn_add_10k" v="[EN] +$10,000" eh="3ca6f66c" />
+        <e k="usedplus_admin_btn_add_100k" v="[EN] +$100,000" eh="860860a5" />
+        <e k="usedplus_admin_btn_add_1m" v="[EN] +$1,000,000" eh="8946b435" />
+        <e k="usedplus_admin_btn_set_zero" v="[EN] Set $0" eh="ca8864ed" />
+        <e k="usedplus_admin_btn_list_deals" v="[EN] List Deals" eh="936e496b" />
+        <e k="usedplus_admin_btn_payoff_all" v="[EN] Pay Off All" eh="3817edc8" />
+        <e k="usedplus_admin_btn_create_loan" v="[EN] Test Loan" eh="06cb7221" />
+        <e k="usedplus_admin_btn_create_lease" v="[EN] Test Lease" eh="d653ef32" />
+        <e k="usedplus_admin_btn_missed_payment" v="[EN] Miss Payment" eh="4890557c" />
+        <e k="usedplus_admin_btn_dlg_loan" v="[EN] Take Loan" eh="40fe67fa" />
+        <e k="usedplus_admin_btn_dlg_approved" v="[EN] Approved" eh="6f806341" />
+        <e k="usedplus_admin_btn_dlg_credit" v="[EN] Credit" eh="0a90b1bc" />
+        <e k="usedplus_admin_btn_dlg_history" v="[EN] History" eh="16d2b386" />
+        <e k="usedplus_admin_btn_dlg_repo" v="[EN] Repo" eh="0f74adf1" />
+        <e k="usedplus_admin_btn_dlg_search" v="[EN] Search" eh="13348442" />
+        <e k="usedplus_admin_btn_dlg_purchase" v="[EN] Purchase" eh="76b6a47a" />
+        <e k="usedplus_admin_btn_dlg_negotiate" v="[EN] Negotiate" eh="e481ddec" />
+        <e k="usedplus_admin_btn_dlg_seller" v="[EN] Seller Resp" eh="8ff31b45" />
+        <e k="usedplus_admin_btn_dlg_obd" v="[EN] OBD" eh="9971dd97" />
+        <e k="usedplus_admin_btn_dlg_service" v="[EN] Svc Truck" eh="083ff302" />
+        <e k="usedplus_admin_btn_dlg_inspect" v="[EN] Inspect" eh="35a9dbe6" />
+        <e k="usedplus_admin_btn_dlg_lease_end" v="[EN] Lease End" eh="da7801f1" />
+        <e k="usedplus_admin_btn_dlg_lease_renew" v="[EN] Lease Renew" eh="7a794930" />
+        <e k="usedplus_admin_btn_toggle_debug" v="[EN] Toggle Debug" eh="e69cb6a0" />
+        <e k="usedplus_admin_btn_rel_100" v="[EN] Rel: 100%" eh="dfdb79d3" />
+        <e k="usedplus_admin_btn_rel_50" v="[EN] Rel: 50%" eh="9ce7a0a2" />
+        <e k="usedplus_admin_btn_rel_10" v="[EN] Rel: 10%" eh="54d6e770" />
+        <e k="usedplus_admin_btn_reset_hours" v="[EN] Reset Hours" eh="a519e5e1" />
+        <e k="usedplus_admin_btn_add_hours" v="[EN] +1000 Hours" eh="ef05132d" />
+        <e k="usedplus_admin_btn_dna_desperate" v="[EN] Desperate" eh="97df4642" />
+        <e k="usedplus_admin_btn_dna_reasonable" v="[EN] Reasonable" eh="e485c034" />
+        <e k="usedplus_admin_btn_dna_immovable" v="[EN] Immovable" eh="57d0e57c" />
+        <e k="usedplus_admin_btn_next_vehicle" v="[EN] Next Vehicle" eh="e95e97fa" />
+        <e k="usedplus_admin_btn_prev_vehicle" v="[EN] Prev Vehicle" eh="69b3a0d0" />
+        <e k="usedplus_admin_current_balance" v="[EN] Current Balance:" eh="473e7f9e" />
+        <e k="usedplus_admin_current_credit" v="[EN] Credit Score:" eh="0199e1a3" />
+        <e k="usedplus_admin_status_ready" v="[EN] Ready. Select an action." eh="1ef35a42" /></elements>
+</l10n>

@@ -61,6 +61,9 @@ end
 function PaymentHistoryDialog:onCreate()
     UsedPlus.logInfo("PaymentHistoryDialog:onCreate called")
 
+    -- Cache icon paths for status indicators
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
     -- Cache row elements
     for i = 0, PaymentHistoryDialog.MAX_ROWS - 1 do
         local rowId = "paymentRow" .. i
@@ -72,6 +75,7 @@ function PaymentHistoryDialog:onCreate()
             principal = self[rowId .. "Principal"],
             interest = self[rowId .. "Interest"],
             balance = self[rowId .. "Balance"],
+            icon = self[rowId .. "Icon"],
             status = self[rowId .. "Status"]
         }
 
@@ -286,6 +290,18 @@ function PaymentHistoryDialog:updatePaymentRows()
                     end
                 else
                     UsedPlus.logInfo(string.format("PaymentHistoryDialog - Row %d: status element NOT FOUND", i))
+                end
+
+                -- Set status icon based on payment status (v2.8.0)
+                local iconEl = row.icon or self["paymentRow" .. i .. "Icon"]
+                if iconEl and self.iconDir then
+                    if entry.status == "PAID" then
+                        iconEl:setImageFilename(self.iconDir .. "status_good.png")
+                    elseif entry.status == "DUE" then
+                        iconEl:setImageFilename(self.iconDir .. "calendar.png")
+                    else
+                        iconEl:setImageFilename(self.iconDir .. "status_pending.png")
+                    end
                 end
 
                 -- Highlight current/due payment row

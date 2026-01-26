@@ -212,7 +212,8 @@
                 <!-- Section Header -->
                 <GuiElement position="0px 435px" size="600px 40px">
                     <Bitmap profile="baseReference" imageColor="0.2 0.35 0.5 1" size="600px 40px"/>
-                    <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_sectionFinances" position="12px 10px" textSize="18px" textBold="true" textColor="1 1 1 1"/>
+                    <Bitmap profile="iconProfile24" id="financeSectionIcon" position="10px 8px"/>
+                    <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_sectionFinances" position="40px 10px" textSize="18px" textBold="true" textColor="1 1 1 1"/>
                 </GuiElement>
             </GuiElement>
 
@@ -243,7 +244,8 @@
                     <!-- Search Table Section Header -->
                     <GuiElement position="0px 145px" size="500px 25px">
                         <Bitmap profile="baseReference" imageColor="0.18 0.18 0.18 1" size="500px 25px"/>
-                        <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_usedVehicleSearches" position="8px 5px" textSize="13px" textBold="true" textColor="0.9 0.7 0.4 1"/>
+                        <Bitmap profile="iconProfile20" id="searchSectionIcon" position="6px 3px"/>
+                        <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_usedVehicleSearches" position="30px 5px" textSize="13px" textBold="true" textColor="0.9 0.7 0.4 1"/>
                         <Text profile="fs25_textDefault" id="searchesCountText" text="" position="440px 5px" textSize="12px" textColor="0.6 0.6 0.6 1"/>
                     </GuiElement>
 
@@ -367,7 +369,8 @@
                     <!-- Sale Listings Header -->
                     <GuiElement position="0px 100px" size="500px 25px">
                         <Bitmap profile="baseReference" imageColor="0.15 0.35 0.15 1" size="500px 25px"/>
-                        <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_vehiclesForSale" position="8px 5px" textSize="13px" textBold="true" textColor="0.8 1 0.8 1"/>
+                        <Bitmap profile="iconProfile20" id="saleSectionIcon" position="6px 3px"/>
+                        <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_vehiclesForSale" position="30px 5px" textSize="13px" textBold="true" textColor="0.8 1 0.8 1"/>
                         <Text profile="fs25_textDefault" id="saleListingsCountText" text="" position="440px 5px" textSize="12px" textColor="0.6 0.6 0.6 1"/>
                     </GuiElement>
 
@@ -472,7 +475,8 @@
                 <!-- TOP: Section Header - Used Marketplace -->
                 <GuiElement position="0px 435px" size="500px 40px">
                     <Bitmap profile="baseReference" imageColor="0.4 0.3 0.15 1" size="500px 40px"/>
-                    <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_sectionMarketplace" position="12px 10px" textSize="20px" textBold="true" textColor="1 1 1 1"/>
+                    <Bitmap profile="iconProfile24" id="marketplaceSectionIcon" position="10px 8px"/>
+                    <Text profile="fs25_textDefault" text="$l10n_usedplus_fmf_sectionMarketplace" position="40px 10px" textSize="20px" textBold="true" textColor="1 1 1 1"/>
                 </GuiElement>
             </GuiElement>
 
@@ -565,7 +569,8 @@
                 <!-- Section Header (text changes when credit system disabled) -->
                 <GuiElement position="0px 435px" size="510px 40px">
                     <Bitmap profile="baseReference" imageColor="0.25 0.4 0.25 1" size="510px 40px"/>
-                    <Text profile="fs25_textDefault" id="statsSectionHeaderText" text="$l10n_usedplus_fmf_sectionCredit" position="12px 10px" textSize="20px" textBold="true" textColor="1 1 1 1"/>
+                    <Bitmap profile="iconProfile24" id="creditSectionIcon" position="10px 8px"/>
+                    <Text profile="fs25_textDefault" id="statsSectionHeaderText" text="$l10n_usedplus_fmf_sectionCredit" position="40px 10px" textSize="20px" textBold="true" textColor="1 1 1 1"/>
                 </GuiElement>
             </GuiElement>
 
@@ -574,6 +579,25 @@
     </GuiElement>
 
     <GUIProfiles>
+        <!-- ========== ICON PROFILES ========== -->
+        <!-- Small inline (status badges) - 20px -->
+        <Profile name="iconProfile20" extends="baseReference">
+            <size value="20px 20px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- Medium (section headers) - 24px -->
+        <Profile name="iconProfile24" extends="baseReference">
+            <size value="24px 24px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
+        <!-- Large (hero displays) - 40px -->
+        <Profile name="iconProfile40" extends="baseReference">
+            <size value="40px 40px"/>
+            <imageSliceId value="noSlice"/>
+        </Profile>
+
         <!-- ========== FINANCE ACTION BUTTON PROFILES ========== -->
         <!-- Simple approach: all elements use default anchor (TopLeft), explicit sizes -->
         <!-- Text uses textAlignment="center" with full width to center the label -->

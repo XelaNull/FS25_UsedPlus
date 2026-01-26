@@ -4,7 +4,9 @@
 
 > **Stop playing with Monopoly money.** Start making real financial decisions.
 
-**v2.9.1** | FS25 | Multiplayer Ready | 10 Languages
+**v2.9.5** | FS25 | Multiplayer Ready | 15 Languages
+
+[GitHub](https://github.com/XelaNull/FS25_UsedPlus) | [Report Issues](https://github.com/XelaNull/FS25_UsedPlus/issues)
 
 ---
 
@@ -48,14 +50,15 @@ This isn't "feature soup" - it's an **economic simulation** where your decisions
 
 | Metric | Value |
 |--------|-------|
-| Lines of Code | ~87,000 |
-| Source Files | 83 Lua + 48 XML |
-| Custom Dialogs | 38 |
-| Network Event Systems | 10 |
-| Console Commands | 18 |
+| Lines of Code | ~77,000 |
+| Source Files | 113 Lua + 45 XML |
+| Custom Dialogs | 41 |
+| Network Event Systems | 12 |
+| Console Commands | 22 |
+| Localization Keys | 1,944 |
 | Inspector Quotes | 50 unique (5 per DNA tier) |
 | Malfunctions | 15+ types |
-| Languages | 10 (fully translated) |
+| Languages | 15 (fully translated) |
 | Development | 3 months (Nov 2025 - Jan 2026) |
 
 ### The Story
@@ -430,6 +433,34 @@ Retreads are cheap but risky. Quality tires cost more but last longer and grip b
 
 ---
 
+## Supported Languages
+
+UsedPlus is fully translated into **15 languages**:
+
+| Language | Code | Status |
+|----------|------|--------|
+| English | en | Complete (primary) |
+| German | de | Complete |
+| French | fr | Complete |
+| Spanish | es | Complete |
+| Italian | it | Complete |
+| Portuguese (Brazil) | br | Complete |
+| Portuguese (Portugal) | pt | Complete |
+| Polish | pl | Complete |
+| Czech | cz | Complete |
+| Russian | ru | Complete |
+| Ukrainian | uk | Complete |
+| Dutch | nl | Complete |
+| Hungarian | hu | Complete |
+| Turkish | tr | Complete |
+| Japanese | jp | Complete |
+
+This matches or exceeds the language support of other major FS25 mods like Courseplay.
+
+**Translation Contributions Welcome!** If you notice any translation issues or want to help improve localization, please submit feedback on [GitHub](https://github.com/XelaNull/FS25_UsedPlus).
+
+---
+
 ## Installation
 
 1. Download `FS25_UsedPlus.zip`
@@ -644,7 +675,7 @@ Built on the shoulders of giants:
 
 ---
 
-**v2.9.0** | See [CHANGELOG.md](CHANGELOG.md) for version history
+**v2.9.5** | See [CHANGELOG.md](CHANGELOG.md) for version history
 
 ---
 

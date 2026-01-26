@@ -54,6 +54,20 @@ end
 ]]
 function LoanApprovedDialog:onCreate()
     LoanApprovedDialog:superClass().onCreate(self)
+
+    -- Store icon directory for later use
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+end
+
+--[[
+    Setup header icon - must be called after elements are bound
+]]
+function LoanApprovedDialog:setupHeaderIcon()
+    -- Get the header icon element
+    local headerIcon = self.dialogElement:getDescendantById("headerIcon")
+    if headerIcon ~= nil then
+        headerIcon:setImageFilename(self.iconDir .. "status_good.png")
+    end
 end
 
 --[[
@@ -68,6 +82,9 @@ end
 ]]
 function LoanApprovedDialog:onOpen()
     LoanApprovedDialog:superClass().onOpen(self)
+
+    -- Setup header icon (green checkmark for success)
+    self:setupHeaderIcon()
 
     UsedPlus.logDebug("LoanApprovedDialog:onOpen called, loanDetails=" .. tostring(self.loanDetails ~= nil))
 

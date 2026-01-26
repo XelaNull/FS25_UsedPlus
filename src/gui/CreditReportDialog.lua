@@ -56,6 +56,51 @@ function CreditReportDialog.isCreditSystemEnabled()
 end
 
 --[[
+    v2.9.5: Initialize icon paths on dialog creation
+]]
+function CreditReportDialog:onCreate()
+    CreditReportDialog:superClass().onCreate(self)
+
+    -- Store icon directory for icons
+    self.iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+end
+
+--[[
+    v2.9.5: Setup section header icons
+    Icons are set via Lua because XML paths don't work from ZIP mods
+]]
+function CreditReportDialog:setupSectionIcons()
+    if self.iconDir == nil then
+        return
+    end
+
+    -- Credit Score section - gold star
+    if self.scoreHeaderIcon ~= nil then
+        self.scoreHeaderIcon:setImageFilename(self.iconDir .. "credit_score.png")
+    end
+
+    -- Factors section - percentage
+    if self.factorsHeaderIcon ~= nil then
+        self.factorsHeaderIcon:setImageFilename(self.iconDir .. "percentage.png")
+    end
+
+    -- Tips section - lightbulb
+    if self.tipsHeaderIcon ~= nil then
+        self.tipsHeaderIcon:setImageFilename(self.iconDir .. "lightbulb.png")
+    end
+
+    -- Account Summary section - finance
+    if self.accountHeaderIcon ~= nil then
+        self.accountHeaderIcon:setImageFilename(self.iconDir .. "finance.png")
+    end
+
+    -- Payment History section - calendar
+    if self.paymentHeaderIcon ~= nil then
+        self.paymentHeaderIcon:setImageFilename(self.iconDir .. "calendar.png")
+    end
+end
+
+--[[
     Bind all GUI elements by ID
     Called once when dialog first opens to cache element references
 ]]
@@ -76,6 +121,16 @@ function CreditReportDialog:bindElements()
     -- Header elements
     self.farmNameText = getElement("farmNameText")
     self.reportDateText = getElement("reportDateText")
+
+    -- v2.9.5: Trend icon element
+    self.trendIcon = getElement("trendIcon")
+
+    -- v2.9.5: Section header icons
+    self.scoreHeaderIcon = getElement("scoreHeaderIcon")
+    self.factorsHeaderIcon = getElement("factorsHeaderIcon")
+    self.tipsHeaderIcon = getElement("tipsHeaderIcon")
+    self.accountHeaderIcon = getElement("accountHeaderIcon")
+    self.paymentHeaderIcon = getElement("paymentHeaderIcon")
 
     -- Containers for visibility toggle
     self.creditContentContainer = getElement("creditContentContainer")
@@ -133,6 +188,9 @@ function CreditReportDialog:onOpen()
 
     -- Bind elements on first open
     self:bindElements()
+
+    -- v2.9.5: Setup section header icons (after elements are bound)
+    self:setupSectionIcons()
 
     -- v2.0.0: Check if credit system is enabled
     local creditEnabled = CreditReportDialog.isCreditSystemEnabled()
@@ -245,6 +303,7 @@ end
 
 --[[
      Update score trend based on PaymentTracker history
+     v2.9.5: Uses icon-based trend indicators instead of Unicode arrows
 ]]
 function CreditReportDialog:updateScoreTrend()
     if not self.scoreTrendText then
@@ -253,6 +312,7 @@ function CreditReportDialog:updateScoreTrend()
 
     local trendText = "No History"
     local trendColor = {0.6, 0.6, 0.6, 1}
+    local trendIconFile = "trend_flat.png"  -- Default icon
 
     if PaymentTracker then
         local stats = PaymentTracker.getStats(self.farmId)
@@ -262,26 +322,38 @@ function CreditReportDialog:updateScoreTrend()
             local streak = stats.currentStreak or 0
 
             if streak >= 6 and onTimeRate >= 0.95 then
-                trendText = "▲▲ Excellent - Strong upward trend"
+                trendText = "Excellent - Strong Growth"
                 trendColor = {0.2, 0.9, 0.3, 1}
+                trendIconFile = "trend_up.png"
             elseif streak >= 3 and onTimeRate >= 0.85 then
-                trendText = "▲ Good - Positive momentum"
+                trendText = "Good - Positive Momentum"
                 trendColor = {0.5, 0.9, 0.4, 1}
+                trendIconFile = "trend_up.png"
             elseif onTimeRate >= 0.70 then
-                trendText = "→ Stable - Maintaining"
+                trendText = "Stable - Maintaining"
                 trendColor = {0.8, 0.8, 0.4, 1}
+                trendIconFile = "trend_flat.png"
             elseif onTimeRate >= 0.50 then
-                trendText = "▼ Declining - Needs attention"
+                trendText = "Declining - Needs Attention"
                 trendColor = {1, 0.6, 0.3, 1}
+                trendIconFile = "trend_down.png"
             else
-                trendText = "▼▼ Poor - Immediate action needed"
+                trendText = "Poor - Immediate Action Needed"
                 trendColor = {1, 0.3, 0.3, 1}
+                trendIconFile = "trend_down.png"
             end
         end
     end
 
+    -- Update text
     self.scoreTrendText:setText(trendText)
     self.scoreTrendText:setTextColor(unpack(trendColor))
+
+    -- v2.9.5: Update trend icon
+    if self.trendIcon ~= nil and self.iconDir ~= nil then
+        self.trendIcon:setImageFilename(self.iconDir .. trendIconFile)
+        self.trendIcon:setVisible(true)
+    end
 end
 
 --[[

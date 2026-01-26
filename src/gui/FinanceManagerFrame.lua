@@ -106,6 +106,9 @@ end
 function FinanceManagerFrame:onGuiSetupFinished()
     FinanceManagerFrame:superClass().onGuiSetupFinished(self)
 
+    -- Set up section header icons
+    self:setupSectionIcons()
+
     -- Cache references to finance row elements
     for i = 0, FinanceManagerFrame.MAX_FINANCE_ROWS - 1 do
         local rowId = "financeRow" .. i
@@ -256,6 +259,39 @@ function FinanceManagerFrame:onActionButtonFocusLeave(buttonName)
         btnData.bg:setImageColor(nil, unpack(btnData.disabledBgColor))
     else
         btnData.bg:setImageColor(nil, unpack(btnData.enabledBgColor))
+    end
+end
+
+--[[
+    Set up section header icons (v2.8.0)
+    Icons must be set via Lua - XML paths don't work from ZIP mods
+]]
+function FinanceManagerFrame:setupSectionIcons()
+    local iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
+
+    -- Finance section (left column) - dollar sign
+    if self.financeSectionIcon ~= nil then
+        self.financeSectionIcon:setImageFilename(iconDir .. "finance.png")
+    end
+
+    -- Marketplace section (center column) - search magnifying glass
+    if self.marketplaceSectionIcon ~= nil then
+        self.marketplaceSectionIcon:setImageFilename(iconDir .. "search.png")
+    end
+
+    -- Credit/Stats section (right column) - credit score star
+    if self.creditSectionIcon ~= nil then
+        self.creditSectionIcon:setImageFilename(iconDir .. "credit_score.png")
+    end
+
+    -- Vehicles For Sale subsection - sale tag
+    if self.saleSectionIcon ~= nil then
+        self.saleSectionIcon:setImageFilename(iconDir .. "sale.png")
+    end
+
+    -- Used Vehicle Searches subsection - inspect/eye icon
+    if self.searchSectionIcon ~= nil then
+        self.searchSectionIcon:setImageFilename(iconDir .. "inspect.png")
     end
 end
 
@@ -476,14 +512,17 @@ function FinanceManagerFrame:updateStatsSection(farmId, farm)
         end
     end
     if self.lifetimeSavingsText then
-        -- Calculate combined "Marketplace Value" - total benefit from using the agent system
-        local totalValue = (stats.totalSavingsFromUsed or 0)      -- Buying used vs new price
-                         + (stats.totalNegotiationSavings or 0)   -- Negotiating price down
-                         + (stats.totalSavingsFromLand or 0)      -- Credit discounts on land
-                         + (stats.totalSaleProceeds or 0)         -- Gross sale proceeds
-                         - (stats.totalAgentCommissions or 0)     -- Commissions paid
-                         - (stats.totalSearchFees or 0)           -- Search fees paid
-                         - (stats.totalInspectionFees or 0)       -- Inspection fees paid
+        -- Calculate combined "Marketplace Value" - net benefit from using the marketplace
+        -- Only includes actual value creation (savings), minus fees paid
+        -- Note: totalSaleProceeds excluded - selling converts asset to cash, doesn't create value
+        -- Note: totalAgentCommissions excluded - already factored into savings calculations
+        local totalValue = math.max(0,
+            (stats.totalSavingsFromUsed or 0)        -- Buying used vs new price
+          + (stats.totalNegotiationSavings or 0)     -- Negotiating price down
+          + (stats.totalSavingsFromLand or 0)        -- Credit discounts on land
+          - (stats.totalSearchFees or 0)             -- Search fees paid
+          - (stats.totalInspectionFees or 0)         -- Inspection fees paid
+        )
         self.lifetimeSavingsText:setText(g_i18n:formatMoney(totalValue, 0, true, true))
     end
 
