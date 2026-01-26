@@ -7,7 +7,7 @@
     -->
 
     <author>UsedPlus Team</author>
-    <version>2.9.0.0</version>
+    <version>2.9.2.0</version>
 
     <title>
         <en>UsedPlus - Finance &amp; Marketplace System</en>
@@ -112,8 +112,11 @@ Siehe CHANGELOG.md für Versionshistorie.
         <action name="USEDPLUS_OPEN_FINANCE_MANAGER" category="ONFOOT VEHICLE" axisType="HALF"/>
         <action name="USEDPLUS_SEARCH_USED" category="MENU" axisType="HALF"/>
         <action name="USEDPLUS_INSPECT_VEHICLE" category="MENU" axisType="HALF"/>
-        <action name="USEDPLUS_ACTIVATE_OBD" category="ONFOOT" axisType="HALF"/>
+        <action name="USEDPLUS_ACTIVATE_OBD"/>
         <action name="USEDPLUS_TIRES" category="MENU" axisType="HALF"/>
+        <!-- TEMPORARILY DISABLED for OBD debug
+        <action name="USEDPLUS_SERVICE_TRUCK" category="VEHICLE" axisType="HALF"/>
+        -->
     </actions>
 
     <inputBinding>
@@ -132,6 +135,11 @@ Siehe CHANGELOG.md für Versionshistorie.
         <actionBinding action="USEDPLUS_TIRES">
             <binding device="KB_MOUSE_DEFAULT" input="KEY_t"/>
         </actionBinding>
+        <!-- TEMPORARILY DISABLED for OBD debug
+        <actionBinding action="USEDPLUS_SERVICE_TRUCK">
+            <binding device="KB_MOUSE_DEFAULT" input="KEY_r"/>
+        </actionBinding>
+        -->
     </inputBinding>
 
     <!--
@@ -300,7 +308,9 @@ Siehe CHANGELOG.md für Versionshistorie.
     <!-- Vehicle Specializations - Hand Tools & Service Vehicles -->
     <specializations>
         <specialization name="FieldServiceKit" className="FieldServiceKit" filename="vehicles/FieldServiceKit.lua"/>
+        <!-- TEMPORARILY DISABLED for OBD debug
         <specialization name="ServiceTruck" className="ServiceTruck" filename="vehicles/ServiceTruck.lua"/>
+        -->
     </specializations>
 
     <!-- Vehicle Types - Portable Tools & Service Vehicles -->
@@ -332,7 +342,7 @@ Siehe CHANGELOG.md für Versionshistorie.
     <storeItems>
         <storeItem xmlFilename="placeables/OilTank.xml"/>
         <storeItem xmlFilename="vehicles/fieldServiceKit/fieldServiceKit.xml"/>  <!--  v1.8.0: Field Service Kit -->
-        <storeItem xmlFilename="vehicles/serviceTruck/serviceTruck.xml"/>        <!--  v2.9.0: Service Truck -->
-        <storeItem xmlFilename="vehicles/sparePartsPallet/sparePartsPallet.xml"/> <!--  v2.9.0: Spare Parts Pallet -->
+        <storeItem xmlFilename="vehicles/serviceTruck/serviceTruck.xml"/>  <!--  v2.9.0: Service Truck -->
+        <storeItem xmlFilename="vehicles/sparePartsPallet/sparePartsPallet.xml"/>  <!--  v2.9.0: Spare Parts Pallet -->
     </storeItems>
 </modDesc>
