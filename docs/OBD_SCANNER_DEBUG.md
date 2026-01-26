@@ -1,17 +1,19 @@
 # OBD Scanner Keybind Bug - Debug Log
 
 **Created:** 2026-01-25
-**Status:** 🔄 IN PROGRESS (v2.0.7)
+**Status:** ✅ RESOLVED (v2.0.7)
 
 ## Solution Summary
 
-**Root Cause:** Using `registerActionEvent()` combined with `inputBinding` in modDesc.xml creates DUPLICATE action events. The game creates one from the inputBinding (visible, no callback), and we create another from registerActionEvent (has callback, not visible properly). Result: double keybind display, callback never fires.
+**Root Cause:** Using `registerActionEvent()` combined with `inputBinding` in modDesc.xml creates DUPLICATE action events WHEN done incorrectly. The naive approach creates two events - one from inputBinding (visible), one from registerActionEvent (has callback).
 
-**Fix:** Use hybrid approach:
-1. Keep `inputBinding` in modDesc.xml for visual keybind display
-2. **Remove** all `registerActionEvent()` calls
-3. Poll input directly in `onUpdate` using `g_inputBinding:getDigitalInputAxis()`
-4. Display custom prompt via `g_currentMission:addExtraPrintText()`
+**Fix:** Use RVB Pattern (Real Vehicle Breakdowns):
+1. Keep `inputBinding` in modDesc.xml for key binding
+2. Hook `PlayerInputComponent.registerActionEvents` (NOT `registerGlobalPlayerActionEvents`)
+3. Wrap registration in `beginActionEventsModification()` / `endActionEventsModification()`
+4. Use `startActive = false` and `disableConflictingBindings = true`
+5. Control display with `setActionEventText/Active/TextVisibility` in `onUpdate`
+6. Game renders `[KEY]` automatically - text should NOT include key prefix
 
 See `CLAUDE.md` section "On-Foot Input System" for reusable pattern.
 
@@ -305,19 +307,20 @@ g_inputBinding:setActionEventActive(eventId, shouldShow)
 g_inputBinding:setActionEventText(eventId, "OBD Scanner: Vehicle Name")  -- No [O] prefix
 ```
 
-**Result:** PENDING - User testing
+**Result:** ✅ SUCCESS - Single keybind, game renders [O], callback fires correctly!
 
 ---
 
 ## Key Learnings
 
-| Approach | inputBinding | registerActionEvent | Result |
-|----------|--------------|---------------------|--------|
-| Both | ✅ Yes | ✅ Yes | ❌ Double keybind |
-| inputBinding only | ✅ Yes | ❌ No | ❓ Testing (v2.0.6) |
-| registerActionEvent only | ❌ No | ✅ Yes | ❌ No keybind shows |
+| Approach | inputBinding | registerActionEvent | Modification Wrapper | Result |
+|----------|--------------|---------------------|---------------------|--------|
+| Both (naive) | ✅ Yes | ✅ Yes | ❌ No | ❌ Double keybind |
+| inputBinding only | ✅ Yes | ❌ No | N/A | ❌ Keybind works but wrong UX (manual [O]) |
+| registerActionEvent only | ❌ No | ✅ Yes | ❌ No | ❌ No keybind shows |
+| **RVB Pattern** | ✅ Yes | ✅ Yes | ✅ Yes | ✅ **WORKS!** |
 
-**The problem:** FS25 creates an action event from `inputBinding` automatically. When we call `registerActionEvent` on the same action, it creates a SECOND event. Both display, hence double keybind.
+**The key insight:** FS25 creates an action event from `inputBinding` automatically. When we call `registerActionEvent` on the same action, it creates a SECOND event. Both display, hence double keybind.
 
 **Why CutOpenBale works but we don't:** Unknown. Possibly:
 - Different mod load order
