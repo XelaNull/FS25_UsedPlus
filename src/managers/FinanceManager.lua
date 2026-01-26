@@ -74,6 +74,11 @@ function FinanceManager:getStatistics(farmId)
             salesCompleted = 0,
             salesCancelled = 0,
             totalSaleProceeds = 0,
+            totalAgentCommissions = 0,  -- Commission paid to agents on sales
+
+            -- Land purchase statistics
+            totalSavingsFromLand = 0,   -- Credit discount savings on land purchases
+            landPurchases = 0,          -- Count of land purchases
 
             -- Finance deal statistics (lifetime, not just active)
             dealsCreated = 0,
@@ -833,6 +838,9 @@ function FinanceManager:saveToXMLFile(missionInfo)
             xmlFile:setInt(statsKey .. "#salesCompleted", stats.salesCompleted or 0)
             xmlFile:setInt(statsKey .. "#salesCancelled", stats.salesCancelled or 0)
             xmlFile:setFloat(statsKey .. "#totalSaleProceeds", stats.totalSaleProceeds or 0)
+            xmlFile:setFloat(statsKey .. "#totalAgentCommissions", stats.totalAgentCommissions or 0)
+            xmlFile:setFloat(statsKey .. "#totalSavingsFromLand", stats.totalSavingsFromLand or 0)
+            xmlFile:setInt(statsKey .. "#landPurchases", stats.landPurchases or 0)
             xmlFile:setInt(statsKey .. "#dealsCreated", stats.dealsCreated or 0)
             xmlFile:setInt(statsKey .. "#dealsCompleted", stats.dealsCompleted or 0)
             xmlFile:setFloat(statsKey .. "#totalAmountFinanced", stats.totalAmountFinanced or 0)
@@ -953,6 +961,9 @@ function FinanceManager:loadFromXMLFile(missionInfo)
                 stats.salesCompleted = xmlFile:getInt(statsKey .. "#salesCompleted", 0)
                 stats.salesCancelled = xmlFile:getInt(statsKey .. "#salesCancelled", 0)
                 stats.totalSaleProceeds = xmlFile:getFloat(statsKey .. "#totalSaleProceeds", 0)
+                stats.totalAgentCommissions = xmlFile:getFloat(statsKey .. "#totalAgentCommissions", 0)
+                stats.totalSavingsFromLand = xmlFile:getFloat(statsKey .. "#totalSavingsFromLand", 0)
+                stats.landPurchases = xmlFile:getInt(statsKey .. "#landPurchases", 0)
                 stats.dealsCreated = xmlFile:getInt(statsKey .. "#dealsCreated", 0)
                 stats.dealsCompleted = xmlFile:getInt(statsKey .. "#dealsCompleted", 0)
                 stats.totalAmountFinanced = xmlFile:getFloat(statsKey .. "#totalAmountFinanced", 0)

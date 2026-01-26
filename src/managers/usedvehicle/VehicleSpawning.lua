@@ -121,8 +121,14 @@ function UsedVehicleManager:purchaseUsedVehicle(listing, farmId)
 
         -- Track statistics
         if g_financeManager then
-            g_financeManager:incrementStatistic(farmId, "usedVehiclesPurchased", 1)
-            g_financeManager:incrementStatistic(farmId, "totalUsedVehicleSpent", listing.price)
+            g_financeManager:incrementStatistic(farmId, "usedPurchases", 1)
+            -- Calculate and track savings from buying used (vs new price)
+            local savings = (listing.basePrice or 0) - (listing.price or 0)
+            if savings > 0 then
+                g_financeManager:incrementStatistic(farmId, "totalSavingsFromUsed", savings)
+                UsedPlus.logDebug(string.format("Tracked used vehicle savings: $%.0f (base $%.0f - paid $%.0f)",
+                    savings, listing.basePrice or 0, listing.price or 0))
+            end
         end
 
         -- Use addGameNotification (pattern from BuyUsedEquipment)

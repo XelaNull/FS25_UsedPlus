@@ -311,7 +311,11 @@ function UsedVehicleManager:completePurchaseFromSearch(search, listing, farmId)
 
         if g_financeManager then
             g_financeManager:incrementStatistic(farmId, "searchesSucceeded", 1)
-            g_financeManager:incrementStatistic(farmId, "commissionsPaid", listing.commissionAmount or 0)
+            -- Note: usedPurchases and totalSavingsFromUsed are tracked in purchaseUsedVehicle
+            -- Only track commission here since it's search-specific
+            if listing.commissionAmount and listing.commissionAmount > 0 then
+                g_financeManager:incrementStatistic(farmId, "totalAgentCommissions", listing.commissionAmount)
+            end
         end
 
         g_currentMission:addIngameNotification(
