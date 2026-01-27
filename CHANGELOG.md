@@ -6,6 +6,88 @@ All notable changes to this project are documented here.
 
 ## [2.9.5] - 2026-01-26
 
+### Added - Dialog Icon System
+
+**Visual Polish: 33 Custom Icons Throughout All Dialogs**
+
+Implemented a comprehensive icon system to add visual polish to all dialogs.
+
+**Field Service Kit Icons (4)**
+| Icon | File | Usage |
+|------|------|-------|
+| <img src="gui/icons/fsk_repair.png" width="32"> | `fsk_repair.png` | Repair action |
+| <img src="gui/icons/fsk_warning.png" width="32"> | `fsk_warning.png` | Warning indicator |
+| <img src="gui/icons/fsk_tire.png" width="32"> | `fsk_tire.png` | Tire service |
+| <img src="gui/icons/fsk_diagnostics.png" width="32"> | `fsk_diagnostics.png` | OBD diagnostics |
+
+**Core Dialog Icons (4)**
+| Icon | File | Usage |
+|------|------|-------|
+| <img src="gui/icons/search.png" width="32"> | `search.png` | Search dialogs, Used Marketplace |
+| <img src="gui/icons/inspect.png" width="32"> | `inspect.png` | Inspection reports |
+| <img src="gui/icons/finance.png" width="32"> | `finance.png` | Finance/loan sections |
+| <img src="gui/icons/loan_doc.png" width="32"> | `loan_doc.png` | Loan/deal details |
+
+**Vehicle & Mechanical System Icons (5)**
+| Icon | File | Usage |
+|------|------|-------|
+| <img src="gui/icons/vehicle.png" width="32"> | `vehicle.png` | Vehicle info sections |
+| <img src="gui/icons/sys_engine.png" width="32"> | `sys_engine.png` | Engine system |
+| <img src="gui/icons/sys_electrical.png" width="32"> | `sys_electrical.png` | Electrical system |
+| <img src="gui/icons/sys_hydraulic.png" width="32"> | `sys_hydraulic.png` | Hydraulic system |
+| <img src="gui/icons/collateral.png" width="32"> | `collateral.png` | Collateral display |
+
+**Status Indicators (3)**
+| Icon | File | Usage |
+|------|------|-------|
+| <img src="gui/icons/status_good.png" width="32"> | `status_good.png` | Good/approved status |
+| <img src="gui/icons/status_bad.png" width="32"> | `status_bad.png` | Bad/rejected status |
+| <img src="gui/icons/status_pending.png" width="32"> | `status_pending.png` | Pending/in-progress |
+
+**Trend Indicators (3)**
+| Icon | File | Usage |
+|------|------|-------|
+| <img src="gui/icons/trend_up.png" width="32"> | `trend_up.png` | Improving trend |
+| <img src="gui/icons/trend_down.png" width="32"> | `trend_down.png` | Declining trend |
+| <img src="gui/icons/trend_flat.png" width="32"> | `trend_flat.png` | Stable trend |
+
+**Financial & Transaction Icons (9)**
+| Icon | File | Usage |
+|------|------|-------|
+| <img src="gui/icons/cash.png" width="32"> | `cash.png` | Cash payment |
+| <img src="gui/icons/lease.png" width="32"> | `lease.png` | Lease option |
+| <img src="gui/icons/trade_in.png" width="32"> | `trade_in.png` | Trade-in sections |
+| <img src="gui/icons/sale.png" width="32"> | `sale.png` | Sale listings |
+| <img src="gui/icons/credit_score.png" width="32"> | `credit_score.png` | Credit score display |
+| <img src="gui/icons/calendar.png" width="32"> | `calendar.png` | Payment schedule |
+| <img src="gui/icons/percentage.png" width="32"> | `percentage.png` | Interest/rates |
+| <img src="gui/icons/offer.png" width="32"> | `offer.png` | Offers/negotiation |
+| <img src="gui/icons/handshake.png" width="32"> | `handshake.png` | Deal completion |
+
+**Agent & UI Icons (5)**
+| Icon | File | Usage |
+|------|------|-------|
+| <img src="gui/icons/agent.png" width="32"> | `agent.png` | Agent/mechanic sections |
+| <img src="gui/icons/quality_star.png" width="32"> | `quality_star.png` | Quality selection |
+| <img src="gui/icons/lightbulb.png" width="32"> | `lightbulb.png` | Recommendations |
+| <img src="gui/icons/timer.png" width="32"> | `timer.png` | Time/duration |
+| <img src="gui/icons/arrow_left.png" width="32"> | `arrow_left.png` | Return vehicle (leases) |
+
+**Design Principle: Icons Add Polish, Not Clutter**
+- **Small confirmation dialogs** (620px): Header icon ONLY (centered above title)
+- **Large input dialogs** (720-820px): Section icons ONLY (no header icon)
+
+| Dialog Type | Example | Icons |
+|-------------|---------|-------|
+| Small Confirmation | LoanApprovedDialog, SearchInitiatedDialog, SaleListingInitiatedDialog | Header icon only |
+| Large Input | UsedSearchDialog, UnifiedPurchaseDialog, InspectionReportDialog, DealDetailsDialog, NegotiationDialog | Section icons only |
+
+**Technical Implementation:**
+- 33 icons stored in `gui/icons/` folder (256x256 PNG)
+- Generated via `tools/generateIcons.js` using Sharp library
+- Set dynamically via Lua `setImageFilename()` (XML paths don't work in ZIP mods)
+- XML profiles use `baseReference` + `noSlice` + square size pattern
+
 ### Added - Admin Control Panel
 
 **New Feature: upAdminCP Console Command**

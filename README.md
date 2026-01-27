@@ -558,29 +558,39 @@ Retreads are cheap but risky. Quality tires cost more but last longer and grip b
 
 ## 🌍 Supported Languages
 
-UsedPlus is fully translated into **15 languages**:
+UsedPlus supports **27 languages** (matching Courseplay):
 
 | Language | Code | Status |
 |----------|------|--------|
-| English | en | Complete (primary) |
-| German | de | Complete |
-| French | fr | Complete |
-| Spanish | es | Complete |
-| Italian | it | Complete |
-| Portuguese (Brazil) | br | Complete |
-| Portuguese (Portugal) | pt | Complete |
-| Polish | pl | Complete |
-| Czech | cz | Complete |
-| Russian | ru | Complete |
-| Ukrainian | uk | Complete |
-| Dutch | nl | Complete |
-| Hungarian | hu | Complete |
-| Turkish | tr | Complete |
-| Japanese | jp | Complete |
+| English | en | ✅ Complete (primary) |
+| German | de | ✅ Complete |
+| French | fr | ✅ Complete |
+| Spanish | es | ✅ Complete |
+| Italian | it | ✅ Complete |
+| Portuguese (Brazil) | br | ✅ Complete |
+| Portuguese (Portugal) | pt | ✅ Complete |
+| Polish | pl | ✅ Complete |
+| Czech | cz | ✅ Complete |
+| Russian | ru | ✅ Complete |
+| Ukrainian | uk | ✅ Complete |
+| Dutch | nl | ✅ Complete |
+| Hungarian | hu | ✅ Complete |
+| Turkish | tr | ✅ Complete |
+| Japanese | jp | ✅ Complete |
+| Chinese Simplified | cs | 🔄 English placeholder |
+| Chinese Traditional | ct | 🔄 English placeholder |
+| Danish | da | 🔄 English placeholder |
+| Spanish (Latin America) | ea | 🔄 English placeholder |
+| French (Canadian) | fc | 🔄 English placeholder |
+| Finnish | fi | 🔄 English placeholder |
+| Indonesian | id | 🔄 English placeholder |
+| Korean | kr | 🔄 English placeholder |
+| Norwegian | no | 🔄 English placeholder |
+| Romanian | ro | 🔄 English placeholder |
+| Swedish | sv | 🔄 English placeholder |
+| Vietnamese | vi | 🔄 English placeholder |
 
-This matches or exceeds the language support of other major FS25 mods like [Courseplay](https://github.com/Courseplay/Courseplay_FS25).
-
-**Translation Contributions Welcome!** If you notice any translation issues or want to help improve localization, please submit feedback on [GitHub](https://github.com/XelaNull/FS25_UsedPlus).
+**Translation Contributions Welcome!** We have 12 languages ready for community translation. If you're a native speaker and want to help, please submit a PR on [GitHub](https://github.com/XelaNull/FS25_UsedPlus)!
 
 ---
 
