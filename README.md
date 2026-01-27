@@ -41,9 +41,6 @@ UsedPlus integrates deeply with these mods for the ultimate farming experience:
 | 💰 **EnhancedLoanSystem** | Additional loan types | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
 | 📋 **HirePurchasing** | Hire-purchase contracts | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
 | 🛒 **BuyUsedEquipment** | Alternative used market | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
-| 🤖 **Courseplay** | AI worker automation | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
-| 🚗 **AutoDrive** | Automated driving routes | [GitHub](https://github.com/Stephan-S/FS25_AutoDrive) |
-
 > **Note:** All mods are optional. UsedPlus works standalone but enhances these mods when detected.
 
 ---
@@ -705,8 +702,6 @@ Access via **ESC > Settings > UsedPlus**
 | Mod | Description | Download |
 |-----|-------------|----------|
 | **Courseplay** | AI worker automation - the gold standard | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
-| **AutoDrive** | Automated driving routes and logistics | [GitHub](https://github.com/Stephan-S/FS25_AutoDrive) |
-| **EnhancedVehicle** | Better HUD, diff locks, parking brake | [GitHub](https://github.com/ZhooL/FS25_EnhancedVehicle) |
 
 ### Known Conflicts
 
@@ -793,7 +788,6 @@ Built on the shoulders of giants:
 | **Real Vehicle Breakdowns** | Part-based failure systems | [Official](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5) |
 | **Use Your Tyres** | Per-wheel tracking patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
 | **PowerTools** (w33zl) | Hand tool patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=303451&title=fs2025) |
-| **Courseplay** | AI worker patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
 
 ### Special Thanks
 
