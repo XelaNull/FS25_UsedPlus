@@ -1,12 +1,46 @@
-# UsedPlus
+<p align="center">
+  <img src="icon.png" alt="UsedPlus Logo" width="128" height="128">
+</p>
 
-### Transform Your Farm Into a Real Business
+<h1 align="center">UsedPlus</h1>
 
-> **Stop playing with Monopoly money.** Start making real financial decisions.
+<p align="center">
+  <strong>Transform Your Farm Into a Real Business</strong><br>
+  <em>Stop playing with Monopoly money. Start making real financial decisions.</em>
+</p>
 
-**v2.9.5** | FS25 | Multiplayer Ready | 15 Languages
+<p align="center">
+  <img src="https://img.shields.io/badge/version-2.9.5-green" alt="Version">
+  <img src="https://img.shields.io/badge/game-FS25-blue" alt="FS25">
+  <img src="https://img.shields.io/badge/multiplayer-ready-brightgreen" alt="Multiplayer Ready">
+  <img src="https://img.shields.io/badge/languages-15-orange" alt="15 Languages">
+  <img src="https://img.shields.io/badge/AI--authored-Claude-purple" alt="AI Authored">
+</p>
 
-[GitHub](https://github.com/XelaNull/FS25_UsedPlus) | [Report Issues](https://github.com/XelaNull/FS25_UsedPlus/issues)
+<p align="center">
+  <a href="https://github.com/XelaNull/FS25_UsedPlus">GitHub</a> •
+  <a href="https://github.com/XelaNull/FS25_UsedPlus/issues">Report Issues</a> •
+  <a href="#installation">Installation</a> •
+  <a href="#quick-start">Quick Start</a>
+</p>
+
+---
+
+## Companion Mods
+
+UsedPlus integrates deeply with these mods for the ultimate farming experience:
+
+| Mod | What It Adds | Download |
+|-----|--------------|----------|
+| 🔧 **Real Vehicle Breakdowns** | Part failures, realistic damage | [GitHub](https://github.com/MathiasHun/FS25_Real_Vehicle_Breakdowns_Beta) *(beta)* |
+| 🛞 **Use Your Tyres** | Tire wear & replacement | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
+| 💰 **EnhancedLoanSystem** | Additional loan types | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
+| 📋 **HirePurchasing** | Hire-purchase contracts | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
+| 🛒 **BuyUsedEquipment** | Alternative used market | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
+| 🤖 **Courseplay** | AI worker automation | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
+| 🚗 **AutoDrive** | Automated driving routes | [GitHub](https://github.com/Stephan-S/FS25_AutoDrive) |
+
+> **Note:** All mods are optional. UsedPlus works standalone but enhances these mods when detected.
 
 ---
 
@@ -90,6 +124,31 @@ Every vehicle has hidden qualities. Some become legends. Some become money pits.
 ---
 
 ## Features at a Glance
+
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="gui/icons/finance.png" width="48" height="48"><br>
+<strong>Finance Everything</strong><br>
+<sub>Vehicles, land, repairs</sub>
+</td>
+<td align="center" width="25%">
+<img src="gui/icons/credit_score.png" width="48" height="48"><br>
+<strong>Credit Scoring</strong><br>
+<sub>300-850 FICO-style</sub>
+</td>
+<td align="center" width="25%">
+<img src="gui/icons/search.png" width="48" height="48"><br>
+<strong>Used Marketplace</strong><br>
+<sub>Agent-based buying/selling</sub>
+</td>
+<td align="center" width="25%">
+<img src="gui/icons/service_truck.png" width="48" height="48"><br>
+<strong>Service Truck</strong><br>
+<sub>Restore reliability ceiling</sub>
+</td>
+</tr>
+</table>
 
 ### Financial Systems
 
@@ -455,7 +514,7 @@ UsedPlus is fully translated into **15 languages**:
 | Turkish | tr | Complete |
 | Japanese | jp | Complete |
 
-This matches or exceeds the language support of other major FS25 mods like Courseplay.
+This matches or exceeds the language support of other major FS25 mods like [Courseplay](https://github.com/Courseplay/Courseplay_FS25).
 
 **Translation Contributions Welcome!** If you notice any translation issues or want to help improve localization, please submit feedback on [GitHub](https://github.com/XelaNull/FS25_UsedPlus).
 
@@ -553,19 +612,27 @@ Access via **ESC > Settings > UsedPlus**
 
 ### Deep Integrations
 
-| Mod | Integration |
-|-----|-------------|
-| **Real Vehicle Breakdowns** | DNA affects part lifetimes (0.6x-1.4x), repair/breakdown degradation |
-| **Use Your Tyres** | DNA and quality affect wear rates, per-wheel display, two-way sync |
+| Mod | Integration | Download |
+|-----|-------------|----------|
+| **Real Vehicle Breakdowns** | DNA affects part lifetimes (0.6x-1.4x), repair/breakdown degradation | [GitHub](https://github.com/MathiasHun/FS25_Real_Vehicle_Breakdowns_Beta) |
+| **Use Your Tyres** | DNA and quality affect wear rates, per-wheel display, two-way sync | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
 
 ### Works With
 
-| Mod | Integration |
-|-----|-------------|
-| **EnhancedLoanSystem** | ELS loans display in Finance Manager with "ELS" marker |
-| **HirePurchasing** | HP leases display in Finance Manager with "HP" marker |
-| **Employment** | Worker wages included in monthly obligations |
-| **BuyUsedEquipment** | UsedPlus hides Search when BUE is active |
+| Mod | Integration | Download |
+|-----|-------------|----------|
+| **EnhancedLoanSystem** | ELS loans display in Finance Manager with "ELS" marker | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
+| **HirePurchasing** | HP leases display in Finance Manager with "HP" marker | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
+| **Employment** | Worker wages included in monthly obligations | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314808&title=fs2025) |
+| **BuyUsedEquipment** | UsedPlus hides Search when BUE is active | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
+
+### Also Recommended
+
+| Mod | Description | Download |
+|-----|-------------|----------|
+| **Courseplay** | AI worker automation - the gold standard | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
+| **AutoDrive** | Automated driving routes and logistics | [GitHub](https://github.com/Stephan-S/FS25_AutoDrive) |
+| **EnhancedVehicle** | Better HUD, diff locks, parking brake | [GitHub](https://github.com/ZhooL/FS25_EnhancedVehicle) |
 
 ### Known Conflicts
 
@@ -644,12 +711,15 @@ Full documentation: [docs/mod-api.md](docs/mod-api.md)
 
 Built on the shoulders of giants:
 
-- **FS25_EnhancedLoanSystem** - Credit scoring, financial math patterns
-- **FS25_BuyUsedEquipment** - Async search, marketplace architecture
-- **FS25_HirePurchasing** - Balloon payments, data extensions
-- **MobileServiceKit** (w33zl) - Hand tool patterns
-- **Real Vehicle Breakdowns** - Part-based failure systems
-- **UseYourTyres** - Per-wheel tracking patterns
+| Mod | Patterns Learned | Download |
+|-----|------------------|----------|
+| **EnhancedLoanSystem** | Credit scoring, financial math | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
+| **BuyUsedEquipment** | Async search, marketplace architecture | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
+| **HirePurchasing** | Balloon payments, data extensions | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
+| **Real Vehicle Breakdowns** | Part-based failure systems | [GitHub](https://github.com/MathiasHun/FS25_Real_Vehicle_Breakdowns_Beta) |
+| **Use Your Tyres** | Per-wheel tracking patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
+| **PowerTools** (w33zl) | Hand tool patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=303451&title=fs2025) |
+| **Courseplay** | AI worker patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
 
 ### Special Thanks
 
