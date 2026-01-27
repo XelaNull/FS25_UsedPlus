@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/version-2.9.5-green" alt="Version">
   <img src="https://img.shields.io/badge/game-FS25-blue" alt="FS25">
   <img src="https://img.shields.io/badge/multiplayer-ready-brightgreen" alt="Multiplayer Ready">
-  <img src="https://img.shields.io/badge/languages-15-orange" alt="15 Languages">
+  <img src="https://img.shields.io/badge/languages-27-orange" alt="15 Languages">
   <img src="https://img.shields.io/badge/AI--authored-Claude-purple" alt="AI Authored">
 </p>
 
@@ -21,8 +21,12 @@
   <a href="https://github.com/XelaNull/FS25_UsedPlus">GitHub</a> •
   <a href="https://github.com/XelaNull/FS25_UsedPlus/issues">Report Issues</a> •
   <a href="#installation">Installation</a> •
-  <a href="#quick-start">Quick Start</a>
+  <a href="#-quick-start">Quick Start</a>
 </p>
+
+---
+
+> ⚠️ **STATUS: Mostly Playable** — Core features (financing, leasing, credit scoring, used marketplace, trade-ins, inspections) are fully functional. **Work in Progress:** Malfunctions system and Service Truck are still under development.
 
 ---
 
@@ -80,22 +84,60 @@ UsedPlus brings **all of that** to Farming Simulator 25 - not as separate featur
 
 This isn't "feature soup" - it's an **economic simulation** where your decisions have consequences that ripple across systems.
 
-### The Numbers
+### 📊 The Numbers
 
-| Metric | Value |
-|--------|-------|
-| Lines of Code | ~77,000 |
-| Source Files | 113 Lua + 45 XML |
-| Custom Dialogs | 41 |
-| Network Event Systems | 12 |
-| Console Commands | 22 |
-| Localization Keys | 1,944 |
-| Inspector Quotes | 50 unique (5 per DNA tier) |
-| Malfunctions | 15+ types |
-| Languages | 15 (fully translated) |
-| Development | 3 months (Nov 2025 - Jan 2026) |
+<table>
+<tr>
+<td align="center">
+<img src="gui/icons/fsk_diagnostics.png" width="32"><br>
+<strong>~65,000</strong><br>
+<sub>Lines of Code</sub>
+</td>
+<td align="center">
+<img src="gui/icons/info.png" width="32"><br>
+<strong>113 + 60</strong><br>
+<sub>Lua & XML Files</sub>
+</td>
+<td align="center">
+<img src="gui/icons/agent.png" width="32"><br>
+<strong>38</strong><br>
+<sub>Custom Dialogs</sub>
+</td>
+<td align="center">
+<img src="gui/icons/success.png" width="32"><br>
+<strong>12</strong><br>
+<sub>Network Events</sub>
+</td>
+</tr>
+<tr>
+<td align="center">
+<img src="gui/icons/timer.png" width="32"><br>
+<strong>22</strong><br>
+<sub>Console Commands</sub>
+</td>
+<td align="center">
+<img src="gui/icons/quality_star.png" width="32"><br>
+<strong>1,944</strong><br>
+<sub>Localization Keys</sub>
+</td>
+<td align="center">
+<img src="gui/icons/inspect.png" width="32"><br>
+<strong>50</strong><br>
+<sub>Inspector Quotes</sub>
+</td>
+<td align="center">
+<img src="gui/icons/fsk_warning.png" width="32"><br>
+<strong>15+</strong><br>
+<sub>Malfunction Types</sub>
+</td>
+</tr>
+</table>
 
-### The Story
+<p align="center">
+<strong>15 Languages</strong> fully translated • <strong>3 months</strong> development (Nov 2025 - Jan 2026)
+</p>
+
+### 🤖 The Story
 
 This mod was written **entirely by AI**. Every function, every dialog, every network event.
 
@@ -172,7 +214,7 @@ Every vehicle has hidden qualities. Some become legends. Some become money pits.
 </tr>
 </table>
 
-### Financial Systems
+### 💰 Financial Systems
 
 | Feature | What It Does |
 |---------|--------------|
@@ -186,7 +228,7 @@ Every vehicle has hidden qualities. Some become legends. Some become money pits.
 | **Flexible Payments** | Skip, minimum, standard, double, or custom amounts |
 | **Negative Amortization** | Skip payments and your balance actually grows |
 
-### Marketplace Systems
+### 🏪 Marketplace Systems
 
 | Feature | What It Does |
 |---------|--------------|
@@ -197,7 +239,7 @@ Every vehicle has hidden qualities. Some become legends. Some become money pits.
 | **Trade-In** | 50-65% instant value, brand loyalty bonus (+5%) |
 | **Inspection System** | 50 unique mechanic quotes reveal hidden condition |
 
-### Vehicle Systems
+### 🚜 Vehicle Systems
 
 | Feature | What It Does |
 |---------|--------------|
@@ -217,7 +259,7 @@ Every vehicle has hidden qualities. Some become legends. Some become money pits.
 
 ## The Signature Features
 
-### Credit Scoring That Gates Everything
+### ⭐ Credit Scoring That Gates Everything
 
 Your financial history creates a 300-850 credit score that **gates what you can do**:
 
@@ -239,7 +281,7 @@ New game? Start at 650 (Fair). Build from there.
 
 ---
 
-### Vehicle DNA: Lemons, Workhorses & Immortals
+### 🧬 Vehicle DNA: Lemons, Workhorses & Immortals
 
 Every vehicle has hidden DNA (0.0-1.0) assigned at spawn. It **never changes**.
 
@@ -273,7 +315,7 @@ The mechanic doesn't tell you the DNA number - they give you hints:
 
 ---
 
-### Negotiation With Real Consequences
+### 🤝 Negotiation With Real Consequences
 
 Found used equipment? **Negotiate the price** - but the seller's personality is tied to vehicle DNA:
 
@@ -313,7 +355,7 @@ Storms make sellers anxious:
 
 ---
 
-### 15+ Malfunctions From Neglected Maintenance
+### ⚠️ 15+ Malfunctions From Neglected Maintenance
 
 #### Engine Malfunctions
 | Malfunction | Trigger | Effect |
@@ -361,7 +403,7 @@ Storms make sellers anxious:
 
 ---
 
-### Deep Mod Integration (Not Just "Compatible")
+### 🔗 Deep Mod Integration (Not Just "Compatible")
 
 #### Real Vehicle Breakdowns (RVB)
 
@@ -395,7 +437,7 @@ Per-wheel wear displays in Tires Dialog. Tire replacement syncs with UYT.
 
 ---
 
-### OBD Scanner: One-Time Strategic Decision
+### 🔧 OBD Scanner: One-Time Strategic Decision
 
 The Field Service Kit ($5,000) provides emergency field diagnostics with a twist:
 
@@ -407,7 +449,7 @@ The Field Service Kit ($5,000) provides emergency field diagnostics with a twist
 
 ---
 
-### Service Truck: The Ceiling Saver
+### 🚚 Service Truck: The Ceiling Saver
 
 The OBD Scanner is great for quick field repairs - but it can't fix that lemon's degraded ceiling. For that, you need the **Service Truck**.
 
@@ -474,7 +516,7 @@ That lemon with DNA 0.15? **Now salvageable.** The Service Truck can restore its
 
 ---
 
-### Tire Quality Tiers
+### 🛞 Tire Quality Tiers
 
 | Tier | Cost | Traction | Failure Rate | Wear Rate | Starting Wear |
 |------|------|----------|--------------|-----------|---------------|
@@ -486,7 +528,7 @@ Retreads are cheap but risky. Quality tires cost more but last longer and grip b
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Getting Equipment
 
@@ -514,7 +556,7 @@ Retreads are cheap but risky. Quality tires cost more but last longer and grip b
 
 ---
 
-## Supported Languages
+## 🌍 Supported Languages
 
 UsedPlus is fully translated into **15 languages**:
 
@@ -542,7 +584,7 @@ This matches or exceeds the language support of other major FS25 mods like [Cour
 
 ---
 
-## Installation
+## 📥 Installation
 
 1. Download `FS25_UsedPlus.zip`
 2. Place in your mods folder:
@@ -555,7 +597,7 @@ This matches or exceeds the language support of other major FS25 mods like [Cour
 
 ---
 
-## Deep Dive Reference
+## 📚 Deep Dive Reference
 
 ### Used Marketplace Agents
 
@@ -605,7 +647,7 @@ When a buyer is found, you receive an offer notification. Accept or wait for bet
 
 ---
 
-## Settings & Configuration
+## ⚙️ Settings & Configuration
 
 Access via **ESC > Settings > UsedPlus**
 
@@ -630,7 +672,7 @@ Access via **ESC > Settings > UsedPlus**
 
 ---
 
-## Compatibility
+## 🔌 Compatibility
 
 ### Deep Integrations
 
@@ -664,7 +706,7 @@ Access via **ESC > Settings > UsedPlus**
 
 ---
 
-## FAQ
+## ❓ FAQ
 
 **Why doesn't "Search Used" appear?**
 > Only available for vehicles/implements worth $10,000+. Small tools use standard shop.
@@ -692,7 +734,7 @@ Access via **ESC > Settings > UsedPlus**
 
 ---
 
-## For Mod Developers
+## 👨‍💻 For Mod Developers
 
 UsedPlus provides a public API:
 
@@ -719,7 +761,7 @@ Full documentation: [docs/mod-api.md](docs/mod-api.md)
 
 ---
 
-## Credits
+## 🏆 Credits
 
 ### The Team
 
@@ -752,7 +794,7 @@ Built on the shoulders of giants:
 
 ---
 
-## License
+## 📜 License
 
 **Open for the community.**
 
