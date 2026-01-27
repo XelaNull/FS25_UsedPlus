@@ -148,6 +148,28 @@ Every vehicle has hidden qualities. Some become legends. Some become money pits.
 <sub>Restore reliability ceiling</sub>
 </td>
 </tr>
+<tr>
+<td align="center" width="25%">
+<img src="gui/icons/handshake.png" width="48" height="48"><br>
+<strong>Negotiate Deals</strong><br>
+<sub>Weather affects outcomes</sub>
+</td>
+<td align="center" width="25%">
+<img src="gui/icons/inspect.png" width="48" height="48"><br>
+<strong>Vehicle Inspection</strong><br>
+<sub>50 unique mechanic quotes</sub>
+</td>
+<td align="center" width="25%">
+<img src="gui/icons/trade_in.png" width="48" height="48"><br>
+<strong>Trade-In System</strong><br>
+<sub>Brand loyalty bonus</sub>
+</td>
+<td align="center" width="25%">
+<img src="gui/icons/fsk_diagnostics.png" width="48" height="48"><br>
+<strong>OBD Scanner</strong><br>
+<sub>Field diagnostics tool</sub>
+</td>
+</tr>
 </table>
 
 ### Financial Systems
