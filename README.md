@@ -32,7 +32,7 @@ UsedPlus integrates deeply with these mods for the ultimate farming experience:
 
 | Mod | What It Adds | Download |
 |-----|--------------|----------|
-| 🔧 **Real Vehicle Breakdowns** | Part failures, realistic damage | [GitHub](https://github.com/MathiasHun/FS25_Real_Vehicle_Breakdowns_Beta) *(beta)* |
+| 🔧 **Real Vehicle Breakdowns** | Part failures, realistic damage | [Official](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5) / [KingMods](https://www.kingmods.net/en/fs25/mods/62079/real-vehicle-breakdowns) *(beta)* |
 | 🛞 **Use Your Tyres** | Tire wear & replacement | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
 | 💰 **EnhancedLoanSystem** | Additional loan types | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
 | 📋 **HirePurchasing** | Hire-purchase contracts | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
@@ -614,7 +614,7 @@ Access via **ESC > Settings > UsedPlus**
 
 | Mod | Integration | Download |
 |-----|-------------|----------|
-| **Real Vehicle Breakdowns** | DNA affects part lifetimes (0.6x-1.4x), repair/breakdown degradation | [GitHub](https://github.com/MathiasHun/FS25_Real_Vehicle_Breakdowns_Beta) |
+| **Real Vehicle Breakdowns** | DNA affects part lifetimes (0.6x-1.4x), repair/breakdown degradation | [Official](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5) / [KingMods](https://www.kingmods.net/en/fs25/mods/62079/real-vehicle-breakdowns) |
 | **Use Your Tyres** | DNA and quality affect wear rates, per-wheel display, two-way sync | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
 
 ### Works With
@@ -716,7 +716,7 @@ Built on the shoulders of giants:
 | **EnhancedLoanSystem** | Credit scoring, financial math | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
 | **BuyUsedEquipment** | Async search, marketplace architecture | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
 | **HirePurchasing** | Balloon payments, data extensions | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
-| **Real Vehicle Breakdowns** | Part-based failure systems | [GitHub](https://github.com/MathiasHun/FS25_Real_Vehicle_Breakdowns_Beta) |
+| **Real Vehicle Breakdowns** | Part-based failure systems | [Official](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5) |
 | **Use Your Tyres** | Per-wheel tracking patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
 | **PowerTools** (w33zl) | Hand tool patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=303451&title=fs2025) |
 | **Courseplay** | AI worker patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
