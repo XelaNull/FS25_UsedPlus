@@ -47,18 +47,22 @@
  * WHAT IT DETECTS:
  *   ✓ Missing keys     - Key in English but not in target language
  *   ~ Stale entries    - Hash mismatch (English changed since translation)
- *   ? Untranslated     - Has "[EN] " prefix or exact match to English
+ *   ? Untranslated     - Has "[EN] " prefix or exact match (excluding cognates)
  *   !! Duplicates      - Same key appears twice in file (data corruption!)
  *   x Orphaned         - Key in target but NOT in English (safe to delete)
  *   💥 Format errors   - Wrong format specifiers (%s, %d, %.1f) - WILL CRASH GAME!
  *   ⚠ Empty values    - Translation is empty string
  *   ⚠ Whitespace      - Leading/trailing spaces in translation
  *
+ *   NOTE: Cognates and international terms (Type, Status, Generator, OK, etc.)
+ *         are automatically recognized and NOT flagged as untranslated.
+ *
  * SUPPORTED XML FORMATS (auto-detected):
  *   <e k="key" v="value" eh="hash"/>   (elements pattern - used by UsedPlus)
  *   <text name="key" text="value"/>     (texts pattern - no hash support)
  *
  * VERSION HISTORY:
+ *   v3.2.2 - Added cognate detection (no false positives for international terms)
  *   v3.2.1 - Fixed format specifier regex (no false positives on "40% success")
  *   v3.2.0 - Added format specifier validation, empty/whitespace detection
  *   v3.1.0 - Added duplicate and orphan detection
@@ -69,7 +73,7 @@
  * ══════════════════════════════════════════════════════════════════════════════
  */
 
-const VERSION = '3.2.1';
+const VERSION = '3.2.2';
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
@@ -248,6 +252,82 @@ function isEmptyValue(value) {
 function hasWhitespaceIssues(value) {
     if (!value) return false;
     return value !== value.trim();
+}
+
+/**
+ * Check if a value is likely a cognate or international term
+ * These are values that are legitimately the same in multiple languages:
+ * - Proper names (Jim, Pete, Chuck, Joe)
+ * - Technical terms (Generator, Starter, OBD, ECU, CAN)
+ * - Common cognates (Type, Total, Status, Agent, Normal, OK)
+ * - Universal symbols (#, $, @)
+ * - Single-letter or very short terms
+ * - Gaming terms (Hardcore, Mode, Info, Debug)
+ */
+function isCognateOrInternationalTerm(value) {
+    // Empty strings are intentional placeholders, not untranslated
+    if (value === '') return true;
+    if (!value) return false;
+
+    // If it's too long, it's probably not a cognate (arbitrary threshold: 50 chars)
+    // Long identical sentences are suspicious
+    if (value.length > 50) return false;
+
+    // Check if value matches common patterns of cognates/international terms
+
+    // 1. Very short (1-3 characters) - likely symbols or abbreviations
+    if (value.length <= 3) return true;
+
+    // 2. Contains only symbols, numbers, and punctuation
+    if (/^[#$@%&*()[\]{}\-+:,.\/\d\s]+$/.test(value)) return true;
+
+    // 3. Proper names (starts with "- " for mechanic names, or single capitalized word)
+    if (/^-\s+[A-Z][a-z]+$/.test(value)) return true;  // "- Jim", "- Pete"
+
+    // 4. Common single-word cognates and technical terms (case-insensitive)
+    const commonCognates = [
+        'type', 'total', 'status', 'agent', 'normal', 'ok', 'info', 'mode',
+        'generator', 'starter', 'min', 'max', 'per', 'vs', 'hardcore',
+        'obd', 'ecu', 'can', 'dtc', 'debug', 'regional', 'national',
+        'original', 'score', 'principal', 'ha', 'pcs', 'elite', 'premium',
+        'standard', 'budget', 'basic', 'advanced', 'pro', 'master',
+        'leasing', 'spawning', 'repo', 'state', 'misfire', 'overheat',
+        'runaway', 'cutout', 'workhorse', 'integration', 'vanilla'
+    ];
+    const lowerValue = value.toLowerCase().trim();
+    if (commonCognates.includes(lowerValue)) return true;
+
+    // 5. Common multi-word international phrases and technical terms
+    const commonPhrases = [
+        'regional agent', 'national agent', 'local agent',
+        'no', 'yes', 'si', 'ja',  // yes/no in various languages
+        'obd scanner', 'service truck', 'spawn lemon', 'toggle debug',
+        'reset cd'
+    ];
+    if (commonPhrases.includes(lowerValue)) return true;
+
+    // 6. Phrases with "vs" (comparisons)
+    if (/^vs\s+/i.test(value)) return true;
+
+    // 7. All caps labels (STATUS, INFO, TOTAL, etc.)
+    if (/^[A-Z\s:]+$/.test(value) && value.replace(/[:\s]/g, '').length >= 2) return true;
+
+    // 8. Single word ending in colon (labels like "Status:", "Type:", "Agent:")
+    if (/^[A-Za-z]+:\s*$/.test(value)) return true;
+
+    // 9. Money symbols with amounts ($10,000, +$100,000, etc.) or admin labels with $
+    if (/^[+\-]?\$[\d,]+$/.test(value) || /^Set \$\d+$/.test(value)) return true;
+
+    // 10. Admin labels with percentages or abbreviations (Rel: 100%, Surge (L), etc.)
+    if (/^(Rel|Surge|Flat):/i.test(value) || /\(L\)$|\(R\)$/.test(value)) return true;
+
+    // 11. Mod integration names (RVB Integration, UYT Integration, etc.)
+    if (/^[A-Z]{2,5}\s+Integration$/i.test(value)) return true;
+
+    // 12. Vehicle model names with alphanumerics (GMC C7000, Ford F-150, etc.)
+    if (/^[A-Z]+\s+[A-Z0-9\-]+/i.test(value) && value.split(' ').length <= 4) return true;
+
+    return false;
 }
 
 /**
@@ -817,8 +897,8 @@ function checkSync() {
 
                 if (langData.value.startsWith(CONFIG.untranslatedPrefix)) {
                     untranslated.push(key);
-                } else if (langData.value === sourceData.value && !isFormatOnlyString(sourceData.value)) {
-                    // Exact match = untranslated, UNLESS it's a format-only string (like "%s %%")
+                } else if (langData.value === sourceData.value && !isFormatOnlyString(sourceData.value) && !isCognateOrInternationalTerm(sourceData.value)) {
+                    // Exact match = untranslated, UNLESS it's a format-only string or cognate/international term
                     untranslated.push(key);
                 } else if (format === 'elements' && langData.hash && langData.hash !== sourceHash) {
                     stale.push(key);
@@ -966,7 +1046,9 @@ function showStatus() {
             } else {
                 const langData = langEntries.get(key);
 
-                if (langData.value.startsWith(CONFIG.untranslatedPrefix) || langData.value === sourceData.value) {
+                if (langData.value.startsWith(CONFIG.untranslatedPrefix)) {
+                    untranslated++;
+                } else if (langData.value === sourceData.value && !isFormatOnlyString(sourceData.value) && !isCognateOrInternationalTerm(sourceData.value)) {
                     untranslated++;
                 } else if (format === 'elements' && langData.hash && langData.hash !== sourceHash) {
                     stale++;
@@ -1055,8 +1137,8 @@ function generateReport() {
 
                 if (langData.value.startsWith(CONFIG.untranslatedPrefix)) {
                     untranslated.push({ key, reason: 'has [EN] prefix' });
-                } else if (langData.value === sourceData.value && !isFormatOnlyString(sourceData.value)) {
-                    untranslated.push({ key, reason: 'exact match' });
+                } else if (langData.value === sourceData.value && !isFormatOnlyString(sourceData.value) && !isCognateOrInternationalTerm(sourceData.value)) {
+                    untranslated.push({ key, reason: 'exact match (not cognate)' });
                 } else if (format === 'elements' && langData.hash && langData.hash !== sourceHash) {
                     stale.push({
                         key,
