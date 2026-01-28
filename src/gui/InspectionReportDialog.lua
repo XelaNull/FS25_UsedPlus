@@ -54,18 +54,14 @@ function InspectionReportDialog.getInstance()
 end
 
 --[[
-    v2.8.0: Set up system icons for mechanical assessment section
+    Set up system icons for mechanical assessment section
     Icons must be set via Lua - XML paths don't work from ZIP mods
+    Large input dialogs use section icons only (no header icon)
 ]]
 function InspectionReportDialog:setupSystemIcons()
     local iconDir = UsedPlus.MOD_DIR .. "gui/icons/"
 
-    -- v2.9.5: Header icon - inspect
-    if self.headerIcon ~= nil then
-        self.headerIcon:setImageFilename(iconDir .. "inspect.png")
-    end
-
-    -- v2.9.5: Section header icons
+    -- Section header icons
     if self.vehicleSectionIcon ~= nil then
         self.vehicleSectionIcon:setImageFilename(iconDir .. "vehicle.png")
     end

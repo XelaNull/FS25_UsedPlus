@@ -264,17 +264,13 @@ function UnifiedPurchaseDialog:onGuiSetupFinished()
 end
 
 --[[
-    v2.9.5: Setup section header icons
+    Setup section header icons
     Icons are set via Lua because XML paths don't work from ZIP mods
+    Large input dialogs use section icons only (no header icon)
 ]]
 function UnifiedPurchaseDialog:setupSectionIcons()
     if self.iconDir == nil then
         return
-    end
-
-    -- Header icon - finance
-    if self.headerIcon ~= nil then
-        self.headerIcon:setImageFilename(self.iconDir .. "finance.png")
     end
 
     -- Vehicle section - vehicle icon

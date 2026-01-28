@@ -18,9 +18,6 @@
 
         <GuiElement profile="fs25_dialogContentContainer">
 
-            <!-- v2.9.5: Header icon -->
-            <Bitmap profile="upHeaderIcon" id="headerIcon" position="-360px -15px"/>
-
             <!-- Title -->
             <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_up_title"/>
 
@@ -313,13 +310,7 @@
             <textAlignment value="left"/>
         </Profile>
 
-        <!-- v2.9.5: Header icon profile (32px) -->
-        <Profile name="upHeaderIcon" extends="baseReference" with="anchorTopCenter">
-            <size value="32px 32px"/>
-            <imageSliceId value="noSlice"/>
-        </Profile>
-
-        <!-- v2.9.5: Section icon profile (20px) -->
+        <!-- Section icon profile (20px) -->
         <Profile name="upSectionIcon" extends="baseReference" with="anchorTopCenter">
             <size value="20px 20px"/>
             <imageSliceId value="noSlice"/>

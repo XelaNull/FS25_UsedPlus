@@ -60,17 +60,13 @@ function UsedSearchDialog:onCreate()
 end
 
 --[[
-    v2.9.5: Setup section header icons
+    Setup section header icons
     Icons are set via Lua because XML paths don't work from ZIP mods
+    Large input dialogs use section icons only (no header icon)
 ]]
 function UsedSearchDialog:setupSectionIcons()
     if self.iconDir == nil then
         return
-    end
-
-    -- Header icon - search
-    if self.headerIcon ~= nil then
-        self.headerIcon:setImageFilename(self.iconDir .. "search.png")
     end
 
     -- Vehicle section - vehicle icon

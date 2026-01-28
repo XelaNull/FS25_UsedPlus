@@ -25,15 +25,13 @@
             <!-- ========== SECTION 1: Vehicle Being Searched ========== -->
             <GuiElement profile="siSectionContainer" position="0px -85px">
                 <Bitmap profile="siSectionBgBlue" position="0px 0px"/>
-                <Bitmap profile="siSectionIcon" id="vehicleIcon" position="-250px -15px"/>
                 <Text profile="siVehicleName" id="vehicleNameText" position="0px -20px" text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 2: Search Configuration ========== -->
             <GuiElement profile="siSectionContainerTall" position="0px -145px">
                 <Bitmap profile="siSectionBg" position="0px 0px"/>
-                <Bitmap profile="siSectionIcon" id="configIcon" position="-250px -5px"/>
-                <Text profile="siSectionHeaderWithIcon" position="0px -8px" text="SEARCH CONFIGURATION"/>
+                <Text profile="siSectionHeader" position="0px -8px" text="SEARCH CONFIGURATION"/>
 
                 <!-- Two columns: Search Tier | Quality Target -->
                 <Text profile="siLabel" position="-150px -32px" text="Search Tier"/>
@@ -48,8 +46,7 @@
             <!-- ========== SECTION 3: Agent Fees ========== -->
             <GuiElement profile="siSectionContainerMed" position="0px -240px">
                 <Bitmap profile="siSectionBgFee" position="0px 0px"/>
-                <Bitmap profile="siSectionIcon" id="feesIcon" position="-250px -5px"/>
-                <Text profile="siSectionHeaderWithIcon" position="0px -8px" text="AGENT FEES"/>
+                <Text profile="siSectionHeader" position="0px -8px" text="AGENT FEES"/>
 
                 <!-- Two columns: Retainer | Commission -->
                 <Text profile="siLabel" position="-150px -32px" text="Retainer (Paid Now)"/>
@@ -62,8 +59,7 @@
             <!-- ========== SECTION 4: Expected Pricing ========== -->
             <GuiElement profile="siSectionContainerMed" position="0px -325px">
                 <Bitmap profile="siSectionBgGreen" position="0px 0px"/>
-                <Bitmap profile="siSectionIcon" id="pricingIcon" position="-250px -5px"/>
-                <Text profile="siSectionHeaderWithIcon" position="0px -8px" text="EXPECTED PRICING"/>
+                <Text profile="siSectionHeader" position="0px -8px" text="EXPECTED PRICING"/>
 
                 <!-- Three columns: Base Price | Commission | Asking Price -->
                 <Text profile="siLabel" position="-180px -32px" text="Est. Base"/>
@@ -95,21 +91,6 @@
         <Profile name="siHeaderIcon" extends="baseReference" with="anchorTopCenter">
             <size value="32px 32px"/>
             <imageSliceId value="noSlice"/>
-        </Profile>
-
-        <!-- ========== SECTION ICONS ========== -->
-        <Profile name="siSectionIcon" extends="baseReference" with="anchorTopCenter">
-            <size value="20px 20px"/>
-            <imageSliceId value="noSlice"/>
-        </Profile>
-
-        <!-- ========== SECTION HEADER WITH ICON ========== -->
-        <Profile name="siSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
-            <size value="500px 20px"/>
-            <textSize value="12px"/>
-            <textBold value="true"/>
-            <textColor value="1 0.8 0.2 1"/>
-            <textAlignment value="center"/>
         </Profile>
 
         <!-- ========== TITLE ========== -->

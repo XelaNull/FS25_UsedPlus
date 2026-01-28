@@ -55,31 +55,14 @@ function SaleListingInitiatedDialog:onCreate()
 end
 
 --[[
-    Setup section icons - must be called after elements are bound
+    Setup header icon - must be called after elements are bound
+    Small confirmation dialogs use header icon only (no section icons)
 ]]
 function SaleListingInitiatedDialog:setupSectionIcons()
     -- Header icon (sale icon)
     local headerIcon = self.dialogElement:getDescendantById("headerIcon")
     if headerIcon ~= nil then
         headerIcon:setImageFilename(self.iconDir .. "sale.png")
-    end
-
-    -- Vehicle section icon
-    local vehicleIcon = self.dialogElement:getDescendantById("vehicleIcon")
-    if vehicleIcon ~= nil then
-        vehicleIcon:setImageFilename(self.iconDir .. "vehicle.png")
-    end
-
-    -- Agent section icon
-    local agentIcon = self.dialogElement:getDescendantById("agentIcon")
-    if agentIcon ~= nil then
-        agentIcon:setImageFilename(self.iconDir .. "agent.png")
-    end
-
-    -- Listing section icon (offer)
-    local listingIcon = self.dialogElement:getDescendantById("listingIcon")
-    if listingIcon ~= nil then
-        listingIcon:setImageFilename(self.iconDir .. "offer.png")
     end
 end
 

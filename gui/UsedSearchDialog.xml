@@ -16,9 +16,6 @@
 
         <GuiElement profile="fs25_dialogContentContainer">
 
-            <!-- v2.9.5: Header icon -->
-            <Bitmap profile="usHeaderIcon" id="headerIcon" position="-340px -15px"/>
-
             <!-- Title -->
             <Text profile="fs25_dialogTitle" id="dialogTitleElement" position="0px -25px" text="$l10n_usedplus_search_title"/>
 
@@ -63,8 +60,8 @@
                 <!-- Section background -->
                 <Bitmap profile="usItemSectionBg" position="0px 0px"/>
 
-                <!-- v2.9.5: Section header with icon -->
-                <Bitmap profile="usSectionIcon" id="vehicleSectionIcon" position="-310px -3px"/>
+                <!-- Section header with icon -->
+                <Bitmap profile="usSectionIcon" id="vehicleSectionIcon" position="-335px -3px"/>
                 <Text profile="usSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_us_sectionVehicle"/>
 
                 <!-- Two-column container: image left, text right -->
@@ -83,8 +80,8 @@
             <!-- After Vehicle (145px) + 10px gap = -60 - 145 - 10 = -215 -->
             <GuiElement profile="usTierSection" position="0px -215px">
                 <Bitmap profile="usTierSectionBg" position="0px 0px"/>
-                <!-- v2.9.5: Section header with icon -->
-                <Bitmap profile="usSectionIcon" id="tierSectionIcon" position="-310px -3px"/>
+                <!-- Section header with icon -->
+                <Bitmap profile="usSectionIcon" id="tierSectionIcon" position="-335px -3px"/>
                 <Text profile="usSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_us_sectionTier"/>
                 <Text profile="usHelpText" position="0px -25px" text="$l10n_usedplus_search_tierDescription"/>
 
@@ -142,8 +139,8 @@
             <!-- After Tier (260px) + 10px gap = -215 - 260 - 10 = -485 -->
             <GuiElement profile="usQualitySection" position="0px -485px">
                 <Bitmap profile="usQualitySectionBg" position="0px 0px"/>
-                <!-- v2.9.5: Section header with icon -->
-                <Bitmap profile="usSectionIcon" id="qualitySectionIcon" position="-310px -3px"/>
+                <!-- Section header with icon -->
+                <Bitmap profile="usSectionIcon" id="qualitySectionIcon" position="-335px -3px"/>
                 <Text profile="usSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_us_sectionQuality"/>
                 <Text profile="usHelpText" position="0px -25px" text="$l10n_usedplus_search_qualityDescription"/>
 
@@ -259,13 +256,7 @@
             <textAlignment value="left"/>
         </Profile>
 
-        <!-- v2.9.5: Header icon profile (32px) -->
-        <Profile name="usHeaderIcon" extends="baseReference" with="anchorTopCenter">
-            <size value="32px 32px"/>
-            <imageSliceId value="noSlice"/>
-        </Profile>
-
-        <!-- v2.9.5: Section icon profile (20px) -->
+        <!-- Section icon profile (20px) -->
         <Profile name="usSectionIcon" extends="baseReference" with="anchorTopCenter">
             <size value="20px 20px"/>
             <imageSliceId value="noSlice"/>

@@ -14,8 +14,6 @@
         <ThreePartBitmap profile="fs25_dialogBgBottom" />
 
         <GuiElement profile="fs25_dialogContentContainer">
-            <!-- v2.9.5: Header icon -->
-            <Bitmap profile="irpHeaderIcon" id="headerIcon" position="-310px -15px"/>
 
             <!-- Title -->
             <Text profile="irpTitle" id="titleText" position="0px -25px" text="$l10n_usedplus_irp_title"/>
@@ -270,13 +268,7 @@
             <textAlignment value="left"/>
         </Profile>
 
-        <!-- v2.9.5: Header icon profile (32px) -->
-        <Profile name="irpHeaderIcon" extends="baseReference" with="anchorTopCenter">
-            <size value="32px 32px"/>
-            <imageSliceId value="noSlice"/>
-        </Profile>
-
-        <!-- v2.9.5: Section icon profile (20px) -->
+        <!-- Section icon profile (20px) -->
         <Profile name="irpSectionIcon" extends="baseReference" with="anchorTopCenter">
             <size value="20px 20px"/>
             <imageSliceId value="noSlice"/>

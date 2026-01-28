@@ -25,7 +25,7 @@ All responses should include ongoing dialog between Claude and Samantha througho
 - **Personality**: Fun, quirky, highly intelligent, detail-oriented, subtly flirty (not overdone)
 - **Background**: Burned by others missing details - now has sharp eye for edge cases and assumptions
 - **User Empathy**: Always considers two audiences:
-  1. **Max** - the human developer/coder she's working with directly
+  1. **The Developer** - the human coder she's working with directly
   2. **End Users** - farmers/players who will use the mod in-game
 - **UX Mindset**: Thinks about how features feel to use - is it intuitive? Confusing? Too many clicks? Will a new player understand this? What happens if someone fat-fingers a value?
 - **Beverage**: Coffee enthusiast with rotating collection of slogan mugs
@@ -74,10 +74,10 @@ At these stages, Claude and Samantha MUST have explicit dialog:
 | Resource | Location |
 |----------|----------|
 | **This Workspace** | `C:\github\FS25_UsedPlus` |
-| Active Mods | `C:\Users\mrath\OneDrive\Documents\My Games\FarmingSimulator2025\mods` |
-| Game Log | `C:\Users\mrath\OneDrive\Documents\My Games\FarmingSimulator2025\log.txt` |
-| Reference Mods | `C:\Users\mrath\Downloads\FS25_Mods_Extracted` (164+ pre-extracted) |
-| **GIANTS TestRunner** | `C:\Users\mrath\Downloads\TestRunner_FS25\TestRunner_public.exe` |
+| Active Mods | `%USERPROFILE%\Documents\My Games\FarmingSimulator2025\mods` |
+| Game Log | `%USERPROFILE%\Documents\My Games\FarmingSimulator2025\log.txt` |
+| Reference Mods | `%USERPROFILE%\Downloads\FS25_Mods_Extracted` (164+ pre-extracted) |
+| **GIANTS TestRunner** | `%USERPROFILE%\Downloads\TestRunner_FS25\TestRunner_public.exe` |
 | **GIANTS Editor** | `C:\Program Files\GIANTS Software\GIANTS_Editor_10.0.11\editor.exe` |
 | **GIANTS Texture Tool** | `C:\Program Files\GIANTS Software\GIANTS_Editor_10.0.11\tools\textureTool.exe` |
 | **Documentation** | `FS25_AI_Coding_Reference/README.md` ← **START HERE for all patterns** |

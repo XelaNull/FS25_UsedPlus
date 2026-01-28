@@ -172,8 +172,12 @@ function extractFormatSpecifiers(str) {
     // (\d+)?    - optional width
     // (\.\d+)?  - optional precision
     // (hh?|ll?|L|z|j|t)?  - optional length modifier
-    // [diouxXeEfFgGaAcspn%]  - type specifier
-    const pattern = /%[-+0#]*(\d+)?(\.\d+)?(hh?|ll?|L|z|j|t)?[diouxXeEfFgGaAcspn%]/g;
+    // [diouxXeEfFgGaAcspn]  - type specifier (NOTE: excludes % - that's an escape, not a specifier)
+    //
+    // IMPORTANT: %% is an escape sequence that produces a literal %, NOT a format specifier.
+    // We don't include % in the final character class because %% doesn't need to match
+    // between source and target - both "50%" and "50%%" display the same thing.
+    const pattern = /%[-+0#]*(\d+)?(\.\d+)?(hh?|ll?|L|z|j|t)?[diouxXeEfFgGaAcspn]/g;
     const matches = str.match(pattern) || [];
     return matches.sort();
 }
@@ -211,6 +215,24 @@ function checkFormatSpecifiers(sourceValue, targetValue, key) {
     }
 
     return null; // OK
+}
+
+/**
+ * Check if a string is "format-only" (no translatable text content)
+ * These are strings like "%s %%", "%d km", "%s:%s" that are identical in all languages
+ */
+function isFormatOnlyString(value) {
+    if (!value) return false;
+    // Remove all format specifiers: %s, %d, %02d, %.1f, %%, etc.
+    // Remove common units that are international: km, m, %, etc.
+    // Remove punctuation and whitespace
+    const stripped = value
+        .replace(/%[-+0-9]*\.?[0-9]*[sdfeEgGoxXuc%]/g, '') // format specifiers
+        .replace(/\b(km|m|kg|l|h|s|ms|px|pcs)\b/gi, '')    // common units
+        .replace(/[:\s.,\-\/()[\]{}]+/g, '');               // punctuation & whitespace
+
+    // If nothing remains, it's format-only
+    return stripped.length === 0;
 }
 
 /**
@@ -336,8 +358,8 @@ function parseTranslationFile(filepath, format) {
 
     let pattern;
     if (format === 'elements') {
-        // <e k="key" v="value" [eh="hash"] />
-        pattern = /<e k="([^"]+)" v="([^"]*)"(?:\s+eh="([^"]*)")?\s*\/>/g;
+        // <e k="key" v="value" [eh="hash"] [tag="format"] /> - handles any attribute order
+        pattern = /<e k="([^"]+)" v="([^"]*)"([^>]*)\s*\/>/g;
     } else {
         // <text name="key" text="value"/>
         pattern = /<text name="([^"]+)" text="([^"]*)"\s*\/>/g;
@@ -347,7 +369,10 @@ function parseTranslationFile(filepath, format) {
     while ((match = pattern.exec(content)) !== null) {
         const key = match[1];
         const value = match[2];
-        const hash = match[3] || null;
+        // Extract hash from remaining attributes (handles tag="format" eh="hash" in any order)
+        const attrs = match[3] || '';
+        const hashMatch = attrs.match(/eh="([^"]*)"/);
+        const hash = hashMatch ? hashMatch[1] : null;
 
         // Track duplicates
         if (entries.has(key)) {
@@ -415,13 +440,22 @@ function updateSourceHashes(sourceFile, format) {
 
         if (data.hash !== correctHash) {
             // Need to update or add the hash
+            // Match entry with any combination of eh= and tag= attributes
             const oldPattern = new RegExp(
-                `<e k="${escapeRegex(key)}" v="([^"]*)"(?:\\s+eh="[^"]*")?\\s*/>`,
+                `<e k="${escapeRegex(key)}" v="([^"]*)"([^>]*)\\s*/>`,
                 'g'
             );
 
-            content = content.replace(oldPattern, (match, value) => {
-                return `<e k="${key}" v="${value}" eh="${correctHash}" />`;
+            content = content.replace(oldPattern, (match, value, attrs) => {
+                // Remove any existing eh= attribute
+                const cleanAttrs = attrs.replace(/\s*eh="[^"]*"/g, '');
+                // Preserve tag="format" if present
+                const hasTag = cleanAttrs.includes('tag="format"');
+                if (hasTag) {
+                    return `<e k="${key}" v="${value}" eh="${correctHash}" tag="format"/>`;
+                } else {
+                    return `<e k="${key}" v="${value}" eh="${correctHash}" />`;
+                }
             });
 
             updated++;
@@ -585,15 +619,31 @@ function syncTranslations() {
                     const sourceHash = sourceHashes.get(key);
                     const langData = langEntries.get(key);
 
-                    // Only update hash if translation is current (not stale)
-                    // Stale entries keep their old hash until translator updates them
-                    if (!stale.includes(key)) {
+                    // Add hash to entry if:
+                    // 1. Translation is current (not stale) - normal case
+                    // 2. OR entry has no hash yet AND is not marked as untranslated (first-time adoption)
+                    //    This handles the chicken-and-egg problem when first adding hashes to a repo
+                    const hasNoHash = !langData.hash;
+                    const isUntranslated = langData.value.startsWith(CONFIG.untranslatedPrefix);
+                    const shouldAddHash = !stale.includes(key) || (hasNoHash && !isUntranslated);
+
+                    if (shouldAddHash) {
+                        // Match entry with any combination of eh= and tag= attributes
+                        // Captures: value, optional existing attributes (eh, tag, etc.)
                         const pattern = new RegExp(
-                            `<e k="${escapeRegex(key)}" v="([^"]*)"(?:\\s+eh="[^"]*")?\\s*/>`,
+                            `<e k="${escapeRegex(key)}" v="([^"]*)"([^>]*)\\s*/>`,
                             'g'
                         );
-                        content = content.replace(pattern, (match, v) => {
-                            return `<e k="${key}" v="${v}" eh="${sourceHash}" />`;
+                        content = content.replace(pattern, (match, v, attrs) => {
+                            // Remove any existing eh= attribute
+                            const cleanAttrs = attrs.replace(/\s*eh="[^"]*"/g, '');
+                            // Preserve tag="format" if present
+                            const hasTag = cleanAttrs.includes('tag="format"');
+                            if (hasTag) {
+                                return `<e k="${key}" v="${v}" eh="${sourceHash}" tag="format"/>`;
+                            } else {
+                                return `<e k="${key}" v="${v}" eh="${sourceHash}" />`;
+                            }
                         });
                     }
                 }
@@ -767,7 +817,8 @@ function checkSync() {
 
                 if (langData.value.startsWith(CONFIG.untranslatedPrefix)) {
                     untranslated.push(key);
-                } else if (langData.value === sourceData.value) {
+                } else if (langData.value === sourceData.value && !isFormatOnlyString(sourceData.value)) {
+                    // Exact match = untranslated, UNLESS it's a format-only string (like "%s %%")
                     untranslated.push(key);
                 } else if (format === 'elements' && langData.hash && langData.hash !== sourceHash) {
                     stale.push(key);
@@ -1004,7 +1055,7 @@ function generateReport() {
 
                 if (langData.value.startsWith(CONFIG.untranslatedPrefix)) {
                     untranslated.push({ key, reason: 'has [EN] prefix' });
-                } else if (langData.value === sourceData.value) {
+                } else if (langData.value === sourceData.value && !isFormatOnlyString(sourceData.value)) {
                     untranslated.push({ key, reason: 'exact match' });
                 } else if (format === 'elements' && langData.hash && langData.hash !== sourceHash) {
                     stale.push({

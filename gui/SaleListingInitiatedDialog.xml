@@ -24,15 +24,13 @@
             <!-- ========== SECTION 1: Vehicle Being Sold ========== -->
             <GuiElement profile="sliSectionContainer" position="0px -85px">
                 <Bitmap profile="sliSectionBgBlue" position="0px 0px"/>
-                <Bitmap profile="sliSectionIcon" id="vehicleIcon" position="-250px -15px"/>
                 <Text profile="sliVehicleName" id="vehicleNameText" position="0px -20px" text=""/>
             </GuiElement>
 
             <!-- ========== SECTION 2: Agent & Fee ========== -->
             <GuiElement profile="sliSectionContainerMed" position="0px -145px">
                 <Bitmap profile="sliSectionBgFee" position="0px 0px"/>
-                <Bitmap profile="sliSectionIcon" id="agentIcon" position="-250px -5px"/>
-                <Text profile="sliSectionHeaderWithIcon" position="0px -8px" text="$l10n_usedplus_sli_sectionAgent"/>
+                <Text profile="sliSectionHeader" position="0px -8px" text="$l10n_usedplus_sli_sectionAgent"/>
 
                 <!-- Two columns: Agent Type | Fee Charged -->
                 <Text profile="sliLabel" position="-140px -32px" text="$l10n_usedplus_sli_agentType"/>
@@ -45,8 +43,7 @@
             <!-- ========== SECTION 3: Listing Details ========== -->
             <GuiElement profile="sliSectionContainerTall" position="0px -240px">
                 <Bitmap profile="sliSectionBgGreen" position="0px 0px"/>
-                <Bitmap profile="sliSectionIcon" id="listingIcon" position="-250px -5px"/>
-                <Text profile="sliSectionHeaderWithIcon" position="0px -8px" text="$l10n_usedplus_sli_sectionListing"/>
+                <Text profile="sliSectionHeader" position="0px -8px" text="$l10n_usedplus_sli_sectionListing"/>
 
                 <!-- Three columns: Price Tier | Expected Range | Timeline -->
                 <Text profile="sliLabel" position="-180px -32px" text="$l10n_usedplus_sli_priceTier"/>
@@ -82,21 +79,6 @@
         <Profile name="sliHeaderIcon" extends="baseReference" with="anchorTopCenter">
             <size value="32px 32px"/>
             <imageSliceId value="noSlice"/>
-        </Profile>
-
-        <!-- ========== SECTION ICONS ========== -->
-        <Profile name="sliSectionIcon" extends="baseReference" with="anchorTopCenter">
-            <size value="20px 20px"/>
-            <imageSliceId value="noSlice"/>
-        </Profile>
-
-        <!-- ========== SECTION HEADER WITH ICON ========== -->
-        <Profile name="sliSectionHeaderWithIcon" extends="fs25_textDefault" with="anchorTopCenter">
-            <size value="500px 20px"/>
-            <textSize value="12px"/>
-            <textBold value="true"/>
-            <textColor value="1 0.8 0.2 1"/>
-            <textAlignment value="center"/>
         </Profile>
 
         <!-- ========== TITLE ========== -->

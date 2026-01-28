@@ -20,7 +20,7 @@
             <GuiElement profile="tlCreditContainer" id="creditSection" position="0px -70px">
                 <Bitmap profile="tlCreditBg" position="0px 0px"/>
                 <!-- v2.9.5: Section header with icon -->
-                <Bitmap profile="tlSectionIcon" id="creditSectionIcon" position="-280px -3px"/>
+                <Bitmap profile="tlSectionIcon" id="creditSectionIcon" position="-305px -3px"/>
                 <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionCredit"/>
 
                 <!-- Score and Rate display (2 columns) -->
@@ -45,7 +45,7 @@
             <GuiElement profile="tlCollateralContainer" position="0px -195px">
                 <Bitmap profile="tlCollateralBg" position="0px 0px"/>
                 <!-- v2.9.5: Section header with icon -->
-                <Bitmap profile="tlSectionIcon" id="collateralSectionIcon" position="-280px -3px"/>
+                <Bitmap profile="tlSectionIcon" id="collateralSectionIcon" position="-305px -3px"/>
                 <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionCollateral"/>
 
                 <!-- Help text -->
@@ -105,17 +105,15 @@
                     <Button profile="tlAssetRowHit" id="assetBtn5" position="0px -93px" onClick="onAssetRow5Click"/>
                 </GuiElement>
 
-                <!-- Pagination controls (styled boxes with invisible button overlays) -->
+                <!-- Pagination controls (buttons with hover effects) -->
                 <GuiElement profile="tlPaginationBox" position="-280px -160px">
-                    <Bitmap profile="tlPaginationBoxBg" position="0px 0px"/>
+                    <Button profile="tlPaginationBtn" id="prevPageBtn" position="0px 0px" onClick="onPrevPage"/>
                     <Text profile="tlPaginationText" position="0px -3px" text="$l10n_usedplus_tl_prev"/>
-                    <Button profile="tlPaginationHit" id="prevPageBtn" position="0px 0px" onClick="onPrevPage"/>
                 </GuiElement>
                 <Text profile="tlPageIndicator" id="pageIndicatorText" position="0px -160px" text=""/>
                 <GuiElement profile="tlPaginationBox" position="280px -160px">
-                    <Bitmap profile="tlPaginationBoxBg" position="0px 0px"/>
+                    <Button profile="tlPaginationBtn" id="nextPageBtn" position="0px 0px" onClick="onNextPage"/>
                     <Text profile="tlPaginationText" position="0px -3px" text="$l10n_usedplus_tl_next"/>
-                    <Button profile="tlPaginationHit" id="nextPageBtn" position="0px 0px" onClick="onNextPage"/>
                 </GuiElement>
 
                 <!-- Summary row below pagination (extra 10px padding above) -->
@@ -135,7 +133,7 @@
             <GuiElement profile="tlConfigSection" position="0px -440px">
                 <Bitmap profile="tlConfigBg" position="0px 0px"/>
                 <!-- v2.9.5: Section header with icon -->
-                <Bitmap profile="tlSectionIcon" id="configSectionIcon" position="-280px -3px"/>
+                <Bitmap profile="tlSectionIcon" id="configSectionIcon" position="-305px -3px"/>
                 <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionConfig"/>
 
                 <Text profile="tlLabel" position="-200px -30px" text="$l10n_usedplus_tl_amount"/>
@@ -151,7 +149,7 @@
             <GuiElement profile="tlPaymentSection" position="0px -518px">
                 <Bitmap profile="tlPaymentBg" position="0px 0px"/>
                 <!-- v2.9.5: Section header with icon -->
-                <Bitmap profile="tlSectionIcon" id="paymentSectionIcon" position="-280px -3px"/>
+                <Bitmap profile="tlSectionIcon" id="paymentSectionIcon" position="-305px -3px"/>
                 <Text profile="tlSectionHeaderWithIcon" position="10px -5px" text="$l10n_usedplus_tl_sectionPayment"/>
 
                 <Text profile="tlLabel" position="-200px -30px" text="$l10n_usedplus_tl_monthly"/>
@@ -422,14 +420,17 @@
             <isFocusable value="true"/>
         </Profile>
 
-        <!-- ========== PAGINATION (styled boxes) ========== -->
+        <!-- ========== PAGINATION (buttons with hover effects) ========== -->
         <Profile name="tlPaginationBox" extends="emptyPanel" with="anchorTopCenter">
             <size value="90px 24px"/>
         </Profile>
 
-        <Profile name="tlPaginationBoxBg" extends="baseReference" with="anchorTopCenter">
+        <!-- Button with visible background and hover state -->
+        <Profile name="tlPaginationBtn" extends="buttonActivate" with="anchorTopCenter">
             <size value="90px 24px"/>
             <imageColor value="0.15 0.2 0.15 0.9"/>
+            <focusedColor value="0.3 0.5 0.3 1"/>
+            <pressedColor value="0.2 0.35 0.2 1"/>
         </Profile>
 
         <Profile name="tlPaginationText" extends="fs25_textDefault" with="anchorTopCenter">
@@ -438,11 +439,6 @@
             <textBold value="true"/>
             <textColor value="0.8 0.9 0.8 1"/>
             <textAlignment value="center"/>
-        </Profile>
-
-        <Profile name="tlPaginationHit" extends="emptyPanel" with="anchorTopCenter">
-            <size value="90px 24px"/>
-            <isFocusable value="true"/>
         </Profile>
 
         <Profile name="tlPageIndicator" extends="fs25_textDefault" with="anchorTopCenter">

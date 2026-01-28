@@ -68,17 +68,13 @@ function DealDetailsDialog:onGuiSetupFinished()
 end
 
 --[[
-    v2.9.5: Setup section header icons
+    Setup section header icons
     Icons are set via Lua because XML paths don't work from ZIP mods
+    Large input dialogs use section icons only (no header icon)
 ]]
 function DealDetailsDialog:setupSectionIcons()
     if self.iconDir == nil then
         return
-    end
-
-    -- Header icon - loan_doc
-    if self.headerIcon ~= nil then
-        self.headerIcon:setImageFilename(self.iconDir .. "loan_doc.png")
     end
 
     -- Item section - vehicle icon
