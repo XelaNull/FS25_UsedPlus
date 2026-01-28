@@ -27,7 +27,7 @@
 
 ---
 
-> ⚠️ **STATUS: Mostly Playable** — Core features (financing, leasing, credit scoring, used marketplace, trade-ins) are fully functional. **Work in Progress:** Malfunctions and Service Truck under active development.
+> ⚠️ **STATUS: Development Preview** — No official release yet. Core features (financing, leasing, credit, marketplace, trade-ins) fully functional. **Work in Progress:** Malfunctions and Service Truck under active development. Try it via `git clone` or download ZIP (see Installation).
 
 ---
 
@@ -137,6 +137,44 @@ Every vehicle has hidden DNA. Some become legends. Some become money pits. The m
 
 ---
 
+## 🤝 Companion Mods
+
+UsedPlus **deeply integrates** with these mods to create a unified experience:
+
+### 🔧 Real Vehicle Breakdowns (RVB)
+
+**Integration Level: DEEP** — UsedPlus and RVB coordinate to create a layered failure system.
+
+| What RVB Does | How UsedPlus Enhances |
+|---------------|----------------------|
+| Hard failures (parts break completely) | Symptoms first (misfires, overheating) before RVB hard failure |
+| Part-based tracking (starter, generator, etc.) | DNA affects RVB part lifetimes (0.6x-1.4x multiplier) |
+| Visual damage | OBD Scanner shows both UsedPlus + RVB health in one view |
+| Repair workshops | Partial repair option coordinates with RVB part states |
+
+**Why Use Both:** RVB provides the mechanical depth, UsedPlus provides the economic consequences. Lemons break RVB parts faster. Workhorses extend RVB part life. The OBD Scanner becomes your essential tool showing both systems together.
+
+**[Deep Dive: RVB Integration →](https://github.com/XelaNull/FS25_UsedPlus/wiki/RVB-Integration)**
+
+### 🛞 Use Up Your Tyres (UYT)
+
+**Integration Level: DEEP** — Tire wear, quality, and DNA create emergent long-term strategy.
+
+| What UYT Does | How UsedPlus Enhances |
+|---------------|----------------------|
+| Tire wear % per wheel (distance based) | DNA affects wear rate (lemons 1.4x, workhorses 0.6x) |
+| Visual deterioration | Quality tier affects UYT wear (Quality tires wear 33% slower) |
+| Per-wheel tracking (FL, FR, RL, RR) | Flat tire probability scales with UYT wear % |
+| Replacement based on wear | OBD Scanner displays UYT wear with color-coded warnings |
+
+**Why Use Both:** Quality tires on a workhorse = 2,500 hour lifespan. Retread tires on a lemon = 350 hours. The math changes your purchasing decisions. Used vehicles come with realistic tire wear. The OBD Scanner shows you exactly which tires need replacement.
+
+**[Deep Dive: UYT Integration →](https://github.com/XelaNull/FS25_UsedPlus/wiki/UYT-Integration)**
+
+> 💡 **Tip:** Both RVB and UYT are optional but highly recommended. UsedPlus works standalone, but the combination creates the most immersive economic simulation.
+
+---
+
 ## 🤖 100% AI-Written
 
 This mod was written **entirely by AI**. Not a single line of code was written by a human - only reviewed.
@@ -154,6 +192,12 @@ We believe this is one of the most ambitious AI-human collaborative software pro
 ---
 
 ## 📥 Installation
+
+> ⚠️ **Work in Progress:** No official release yet. Core features work, but some systems (malfunctions, Service Truck) are under active development. To try it now:
+> - **Option 1:** `git clone https://github.com/XelaNull/FS25_UsedPlus.git` then copy folder to mods
+> - **Option 2:** Download ZIP from GitHub → Extract → Copy `FS25_UsedPlus` folder to mods
+
+**When Official Release is Available:**
 
 1. **Download** `FS25_UsedPlus.zip` from [Releases](https://github.com/XelaNull/FS25_UsedPlus/releases) or [ModHub](https://www.farming-simulator.com) *(pending approval)*
 2. **Place** in your mods folder:
@@ -198,24 +242,6 @@ We believe this is one of the most ambitious AI-human collaborative software pro
 
 ---
 
-## 🔗 Mod Integration
-
-UsedPlus **deeply integrates** with these mods:
-
-| Mod | Integration | Status |
-|-----|-------------|--------|
-| 🔧 **[Real Vehicle Breakdowns](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5)** | DNA affects RVB part lifetimes (0.6x-1.4x) | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/RVB-Integration)** |
-| 🛞 **[Use Up Your Tyres](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025)** | DNA affects tire wear, flat probability synced | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/UYT-Integration)** |
-| 💰 **[EnhancedLoanSystem](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025)** | Credit score displayed in ELS dialogs | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)** |
-| 📋 **[HirePurchasing](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025)** | HP leases display in Finance Manager | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)** |
-| 🛒 **[BuyUsedEquipment](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025)** | UsedPlus defers to BUE for used search | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)** |
-
-> **Note:** All mods are optional. UsedPlus works standalone but enhances these mods when detected.
-
-**[Full Compatibility Guide →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)**
-
----
-
 ## 🌍 Languages
 
 UsedPlus is fully translated to **27 languages** (matching Courseplay coverage):
@@ -225,6 +251,24 @@ UsedPlus is fully translated to **27 languages** (matching Courseplay coverage):
 🔄 **In Progress:** Chinese (Simplified & Traditional), French (Canadian), Finnish, Korean, Norwegian, Romanian, Swedish, Vietnamese
 
 All translations are AI-generated using Claude. If you notice issues, please [report them](https://github.com/XelaNull/FS25_UsedPlus/issues)!
+
+---
+
+## 🔌 Compatible Mods
+
+UsedPlus **plays nice** with these financial and marketplace mods through feature deferral:
+
+| Mod | How It Works Together |
+|-----|----------------------|
+| 💰 **[EnhancedLoanSystem](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025)** | ELS handles general cash loans, UsedPlus handles purchase financing. Finance Manager shows both. |
+| 📋 **[HirePurchasing](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025)** | HP handles its financing system, UsedPlus hides duplicate buttons. Finance Manager shows HP + UsedPlus leases together. |
+| 🛒 **[BuyUsedEquipment](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025)** | BUE handles used marketplace, UsedPlus defers (hides Search button). Use BUE to find, UsedPlus to finance/maintain. |
+
+**Integration Strategy:** When UsedPlus detects these mods, it automatically hides overlapping features to prevent conflicts. You get the best of both worlds - use each mod for what it does best.
+
+> 💡 **Tip:** Load order doesn't matter. UsedPlus detects these mods at runtime and adjusts behavior automatically.
+
+**[Full Compatibility Guide →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)**
 
 ---
 
