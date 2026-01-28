@@ -13,134 +13,111 @@
   <img src="https://img.shields.io/badge/version-2.9.5-green" alt="Version">
   <img src="https://img.shields.io/badge/game-FS25-blue" alt="FS25">
   <img src="https://img.shields.io/badge/multiplayer-ready-brightgreen" alt="Multiplayer Ready">
-  <img src="https://img.shields.io/badge/languages-27-orange" alt="15 Languages">
+  <img src="https://img.shields.io/badge/languages-27-orange" alt="27 Languages">
   <img src="https://img.shields.io/badge/AI--authored-Claude-purple" alt="AI Authored">
 </p>
 
 <p align="center">
-  <a href="https://github.com/XelaNull/FS25_UsedPlus">GitHub</a> •
-  <a href="https://github.com/XelaNull/FS25_UsedPlus/issues">Report Issues</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#-quick-start">Quick Start</a>
+  <a href="https://github.com/XelaNull/FS25_UsedPlus/wiki">📚 Wiki</a> •
+  <a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Installation">📥 Installation</a> •
+  <a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Quick-Start-Guide">🚀 Quick Start</a> •
+  <a href="https://github.com/XelaNull/FS25_UsedPlus/issues">🐛 Report Issues</a> •
+  <a href="https://github.com/XelaNull/FS25_UsedPlus/blob/master/CHANGELOG.md">📝 Changelog</a>
 </p>
 
 ---
 
-> ⚠️ **STATUS: Mostly Playable** — Core features (financing, leasing, credit scoring, used marketplace, trade-ins, inspections) are fully functional. **Work in Progress:** Malfunctions system and Service Truck are still under development.
+> ⚠️ **STATUS: Mostly Playable** — Core features (financing, leasing, credit scoring, used marketplace, trade-ins) are fully functional. **Work in Progress:** Malfunctions and Service Truck under active development.
 
 ---
 
-## Companion Mods
+## What Is UsedPlus?
 
-UsedPlus integrates deeply with these mods for the ultimate farming experience:
-
-| Mod | What It Adds | Download |
-|-----|--------------|----------|
-| 🔧 **Real Vehicle Breakdowns** | Part failures, realistic damage | [Official](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5) / [KingMods](https://www.kingmods.net/en/fs25/mods/62079/real-vehicle-breakdowns) *(beta)* |
-| 🛞 **Use Up Your Tyres** | Tire wear & replacement | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
-| 💰 **EnhancedLoanSystem** | Additional loan types | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
-| 📋 **HirePurchasing** | Hire-purchase contracts | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
-| 🛒 **BuyUsedEquipment** | Alternative used market | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
-> **Note:** All mods are optional. UsedPlus works standalone but enhances these mods when detected.
-
----
-
-## This Isn't Just Another Mod
-
-Most FS25 mods add a feature. A new tractor. A tweak to crop prices. A UI improvement.
-
-**UsedPlus replaces how you think about money.**
+UsedPlus brings **real financial consequences** to Farming Simulator 25. This isn't "feature soup" - it's an **interconnected economic simulation** where your decisions ripple across systems.
 
 In vanilla FS25, every purchase is the same question: *Can I afford it?* Click buy. Done.
 
-But that's not how real farms work. Real farmers:
-
-- **Finance equipment** over 5, 10, or even 30 years
-- **Lease land** they can't afford to buy outright
-- **Build credit** through payment history
-- **Negotiate prices** on used equipment
-- **Trade in** old machines toward new purchases
-- **Maintain equipment** or face real consequences
-
-UsedPlus brings **all of that** to Farming Simulator 25 - not as separate features bolted on, but as **interconnected systems** that create emergent gameplay.
+**UsedPlus asks different questions:**
+- Should I finance this tractor over 10 years or save up cash?
+- Is that "great deal" actually a lemon?
+- Will my credit score let me expand this season?
+- Should I wait for a storm to negotiate a better price?
 
 ---
 
-## What Makes This Different
+## 🎯 Core Features
+
+<table>
+<tr>
+<td align="center" width="33%">
+<img src="gui/icons/credit_score.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Credit-Scoring">Credit Scoring</a></strong><br>
+<sub>300-850 FICO-style score gates rates and terms</sub>
+</td>
+<td align="center" width="33%">
+<img src="gui/icons/finance.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Vehicle-Financing">Vehicle Financing</a></strong><br>
+<sub>1-30 year terms, credit-based rates</sub>
+</td>
+<td align="center" width="33%">
+<img src="gui/icons/search.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Used-Marketplace">Used Marketplace</a></strong><br>
+<sub>Agent-based buying & selling</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="33%">
+<img src="gui/icons/handshake.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Negotiation-System">Price Negotiation</a></strong><br>
+<sub>Weather affects outcomes, lowball = permanent walk-away</sub>
+</td>
+<td align="center" width="33%">
+<img src="gui/icons/inspect.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Vehicle-DNA">Vehicle DNA</a></strong><br>
+<sub>Lemons, workhorses, legendaries - every vehicle unique</sub>
+</td>
+<td align="center" width="33%">
+<img src="gui/icons/trade_in.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Trade-In-System">Trade-Ins</a></strong><br>
+<sub>50-65% instant value for convenience</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="33%">
+<img src="gui/icons/fsk_diagnostics.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/OBD-Scanner">OBD Scanner</a></strong><br>
+<sub>Field diagnostics, one-time use per system</sub>
+</td>
+<td align="center" width="33%">
+<img src="gui/icons/service_truck.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Service-Truck">Service Truck</a></strong><br>
+<sub>Restore reliability ceiling - must be discovered</sub>
+</td>
+<td align="center" width="33%">
+<img src="gui/icons/fsk_warning.png" width="48"><br>
+<strong><a href="https://github.com/XelaNull/FS25_UsedPlus/wiki/Malfunctions">Malfunctions</a></strong><br>
+<sub>15+ failure types from neglected maintenance</sub>
+</td>
+</tr>
+</table>
+
+**📚 [Complete Feature List →](https://github.com/XelaNull/FS25_UsedPlus/wiki)**
+
+---
+
+## 🌟 What Makes This Different
 
 ### Everything Connects
 
 | System | Affects |
 |--------|---------|
-| **Credit Score** | Interest rates, available loan terms, lease eligibility |
-| **Vehicle DNA** | Long-term reliability, seller personality, repair outcomes, RVB part lifetimes |
-| **Payment History** | Credit score (+5 per payment, -25 per miss), asset seizure risk |
-| **Weather** | Negotiation success rates (Hail +12%, Storm +8%, Rain +5%) |
-| **Maintenance** | 15+ specific malfunctions, runaway engines, seizures |
-| **Fluid Levels** | Malfunction severity (2.6x more likely at 20% fluid) |
+| **Credit Score** | Interest rates, loan terms, lease eligibility, trade-in values |
+| **Vehicle DNA** | Long-term reliability, seller personality, repair outcomes, RVB integration |
+| **Payment History** | Credit score (+5 per payment, -25 per miss), repossession risk |
+| **Weather** | Negotiation success (Hail +12%, Storm +8%, Rain +5%) |
+| **Maintenance** | 15+ specific malfunctions, runaway engines, system failures |
 
-This isn't "feature soup" - it's an **economic simulation** where your decisions have consequences that ripple across systems.
-
-### 📊 The Numbers
-
-<table>
-<tr>
-<td align="center">
-<img src="gui/icons/fsk_diagnostics.png" width="32"><br>
-<strong>~65,000</strong><br>
-<sub>Lines of Code</sub>
-</td>
-<td align="center">
-<img src="gui/icons/info.png" width="32"><br>
-<strong>113 + 60</strong><br>
-<sub>Lua & XML Files</sub>
-</td>
-<td align="center">
-<img src="gui/icons/agent.png" width="32"><br>
-<strong>38</strong><br>
-<sub>Custom Dialogs</sub>
-</td>
-<td align="center">
-<img src="gui/icons/success.png" width="32"><br>
-<strong>12</strong><br>
-<sub>Network Events</sub>
-</td>
-</tr>
-<tr>
-<td align="center">
-<img src="gui/icons/timer.png" width="32"><br>
-<strong>22</strong><br>
-<sub>Console Commands</sub>
-</td>
-<td align="center">
-<img src="gui/icons/quality_star.png" width="32"><br>
-<strong>1,944</strong><br>
-<sub>Localization Keys</sub>
-</td>
-<td align="center">
-<img src="gui/icons/inspect.png" width="32"><br>
-<strong>50</strong><br>
-<sub>Inspector Quotes</sub>
-</td>
-<td align="center">
-<img src="gui/icons/fsk_warning.png" width="32"><br>
-<strong>15+</strong><br>
-<sub>Malfunction Types</sub>
-</td>
-</tr>
-</table>
-
-<p align="center">
-<strong>15 Languages</strong> fully translated • <strong>3 months</strong> development (Nov 2025 - Jan 2026)
-</p>
-
-### 🤖 The Story
-
-This mod was written **100% by AI**. Not a single line of code was written by a human - only reviewed.
-
-Every function, every dialog, every network event, every XML layout - all generated by **Claude** (developer) with UX review by **Samantha** (co-creator) through Anthropic's Claude Code. The human provided vision, direction, testing, and feedback. The AI wrote all ~65,000 lines.
-
-We believe this is one of the most ambitious AI-human collaborative software projects released to the public for FS25.
+**[Learn How Systems Interact →](https://github.com/XelaNull/FS25_UsedPlus/wiki)**
 
 ### Your Vehicles Have Stories
 
@@ -148,380 +125,46 @@ Ever find yourself making up backstories for your equipment? With UsedPlus, you 
 
 > *"That old Fendt? 80,000 hours and still runs like new. I'll never sell her."*
 
-> *"Got a 'great deal' from a guy who seemed desperate to sell. Now I know why."*
+> *"Got a 'great deal' from a desperate seller. Now I know why he was desperate."*
+
+> *"Waited for a thunderstorm to close the deal. Saved me $40,000."*
 
 > *"The mechanic warned me. Said something about burning sage. I should have listened."*
 
-> *"Waited for a thunderstorm to close the deal. Seller got nervous. Saved me $40,000."*
+Every vehicle has hidden DNA. Some become legends. Some become money pits. The mechanic gives you hints, the seller's behavior tells a story, and over hundreds of hours, you'll develop genuine attachment to the machines that earn it.
 
-> *"Three tractors in, I finally found a keeper. This one's different. You can just tell."*
-
-Every vehicle has hidden qualities. Some become legends. Some become money pits. The mechanic gives you hints, the seller's behavior tells a story, and over hundreds of hours, you'll develop genuine attachment to the machines that earn it.
-
-**We don't spoil how it works here.** Discover it yourself. Pay attention to the details. The systems reward observation.
+**[Discover Vehicle DNA →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Vehicle-DNA)**
 
 ---
 
-## Features at a Glance
+## 🤖 100% AI-Written
 
-<table>
-<tr>
-<td align="center" width="25%">
-<img src="gui/icons/finance.png" width="48" height="48"><br>
-<strong>Finance Everything</strong><br>
-<sub>Vehicles, land, repairs</sub>
-</td>
-<td align="center" width="25%">
-<img src="gui/icons/credit_score.png" width="48" height="48"><br>
-<strong>Credit Scoring</strong><br>
-<sub>300-850 FICO-style</sub>
-</td>
-<td align="center" width="25%">
-<img src="gui/icons/search.png" width="48" height="48"><br>
-<strong>Used Marketplace</strong><br>
-<sub>Agent-based buying/selling</sub>
-</td>
-<td align="center" width="25%">
-<img src="gui/icons/service_truck.png" width="48" height="48"><br>
-<strong>Service Truck</strong><br>
-<sub>Restore reliability ceiling</sub>
-</td>
-</tr>
-<tr>
-<td align="center" width="25%">
-<img src="gui/icons/handshake.png" width="48" height="48"><br>
-<strong>Negotiate Deals</strong><br>
-<sub>Weather affects outcomes</sub>
-</td>
-<td align="center" width="25%">
-<img src="gui/icons/inspect.png" width="48" height="48"><br>
-<strong>Vehicle Inspection</strong><br>
-<sub>50 unique mechanic quotes</sub>
-</td>
-<td align="center" width="25%">
-<img src="gui/icons/trade_in.png" width="48" height="48"><br>
-<strong>Trade-In System</strong><br>
-<sub>Brand loyalty bonus</sub>
-</td>
-<td align="center" width="25%">
-<img src="gui/icons/fsk_diagnostics.png" width="48" height="48"><br>
-<strong>OBD Scanner</strong><br>
-<sub>Field diagnostics tool</sub>
-</td>
-</tr>
-</table>
+This mod was written **entirely by AI**. Not a single line of code was written by a human - only reviewed.
 
-### 💰 Financial Systems
+Every function, every dialog, every network event, every XML layout - all generated by **Claude** (developer) with UX review by **Samantha** (co-creator) through Anthropic's Claude Code.
 
-| Feature | What It Does |
-|---------|--------------|
-| **Credit Scoring (300-850)** | FICO-style score gates rates and term availability |
-| **Vehicle Financing** | 1-15 year terms, 0-50% down, credit-gated (15yr needs Good) |
-| **Vehicle Leasing** | Lower payments, balloon at end, early buyout option |
-| **Land Financing** | Finance field purchases, up to 30 years, lower rates than equipment |
-| **Land Leasing** | 1-10 year terms, progress-based buyout discount (up to 15% off) |
-| **General Cash Loans** | Borrow against vehicle collateral |
-| **Finance Repairs** | Spread large repair and repaint costs over monthly payments |
-| **Flexible Payments** | Skip, minimum, standard, double, or custom amounts |
-| **Negative Amortization** | Skip payments and your balance actually grows |
+- **~65,000 lines of code**
+- **113 Lua files + 60 XML files**
+- **38 custom dialogs**
+- **1,944 localization keys** translated to 27 languages
+- **3 months development** (November 2025 - January 2026)
 
-### 🏪 Marketplace Systems
-
-| Feature | What It Does |
-|---------|--------------|
-| **Used Vehicle Search** | 3-tier agent system (Local/Regional/National) finds discounted equipment |
-| **Price Negotiation** | 5 seller personalities tied to vehicle DNA |
-| **Permanent Walk-Away** | Insult the seller and that listing is gone forever |
-| **Agent-Based Sales** | Sell for 60-100% value (vs vanilla's instant pennies) |
-| **Trade-In** | 50-65% instant value, brand loyalty bonus (+5%) |
-| **Inspection System** | 50 unique mechanic quotes reveal hidden condition |
-
-### 🚜 Vehicle Systems
-
-| Feature | What It Does |
-|---------|--------------|
-| **Vehicle DNA (0.0-1.0)** | Hidden quality - lemons, average, workhorses, legendaries |
-| **Legendary Immortality** | DNA 0.90+ vehicles NEVER degrade with proper maintenance |
-| **15+ Malfunctions** | Engine, electrical, hydraulic, tire, and fuel failures |
-| **Runaway Engine** | Neglect fluids = 150% speed, 40% brakes |
-| **Component Seizure** | Permanent damage requiring expensive repair |
-| **Partial Repair** | Fix 25%, 50%, 75% - why fully repair what you're selling? |
-| **Partial Repaint** | Same flexibility for cosmetics |
-| **3 Tire Tiers** | Retread (cheap/weak), Normal, Quality (expensive/durable) |
-| **Fluid Systems** | Oil and hydraulic levels affect malfunction rates |
-| **OBD Scanner** | One-time diagnostic boost per system (strategic decision) |
-| **Service Truck** | Long-term restoration that can restore reliability ceiling (unique!) |
+We believe this is one of the most ambitious AI-human collaborative software projects released to the public for FS25.
 
 ---
 
-## The Signature Features
+## 📥 Installation
 
-### ⭐ Credit Scoring That Gates Everything
+1. **Download** `FS25_UsedPlus.zip` from [Releases](https://github.com/XelaNull/FS25_UsedPlus/releases) or [ModHub](https://www.farming-simulator.com) *(pending approval)*
+2. **Place** in your mods folder:
+   - Windows: `Documents\My Games\FarmingSimulator2025\mods\`
+   - Mac: `~/Library/Application Support/FarmingSimulator2025/mods/`
+3. **Enable** in mod selection screen
+4. **Start** a new game or continue existing save
 
-Your financial history creates a 300-850 credit score that **gates what you can do**:
+> ⚠️ Keep either the folder OR the ZIP, not both.
 
-| Credit Range | Rating | Interest | Vehicle Term | Land Term |
-|--------------|--------|----------|--------------|-----------|
-| 750+ | Excellent | -1.5% | 15 years | **30 years** |
-| 700-749 | Good | -0.5% | **15 years** | 20 years |
-| 650-699 | Fair | +0.5% | 10 years | 15 years |
-| 600-649 | Poor | +1.5% | 5 years | 10 years |
-| <600 | Very Poor | +3.0% | 5 years | May be denied |
-
-**Building Credit:**
-- On-time payment: **+5 points**
-- Pay off loan early: **+50 points**
-- Miss a payment: **-25 points**
-- Asset seized: **-100 points**
-
-New game? Start at 650 (Fair). Build from there.
-
----
-
-### 🧬 Vehicle DNA: Lemons, Workhorses & Immortals
-
-Every vehicle has hidden DNA (0.0-1.0) assigned at spawn. It **never changes**.
-
-| DNA Range | Type | What Happens |
-|-----------|------|--------------|
-| 0.00-0.29 | **Lemon** | Repairs make it worse. Each repair loses 1% ceiling. Death spiral. |
-| 0.30-0.69 | Average | Normal degradation. 0.5% ceiling loss per repair. |
-| 0.70-0.89 | **Workhorse** | Minimal degradation. 0.25% ceiling loss per repair. |
-| 0.90-1.00 | **Legendary** | **IMMUNE to repair degradation.** Can last forever. |
-
-**The Death Spiral:** A lemon starts at 100% max reliability. After 10 repairs, its ceiling is 90%. After 50 repairs, 50%. Eventually it can never be repaired above 30%. Get rid of it.
-
-**The Immortal:** A legendary workhorse with DNA 0.95 maintains its equipment properly? That tractor can run for 100,000 hours and still be at peak performance. Forever.
-
-#### 50 Inspector Quotes (5 per DNA Tier)
-
-The mechanic doesn't tell you the DNA number - they give you hints:
-
-| DNA Tier | Example Quote |
-|----------|---------------|
-| Catastrophic (0.0-0.09) | *"I'd burn some sage before driving this one off the lot..."* |
-| Terrible (0.10-0.19) | *"The gremlins have set up permanent residence in this one."* |
-| Poor (0.20-0.29) | *"She's been ridden hard and put away wet, I'm afraid."* |
-| Below Average (0.30-0.39) | *"Nothing a little TLC couldn't improve... eventually."* |
-| Average (0.40-0.59) | *"About what you'd expect from the factory."* |
-| Above Average (0.60-0.69) | *"Someone took care of this one. You can tell."* |
-| Good (0.70-0.79) | *"This is what we call a 'keeper' in the business."* |
-| Excellent (0.80-0.89) | *"Built on a Friday when everyone was happy, I reckon."* |
-| Outstanding (0.90-0.94) | *"In 30 years, I've seen maybe a dozen this well built."* |
-| Legendary (0.95-1.00) | *"If machines had souls, this one's is blessed by the farming gods."* |
-
----
-
-### 🤝 Negotiation With Real Consequences
-
-Found used equipment? **Negotiate the price** - but the seller's personality is tied to vehicle DNA:
-
-| Seller Type | Accepts Offers At | Tied To |
-|-------------|-------------------|---------|
-| Desperate | 65%+ of asking | Lemons (DNA <0.30) |
-| Motivated | 75%+ | Below-average (0.30-0.49) |
-| Reasonable | 85%+ | Average (0.50-0.69) |
-| Firm | 92%+ | Above-average (0.70-0.89) |
-| Immovable | 98%+ | Workhorses (DNA 0.90+) |
-
-**The Design Genius:** Desperate sellers often have lemons. Stubborn sellers often have workhorses. That premium might be worth paying.
-
-#### Weather Affects Deals
-
-Storms make sellers anxious:
-
-| Weather | Acceptance Bonus |
-|---------|------------------|
-| Hail | +12% |
-| Storm | +8% |
-| Rain/Snow | +5% |
-| Fog | +3% |
-| Cloudy | +2% |
-| Sunny | 0% |
-| Clear | -3% |
-
-#### The Risk of Lowballing
-
-| Gap Below Threshold | Result |
-|---------------------|--------|
-| Within 5% | Always counter-offer |
-| 5-10% below | Usually counter |
-| 10-15% below | 50/50 chance |
-| 15-20% below | Usually reject |
-| **>20% below** | **Permanent walk-away. Listing gone forever.** |
-
----
-
-### ⚠️ 15+ Malfunctions From Neglected Maintenance
-
-#### Engine Malfunctions
-| Malfunction | Trigger | Effect |
-|-------------|---------|--------|
-| Overheating | Low oil, heavy use | Temperature rises, power reduces, eventual stall |
-| Misfiring | Low oil | Random power fluctuations, rough running |
-| Stalling | Low oil | Engine cuts out unexpectedly |
-| Hard Starting | Worn engine, cold | Difficulty starting |
-
-#### Electrical Malfunctions
-| Malfunction | Trigger | Effect |
-|-------------|---------|--------|
-| Electrical Cutout | Low electrical health | Temporary loss of all electrical systems |
-| Gauge Failures | Electrical issues | Instrument readings become unreliable |
-| Light Flickering | Electrical issues | Headlights/work lights flicker or fail |
-
-#### Hydraulic Malfunctions
-| Malfunction | Trigger | Effect |
-|-------------|---------|--------|
-| Hydraulic Drift | Low fluid | Implements slowly lower when raised |
-| Hydraulic Surge | Fluid <60% | Sudden steering loss 5-15 seconds |
-| Implement Surge | Low fluid | Sudden unexpected implement movements |
-| PTO Toggle | Hydraulic issues | Power take-off randomly engages/disengages |
-| Hitch Failure | Hydraulic issues | Attachments may unexpectedly disconnect |
-
-#### Advanced Hydraulic (Severe)
-| Malfunction | Trigger | Effect |
-|-------------|---------|--------|
-| **Runaway Engine** | Oil AND hydraulic <10% | **Speed 150%, brakes 40%** |
-| Implement Stuck Down | Hydraulic <25% | Cannot raise for 45+ seconds |
-| Implement Stuck Up | Hydraulic <25% | Cannot lower for 45+ seconds |
-| Implement Pull | Low hydraulic | Asymmetric drag causes steering pull |
-| Implement Drag | Hydraulic <35% | Max speed reduced to 60% |
-| Reduced Turning | Low hydraulic | Power steering failure, turning 65% |
-
-#### Tire & Fuel Malfunctions
-| Malfunction | Trigger | Effect |
-|-------------|---------|--------|
-| Flat Tire | Wear, damage | Sudden failure with steering pull |
-| Slow Leak | Tire damage | Gradual pressure loss |
-| Blowout | High-speed + worn tire | Catastrophic failure |
-| Fuel Leak | Damage | Tank slowly drains |
-
-**Runaway Engine** is the signature failure. Neglect both oil AND hydraulic fluid below 10%, and your tractor accelerates uncontrollably at 150% speed with brakes at 40% effectiveness. Good luck stopping.
-
----
-
-### 🔗 Deep Mod Integration (Not Just "Compatible")
-
-#### Real Vehicle Breakdowns (RVB)
-
-DNA creates a unified reliability system with RVB:
-
-| DNA Type | RVB Part Lifetime Multiplier | Repair Degradation |
-|----------|------------------------------|-------------------|
-| Lemon | 0.6x (parts fail faster) | 2% ceiling loss per repair |
-| Average | 1.0x (normal) | 1% ceiling loss |
-| Workhorse | 1.4x (parts last longer) | 0.4% ceiling loss |
-| Legendary | 1.4x | **0% - immune** |
-
-Breakdowns also damage the ceiling: Lemons take full damage (3-8%), legendaries take only 30%.
-
-#### Use Up Your Tyres (UYT)
-
-DNA and tire quality create a unified wear system:
-
-| Factor | Wear Rate |
-|--------|-----------|
-| Retread Tires | 2.0x (wear twice as fast) |
-| Normal Tires | 1.0x |
-| Quality Tires | 0.67x (wear 33% slower) |
-| Lemon DNA | 1.4x multiplier |
-| Workhorse DNA | 0.6x multiplier |
-
-A workhorse with quality tires: 0.67 × 0.6 = **0.4x wear rate**
-A lemon with retread tires: 2.0 × 1.4 = **2.8x wear rate**
-
-Per-wheel wear displays in Tires Dialog. Tire replacement syncs with UYT.
-
----
-
-### 🔧 OBD Scanner: One-Time Strategic Decision
-
-The Field Service Kit ($5,000) provides emergency field diagnostics with a twist:
-
-**The Catch:** Each vehicle system (Engine, Electrical, Hydraulic) can only be diagnosed **once** per vehicle. After that: *"This system has already received field service. Further repairs require workshop equipment."*
-
-**Field repair cap:** 80% reliability maximum (or vehicle's aging ceiling, whichever is lower).
-
-**Diagnostic minigame:** Identify the root cause from 4 options. Correct = 8-15% boost. Wrong = 1-3% boost. Choose wisely - you only get one shot per system.
-
----
-
-### 🚚 Service Truck: The Ceiling Saver
-
-The OBD Scanner is great for quick field repairs - but it can't fix that lemon's degraded ceiling. For that, you need the **Service Truck**.
-
-**But here's the twist:** The Service Truck isn't in the shop. You have to **discover** it.
-
-| Aspect | OBD Scanner | Service Truck |
-|--------|-------------|---------------|
-| Item Type | Hand tool ($5,000) | Driveable vehicle ($67,500) |
-| Availability | Always in shop | **Must be discovered** |
-| Duration | Instant | Hours/days of game time |
-| Max Restoration | 80% cap | **100% possible** |
-| Ceiling Repair | No | **YES (unique feature)** |
-| Payment | Any | **CASH ONLY** |
-
-#### How to Discover It
-
-The Service Truck becomes available through your **National Agent network** - but only when you've proven yourself:
-
-**Prerequisites (ALL required):**
-1. ✅ **3+ OBD Scanner uses** - you understand the repair system
-2. ✅ **700+ credit score** - you're a serious customer
-3. ✅ **Own a vehicle with ceiling < 90%** - you've felt the pain of degradation
-
-**When you complete a National Agent transaction (buy or sell):**
-- 20% chance your agent mentions "a connection"
-- A retiring mechanic with a fully-equipped service truck
-- **Cash only deal** - $67,500 (10% connection discount)
-- Accept now, or save the opportunity for up to 30 days
-
-*After 10 eligible transactions without discovery, the pity timer guarantees it.*
-
-#### Why This Design?
-
-The Service Truck is the **endgame tool**. If it were in the shop from day one:
-- Players would skip the OBD Scanner entirely
-- Ceiling degradation would be meaningless
-- The lemon/workhorse dynamic loses its bite
-
-By gating it behind prerequisites, you **earn** the ability to save your lemons. You've built credit, fixed vehicles the hard way, and worked with premium agents. NOW you get access to the premium tool.
-
-#### How Restoration Works
-
-1. **Park near target** - Drive the service truck within 10m of a damaged vehicle
-2. **Inspection minigame** - Pass the diagnostic quiz to prove you can handle the job
-3. **Restoration begins** - Target vehicle is immobilized (wheels off, can't drive)
-4. **Time passes** - 1% reliability per game hour, 0.25% ceiling per hour
-5. **Keep it fueled** - Truck consumes diesel/oil/hydraulic + spare parts pallets nearby
-6. **Completion** - Vehicle restored, wheels back on, good as new
-
-#### The Risk
-
-If fluids run out during restoration:
-- Work pauses immediately
-- Warning notifications appear
-- **If ignored too long:** target vehicle takes damage
-
-#### Why This Matters
-
-That legendary workhorse with DNA 0.95? Perfect candidate - minimal degradation, maintains peak performance forever with proper care.
-
-That lemon with DNA 0.15? **Now salvageable.** The Service Truck can restore its ceiling back to 100%, giving it a second chance. You can turn a money pit into a usable machine.
-
-**The ceiling restoration is the killer feature.** Nothing else in UsedPlus can repair a degraded reliability ceiling.
-
----
-
-### 🛞 Tire Quality Tiers
-
-| Tier | Cost | Traction | Failure Rate | Wear Rate | Starting Wear |
-|------|------|----------|--------------|-----------|---------------|
-| **Retread** | 40% | 85% | 3x | 2x | +35% worn |
-| **Normal** | 100% | 100% | 1x | 1x | Baseline |
-| **Quality** | 150% | 110% | 0.5x | 0.67x | -15% (starts fresher) |
-
-Retreads are cheap but risky. Quality tires cost more but last longer and grip better.
+**[Detailed Installation Guide →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Installation)**
 
 ---
 
@@ -532,216 +175,119 @@ Retreads are cheap but risky. Quality tires cost more but last longer and grip b
 | Action | How | What It Does |
 |--------|-----|--------------|
 | **Buy/Finance/Lease** | Shop buy buttons | Opens Unified Purchase Dialog with all options |
-| **Search Used** | Press **U** in shop | Find discounted pre-owned equipment |
+| **Search Used** | Press **U** in shop | Find discounted pre-owned equipment (10k+ items) |
 | **Trade-In** | Inside purchase dialog | Apply old equipment value toward purchase |
 
 ### Managing Your Farm
 
-| Action | How |
-|--------|-----|
-| **Finance Manager** | **Shift+F** anywhere, or ESC Menu |
-| **Repair/Repaint** | Click owned vehicle on map |
-| **Buy/Lease Land** | Click unowned field on map |
+| Action | Shortcut |
+|--------|----------|
+| **Finance Manager** | **Shift+F** anywhere |
+| **Repair/Repaint Vehicle** | Click owned vehicle on map |
+| **Finance/Lease Land** | Click unowned field on map |
 
 ### In the Finance Manager
 
 - View all active deals (vehicles, land, loans)
-- Check your credit score and history
+- Check credit score and payment history
 - Make payments (skip, minimum, standard, extra, custom)
 - Accept or decline incoming sale offers
 - Early payoff with interest savings
 
----
-
-## 🌍 Supported Languages
-
-UsedPlus supports **27 languages** (matching Courseplay):
-
-| Language | Code | Status |
-|----------|------|--------|
-| English | en | ✅ Complete (primary) |
-| German | de | ✅ Complete |
-| French | fr | ✅ Complete |
-| Spanish | es | ✅ Complete |
-| Italian | it | ✅ Complete |
-| Portuguese (Brazil) | br | ✅ Complete |
-| Portuguese (Portugal) | pt | ✅ Complete |
-| Polish | pl | ✅ Complete |
-| Czech | cz | ✅ Complete |
-| Russian | ru | ✅ Complete |
-| Ukrainian | uk | ✅ Complete |
-| Dutch | nl | ✅ Complete |
-| Hungarian | hu | ✅ Complete |
-| Turkish | tr | ✅ Complete |
-| Japanese | jp | ✅ Complete |
-| Chinese Simplified | cs | 🔄 English placeholder |
-| Chinese Traditional | ct | 🔄 English placeholder |
-| Danish | da | 🔄 English placeholder |
-| Spanish (Latin America) | ea | 🔄 English placeholder |
-| French (Canadian) | fc | 🔄 English placeholder |
-| Finnish | fi | 🔄 English placeholder |
-| Indonesian | id | 🔄 English placeholder |
-| Korean | kr | 🔄 English placeholder |
-| Norwegian | no | 🔄 English placeholder |
-| Romanian | ro | 🔄 English placeholder |
-| Swedish | sv | 🔄 English placeholder |
-| Vietnamese | vi | 🔄 English placeholder |
-
-All 27 languages are AI-translated using Claude. If you notice any translation issues, please report them on [GitHub](https://github.com/XelaNull/FS25_UsedPlus)!
+**[Complete Quick Start Guide →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Quick-Start-Guide)**
 
 ---
 
-## 📥 Installation
+## 🔗 Mod Integration
 
-1. Download `FS25_UsedPlus.zip`
-2. Place in your mods folder:
-   - **Windows:** `Documents\My Games\FarmingSimulator2025\mods\`
-   - **Mac:** `~/Library/Application Support/FarmingSimulator2025/mods/`
-3. Enable in mod selection
-4. Start farming smarter
+UsedPlus **deeply integrates** with these mods:
 
-> Keep either the folder OR the ZIP, not both.
+| Mod | Integration | Status |
+|-----|-------------|--------|
+| 🔧 **[Real Vehicle Breakdowns](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5)** | DNA affects RVB part lifetimes (0.6x-1.4x) | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/RVB-Integration)** |
+| 🛞 **[Use Up Your Tyres](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025)** | DNA affects tire wear, flat probability synced | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/UYT-Integration)** |
+| 💰 **[EnhancedLoanSystem](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025)** | Credit score displayed in ELS dialogs | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)** |
+| 📋 **[HirePurchasing](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025)** | HP leases display in Finance Manager | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)** |
+| 🛒 **[BuyUsedEquipment](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025)** | UsedPlus defers to BUE for used search | **[Learn More →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)** |
 
----
+> **Note:** All mods are optional. UsedPlus works standalone but enhances these mods when detected.
 
-## 📚 Deep Dive Reference
-
-### Used Marketplace Agents
-
-| Agent | Fee | Search Time | Success Rate | Typical Discount |
-|-------|-----|-------------|--------------|------------------|
-| Local | 2% | 1-2 months | 85% | 25-40% off |
-| Regional | 4% | 2-4 months | 90% | 15-30% off |
-| National | 6% | 3-6 months | 95% | 5-20% off |
-
-Used equipment comes with history - damage, wear, operating hours. That "great deal" might need $15,000 in repairs. **Get an inspection before buying.**
-
-> Available for vehicles and implements worth **$10,000+**
-
-### Selling Your Equipment
-
-| Method | Return | Time |
-|--------|--------|------|
-| Trade-In | 50-65% | Instant |
-| Local Agent | 60-75% | 1-2 months |
-| Regional Agent | 75-90% | 2-4 months |
-| National Agent | 90-100% | 3-6 months |
-
-When a buyer is found, you receive an offer notification. Accept or wait for better.
-
-### Land Leasing
-
-| Term | Monthly Markup |
-|------|----------------|
-| 1 year | +20% |
-| 3 years | +15% |
-| 5 years | +10% |
-| 10 years | +5% |
-
-- **Buyout Option:** Convert to ownership with progress-based discount (up to 15% off)
-- **Warning:** 3 missed payments = seizure + credit damage
-- **Expiration Warnings:** At 3 months, 1 month, and 1 week before end
-
-### Payment Flexibility
-
-| Mode | Effect | Credit Impact |
-|------|--------|---------------|
-| Skip | Balance grows (negative amortization) | -25 points |
-| Minimum | Interest only | Neutral |
-| Standard | Normal payment | +5 points |
-| Extra (2x) | Pay faster, save interest | +5 points |
-| Custom | You decide the amount | Varies |
+**[Full Compatibility Guide →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Other-Mod-Compatibility)**
 
 ---
 
-## ⚙️ Settings & Configuration
+## 🌍 Languages
 
-Access via **ESC > Settings > UsedPlus**
+UsedPlus is fully translated to **27 languages** (matching Courseplay coverage):
 
-| Setting | Options | Purpose |
-|---------|---------|---------|
-| Override Shop Buy/Lease | On/Off | Disable if conflicts with other mods |
-| Override RVB Repair | On/Off | Disable if RVB conflicts |
-| Paint Cost Multiplier | 0.25x - 2.0x | Adjust repaint pricing |
-| Enable Financing | On/Off | Toggle vehicle financing |
-| Enable Leasing | On/Off | Toggle vehicle leasing |
-| Enable Land Finance | On/Off | Toggle land financing |
-| Enable Land Lease | On/Off | Toggle land leasing |
-| Malfunction Frequency | 25% - 200% | How often malfunctions occur |
+✅ **Complete (100%):** English, German, French, Spanish, Italian, Portuguese (BR & PT), Polish, Czech, Russian, Ukrainian, Dutch, Hungarian, Turkish, Japanese, **Danish, Indonesian, Spanish (LatAm)**
 
-### Difficulty Presets
+🔄 **In Progress:** Chinese (Simplified & Traditional), French (Canadian), Finnish, Korean, Norwegian, Romanian, Swedish, Vietnamese
 
-| Preset | Interest | Costs | Malfunctions |
-|--------|----------|-------|--------------|
-| Easy | Lower | Reduced | 25% frequency |
-| Challenging | Normal | Normal | 125% frequency |
-| Hardcore | Higher | Increased | 200% frequency |
+All translations are AI-generated using Claude. If you notice issues, please [report them](https://github.com/XelaNull/FS25_UsedPlus/issues)!
 
 ---
 
-## 🔌 Compatibility
+## 📚 Documentation
 
-### Deep Integrations
+| Page | What's Inside |
+|------|---------------|
+| **[Wiki Home](https://github.com/XelaNull/FS25_UsedPlus/wiki)** | Complete documentation hub |
+| **[Installation](https://github.com/XelaNull/FS25_UsedPlus/wiki/Installation)** | Step-by-step setup guide |
+| **[Quick Start](https://github.com/XelaNull/FS25_UsedPlus/wiki/Quick-Start-Guide)** | Essential controls and workflows |
+| **[Credit Scoring](https://github.com/XelaNull/FS25_UsedPlus/wiki/Credit-Scoring)** | How credit affects everything |
+| **[Vehicle DNA](https://github.com/XelaNull/FS25_UsedPlus/wiki/Vehicle-DNA)** | Lemons, workhorses, legendaries explained |
+| **[Negotiation System](https://github.com/XelaNull/FS25_UsedPlus/wiki/Negotiation-System)** | Weather, seller types, permanent walk-aways |
+| **[Settings](https://github.com/XelaNull/FS25_UsedPlus/wiki/Settings-and-Configuration)** | Customization options and presets |
+| **[Console Commands](https://github.com/XelaNull/FS25_UsedPlus/wiki/Console-Commands)** | Admin tools and debugging |
+| **[FAQ](https://github.com/XelaNull/FS25_UsedPlus/wiki/FAQ)** | Common questions answered |
+| **[For Mod Developers](https://github.com/XelaNull/FS25_UsedPlus/wiki/For-Mod-Developers)** | Public API documentation |
 
-| Mod | Integration | Download |
-|-----|-------------|----------|
-| **Real Vehicle Breakdowns** | DNA affects part lifetimes (0.6x-1.4x), repair/breakdown degradation | [Official](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5) / [KingMods](https://www.kingmods.net/en/fs25/mods/62079/real-vehicle-breakdowns) |
-| **Use Up Your Tyres** | DNA and quality affect wear rates, per-wheel display, two-way sync | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
+---
 
-### Works With
+## ⚙️ Configuration
 
-| Mod | Integration | Download |
-|-----|-------------|----------|
-| **EnhancedLoanSystem** | ELS loans display in Finance Manager with "ELS" marker | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
-| **HirePurchasing** | HP leases display in Finance Manager with "HP" marker | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
-| **Employment** | Worker wages included in monthly obligations | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314808&title=fs2025) |
-| **BuyUsedEquipment** | UsedPlus hides Search when BUE is active | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
+Access via **ESC → Settings → UsedPlus**
 
-### Also Recommended
+**Quick Settings:**
+- Override Shop Buy/Lease (disable if conflicts)
+- Enable/disable individual features (financing, leasing, etc.)
+- Malfunction frequency (25% - 200%)
+- Paint/repair cost multipliers
 
-| Mod | Description | Download |
-|-----|-------------|----------|
-| **Courseplay** | AI worker automation - the gold standard | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=331515&title=fs2025) / [GitHub](https://github.com/Courseplay/Courseplay_FS25) |
+**Difficulty Presets:**
+- **Easy:** Lower rates, reduced costs, fewer malfunctions
+- **Challenging:** Normal rates, normal costs, more malfunctions
+- **Hardcore:** Higher rates, increased costs, frequent malfunctions
 
-### Known Conflicts
-
-| Mod | Issue | Solution |
-|-----|-------|----------|
-| **AdvancedMaintenance** | Both track vehicle condition | Use one or the other |
+**[Complete Settings Guide →](https://github.com/XelaNull/FS25_UsedPlus/wiki/Settings-and-Configuration)**
 
 ---
 
 ## ❓ FAQ
 
 **Why doesn't "Search Used" appear?**
-> Only available for vehicles/implements worth $10,000+. Small tools use standard shop.
+> Only available for items worth $10,000+. Small tools use standard shop.
 
 **Why can't I select a 15-year term?**
-> Vehicle terms above 10 years require Good credit (700+). Land can go up to 30 years with Excellent credit.
+> Long terms require good credit. 15 years needs 700+ credit score.
 
 **Why won't the seller negotiate?**
-> Workhorse owners (DNA 0.90+) are "immovable" - they know what they have. That's often a good sign.
+> Sellers with great equipment (workhorses) are "immovable" - they know what they have.
 
 **I offered 70% and the seller walked away permanently. What happened?**
 > Offers >20% below threshold trigger permanent walk-away. That listing is gone forever.
 
 **How do I know if a vehicle is a lemon?**
-> Get a mechanic inspection. Listen for phrases like "burn some sage" or "gremlins." Watch for desperate sellers.
+> Get a mechanic inspection. Listen for phrases like "burn some sage" or "gremlins."
 
-**Why does my legendary workhorse still break down?**
-> DNA affects degradation, not immunity to malfunctions. Maintain your fluids!
-
-**Does this work in multiplayer?**
-> Yes - full multiplayer support with server-authoritative transactions.
-
-**Another mod conflicts with Buy button. Help?**
-> Disable "Override Shop Buy/Lease" in Settings. Use the "Finance" button instead.
+**[More Questions →](https://github.com/XelaNull/FS25_UsedPlus/wiki/FAQ)**
 
 ---
 
 ## 👨‍💻 For Mod Developers
 
-UsedPlus provides a public API:
+UsedPlus provides a public API for integration:
 
 ```lua
 if UsedPlusAPI and UsedPlusAPI.isReady() then
@@ -751,7 +297,7 @@ if UsedPlusAPI and UsedPlusAPI.isReady() then
 end
 ```
 
-Register external loans with our credit bureau:
+Register external loans to build player credit:
 
 ```lua
 local externalId = UsedPlusAPI.registerExternalDeal("MyMod", loanId, farmId, {
@@ -762,7 +308,7 @@ local externalId = UsedPlusAPI.registerExternalDeal("MyMod", loanId, farmId, {
 UsedPlusAPI.reportExternalPayment(externalId, 2500)  -- Builds credit!
 ```
 
-Full documentation: [docs/mod-api.md](docs/mod-api.md)
+**[Full API Documentation →](https://github.com/XelaNull/FS25_UsedPlus/wiki/For-Mod-Developers)**
 
 ---
 
@@ -780,21 +326,18 @@ Full documentation: [docs/mod-api.md](docs/mod-api.md)
 
 Built on the shoulders of giants:
 
-| Mod | Patterns Learned | Download |
-|-----|------------------|----------|
-| **EnhancedLoanSystem** | Credit scoring, financial math | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025) |
-| **BuyUsedEquipment** | Async search, marketplace architecture | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025) |
-| **HirePurchasing** | Balloon payments, data extensions | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025) |
-| **Real Vehicle Breakdowns** | Part-based failure systems | [Official](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5) |
-| **Use Up Your Tyres** | Per-wheel tracking patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025) |
-| **PowerTools** (w33zl) | Hand tool patterns | [ModHub](https://www.farming-simulator.com/mod.php?mod_id=303451&title=fs2025) |
+- **[EnhancedLoanSystem](https://www.farming-simulator.com/mod.php?mod_id=314906&title=fs2025)** - Credit scoring patterns
+- **[BuyUsedEquipment](https://www.farming-simulator.com/mod.php?mod_id=312631&title=fs2025)** - Async marketplace architecture
+- **[HirePurchasing](https://www.farming-simulator.com/mod.php?mod_id=327821&title=fs2025)** - Balloon payment patterns
+- **[Real Vehicle Breakdowns](https://farmsim.bltfm.hu/infusions/bltfmhu_downloads_center/downloads.php?cat_id=4&dlc_id=5)** - Part-based failures
+- **[Use Up Your Tyres](https://www.farming-simulator.com/mod.php?mod_id=321793&title=fs2025)** - Per-wheel tracking
 
-### Special Thanks
+### Asset Credits
 
-- **w33zl** for BuyUsedEquipment and MobileServiceKit
-- **Gian FS** for Fuel Barrel model (adapted for Oil Barrel)
-- **WMD Modding** for FuelTanksPack (adapted for Oil Tank)
-- **Canada FS** for GMC C7000 Service 81-89 model (adapted for Service Truck)
+- **w33zl** - BuyUsedEquipment and MobileServiceKit patterns
+- **Gian FS** - Fuel Barrel model (adapted for Oil Barrel)
+- **WMD Modding** - FuelTanksPack (adapted for Oil Tank)
+- **Canada FS** - GMC C7000 Service 81-89 model (adapted for Service Truck)
 
 ---
 
@@ -802,19 +345,20 @@ Built on the shoulders of giants:
 
 **Open for the community.**
 
-- Download, use, study, modify, fork, share
-- Copy patterns for your own projects
-- Translations welcome
+✅ Download, use, study, modify, fork, share
+✅ Copy patterns for your own projects
+✅ Translations welcome
 
-**Please don't:**
-- Sell this mod
-- Claim you created the original
-- Remove credits
-
----
-
-**v2.9.5** | See [CHANGELOG.md](CHANGELOG.md) for version history
+❌ Please don't sell this mod
+❌ Please don't claim you created the original
+❌ Please don't remove credits
 
 ---
 
-*Stop asking "Can I afford it?" Start asking "Is this the right financial decision?"*
+**v2.9.5** | **[View Changelog](CHANGELOG.md)** | **[Report Issues](https://github.com/XelaNull/FS25_UsedPlus/issues)**
+
+---
+
+<p align="center">
+<em>Stop asking "Can I afford it?" Start asking "Is this the right financial decision?"</em>
+</p>
