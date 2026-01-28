@@ -275,7 +275,7 @@ for (const [langCode, langInfo] of Object.entries(LANGUAGES)) {
 
         // Find and replace in content (match by key)
         const oldPattern = new RegExp(
-            `<e k="${entry.key}" v="[^"]*" eh="[^"]+"\s*/>`,
+            `<e k="${entry.key}" v="[^"]*" eh="[^"]+"\\s*/>`,
             'g'
         );
         const newEntry = `<e k="${entry.key}" v="${translated}" eh="${entry.hash}" />`;
